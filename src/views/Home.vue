@@ -14,7 +14,7 @@
       // if (!localStorage.getItem('locale')) {
       //   localStorage.setItem('locale', process.env.VUE_APP_I18N_LOCALE || 'vi')
       // }
-      this.$router.push({ name: 'login' })
+      this.$router.push({ name: 'Kyc' })
     }
   }
 </script>
