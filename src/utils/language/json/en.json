@@ -1,0 +1,216 @@
+{
+    "login": {
+        "support": "Support",
+        "download": "Download App",
+        "email": "{email}",
+        "title-form": "Sign In",
+        "remember": "Remember me",
+        "forgot": "Forgot password?",
+        "question": "Don’t have an account?",
+        "sign-up": "Sign Up",
+        "en": "English",
+        "vi": "Vietnamese",
+        "wrong-email": "Please enter your email",
+        "wrong-email-type": "Please enter a correct email address",
+        "wrong-password": "Please enter your password",
+        "placeholder": {
+            "password": "Password"
+        }
+    },
+    "verify": {
+        "title-phone": "Enter the 6-digit code we texted to your phone number",
+        "title-email": "Enter the 6-digit code we sent to your email",
+        "title-app": "Enter the 6-digit code from your authenticator app",
+        "label": "Enter 2-step authentication code:",
+        "submit": "Submit",
+        "question": "Didn’t receive any verification code?",
+        "re-send": "Resend code",
+        "wrong-code": "Please enter your verification code",
+        "placeholder": "Verification code",
+        "phone-title": "Verify your phone number",
+        "continue": "Continue"
+    },
+    "signup": {
+        "title-form": "Sign Up",
+        "first-name": "First name",
+        "last-name": "Last name",
+        "email": "Email",
+        "password": "Password",
+        "terms": "I certify that I am at least 18 years of age or older, and agree to the",
+        "user-agreement": "User Agreement",
+        "and": "and",
+        "privacy-policy": "Privacy Policy",
+        "have-account": "Already have an account?",
+        "sign-in": "Sign In",
+        "firstname": "Please enter your first name",
+        "lastname": "Please enter your last name",
+        "lastnameLength": "Minimum 2 characters",
+        "firstnameLength": "Minimum 2 characters"
+    },
+    "forgot": {
+        "title-form": "Forgot your password",
+        "desciption": "Please enter your email to reset your password.",
+        "description1": "You may need to check your spam folder to unlock",
+        "description2": "no-reply@mail.linkey.io",
+        "submit": "Submit",
+        "email": "Email",
+        "deposit11": "This QR code can be scanned by the",
+        "text11": "person who wants to send you bitcoins",
+        "text12": "person who wants to send you ethereums",
+        "text13": "person who wants to send you lynkeys"
+    },
+    "resetPass": {
+        "title": "Reset password",
+        "wrong-password": "Please enter your new password",
+        "wrong-repassword": "Please enter confirm password",
+        "submit": "Reset Password"
+    },
+    "notfound": {
+        "message": "Error 404 : Page Not Found",
+        "goback": "Go back"
+    },
+    "wallet": {
+        "Linkey": "Lynkey Wallet",
+        "Ethereum": "Ethereum Wallet",
+        "Bitcoin": "Bitcoin Wallet",
+        "lock": "Locked Amount",
+        "paginationInfo": "transactions",
+        "paginationInfoRq": "requests",
+        "balance": "Balance",
+        "withdrawal-request": "Withdrawal Request",
+        "transactions": "Transactions",
+        "table": {
+            "transaction": "TRANSACTION ID",
+            "date": "date",
+            "type": "type",
+            "status": "status",
+            "amount": "amount"
+        },
+        "button": {
+            "deposit": "Deposit",
+            "withdraw": "Withdraw",
+            "buy": "Buy"
+        }
+    },
+    "leftMenu": {
+        "home": "Home",
+        "kyc": "Kyc",
+        "customer": "Customer",
+        "contract": "Contract",
+        "report": "Report",
+        "setting": "Setting"
+    },
+    "header": {
+        "kyc": "KYC"
+    },
+    "footer": {
+        "terms": "Terms and Conditions"
+    },
+    "withdraw": {
+        "lynkey": "WITHDRAW LYNKEY",
+        "bitcoin": "WITHDRAW BITCOIN",
+        "ethereum": "WITHDRAW ETHEREUM",
+        "address": "Recipient address",
+        "amount": "Amount",
+        "available": "Available",
+        "fees": "Transaction fees",
+        "pin-code": "PIN code"
+    },
+    "placeholder": {
+        "address": "Address...",
+        "amount": "Amount...",
+        "fee": "Fee...",
+        "pin-code": "Pin code...",
+        "password": "Choose A Password",
+        "repassword": "Confirm password",
+        "phone-number": "Phone number",
+        "reason": "Other reason..."
+    },
+    "button": {
+        "reset": "Reset",
+        "continue": "Continue",
+        "cancel": "Cancel",
+        "submit": "Submit"
+    },
+    "deposit": {
+        "lynkey": "DEPOSIT LYNKEY",
+        "bitcoin": "DEPOSIT BITCOIN",
+        "ethereum": "DEPOSIT ETHEREUM"
+    },
+    "descriptionDeposit": {
+        "text": "person who wants to send your"
+    },
+    "scan": {
+        "qrcode": "SCAN QR CODE"
+    },
+    "paging": {
+        "show": "Show",
+        "customers": "customers"
+    },
+    "label": {
+        "buy-from": "Buy from",
+        "pay-amount": "Pay amount",
+        "receive": "Receive",
+        "country": "Country",
+        "phone-number": "New phone number"
+    },
+    "buy-lyn": {
+        "title": "BUY LYN"
+    },
+    "validate": {
+        "length": "Minimum 8 characters",
+        "lowercase": "At least 1 lowercase letter",
+        "uppercase": "At least 1 UPPERCASE letter",
+        "number": "At least 1 number",
+        "specialCharacter": "At least 1 special character",
+        "password-correct": "Password confirmation doesn't match Password",
+        "country": "Please enter your country",
+        "phone-number": "Please enter your phone"
+    },
+    "notify": {
+        "500": "Internal Server Error",
+        "user-exits": "Invalid email or password",
+        "pass-invalid": "Invalid email or password",
+        "user-locked": "Account has been locked",
+        "user-expired": "Account has been locked",
+        "email-register": "Email already register",
+        "login-success": "Logged in successfully",
+        "login-faild": "Login failed",
+        "register-success": "Sign up successfully",
+        "verify-success": "Verification successful",
+        "verify-fail": "Incorrect verification code",
+        "pass-reset": "Change password successfully",
+        "send-code": "Verification code sent successfully",
+        "send-code-fail": "Verification code sent failed"
+    },
+    "logout": {
+        "title": "Sign out"
+    },
+    "kyc": {
+        "table": {
+            "fullName": "full name",
+            "email": "email",
+            "national": "NATIONALITY",
+            "date": "CREATED DATE",
+            "status": "status"
+        },
+        "popup": {
+            "title": "KYC DETAIL",
+            "title-reject": "REJECT REASON",
+            "title-cb": "Choose reject reason below:",
+            "cb1": "Blurry image",
+            "cb2": "Face not clear in selfie or Govt Id",
+            "cb3": "Face in selfie no matching with photo in Govt Id",
+            "cb4": "Not using original document",
+            "reason": "Other reason:",
+            "personal-detail": "Personal Details",
+            "f-name": "First name",
+            "l-name": "Last name",
+            "national": "Nationality",
+            "id-verification": "ID Verification",
+            "id-type": "ID type",
+            "id-number": "ID number",
+            "title-photo": "Document Photo"
+        }
+    }
+}

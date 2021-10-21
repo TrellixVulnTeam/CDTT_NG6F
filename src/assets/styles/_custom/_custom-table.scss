@@ -1,0 +1,24 @@
+// wallet main
+.bc-wallet {
+    .wallet-table {
+        .table-wallet {
+            .el-table {
+                .el-table__body-wrapper {
+                    height: calc(100vh - 572px);
+                    .el-table__row {
+                        .icon-copy {
+                            &:hover {
+                                .span-icon {
+                                    color: red;
+                                }
+                            }
+                        }
+                    }
+                    @media screen and (max-height: 900px) {
+                        height: unset;
+                    }
+                }
+            }
+        }
+    }
+}

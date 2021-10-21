@@ -1,0 +1,14 @@
+.el-popper.popper-validate-password {
+    background-color: #f3f2f1;
+    // .check-password {
+    //     .check-item {
+    //         color: red;
+    //     }
+    // }
+    .popper__arrow {
+        border-right-color: #EBEEF5 !important;
+        &::after {
+            border-right-color: #f3f2f1 !important;
+        }
+    }
+}

@@ -1,0 +1,100 @@
+:root,
+[data-theme="theme-light"] {
+  //theme
+  --bc-theme-primary: #0151fc;
+  --bc-theme-dark: #106ebe;
+  --bc-theme-darker: #004578;
+
+  //color
+  --bc-color-white: #fff;
+  --bc-color-grey10: #faf9f8;
+  --bc-color-grey20: #f3f2f1;
+  --bc-color-grey30: #edebe9;
+  --bc-color-grey40: #e1dfdd;
+  --bc-color-grey50: #d2d0ce;
+  --bc-color-grey60: #c8c6c4;
+  --bc-color-grey90: #a19f9d;
+  --bc-color-grey110: #8a8886;
+  --bc-color-grey130: #605e5c;
+  --bc-color-grey150: #3b3a39;
+  --bc-color-grey190: #201f1e;
+  --bc-color-black: #000;
+
+  // text color
+  --bc-text-primary: #0a0b0d;
+  --bc-text-secondary: #605e5c;
+  --bc-text-disabled: #89909e;
+  --bc-text-hyperlink: #0151fc;
+
+  //color border
+  --bc-input-border: #d2d0ce;
+  --bc-input-hover-border: #0078d4;
+  --bc-input-focus-border: #0078d4;
+  --bc-border-primary: #d2d0ce;
+  --bc-text-discript: #5b616e;
+  --bc-border-input: #dcdfe6;
+
+  //color divider
+  --bc-color-divider: #d2d0ce;
+
+  //color status
+  --bc-bg-error: #3b3a39;
+  --bc-bg-success: #dff6dd;
+  --bc-bg-warning: #fed9cc;
+  --bc-bg-neutral: #fff4ce;
+
+  --bc-status-error: #cf202f;
+  --bc-required: #cf202f;
+  --bc-status-success: #129961;
+  --bc-status-warning: #dd7d00;
+  --bc-status-neutral: #a19f9d;
+  --bc-status-pending: #a19f9d;
+
+  //overlay
+  -bc-overlay-light: rgba(255, 255, 255, 0.4);
+  -bc-overlay-dark: rgba(0, 0, 0, 0.4);
+
+  //background
+  --bc-bg-white: #fff;
+
+  //checkbox
+  --bc-cb-bg: #c4c4c4;
+  --bc-cb-bg-checked: #2050f6;
+  --bc-cb-border: #d2d0ce;
+
+  //select
+  --bc-select-border: #d2d0ce;
+
+  //tab
+  --bc-tab-active: #0078d4;
+
+  //button
+  --bc-btn-bg: #fff;
+  --bc-btn-disable: #8ca4f7;
+  --bc-btn-bg-hover: #0078d4;
+  --bc-btn-border: #d2d0ce;
+  --bc-btn-text: #3b3a39;
+  --bc-btn-default-text-hover: #0078d4;
+  --bc-btn-default-border-hover: #0078d4;
+  --bc-btn-bg-default-hover: #0a34c7;
+  --bc-btn-bg-default: #0151fc;
+  --bc-btn-bg-reject: #cf202f;
+  --bc-btn-bg-approve: #129961;
+
+  //amount
+  --bc-amount-btc: #f7931a;
+  --bc-amount-eth: #605e5c;
+  --bc-amount-lin: #1741b5;
+  --bc-amount-lock: #a19f9d;
+
+  //table
+  --bc-table-text-color: #0a0b0d;
+  --bc-table-border: #dbdbdb;
+  --bc-table-row-hover: #f3f3f3;
+
+  //form
+  --bc-form-label: #201f1e;
+  --bc-form-input: #201f1e;
+  //shadow
+  --bc-box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
+}

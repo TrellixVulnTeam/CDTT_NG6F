@@ -1,0 +1,35 @@
+.header-downloadapp {
+    .dropdown-group-title {
+        padding: 8px 20px;
+        color: #201f1e;
+        font-weight: 600;
+    }
+    .el-dropdown-menu__item {
+        color: #201f1e;
+        &:hover {
+            background-color: #F3F2F1 !important;
+            color: #201f1e !important;
+        }
+    }
+}
+
+.select-language-dropdown {
+    .el-select-dropdown__item {
+        .lang {
+            color: #201f1e;
+            margin-left: 4px;
+            font-size: 14px;
+        }
+    }
+    .el-select-dropdown__item.selected.hover,
+    .el-select-dropdown__item.selected {
+        .lang {
+            color: var(--bc-theme-primary);
+        }
+    }
+    .el-select-dropdown__item.hover {
+        .lang {
+            color: #201f1e;
+        }
+    }
+}

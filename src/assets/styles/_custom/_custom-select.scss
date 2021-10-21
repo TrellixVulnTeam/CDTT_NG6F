@@ -1,0 +1,21 @@
+//language
+.select-language {
+    .el-input__inner {
+        padding-left: 36px !important;
+        color: #201f1e;
+    }
+}
+
+//pagination
+.select-pagination {
+    .el-scrollbar {
+        .el-select-dropdown__list {
+            .el-select-dropdown__item {
+                font-size: 14px;
+                &::after {
+                    content: "" !important;
+                }
+            }
+        }
+    }
+}
