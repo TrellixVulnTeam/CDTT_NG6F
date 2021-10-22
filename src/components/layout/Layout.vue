@@ -91,6 +91,7 @@
       .main-center {
         padding: 24px 24px 0 24px;
         background-color: #f6f8fc;
+        border-top: 1px solid #d2d0ce;
       }
     }
     .sidebar-right {

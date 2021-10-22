@@ -37,17 +37,12 @@
     sorts: Array<Record<string, any>> = [
       {
         command: '1',
-        label: 'Mã đơn vị kinh doanh',
+        label: 'Ngày tháng',
         divided: false
       },
       {
         command: '6',
-        label: 'Tổng phí',
-        divided: false
-      },
-      {
-        command: '5',
-        label: 'Mã sản phẩm',
+        label: 'Quốc gia',
         divided: false
       }
     ]

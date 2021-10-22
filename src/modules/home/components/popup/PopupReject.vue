@@ -1,5 +1,5 @@
 <template>
-  <base-popup name="popup-reject" class="popup-reject" width="480px">
+  <base-popup name="popup-reject" class="popup-reject" width="480px" :close="handleClose">
     <div class="title-popup" slot="title">
       <span>{{ $t('kyc.popup.title-reject') }}</span>
     </div>
@@ -19,7 +19,7 @@
     <div class="footer" slot="footer">
       <div class="wrap-button">
         <div class="btn-right">
-          <el-button class="btn-default btn-400 btn-h-40 btn-close" @click="handleCancel">{{ $t('button.cancel') }}</el-button>
+          <el-button class="btn-default btn-400 btn-h-40 btn-close" @click="handleClose">{{ $t('button.cancel') }}</el-button>
           <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border">{{ $t('button.submit') }}</el-button>
         </div>
       </div>
@@ -36,11 +36,13 @@
     checkList = []
     reason = ''
 
-    handleCancel(): void {
+    handleClose(): void {
       this.setOpenPopup({
         popupName: 'popup-reject',
         isOpen: false
       })
+      this.checkList = []
+      this.reason = ''
     }
   }
 </script>
@@ -80,6 +82,12 @@
         .el-checkbox__inner {
           background-color: #0151fc;
         }
+      }
+    }
+
+    ::v-deep .el-textarea {
+      .el-textarea__inner {
+        color: var(--bc-text-primary);
       }
     }
   }
