@@ -78,7 +78,7 @@
     height: 72px;
     // border-color: var(--bc-input-border);
     border-left: 1px solid var(--bc-input-border);
-    border-bottom: 1px solid var(--bc-input-border);
+    border-bottom: 1px solid #d2d0ce;
     .body {
       display: flex;
       justify-content: space-between;

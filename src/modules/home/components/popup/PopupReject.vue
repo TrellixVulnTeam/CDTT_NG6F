@@ -14,13 +14,13 @@
         </el-checkbox-group>
       </div>
       <span class="d-ib" style="padding-bottom: 8px">{{ $t('kyc.popup.reason') }}</span>
-      <el-input type="textarea" :placeholder="$t('placeholder.reason')" rows="4" v-model="reason" />
+      <el-input type="textarea" :placeholder="$t('placeholder.reason')" maxlength="250" show-word-limit rows="4" v-model="reason" />
     </div>
     <div class="footer" slot="footer">
       <div class="wrap-button">
         <div class="btn-right">
-          <el-button class="btn-default btn-400 btn-h-40">{{ $t('button.cancel') }}</el-button>
-          <el-button class="btn-default-bg btn-400 btn-h-40">{{ $t('button.submit') }}</el-button>
+          <el-button class="btn-default btn-400 btn-h-40 btn-close" @click="handleCancel">{{ $t('button.cancel') }}</el-button>
+          <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border">{{ $t('button.submit') }}</el-button>
         </div>
       </div>
     </div>
@@ -28,12 +28,20 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator'
+  import { Component, Mixins, Vue } from 'vue-property-decorator'
+  import PopupMixin from '@/mixins/popup'
 
   @Component
-  export default class PopupReject extends Vue {
+  export default class PopupReject extends Mixins(PopupMixin) {
     checkList = []
     reason = ''
+
+    handleCancel(): void {
+      this.setOpenPopup({
+        popupName: 'popup-reject',
+        isOpen: false
+      })
+    }
   }
 </script>
 
@@ -51,6 +59,7 @@
     .checkbox {
       ::v-deep .el-checkbox {
         margin-bottom: 12px;
+        width: fit-content;
       }
       ::v-deep .el-checkbox__label {
         color: #0a0b0d;

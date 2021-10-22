@@ -24,14 +24,13 @@
   import KycFilter from '../components/filter/KycFilter.vue'
   import KycDetail from '../components/popup/KycDetail.vue'
   import PopupMixin from '@/mixins/popup'
+  import getRepository from '@/services'
+  import { KycRepository } from '@/services/repositories/kyc'
 
+  const apiKyc: KycRepository = getRepository('kyc')
   @Component({ components: { WalletTable, KycFilter, KycDetail } })
   export default class BOKyc extends Mixins(PopupMixin) {
     tabs: Array<Record<string, any>> = [
-      {
-        id: 0,
-        title: 'Not verified'
-      },
       {
         id: 1,
         title: 'Pending'
@@ -45,7 +44,20 @@
         title: 'Rejected'
       }
     ]
-    tabActive = 0
+    tabActive = 1
+
+    async created(): Promise<void> {
+      try {
+        const rs = await apiKyc.getListKyc({
+          status: 'ACTIVE',
+          kycStatus: '',
+          orderBy: 'CREATED_AT'
+        })
+        console.log(rs)
+      } catch (error) {
+        console.log(error)
+      }
+    }
 
     handleRowClick(row: Record<string, any>): void {
       this.setOpenPopup({
@@ -58,6 +70,8 @@
 
 <style scoped lang="scss">
   .bo-kyc {
+    box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
+    border-radius: 4px;
     .wallet-header {
       &__above {
         border-bottom: 1px solid var(--bc-border-primary);

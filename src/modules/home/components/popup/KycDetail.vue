@@ -50,8 +50,8 @@
           <el-button class="btn-default btn-close btn-h-40" @click="handleClose">Close</el-button>
         </div>
         <div class="btn-right">
-          <el-button class="btn btn-reject btn-h-40" @click="handleReject">Reject</el-button>
-          <el-button class="btn btn-approve btn-h-40">Approve</el-button>
+          <el-button class="btn btn-reject btn-h-40 is-none-border" @click="handleReject">Reject</el-button>
+          <el-button class="btn btn-approve btn-h-40 is-none-border">Approve</el-button>
         </div>
       </div>
     </div>
@@ -92,6 +92,7 @@
     .content {
       padding-bottom: 24px;
       .detail-left {
+        border-radius: 4px;
         width: 216px;
         background-color: #fff;
         padding: 24px 24px 52px;
@@ -128,6 +129,7 @@
         background-color: #fff;
         box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
         padding: 24px;
+        border-radius: 4px;
         .slider {
           ::v-deep .el-carousel {
             width: 100%;
@@ -138,6 +140,11 @@
               // }
               .el-carousel__arrow {
                 background: rgba(0, 0, 0, 0.4);
+                width: 40px;
+                height: 40px;
+                i {
+                  font-size: 20px;
+                }
               }
             }
           }

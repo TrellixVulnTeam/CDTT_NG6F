@@ -91,7 +91,8 @@
         "password": "Nhập mật khẩu mới",
         "repassword": "Nhập lại mật khẩu mới",
         "phone-number": "Số điện thoại",
-        "reason": "Lý do..."
+        "reason": "Lý do...",
+        "search": "Tìm kiếm"
     },
     "button": {
         "reset": "Làm lại",
@@ -168,6 +169,10 @@
             "id-type": "loại ID",
             "id-number": "Số ID",
             "title-photo": "Ảnh xác thực"
+        },
+        "filter": {
+            "filter": "Bộ lọc",
+            "sort": "Sắp xếp"
         }
     }
 }

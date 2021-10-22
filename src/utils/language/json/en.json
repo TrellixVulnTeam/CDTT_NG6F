@@ -124,7 +124,8 @@
         "password": "Choose A Password",
         "repassword": "Confirm password",
         "phone-number": "Phone number",
-        "reason": "Other reason..."
+        "reason": "Other reason...",
+        "search": "Search"
     },
     "button": {
         "reset": "Reset",
@@ -211,6 +212,10 @@
             "id-type": "ID type",
             "id-number": "ID number",
             "title-photo": "Document Photo"
+        },
+        "filter": {
+            "filter": "Filter",
+            "sort": "Sort by"
         }
     }
 }

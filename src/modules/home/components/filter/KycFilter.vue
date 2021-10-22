@@ -1,19 +1,19 @@
 <template>
   <div class="pb-24 pt-24 be-flex align-center kyc-filter">
-    <el-input v-model="search" class="input-search">
+    <el-input v-model="search" class="input-search" :placeholder="$t('placeholder.search')">
       <span slot="prefix" class="prefix-search">
         <base-icon icon="icon-search" size="24" />
       </span>
     </el-input>
     <div class="filter-item">
       <div class="cursor text-filter">
-        <span class="abicon"> <base-icon icon="icon-filter" size="18" /> </span>
-        Bộ lọc
+        <span class="abicon"> <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="18" /> </span>
+        {{ $t('kyc.filter.filter') }}
       </div>
     </div>
     <div>
       <el-dropdown class="sort" trigger="click">
-        <span class="abicon"> <base-icon icon="icon-sort" size="18" class="icon" /> Sắp xếp</span>
+        <span class="abicon"> <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}</span>
         <el-dropdown-menu class="header-downloadapp" slot="dropdown">
           <el-dropdown-item v-for="(value, index) in sorts" :key="index" :class="value.active ? 'active' : null" :command="value.command" :divided="value.divided">
             <span class="be-flex">
