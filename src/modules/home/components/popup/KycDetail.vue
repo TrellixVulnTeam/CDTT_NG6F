@@ -47,11 +47,11 @@
     <div class="footer" slot="footer">
       <div class="be-flex jc-space-between wrap-button">
         <div class="btn-left">
-          <el-button class="btn-default btn-close btn-h-40" @click="handleClose">Close</el-button>
+          <el-button class="btn-default btn-close btn-h-40" @click="handleClose">{{ $t('button.close') }}</el-button>
         </div>
         <div class="btn-right">
-          <el-button class="btn btn-reject btn-h-40 is-none-border" @click="handleReject">Reject</el-button>
-          <el-button class="btn btn-approve btn-h-40 is-none-border">Approve</el-button>
+          <el-button class="btn btn-reject btn-h-40 is-none-border" @click="handleReject">{{ $t('button.reject') }}</el-button>
+          <el-button class="btn btn-approve btn-h-40 is-none-border">{{ $t('button.approve') }}</el-button>
         </div>
       </div>
     </div>

@@ -131,7 +131,10 @@
         "reset": "Reset",
         "continue": "Continue",
         "cancel": "Cancel",
-        "submit": "Submit"
+        "submit": "Submit",
+        "close": "Close",
+        "approve": "Approve",
+        "reject": "Reject"
     },
     "deposit": {
         "lynkey": "DEPOSIT LYNKEY",

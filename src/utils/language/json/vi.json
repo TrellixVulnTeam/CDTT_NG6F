@@ -98,7 +98,10 @@
         "reset": "Làm lại",
         "continue": "Tiếp tục",
         "cancel": "Hủy",
-        "submit": "Xác nhận"
+        "submit": "Xác nhận",
+        "close": "Đóng",
+        "approve": "Xác nhận",
+        "reject": "Từ chối"
     },
     "scan": {
         "qrcode": "QUÉT QR CODE"
