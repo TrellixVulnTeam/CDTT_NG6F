@@ -54,6 +54,7 @@
   import MainSidebar from '../sidebar/MainSidebar.vue'
   import MainHeader from '../header/MainHeader.vue'
   import BasePageLoading from '../page-loading/BasePageLoading.vue'
+  import EventBus from '@/utils/eventBus'
   @Component({
     components: { MainSidebar, MainHeader, BasePageLoading }
   })
@@ -71,6 +72,7 @@
     handleChangeLanguage(lang: string): void {
       this.$i18n.locale = lang
       window.localStorage.setItem('bc-lang', lang)
+      EventBus.$emit('changeLang')
     }
   }
 </script>

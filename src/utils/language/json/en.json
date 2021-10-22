@@ -216,6 +216,10 @@
         "filter": {
             "filter": "Filter",
             "sort": "Sort by"
+        },
+        "sort": {
+            "date": "Created date",
+            "country": "Nationalty"
         }
     }
 }

@@ -5,20 +5,20 @@
     <div class="bg-white wallet-header">
       <div class="be-flex align-center jc-space-between wallet-header__above">
         <div class="wallet-header__above-tabs be-flex">
-          <div class="tab-item cursor" v-for="tab in tabs" :key="tab.id" :class="tabActive === tab.id ? 'tab-active' : null" @click="tabActive = tab.id">
+          <div class="tab-item cursor" v-for="tab in tabs" :key="tab.id" :class="tabActive === tab.title ? 'tab-active' : null" @click="tabActive = tab.title">
             <span class="text-base">{{ tab.title }}</span>
           </div>
         </div>
       </div>
     </div>
     <kyc-filter />
-    <wallet-table @rowClick="handleRowClick" />
+    <wallet-table @rowClick="handleRowClick" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" />
     <kyc-detail />
   </div>
 </template>
 
 <script lang="ts">
-  import { Component, Mixins } from 'vue-property-decorator'
+  import { Component, Mixins, Watch } from 'vue-property-decorator'
   //@ts-ignore
   import WalletTable from '../components/WalletTable.vue'
   import KycFilter from '../components/filter/KycFilter.vue'
@@ -28,6 +28,17 @@
   import { KycRepository } from '@/services/repositories/kyc'
 
   const apiKyc: KycRepository = getRepository('kyc')
+
+  interface IQuery {
+    page?: number
+    limit?: number
+    search?: string
+    status: string
+    kycStatus: string
+    orderBy: string
+    total: number
+  }
+
   @Component({ components: { WalletTable, KycFilter, KycDetail } })
   export default class BOKyc extends Mixins(PopupMixin) {
     tabs: Array<Record<string, any>> = [
@@ -44,19 +55,59 @@
         title: 'Rejected'
       }
     ]
-    tabActive = 1
+    tabActive = 'Pending'
 
-    async created(): Promise<void> {
+    data: Array<Record<string, any>> = []
+
+    kycStatus = {
+      Pending: 'PENDING',
+      Verified: 'VERIFIED',
+      Rejected: 'REJECTED'
+    }
+
+    query: IQuery = {
+      status: 'ACTIVE',
+      kycStatus: 'PENDING',
+      orderBy: 'CREATED_AT',
+      page: 1,
+      limit: 10,
+      total: 10
+    }
+
+    @Watch('tabActive') changeTab(tab: string): void {
+      this.query.kycStatus = this.kycStatus[tab]
+      this.resetQuery()
+      this.init()
+    }
+    created(): void {
+      this.init()
+    }
+
+    async init(): Promise<void> {
       try {
-        const rs = await apiKyc.getListKyc({
-          status: 'ACTIVE',
-          kycStatus: '',
-          orderBy: 'CREATED_AT'
-        })
-        console.log(rs)
+        this.data = await apiKyc.getListKyc(this.query)
       } catch (error) {
         console.log(error)
       }
+    }
+
+    resetQuery(): void {
+      this.query = {
+        ...this.query,
+        page: 1,
+        limit: 10,
+        search: '',
+        orderBy: 'CREATED_AT'
+      }
+    }
+
+    handlePageChange(page: number): void {
+      this.query.page = page
+      this.init()
+    }
+    handleSizeChange(limit: number): void {
+      this.query.limit = limit
+      this.init()
     }
 
     handleRowClick(row: Record<string, any>): void {

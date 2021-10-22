@@ -173,6 +173,10 @@
         "filter": {
             "filter": "Bộ lọc",
             "sort": "Sắp xếp"
+        },
+        "sort": {
+            "date": "Ngày tạo",
+            "country": "Quốc gia"
         }
     }
 }

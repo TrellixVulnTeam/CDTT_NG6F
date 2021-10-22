@@ -30,6 +30,8 @@
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
+  import EventBus from '@/utils/eventBus'
+  import { forEach } from 'lodash'
 
   @Component
   export default class KycFilter extends Vue {
@@ -37,15 +39,26 @@
     sorts: Array<Record<string, any>> = [
       {
         command: '1',
-        label: 'Ngày tháng',
-        divided: false
+        label: this.$i18n.t('kyc.sort.date'),
+        divided: false,
+        i18n: 'kyc.sort.date'
       },
       {
         command: '6',
-        label: 'Quốc gia',
-        divided: false
+        label: this.$i18n.t('kyc.sort.country'),
+        divided: false,
+        i18n: 'kyc.sort.country'
       }
     ]
+    created(): void {
+      EventBus.$on('changeLang', () => {
+        console.log('a', window.localStorage.getItem('bc-lang'))
+        forEach(this.sorts, elm => {
+          elm.label = this.$i18n.t(elm.i18n)
+        })
+        this.$forceUpdate()
+      })
+    }
   }
 </script>
 
@@ -60,6 +73,26 @@
       margin-left: 30px;
       cursor: pointer;
       color: #0a0b0d;
+    }
+    ::v-deep .filter-item {
+      &:hover {
+        .text-filter {
+          color: #0151fc;
+          .span-icon {
+            color: #0151fc !important;
+          }
+        }
+      }
+    }
+    ::v-deep .sort {
+      &:hover {
+        .el-dropdown-selfdefine {
+          color: #0151fc;
+          .span-icon {
+            color: #0151fc !important;
+          }
+        }
+      }
     }
   }
 </style>

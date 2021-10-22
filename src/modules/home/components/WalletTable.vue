@@ -37,10 +37,11 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator'
+  import { Component, Prop, Vue } from 'vue-property-decorator'
 
   @Component
   export default class WalletTable extends Vue {
+    @Prop({ required: false, type: Object, default: {} }) query!: Record<string, any>
     data: Array<Record<string, any>> = [
       {
         name: 'Trần Nguyễn Hoàng Trung',
@@ -114,12 +115,6 @@
       }
     ]
 
-    query: Record<string, any> = {
-      page: 1,
-      limit: 20,
-      total: 0
-    }
-
     get getPaginationInfo(): any {
       return this.$t('paging.customers')
     }
@@ -129,13 +124,10 @@
     }
 
     handleSizeChange(value: number): void {
-      this.query.page = 1
-      this.query.limit = value
-      // this.init()
+      this.$emit('sizeChange', value)
     }
     handleCurrentChange(value: number): void {
-      this.query.page = value
-      // this.init()
+      this.$emit('pageChange', value)
     }
 
     handleRowClick(row: Record<string, any>): void {
