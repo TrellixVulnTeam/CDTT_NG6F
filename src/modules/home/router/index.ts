@@ -14,15 +14,25 @@ const homeRouters: RouteConfig[] = [
         },
         children: [
           {
-            path: '/',
-            name: 'Kyc',
+            path: 'pending',
+            name: 'KycPending',
+            component: () => import('../view/Kyc.vue')
+          },
+          {
+            path: 'verified',
+            name: 'KycVerified',
+            component: () => import('../view/Kyc.vue')
+          },
+          {
+            path: 'rejected',
+            name: 'KycRejected',
             component: () => import('../view/Kyc.vue')
           }
         ]
       },
       {
         path: '*',
-        redirect: '/'
+        redirect: '/kyc'
       }
     ]
   }

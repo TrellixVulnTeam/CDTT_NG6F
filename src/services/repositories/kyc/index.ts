@@ -27,7 +27,7 @@ export class KycRepository extends BaseRepository {
   }
   async rejectKyc(data: Record<string, any>): Promise<any> {
     try {
-      const rs = await request.put(`${this.prefix}/kyc-reject`, data)
+      const rs = await request.post(`${this.prefix}/kyc-reject`, data)
       return Promise.resolve(rs.data.data)
     } catch (error) {
       console.log(error)

@@ -74,6 +74,23 @@
         })
         this.$forceUpdate()
       })
+      EventBus.$on('changeTab', this.handleChangeTab)
+      this.$emit('filter', this.filter)
+    }
+    destroyed(): void {
+      EventBus.$off('changeLang')
+      EventBus.$off('changeTab')
+    }
+
+    handleChangeTab(): void {
+      if (this.filter.search) {
+        this.filter = {
+          search: '',
+          orderBy: 'CREATED_AT'
+        }
+      } else {
+        this.$emit('filter', { ...this.filter, orderBy: 'CREATED_AT' })
+      }
     }
 
     handleSort(command: string): void {

@@ -1,31 +1,31 @@
 <template>
   <div class="w-100 bo-kyc">
-    <!-- <walllet-header />
-    <router-view /> -->
     <div class="bg-white wallet-header">
       <div class="be-flex align-center jc-space-between wallet-header__above">
         <div class="wallet-header__above-tabs be-flex">
-          <div class="tab-item cursor" v-for="tab in tabs" :key="tab.id" :class="tabActive === tab.title ? 'tab-active' : null" @click="tabActive = tab.title">
+          <div class="tab-item cursor" v-for="tab in tabs" :key="tab.id" :class="$route.name === tab.routeName ? 'tab-active' : null" @click="handleChangeTab(tab)">
             <span class="text-base">{{ tab.title }}</span>
           </div>
         </div>
       </div>
     </div>
     <kyc-filter @filter="handleFilter" />
-    <wallet-table @rowClick="handleRowClick" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="data" />
-    <kyc-detail :rfrId="rfrId" />
+    <kyc-table v-loading="isLoading" @rowClick="handleRowClick" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="data" />
+    <kyc-detail :userId="userId" @init="init" />
   </div>
 </template>
 
 <script lang="ts">
   import { Component, Mixins, Watch } from 'vue-property-decorator'
   //@ts-ignore
-  import WalletTable from '../components/WalletTable.vue'
+  import KycTable from '../components/KycTable.vue'
   import KycFilter from '../components/filter/KycFilter.vue'
   import KycDetail from '../components/popup/KycDetail.vue'
   import PopupMixin from '@/mixins/popup'
   import getRepository from '@/services'
   import { KycRepository } from '@/services/repositories/kyc'
+  import EventBus from '@/utils/eventBus'
+  import { debounce } from 'lodash'
 
   const apiKyc: KycRepository = getRepository('kyc')
 
@@ -39,27 +39,31 @@
     total: number
   }
 
-  @Component({ components: { WalletTable, KycFilter, KycDetail } })
+  @Component({ components: { KycTable, KycFilter, KycDetail } })
   export default class BOKyc extends Mixins(PopupMixin) {
     tabs: Array<Record<string, any>> = [
       {
         id: 1,
-        title: 'Pending'
+        title: 'Pending',
+        routeName: 'KycPending'
       },
       {
         id: 2,
-        title: 'Verified'
+        title: 'Verified',
+        routeName: 'KycVerified'
       },
       {
         id: 3,
-        title: 'Rejected'
+        title: 'Rejected',
+        routeName: 'KycRejected'
       }
     ]
     tabActive = 'Pending'
+    isLoading = false
 
     data: Array<Record<string, any>> = []
 
-    rfrId = 0
+    userId = 0
 
     kycStatus = {
       Pending: 'PENDING',
@@ -76,23 +80,31 @@
       total: 10
     }
 
-    @Watch('tabActive') changeTab(tab: string): void {
-      this.query.kycStatus = this.kycStatus[tab]
-      this.resetQuery()
-      this.init()
-    }
     created(): void {
-      this.init()
+      const name = this.$route.name
+      this.query.kycStatus = name === 'KycPending' ? 'PENDING' : name === 'KycVerified' ? 'VERIFIED' : 'REJECTED'
     }
 
     async init(): Promise<void> {
       try {
+        this.isLoading = true
         const result = await apiKyc.getListKyc({ ...this.query, total: null })
         this.data = result.content || []
         this.query.total = result.totalElements
+        this.isLoading = false
       } catch (error) {
+        this.isLoading = false
         console.log(error)
       }
+    }
+
+    handleChangeTab(tab: Record<string, any>): void {
+      console.log(tab)
+
+      this.$router.push({ name: tab.routeName })
+      this.query.kycStatus = this.kycStatus[tab.title]
+      this.resetQuery()
+      EventBus.$emit('changeTab')
     }
 
     resetQuery(): void {
@@ -115,7 +127,7 @@
     }
 
     handleRowClick(row: Record<string, any>): void {
-      this.rfrId = row.rfrId
+      this.userId = row.userId
       this.setOpenPopup({
         popupName: 'popup-kyc-detail',
         isOpen: true
@@ -127,8 +139,12 @@
         ...this.query,
         ...filter
       }
-      this.init()
+      this.debounceInit()
     }
+
+    debounceInit = debounce(() => {
+      this.init()
+    }, 300)
   }
 </script>
 

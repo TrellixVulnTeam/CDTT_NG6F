@@ -40,7 +40,7 @@
   import { Component, Prop, Vue } from 'vue-property-decorator'
 
   @Component
-  export default class WalletTable extends Vue {
+  export default class KycTable extends Vue {
     @Prop({ required: true, type: Object, default: {} }) query!: Record<string, any>
     @Prop({ required: true, type: Array, default: [] }) data!: Array<Record<string, any>>
 
