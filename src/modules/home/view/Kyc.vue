@@ -11,7 +11,7 @@
     </div>
     <kyc-filter @filter="handleFilter" />
     <kyc-table v-loading="isLoading" @rowClick="handleRowClick" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="data" />
-    <kyc-detail :userId="userId" @init="init" />
+    <kyc-detail :detailRow="detailRow" @init="init" />
   </div>
 </template>
 
@@ -63,7 +63,7 @@
 
     data: Array<Record<string, any>> = []
 
-    userId = 0
+    detailRow = {}
 
     kycStatus = {
       Pending: 'PENDING',
@@ -127,7 +127,7 @@
     }
 
     handleRowClick(row: Record<string, any>): void {
-      this.userId = row.userId
+      this.detailRow = row
       this.setOpenPopup({
         popupName: 'popup-kyc-detail',
         isOpen: true

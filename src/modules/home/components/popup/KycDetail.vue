@@ -85,7 +85,7 @@
   }
   @Component({ components: { PopupReject } })
   export default class KycDetail extends Mixins(PopupMixin) {
-    @Prop({ required: true, type: Number, default: 0 }) userId!: number
+    @Prop({ required: true, type: Object, default: {} }) detailRow!: Record<string, any>
     detail = {} as IDetail
     isLoading = false
 
@@ -96,7 +96,7 @@
     async handleOpen(): Promise<void> {
       try {
         this.isLoading = true
-        this.detail = await apiKyc.getDetailKyc(this.userId)
+        this.detail = await apiKyc.getDetailKyc(this.detailRow.userId)
         this.isLoading = false
       } catch (error) {
         this.isLoading = false
@@ -106,7 +106,7 @@
 
     handleApprove(): void {
       const data = {
-        ids: [this.userId]
+        ids: [this.detailRow.id]
       }
       apiKyc.approveKyc(data).then(() => {
         const message: any = this.$i18n.t('notify.approve-success')
@@ -118,7 +118,9 @@
 
     async submitReject(data: Record<string, any>): Promise<void> {
       try {
-        await apiKyc.rejectKyc({ ...data, ids: [this.userId] })
+        await apiKyc.rejectKyc({ ...data, ids: [this.detailRow.id] })
+        const message: any = this.$i18n.t('notify.reject-success')
+        this.$message.success({ message, duration: 5000 })
         this.handleClose()
         this.$emit('init')
       } catch (error) {

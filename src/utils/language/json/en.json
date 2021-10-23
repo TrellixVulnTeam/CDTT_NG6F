@@ -186,7 +186,8 @@
         "pass-reset": "Change password successfully",
         "send-code": "Verification code sent successfully",
         "send-code-fail": "Verification code sent failed",
-        "approve-success": "Approved successfully"
+        "approve-success": "Approved successfully",
+        "reject-success": "Rejected successfully"
     },
     "logout": {
         "title": "Sign out"
