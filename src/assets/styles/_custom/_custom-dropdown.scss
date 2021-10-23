@@ -7,7 +7,7 @@
     .el-dropdown-menu__item {
         color: #201f1e;
         &:hover {
-            background-color: #F3F2F1 !important;
+            background-color: #f3f2f1 !important;
             color: #201f1e !important;
         }
     }
@@ -31,5 +31,20 @@
         .lang {
             color: #201f1e;
         }
+    }
+}
+
+.dropdown-sort {
+    width: 180px;
+    .el-dropdown-menu__item {
+        // line-height: 24px;
+        font-size: 16px;
+        // margin-bottom: 16px;
+        &:hover {
+            color: #0151fc !important;
+        }
+    }
+    .active {
+        color: #0151fc;
     }
 }

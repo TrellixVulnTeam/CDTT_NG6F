@@ -6,20 +6,23 @@
       </span>
     </el-input>
     <div class="filter-item">
-      <div class="cursor text-filter">
+      <div class="cursor text-filter" style="font-size: 16px">
         <span class="abicon"> <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="18" /> </span>
         {{ $t('kyc.filter.filter') }}
       </div>
     </div>
     <div>
       <el-dropdown class="sort" trigger="click" @command="handleSort">
-        <span class="abicon"> <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}</span>
-        <el-dropdown-menu class="header-downloadapp" slot="dropdown">
+        <span class="abicon" style="font-size: 16px">
+          <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}</span
+        >
+        <el-dropdown-menu class="header-downloadapp dropdown-sort" slot="dropdown">
           <el-dropdown-item v-for="(value, index) in sorts" :key="index" :class="sortActive === value.command ? 'active' : null" :command="value.command" :divided="value.divided">
             <span class="be-flex">
               <span class="be-flex-item">
                 {{ value.label }}
               </span>
+              <base-icon v-if="sortActive === value.command" icon="icon-tick-dropdown" size="16" />
             </span>
           </el-dropdown-item>
         </el-dropdown-menu>
