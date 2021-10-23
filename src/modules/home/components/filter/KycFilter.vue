@@ -13,7 +13,7 @@
     </div>
     <div>
       <el-dropdown class="sort" trigger="click" @command="handleSort">
-        <span class="abicon" style="font-size: 16px">
+        <span class="abicon sort-title" style="font-size: 16px">
           <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}</span
         >
         <el-dropdown-menu class="header-downloadapp dropdown-sort" slot="dropdown">
@@ -129,6 +129,14 @@
     ::v-deep .sort {
       &:hover {
         .el-dropdown-selfdefine {
+          color: #0151fc;
+          .span-icon {
+            color: #0151fc !important;
+          }
+        }
+      }
+      .sort-title {
+        &:focus {
           color: #0151fc;
           .span-icon {
             color: #0151fc !important;
