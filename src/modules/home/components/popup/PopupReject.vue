@@ -1,16 +1,18 @@
 <template>
-  <base-popup name="popup-reject" class="popup-reject" width="480px" :close="handleClose">
+  <base-popup name="popup-reject" class="popup-reject" width="480px" :close="handleClose" :open="handleOpen">
     <div class="title-popup" slot="title">
       <span>{{ $t('kyc.popup.title-reject') }}</span>
     </div>
-    <div class="content">
+    <div class="content" v-loading="isLoading">
       <div class="checkbox">
         <span class="d-ib mb-16" style="color: #0a0b0d">{{ $t('kyc.popup.title-cb') }}</span>
         <el-checkbox-group v-model="checkList" class="be-flex-column">
+          <el-checkbox v-for="item in listReason" :key="item.key" :label="item.id">{{ $t(`params.` + item.key) }}</el-checkbox>
+          <!-- 
           <el-checkbox label="Option">{{ $t('kyc.popup.cb1') }}</el-checkbox>
           <el-checkbox label="Option B">{{ $t('kyc.popup.cb2') }}</el-checkbox>
           <el-checkbox label="Option C">{{ $t('kyc.popup.cb3') }}</el-checkbox>
-          <el-checkbox label="Option D">{{ $t('kyc.popup.cb4') }}</el-checkbox>
+          <el-checkbox label="Option D">{{ $t('kyc.popup.cb4') }}</el-checkbox> -->
         </el-checkbox-group>
       </div>
       <span class="d-ib" style="padding-bottom: 8px">{{ $t('kyc.popup.reason') }}</span>
@@ -20,7 +22,7 @@
       <div class="wrap-button">
         <div class="btn-right">
           <el-button class="btn-default btn-400 btn-h-40 btn-close" @click="handleClose">{{ $t('button.cancel') }}</el-button>
-          <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border">{{ $t('button.submit') }}</el-button>
+          <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border" @click="handleReject">{{ $t('button.submit') }}</el-button>
         </div>
       </div>
     </div>
@@ -28,13 +30,38 @@
 </template>
 
 <script lang="ts">
-  import { Component, Mixins, Vue } from 'vue-property-decorator'
+  import { Component, Mixins } from 'vue-property-decorator'
   import PopupMixin from '@/mixins/popup'
-
+  import getRepository from '@/services'
+  import { ParamsRepository } from '@/services/repositories/params'
+  const apiParams: ParamsRepository = getRepository('params')
   @Component
   export default class PopupReject extends Mixins(PopupMixin) {
     checkList = []
+    listReason: Array<Record<string, any>> = []
     reason = ''
+    isLoading = false
+
+    async handleOpen(): Promise<void> {
+      try {
+        this.isLoading = true
+        const result = await apiParams.getTypeReject({ type: 'KYC_REJECT_REASON' })
+        this.listReason = result.content || []
+        this.isLoading = false
+      } catch (error) {
+        console.log(error)
+        this.isLoading = false
+      }
+    }
+
+    handleReject(): void {
+      const data = {
+        rejectResonIds: this.checkList.join(','),
+        reason: this.reason
+      }
+      this.$emit('reject', data)
+      this.handleClose()
+    }
 
     handleClose(): void {
       this.setOpenPopup({

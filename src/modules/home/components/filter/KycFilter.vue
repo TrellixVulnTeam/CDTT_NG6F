@@ -1,6 +1,6 @@
 <template>
   <div class="pb-24 pt-24 be-flex align-center kyc-filter">
-    <el-input v-model="search" class="input-search" :placeholder="$t('placeholder.search')">
+    <el-input v-model="filter.search" class="input-search" :placeholder="$t('placeholder.search')">
       <span slot="prefix" class="prefix-search">
         <base-icon icon="icon-search" size="24" />
       </span>
@@ -12,10 +12,10 @@
       </div>
     </div>
     <div>
-      <el-dropdown class="sort" trigger="click">
+      <el-dropdown class="sort" trigger="click" @command="handleSort">
         <span class="abicon"> <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}</span>
         <el-dropdown-menu class="header-downloadapp" slot="dropdown">
-          <el-dropdown-item v-for="(value, index) in sorts" :key="index" :class="value.active ? 'active' : null" :command="value.command" :divided="value.divided">
+          <el-dropdown-item v-for="(value, index) in sorts" :key="index" :class="sortActive === value.command ? 'active' : null" :command="value.command" :divided="value.divided">
             <span class="be-flex">
               <span class="be-flex-item">
                 {{ value.label }}
@@ -29,27 +29,43 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator'
+  import { Component, Vue, Watch } from 'vue-property-decorator'
   import EventBus from '@/utils/eventBus'
-  import { forEach } from 'lodash'
+  import { forEach, trim, debounce } from 'lodash'
 
   @Component
   export default class KycFilter extends Vue {
-    search = ''
+    filter = {
+      search: '',
+      orderBy: 'CREATED_AT'
+    }
     sorts: Array<Record<string, any>> = [
       {
-        command: '1',
+        command: 'CREATED_AT',
         label: this.$i18n.t('kyc.sort.date'),
         divided: false,
         i18n: 'kyc.sort.date'
       },
       {
-        command: '6',
+        command: 'nationality',
         label: this.$i18n.t('kyc.sort.country'),
         divided: false,
         i18n: 'kyc.sort.country'
       }
     ]
+    sortActive = 'CREATED_AT'
+
+    @Watch('filter.search') handleSearch(value: string): void {
+      this.searchText(value)
+    }
+
+    searchText = debounce((value: string) => {
+      this.$emit('filter', {
+        ...this.filter,
+        search: trim(value)
+      })
+    }, 500)
+
     created(): void {
       EventBus.$on('changeLang', () => {
         console.log('a', window.localStorage.getItem('bc-lang'))
@@ -58,6 +74,12 @@
         })
         this.$forceUpdate()
       })
+    }
+
+    handleSort(command: string): void {
+      this.sortActive = command
+      this.filter.orderBy = command
+      this.$emit('filter', this.filter)
     }
   }
 </script>

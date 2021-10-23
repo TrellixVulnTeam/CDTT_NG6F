@@ -11,24 +11,24 @@
         class="base-table table-wallet"
       >
         <el-table-column label="#" type="index" align="center" width="40" />
-        <el-table-column :label="$t('kyc.table.fullName')" prop="id" min-width="200">
+        <el-table-column :label="$t('kyc.table.fullName')" min-width="200">
           <template slot-scope="scope">
             <div class="be-flex align-center">
-              <span class="d-ib mr-2">{{ scope.row.name }}</span>
+              <span class="d-ib mr-2">{{ scope.row.firstName + '&nbsp;' + scope.row.lastName }}</span>
             </div>
           </template>
         </el-table-column>
         <el-table-column :label="$t('kyc.table.email')" prop="email" width="300"> </el-table-column>
-        <el-table-column :label="$t('kyc.table.national')" prop="national" width="140"> </el-table-column>
+        <el-table-column :label="$t('kyc.table.national')" prop="nationality" width="140"> </el-table-column>
 
-        <el-table-column :label="$t('kyc.table.date')" prop="date" width="200">
+        <el-table-column :label="$t('kyc.table.date')" prop="createdAt" width="200">
           <template slot-scope="scope">
-            <span>{{ scope.row.date | formatDateHourMs }}</span>
+            <span>{{ scope.row.createdAt | formatDateHourMs }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('kyc.table.status')" prop="status" align="center" width="160">
+        <el-table-column :label="$t('kyc.table.status')" prop="kycStatus" align="center" width="160">
           <template slot-scope="scope">
-            <span :class="checkType(scope.row.status)">{{ scope.row.status }}</span>
+            <span :class="checkType(scope.row.kycStatus)">{{ scope.row.kycStatus }}</span>
           </template>
         </el-table-column>
       </base-table>
@@ -41,86 +41,15 @@
 
   @Component
   export default class WalletTable extends Vue {
-    @Prop({ required: false, type: Object, default: {} }) query!: Record<string, any>
-    data: Array<Record<string, any>> = [
-      {
-        name: 'Trần Nguyễn Hoàng Trung',
-        date: Date.now(),
-        email: 'maihoangnguyen@gmail.com',
-        status: 'Not verified',
-        national: 'Viet Nam'
-      },
-      {
-        name: 'Trần Nguyễn Hoàng Trung',
-        date: Date.now(),
-        email: 'maihoangnguyen@gmail.com',
-        status: 'Pending',
-        national: 'Viet Nam'
-      },
-      {
-        name: 'Trần Nguyễn Hoàng Trung',
-        date: Date.now(),
-        email: 'maihoangnguyen@gmail.com',
-        status: 'Verified',
-        national: 'Viet Nam'
-      },
-      {
-        name: 'Trần Nguyễn Hoàng Trung',
-        date: Date.now(),
-        email: 'maihoangnguyen@gmail.com',
-        status: 'Rejected',
-        national: 'Viet Nam'
-      },
-      {
-        name: 'Trần Nguyễn Hoàng Trung',
-        date: Date.now(),
-        email: 'maihoangnguyen@gmail.com',
-        status: 'Pending',
-        national: 'Viet Nam'
-      },
-      {
-        name: 'Trần Nguyễn Hoàng Trung',
-        date: Date.now(),
-        email: 'maihoangnguyen@gmail.com',
-        status: 'Pending',
-        national: 'Viet Nam'
-      },
-      {
-        name: 'Trần Nguyễn Hoàng Trung',
-        date: Date.now(),
-        email: 'maihoangnguyen@gmail.com',
-        status: 'Pending',
-        national: 'Viet Nam'
-      },
-      {
-        name: 'Trần Nguyễn Hoàng Trung',
-        date: Date.now(),
-        email: 'maihoangnguyen@gmail.com',
-        status: 'Pending',
-        national: 'Viet Nam'
-      },
-      {
-        name: 'Trần Nguyễn Hoàng Trung',
-        date: Date.now(),
-        email: 'maihoangnguyen@gmail.com',
-        status: 'Pending',
-        national: 'Viet Nam'
-      },
-      {
-        name: 'Trần Nguyễn Hoàng Trung',
-        date: Date.now(),
-        email: 'maihoangnguyen@gmail.com',
-        status: 'Pending',
-        national: 'Viet Nam'
-      }
-    ]
+    @Prop({ required: true, type: Object, default: {} }) query!: Record<string, any>
+    @Prop({ required: true, type: Array, default: [] }) data!: Array<Record<string, any>>
 
     get getPaginationInfo(): any {
       return this.$t('paging.customers')
     }
 
     checkType(type: string): string {
-      return type === 'Not verified' ? 'status-not-verified' : type === 'Pending' ? 'status-pending' : type === 'Verified' ? 'status-verified' : 'status-rejected'
+      return type === 'Not verified' ? 'status-not-verified' : type === 'PENDING' ? 'status-pending' : type === 'VERIFIED' ? 'status-verified' : 'status-rejected'
     }
 
     handleSizeChange(value: number): void {
@@ -131,7 +60,7 @@
     }
 
     handleRowClick(row: Record<string, any>): void {
-      this.$emit('rowClick', row)
+      this.$emit('rowClick', row.row)
     }
   }
 </script>

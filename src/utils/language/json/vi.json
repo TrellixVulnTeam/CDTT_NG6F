@@ -142,7 +142,8 @@
         "verify-fail": "Mã xác thực không chính xác",
         "pass-reset": "Thay đổi mật khẩu thành công",
         "send-code": "Gửi mã xác thực thành công",
-        "send-code-fail": "Không thể gửi mã xác thực, vui lòng thử lại"
+        "send-code-fail": "Không thể gửi mã xác thực, vui lòng thử lại",
+        "approve-success": "Xác thực thành công"
     },
     "logout": {
         "title": "Đăng xuất"
@@ -181,5 +182,15 @@
             "date": "Ngày tạo",
             "country": "Quốc gia"
         }
+    },
+    "params": {
+        "kyc_reject_reason_nationality_not_allow": "Quốc tịch không hợp lệ",
+        "kyc_reject_reason_selfie_photo_incorrect": "Ảnh chụp không chính xác",
+        "kyc_reject_reason_id_photo_not_clear": "Id ảnh không rõ ràng",
+        "kyc_reject_reason_id_is_expired": "Id hết hạn",
+        "kyc_reject_reason_id_photo_is_modified": "Id ảnh đã được sửa đổi",
+        "kyc_reject_reason_id_number_wrong": "Id sai",
+        "kyc_reject_reason_selfie_photo_not_clear": "Ảnh không rõ ràng",
+        "kyc_reject_reason_selfie_photo_not_matching": "Ảnh chụp không khớp"
     }
 }

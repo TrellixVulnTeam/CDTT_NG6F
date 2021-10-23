@@ -185,7 +185,8 @@
         "verify-fail": "Incorrect verification code",
         "pass-reset": "Change password successfully",
         "send-code": "Verification code sent successfully",
-        "send-code-fail": "Verification code sent failed"
+        "send-code-fail": "Verification code sent failed",
+        "approve-success": "Approved successfully"
     },
     "logout": {
         "title": "Sign out"
@@ -222,7 +223,17 @@
         },
         "sort": {
             "date": "Created date",
-            "country": "Nationalty"
+            "country": "Nationality"
         }
+    },
+    "params": {
+        "kyc_reject_reason_nationality_not_allow": "Nationality not allow",
+        "kyc_reject_reason_selfie_photo_incorrect": "Selfie photo incorrect",
+        "kyc_reject_reason_id_photo_not_clear": "Id photo not clear",
+        "kyc_reject_reason_id_is_expired": "Id is expired",
+        "kyc_reject_reason_id_photo_is_modified": "Id photo is modified",
+        "kyc_reject_reason_id_number_wrong": "Id number wrong",
+        "kyc_reject_reason_selfie_photo_not_clear": "Selfie photo not clear",
+        "kyc_reject_reason_selfie_photo_not_matching": "Selfie photo not matching"
     }
 }

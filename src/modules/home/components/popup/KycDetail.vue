@@ -1,34 +1,34 @@
 <template>
-  <base-popup name="popup-kyc-detail" class="popup-kyc-detail" width="960px">
+  <base-popup name="popup-kyc-detail" class="popup-kyc-detail" width="960px" :open="handleOpen">
     <div class="title-popup" slot="title">
       <span>{{ $t('kyc.popup.title') }}</span>
     </div>
-    <div class="be-flex content">
+    <div class="be-flex content" v-loading="isLoading">
       <div class="mr-24 detail-left">
         <div class="detail-item detail-item--above">
           <span class="title text-l text-bold">{{ $t('kyc.popup.personal-detail') }}</span>
           <div class="wrap">
             <span class="wrap-small">{{ $t('kyc.popup.f-name') }}</span>
-            <span class="name">Bean</span>
+            <span class="name">{{ detail.firstName }}</span>
           </div>
           <div class="wrap">
             <span class="wrap-small">{{ $t('kyc.popup.l-name') }}</span>
-            <span class="name">Atkinson</span>
+            <span class="name">{{ detail.lastName }}</span>
           </div>
           <div class="wrap">
             <span class="wrap-small">{{ $t('kyc.popup.national') }}</span>
-            <span class="name">Vietnam</span>
+            <span class="name">{{ detail.nationality }}</span>
           </div>
         </div>
         <div class="detail-item detail-item--below">
           <span class="title text-l text-bold">{{ $t('kyc.popup.id-verification') }}</span>
           <div class="wrap">
             <span class="wrap-small">{{ $t('kyc.popup.id-type') }}</span>
-            <span class="name">Bean</span>
+            <span class="name">{{ detail.identificationType }}</span>
           </div>
           <div class="wrap">
             <span class="wrap-small">{{ $t('kyc.popup.id-number') }}</span>
-            <span class="name">Atkinson</span>
+            <span class="name">{{ detail.identificationNumber }}</span>
           </div>
         </div>
       </div>
@@ -51,25 +51,79 @@
         </div>
         <div class="btn-right">
           <el-button class="btn btn-reject btn-h-40 is-none-border" @click="handleReject">{{ $t('button.reject') }}</el-button>
-          <el-button class="btn btn-approve btn-h-40 is-none-border">{{ $t('button.approve') }}</el-button>
+          <el-button class="btn btn-approve btn-h-40 is-none-border" @click="handleApprove">{{ $t('button.approve') }}</el-button>
         </div>
       </div>
     </div>
-    <popup-reject />
+    <popup-reject @reject="submitReject" />
   </base-popup>
 </template>
 
 <script lang="ts">
-  import { Component, Mixins } from 'vue-property-decorator'
+  import { Component, Mixins, Prop } from 'vue-property-decorator'
   import PopupReject from './PopupReject.vue'
   import PopupMixin from '@/mixins/popup'
+  import getRepository from '@/services'
+  import { KycRepository } from '@/services/repositories/kyc'
+  const apiKyc: KycRepository = getRepository('kyc')
+  interface IDetail {
+    rfrId: number
+    firstName: string | null
+    lastName: string | null
+    fullName: string | null
+    email: string | null
+    status: string | null
+    kycStatus: string | null
+    createdAt: string | null
+    nationality: string | null
+    identificationType: string | null
+    identificationNumber: string | null
+    idPhoto1: string
+    idPhoto2: string
+    selfiePhoto: string
+    pinEnabled: string | null
+  }
   @Component({ components: { PopupReject } })
   export default class KycDetail extends Mixins(PopupMixin) {
-    listImage: string[] = [
-      'https://visakhoinguyen.com/wp-content/uploads/chung-minh-nhan-dan.jpg',
-      'https://lh4.ggpht.com/-CQehj5uoqos/V3H0-a-GvpI/AAAAAAAAAkU/j-eFYuA07JgA5LPpw1FsTGrOs_6WOBPcACLcB/s1600/CMND%2528%2Bmat%2Bsau%2B%2529.jpg',
-      'https://media.phapluatplus.vn/files/buituanh/2018/10/22/anh_cmnd_2210102821-2317.jpg'
-    ]
+    @Prop({ required: true, type: Number, default: 0 }) rfrId!: number
+    detail = {} as IDetail
+    isLoading = false
+
+    get listImage(): string[] {
+      return [this.detail.idPhoto1, this.detail.idPhoto2, this.detail.selfiePhoto]
+    }
+
+    async handleOpen(): Promise<void> {
+      try {
+        this.isLoading = true
+        this.detail = await apiKyc.getDetailKyc(this.rfrId)
+        this.isLoading = false
+      } catch (error) {
+        this.isLoading = false
+        console.log(error)
+      }
+    }
+
+    handleApprove(): void {
+      const data = {
+        ids: [this.detail.rfrId]
+      }
+      apiKyc.approveKyc(data).then(() => {
+        const message: any = this.$i18n.t('notify.approve-success')
+        this.$message.success({ message, duration: 5000 })
+        this.handleClose()
+      })
+    }
+
+    async submitReject(data: Record<string, any>): Promise<void> {
+      try {
+        await apiKyc.rejectKyc(data)
+        this.handleClose()
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
     handleReject(): void {
       this.setOpenPopup({
         popupName: 'popup-reject',

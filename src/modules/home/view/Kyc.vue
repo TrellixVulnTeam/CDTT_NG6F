@@ -11,9 +11,9 @@
         </div>
       </div>
     </div>
-    <kyc-filter />
-    <wallet-table @rowClick="handleRowClick" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" />
-    <kyc-detail />
+    <kyc-filter @filter="handleFilter" />
+    <wallet-table @rowClick="handleRowClick" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="data" />
+    <kyc-detail :rfrId="rfrId" />
   </div>
 </template>
 
@@ -59,6 +59,8 @@
 
     data: Array<Record<string, any>> = []
 
+    rfrId = 0
+
     kycStatus = {
       Pending: 'PENDING',
       Verified: 'VERIFIED',
@@ -85,7 +87,9 @@
 
     async init(): Promise<void> {
       try {
-        this.data = await apiKyc.getListKyc(this.query)
+        const result = await apiKyc.getListKyc({ ...this.query, total: null })
+        this.data = result.content || []
+        this.query.total = result.totalElements
       } catch (error) {
         console.log(error)
       }
@@ -111,10 +115,19 @@
     }
 
     handleRowClick(row: Record<string, any>): void {
+      this.rfrId = row.rfrId
       this.setOpenPopup({
         popupName: 'popup-kyc-detail',
         isOpen: true
       })
+    }
+
+    handleFilter(filter: Record<string, any>): void {
+      this.query = {
+        ...this.query,
+        ...filter
+      }
+      this.init()
     }
   }
 </script>
