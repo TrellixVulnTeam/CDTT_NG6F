@@ -6,9 +6,23 @@
     //     }
     // }
     .popper__arrow {
-        border-right-color: #EBEEF5 !important;
+        border-right-color: #ebeef5 !important;
         &::after {
             border-right-color: #f3f2f1 !important;
+        }
+    }
+}
+
+.el-popper.popper-filter {
+    padding: 0;
+    .content {
+        padding: 24px 24px 0;
+    }
+    .footer {
+        padding: 12px 24px;
+        border-top: 1px solid #d2d0ce;
+        .btn-default-bg {
+            width: 100px;
         }
     }
 }

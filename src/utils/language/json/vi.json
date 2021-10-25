@@ -101,7 +101,8 @@
         "submit": "Xác nhận",
         "close": "Đóng",
         "approve": "Xác nhận",
-        "reject": "Từ chối"
+        "reject": "Từ chối",
+        "apply": "Xác nhận"
     },
     "scan": {
         "qrcode": "QUÉT QR CODE"
@@ -115,7 +116,13 @@
         "pay-amount": "Số tiền",
         "receive": "Thực nhận",
         "country": "Quốc gia",
-        "phone-number": "Số điện thoại"
+        "phone-number": "Số điện thoại",
+        "keyword": "Từ khóa",
+        "from-date": "Từ ngày",
+        "to-date": "Đến ngày",
+        "nationality": "Quốc tịch",
+        "id-type": "Loại xác thực",
+        "approve-by": "Xác nhận bởi"
     },
     "validate": {
         "length": " Độ dài tối thiểu 8 ký tự",

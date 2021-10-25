@@ -134,7 +134,8 @@
         "submit": "Submit",
         "close": "Close",
         "approve": "Approve",
-        "reject": "Reject"
+        "reject": "Reject",
+        "apply": "Apply"
     },
     "deposit": {
         "lynkey": "DEPOSIT LYNKEY",
@@ -156,7 +157,13 @@
         "pay-amount": "Pay amount",
         "receive": "Receive",
         "country": "Country",
-        "phone-number": "New phone number"
+        "phone-number": "New phone number",
+        "keyword": "Keyword",
+        "from-date": "From date",
+        "to-date": "To date",
+        "nationality": "Nationality",
+        "id-type": "ID type",
+        "approve-by": "Approved by"
     },
     "buy-lyn": {
         "title": "BUY LYN"

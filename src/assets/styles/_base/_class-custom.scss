@@ -242,6 +242,9 @@ input[type="number"] {
 .mr-16 {
     margin-right: 16px;
 }
+.mr-40 {
+    margin-right: 40px;
+}
 .w-100 {
     width: 100% !important;
 }
@@ -309,4 +312,8 @@ input[type="number"] {
     @include status;
     color: #cf202f;
     background-color: #fbedee;
+}
+
+.h-40 {
+    height: 40px;
 }

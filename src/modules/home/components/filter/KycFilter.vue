@@ -6,10 +6,52 @@
       </span>
     </el-input>
     <div class="filter-item">
-      <div class="cursor text-filter" style="font-size: 16px">
+      <el-popover :value="isVisible" placement="bottom-start" width="518" trigger="click" popper-class="popper-filter" @show="isVisible = true">
+        <div class="content">
+          <el-form>
+            <div class="be-flex jc-space-between row">
+              <el-form-item class="be-flex-item mr-40" :label="$t('label.keyword')">
+                <el-input v-model="filter.keyword" clearable />
+              </el-form-item>
+              <el-form-item class="be-flex-item" :label="$t('label.from-date')">
+                <el-date-picker class="w-100" v-model="filter.fromDate" type="date"> </el-date-picker>
+              </el-form-item>
+            </div>
+            <div class="be-flex jc-space-between row">
+              <el-form-item class="be-flex-item mr-40" :label="$t('label.nationality')">
+                <el-select v-model="filter.nationality" placeholder="" class="w-100" clearable>
+                  <el-option v-for="(country, index) in listCountry" :key="index" :label="country.name" :value="country.isoCode" />
+                </el-select>
+              </el-form-item>
+              <el-form-item class="be-flex-item" :label="$t('label.to-date')">
+                <el-date-picker class="w-100" v-model="filter.toDate" type="date"> </el-date-picker>
+              </el-form-item>
+            </div>
+            <div class="be-flex jc-space-between row">
+              <el-form-item class="be-flex-item mr-40" :label="$t('label.id-type')">
+                <el-select v-model="filter.idType" placeholder="" class="w-100" clearable>
+                  <el-option v-for="(type, index) in idType" :key="index" :label="type.type" :value="type.type" />
+                </el-select>
+              </el-form-item>
+              <el-form-item class="be-flex-item" :label="$t('label.approve-by')">
+                <el-input v-model="filter.approveBy" clearable />
+              </el-form-item>
+            </div>
+          </el-form>
+        </div>
+        <div class="be-flex jc-flex-end footer">
+          <el-button class="btn-default btn-400 btn-h-40 btn-close text-regular" @click="handleReset">{{ $t('button.reset') }}</el-button>
+          <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border h-40 text-regular" @click="handleApply">{{ $t('button.apply') }}</el-button>
+        </div>
+        <div slot="reference" class="cursor text-filter" style="font-size: 16px">
+          <span class="abicon"> <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="18" /> </span>
+          {{ $t('kyc.filter.filter') }}
+        </div>
+      </el-popover>
+      <!-- <div class="cursor text-filter" style="font-size: 16px">
         <span class="abicon"> <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="18" /> </span>
         {{ $t('kyc.filter.filter') }}
-      </div>
+      </div> -->
     </div>
     <div>
       <el-dropdown class="sort" trigger="click" @command="handleSort">
@@ -35,12 +77,24 @@
   import { Component, Vue, Watch } from 'vue-property-decorator'
   import EventBus from '@/utils/eventBus'
   import { forEach, trim, debounce } from 'lodash'
-
+  import countryJson from '@/utils/country/index.json'
+  interface IListCountry {
+    name: string
+    dialCode: string
+    isoCode: string
+    flag: string
+  }
   @Component
   export default class KycFilter extends Vue {
     filter = {
       search: '',
-      orderBy: 'CREATED_AT'
+      orderBy: 'CREATED_AT',
+      keyword: '',
+      fromDate: '',
+      toDate: '',
+      nationality: '',
+      idType: '',
+      approveBy: ''
     }
     sorts: Array<Record<string, any>> = [
       {
@@ -57,6 +111,22 @@
       }
     ]
     sortActive = 'CREATED_AT'
+    listCountry: IListCountry[] = countryJson
+    idType: Array<Record<string, any>> = [
+      {
+        id: 0,
+        type: 'Id Card'
+      },
+      {
+        id: 1,
+        type: 'Passport'
+      },
+      {
+        id: 2,
+        type: 'Driver’s License'
+      }
+    ]
+    isVisible = false
 
     @Watch('filter.search') handleSearch(value: string): void {
       this.searchText(value)
@@ -85,14 +155,24 @@
       EventBus.$off('changeTab')
     }
 
+    resetFilter(): void {
+      this.filter = {
+        search: '',
+        orderBy: 'CREATED_AT',
+        keyword: '',
+        fromDate: '',
+        toDate: '',
+        nationality: '',
+        idType: '',
+        approveBy: ''
+      }
+    }
+
     handleChangeTab(): void {
       if (this.filter.search) {
-        this.filter = {
-          search: '',
-          orderBy: 'CREATED_AT'
-        }
+        this.resetFilter()
       } else {
-        this.$emit('filter', { ...this.filter, orderBy: 'CREATED_AT' })
+        this.$emit('filter', { ...this.filter, orderBy: 'CREATED_AT', keyword: '', fromDate: '', toDate: '', nationality: '', idType: '', approveBy: '' })
       }
     }
 
@@ -100,6 +180,25 @@
       this.sortActive = command
       this.filter.orderBy = command
       this.$emit('filter', this.filter)
+    }
+
+    handleApply(): void {
+      this.$emit('filter', this.filter)
+      this.isVisible = false
+    }
+
+    handleReset(): void {
+      this.filter = {
+        ...this.filter,
+        keyword: '',
+        fromDate: '',
+        toDate: '',
+        nationality: '',
+        idType: '',
+        approveBy: ''
+      }
+      this.$emit('filter', this.filter)
+      this.isVisible = false
     }
   }
 </script>

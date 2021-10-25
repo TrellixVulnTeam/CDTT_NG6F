@@ -110,3 +110,11 @@
         top: 6px;
     }
 }
+
+.el-input__clear {
+    color: #89909e !important;
+}
+.el-icon-circle-close:before {
+    content: "\e79d" !important;
+    color: #89909e;
+}
