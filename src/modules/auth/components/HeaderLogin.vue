@@ -1,6 +1,6 @@
 <template>
   <div class="header-login be-flex align-center jc-space-between">
-    <div class="header-login__left be-flex align-center">
+    <div class="header-login__left be-flex align-center cursor" @click="redirect">
       <base-icon icon="logo-login" size="32" />
       <span class="title">LYNKEY</span>
     </div>
@@ -40,6 +40,10 @@
   @Component
   export default class HeaderLogin extends Vue {
     email = 'support@linkkey.com'
+
+    redirect(): void {
+      this.$router.push({ name: 'login' })
+    }
   }
 </script>
 

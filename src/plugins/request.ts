@@ -14,9 +14,7 @@ const request = axios.create({
 })
 
 request.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded'
-request.defaults.headers.common['Authorization'] = Cookies.get('access_token')
-  ? 'Bearer ' + Cookies.get('access_token')
-  : 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZW1iZXJfaWQiOm51bGwsInVzZXJfbmFtZSI6InZ1bmdvY2hhMTExMDk4QGdtYWlsLmNvbSIsInNjb3BlIjpbInJlYWQiXSwicmZyX2lkIjozLCJyb2xlcyI6W3siaWQiOjIsInVzZXJJZCI6Mywib2JqZWN0VHlwZSI6bnVsbCwib2JqZWN0SWQiOm51bGwsInJvbGVJZCI6MSwicm9sZUNvZGUiOiJBRE1JTiIsInN0YXR1cyI6IkFDVElWRSIsImRpc3RyaWN0SWQiOm51bGwsImRpc3RyaWN0Tm8iOm51bGwsIm1hbnVhbEFkZGVkIjoxLCJjcmVhdGVkQnkiOm51bGwsInVwZGF0ZWRCeSI6bnVsbCwiY3JlYXRlZEF0IjpudWxsLCJ1cGRhdGVkQXQiOm51bGx9XSwiZXhwIjoxNjM1MTgwNzQ2LCJhdXRob3JpdGllcyI6WyJST0xFX251bGwiXSwianRpIjoiMzI4NGJhNDMtNWNiOS00OTRmLTk0YzYtZWVmOWNjM2ZkOWUxIiwiZW1haWwiOiJ2dW5nb2NoYTExMTA5OEBnbWFpbC5jb20iLCJjbGllbnRfaWQiOiJiZWVkdUNsaWVudCIsInVzZXJuYW1lIjoidnVuZ29jaGExMTEwOThAZ21haWwuY29tIn0.KjDtjrxqQPNmwRb6ArAE6Ax0ifGih4p7xrxDDHzSHPA'
+request.defaults.headers.common['Authorization'] = Cookies.get('access_token') ? 'Bearer ' + Cookies.get('access_token') : ''
 
 request.interceptors.request.use(request => {
   return request

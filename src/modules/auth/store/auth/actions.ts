@@ -28,13 +28,13 @@ const actions: ActionTree<IAuth, unknown> = {
         refreshToken: state.refresh_token
       }
       const result = await authRes.refreshToken(data)
-      if (!result.access_token || trim(result.access_token) === '') {
+      if (!result.accessToken || trim(result.accessToken) === '') {
         return Promise.reject({
           err: 401,
           msg: 'err'
         })
       }
-      commit('SET_USER_INFO', result)
+      commit('SET_TOKEN', result)
       request.defaults.headers.common['Authorization'] = `Bearer ${result.accessToken}`
       Cookies.set('access_token', result.accessToken)
       Cookies.set('refresh_token', result.refreshToken)
@@ -43,10 +43,23 @@ const actions: ActionTree<IAuth, unknown> = {
       return Promise.reject(error)
     }
   },
-  logout({ commit }) {
-    commit('LOG_OUT')
-    Cookies.remove('access_token')
-    Cookies.remove('refresh_token')
+  async logout({ commit }) {
+    try {
+      await authRes.logout()
+      commit('LOG_OUT')
+      Cookies.remove('access_token')
+      Cookies.remove('refresh_token')
+      request.defaults.headers.common['Authorization'] = ''
+
+      return Promise.resolve()
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  },
+  getInfo({ commit }) {
+    authRes.getInfo().then(res => {
+      commit('SET_INFO', res)
+    })
   }
 }
 

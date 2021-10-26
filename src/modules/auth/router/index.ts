@@ -50,6 +50,14 @@ const authRouters: RouteConfig[] = [
     }
   },
   {
+    path: '/signup/referrerCode/:code',
+    component: () => import('../views/SignUpPage.vue'),
+    name: 'sign-up-ref',
+    meta: {
+      isNotLogin: true
+    }
+  },
+  {
     path: '/forgot',
     component: () => import('../views/ForgotPassword.vue'),
     name: 'forgot-password',

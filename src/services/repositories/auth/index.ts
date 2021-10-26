@@ -7,7 +7,7 @@ export class AuthRepository extends BaseRepository {
     super('api/v1/user')
   }
 
-  async register(data: { email: string; password: string }, captcha: string): Promise<any> {
+  async register(data: Record<string, any>, captcha: string): Promise<any> {
     try {
       const rs = await request.post(`${this.prefix}/register`, data, {
         headers: {
@@ -30,6 +30,14 @@ export class AuthRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+  async logout(): Promise<any> {
+    try {
+      const result = await request.post(`${this.prefix}/logout`)
+      return Promise.resolve(result)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
 
   async get2FA(data: Record<string, any>, captcha: string): Promise<any> {
     try {
@@ -46,6 +54,7 @@ export class AuthRepository extends BaseRepository {
   }
   async validateUser(data: Record<string, any>, captcha: string): Promise<any> {
     try {
+      delete request.defaults.headers.common['Authorization']
       const rs = await request.post(`${this.prefix}/validate`, data, {
         headers: {
           'captcha-response': captcha
@@ -69,7 +78,17 @@ export class AuthRepository extends BaseRepository {
   async verifyCode(type: string | (string | null)[], data: IBodyApiVerify, userId = 0): Promise<any> {
     try {
       const rs = await request.post(`${this.prefix}/${userId}/verify/${type}`, data)
-      Promise.resolve(rs.data)
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      console.log(error)
+      return Promise.reject(error)
+    }
+  }
+
+  async verifyPhone(data: IBodyApiVerify): Promise<any> {
+    try {
+      const rs = await request.post(`${this.prefix}/phone/verify`, data)
+      return Promise.resolve(rs.data.data)
     } catch (error) {
       console.log(error)
       return Promise.reject(error)
@@ -90,6 +109,8 @@ export class AuthRepository extends BaseRepository {
       const result = await request.post(`${this.prefix}/${userId}/reset-pass`, data)
       return Promise.resolve(result.data.data)
     } catch (error) {
+      console.log(error)
+
       return Promise.reject(error)
     }
   }
@@ -104,7 +125,19 @@ export class AuthRepository extends BaseRepository {
   }
   async refreshToken(data: { email: string; refreshToken: string }): Promise<any> {
     try {
-      const result = await request.post(`${this.prefix}/refresh-token`, data)
+      const result = await request.post(`${this.prefix}/refresh-token`, data, {
+        headers: {
+          Authorization: ''
+        }
+      })
+      return Promise.resolve(result.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+  async getInfo(): Promise<any> {
+    try {
+      const result = await request.get(`${this.prefix}/info`)
       return Promise.resolve(result.data.data)
     } catch (error) {
       return Promise.reject(error)

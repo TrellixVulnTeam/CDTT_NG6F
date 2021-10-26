@@ -129,9 +129,9 @@
             message = this.$t('notify.send-code')
             this.$message.success({ message, duration: 5000 })
           } catch (error) {
-            let message: any = ''
-            message = this.$t('notify.send-code-fail')
-            this.$message.error({ message, duration: 5000 })
+            // let message: any = ''
+            // message = this.$t('notify.send-code-fail')
+            // this.$message.error({ message, duration: 5000 })
             this.isLoading = false
           }
         }

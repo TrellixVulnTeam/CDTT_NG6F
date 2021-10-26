@@ -10,7 +10,7 @@
         <el-form-item prop="password" class="input-password">
           <el-input class="input-password" :type="showPass == true ? 'text' : 'password'" :placeholder="$t('login.placeholder.password')" v-model="form.password" />
           <span class="icon-show-password" @click="showPass = !showPass">
-            <base-icon :icon="showPass == true ? 'icon-eye-off' : 'icon-eye'" size="24" />
+            <base-icon :icon="showPass == true ? 'icon-eye-off' : 'icon-eye'" size="22" />
           </span>
         </el-form-item>
         <div class="be-flex jc-space-between w-100 mt-2">
@@ -20,7 +20,7 @@
           <span @click="handleForgotPass" class="text-base text-hyperlink cursor">{{ $t('login.forgot') }}</span>
         </div>
         <div class="captcha be-flex jc-space-center mt-2">
-          <vue-recaptcha :loadRecaptchaScript="true" :language="language" :sitekey="siteKey" @verify="verifyCaptcha" @expired="expiredCaptcha"></vue-recaptcha>
+          <vue-recaptcha ref="recaptcha" :loadRecaptchaScript="true" :language="language" :sitekey="siteKey" @verify="verifyCaptcha" @expired="expiredCaptcha"></vue-recaptcha>
         </div>
         <el-button :loading="isLoading" :class="getDisableBtn ? 'btn--disabled' : null" class="btn w-100 is-none-border cursor" @click="handleLogin"
           >{{ $t('login.title-form') }}
@@ -123,6 +123,11 @@
       //@ts-ignore
       this.$refs['verify']?.clearValidate()
     }
+
+    /**
+     * * Luồng login: validate => verify => home
+     */
+
     handleLogin(): void {
       if (this.getDisableBtn) {
         return
@@ -140,33 +145,57 @@
 
             const res = await apiAuth.validateUser({ ...this.form, password: encodePass }, this.captcha)
             const type = res
-            const nameRoute = type === 'EMAIL' ? 'verify-email' : type === 'SMS' ? 'verify-phone' : 'verify-app'
-            // message = this.$t('notify.login-success')
-            // this.$message.success(message)
-            //send code
-            if (type === 'EMAIL' || type === 'SMS') {
+            const nameRoute = type.type === 'EMAIL' ? 'verify-email' : type.type === 'SMS' ? 'verify-phone' : 'verify-app'
+
+            if (!res.emailVerified && !res.phoneVerified) {
               try {
-                await apiAuth.resendCode({ email: this.form.email })
-                this.$router.push({ name: nameRoute, query: { type, email: this.form.email, pass: encodePass, reason: 'REQUEST_LOGIN' } })
+                // await apiAuth.resendCode({ email: this.form.email })
+                this.$router.push({ name: 'verify-email', query: { type: 'EMAIL', email: this.form.email, reason: 'SIGN_UP' } })
                 message = this.$t('notify.send-code')
                 this.$message.success({ message, duration: 5000 })
               } catch (error) {
                 message = this.$t('notify.send-code-fail')
                 this.$message.error({ message, duration: 5000 })
               }
-            } else if (type === 'APP') {
-              this.$router.push({ name: nameRoute, query: { type, email: this.form.email, pass: encodePass, reason: 'REQUEST_LOGIN' } })
-            } else {
+            }
+
+            if (res.emailVerified && !res.phoneVerified) {
+              this.$router.push({ name: 'verify-phone-number', query: { email: this.form.email } })
+            }
+
+            //send code
+            if (res.emailVerified && res.phoneVerified && (type.type === 'EMAIL' || type.type === 'SMS')) {
+              try {
+                // await apiAuth.resendCode({ email: this.form.email })
+                this.$router.push({ name: nameRoute, query: { type: type.type, email: this.form.email, pass: encodePass, reason: 'REQUEST_LOGIN' } })
+                message = this.$t('notify.send-code')
+                this.$message.success({ message, duration: 5000 })
+              } catch (error) {
+                message = this.$t('notify.send-code-fail')
+                this.$message.error({ message, duration: 5000 })
+              }
+            }
+            if (res.emailVerified && res.phoneVerified && type.type === 'APP') {
+              this.$router.push({ name: nameRoute, query: { type: type.type, email: this.form.email, pass: encodePass, reason: 'REQUEST_LOGIN' } })
+            }
+
+            if (type.type === 'NONE') {
               this.login({ ...this.form, password: encodePass }).then(() => {
-                this.$router.push({ name: 'Wallet' })
+                this.$router.push({ name: 'KycPending' })
                 message = this.$t('notify.login-success')
                 this.$message.success({ message, duration: 5000 })
               })
             }
+
             this.isLoading = false
-          } catch (error) {
+          } catch (error: any) {
             this.isLoading = false
-            console.log(error)
+            const { data } = error.response
+            if (data.status === 'INVALID_CAPTCHA') {
+              //@ts-ignore
+              this.$refs['recaptcha'].reset()
+              this.isVerifyCaptcha = false
+            }
           }
         }
       })
@@ -209,7 +238,7 @@
         cursor: pointer;
         position: absolute;
         top: 3px;
-        right: 10px;
+        right: 14px;
         .span-icon {
           color: var(--bc-color-grey90);
         }

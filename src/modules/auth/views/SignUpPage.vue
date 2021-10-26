@@ -13,6 +13,7 @@
               <el-input :placeholder="$t('signup.first-name')" v-model="form.firstName" />
             </el-form-item>
           </el-col>
+          <!-- <button class="btn-default mr-15 text-regular" @click="testSendTransaction">Send ETH</button> -->
           <el-col class="be-flex-item">
             <div class="label-box">
               <label for="">{{ $t('signup.last-name') }} <span class="required">*</span></label>
@@ -72,8 +73,17 @@
             />
           </el-popover>
           <span class="icon-show-password" @click="showPass = !showPass">
-            <base-icon :icon="showPass == true ? 'icon-eye-off' : 'icon-eye'" size="24" />
+            <base-icon :icon="showPass == true ? 'icon-eye-off' : 'icon-eye'" size="22" />
           </span>
+          <small v-if="form.checkPassWord" class="error"> {{ $t('signup.checkpass') }}</small>
+          <!-- <small class="error"> {{ form }} aaaa</small> -->
+          <!-- <a> {{ form.checkPassword }} </a> -->
+        </el-form-item>
+        <div class="label-box">
+          <label for="">{{ $t('signup.ref') }}</label>
+        </div>
+        <el-form-item>
+          <el-input :placeholder="$t('signup.ref')" v-model="form.referrerCode" />
         </el-form-item>
         <div class="be-flex jc-space-between w-100 mt-2">
           <el-checkbox v-model="form.confirm"></el-checkbox>
@@ -83,7 +93,7 @@
           >
         </div>
         <div class="captcha be-flex jc-space-center mt-2">
-          <vue-recaptcha :loadRecaptchaScript="true" :language="language" :sitekey="siteKey" @verify="verifyCaptcha" @expired="expiredCaptcha"></vue-recaptcha>
+          <vue-recaptcha ref="recaptcha" :loadRecaptchaScript="true" :language="language" :sitekey="siteKey" @verify="verifyCaptcha" @expired="expiredCaptcha"></vue-recaptcha>
         </div>
         <el-button :loading="isLoading" :class="getDisableBtn ? 'btn--disabled' : null" class="btn w-100 is-none-border cursor" @click="handleSignUp"
           >{{ $t('signup.title-form') }}
@@ -93,9 +103,10 @@
           {{ $t('signup.have-account') }} &nbsp;<span @click="handleLoginForm" class="text-hyperlink text-semibold cursor">{{ $t('signup.sign-in') }} </span>
         </div>
       </el-form>
+
       <!-- <verify-page v-else class="form-item" /> -->
     </div>
-    <language :isReload="true" />
+    <language :isReload="true" style="background: #f6f8fc" />
   </div>
 </template>
 
@@ -103,7 +114,7 @@
   import VueRecaptcha from 'vue-recaptcha'
   import HeaderLogin from '../components/HeaderLogin.vue'
   import Language from '../components/Language.vue'
-
+  import { trim } from 'lodash'
   import VerifyPage from './Verify.vue'
   import getRepository from '@/services'
   import { AuthRepository } from '@/services/repositories/auth'
@@ -115,6 +126,8 @@
     lastName: string
     firstName: string
     confirm: boolean
+    referrerCode: string
+    checkPassWord: boolean
   }
 
   const apiAuth: AuthRepository = getRepository('auth')
@@ -129,7 +142,9 @@
       password: '',
       firstName: '',
       lastName: '',
-      confirm: false
+      confirm: false,
+      referrerCode: '',
+      checkPassWord: false
     }
     isLoading = false
     visible = false
@@ -193,14 +208,14 @@
           trigger: 'blur'
         },
         { type: 'email', message: this.$t('login.wrong-email-type'), trigger: 'blur' }
-      ],
-      password: [
-        {
-          required: true,
-          message: this.$t('login.wrong-password'),
-          trigger: 'blur'
-        }
       ]
+      // password: [
+      //   {
+      //     required: true,
+      //     message: this.$t('login.wrong-password'),
+      //     trigger: 'blur'
+      //   }
+      // ]
     }
 
     @Watch('form.password') watchPassword(pass: string): void {
@@ -209,11 +224,26 @@
       // console.log('regLow', this.regLow.test(pass))
       // console.log('regUp', this.regUp.test(pass))
       // console.log('regSpecial', this.regSpecial.test(pass))
+
       this.validate.length = pass.length >= 8
       this.validate.number = this.regNumber.test(pass)
       this.validate.uppercase = this.regUp.test(pass)
       this.validate.lowercase = this.regLow.test(pass)
       this.validate.specialCharacter = this.regSpecial.test(pass)
+
+      if (
+        this.validate.length == false ||
+        this.validate.number == false ||
+        this.validate.uppercase == false ||
+        this.validate.lowercase == false ||
+        this.validate.specialCharacter == false
+      ) {
+        console.log('1')
+        this.form.checkPassWord = true
+      } else {
+        this.form.checkPassWord = false
+      }
+      console.log('check', this.form.checkPassWord)
     }
 
     get getDisableBtn(): boolean {
@@ -250,6 +280,15 @@
     handleLoginForm(): void {
       this.$router.push({ name: 'login' })
     }
+    mounted(): void {
+      console.log('route', this.$route)
+      if (this.$route.name == 'sign-up-ref') {
+        console.log('â', this.$route.path.split('/')[3])
+        const refCode = this.$route.path.split('/')[3]
+        this.form.referrerCode = refCode
+      }
+      // let path = this.$route.fullPath.substr(this.$route.fullPath.length - 5)
+    }
     handleSignUp(): void {
       if (this.getDisableBtn) {
         return
@@ -262,15 +301,23 @@
           const encodePass = this.$options.filters?.encryptPassword(this.form.password)
 
           apiAuth
-            .register({ ...this.form, password: encodePass }, this.captcha)
+            .register({ ...this.form, password: encodePass, firstName: trim(this.form.firstName), lastName: trim(this.form.lastName) }, this.captcha)
             .then(res => {
-              this.$router.push({ name: 'verify-email', query: { type: 'CODE', email: this.form.email, pass: encodePass, reason: 'SIGN_UP' } })
+              this.$router.push({ name: 'verify-email', query: { type: 'EMAIL', email: this.form.email, pass: encodePass, reason: 'SIGN_UP' } })
               this.isLoading = false
               message = this.$t('notify.register-success')
               this.$message.success({ message, duration: 5000 })
             })
-            .catch(() => {
+            .catch(error => {
               this.isLoading = false
+              const { data } = error.response
+              console.log(data)
+
+              if (data.status === 'INVALID_CAPTCHA') {
+                //@ts-ignore
+                this.$refs['recaptcha'].reset()
+                this.isVerifyCaptcha = false
+              }
             })
         }
       })
@@ -285,6 +332,17 @@
     @media screen and (max-height: 700px) {
       padding-bottom: 20px;
       height: auto;
+    }
+    .error {
+      color: var(--bc-status-error);
+
+      font-size: 12px;
+      line-height: 1;
+      padding-top: 4px;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      margin-bottom: 3px;
     }
     .textButton {
       font-size: 16px;
@@ -335,7 +393,7 @@
     cursor: pointer;
     position: absolute;
     top: 3px;
-    right: 10px;
+    right: 14px;
     .span-icon {
       color: var(--bc-color-grey90);
     }

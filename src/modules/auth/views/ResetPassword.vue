@@ -49,7 +49,7 @@
           </el-popover>
           <!-- <el-input :placeholder="$t('placeholder.password')" type="password" v-model="form.password" /> -->
           <span class="icon-show-password" @click="showPass = !showPass">
-            <base-icon :icon="showPass == true ? 'icon-eye-off' : 'icon-eye'" size="24" />
+            <base-icon :icon="showPass == true ? 'icon-eye-off' : 'icon-eye'" size="22" />
           </span>
         </el-form-item>
         <div class="label-box">
@@ -99,7 +99,7 @@
           </el-popover>
           <!-- <el-input class="input-password" type="password" :placeholder="$t('placeholder.repassword')" v-model="form.repassword" /> -->
           <span class="icon-show-password2" @click="showPass2 = !showPass2">
-            <base-icon :icon="showPass2 == true ? 'icon-eye-off' : 'icon-eye'" size="24" />
+            <base-icon :icon="showPass2 == true ? 'icon-eye-off' : 'icon-eye'" size="22" />
           </span>
           <span class="small-err" v-if="!isMatchPassword">{{ $t('validate.password-correct') }}</span>
         </el-form-item>
@@ -123,7 +123,7 @@
   import { AuthRepository } from '@/services/repositories/auth'
 
   import { Component, Vue, Watch } from 'vue-property-decorator'
-  import { trim } from 'lodash'
+  import { trim, includes } from 'lodash'
   const apiAuth: AuthRepository = getRepository('auth')
 
   interface FormLogin {
@@ -197,7 +197,7 @@
     }
 
     @Watch('form.password') watchPassword(pass: string): void {
-      // this.isMatchPassword = !(this.form.password === this.form.repassword && this.form.repassword)
+      this.isMatchPassword = !(this.form.password === this.form.repassword && this.form.repassword)
       this.validate.length = pass.length >= 8
       this.validate.number = this.regNumber.test(pass)
       this.validate.uppercase = this.regUp.test(pass)
@@ -208,7 +208,6 @@
       //@ts-ignore
       this.$refs['form-login']?.fields.find(f => f.prop == 'repassword').clearValidate()
       this.isMatchPassword = !(this.form.password !== this.form.repassword)
-
       this.validateRepassword.length = pass.length >= 8
       this.validateRepassword.number = this.regNumber.test(pass)
       this.validateRepassword.uppercase = this.regUp.test(pass)
@@ -219,7 +218,6 @@
     get getDisableBtn(): boolean {
       const isValidatePass = Object.values(this.validate).every(item => item)
       const isValidateRePass = Object.values(this.validateRepassword).every(item => item)
-
       return !(this.form.password && trim(this.form.password) === this.form.repassword && trim(this.form.repassword) && isValidatePass && isValidateRePass)
     }
 
@@ -247,6 +245,7 @@
         if (valid) {
           let message: any = ''
           this.isLoading = true
+          const reason = this.$route.query.reason
           const data = {
             email: this.$route.query.email,
             verificationCode: this.$route.query.code,
@@ -261,8 +260,32 @@
               this.$router.push({ name: 'Wallet' })
               this.isLoading = false
             })
-            .catch(() => {
+            .catch((error: any) => {
               this.isLoading = false
+              let message: any = ''
+              const { config, data } = error.response
+              //TH1: forgot => verify => reset
+              if (data.status === 'EXPIRED_VERIFICATION' && reason === 'FORGET_PASSWORD' && includes(config.url, 'reset-pass')) {
+                message = this.$t('notify.reset-pass-expired')
+                this.$message.error({ message, duration: 5000 })
+                this.$router.push({ name: 'forgot-password' })
+              }
+
+              //TH2: click vào link
+              if (data.status === 'EXPIRED_VERIFICATION' && reason === 'UNLOCK_USER' && includes(config.url, 'reset-pass')) {
+                message = this.$t('notify.reset-pass-expired-click-url')
+                this.$message.error({ message, duration: 5000 })
+                // this.$router.push({ name: 'forgot-password' })
+              }
+              if (data.status === 'INVALID_VERIFICATION' && reason === 'FORGET_PASSWORD' && includes(config.url, 'reset-pass')) {
+                message = this.$t('notify.reset-pass-invalid')
+                this.$message.error({ message, duration: 5000 })
+                this.$router.push({ name: 'forgot-password' })
+              }
+              if (data.status === 'INVALID_VERIFICATION' && reason === 'UNLOCK_USER' && includes(config.url, 'reset-pass')) {
+                message = this.$t('notify.reset-pass-invalid-click-url')
+                this.$message.error({ message, duration: 5000 })
+              }
             })
         }
       })
@@ -301,7 +324,7 @@
         cursor: pointer;
         position: absolute;
         top: 3px;
-        right: 10px;
+        right: 14px;
         .span-icon {
           color: var(--bc-color-grey90);
         }
@@ -322,7 +345,7 @@
       cursor: pointer;
       position: absolute;
       top: 3px;
-      right: 10px;
+      right: 14px;
       .span-icon {
         color: var(--bc-color-grey90);
       }
