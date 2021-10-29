@@ -28,15 +28,19 @@ const router = new VueRouter({
 
 router.beforeEach(async (to, from, next) => {
   if (to.meta?.isNotLogin) {
+    if (Cookies.get('access_token')) {
+      location.href = '/'
+      return
+    }
     next()
     return
   }
-  // if (!store.getters['beAuth/isLogin']) {
-  //   router.push({ name: 'login' })
-  //   Cookies.remove('access_token')
-  //   Cookies.remove('refresh_token')
-  //   location.href = '/login'
-  // }
+  if (!store.getters['beAuth/isLogin']) {
+    router.push({ name: 'login' })
+    Cookies.remove('access_token')
+    Cookies.remove('refresh_token')
+    location.href = '/login'
+  }
   next()
 })
 
