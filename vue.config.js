@@ -82,7 +82,7 @@ module.exports = {
       .tap(options => Object.assign(options, { limit: 10240 }))
 
     config.plugin('html').tap(args => {
-      args[0].title = 'Backoffice'
+      args[0].title = 'BackOffice'
 
       return args
     })
