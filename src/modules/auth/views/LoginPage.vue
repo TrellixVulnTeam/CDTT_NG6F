@@ -180,6 +180,8 @@
             }
 
             if (type.type === 'NONE') {
+              console.log('a')
+
               this.login({ ...this.form, password: encodePass }).then(() => {
                 this.$router.push({ name: 'KycPending' })
                 message = this.$t('notify.login-success')
