@@ -8,7 +8,7 @@ const mutations: MutationTree<IAuth> = {
     state.refresh_token = data.refreshToken
   },
   LOG_OUT: state => {
-    state.user = {} 
+    state.user = {}
     state.access_token = ''
     state.refresh_token = ''
   },

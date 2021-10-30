@@ -49,7 +49,7 @@
   const bcAuth = namespace('beAuth')
   @Component
   export default class MainHeader extends Vue {
-    @bcAuth.Action('logout') logout!: () => void
+    @bcAuth.Action('logout') logout!: () => Promise<any>
 
     image = './avatar.png'
 
@@ -65,8 +65,9 @@
 
     handleCommand(command: string): void {
       if (command === 'logout') {
-        this.logout()
-        this.$router.push({ name: 'login' })
+        this.logout().then(() => {
+          this.$router.push({ name: 'login' })
+        })
       }
     }
   }
