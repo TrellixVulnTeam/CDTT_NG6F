@@ -6,7 +6,7 @@ export class ParamsRepository extends BaseRepository {
     super('api/v1/district-params')
   }
 
-  async getTypeReject(params: Record<string, any>): Promise<any> {
+  async getTypeReject(params?: Record<string, any>): Promise<any> {
     try {
       const rs = await request.get(`${this.prefix}`, { params })
       return Promise.resolve(rs.data.data)

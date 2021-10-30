@@ -157,6 +157,9 @@
         "title": "Đăng xuất"
     },
     "kyc": {
+        "reason-reject": "Lý do từ chối",
+        "title": "Chi tiết KYC",
+        "other-reason": "Lý do khác: ",
         "table": {
             "fullName": "họ tên",
             "email": "email",

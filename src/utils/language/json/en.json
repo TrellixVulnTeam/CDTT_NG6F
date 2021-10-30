@@ -200,6 +200,9 @@
         "title": "Sign out"
     },
     "kyc": {
+        "reason-reject": "Reject Reason",
+        "title": "KYC detail",
+        "other-reason": "Other reason: ",
         "table": {
             "fullName": "full name",
             "email": "email",
