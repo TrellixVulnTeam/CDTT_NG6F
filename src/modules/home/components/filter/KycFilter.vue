@@ -9,22 +9,17 @@
       <el-popover :value="isVisible" placement="bottom-start" width="518" trigger="click" popper-class="popper-filter" @show="isVisible = true">
         <div class="content">
           <el-form>
-            <div class="row">
+            <div class="be-flex jc-space-between row">
               <!-- <el-form-item class="be-flex-item mr-40" :label="$t('label.keyword')">
                 <el-input :placeholder="$t('label.placehoderkeyword')" v-model="filter.keyword" clearable />
               </el-form-item> -->
-              <el-form-item class="be-flex-item" :label="$t('label.from-date')">
-                <el-date-picker class="w-100" format="dd/MM/yyyy" value-format="yyyy-MM-dd" v-model="filter.fromCreatedAt" type="date"> </el-date-picker>
-              </el-form-item>
-            </div>
-            <div class="be-flex jc-space-between row">
               <el-form-item class="be-flex-item mr-40" :label="$t('label.nationality')">
                 <el-select v-model="filter.nationality" :placeholder="$t('label.placehoderNationality')" class="w-100" clearable>
                   <el-option v-for="(country, index) in listCountry" :key="index" :label="country.name" :value="country.isoCode" />
                 </el-select>
               </el-form-item>
-              <el-form-item class="be-flex-item" :label="$t('label.to-date')">
-                <el-date-picker class="w-100" format="dd/MM/yyyy" value-format="yyyy-MM-dd" v-model="filter.toCreatedAt" type="date"> </el-date-picker>
+              <el-form-item class="be-flex-item" :label="$t('label.from-date')">
+                <el-date-picker class="w-100" format="dd/MM/yyyy" value-format="yyyy-MM-dd" v-model="filter.fromCreatedAt" type="date"> </el-date-picker>
               </el-form-item>
             </div>
             <div class="be-flex jc-space-between row">
@@ -33,6 +28,11 @@
                   <el-option v-for="(type, index) in identificationType" :key="index" :label="type.type" :value="type.type" />
                 </el-select>
               </el-form-item>
+              <el-form-item class="be-flex-item" :label="$t('label.to-date')">
+                <el-date-picker class="w-100" format="dd/MM/yyyy" value-format="yyyy-MM-dd" v-model="filter.toCreatedAt" type="date"> </el-date-picker>
+              </el-form-item>
+            </div>
+            <div class="be-flex jc-space-between row">
               <el-form-item class="be-flex-item" :label="$t('label.approve-by')">
                 <el-input :placeholder="$t('label.placehoderApprove')" v-model="filter.approveBy" clearable />
               </el-form-item>

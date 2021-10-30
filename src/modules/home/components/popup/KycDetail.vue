@@ -3,6 +3,16 @@
     <div class="title-popup" slot="title">
       <span>{{ $t('kyc.popup.title') }}</span>
     </div>
+    <div class="reason-reject mb-24" v-if="$route.name === 'KycRejected'">
+      <h3 class="text-xl text-bold mb-16">{{ $t('kyc.reason-reject') }}</h3>
+      <ul class="list-reason">
+        <li class="text-base item" v-for="item in listReasonReject" :key="item.id">
+          {{ $t(`params.` + item.key) }}
+        </li>
+        <li v-if="detail.kycRejectReasons" class="text-base item">{{ $t('kyc.other-reason') }} {{ detail.kycRejectReasons }}</li>
+      </ul>
+    </div>
+    <h3 class="text-xl text-bold mb-16">{{ $t('kyc.title') }}</h3>
     <div class="be-flex content" v-loading="isLoading">
       <div class="mr-24 detail-left">
         <div class="detail-item detail-item--above">
@@ -66,6 +76,11 @@
   import getRepository from '@/services'
   import { KycRepository } from '@/services/repositories/kyc'
   const apiKyc: KycRepository = getRepository('kyc')
+
+  import { namespace } from 'vuex-class'
+  import { filter } from 'lodash'
+  const bcKyc = namespace('bcKyc')
+
   interface IDetail {
     rfrId: number
     firstName: string | null
@@ -82,12 +97,16 @@
     idPhoto2: string
     selfiePhoto: string
     pinEnabled: string | null
+    kycRejectReasonIds: string
   }
   @Component({ components: { PopupReject } })
   export default class KycDetail extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Object, default: {} }) detailRow!: Record<string, any>
+    @bcKyc.State('listReason') listReason!: Array<Record<string, any>>
+
     detail = {} as IDetail
     isLoading = false
+    listReasonReject: Array<Record<string, any>> = []
 
     get listImage(): string[] {
       return [this.detail.idPhoto1, this.detail.idPhoto2, this.detail.selfiePhoto]
@@ -96,10 +115,20 @@
       return this.$route.name === 'KycPending'
     }
 
+    handleGetListRejectOfUser(): void {
+      const arrReasonIds = this.detail.kycRejectReasonIds.split(',')
+      this.listReasonReject = arrReasonIds.reduce((prev: any, cur) => {
+        const value = filter(this.listReason, elm => elm.id == cur)[0]
+        prev.push(value)
+        return prev
+      }, [])
+    }
+
     async handleOpen(): Promise<void> {
       try {
         this.isLoading = true
         this.detail = await apiKyc.getDetailKyc(this.detailRow.userId)
+        this.handleGetListRejectOfUser()
         this.isLoading = false
       } catch (error) {
         this.isLoading = false
@@ -215,6 +244,39 @@
     }
     ::v-deep .popup-content {
       background-color: #f6f8fc;
+      .el-image__inner {
+        object-fit: contain;
+      }
+    }
+  }
+  .reason-reject {
+    padding-bottom: 40px;
+    border-bottom: 1px solid #d2d0ce;
+    .list-reason {
+      padding: 16px;
+      background-color: #fbedee;
+      border: 1px solid #cf202f;
+      border-radius: 4px;
+      .item:not(:last-child) {
+        margin-bottom: 4px;
+      }
+      .item {
+        position: relative;
+        position: relative;
+        padding-left: 16px;
+        margin-left: 10px;
+        &::before {
+          content: '';
+          position: absolute;
+          width: 4px;
+          height: 4px;
+          background-color: #000;
+          border-radius: 50%;
+          left: 0;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+      }
     }
   }
 </style>

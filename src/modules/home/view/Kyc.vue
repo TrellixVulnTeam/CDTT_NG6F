@@ -27,6 +27,8 @@
   import EventBus from '@/utils/eventBus'
   import { debounce } from 'lodash'
 
+  import { namespace } from 'vuex-class'
+  const bcKyc = namespace('bcKyc')
   const apiKyc: KycRepository = getRepository('kyc')
 
   interface IQuery {
@@ -41,6 +43,7 @@
 
   @Component({ components: { KycTable, KycFilter, KycDetail } })
   export default class BOKyc extends Mixins(PopupMixin) {
+    @bcKyc.Action('getListReason') getListReason!: () => void
     tabs: Array<Record<string, any>> = [
       {
         id: 1,
@@ -82,6 +85,7 @@
     }
 
     created(): void {
+      this.getListReason()
       const name = this.$route.name
       this.query.kycStatus = name === 'KycPending' ? 'PENDING' : name === 'KycVerified' ? 'VERIFIED' : 'REJECTED'
     }

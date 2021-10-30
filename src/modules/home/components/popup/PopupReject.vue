@@ -1,5 +1,5 @@
 <template>
-  <base-popup name="popup-reject" class="popup-reject" width="480px" :close="handleClose" :open="handleOpen">
+  <base-popup name="popup-reject" class="popup-reject" width="480px" :close="handleClose">
     <div class="title-popup" slot="title">
       <span>{{ $t('kyc.popup.title-reject') }}</span>
     </div>
@@ -32,27 +32,14 @@
 <script lang="ts">
   import { Component, Mixins } from 'vue-property-decorator'
   import PopupMixin from '@/mixins/popup'
-  import getRepository from '@/services'
-  import { ParamsRepository } from '@/services/repositories/params'
-  const apiParams: ParamsRepository = getRepository('params')
+  import { namespace } from 'vuex-class'
+  const bcKyc = namespace('bcKyc')
   @Component
   export default class PopupReject extends Mixins(PopupMixin) {
+    @bcKyc.State('listReason') listReason!: Array<Record<string, any>>
     checkList = []
-    listReason: Array<Record<string, any>> = []
     reason = ''
     isLoading = false
-
-    async handleOpen(): Promise<void> {
-      try {
-        this.isLoading = true
-        const result = await apiParams.getTypeReject({ type: 'KYC_REJECT_REASON' })
-        this.listReason = result.content || []
-        this.isLoading = false
-      } catch (error) {
-        console.log(error)
-        this.isLoading = false
-      }
-    }
 
     handleReject(): void {
       const data = {
