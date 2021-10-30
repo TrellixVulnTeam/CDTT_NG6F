@@ -1,5 +1,5 @@
 <template>
-  <base-popup name="popup-kyc-detail" class="popup-kyc-detail" width="960px" :open="handleOpen">
+  <base-popup name="popup-kyc-detail" class="popup-kyc-detail" width="960px" :isShowFooter="getShowFooter" :open="handleOpen">
     <div class="title-popup" slot="title">
       <span>{{ $t('kyc.popup.title') }}</span>
     </div>
@@ -91,6 +91,9 @@
 
     get listImage(): string[] {
       return [this.detail.idPhoto1, this.detail.idPhoto2, this.detail.selfiePhoto]
+    }
+    get getShowFooter(): boolean {
+      return this.$route.name === 'KycPending'
     }
 
     async handleOpen(): Promise<void> {
