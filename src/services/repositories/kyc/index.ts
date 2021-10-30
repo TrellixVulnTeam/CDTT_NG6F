@@ -8,6 +8,7 @@ export class KycRepository extends BaseRepository {
 
   async getListKyc(params: Record<string, any>): Promise<any> {
     try {
+      
       const rs = await request.get(`${this.prefix}/kyc-requests`, { params })
       return Promise.resolve(rs.data.data)
     } catch (error) {

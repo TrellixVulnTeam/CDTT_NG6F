@@ -4,7 +4,7 @@
       <div class="be-flex align-center jc-space-between wallet-header__above">
         <div class="wallet-header__above-tabs be-flex">
           <div class="tab-item cursor" v-for="tab in tabs" :key="tab.id" :class="$route.name === tab.routeName ? 'tab-active' : null" @click="handleChangeTab(tab)">
-            <span class="text-base">{{ tab.title }}</span>
+            <span class="text-base">{{ $t(`menu.${tab.title}`) }}</span>
           </div>
         </div>
       </div>
@@ -58,6 +58,7 @@
         routeName: 'KycRejected'
       }
     ]
+    titlePending = ''
     tabActive = 'Pending'
     isLoading = false
 
@@ -141,7 +142,6 @@
       }
       this.debounceInit()
     }
-
     debounceInit = debounce(() => {
       this.init()
     }, 300)

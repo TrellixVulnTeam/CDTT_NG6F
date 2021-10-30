@@ -9,32 +9,32 @@
       <el-popover :value="isVisible" placement="bottom-start" width="518" trigger="click" popper-class="popper-filter" @show="isVisible = true">
         <div class="content">
           <el-form>
-            <div class="be-flex jc-space-between row">
-              <el-form-item class="be-flex-item mr-40" :label="$t('label.keyword')">
-                <el-input v-model="filter.keyword" clearable />
-              </el-form-item>
+            <div class="row">
+              <!-- <el-form-item class="be-flex-item mr-40" :label="$t('label.keyword')">
+                <el-input :placeholder="$t('label.placehoderkeyword')" v-model="filter.keyword" clearable />
+              </el-form-item> -->
               <el-form-item class="be-flex-item" :label="$t('label.from-date')">
-                <el-date-picker class="w-100" v-model="filter.fromDate" type="date"> </el-date-picker>
+                <el-date-picker class="w-100" format="dd/MM/yyyy" value-format="yyyy-MM-dd" v-model="filter.fromCreatedAt" type="date"> </el-date-picker>
               </el-form-item>
             </div>
             <div class="be-flex jc-space-between row">
               <el-form-item class="be-flex-item mr-40" :label="$t('label.nationality')">
-                <el-select v-model="filter.nationality" placeholder="" class="w-100" clearable>
+                <el-select v-model="filter.nationality" :placeholder="$t('label.placehoderNationality')" class="w-100" clearable>
                   <el-option v-for="(country, index) in listCountry" :key="index" :label="country.name" :value="country.isoCode" />
                 </el-select>
               </el-form-item>
               <el-form-item class="be-flex-item" :label="$t('label.to-date')">
-                <el-date-picker class="w-100" v-model="filter.toDate" type="date"> </el-date-picker>
+                <el-date-picker class="w-100" format="dd/MM/yyyy" value-format="yyyy-MM-dd" v-model="filter.toCreatedAt" type="date"> </el-date-picker>
               </el-form-item>
             </div>
             <div class="be-flex jc-space-between row">
               <el-form-item class="be-flex-item mr-40" :label="$t('label.id-type')">
-                <el-select v-model="filter.idType" placeholder="" class="w-100" clearable>
-                  <el-option v-for="(type, index) in idType" :key="index" :label="type.type" :value="type.type" />
+                <el-select v-model="filter.identificationType" id-type :placeholder="$t('label.placehoderidType')" class="w-100" clearable>
+                  <el-option v-for="(type, index) in identificationType" :key="index" :label="type.type" :value="type.type" />
                 </el-select>
               </el-form-item>
               <el-form-item class="be-flex-item" :label="$t('label.approve-by')">
-                <el-input v-model="filter.approveBy" clearable />
+                <el-input :placeholder="$t('label.placehoderApprove')" v-model="filter.approveBy" clearable />
               </el-form-item>
             </div>
           </el-form>
@@ -89,11 +89,10 @@
     filter = {
       search: '',
       orderBy: 'CREATED_AT',
-      keyword: '',
-      fromDate: '',
-      toDate: '',
+      fromCreatedAt: '',
+      toCreatedAt: '',
       nationality: '',
-      idType: '',
+      identificationType: '',
       approveBy: ''
     }
     sorts: Array<Record<string, any>> = [
@@ -112,7 +111,7 @@
     ]
     sortActive = 'CREATED_AT'
     listCountry: IListCountry[] = countryJson
-    idType: Array<Record<string, any>> = [
+    identificationType: Array<Record<string, any>> = [
       {
         id: 0,
         type: 'Id Card'
@@ -159,11 +158,10 @@
       this.filter = {
         search: '',
         orderBy: 'CREATED_AT',
-        keyword: '',
-        fromDate: '',
-        toDate: '',
+        fromCreatedAt: '',
+        toCreatedAt: '',
         nationality: '',
-        idType: '',
+        identificationType: '',
         approveBy: ''
       }
     }
@@ -172,7 +170,7 @@
       if (this.filter.search) {
         this.resetFilter()
       } else {
-        this.$emit('filter', { ...this.filter, orderBy: 'CREATED_AT', keyword: '', fromDate: '', toDate: '', nationality: '', idType: '', approveBy: '' })
+        this.$emit('filter', { ...this.filter, orderBy: 'CREATED_AT', fromCreatedAt: '', toCreatedAt: '', nationality: '', identificationType: '', approveBy: '' })
       }
     }
 
@@ -183,6 +181,8 @@
     }
 
     handleApply(): void {
+      console.log('toCreatedAt', this.filter.toCreatedAt)
+      console.log('fromCreatedAt', this.filter.fromCreatedAt)
       this.$emit('filter', this.filter)
       this.isVisible = false
     }
@@ -190,11 +190,10 @@
     handleReset(): void {
       this.filter = {
         ...this.filter,
-        keyword: '',
-        fromDate: '',
-        toDate: '',
+        fromCreatedAt: '',
+        toCreatedAt: '',
         nationality: '',
-        idType: '',
+        identificationType: '',
         approveBy: ''
       }
       this.$emit('filter', this.filter)

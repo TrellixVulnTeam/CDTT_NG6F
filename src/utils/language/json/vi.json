@@ -1,204 +1,213 @@
 {
-    "login": {
-        "support": "Hỗ trợ",
-        "download": "Tải ứng dụng",
-        "email": "{email}",
-        "title-form": "Đăng Nhập",
-        "remember": "Lưu tài khoản",
-        "forgot": "Quên mật khẩu?",
-        "question": "Chưa có tài khoản?",
-        "sign-up": "Đăng ký",
-        "en": "Tiếng Anh",
-        "vi": "Tiếng Việt",
-        "wrong-email": "Vui lòng nhập email",
-        "wrong-email-type": "Vui lòng nhập email hợp lệ",
-        "wrong-password": "Vui lòng nhập mật khẩu",
-        "placeholder": {
-            "password": "Mật khẩu"
-        }
-    },
-    "verify": {
-        "title-phone": "Nhập mã gồm 6 chữ số mà chúng tôi đã nhắn tin đến số điện thoại của bạn",
-        "title-email": "Nhập mã gồm 6 chữ số mà chúng tôi đã gửi đến email của bạn",
-        "title-app": "Nhập mã gồm 6 chữ số từ ứng dụng xác thực của bạn",
-        "label": "Nhập mã xác thực 2 bước:",
-        "submit": "Xác nhận",
-        "question": "Bạn chưa nhận được mã xác thực?",
-        "re-send": "Gửi lại",
-        "wrong-code": "Vui lòng nhập mã xác thực",
-        "placeholder": "Nhập mã xác thực",
-        "phone-title": "Xác minh số điện thoại",
-        "continue": "Xác nhận"
-    },
-    "signup": {
-        "title-form": "Đăng Ký",
-        "first-name": "Họ",
-        "last-name": "Tên",
-        "email": "Email",
-        "password": "Mật khẩu",
-        "terms": "Tôi xác nhận rằng tôi đủ 18 tuổi và đồng ý với",
-        "user-agreement": "Thỏa thuận người dùng",
-        "and": "và",
-        "privacy-policy": "Điều khoản bảo mật",
-        "have-account": "Bạn đã có tài khoản?",
-        "sign-in": "Đăng nhập",
-        "firstname": "Vui lòng nhập họ",
-        "lastname": "Vui lòng nhập tên",
-        "lastnameLength": "Nhập tối thiểu 2 ký tự",
-        "firstnameLength": "Nhập tối thiểu 2 ký tự"
-    },
-    "forgot": {
-        "title-form": "Quên mật khẩu",
-        "desciption": "Vui lòng nhập địa chỉ email để đặt lại mật khẩu",
-        "description1": "Bạn có thể cần phải kiểm tra thư mục thư rác của mình",
-        "description2": "no-reply@mail.linkey.io",
-        "submit": "Xác nhận",
-        "email": "Địa chỉ email",
-        "deposit11": "Chuyển tiền vào địa chỉ bên dưới hoặc quét mã QR ",
-        "text11": "để nạp Bitcoin vào tài khoản",
-        "text12": "để nạp Ethereum vào tài khoản",
-        "text13": "để nạp Lynkey vào tài khoản"
-    },
-    "resetPass": {
-        "title": "Đặt lại mật khẩu",
-        "wrong-password": "Vui lòng nhập mật khẩu mới",
-        "wrong-repassword": "Vui lòng nhập lại mật khẩu mới",
-        "submit": "Xác nhận"
-    },
-    "notfound": {
-        "message": "Lỗi ! - Không tìm thấy trang",
-        "goback": "Quay trở về"
-    },
-    "leftMenu": {
-        "home": "Trang chủ",
-        "kyc": "Kyc",
-        "customer": "Khách hàng",
-        "contract": "Hợp đồng",
-        "report": "Báo cáo",
-        "setting": "Cài đặt"
-    },
-    "header": {
-        "kyc": "KYC"
-    },
-    "footer": {
-        "terms": "Các điều khoản và điều kiện"
-    },
+  "login": {
+    "support": "Hỗ trợ",
+    "download": "Tải ứng dụng",
+    "email": "{email}",
+    "title-form": "Đăng Nhập",
+    "remember": "Lưu tài khoản",
+    "forgot": "Quên mật khẩu?",
+    "question": "Chưa có tài khoản?",
+    "sign-up": "Đăng ký",
+    "en": "Tiếng Anh",
+    "vi": "Tiếng Việt",
+    "wrong-email": "Vui lòng nhập email",
+    "wrong-email-type": "Vui lòng nhập email hợp lệ",
+    "wrong-password": "Vui lòng nhập mật khẩu",
     "placeholder": {
-        "address": "Nhập địa chỉ...",
-        "amount": "Nhập số lượng...",
-        "fee": "Phí giao dịch...",
-        "pin-code": "Nhập mã code...",
-        "password": "Nhập mật khẩu mới",
-        "repassword": "Nhập lại mật khẩu mới",
-        "phone-number": "Số điện thoại",
-        "reason": "Lý do...",
-        "search": "Tìm kiếm"
-    },
-    "button": {
-        "reset": "Làm lại",
-        "continue": "Tiếp tục",
-        "cancel": "Hủy",
-        "submit": "Xác nhận",
-        "close": "Đóng",
-        "approve": "Xác nhận",
-        "reject": "Từ chối",
-        "apply": "Xác nhận"
-    },
-    "scan": {
-        "qrcode": "QUÉT QR CODE"
-    },
-    "paging": {
-        "show": "Hiển thị",
-        "customers": "khách hàng"
-    },
-    "label": {
-        "buy-from": "Chọn ví",
-        "pay-amount": "Số tiền",
-        "receive": "Thực nhận",
-        "country": "Quốc gia",
-        "phone-number": "Số điện thoại",
-        "keyword": "Từ khóa",
-        "from-date": "Từ ngày",
-        "to-date": "Đến ngày",
-        "nationality": "Quốc tịch",
-        "id-type": "Loại xác thực",
-        "approve-by": "Xác nhận bởi"
-    },
-    "validate": {
-        "length": " Độ dài tối thiểu 8 ký tự",
-        "lowercase": "Tối thiểu 1 ký tự viết thường",
-        "uppercase": "Tối thiểu 1 ký tự viết hoa",
-        "number": "Tối thiểu 1 chữ số",
-        "specialCharacter": "Tối thiểu 1 ký tự đặc biệt",
-        "password-correct": "Mật khẩu không khớp",
-        "wrong-country": "Vui lòng chọn quốc gia",
-        "wrong-phone-number": "Vui lòng nhập số điện thoại"
-    },
-    "notify": {
-        "500": "Không thể kết nối đến máy chủ",
-        "user-exits": "Tài khoản hoặc mật khẩu không chính xác",
-        "pass-invalid": "Tài khoản hoặc mật khẩu không chính xác",
-        "user-locked": "Tài khoản đã bị khóa",
-        "user-expired": "Tài khoản đã bị khóa",
-        "email-register": "Email đã được đăng ký",
-        "login-success": "Đăng nhập thành công",
-        "login-fail": "Đăng nhập thất bại",
-        "register-success": "Đăng ký thành công",
-        "register-faild": "Đăng ký thất bại",
-        "verify-success": "Xác thực thành công",
-        "verify-fail": "Mã xác thực không chính xác",
-        "pass-reset": "Thay đổi mật khẩu thành công",
-        "send-code": "Gửi mã xác thực thành công",
-        "send-code-fail": "Không thể gửi mã xác thực, vui lòng thử lại",
-        "approve-success": "Xác thực thành công",
-        "reject": "Từ chối thành công"
-    },
-    "logout": {
-        "title": "Đăng xuất"
-    },
-    "kyc": {
-        "table": {
-            "fullName": "họ tên",
-            "email": "email",
-            "national": "quốc gia",
-            "date": "ngày tạo",
-            "status": "trạng thái"
-        },
-        "popup": {
-            "title": "CHI TIẾT KYC",
-            "title-reject": "LÝ DO TỪ CHỐI",
-            "title-cb": "Chọn lý do bên dưới",
-            "cb1": "Ảnh bị mờ",
-            "cb2": "Ảnh không rõ mặt",
-            "cb3": "Khuôn mặt không khớp với ảnh",
-            "cb4": "Không sử dụng tài liệu gốc",
-            "reason": "Lý do:",
-            "personal-detail": "Chi tiết",
-            "f-name": "Tên",
-            "l-name": "Họ",
-            "national": "Quốc tịch",
-            "id-verification": "ID xác minh",
-            "id-type": "loại ID",
-            "id-number": "Số ID",
-            "title-photo": "Ảnh xác thực"
-        },
-        "filter": {
-            "filter": "Bộ lọc",
-            "sort": "Sắp xếp"
-        },
-        "sort": {
-            "date": "Ngày tạo",
-            "country": "Quốc gia"
-        }
-    },
-    "params": {
-        "kyc_reject_reason_nationality_not_allow": "Quốc tịch không hợp lệ",
-        "kyc_reject_reason_selfie_photo_incorrect": "Ảnh chụp không chính xác",
-        "kyc_reject_reason_id_photo_not_clear": "Id ảnh không rõ ràng",
-        "kyc_reject_reason_id_is_expired": "Id hết hạn",
-        "kyc_reject_reason_id_photo_is_modified": "Id ảnh đã được sửa đổi",
-        "kyc_reject_reason_id_number_wrong": "Id sai",
-        "kyc_reject_reason_selfie_photo_not_clear": "Ảnh không rõ ràng",
-        "kyc_reject_reason_selfie_photo_not_matching": "Ảnh chụp không khớp"
+      "password": "Mật khẩu"
     }
+  },
+  "verify": {
+    "title-phone": "Nhập mã gồm 6 chữ số mà chúng tôi đã nhắn tin đến số điện thoại của bạn",
+    "title-email": "Nhập mã gồm 6 chữ số mà chúng tôi đã gửi đến email của bạn",
+    "title-app": "Nhập mã gồm 6 chữ số từ ứng dụng xác thực của bạn",
+    "label": "Nhập mã xác thực 2 bước:",
+    "submit": "Xác nhận",
+    "question": "Bạn chưa nhận được mã xác thực?",
+    "re-send": "Gửi lại",
+    "wrong-code": "Vui lòng nhập mã xác thực",
+    "placeholder": "Nhập mã xác thực",
+    "phone-title": "Xác minh số điện thoại",
+    "continue": "Xác nhận"
+  },
+  "signup": {
+    "title-form": "Đăng Ký",
+    "first-name": "Họ",
+    "last-name": "Tên",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "terms": "Tôi xác nhận rằng tôi đủ 18 tuổi và đồng ý với",
+    "user-agreement": "Thỏa thuận người dùng",
+    "and": "và",
+    "privacy-policy": "Điều khoản bảo mật",
+    "have-account": "Bạn đã có tài khoản?",
+    "sign-in": "Đăng nhập",
+    "firstname": "Vui lòng nhập họ",
+    "lastname": "Vui lòng nhập tên",
+    "lastnameLength": "Nhập tối thiểu 2 ký tự",
+    "firstnameLength": "Nhập tối thiểu 2 ký tự"
+  },
+  "forgot": {
+    "title-form": "Quên mật khẩu",
+    "desciption": "Vui lòng nhập địa chỉ email để đặt lại mật khẩu",
+    "description1": "Bạn có thể cần phải kiểm tra thư mục thư rác của mình",
+    "description2": "no-reply@mail.linkey.io",
+    "submit": "Xác nhận",
+    "email": "Địa chỉ email",
+    "deposit11": "Chuyển tiền vào địa chỉ bên dưới hoặc quét mã QR ",
+    "text11": "để nạp Bitcoin vào tài khoản",
+    "text12": "để nạp Ethereum vào tài khoản",
+    "text13": "để nạp Lynkey vào tài khoản"
+  },
+  "resetPass": {
+    "title": "Đặt lại mật khẩu",
+    "wrong-password": "Vui lòng nhập mật khẩu mới",
+    "wrong-repassword": "Vui lòng nhập lại mật khẩu mới",
+    "submit": "Xác nhận"
+  },
+  "notfound": {
+    "message": "Lỗi ! - Không tìm thấy trang",
+    "goback": "Quay trở về"
+  },
+  "leftMenu": {
+    "home": "Trang chủ",
+    "kyc": "Kyc",
+    "customer": "Khách hàng",
+    "contract": "Hợp đồng",
+    "report": "Báo cáo",
+    "setting": "Cài đặt"
+  },
+  "header": {
+    "kyc": "KYC"
+  },
+  "footer": {
+    "terms": "Các điều khoản và điều kiện"
+  },
+  "placeholder": {
+    "address": "Nhập địa chỉ...",
+    "amount": "Nhập số lượng...",
+    "fee": "Phí giao dịch...",
+    "pin-code": "Nhập mã code...",
+    "password": "Nhập mật khẩu mới",
+    "repassword": "Nhập lại mật khẩu mới",
+    "phone-number": "Số điện thoại",
+    "reason": "Lý do...",
+    "search": "Tìm kiếm"
+  },
+  "button": {
+    "reset": "Làm lại",
+    "continue": "Tiếp tục",
+    "cancel": "Hủy",
+    "submit": "Xác nhận",
+    "close": "Đóng",
+    "approve": "Xác nhận",
+    "reject": "Từ chối",
+    "apply": "Xác nhận"
+  },
+  "scan": {
+    "qrcode": "QUÉT QR CODE"
+  },
+  "paging": {
+    "show": "Hiển thị",
+    "customers": "khách hàng"
+  },
+  "label": {
+    "buy-from": "Chọn ví",
+    "pay-amount": "Số tiền",
+    "receive": "Thực nhận",
+    "country": "Quốc gia",
+    "phone-number": "Số điện thoại",
+    "keyword": "Từ khóa",
+    "placehoderkeyword": "Nhập từ khóa",
+    "from-date": "Từ ngày",
+    "to-date": "Đến ngày",
+    "nationality": "Quốc tịch",
+    "placehoderNationality": "Chọn quốc tịch",
+    "id-type": "Loại xác thực",
+    "placehoderidType": "Chọn loại xác thực",
+    "approve-by": "Xác nhận bởi",
+    "placehoderApprove": "Chọn người xác nhận"
+  },
+  "validate": {
+    "length": " Độ dài tối thiểu 8 ký tự",
+    "lowercase": "Tối thiểu 1 ký tự viết thường",
+    "uppercase": "Tối thiểu 1 ký tự viết hoa",
+    "number": "Tối thiểu 1 chữ số",
+    "specialCharacter": "Tối thiểu 1 ký tự đặc biệt",
+    "password-correct": "Mật khẩu không khớp",
+    "wrong-country": "Vui lòng chọn quốc gia",
+    "wrong-phone-number": "Vui lòng nhập số điện thoại"
+  },
+  "notify": {
+    "500": "Không thể kết nối đến máy chủ",
+    "user-exits": "Tài khoản hoặc mật khẩu không chính xác",
+    "pass-invalid": "Tài khoản hoặc mật khẩu không chính xác",
+    "user-locked": "Tài khoản đã bị khóa",
+    "user-expired": "Tài khoản đã bị khóa",
+    "email-register": "Email đã được đăng ký",
+    "login-success": "Đăng nhập thành công",
+    "login-fail": "Đăng nhập thất bại",
+    "register-success": "Đăng ký thành công",
+    "register-faild": "Đăng ký thất bại",
+    "verify-success": "Xác thực thành công",
+    "verify-fail": "Mã xác thực không chính xác",
+    "pass-reset": "Thay đổi mật khẩu thành công",
+    "send-code": "Gửi mã xác thực thành công",
+    "send-code-fail": "Không thể gửi mã xác thực, vui lòng thử lại",
+    "approve-success": "Xác thực thành công",
+    "reject": "Từ chối thành công"
+  },
+  "logout": {
+    "title": "Đăng xuất"
+  },
+  "kyc": {
+    "table": {
+      "fullName": "họ tên",
+      "email": "email",
+      "national": "quốc gia",
+      "date": "ngày tạo",
+      "status": "trạng thái"
+    },
+    "popup": {
+      "title": "CHI TIẾT KYC",
+      "title-reject": "LÝ DO TỪ CHỐI",
+      "title-cb": "Chọn lý do bên dưới",
+      "cb1": "Ảnh bị mờ",
+      "cb2": "Ảnh không rõ mặt",
+      "cb3": "Khuôn mặt không khớp với ảnh",
+      "cb4": "Không sử dụng tài liệu gốc",
+      "reason": "Lý do:",
+      "personal-detail": "Chi tiết",
+      "f-name": "Tên",
+      "l-name": "Họ",
+      "national": "Quốc tịch",
+      "id-verification": "ID xác minh",
+      "id-type": "loại ID",
+      "id-number": "Số ID",
+      "title-photo": "Ảnh xác thực"
+    },
+    "filter": {
+      "filter": "Bộ lọc",
+      "sort": "Sắp xếp"
+    },
+    "sort": {
+      "date": "Ngày tạo",
+      "country": "Quốc gia"
+    }
+  },
+  "params": {
+    "kyc_reject_reason_nationality_not_allow": "Quốc tịch không hợp lệ",
+    "kyc_reject_reason_selfie_photo_incorrect": "Ảnh chụp không chính xác",
+    "kyc_reject_reason_id_photo_not_clear": "Id ảnh không rõ ràng",
+    "kyc_reject_reason_id_is_expired": "Id hết hạn",
+    "kyc_reject_reason_id_photo_is_modified": "Id ảnh đã được sửa đổi",
+    "kyc_reject_reason_id_number_wrong": "Id sai",
+    "kyc_reject_reason_selfie_photo_not_clear": "Ảnh không rõ ràng",
+    "kyc_reject_reason_selfie_photo_not_matching": "Ảnh chụp không khớp"
+  },
+  "menu": {
+    "Pending": "Pendding",
+    "Verified": "Đã xác thực",
+    "Rejected": "Đã từ chối"
+  }
 }
