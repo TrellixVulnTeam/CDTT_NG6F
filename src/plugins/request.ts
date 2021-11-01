@@ -34,11 +34,11 @@ request.interceptors.response.use(
   },
   error => {
     console.log(error.response)
-    const { config, data } = error.response
+    const { config, data, status } = error.response
     console.log(data)
 
     const originalRequest = config
-    if (data.httpStatus === 401) {
+    if (data.httpStatus === 401 || status === 401) {
       if (!isAlreadyFetchingAccessToken) {
         isAlreadyFetchingAccessToken = true
         store
