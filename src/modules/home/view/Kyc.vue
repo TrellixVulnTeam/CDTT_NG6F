@@ -9,7 +9,7 @@
         </div>
       </div>
     </div>
-    <kyc-filter @filter="handleFilter" />
+    <kyc-filter @filter="handleFilter" :listApproveBy="listApproveBy" />
     <kyc-table v-loading="isLoading" @rowClick="handleRowClick" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="data" />
     <kyc-detail :detailRow="detailRow" @init="init" />
   </div>
@@ -83,9 +83,13 @@
       limit: 10,
       total: 10
     }
+    listApproveBy: Record<string, any>[] = []
 
     created(): void {
       this.getListReason()
+      apiKyc.getListApprove({ page: 1, limit: 20 }).then(res => {
+        this.listApproveBy = res.content || []
+      })
       const name = this.$route.name
       this.query.kycStatus = name === 'KycPending' ? 'PENDING' : name === 'KycVerified' ? 'VERIFIED' : 'REJECTED'
     }
@@ -104,8 +108,6 @@
     }
 
     handleChangeTab(tab: Record<string, any>): void {
-      console.log(tab)
-
       this.$router.push({ name: tab.routeName })
       this.query.kycStatus = this.kycStatus[tab.title]
       this.resetQuery()

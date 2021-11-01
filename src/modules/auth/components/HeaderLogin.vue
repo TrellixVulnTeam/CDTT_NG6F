@@ -18,11 +18,11 @@
               <el-dropdown-item command="chplay"><base-icon icon="chplay" style="font-size: 16px" /><span class="pl-1">Get the app on Google Play</span></el-dropdown-item>
               <el-dropdown-item command="appstore"><base-icon icon="appstore" style="font-size: 17px" /><span class="pl-1">Get the app on App Store</span></el-dropdown-item>
             </div>
-            <div class="dropdown-group pb-1 pt-1" style="border-top: 1px solid #dbdbdb">
+            <!-- <div class="dropdown-group pb-1 pt-1" style="border-top: 1px solid #dbdbdb">
               <div class="dropdown-group-title">Applications for computers</div>
               <el-dropdown-item command="macos"><base-icon icon="macos" style="font-size: 18px" /><span class="pl-1">Download apps for macOS</span></el-dropdown-item>
               <el-dropdown-item command="window"><base-icon icon="window" style="font-size: 19px" /><span class="pl-1">Download apps for Windows</span></el-dropdown-item>
-            </div>
+            </div> -->
           </el-dropdown-menu>
         </el-dropdown>
       </div>

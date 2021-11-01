@@ -17,7 +17,7 @@
           <el-checkbox v-model="remember"
             ><span class="text-base" style="color: #201f1e; font-weight: 400; margin-left: -2px">{{ $t('login.remember') }}</span></el-checkbox
           >
-          <span @click="handleForgotPass" class="text-base text-hyperlink cursor">{{ $t('login.forgot') }}</span>
+          <!-- <span @click="handleForgotPass" class="text-base text-hyperlink cursor">{{ $t('login.forgot') }}</span> -->
         </div>
         <div class="captcha be-flex jc-space-center mt-2">
           <vue-recaptcha ref="recaptcha" :loadRecaptchaScript="true" :language="language" :sitekey="siteKey" @verify="verifyCaptcha" @expired="expiredCaptcha"></vue-recaptcha>
@@ -26,9 +26,9 @@
           >{{ $t('login.title-form') }}
         </el-button>
         <!-- <button :class="getDisableBtn ? 'btn--disabled' : null" type="button" class="btn is-none-border w-100 cursor" @click="handleLogin">{{ $t('login.title-form') }}</button> -->
-        <div class="text-base be-flex jc-space-center" style="color: #201f1e">
+        <!-- <div class="text-base be-flex jc-space-center" style="color: #201f1e">
           {{ $t('login.question') }} &nbsp;<span @click="handleSignUp" class="text-hyperlink text-semibold cursor"> {{ $t('login.sign-up') }} </span>
-        </div>
+        </div> -->
       </el-form>
       <verify-page v-else class="form-item" ref="verify" />
     </div>

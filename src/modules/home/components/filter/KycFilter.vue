@@ -6,7 +6,7 @@
       </span>
     </el-input>
     <div class="filter-item">
-      <el-popover :value="isVisible" placement="bottom-start" width="518" trigger="click" popper-class="popper-filter" @show="isVisible = true">
+      <el-popover :value="isVisible" placement="bottom-start" width="518" trigger="click" popper-class="popper-filter" @show="handleShowPopper">
         <div class="content">
           <el-form>
             <div class="be-flex jc-space-between row">
@@ -25,7 +25,7 @@
             <div class="be-flex jc-space-between row">
               <el-form-item class="be-flex-item mr-40" :label="$t('label.id-type')">
                 <el-select v-model="filter.identificationType" id-type :placeholder="$t('label.placehoderidType')" class="w-100" clearable>
-                  <el-option v-for="(type, index) in identificationType" :key="index" :label="type.type" :value="type.type" />
+                  <el-option v-for="(type, index) in identificationType" :key="index" :label="type.type" :value="type.value" />
                 </el-select>
               </el-form-item>
               <el-form-item class="be-flex-item" :label="$t('label.to-date')">
@@ -34,7 +34,20 @@
             </div>
             <div class="be-flex jc-space-between row">
               <el-form-item class="be-flex-item" :label="$t('label.approve-by')">
-                <el-input :placeholder="$t('label.placehoderApprove')" v-model="filter.approveBy" clearable />
+                <el-select
+                  v-model="filter.approveBy"
+                  filterable
+                  remote
+                  clearable
+                  reserve-keyword
+                  :placeholder="$t('label.placehoderApprove')"
+                  :remote-method="handleSearchApprove"
+                  :loading="loading"
+                >
+                  <div v-infinite-scroll="loadMoreApprove" infinite-scroll-delay="500">
+                    <el-option v-for="item in listApprove" :key="item.id" :label="item.fullName" :value="item.userId"> </el-option>
+                  </div>
+                </el-select>
               </el-form-item>
             </div>
           </el-form>
@@ -74,9 +87,13 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue, Watch } from 'vue-property-decorator'
+  import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
   import EventBus from '@/utils/eventBus'
   import { forEach, trim, debounce } from 'lodash'
+  import getRepository from '@/services'
+  import { KycRepository } from '@/services/repositories/kyc'
+  const apiKyc: KycRepository = getRepository('kyc')
+
   import countryJson from '@/utils/country/index.json'
   interface IListCountry {
     name: string
@@ -86,6 +103,7 @@
   }
   @Component
   export default class KycFilter extends Vue {
+    @Prop({ required: true, type: Array, default: [] }) listApproveBy!: Array<Record<string, any>>
     filter = {
       search: '',
       orderBy: 'CREATED_AT',
@@ -95,6 +113,14 @@
       identificationType: '',
       approveBy: ''
     }
+    loading = false
+    listApprove: Array<Record<string, any>> = []
+    queryApprove = {
+      page: 1,
+      limit: 20,
+      search: ''
+    }
+
     sorts: Array<Record<string, any>> = [
       {
         command: 'CREATED_AT',
@@ -114,15 +140,18 @@
     identificationType: Array<Record<string, any>> = [
       {
         id: 0,
-        type: 'Id Card'
+        type: 'Id Card',
+        value: 'ID_CARD'
       },
       {
         id: 1,
-        type: 'Passport'
+        type: 'Passport',
+        value: 'PASSPORT'
       },
       {
         id: 2,
-        type: 'Driver’s License'
+        type: 'Driver’s License',
+        value: 'DRIVER_LICENSE'
       }
     ]
     isVisible = false
@@ -154,6 +183,32 @@
       EventBus.$off('changeTab')
     }
 
+    handleShowPopper(): void {
+      this.isVisible = true
+      this.listApprove = [...this.listApproveBy]
+    }
+
+    handleSearchApprove(query: string): void {
+      if (query !== '') {
+        this.loading = true
+        this.queryApprove.page = 1
+        this.queryApprove.search = trim(query)
+        apiKyc.getListApprove(this.queryApprove).then(res => {
+          this.listApprove = res.content || []
+          this.loading = false
+        })
+      } else {
+        this.listApprove = this.listApproveBy
+      }
+    }
+
+    loadMoreApprove(): void {
+      this.queryApprove.page += 1
+      apiKyc.getListApprove(this.queryApprove).then(res => {
+        this.listApprove = [...this.listApprove, ...res.content]
+      })
+    }
+
     resetFilter(): void {
       this.filter = {
         search: '',
@@ -167,10 +222,26 @@
     }
 
     handleChangeTab(): void {
+      this.sortActive = 'CREATED_AT'
+      this.queryApprove = {
+        page: 1,
+        limit: 20,
+        search: ''
+      }
+
       if (this.filter.search) {
         this.resetFilter()
       } else {
         this.$emit('filter', { ...this.filter, orderBy: 'CREATED_AT', fromCreatedAt: '', toCreatedAt: '', nationality: '', identificationType: '', approveBy: '' })
+        this.filter = {
+          ...this.filter,
+          orderBy: 'CREATED_AT',
+          fromCreatedAt: '',
+          toCreatedAt: '',
+          nationality: '',
+          identificationType: '',
+          approveBy: ''
+        }
       }
     }
 
