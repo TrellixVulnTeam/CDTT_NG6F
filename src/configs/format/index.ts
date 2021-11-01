@@ -6,10 +6,10 @@ export function formatNumber(value: number): string {
   return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 }
 
-export function numberWithCommas(value: string | number): string {
-  if (!value) return '0'
-  return value.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
-}
+// export function numberWithCommas(value: string | number): string {
+//   if (!value) return '0'
+//   return value.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
+// }
 
 export function formatDateTime(value: string | number): any {
   if (!value) {
