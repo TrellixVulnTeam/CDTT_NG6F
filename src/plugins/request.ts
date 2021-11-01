@@ -4,7 +4,7 @@ import Cookies from 'js-cookie'
 import store from '../store'
 import i18n from '@/utils/language'
 
-let isAlreadyFetchingAccessToken = false
+const isAlreadyFetchingAccessToken = false
 let subscribers: any[] = []
 const API_URL: string = process.env.VUE_APP_BASE_API
 
@@ -39,30 +39,33 @@ request.interceptors.response.use(
 
     const originalRequest = config
     if (data.httpStatus === 401 || status === 401) {
-      if (!isAlreadyFetchingAccessToken) {
-        isAlreadyFetchingAccessToken = true
-        store
-          .dispatch('beAuth/refreshToken')
-          .then(res => {
-            isAlreadyFetchingAccessToken = false
-            console.log('res', res)
-            onAccessTokenFetched(res.accessToken)
-          })
-          .catch(err => {
-            store.dispatch('beAuth/logout')
-            setTimeout(() => {
-              location.href = '/'
-            }, 2000)
-            return err
-          })
-      }
-      const retryOriginalRequest = new Promise(resolve => {
-        addSubscriber(access_token => {
-          originalRequest.headers.Authorization = 'Bearer ' + access_token
-          resolve(axios(originalRequest))
-        })
+      store.dispatch('beAuth/logout').then(() => {
+        location.href = '/login'
       })
-      return retryOriginalRequest
+      // if (!isAlreadyFetchingAccessToken) {
+      //   isAlreadyFetchingAccessToken = true
+      //   store
+      //     .dispatch('beAuth/refreshToken')
+      //     .then(res => {
+      //       isAlreadyFetchingAccessToken = false
+      //       console.log('res', res)
+      //       onAccessTokenFetched(res.accessToken)
+      //     })
+      //     .catch(err => {
+      //       store.dispatch('beAuth/logout')
+      //       setTimeout(() => {
+      //         location.href = '/'
+      //       }, 2000)
+      //       return err
+      //     })
+      // }
+      // const retryOriginalRequest = new Promise(resolve => {
+      //   addSubscriber(access_token => {
+      //     originalRequest.headers.Authorization = 'Bearer ' + access_token
+      //     resolve(axios(originalRequest))
+      //   })
+      // })
+      // return retryOriginalRequest
     }
     if (data.statusCode === 400) {
       let message = ''
