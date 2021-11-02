@@ -1,5 +1,12 @@
 <template>
-  <base-popup name="popup-kyc-detail" class="popup-kyc-detail" width="960px" :isShowFooter="getShowFooter" :open="handleOpen">
+  <base-popup
+    name="popup-kyc-detail"
+    class="popup-kyc-detail"
+    :class="$route.name === 'KycRejected' ? 'popup-reject-style' : null"
+    width="960px"
+    :isShowFooter="getShowFooter"
+    :open="handleOpen"
+  >
     <div class="title-popup" slot="title">
       <span>{{ $t('kyc.popup.title') }}</span>
     </div>
@@ -12,7 +19,7 @@
         <li v-if="detail.kycRejectReasons" class="text-base item">{{ $t('kyc.other-reason') }} {{ detail.kycRejectReasons }}</li>
       </ul>
     </div>
-    <h3 class="text-xl text-bold mb-16">{{ $t('kyc.title') }}</h3>
+    <h3 class="text-xl text-bold mb-16" v-if="$route.name === 'KycRejected'">{{ $t('kyc.title') }}</h3>
     <div class="be-flex content" v-loading="isLoading">
       <div class="mr-24 detail-left">
         <div class="detail-item detail-item--above">
@@ -244,6 +251,19 @@
     }
     ::v-deep .popup-content {
       background-color: #f6f8fc;
+      .el-image__inner {
+        object-fit: contain;
+      }
+    }
+  }
+  .popup-reject-style {
+    .content {
+      background: #f6f8fc;
+      padding: 24px;
+      border-radius: 4px;
+    }
+    ::v-deep .popup-content {
+      background-color: #fff;
       .el-image__inner {
         object-fit: contain;
       }

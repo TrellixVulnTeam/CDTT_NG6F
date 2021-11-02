@@ -35,7 +35,7 @@
             <div class="be-flex jc-space-between row">
               <el-form-item class="be-flex-item" :label="$t('label.approve-by')">
                 <el-select
-                  v-model="filter.approveBy"
+                  v-model="filter.approvedBy"
                   filterable
                   remote
                   clearable
@@ -111,7 +111,7 @@
       toCreatedAt: '',
       nationality: '',
       identificationType: '',
-      approveBy: ''
+      approvedBy: ''
     }
     loading = false
     listApprove: Array<Record<string, any>> = []
@@ -217,7 +217,7 @@
         toCreatedAt: '',
         nationality: '',
         identificationType: '',
-        approveBy: ''
+        approvedBy: ''
       }
     }
 
@@ -232,7 +232,7 @@
       if (this.filter.search) {
         this.resetFilter()
       } else {
-        this.$emit('filter', { ...this.filter, orderBy: 'CREATED_AT', fromCreatedAt: '', toCreatedAt: '', nationality: '', identificationType: '', approveBy: '' })
+        this.$emit('filter', { ...this.filter, orderBy: 'CREATED_AT', fromCreatedAt: '', toCreatedAt: '', nationality: '', identificationType: '', approvedBy: '' })
         this.filter = {
           ...this.filter,
           orderBy: 'CREATED_AT',
@@ -240,7 +240,7 @@
           toCreatedAt: '',
           nationality: '',
           identificationType: '',
-          approveBy: ''
+          approvedBy: ''
         }
       }
     }
@@ -265,7 +265,7 @@
         toCreatedAt: '',
         nationality: '',
         identificationType: '',
-        approveBy: ''
+        approvedBy: ''
       }
       this.$emit('filter', this.filter)
       this.isVisible = false
