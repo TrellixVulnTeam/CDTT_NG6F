@@ -198,7 +198,8 @@
     "send-code": "Verification code sent successfully",
     "send-code-fail": "Verification code sent failed",
     "approve-success": "Approved successfully",
-    "reject-success": "Rejected successfully"
+    "reject-success": "Rejected successfully",
+    "no-select-reject": "Must choose at least 1 reason"
   },
   "logout": {
     "title": "Sign out"
@@ -255,5 +256,10 @@
     "Pending": "Pendding",
     "Verified": "Verified",
     "Rejected": "Rejected"
+  },
+  "status": {
+    "pending": "PENDING",
+    "verified": "VERIFIED",
+    "rejected": "REJECTED"
   }
 }

@@ -28,7 +28,7 @@
         </el-table-column>
         <el-table-column :label="$t('kyc.table.status')" prop="kycStatus" align="center" width="160">
           <template slot-scope="scope">
-            <span :class="checkType(scope.row.kycStatus)">{{ scope.row.kycStatus }}</span>
+            <span :class="checkType(scope.row.kycStatus)">{{ checkStatus(scope.row.kycStatus) }}</span>
           </template>
         </el-table-column>
       </base-table>
@@ -50,6 +50,17 @@
 
     checkType(type: string): string {
       return type === 'Not verified' ? 'status-not-verified' : type === 'PENDING' ? 'status-pending' : type === 'VERIFIED' ? 'status-verified' : 'status-rejected'
+    }
+
+    checkStatus(status: string): any {
+      switch (status) {
+        case 'PENDING':
+          return this.$t('status.pending')
+        case 'VERIFIED':
+          return this.$t('status.verified')
+        default:
+          return this.$t('status.rejected')
+      }
     }
 
     handleSizeChange(value: number): void {

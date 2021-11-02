@@ -14,7 +14,7 @@
                 <el-input :placeholder="$t('label.placehoderkeyword')" v-model="filter.keyword" clearable />
               </el-form-item> -->
               <el-form-item class="be-flex-item mr-40" :label="$t('label.nationality')">
-                <el-select v-model="filter.nationality" :placeholder="$t('label.placehoderNationality')" class="w-100" clearable>
+                <el-select v-model="filter.nationality" filterable :placeholder="$t('label.placehoderNationality')" class="w-100" clearable>
                   <el-option v-for="(country, index) in listCountry" :key="index" :label="country.name" :value="country.isoCode" />
                 </el-select>
               </el-form-item>

@@ -155,7 +155,8 @@
     "send-code": "Gửi mã xác thực thành công",
     "send-code-fail": "Không thể gửi mã xác thực, vui lòng thử lại",
     "approve-success": "Xác thực thành công",
-    "reject": "Từ chối thành công"
+    "reject-success": "Từ chối thành công",
+    "no-select-reject": "Tối thiểu 1 lý do từ chối"
   },
   "logout": {
     "title": "Đăng xuất"
@@ -212,5 +213,10 @@
     "Pending": "Pendding",
     "Verified": "Đã xác thực",
     "Rejected": "Đã từ chối"
+  },
+  "status": {
+    "pending": "PENDING",
+    "verified": " ĐÃ XÁC THỰC",
+    "rejected": "TỪ CHỐI"
   }
 }

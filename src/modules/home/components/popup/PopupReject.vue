@@ -42,6 +42,11 @@
     isLoading = false
 
     handleReject(): void {
+      if (!this.checkList.length) {
+        let message: any = this.$t('notify.no-select-reject')
+        this.$message.warning({ message, duration: 5000 })
+        return
+      }
       const data = {
         rejectResonIds: this.checkList.join(','),
         reason: this.reason
