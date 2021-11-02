@@ -39,9 +39,10 @@ request.interceptors.response.use(
 
     const originalRequest = config
     if (data.httpStatus === 401 || status === 401) {
-      store.dispatch('beAuth/logout').then(() => {
-        location.href = '/login'
-      })
+      Cookies.remove('access_token')
+      Cookies.remove('refresh_token')
+      request.defaults.headers.common['Authorization'] = ''
+      location.href = '/login'
       // if (!isAlreadyFetchingAccessToken) {
       //   isAlreadyFetchingAccessToken = true
       //   store
