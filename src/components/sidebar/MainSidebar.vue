@@ -7,9 +7,10 @@
         <p>{{ $t('leftMenu.home') }}</p>
       </div>
     </router-link>
-    <router-link :to="{ name: 'Kyc' }" class="router_center" exact>
+    <router-link :to="{ name: 'Kyc' }" class="router_center">
       <div class="sack_avatar">
-        <base-icon icon="menu-kyc" size="32" />
+        <base-icon icon="menu-kyc-active" class="menu-active" size="32" />
+        <base-icon icon="menu-kyc" class="menu" size="32" />
         <p>{{ $t('leftMenu.kyc') }}</p>
       </div>
     </router-link>
@@ -115,6 +116,7 @@
     background: #ffffff;
     height: 100vh;
     width: 80px;
+
     .style_router_home {
       margin: 0px 10px 10px 10px;
       .style_avatar_home {
@@ -158,6 +160,14 @@
           }
         }
       }
+      &:hover {
+        .menu-active {
+          display: block;
+        }
+        .menu {
+          display: none;
+        }
+      }
     }
     .router_setting {
       // position: absolute;
@@ -179,6 +189,12 @@
       color: #0078d4;
       p {
         color: #0078d4 !important;
+      }
+      .menu {
+        display: none;
+      }
+      .menu-active {
+        display: block;
       }
     }
     .child-item {
@@ -240,5 +256,8 @@
 
   .module-item {
     margin: 1px;
+  }
+  .menu-active {
+    display: none;
   }
 </style>

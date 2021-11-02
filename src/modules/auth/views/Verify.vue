@@ -160,7 +160,7 @@
               .verifyCode('CODE', { ...data, type: 'SMS' })
               .then(res => {
                 this.setUserInfo(res)
-                this.$router.push({ name: 'Wallet' })
+                this.$router.push({ name: 'KycPending' })
               })
               .catch(error => {
                 console.log(error)
