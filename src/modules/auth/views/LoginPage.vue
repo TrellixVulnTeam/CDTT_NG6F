@@ -232,6 +232,9 @@
         font-size: 16px !important;
         line-height: 24px !important;
         margin: 24px 0 !important;
+        &:hover {
+          color: #fff !important;
+        }
       }
       .input-password {
         position: relative;

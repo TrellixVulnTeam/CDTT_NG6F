@@ -18,7 +18,7 @@
       <el-footer class="be-flex align-center jc-space-between main-footer">
         <div class="footer-left">
           <span class="text-hyperlink d-ib mr-24 cursor">{{ $t('footer.terms') }}</span>
-          <span>@Linkey Holdings Pte. Ltd. 2021</span>
+          <span>{{ address }}</span>
         </div>
 
         <div class="footer-right">
@@ -55,10 +55,14 @@
   import MainHeader from '../header/MainHeader.vue'
   import BasePageLoading from '../page-loading/BasePageLoading.vue'
   import EventBus from '@/utils/eventBus'
+  import { namespace } from 'vuex-class'
+  const beBase = namespace('beBase')
   @Component({
     components: { MainSidebar, MainHeader, BasePageLoading }
   })
   export default class Layout extends Vue {
+    @beBase.State('address') address!: string
+
     isLoading = false
     selectLanguage = ''
 

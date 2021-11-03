@@ -3,7 +3,9 @@
     <router-link :to="{ name: 'dashboard' }" class="style_router_home router_center router-home" exact>
       <div class="sack_avatar logo-home">
         <!-- <base-icon icon="logo-lienviet" style="font-size: 40px; display: block; height: 40px" class="style_avatar_home" /> -->
-        <base-icon icon="logo-login" size="32" />
+        <!-- <base-icon icon="logo-login" size="32" /> -->
+        <base-icon v-if="coinMain === 'LYNK'" icon="logo-login" size="32" />
+        <base-icon v-else icon="icon-clm" size="32" />
         <p>{{ $t('leftMenu.home') }}</p>
       </div>
     </router-link>
@@ -42,9 +44,12 @@
 </template>
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
-
+  import { namespace } from 'vuex-class'
+  const beBase = namespace('beBase')
   @Component({ components: {} })
   export default class MainSidebar extends Vue {
+    @beBase.State('coinMain') coinMain!: string
+
     isOpenPopup = false
     isOpenPopupContract = false
     searchModule = ''

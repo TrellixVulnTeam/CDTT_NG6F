@@ -1,8 +1,10 @@
 <template>
   <div class="header-login be-flex align-center jc-space-between">
     <div class="header-login__left be-flex align-center cursor" @click="redirect">
-      <base-icon icon="logo-login" size="32" />
-      <span class="title">LYNKEY</span>
+      <!-- <base-icon icon="logo-login" size="32" /> -->
+      <img v-if="coinMain === 'LYNK'" src="../../../icons/png/logo.png" alt="" width="20%" />
+      <img v-else src="../../../icons/png/logo-clm.png" alt="" style="width: 70%" />
+      <!-- <span class="title">LYNKEY</span> -->
     </div>
     <div class="header-login__right be-flex align-center">
       <div class="item cursor mr-24">
@@ -36,10 +38,13 @@
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
+  import { namespace } from 'vuex-class'
+  const beBase = namespace('beBase')
 
   @Component
   export default class HeaderLogin extends Vue {
-    email = 'support@linkkey.com'
+    @beBase.State('coinMain') coinMain!: string
+    @beBase.State('email') email!: string
 
     redirect(): void {
       this.$router.push({ name: 'login' })
