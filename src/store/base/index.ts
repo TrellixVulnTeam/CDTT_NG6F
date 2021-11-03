@@ -14,9 +14,9 @@ export interface ISBase {
 
 const state: ISBase = {
   popup: [],
-  coinMain: 'CLM',
+  coinMain: 'LYNK',
   email: 'support@lynkey.com',
-  address: '9999 Bellaire Blvd, Ste 8B-1, Houston, TX 77036 (USA)'
+  address: '@Linkey Holdings Pte. Ltd. 2021'
 }
 
 const beBase: Module<ISBase, unknown> = {
