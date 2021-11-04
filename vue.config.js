@@ -82,7 +82,7 @@ module.exports = {
       .tap(options => Object.assign(options, { limit: 10240 }))
 
     config.plugin('html').tap(args => {
-      args[0].title = 'BackOffice'
+      args[0].title = 'Lynkey - BackOffice'
 
       return args
     })

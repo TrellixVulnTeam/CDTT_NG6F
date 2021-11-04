@@ -16,7 +16,7 @@
         <p>{{ $t('leftMenu.kyc') }}</p>
       </div>
     </router-link>
-    <router-link :to="{ name: 'exchange' }" class="router_center" exact>
+    <!-- <router-link :to="{ name: 'exchange' }" class="router_center" exact>
       <div class="sack_avatar">
         <base-icon icon="menu-customer" size="32" />
         <p>{{ $t('leftMenu.customer') }}</p>
@@ -33,13 +33,13 @@
         <base-icon icon="menu-report" size="32" />
         <p>{{ $t('leftMenu.report') }}</p>
       </div>
-    </router-link>
-    <router-link :to="{ name: 'Profile' }" class="router_center router_setting" exact>
+    </router-link> -->
+    <!-- <router-link :to="{ name: 'Profile' }" class="router_center router_setting" exact>
       <div class="sack_avatar">
         <base-icon icon="menu-setting" size="32" />
         <p>{{ $t('leftMenu.setting') }}</p>
       </div>
-    </router-link>
+    </router-link> -->
   </div>
 </template>
 <script lang="ts">
@@ -175,9 +175,9 @@
       }
     }
     .router_setting {
-      // position: absolute;
-      // bottom: 0;
-      margin-top: calc(100vh - 600px);
+      position: absolute;
+      bottom: 0;
+      // margin-top: calc(100vh - 600px);
     }
     .filter_avatar {
       opacity: 0.65;

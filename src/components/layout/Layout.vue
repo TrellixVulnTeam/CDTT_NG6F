@@ -87,8 +87,9 @@
     .sidebar-left {
       border-right: 1px solid #ccc;
       height: 100%;
-      overflow-x: hidden;
+      overflow: hidden;
       background-color: #e9e9e9;
+      position: relative;
     }
     .main-content {
       .main-header {
