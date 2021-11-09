@@ -16,9 +16,9 @@
         <p>{{ $t('leftMenu.kyc') }}</p>
       </div>
     </router-link>
-    <router-link :to="{ name: 'exchange' }" class="router_center" exact>
+    <router-link :to="{ name: 'CustomerMain' }" class="router_center" exact>
       <div class="sack_avatar">
-        <base-icon icon="menu-customer" size="32" style="color: #f3f2f1" />
+        <base-icon icon="menu-customer" size="32" />
         <p>{{ $t('leftMenu.customer') }}</p>
       </div>
     </router-link>
@@ -163,8 +163,8 @@
           p {
             color: var(--bc-theme-primary) !important;
           }
-          ::v-deep .span-icon {
-            color: var(--bc-theme-primary);
+          .span-icon {
+            color: var(--bc-theme-primary) !important;
           }
         }
       }

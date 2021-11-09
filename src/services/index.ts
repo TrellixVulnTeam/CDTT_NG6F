@@ -3,8 +3,9 @@ import { AuthRepository } from './repositories/auth'
 import { SettingRepository } from './repositories/setting'
 import { KycRepository } from './repositories/kyc'
 import { ParamsRepository } from './repositories/params'
+import { CustomerRepository } from './repositories/customer'
 
-type RepositoryName = 'verify' | 'auth' | 'setting' | 'kyc' | 'params'
+type RepositoryName = 'verify' | 'auth' | 'setting' | 'kyc' | 'params' | 'customer'
 
 export default function getRepository(name: RepositoryName): any {
   switch (name) {
@@ -18,6 +19,8 @@ export default function getRepository(name: RepositoryName): any {
       return new KycRepository()
     case 'params':
       return new ParamsRepository()
+    case 'customer':
+      return new CustomerRepository()
     default:
       return null
   }

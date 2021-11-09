@@ -196,7 +196,9 @@
     },
     "sort": {
       "date": "Ngày tạo",
-      "country": "Quốc gia"
+      "country": "Quốc gia",
+      "transaction": "Giao dịch",
+      "full-name": "Họ tên"
     }
   },
   "params": {
@@ -212,7 +214,12 @@
   "menu": {
     "Pending": "Pending",
     "Verified": "Đã xác thực",
-    "Rejected": "Đã từ chối"
+    "Rejected": "Đã từ chối",
+    "customer-all": "Tất cả",
+    "customer-verified": "Đã xác minh",
+    "customer-processing": "Đang KYC",
+    "customer-not-verified": "Chưa xác minh",
+    "customer-locked": "Bị khóa"
   },
   "status": {
     "pending": "PENDING",

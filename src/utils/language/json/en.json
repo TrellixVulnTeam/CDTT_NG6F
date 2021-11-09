@@ -239,7 +239,9 @@
     },
     "sort": {
       "date": "Created date",
-      "country": "Nationality"
+      "country": "Nationality",
+      "transaction": "Transaction",
+      "full-name": "Full name"
     }
   },
   "params": {
@@ -255,7 +257,12 @@
   "menu": {
     "Pending": "Pending",
     "Verified": "Verified",
-    "Rejected": "Rejected"
+    "Rejected": "Rejected",
+    "customer-all": "All Customers",
+    "customer-verified": "Verified",
+    "customer-processing": "KYC processing",
+    "customer-not-verified": "Not verified",
+    "customer-locked": "Locked"
   },
   "status": {
     "pending": "PENDING",
