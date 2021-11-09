@@ -11,6 +11,9 @@ const mutations: MutationTree<ISBase> = {
         return value !== data.popupName
       })
     }
+  },
+  SET_SYSTEM_PARAMS: (state, data) => {
+    state.urlSystem = { ...data }
   }
 }
 export default mutations

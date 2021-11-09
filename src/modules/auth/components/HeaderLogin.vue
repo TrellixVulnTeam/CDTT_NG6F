@@ -7,11 +7,11 @@
       <!-- <span class="title">LYNKEY</span> -->
     </div>
     <div class="header-login__right be-flex align-center">
-      <div class="item cursor mr-24">
+      <div class="item cursor mr-24" @click="handleClick">
         <span>{{ $t('login.support') }}</span>
       </div>
       <div class="item cursor mr-24">
-        <el-dropdown trigger="click" class="pl-2 login-page-header">
+        <el-dropdown trigger="click" class="pl-2 login-page-header" @command="handleCommand">
           <span class="el-dropdown-link" style="color: #201f1e"> {{ $t('login.download') }}<i class="el-icon-arrow-down el-icon--right"></i> </span>
 
           <el-dropdown-menu slot="dropdown" class="header-downloadapp">
@@ -30,7 +30,7 @@
       </div>
       <div class="item cursor be-flex align-center">
         <base-icon icon="email" size="20" style="padding-right: 5px" />
-        <span>{{ $t('login.email', { email }) }}</span>
+        <span>{{ urlSystem['system.token.support_email'] }}</span>
       </div>
     </div>
   </div>
@@ -44,10 +44,21 @@
   @Component
   export default class HeaderLogin extends Vue {
     @beBase.State('coinMain') coinMain!: string
-    @beBase.State('email') email!: string
+    @beBase.State('urlSystem') urlSystem!: Record<string, any>
 
     redirect(): void {
       this.$router.push({ name: 'login' })
+    }
+    handleClick(): void {
+      window.open(`${this.urlSystem['system.token.support.url']}`)
+    }
+
+    handleCommand(command: string): void {
+      if (command === 'chplay') {
+        window.open(`${this.urlSystem['system.token.app.android.download']}`)
+      } else {
+        window.open(`${this.urlSystem['system.token.app.ios.download']}`)
+      }
     }
   }
 </script>

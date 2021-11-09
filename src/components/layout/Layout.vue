@@ -17,8 +17,8 @@
       </el-main>
       <el-footer class="be-flex align-center jc-space-between main-footer">
         <div class="footer-left">
-          <span class="text-hyperlink d-ib mr-24 cursor">{{ $t('footer.terms') }}</span>
-          <span>{{ address }}</span>
+          <span class="text-hyperlink d-ib mr-24 cursor" @click="handleClickTerm">{{ $t('footer.terms') }}</span>
+          <span style="color: #5b616e">{{ urlSystem['system.token.company.address'] }}</span>
         </div>
 
         <div class="footer-right">
@@ -61,7 +61,7 @@
     components: { MainSidebar, MainHeader, BasePageLoading }
   })
   export default class Layout extends Vue {
-    @beBase.State('address') address!: string
+    @beBase.State('urlSystem') urlSystem!: Record<string, any>
 
     isLoading = false
     selectLanguage = ''
@@ -77,6 +77,9 @@
       this.$i18n.locale = lang
       window.localStorage.setItem('bc-lang', lang)
       EventBus.$emit('changeLang')
+    }
+    handleClickTerm(): void {
+      window.open(`${this.urlSystem['system.token.terms']}`)
     }
   }
 </script>

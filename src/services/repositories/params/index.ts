@@ -15,4 +15,13 @@ export class ParamsRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+  async getPramsHeader(): Promise<any> {
+    try {
+      const rs = await request.get(`main/api/v1/public/system-params`)
+      return Promise.resolve(rs.data)
+    } catch (error) {
+      console.log(error)
+      return Promise.reject(error)
+    }
+  }
 }
