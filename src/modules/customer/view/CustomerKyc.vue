@@ -9,7 +9,7 @@
         </div>
       </div>
     </div>
-    <kyc-filter @filter="handleFilter" :listApproveBy="listApproveBy" />
+    <customer-filter @filter="handleFilter" />
     <customer-table v-loading="isLoading" @rowClick="handleRowClick" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="data" />
     <customer-detail :detailRow="detailRow" @init="init" />
   </div>
@@ -19,7 +19,7 @@
   import { Component, Mixins } from 'vue-property-decorator'
   //@ts-ignore
   import CustomerTable from '../components/CustomerTable.vue'
-  import KycFilter from '../components/filter/KycFilter.vue'
+  import CustomerFilter from '../components/filter/CustomerFilter.vue'
   import CustomerDetail from '../components/popup/CustomerDetail.vue'
   import PopupMixin from '@/mixins/popup'
   import getRepository from '@/services'
@@ -40,7 +40,7 @@
     type?: string | null | undefined
   }
 
-  @Component({ components: { CustomerTable, KycFilter, CustomerDetail } })
+  @Component({ components: { CustomerTable, CustomerFilter, CustomerDetail } })
   export default class BOCustomer extends Mixins(PopupMixin) {
     @bcKyc.Action('getListReason') getListReason!: () => void
     tabs: Array<Record<string, any>> = [
@@ -93,8 +93,6 @@
       CustomerNotVerified: 'Not verified',
       CustomerLocked: 'Locked'
     }
-
-    listApproveBy: Record<string, any>[] = []
 
     created(): void {
       const name = this.$route.name!

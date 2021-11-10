@@ -180,7 +180,9 @@
     "address": "Address",
     "city": "City",
     "state": "State",
-    "personal-info": "Personal Information"
+    "personal-info": "Personal Information",
+    "kyc-status": "KYC status",
+    "placehoder-kyc-status": "Choose Kyc status"
   },
   "buy-lyn": {
     "title": "BUY LYN"

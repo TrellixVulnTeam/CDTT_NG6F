@@ -118,3 +118,9 @@
     content: "\e79d" !important;
     color: #89909e;
 }
+
+.hide-label {
+    .el-form-item__label {
+        opacity: 0;
+    }
+}

@@ -18,38 +18,21 @@
                   <el-option v-for="(country, index) in listCountry" :key="index" :label="country.name" :value="country.name" />
                 </el-select>
               </el-form-item>
-              <el-form-item class="be-flex-item" :label="$t('label.from-date')">
-                <el-date-picker class="w-100" format="dd/MM/yyyy" value-format="yyyy-MM-dd" :placeholder="$t('label.from-date')" v-model="filter.fromCreatedAt" type="date">
-                </el-date-picker>
-              </el-form-item>
-            </div>
-            <div class="be-flex jc-space-between row">
-              <el-form-item class="be-flex-item mr-40" :label="$t('label.id-type')">
-                <el-select v-model="filter.identificationType" id-type :placeholder="$t('label.placehoderidType')" class="w-100" clearable>
+              <el-form-item class="be-flex-item" :label="$t('label.kyc-status')">
+                <el-select v-model="filter.identificationType" id-type :placeholder="$t('label.placehoder-kyc-status')" class="w-100" clearable>
                   <el-option v-for="(type, index) in identificationType" :key="index" :label="type.type" :value="type.value" />
                 </el-select>
               </el-form-item>
-              <el-form-item class="be-flex-item" :label="$t('label.to-date')">
-                <el-date-picker class="w-100" format="dd/MM/yyyy" :placeholder="$t('label.to-date')" value-format="yyyy-MM-dd" v-model="filter.toCreatedAt" type="date">
-                </el-date-picker>
-              </el-form-item>
             </div>
             <div class="be-flex jc-space-between row">
-              <el-form-item class="be-flex-item" :label="$t('label.approve-by')">
-                <el-select
-                  v-model="filter.approvedBy"
-                  filterable
-                  remote
-                  clearable
-                  reserve-keyword
-                  :placeholder="$t('label.placehoderApprove')"
-                  :remote-method="handleSearchApprove"
-                  :loading="loading"
-                >
-                  <div v-infinite-scroll="loadMoreApprove" infinite-scroll-delay="500">
-                    <el-option v-for="item in listApprove" :key="item.id" :label="item.fullName" :value="item.userId"> </el-option>
-                  </div>
-                </el-select>
+              <el-form-item class="be-flex-item mr-40" :label="$t('label.create-date')">
+                <el-date-picker class="w-100" format="dd/MM/yyyy" value-format="yyyy-MM-dd" :placeholder="$t('label.from-date')" v-model="filter.fromCreatedAt" type="date">
+                </el-date-picker>
+              </el-form-item>
+
+              <el-form-item class="be-flex-item hide-label" label="1">
+                <el-date-picker class="w-100" format="dd/MM/yyyy" :placeholder="$t('label.to-date')" value-format="yyyy-MM-dd" v-model="filter.toCreatedAt" type="date">
+                </el-date-picker>
               </el-form-item>
             </div>
           </el-form>
@@ -105,7 +88,6 @@
   }
   @Component
   export default class KycFilter extends Vue {
-    @Prop({ required: true, type: Array, default: [] }) listApproveBy!: Array<Record<string, any>>
     filter = {
       search: '',
       orderBy: 1,
@@ -116,7 +98,6 @@
       approvedBy: ''
     }
     loading = false
-    listApprove: Array<Record<string, any>> = []
     queryApprove = {
       page: 1,
       limit: 20,
@@ -193,28 +174,6 @@
 
     handleShowPopper(): void {
       this.isVisible = true
-      this.listApprove = [...this.listApproveBy]
-    }
-
-    handleSearchApprove(query: string): void {
-      if (query !== '') {
-        this.loading = true
-        this.queryApprove.page = 1
-        this.queryApprove.search = trim(query)
-        apiKyc.getListApprove(this.queryApprove).then(res => {
-          this.listApprove = res.content || []
-          this.loading = false
-        })
-      } else {
-        this.listApprove = this.listApproveBy
-      }
-    }
-
-    loadMoreApprove(): void {
-      this.queryApprove.page += 1
-      apiKyc.getListApprove(this.queryApprove).then(res => {
-        this.listApprove = [...this.listApprove, ...res.content]
-      })
     }
 
     resetFilter(): void {

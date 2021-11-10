@@ -139,7 +139,9 @@
     "address": "Địa chỉ",
     "city": "Thành phố",
     "state": "Bang",
-    "personal-info": "Thông tin cá nhân"
+    "personal-info": "Thông tin cá nhân",
+    "kyc-status": "Trạng thái KYC",
+    "placehoder-kyc-status": "Chọn loại trạng thái"
   },
   "validate": {
     "length": " Độ dài tối thiểu 8 ký tự",
