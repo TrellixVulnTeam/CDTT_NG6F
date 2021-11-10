@@ -6,11 +6,10 @@
       </div>
       <div class="content-right">
         <div class="content">
-          <div class="btn plus">
+          <!-- <div class="btn plus">
             <span><base-icon icon="plus" size="24" /></span>
           </div>
           <div class="notification">
-            <!-- <span><base-icon icon="notification" size="18" /></span> -->
             <span><base-icon icon="notification2" size="18" /></span>
           </div>
           <div class="endow">
@@ -18,7 +17,7 @@
           </div>
           <div class="question">
             <span><base-icon icon="question" size="18" /></span>
-          </div>
+          </div> -->
           <div class="avatar">
             <el-dropdown trigger="click" class="pl-2 login-page-header" @command="handleCommand">
               <span class="el-dropdown-link" style="color: #201f1e">
@@ -107,6 +106,7 @@
           height: 40px;
           display: flex;
           align-items: center;
+          justify-content: flex-end;
           div {
             display: inline-block;
             cursor: pointer;
