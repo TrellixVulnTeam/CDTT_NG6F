@@ -216,6 +216,24 @@
       "full-name": "Họ tên"
     }
   },
+  "customer": {
+    "popup": {
+      "title": "CHI TIẾT KHÁCH HÀNG"
+    },
+    "sort": {
+      "price": "Giá bán",
+      "avail-amount": "Số lượng có sẵn",
+      "locked-amount": "Số lượng bị khóa",
+      "balance-amount": "Số dư"
+    },
+    "table": {
+      "asset": "loại",
+      "price": "giá",
+      "available": "có hiệu lực",
+      "lock-amount": "Số lượng bị khóa",
+      "balance": "Số dư"
+    }
+  },
   "params": {
     "kyc_reject_reason_nationality_not_allow": "Quốc tịch không hợp lệ",
     "kyc_reject_reason_selfie_photo_incorrect": "Ảnh chụp không chính xác",

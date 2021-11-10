@@ -259,6 +259,24 @@
       "full-name": "Full name"
     }
   },
+  "customer": {
+    "popup": {
+      "title": "CUSTOMER DETAIL"
+    },
+    "sort": {
+      "price": "Price",
+      "avail-amount": "Available amount",
+      "locked-amount": "Locked amount",
+      "balance-amount": "Balance amount"
+    },
+    "table": {
+      "asset": "asset",
+      "price": "price",
+      "available": "Available",
+      "lock-amount": "locked amount",
+      "balance": "Balance"
+    }
+  },
   "params": {
     "kyc_reject_reason_nationality_not_allow": "Nationality not allow",
     "kyc_reject_reason_selfie_photo_incorrect": "Selfie photo incorrect",

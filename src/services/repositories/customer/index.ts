@@ -7,17 +7,6 @@ export class CustomerRepository extends BaseRepository {
     super('main/api/v1/customers')
   }
 
-  async getListCustomer(params: Record<string, any>): Promise<any> {
-    try {
-      const _params = this.convertParams(params)
-      const rs = await request.get(`${this.prefix}`, { params: _params })
-      return Promise.resolve(rs.data.data)
-    } catch (error) {
-      console.log(error)
-      return Promise.reject(error)
-    }
-  }
-
   private convertParams(params: Record<string, any>): Record<string, any> {
     const _params = { ...params }
     const objKey = Object.keys(_params)
@@ -29,5 +18,26 @@ export class CustomerRepository extends BaseRepository {
       }
     })
     return _params
+  }
+
+  async getListCustomer(params: Record<string, any>): Promise<any> {
+    try {
+      const _params = this.convertParams(params)
+      const rs = await request.get(`${this.prefix}`, { params: _params })
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      console.log(error)
+      return Promise.reject(error)
+    }
+  }
+
+  async getlistBalance(id: number): Promise<any> {
+    try {
+      const rs = await request.get(`${this.prefix}/${id}/balance`)
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      console.log(error)
+      return Promise.reject(error)
+    }
   }
 }

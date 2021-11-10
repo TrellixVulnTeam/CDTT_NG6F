@@ -1,7 +1,7 @@
 <template>
   <base-popup name="popup-customer-detail" class="popup-customer-detail" width="1040px" :isShowFooter="false" :open="handleOpen" :close="handleClose">
     <div class="title-popup" slot="title">
-      <span>{{ $t('kyc.popup.title') }}</span>
+      <span>{{ $t('customer.popup.title') }}</span>
     </div>
     <div class="content">
       <div class="be-flex mb-24 content__header">
@@ -49,8 +49,11 @@
             <span class="text-base">{{ $t(`menu.${tab.title}`) }}</span>
           </div>
         </div>
-        <div v-if="tabActive === 0" class="main-content">
+        <div v-if="tabActive === 0" v-loading="isLoading" :class="isLoading ? 'main-content-loading' : null" class="main-content">
           <info-customer :info="detailRow" />
+        </div>
+        <div v-if="tabActive === 3" v-loading="isLoading" :class="isLoading ? 'main-content-loading' : null" class="main-content">
+          <customer-balance :listBlance="listBlance" />
         </div>
       </div>
     </div>
@@ -60,16 +63,17 @@
 <script lang="ts">
   import { Component, Mixins, Prop } from 'vue-property-decorator'
   import InfoCustomer from '../Info.vue'
+  import CustomerBalance from '../Balance.vue'
   import PopupMixin from '@/mixins/popup'
 
   import getRepository from '@/services'
-  import { KycRepository } from '@/services/repositories/kyc'
-  const apiKyc: KycRepository = getRepository('kyc')
+  import { CustomerRepository } from '@/services/repositories/customer'
+  const apiCustomer: CustomerRepository = getRepository('customer')
 
   import { namespace } from 'vuex-class'
   const bcKyc = namespace('bcKyc')
 
-  @Component({ components: { InfoCustomer } })
+  @Component({ components: { InfoCustomer, CustomerBalance } })
   export default class CustomerDetail extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Object, default: {} }) detailRow!: Record<string, any>
     @bcKyc.State('listReason') listReason!: Array<Record<string, any>>
@@ -117,6 +121,8 @@
     ]
     tabActive = 0
 
+    listBlance: Record<string, any>[] = []
+
     async handleOpen(): Promise<void> {
       try {
         this.isLoading = true
@@ -139,6 +145,20 @@
 
     handleChangeTab(tab: Record<string, any>): void {
       this.tabActive = tab.id
+      if (tab.id === 3) {
+        this.handleGetListBalance()
+      }
+    }
+
+    async handleGetListBalance(): Promise<void> {
+      try {
+        this.isLoading = true
+        this.listBlance = await apiCustomer.getlistBalance(this.detailRow.userId)
+        this.isLoading = false
+      } catch (error) {
+        this.isLoading = false
+        console.log(error)
+      }
     }
   }
 </script>
@@ -209,6 +229,10 @@
                 background-color: var(--bc-tab-active);
               }
             }
+          }
+
+          .main-content-loading {
+            min-height: 200px;
           }
         }
       }
