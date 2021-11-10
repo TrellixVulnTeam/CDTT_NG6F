@@ -1,5 +1,5 @@
 <template>
-  <base-popup name="popup-customer-detail" class="popup-customer-detail" width="1040px" :isShowFooter="false" :open="handleOpen">
+  <base-popup name="popup-customer-detail" class="popup-customer-detail" width="1040px" :isShowFooter="false" :open="handleOpen" :close="handleClose">
     <div class="title-popup" slot="title">
       <span>{{ $t('kyc.popup.title') }}</span>
     </div>
@@ -130,6 +130,7 @@
     }
 
     handleClose(): void {
+      this.tabActive = 0
       this.setOpenPopup({
         popupName: 'popup-customer-detail',
         isOpen: false

@@ -179,7 +179,8 @@
     "birth-day": "Date of birth",
     "address": "Address",
     "city": "City",
-    "state": "State"
+    "state": "State",
+    "personal-info": "Personal Information"
   },
   "buy-lyn": {
     "title": "BUY LYN"

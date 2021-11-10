@@ -138,7 +138,8 @@
     "birth-day": "Ngày sinh",
     "address": "Địa chỉ",
     "city": "Thành phố",
-    "state": "Bang"
+    "state": "Bang",
+    "personal-info": "Thông tin cá nhân"
   },
   "validate": {
     "length": " Độ dài tối thiểu 8 ký tự",

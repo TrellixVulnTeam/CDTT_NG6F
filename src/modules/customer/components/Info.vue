@@ -2,7 +2,7 @@
   <div class="be-flex info">
     <div class="info-item">
       <div class="be-flex align-center mb-2 title">
-        <span class="text-base text-bold">Personal Information</span>
+        <span class="text-base text-bold">{{ $t('label.personal-info') }}</span>
         <base-icon icon="icon-personal" size="24" class="icon-personal" />
       </div>
       <div class="be-flex jc-space-between align-center item">
@@ -24,7 +24,7 @@
     </div>
     <div class="info-item">
       <div class="be-flex align-center mb-2 title">
-        <span class="text-base text-bold">Address</span>
+        <span class="text-base text-bold">{{ $t('label.address') }}</span>
         <base-icon icon="icon-address" size="24" class="icon-personal" />
       </div>
       <div class="be-flex jc-space-between align-center item">
