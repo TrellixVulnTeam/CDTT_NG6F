@@ -1,0 +1,216 @@
+<template>
+  <base-popup name="popup-customer-detail" class="popup-customer-detail" width="1040px" :isShowFooter="false" :open="handleOpen">
+    <div class="title-popup" slot="title">
+      <span>{{ $t('kyc.popup.title') }}</span>
+    </div>
+    <div class="content">
+      <div class="be-flex mb-24 content__header">
+        <div class="avatar">
+          <img v-if="detailRow.avatar" :src="detailRow.avatar" altdetailRow.avatar />
+          <base-icon v-else icon="default-avatar" size="80" style="display: inline-flex" />
+        </div>
+        <div class="ml-24 w-100 info">
+          <div class="full-name mb-12 text-l text-bold">{{ detailRow.fullName }}</div>
+          <div class="be-flex info-below">
+            <div class="info-below__left">
+              <div class="be-flex jc-space-between info-item">
+                <span class="text-xs label">{{ $t('label.referral-code') }}:</span>
+                <span class="text-base">{{ detailRow.referrerCode }}</span>
+              </div>
+              <div class="be-flex jc-space-between info-item">
+                <span class="text-xs label">{{ $t('label.phone') }}:</span>
+                <span class="text-base">{{ detailRow.phone }}</span>
+              </div>
+              <div class="be-flex jc-space-between info-item">
+                <span class="text-xs label">{{ $t('label.email') }}:</span>
+                <span class="text-base">{{ detailRow.email }}</span>
+              </div>
+            </div>
+            <div class="info-below__right">
+              <div class="be-flex jc-space-between info-item">
+                <span class="text-xs label">{{ $t('label.level') }}:</span>
+                <span class="text-base">{{ detailRow.level }}</span>
+              </div>
+              <div class="be-flex jc-space-between info-item">
+                <span class="text-xs label">{{ $t('label.create-date') }}:</span>
+                <span class="text-base">{{ detailRow.createdDate | formatMMDDYY }}</span>
+              </div>
+              <div class="be-flex jc-space-between info-item">
+                <span class="text-xs label">{{ $t('label.last-login') }}:</span>
+                <span class="text-base">{{ detailRow.lastimeLogin | formatMMDDYY }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="content__bottom">
+        <div class="be-flex mb-24 tabs">
+          <div class="tab-item cursor" v-for="tab in tabs" :key="tab.id" :class="tabActive === tab.id ? 'tab-active' : null" @click="handleChangeTab(tab)">
+            <span class="text-base">{{ $t(`menu.${tab.title}`) }}</span>
+          </div>
+        </div>
+        <div v-if="tabActive === 0" class="main-content">
+          <info-customer :info="detailRow" />
+        </div>
+      </div>
+    </div>
+  </base-popup>
+</template>
+
+<script lang="ts">
+  import { Component, Mixins, Prop } from 'vue-property-decorator'
+  import InfoCustomer from '../Info.vue'
+  import PopupMixin from '@/mixins/popup'
+
+  import getRepository from '@/services'
+  import { KycRepository } from '@/services/repositories/kyc'
+  const apiKyc: KycRepository = getRepository('kyc')
+
+  import { namespace } from 'vuex-class'
+  const bcKyc = namespace('bcKyc')
+
+  @Component({ components: { InfoCustomer } })
+  export default class CustomerDetail extends Mixins(PopupMixin) {
+    @Prop({ required: true, type: Object, default: {} }) detailRow!: Record<string, any>
+    @bcKyc.State('listReason') listReason!: Array<Record<string, any>>
+
+    detail: Record<string, any> = {}
+    isLoading = false
+
+    tabs: Record<string, any>[] = [
+      {
+        id: 0,
+        title: 'info'
+      },
+      {
+        id: 1,
+        title: 'kyc'
+      },
+      {
+        id: 2,
+        title: 'address'
+      },
+      {
+        id: 3,
+        title: 'balance'
+      },
+      {
+        id: 4,
+        title: 'transaction'
+      },
+      {
+        id: 5,
+        title: 'referral'
+      },
+      {
+        id: 6,
+        title: 'bonus'
+      },
+      {
+        id: 7,
+        title: 'statistics'
+      },
+      {
+        id: 8,
+        title: 'setting'
+      }
+    ]
+    tabActive = 0
+
+    async handleOpen(): Promise<void> {
+      try {
+        this.isLoading = true
+        // this.detail = await apiKyc.getDetailKyc(this.detailRow.userId)
+        // this.handleGetListRejectOfUser()
+        this.isLoading = false
+      } catch (error) {
+        this.isLoading = false
+        console.log(error)
+      }
+    }
+
+    handleClose(): void {
+      this.setOpenPopup({
+        popupName: 'popup-customer-detail',
+        isOpen: false
+      })
+    }
+
+    handleChangeTab(tab: Record<string, any>): void {
+      this.tabActive = tab.id
+    }
+  }
+</script>
+
+<style scoped lang="scss">
+  .popup-customer-detail {
+    color: var(--bc-text-primary);
+    ::v-deep .popup-content {
+      background-color: #f6f8fc;
+      .content {
+        padding-bottom: 24px;
+        &__header {
+          .avatar {
+            img {
+              width: 80px;
+              height: 80px;
+              border-radius: 100px;
+            }
+          }
+          .info-below {
+            &__left {
+              width: 316px;
+              margin-right: 160px;
+            }
+            &__right {
+              width: 316px;
+            }
+            .info-item {
+              // margin-bottom: 12px;
+              height: 24px;
+              line-height: 24px;
+              align-items: center;
+              margin-bottom: 4px;
+              &:last-child {
+                margin-bottom: 0;
+              }
+              .label {
+                color: #5b616e;
+              }
+            }
+          }
+        }
+
+        &__bottom {
+          background-color: #fff;
+          box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
+          border-radius: 4px;
+          .tabs {
+            border-bottom: 1px solid #d2d0ce;
+            .tab-item {
+              padding: 16px 12px;
+              position: relative;
+              color: #5b616e;
+              &:hover {
+                color: var(--bc-tab-active);
+              }
+            }
+            .tab-active {
+              color: var(--bc-tab-active);
+              font-weight: 600;
+              &::after {
+                content: '';
+                position: absolute;
+                width: 100%;
+                height: 2px;
+                bottom: 0;
+                left: 0;
+                background-color: var(--bc-tab-active);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+</style>

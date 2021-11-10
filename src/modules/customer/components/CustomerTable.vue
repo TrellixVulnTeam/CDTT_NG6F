@@ -28,7 +28,9 @@
         </el-table-column>
         <el-table-column :label="$t('kyc.table.status')" prop="kycStatus" align="center" width="160">
           <template slot-scope="scope">
-            <span :class="checkType(scope.row.kycStatus)">{{ checkStatus(scope.row.kycStatus) }}</span>
+            <span v-if="scope.row.userStatus === 'ACTIVE'" :class="checkType(scope.row.kycStatus)">{{ checkStatus(scope.row.kycStatus) }}</span>
+            <span v-else-if="scope.row.userStatus === 'UNVERIFIED'" class="status-not-verified">{{ checkStatus(scope.row.userStatus) }}</span>
+            <span v-else class="status-locked">{{ $t('status.locked') }}</span>
           </template>
         </el-table-column>
       </base-table>
@@ -58,6 +60,8 @@
           return this.$t('status.pending')
         case 'VERIFIED':
           return this.$t('status.verified')
+        case 'UNVERIFIED':
+          return this.$t('status.unverified')
         default:
           return this.$t('status.rejected')
       }

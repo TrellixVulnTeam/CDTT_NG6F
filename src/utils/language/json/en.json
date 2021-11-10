@@ -167,7 +167,19 @@
     "id-type": "ID type",
     "placehoderidType": "Choose verify type",
     "approve-by": "Approved by",
-    "placehoderApprove": "Choose a validator"
+    "placehoderApprove": "Choose a validator",
+    "referral-code": "Referral code",
+    "phone": "Phone number",
+    "email": "Email",
+    "level": "Level",
+    "create-date": "Created date",
+    "last-login": "Last login",
+    "f-name": "First name",
+    "l-name": "Last name",
+    "birth-day": "Date of birth",
+    "address": "Address",
+    "city": "City",
+    "state": "State"
   },
   "buy-lyn": {
     "title": "BUY LYN"
@@ -262,11 +274,22 @@
     "customer-verified": "Verified",
     "customer-processing": "KYC processing",
     "customer-not-verified": "Not verified",
-    "customer-locked": "Locked"
+    "customer-locked": "Locked",
+    "info": "Info",
+    "kyc": "KYC",
+    "address": "Addresses",
+    "balance": "Balance",
+    "transaction": "Transaction",
+    "referral": "Referral",
+    "bonus": "Bonus",
+    "statistics": "Statistics",
+    "setting": "Settings"
   },
   "status": {
-    "pending": "PENDING",
-    "verified": "VERIFIED",
-    "rejected": "REJECTED"
+    "pending": "Pending",
+    "verified": "Verified",
+    "rejected": "Rejected",
+    "unverified": "Not verified",
+    "locked": "Locked"
   }
 }

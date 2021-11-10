@@ -16,9 +16,10 @@
         <p>{{ $t('leftMenu.kyc') }}</p>
       </div>
     </router-link>
-    <router-link :to="{ name: 'CustomerMain' }" class="router_center" exact>
+    <router-link :to="{ name: 'CustomerMain' }" class="router_center">
       <div class="sack_avatar">
-        <base-icon icon="menu-customer" size="32" />
+        <base-icon icon="menu-customer-active" class="menu-active" size="32" />
+        <base-icon icon="menu-customer" class="menu" size="32" />
         <p>{{ $t('leftMenu.customer') }}</p>
       </div>
     </router-link>

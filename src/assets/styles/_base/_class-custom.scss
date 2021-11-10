@@ -208,6 +208,9 @@ input[type="number"] {
 .ml-2 {
     margin-left: 20px !important;
 }
+.ml-24 {
+    margin-left: 24px !important;
+}
 
 .mb-0 {
     margin-bottom: 0 !important;
@@ -223,6 +226,9 @@ input[type="number"] {
 }
 .mb-16 {
     margin-bottom: 16px !important;
+}
+.mb-12 {
+    margin-bottom: 12px !important;
 }
 .mb-24 {
     margin-bottom: 24px !important;
@@ -309,6 +315,11 @@ input[type="number"] {
     background-color: #e4f9e2;
 }
 .status-rejected {
+    @include status;
+    color: #cf202f;
+    background-color: #fbedee;
+}
+.status-locked {
     @include status;
     color: #cf202f;
     background-color: #fbedee;

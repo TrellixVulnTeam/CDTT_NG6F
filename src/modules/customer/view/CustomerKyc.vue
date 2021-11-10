@@ -11,7 +11,7 @@
     </div>
     <kyc-filter @filter="handleFilter" :listApproveBy="listApproveBy" />
     <customer-table v-loading="isLoading" @rowClick="handleRowClick" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="data" />
-    <kyc-detail :detailRow="detailRow" @init="init" />
+    <customer-detail :detailRow="detailRow" @init="init" />
   </div>
 </template>
 
@@ -20,7 +20,7 @@
   //@ts-ignore
   import CustomerTable from '../components/CustomerTable.vue'
   import KycFilter from '../components/filter/KycFilter.vue'
-  import KycDetail from '../components/popup/KycDetail.vue'
+  import CustomerDetail from '../components/popup/CustomerDetail.vue'
   import PopupMixin from '@/mixins/popup'
   import getRepository from '@/services'
   import { CustomerRepository } from '@/services/repositories/customer'
@@ -28,9 +28,9 @@
   import { debounce } from 'lodash'
 
   import { namespace } from 'vuex-class'
+  import { SettingRepository } from '@/services/repositories/setting'
   const bcKyc = namespace('bcKyc')
   const apiCustomer: CustomerRepository = getRepository('customer')
-
   interface IQuery {
     page?: number
     limit?: number
@@ -40,7 +40,7 @@
     type?: string | null | undefined
   }
 
-  @Component({ components: { CustomerTable, KycFilter, KycDetail } })
+  @Component({ components: { CustomerTable, KycFilter, CustomerDetail } })
   export default class BOCustomer extends Mixins(PopupMixin) {
     @bcKyc.Action('getListReason') getListReason!: () => void
     tabs: Array<Record<string, any>> = [
@@ -87,7 +87,7 @@
     }
 
     objType: Record<string, any> = {
-      CustomerAll: null,
+      CustomerAll: '',
       CustomerVerified: 'Verified',
       CustomerProcessing: 'KYC processing',
       CustomerNotVerified: 'Not verified',
@@ -143,7 +143,7 @@
     handleRowClick(row: Record<string, any>): void {
       this.detailRow = row
       this.setOpenPopup({
-        popupName: 'popup-kyc-detail',
+        popupName: 'popup-customer-detail',
         isOpen: true
       })
     }

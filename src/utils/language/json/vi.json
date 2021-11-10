@@ -126,7 +126,19 @@
     "id-type": "Loại xác thực",
     "placehoderidType": "Chọn loại xác thực",
     "approve-by": "Xác nhận bởi",
-    "placehoderApprove": "Chọn người xác nhận"
+    "placehoderApprove": "Chọn người xác nhận",
+    "referral-code": "Mã giới thiệu",
+    "phone": "Số điện thoại",
+    "email": "Email",
+    "level": "Cấp độ",
+    "create-date": "Ngày tạo",
+    "last-login": "Lần đăng nhập cuối",
+    "f-name": "Tên",
+    "l-name": "Họ",
+    "birth-day": "Ngày sinh",
+    "address": "Địa chỉ",
+    "city": "Thành phố",
+    "state": "Bang"
   },
   "validate": {
     "length": " Độ dài tối thiểu 8 ký tự",
@@ -219,11 +231,22 @@
     "customer-verified": "Đã xác minh",
     "customer-processing": "Đang KYC",
     "customer-not-verified": "Chưa xác minh",
-    "customer-locked": "Bị khóa"
+    "customer-locked": "Bị khóa",
+    "info": "Thông tin",
+    "kyc": "KYC",
+    "address": "Địa chỉ",
+    "balance": "Số dư",
+    "transaction": "Giao dịch",
+    "referral": "Giới thiệu",
+    "bonus": "Thưởng",
+    "statistics": "Thống kê",
+    "setting": "Cài đặt"
   },
   "status": {
-    "pending": "PENDING",
-    "verified": " ĐÃ XÁC THỰC",
-    "rejected": "TỪ CHỐI"
+    "pending": "Đang chờ",
+    "verified": " Đã xác thực",
+    "rejected": "Từ chối",
+    "unverified": "Chưa xác thực",
+    "locked": "Bị khóa"
   }
 }

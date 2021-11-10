@@ -19,7 +19,8 @@
                 </el-select>
               </el-form-item>
               <el-form-item class="be-flex-item" :label="$t('label.from-date')">
-                <el-date-picker class="w-100" format="dd/MM/yyyy" value-format="yyyy-MM-dd" v-model="filter.fromCreatedAt" type="date"> </el-date-picker>
+                <el-date-picker class="w-100" format="dd/MM/yyyy" value-format="yyyy-MM-dd" :placeholder="$t('label.from-date')" v-model="filter.fromCreatedAt" type="date">
+                </el-date-picker>
               </el-form-item>
             </div>
             <div class="be-flex jc-space-between row">
@@ -29,7 +30,8 @@
                 </el-select>
               </el-form-item>
               <el-form-item class="be-flex-item" :label="$t('label.to-date')">
-                <el-date-picker class="w-100" format="dd/MM/yyyy" value-format="yyyy-MM-dd" v-model="filter.toCreatedAt" type="date"> </el-date-picker>
+                <el-date-picker class="w-100" format="dd/MM/yyyy" :placeholder="$t('label.to-date')" value-format="yyyy-MM-dd" v-model="filter.toCreatedAt" type="date">
+                </el-date-picker>
               </el-form-item>
             </div>
             <div class="be-flex jc-space-between row">
@@ -135,7 +137,7 @@
         i18n: 'kyc.sort.transaction'
       },
       {
-        command: 2,
+        command: 3,
         label: this.$i18n.t('kyc.sort.full-name'),
         divided: false,
         i18n: 'kyc.sort.full-name'
