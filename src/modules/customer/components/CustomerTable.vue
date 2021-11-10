@@ -21,9 +21,9 @@
         <el-table-column :label="$t('kyc.table.email')" prop="email" width="300"> </el-table-column>
         <el-table-column :label="$t('kyc.table.national')" prop="nationality" width="140"> </el-table-column>
 
-        <el-table-column :label="$t('kyc.table.date')" prop="createdAt" width="200">
+        <el-table-column :label="$t('kyc.table.date')" prop="createdDate" width="200">
           <template slot-scope="scope">
-            <span>{{ scope.row.createdAt | formatDateHourMs }}</span>
+            <span>{{ scope.row.createdDate | formatDateHourMs }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('kyc.table.status')" prop="kycStatus" align="center" width="160">
