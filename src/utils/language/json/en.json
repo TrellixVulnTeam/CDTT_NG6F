@@ -98,7 +98,8 @@
     "customer": "Customer",
     "contract": "Contract",
     "report": "Report",
-    "setting": "Setting"
+    "setting": "Setting",
+    "crowdsale": "Crowdsale"
   },
   "header": {
     "kyc": "KYC"
@@ -150,7 +151,8 @@
   },
   "paging": {
     "show": "Show",
-    "customers": "customers"
+    "customers": "customers",
+    "crowdsale": "transaction"
   },
   "label": {
     "buy-from": "Buy from",
@@ -304,7 +306,9 @@
     "referral": "Referral",
     "bonus": "Bonus",
     "statistics": "Statistics",
-    "setting": "Settings"
+    "setting": "Settings",
+    "Transactions": "Transactions",
+    "Round": "Round"
   },
   "status": {
     "pending": "Pending",
