@@ -55,6 +55,9 @@
         <div v-if="tabActive === 3" v-loading="isLoading" :class="isLoading ? 'main-content-loading' : null" class="main-content">
           <customer-balance :listBlance="listBlance" />
         </div>
+        <div v-if='tabActive===1'>
+          <Kyc-customer-detail :detailRow="detailRow"   />
+        </div>
       </div>
     </div>
   </base-popup>
@@ -71,9 +74,10 @@
   const apiCustomer: CustomerRepository = getRepository('customer')
 
   import { namespace } from 'vuex-class'
+  import KycCustomerDetail from '@/modules/customer/components/Kyc.vue'
   const bcKyc = namespace('bcKyc')
 
-  @Component({ components: { InfoCustomer, CustomerBalance } })
+  @Component({ components: { InfoCustomer, CustomerBalance, KycCustomerDetail } })
   export default class CustomerDetail extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Object, default: {} }) detailRow!: Record<string, any>
     @bcKyc.State('listReason') listReason!: Array<Record<string, any>>
