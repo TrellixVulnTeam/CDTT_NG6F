@@ -53,10 +53,11 @@
     image = './avatar.png'
 
     get getTitle(): any {
-      switch (this.$route.name) {
-        case 'Kyc':
+      switch (this.$route.matched[0].path) {
+        case '/kyc':
           return this.$t('header.kyc')
-
+        case '/customer':
+          return this.$t('header.customer')
         default:
           return this.$t('header.kyc')
       }
@@ -87,13 +88,13 @@
         width: 50%;
         height: 100%;
         padding: 20px 0px 20px 24px;
-      }
-      .title {
-        width: 74px;
-        height: 32px;
-        font-weight: 600;
-        color: #201f1e;
-        line-height: 32px;
+        .title {
+          width: 150px;
+          height: 32px;
+          font-weight: 600;
+          color: #0A0B0D;
+          line-height: 32px;
+        }
       }
       .content-right {
         width: 50%;
