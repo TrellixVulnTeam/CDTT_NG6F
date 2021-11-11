@@ -173,6 +173,9 @@
             &:hover {
               color: var(--bc-tab-active);
             }
+            .text-base{
+              color: #5b616e;
+            }
           }
           .tab-active {
             color: var(--bc-tab-active);

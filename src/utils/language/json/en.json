@@ -101,7 +101,8 @@
     "setting": "Setting"
   },
   "header": {
-    "kyc": "KYC"
+    "kyc": "KYC",
+    "customer": "Customer"
   },
   "footer": {
     "terms": "Terms and Conditions"
@@ -228,7 +229,7 @@
       "email": "email",
       "national": "NATIONALITY",
       "date": "CREATED DATE",
-      "status": "status"
+      "status": "kyc status"
     },
     "popup": {
       "title": "KYC DETAIL",
