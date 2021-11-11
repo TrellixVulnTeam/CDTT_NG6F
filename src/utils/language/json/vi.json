@@ -79,7 +79,8 @@
     "crowdsale": "Crowdsale"
   },
   "header": {
-    "kyc": "KYC"
+    "kyc": "KYC",
+    "customer": "Khách hàng"
   },
   "footer": {
     "terms": "Các điều khoản và điều kiện"
@@ -111,6 +112,7 @@
   "paging": {
     "show": "Hiển thị",
     "customers": "khách hàng",
+    "transaction": "giao dịch",
     "crowdsale": "giao dịch"
   },
   "label": {
@@ -173,7 +175,9 @@
     "send-code-fail": "Không thể gửi mã xác thực, vui lòng thử lại",
     "approve-success": "Xác thực thành công",
     "reject-success": "Từ chối thành công",
-    "no-select-reject": "Tối thiểu 1 lý do từ chối"
+    "no-select-reject": "Tối thiểu 1 lý do từ chối",
+    "no-data": "Không có dữ liệu",
+    "copy": "Sao chép thành công"
   },
   "logout": {
     "title": "Đăng xuất"
@@ -229,11 +233,30 @@
       "balance-amount": "Số dư"
     },
     "table": {
-      "asset": "loại",
+      "asset": "ví",
       "price": "giá",
       "available": "có hiệu lực",
       "lock-amount": "Số lượng bị khóa",
       "balance": "Số dư"
+    }
+  },
+  "transaction": {
+    "table": {
+      "trans-id": "mã giao dịch",
+      "date": "thời gian",
+      "type": "loại",
+      "status": "trạng thái",
+      "amount": "số lượng",
+      "deposit": "Nạp",
+      "withdraw": "Rút",
+      "transfer": "Chuyển",
+      "crowdsale": "Crowdsale",
+      "succsess": "Thành công",
+      "pending": "Chờ xử lý",
+      "processing": "Đang xử lý",
+      "failed": "Thất bại",
+      "rejected": "Từ chối",
+      "sell": "Bán"
     }
   },
   "params": {

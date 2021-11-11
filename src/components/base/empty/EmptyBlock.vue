@@ -1,7 +1,7 @@
 <template>
-  <div class="empty-block" v-if="show">
-    <base-icon icon="no-post" />
-    <p class="empty-text">{{ emptyText }}</p>
+  <div class="empty-block" style="padding-top: 22px" v-if="show">
+    <base-icon icon="no-data" size="100" />
+    <p class="empty-text">{{ $t('notify.no-data') }}</p>
   </div>
 </template>
 <script lang="ts">

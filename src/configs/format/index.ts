@@ -196,14 +196,16 @@ export function timeAgo(time: string | number): string | undefined {
   }
 }
 
-export function formatTransactionCode(code: string, number = 10): string {
+export function formatTransactionCode(code: string | null, number = 10): string {
+  if (!code) return ''
   const before = code.substring(0, number)
   const after = code.substring(code.length - number)
   return before + '...' + after
 }
 
-export function formatDateTimeBirthday(time:string):string{
-  const timeConvert:string[]=time.split(" ");
-  console.log(timeConvert)
-  return timeConvert[0];
+export function formatDateTimeBirthday(time: string | null): string {
+  if (time !== null) {
+    const timeConvert: string[] = time.split(' ')
+    return timeConvert[0]
+  } else return ''
 }

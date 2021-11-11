@@ -38,17 +38,18 @@
   --bc-color-divider: #d2d0ce;
 
   //color status
-  --bc-bg-error: #3b3a39;
-  --bc-bg-success: #dff6dd;
-  --bc-bg-warning: #fed9cc;
-  --bc-bg-neutral: #fff4ce;
+  --bc-bg-error: #fbedee;
+  --bc-bg-success: #e4f9e2;
+  --bc-bg-warning: #fff3e2;
+  --bc-bg-pending: #fff3e2;
+  --bc-bg-neutral: #f3f2f1;
 
   --bc-status-error: #cf202f;
   --bc-required: #cf202f;
   --bc-status-success: #129961;
   --bc-status-warning: #dd7d00;
   --bc-status-neutral: #a19f9d;
-  --bc-status-pending: #a19f9d;
+  --bc-status-pending: #dd7d00;
 
   //overlay
   -bc-overlay-light: rgba(255, 255, 255, 0.4);

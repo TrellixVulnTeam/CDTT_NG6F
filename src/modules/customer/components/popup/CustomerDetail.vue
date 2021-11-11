@@ -1,5 +1,5 @@
 <template>
-  <base-popup name="popup-customer-detail" class="popup-customer-detail" width="1040px" :isShowFooter="false" :open="handleOpen" :close="handleClose">
+  <base-popup name="popup-customer-detail" class="popup-customer-detail" width="1040px" :isShowFooter="false" :close="handleClose">
     <div class="title-popup" slot="title">
       <span>{{ $t('customer.popup.title') }}</span>
     </div>
@@ -49,11 +49,13 @@
             <span class="text-base">{{ $t(`menu.${tab.title}`) }}</span>
           </div>
         </div>
-        <div v-if="tabActive === 0" v-loading="isLoading" :class="isLoading ? 'main-content-loading' : null" class="main-content">
-          <info-customer :info="detailRow" />
+        <div v-loading="isLoading" :class="isLoading ? 'main-content-loading' : null" class="main-content">
+          <info-customer v-if="tabActive === 0" :info="detailRow" />
+          <customer-balance v-if="tabActive === 3" :listBlance="listBlance" />
+          <customer-transaction v-if="tabActive === 4" :userId="detailRow.userId" />
         </div>
-        <div v-if="tabActive === 3" v-loading="isLoading" :class="isLoading ? 'main-content-loading' : null" class="main-content">
-          <customer-balance :listBlance="listBlance" />
+        <div v-if="tabActive === 1">
+          <Kyc-customer-detail :detailRow="detailRow" />
         </div>
       </div>
     </div>
@@ -64,6 +66,7 @@
   import { Component, Mixins, Prop } from 'vue-property-decorator'
   import InfoCustomer from '../Info.vue'
   import CustomerBalance from '../Balance.vue'
+  import CustomerTransaction from '../CustomerTransaction.vue'
   import PopupMixin from '@/mixins/popup'
 
   import getRepository from '@/services'
@@ -71,12 +74,12 @@
   const apiCustomer: CustomerRepository = getRepository('customer')
 
   import { namespace } from 'vuex-class'
+  import KycCustomerDetail from '@/modules/customer/components/Kyc.vue'
   const bcKyc = namespace('bcKyc')
 
-  @Component({ components: { InfoCustomer, CustomerBalance } })
+  @Component({ components: { InfoCustomer, CustomerBalance, KycCustomerDetail } })
   export default class CustomerDetail extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Object, default: {} }) detailRow!: Record<string, any>
-    @bcKyc.State('listReason') listReason!: Array<Record<string, any>>
 
     detail: Record<string, any> = {}
     isLoading = false
@@ -121,19 +124,8 @@
     ]
     tabActive = 0
 
+    //balance
     listBlance: Record<string, any>[] = []
-
-    async handleOpen(): Promise<void> {
-      try {
-        this.isLoading = true
-        // this.detail = await apiKyc.getDetailKyc(this.detailRow.userId)
-        // this.handleGetListRejectOfUser()
-        this.isLoading = false
-      } catch (error) {
-        this.isLoading = false
-        console.log(error)
-      }
-    }
 
     handleClose(): void {
       this.tabActive = 0
@@ -166,9 +158,9 @@
 <style scoped lang="scss">
   .popup-customer-detail {
     color: var(--bc-text-primary);
-    .title-popup{
-      span{
-        color: #0A0B0D;
+    .title-popup {
+      span {
+        color: #0a0b0d;
       }
     }
     ::v-deep .popup-content {

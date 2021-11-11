@@ -45,4 +45,10 @@
     }
   }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+  .base-pagination{
+    .info{
+      color: #5b616e;
+    }
+  }
+</style>

@@ -304,27 +304,50 @@ input[type="number"] {
     color: #dd7d00;
     background-color: #fff3e2;
 }
+.status-warning {
+    @include status;
+    color: #dd7d00;
+    background-color: #fff3e2;
+}
 .status-not-verified {
     @include status;
     color: #5b616e;
     background-color: #f3f2f1;
 }
-.status-verified {
+.status-verified,
+.status-success {
     @include status;
-    color: #129961;
+    color: var(--bc-status-success);
     background-color: #e4f9e2;
 }
 .status-rejected {
     @include status;
-    color: #cf202f;
+    color: var(--bc-status-error);
     background-color: #fbedee;
 }
 .status-locked {
     @include status;
-    color: #cf202f;
+    color: var(--bc-status-error);
     background-color: #fbedee;
+}
+.status-error {
+    @include status;
+    color: var(--bc-status-error);
+    background-color: var(--bc-bg-error);
 }
 
 .h-40 {
     height: 40px;
+}
+
+.amount-decrease {
+    color: var(--bc-status-error);
+}
+.amount-increase {
+    color: var(--bc-status-success);
+}
+.amount-exchange-small {
+    font-size: 14px;
+    line-height: 20px;
+    color: #5b616e;
 }

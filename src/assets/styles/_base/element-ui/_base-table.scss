@@ -91,11 +91,13 @@
         color: #8f8f8f;
     }
     .custom-pagination {
+        padding-right: 0;
         .el-input {
             &__inner {
                 height: 35px;
                 font-size: 14px !important;
                 background-color: #fafafa;
+                color: #0A0B0D;
                 border-color: var(--bc-border-primary);
 
                 &:hover,
@@ -130,6 +132,7 @@
                 height: 32px;
                 width: 40px;
                 // padding: 4px 0;
+                color: #0A0B0D;
                 font-size: 14px;
                 font-weight: 500;
 
@@ -143,6 +146,9 @@
                 border-color: var(--bc-theme-primary) !important;
                 background-color: #fff !important;
             }
+        }
+        .btn-next {
+            margin-right: 0 !important;
         }
     }
 }
