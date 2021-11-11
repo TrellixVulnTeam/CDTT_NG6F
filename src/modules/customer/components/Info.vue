@@ -6,19 +6,19 @@
         <base-icon icon="icon-personal" size="24" class="icon-personal" />
       </div>
       <div class="be-flex jc-space-between align-center item">
-        <span class="label">{{ $t('label.f-name') }}:</span>
+        <span class="label">{{ $t('label.f-name') }}</span>
         <span class="text-base">{{ info.firstName }}</span>
       </div>
       <div class="be-flex jc-space-between align-center item">
-        <span class="label">{{ $t('label.l-name') }}:</span>
+        <span class="label">{{ $t('label.l-name') }}</span>
         <span class="text-base">{{ info.lastName }}</span>
       </div>
       <div class="be-flex jc-space-between align-center item">
-        <span class="label">{{ $t('label.birth-day') }}:</span>
-        <span class="text-base">{{ info.birthday }}</span>
+        <span class="label">{{ $t('label.birth-day') }}</span>
+        <span class="text-base">{{ info.birthday | formatDateTimeBirthday}}</span>
       </div>
       <div class="be-flex jc-space-between align-center item">
-        <span class="label">{{ $t('label.nationality') }}:</span>
+        <span class="label">{{ $t('label.nationality') }}</span>
         <span class="text-base">{{ info.nationality }}</span>
       </div>
     </div>
@@ -28,15 +28,15 @@
         <base-icon icon="icon-address" size="24" class="icon-personal" />
       </div>
       <div class="be-flex jc-space-between align-center item">
-        <span class="label">{{ $t('label.address') }}:</span>
+        <span class="label">{{ $t('label.address') }}</span>
         <span class="text-base">{{ info.address }}</span>
       </div>
       <div class="be-flex jc-space-between align-center item">
-        <span class="label">{{ $t('label.city') }}:</span>
+        <span class="label">{{ $t('label.city') }}</span>
         <span class="text-base">{{ info.cityName }}</span>
       </div>
       <div class="be-flex jc-space-between align-center item">
-        <span class="label">{{ $t('label.state') }}:</span>
+        <span class="label">{{ $t('label.state') }}</span>
         <span class="text-base">{{ info.state }}</span>
       </div>
       <div class="be-flex jc-space-between align-center item">
