@@ -75,7 +75,8 @@
     "customer": "Khách hàng",
     "contract": "Hợp đồng",
     "report": "Báo cáo",
-    "setting": "Cài đặt"
+    "setting": "Cài đặt",
+    "crowdsale": "Crowdsale"
   },
   "header": {
     "kyc": "KYC"
@@ -109,7 +110,8 @@
   },
   "paging": {
     "show": "Hiển thị",
-    "customers": "khách hàng"
+    "customers": "khách hàng",
+    "crowdsale": "giao dịch"
   },
   "label": {
     "buy-from": "Chọn ví",
@@ -261,7 +263,9 @@
     "referral": "Giới thiệu",
     "bonus": "Thưởng",
     "statistics": "Thống kê",
-    "setting": "Cài đặt"
+    "setting": "Cài đặt",
+    "Transactions": "Giao dịch",
+    "Round": "Vòng"
   },
   "status": {
     "pending": "Đang chờ",
