@@ -40,4 +40,13 @@ export class CustomerRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+  async getlistTransaction(id: number, params: Record<string, any>): Promise<any> {
+    try {
+      const rs = await request.get(`${this.prefix}/transaction-histories/${id}`, { params })
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      console.log(error)
+      return Promise.reject(error)
+    }
+  }
 }

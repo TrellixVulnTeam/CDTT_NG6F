@@ -150,7 +150,8 @@
   },
   "paging": {
     "show": "Show",
-    "customers": "customers"
+    "customers": "customers",
+    "transaction": "transactions"
   },
   "label": {
     "buy-from": "Buy from",
@@ -214,7 +215,9 @@
     "send-code-fail": "Verification code sent failed",
     "approve-success": "Approved successfully",
     "reject-success": "Rejected successfully",
-    "no-select-reject": "Must choose at least 1 reason"
+    "no-select-reject": "Must choose at least 1 reason",
+    "no-data": "There are no data",
+    "copy": "Copied"
   },
   "logout": {
     "title": "Sign out"
@@ -275,6 +278,25 @@
       "available": "Available",
       "lock-amount": "locked amount",
       "balance": "Balance"
+    }
+  },
+  "transaction": {
+    "table": {
+      "trans-id": "TRANSACTION ID",
+      "date": "date",
+      "type": "type",
+      "status": "status",
+      "amount": "amount",
+      "deposit": "Deposit",
+      "withdraw": "Withdraw",
+      "transfer": "Transfer",
+      "crowdsale": "Crowdsale",
+      "succsess": "Success",
+      "pending": "Pending",
+      "processing": "Processing",
+      "failed": "Failed",
+      "rejected": "Rejected",
+      "sell": "Sell"
     }
   },
   "params": {

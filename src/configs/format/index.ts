@@ -196,7 +196,8 @@ export function timeAgo(time: string | number): string | undefined {
   }
 }
 
-export function formatTransactionCode(code: string, number = 10): string {
+export function formatTransactionCode(code: string | null, number = 10): string {
+  if (!code) return ''
   const before = code.substring(0, number)
   const after = code.substring(code.length - number)
   return before + '...' + after
