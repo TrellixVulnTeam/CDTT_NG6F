@@ -9,6 +9,13 @@
         <p>{{ $t('leftMenu.home') }}</p>
       </div>
     </router-link>
+    <router-link :to="{ name: 'Crowdsale' }" class="router_center">
+      <div class="sack_avatar">
+        <base-icon icon="menu-crowdsale-active" class="menu-active" size="32" />
+        <base-icon icon="menu-crowdsale" class="menu" size="32" />
+        <p>{{ $t('leftMenu.crowdsale') }}</p>
+      </div>
+    </router-link>
     <router-link :to="{ name: 'Kyc' }" class="router_center">
       <div class="sack_avatar">
         <base-icon icon="menu-kyc-active" class="menu-active" size="32" />
