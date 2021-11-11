@@ -166,6 +166,11 @@
 <style scoped lang="scss">
   .popup-customer-detail {
     color: var(--bc-text-primary);
+    .title-popup{
+      span{
+        color: #0A0B0D;
+      }
+    }
     ::v-deep .popup-content {
       background-color: #f6f8fc;
       .content {
