@@ -9,10 +9,10 @@
         </el-input>
       </div>
       <div class="btn-filter be-flex align-center cursor">
-        <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="18" /> <span>{{ $t('kyc.filter.filter') }}</span>
+        <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="18" /> <span>{{ $t('crowdsale.filter') }}</span>
       </div>
       <div class="sort be-flex align-center cursor">
-        <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="18" class="icon" /> <span>{{ $t('kyc.filter.sort') }}</span>
+        <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="18" class="icon" /> <span>{{ $t('crowdsale.sortBy') }}</span>
       </div>
     </div>
     <div class="table">
@@ -26,16 +26,16 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="DATE" prop="date" align="left" width="220" />
-        <el-table-column label="STATUS" prop="status" align="center" width="270">
+        <el-table-column :label="this.$t('crowdsale.date')" prop="date" align="left" width="220" />
+        <el-table-column :label="this.$t('crowdsale.status')" prop="status" align="center" width="270">
           <template slot-scope="scope">
             <div class="box-status-tabel" :class="scope.row.status === 'Pending' ? 'pending' : null">
               <span class="fs-12 fw-500">{{ scope.row.status }}</span>
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="PRICE" prop="price" align="right" width="174" />
-        <el-table-column label="PAID" prop="paid" align="right" width="180">
+        <el-table-column :label="this.$t('crowdsale.price')" prop="price" align="right" width="174" />
+        <el-table-column :label="this.$t('crowdsale.paid')" prop="paid" align="right" width="180">
           <template slot-scope="scope">
             <div class="box-paid">
               <p class="text-paid fw-400 fs-16">{{ scope.row.paid }}</p>
@@ -43,7 +43,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="AMOUNT" prop="amount" align="right" width="170">
+        <el-table-column :label="this.$t('crowdsale.amount')" prop="amount" align="right" width="170">
           <template slot-scope="scope">
             <div class="box-paid">
               <p class="text-amount fw-400 fs-16">{{ scope.row.amount }}</p>
