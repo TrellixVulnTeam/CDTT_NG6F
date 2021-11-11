@@ -54,6 +54,9 @@
           <customer-balance v-if="tabActive === 3" :listBlance="listBlance" />
           <customer-transaction v-if="tabActive === 4" :userId="detailRow.userId" />
         </div>
+        <div v-if="tabActive === 1">
+          <Kyc-customer-detail :detailRow="detailRow" />
+        </div>
       </div>
     </div>
   </base-popup>
@@ -70,7 +73,11 @@
   import { CustomerRepository } from '@/services/repositories/customer'
   const apiCustomer: CustomerRepository = getRepository('customer')
 
-  @Component({ components: { InfoCustomer, CustomerBalance, CustomerTransaction } })
+  import { namespace } from 'vuex-class'
+  import KycCustomerDetail from '@/modules/customer/components/Kyc.vue'
+  const bcKyc = namespace('bcKyc')
+
+  @Component({ components: { InfoCustomer, CustomerBalance, KycCustomerDetail } })
   export default class CustomerDetail extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Object, default: {} }) detailRow!: Record<string, any>
 
