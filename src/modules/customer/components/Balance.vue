@@ -49,19 +49,19 @@
         </el-table-column>
         <el-table-column :label="$t('customer.table.available')" align="right" width="200">
           <template slot-scope="scope">
-            <span class="text-base">{{ scope.row.available | convertAmountDecimal(getUnit(scope.row.asset)) }} {{ getUnit(scope.row.asset) }}</span>
+            <span class="text-base">{{ scope.row.available | convertAmountDecimal(scope.row.asset) }} {{ scope.row.asset }}</span>
             <span class="d-block small">~${{ scope.row.availableUSD | convertAmountDecimal('USD') }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('customer.table.lock-amount')" align="right" width="200">
           <template slot-scope="scope">
-            <span class="text-base">{{ scope.row.lockedAmount | convertAmountDecimal(getUnit(scope.row.asset)) }} {{ getUnit(scope.row.asset) }}</span>
+            <span class="text-base">{{ scope.row.lockedAmount | convertAmountDecimal(scope.row.asset) }} {{ scope.row.asset }}</span>
             <span class="d-block small">~${{ scope.row.lockedAmountUSD | convertAmountDecimal('USD') }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('customer.table.balance')" align="right">
           <template slot-scope="scope">
-            <span class="text-base">{{ scope.row.totalBalance | convertAmountDecimal(getUnit(scope.row.asset)) }} {{ getUnit(scope.row.asset) }}</span>
+            <span class="text-base">{{ scope.row.totalBalance | convertAmountDecimal(scope.row.asset) }} {{ scope.row.asset }}</span>
             <span class="d-block small">~${{ scope.row.totalBalanceUSD | convertAmountDecimal('USD') }}</span>
           </template>
         </el-table-column>
@@ -114,11 +114,11 @@
 
     getIcon(asset: string): string {
       switch (asset) {
-        case 'BINANCE':
+        case 'BNB':
           return 'icon-bnb'
-        case 'BITCOIN':
+        case 'BTC':
           return 'icon-btc'
-        case 'ETHEREUM':
+        case 'ETH':
           return 'icon-eth'
         case 'CLM':
           return 'icon-clm'
@@ -131,32 +131,14 @@
           return 'icon-lin'
       }
     }
-    getUnit(asset: string): string {
-      switch (asset) {
-        case 'BINANCE':
-          return 'BNB'
-        case 'BITCOIN':
-          return 'BTC'
-        case 'ETHEREUM':
-          return 'ETH'
-        case 'CLM':
-          return 'CLM'
-        case 'USDC':
-          return 'USDC'
-        case 'USDT':
-          return 'USDT'
 
-        default:
-          return 'LYNK'
-      }
-    }
     getAssetTitle(asset: string): string {
       switch (asset) {
-        case 'BINANCE':
+        case 'BNB':
           return 'Binance'
-        case 'BITCOIN':
+        case 'BTC':
           return 'Bitcoin'
-        case 'ETHEREUM':
+        case 'ETH':
           return 'Ethereum'
         case 'CLM':
           return 'Clm'
