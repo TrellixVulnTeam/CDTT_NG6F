@@ -79,7 +79,8 @@
     "crowdsale": "Crowdsale"
   },
   "header": {
-    "kyc": "KYC"
+    "kyc": "KYC",
+    "customer": "Khách hàng"
   },
   "footer": {
     "terms": "Các điều khoản và điều kiện"
