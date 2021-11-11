@@ -94,22 +94,6 @@
       return [this.detail.idPhoto1, this.detail.idPhoto2, this.detail.selfiePhoto]
     }
 
-    get getShowFooter(): boolean {
-      return this.$route.name === 'KycPending'
-    }
-
-
-    handleGetListRejectOfUser(): void {
-      const arrReasonIds = this.detail.kycRejectReasonIds.split(',')
-      this.listReasonReject = arrReasonIds.reduce((prev: any, cur) => {
-        const value = filter(this.listReason, elm => elm.id == cur)[0]
-        prev.push(value)
-        return prev
-      }, [])
-    }
-
-
-
   }
 </script>
 
