@@ -3,40 +3,40 @@
     <div class="box-content-1">
       <div class="round bg-white box-shadow">
         <div class="head">
-          <div class="fw-600 fs-16 title">Round 2</div>
+          <div class="fw-600 fs-16 title">{{ $t('crowdsale.round') }} 2</div>
           <div class="box-status">Opening</div>
         </div>
         <p class="fw-400 fs-16 time-date">11/10/2021 - 21/10/2021</p>
         <div class="box-ellipse">
           <div class="mini-ellipse">
             <p class="fw-600 fs-24" style="margin-bottom: 2px; margin-top: 24px; color: #0151fc">75%</p>
-            <p class="fw-400 fs-12" style="color: #5b616e">of 100M</p>
+            <p class="fw-400 fs-12" style="color: #5b616e">{{ $t('crowdsale.of') }} 100M</p>
           </div>
           <el-progress type="circle" :percentage="75" :stroke-width="12" color="#0151FC" :show-text="false"></el-progress>
         </div>
       </div>
       <div class="progress bg-white box-shadow">
-        <p class="fw-600 fs-24 title">Progress</p>
-        <p class="fw-400 fs-16 discript">From 01/10/2021 until now</p>
+        <p class="fw-600 fs-24 title">{{ $t('crowdsale.progress') }}</p>
+        <p class="fw-400 fs-16 discript">{{ $t('crowdsale.from') }} 01/10/2021 {{ $t('crowdsale.now') }}</p>
         <div class="box-content">
-          <div class="box-left fw-400 fs-14">568,000 sold</div>
-          <div class="box-right fw-400 fs-14">432,000 left</div>
+          <div class="box-left fw-400 fs-14">568,000 {{ $t('crowdsale.sold') }}</div>
+          <div class="box-right fw-400 fs-14">432,000 {{ $t('crowdsale.left') }}</div>
         </div>
         <el-progress type="line" :percentage="75" :stroke-width="20" color="#129961" :show-text="false"></el-progress>
         <div class="bottom">
           <div class="box1 box">
             <p class="fw-600 fs-18 price">86%</p>
-            <p class="fw-400 fs-14">COMPLETED</p>
+            <p class="fw-400 fs-14">{{ $t('crowdsale.completed') }}</p>
           </div>
           <div class="line"></div>
           <div class="box2 box">
             <p class="fw-600 fs-18 price">$4,445,600</p>
-            <p class="fw-400 fs-14">RAISED</p>
+            <p class="fw-400 fs-14">{{ $t('crowdsale.raised') }}</p>
           </div>
           <div class="line"></div>
           <div class="box3 box">
             <p class="fw-600 fs-18 price">6,000</p>
-            <p class="fw-400 fs-14">BACKERS</p>
+            <p class="fw-400 fs-14">{{ $t('crowdsale.backers') }}</p>
           </div>
         </div>
       </div>
@@ -47,7 +47,7 @@
         <div class="be-flex align-center jc-space-between wallet-header__above">
           <div class="wallet-header__above-tabs be-flex">
             <div class="tab-item cursor" v-for="tab in tabs" :key="tab.id" :class="$route.name === tab.routeName ? 'tab-active' : null" @click="handleChangeTab(tab)">
-              <span class="text-base">{{ $t(`menu.${tab.title}`) }}</span>
+              <span class="text-base">{{ $t(`crowdsale.${tab.title}`) }}</span>
             </div>
           </div>
         </div>
@@ -65,12 +65,12 @@
     tabs: Array<Record<string, any>> = [
       {
         id: 1,
-        title: 'Transactions',
+        title: 'transactions',
         routeName: 'CrowdsaleTransactions'
       },
       {
         id: 2,
-        title: 'Round',
+        title: 'round',
         routeName: 'CrowdsaleRound'
       }
     ]
@@ -236,7 +236,7 @@
       }
       .box-table {
         padding: 24px;
-        min-height: 400px;
+        min-height: 240px;
         overflow-y: auto;
       }
     }

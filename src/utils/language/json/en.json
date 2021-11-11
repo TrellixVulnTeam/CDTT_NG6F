@@ -316,5 +316,31 @@
     "rejected": "Rejected",
     "unverified": "Not verified",
     "locked": "Locked"
+  },
+  "crowdsale": {
+    "round": "Round",
+    "progress": "Progress",
+    "from": "From",
+    "now": "until now",
+    "completed": "COMPLETED",
+    "sold": "sold",
+    "left": "left",
+    "raised": "RAISED",
+    "backers": "BACKERS",
+    "of": "of",
+    "transactions": "Transactions",
+    "filter": "Filter",
+    "sortBy": "Sort By",
+    "search": "Search",
+    "date": "DATE",
+    "status": "STATUS",
+    "price": "PRICE",
+    "paid": "PAID",
+    "amount": "AMOUNT",
+    "pending": "Pending",
+    "success": "Success",
+    "startDate": "start date",
+    "endDate": "end date",
+    "remain": "remain"
   }
 }

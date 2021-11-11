@@ -273,5 +273,31 @@
     "rejected": "Từ chối",
     "unverified": "Chưa xác thực",
     "locked": "Bị khóa"
+  },
+  "crowdsale": {
+    "round": "Vòng",
+    "progress": "Tiến triển",
+    "from": "Từ",
+    "now": "đến nay",
+    "completed": "HOÀN THÀNH",
+    "sold": "đã bán",
+    "left": "trái",
+    "raised": "ĐƯA LÊN",
+    "backers": "QUAY LẠI",
+    "of": "của",
+    "transactions": "Giao dịch",
+    "filter": "Bộ lọc",
+    "sortBy": "Sắp xếp",
+    "search": "Tìm kiếm",
+    "date": "NGÀY",
+    "status": "TRẠNG THÁI",
+    "price": "GIÁ BÁN",
+    "paid": "TRẢ",
+    "amount": "SỐ LƯỢNG",
+    "pending": "Chưa giải quyết",
+    "success": "Sự thành công",
+    "startDate": "ngày bắt đầu",
+    "endDate": "ngày kết thúc",
+    "remain": "duy trì"
   }
 }
