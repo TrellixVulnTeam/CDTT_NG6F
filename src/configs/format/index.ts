@@ -201,3 +201,9 @@ export function formatTransactionCode(code: string, number = 10): string {
   const after = code.substring(code.length - number)
   return before + '...' + after
 }
+
+export function formatDateTimeBirthday(time:string):string{
+  const timeConvert:string[]=time.split(" ");
+  console.log(timeConvert)
+  return timeConvert[0];
+}
