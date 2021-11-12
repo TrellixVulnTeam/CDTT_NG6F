@@ -8,12 +8,24 @@
           </div>
         </el-input>
       </div>
-      <div class="btn-filter be-flex align-center cursor">
+      <div class="btn-filter be-flex align-center cursor" @click="handleOpenPopupFilter">
         <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="18" /> <span>{{ $t('crowdsale.filter') }}</span>
       </div>
-      <div class="sort be-flex align-center cursor">
-        <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="18" class="icon" /> <span>{{ $t('crowdsale.sortBy') }}</span>
-      </div>
+      <el-dropdown class="cursor" trigger="click" @command="handleSort">
+        <div class="sort be-flex align-center">
+          <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="18" class="icon" /> <span>{{ $t('crowdsale.sortBy') }}</span>
+        </div>
+        <el-dropdown-menu class="header-downloadapp dropdown-sort" slot="dropdown" style="width: 232px">
+          <el-dropdown-item v-for="(value, index) in sorts" :key="index" :class="sortActive === value.command ? 'active' : null" :command="value.command" :divided="value.divided">
+            <span class="be-flex">
+              <span class="be-flex-item">
+                {{ value.label }}
+              </span>
+              <base-icon v-if="sortActive === value.command" icon="icon-tick-dropdown" size="16" />
+            </span>
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
     </div>
     <div class="table">
       <base-table :data="dataTable" :paginationInfo="getPaginationInfo" @sizeChange="handleSizeChange" @currentChange="handleCurrentChange" class="base-table table-crowdsale">
@@ -53,14 +65,17 @@
         </el-table-column>
       </base-table>
     </div>
+    <popup-filter-crowdsale />
   </div>
 </template>
 <script lang="ts">
-  import { Vue, Component } from 'vue-property-decorator'
-  @Component
-  export default class BOCrowdsaleTransaction extends Vue {
+  import { Mixins, Component } from 'vue-property-decorator'
+  import PopupMixin from '@/mixins/popup'
+  import PopupFilterCrowdsale from '../components/popup/PopupFilterCrowdsale.vue'
+  @Component({ components: { PopupFilterCrowdsale } })
+  export default class BOCrowdsaleTransaction extends Mixins(PopupMixin) {
     search = ''
-
+    orderBy = 'TRANSACTION_DATE'
     dataTable: any = [
       {
         name: 'Nguyễn Hoàng Mai',
@@ -192,6 +207,37 @@
     handleCurrentChange(value: number): void {
       console.log('handleCurrentChange: ', value)
     }
+    handleOpenPopupFilter(): void {
+      this.setOpenPopup({
+        popupName: 'popup-filter-crowdsale',
+        isOpen: true
+      })
+    }
+    sorts: Array<Record<string, any>> = [
+      {
+        command: 'TRANSACTION_DATE',
+        label: this.$i18n.t('crowdsale.transactionDate'),
+        divided: false,
+        i18n: 'crowdsale.transactionDate'
+      },
+      {
+        command: 'TRANSACTION_AMOUNT',
+        label: this.$i18n.t('crowdsale.transactionAmount'),
+        divided: false,
+        i18n: 'crowdsale.transactionAmount'
+      },
+      {
+        command: 'STATUS',
+        label: this.$i18n.t('crowdsale.Status'),
+        divided: false,
+        i18n: 'crowdsale.Status'
+      }
+    ]
+    sortActive = 'TRANSACTION_DATE'
+    handleSort(command: string): void {
+      this.sortActive = command
+      this.orderBy = command
+    }
   }
 </script>
 <style scoped lang="scss">
@@ -209,12 +255,19 @@
     .btn-filter,
     .sort {
       margin-right: 27.5px;
+      color: var(--bc-text-primary);
+      .span-icon {
+        color: var(--bc-text-primary)!important;
+      }
       &:hover {
         color: #0151fc;
         .span-icon {
           color: #0151fc !important;
         }
       }
+    }
+    .dropdown-sort {
+      min-width: 250px!important;
     }
     .table {
       .table-crowdsale {
