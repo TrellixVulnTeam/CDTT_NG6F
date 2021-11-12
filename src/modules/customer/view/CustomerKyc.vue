@@ -102,6 +102,10 @@
     async init(): Promise<void> {
       try {
         this.isLoading = true
+        if (!this.query.type) {
+          const routeName = this.$route.name!
+          this.query.type = this.objType[routeName]
+        }
         const result = await apiCustomer.getListCustomer({ ...this.query, total: null })
         this.data = result.content || []
         this.query.total = result.totalElements
@@ -113,10 +117,10 @@
     }
 
     handleChangeTab(tab: Record<string, any>): void {
-      this.$router.push({ name: tab.routeName })
-      this.query.type = this.objType[tab.routeName]
-      this.resetQuery()
-      EventBus.$emit('changeTabCustomer')
+      this.$router.push({ name: tab.routeName }).then(() => {
+        this.resetQuery()
+        EventBus.$emit('changeTabCustomer')
+      })
     }
 
     resetQuery(): void {
@@ -151,6 +155,7 @@
         ...this.query,
         ...filter
       }
+
       this.debounceInit()
     }
     debounceInit = debounce(() => {
