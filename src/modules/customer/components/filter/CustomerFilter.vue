@@ -1,48 +1,60 @@
 <template>
-  <div class="pb-24 pt-24 be-flex align-center kyc-filter">
-    <el-input v-model="filter.search" class="input-search" :placeholder="$t('placeholder.search')">
-      <span slot="prefix" class="prefix-search">
-        <base-icon icon="icon-search" size="24" />
+  <div class='pb-24 pt-24 be-flex align-center kyc-filter'>
+    <el-input v-model='filter.search' class='input-search' :placeholder="$t('placeholder.search')">
+      <span slot='prefix' class='prefix-search'>
+        <base-icon icon='icon-search' size='24' />
       </span>
     </el-input>
-    <div class="filter-item">
-      <el-popover :value="isVisible" placement="bottom-start" width="518" trigger="click" popper-class="popper-filter" @show="handleShowPopper">
-        <div class="content">
+    <div class='filter-item'>
+      <el-popover :value='isVisible' placement='bottom-start' width='518' trigger='click' popper-class='popper-filter'
+                  @show='handleShowPopper'>
+        <div class='content'>
           <el-form>
-            <div class="be-flex jc-space-between row">
+            <div class='be-flex jc-space-between row'>
               <!-- <el-form-item class="be-flex-item mr-40" :label="$t('label.keyword')">
                 <el-input :placeholder="$t('label.placehoderkeyword')" v-model="filter.keyword" clearable />
               </el-form-item> -->
-              <el-form-item class="be-flex-item mr-40" :label="$t('label.nationality')">
-                <el-select v-model="filter.nationality" filterable :placeholder="$t('label.placehoderNationality')" class="w-100" clearable>
-                  <el-option v-for="(country, index) in listCountry" :key="index" :label="country.name" :value="country.name" />
+              <el-form-item class='be-flex-item mr-40' :label="$t('label.nationality')">
+                <el-select v-model='filter.nationality' filterable :placeholder="$t('label.placehoderNationality')"
+                           class='w-100' clearable>
+                  <el-option v-for='(country, index) in listCountry' :key='index' :label='country.name'
+                             :value='country.name' />
                 </el-select>
               </el-form-item>
-              <el-form-item class="be-flex-item" :label="$t('label.kyc-status')">
-                <el-select v-model="filter.identificationType" id-type :placeholder="$t('label.placehoder-kyc-status')" class="w-100" clearable>
-                  <el-option v-for="(type, index) in identificationType" :key="index" :label="type.type" :value="type.value" />
+              <el-form-item class='be-flex-item' :label="$t('label.kyc-status')">
+                <el-select v-model='filter.type' id-type :placeholder="$t('label.placehoder-kyc-status')"
+                           class='w-100' clearable>
+                  <el-option v-for='(type, index) in identificationType' :key='index' :label='type.type'
+                             :value='type.value' />
                 </el-select>
               </el-form-item>
             </div>
-            <div class="be-flex jc-space-between row">
-              <el-form-item class="be-flex-item mr-40" :label="$t('label.create-date')">
-                <el-date-picker class="w-100" format="dd/MM/yyyy" value-format="yyyy-MM-dd" :placeholder="$t('label.from-date')" v-model="filter.fromCreatedAt" type="date">
+            <div class='be-flex jc-space-between row'>
+              <el-form-item class='be-flex-item mr-40' :label="$t('label.create-date')">
+                <el-date-picker class='w-100' format='yyyy/MM/dd' value-format='yyyy-MM-dd'
+                                :placeholder="$t('label.from-date')" v-model='filter.fromCreatedAt' type='date'>
                 </el-date-picker>
               </el-form-item>
 
-              <el-form-item class="be-flex-item hide-label" label="1">
-                <el-date-picker class="w-100" format="dd/MM/yyyy" :placeholder="$t('label.to-date')" value-format="yyyy-MM-dd" v-model="filter.toCreatedAt" type="date">
+              <el-form-item class='be-flex-item hide-label' label='1'>
+                <el-date-picker class='w-100' format='yyyy/MM/dd' :placeholder="$t('label.to-date')"
+                                value-format='yyyy-MM-dd' v-model='filter.toCreatedAt' type='date'>
                 </el-date-picker>
               </el-form-item>
             </div>
           </el-form>
         </div>
-        <div class="be-flex jc-flex-end footer">
-          <el-button class="btn-default btn-400 btn-h-40 btn-close text-regular" @click="handleReset">{{ $t('button.reset') }}</el-button>
-          <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border h-40 text-regular" @click="handleApply">{{ $t('button.apply') }}</el-button>
+        <div class='be-flex jc-flex-end footer'>
+          <el-button class='btn-default btn-400 btn-h-40 btn-close text-regular' @click='handleReset'>
+            {{ $t('button.reset') }}
+          </el-button>
+          <el-button class='btn-default-bg btn-400 btn-h-40 is-none-border h-40 text-regular' @click='handleApply'>
+            {{ $t('button.apply') }}
+          </el-button>
         </div>
-        <div slot="reference" class="cursor text-filter" style="font-size: 16px">
-          <span class="abicon"> <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="18" /> </span>
+        <div slot='reference' class='cursor text-filter' style='font-size: 16px'>
+          <span class='abicon'> <base-icon style='color: #5b616e; margin-right: 10px' icon='icon-filter'
+                                           size='18' /> </span>
           {{ $t('kyc.filter.filter') }}
         </div>
       </el-popover>
@@ -52,17 +64,20 @@
       </div> -->
     </div>
     <div>
-      <el-dropdown class="sort" trigger="click" @command="handleSort">
-        <span class="abicon sort-title" style="font-size: 16px">
-          <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}</span
+      <el-dropdown class='sort' trigger='click' @command='handleSort'>
+        <span class='abicon sort-title' style='font-size: 16px'>
+          <base-icon icon='icon-sort' style='color: #5b616e; margin-right: 10px' size='18'
+                     class='icon' /> {{ $t('kyc.filter.sort') }}</span
         >
-        <el-dropdown-menu class="header-downloadapp dropdown-sort" slot="dropdown">
-          <el-dropdown-item v-for="(value, index) in sorts" :key="index" :class="sortActive === value.command ? 'active' : null" :command="value.command" :divided="value.divided">
-            <span class="be-flex">
-              <span class="be-flex-item">
+        <el-dropdown-menu class='header-downloadapp dropdown-sort' slot='dropdown'>
+          <el-dropdown-item v-for='(value, index) in sorts' :key='index'
+                            :class="sortActive === value.command ? 'active' : null" :command='value.command'
+                            :divided='value.divided'>
+            <span class='be-flex'>
+              <span class='be-flex-item'>
                 {{ value.label }}
               </span>
-              <base-icon v-if="sortActive === value.command" icon="icon-tick-dropdown" size="16" />
+              <base-icon v-if='sortActive === value.command' icon='icon-tick-dropdown' size='16' />
             </span>
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -71,21 +86,24 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
   import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
   import EventBus from '@/utils/eventBus'
   import { forEach, trim, debounce } from 'lodash'
   import getRepository from '@/services'
   import { KycRepository } from '@/services/repositories/kyc'
+
   const apiKyc: KycRepository = getRepository('kyc')
 
   import countryJson from '@/utils/country/index.json'
+
   interface IListCountry {
     name: string
     dialCode: string
     isoCode: string
     flag: string
   }
+
   @Component
   export default class KycFilter extends Vue {
     filter = {
@@ -94,7 +112,7 @@
       fromCreatedAt: '',
       toCreatedAt: '',
       nationality: '',
-      identificationType: '',
+      type: '',
       approvedBy: ''
     }
     loading = false
@@ -113,15 +131,21 @@
       },
       {
         command: 2,
-        label: this.$i18n.t('kyc.sort.transaction'),
+        label: this.$i18n.t('kyc.sort.country'),
         divided: false,
-        i18n: 'kyc.sort.transaction'
+        i18n: 'kyc.sort.country'
       },
       {
         command: 3,
         label: this.$i18n.t('kyc.sort.full-name'),
         divided: false,
         i18n: 'kyc.sort.full-name'
+      },
+      {
+        command: 4,
+        label: this.$i18n.t('kyc.sort.transaction'),
+        divided: false,
+        i18n: 'kyc.sort.transaction'
       }
     ]
     sortActive = 1
@@ -129,18 +153,28 @@
     identificationType: Array<Record<string, any>> = [
       {
         id: 0,
-        type: 'Id Card',
-        value: 'ID_CARD'
+        type: 'All status',
+        value: ''
       },
       {
         id: 1,
-        type: 'Passport',
-        value: 'PASSPORT'
+        type: 'KYC processing',
+        value: 'KYC'
       },
       {
         id: 2,
-        type: 'Driver’s License',
-        value: 'DRIVER_LICENSE'
+        type: 'Not verified',
+        value: 'NOT_VERIFIED'
+      },
+      {
+        id: 3,
+        type: 'Verified',
+        value: 'VERIFIED'
+      },
+      {
+        id: 4,
+        type: 'Locked',
+        value: 'LOCKED'
       }
     ]
     isVisible = false
@@ -167,6 +201,7 @@
       EventBus.$on('changeTabCustomer', this.handleChangeTab)
       this.$emit('filter', this.filter)
     }
+
     destroyed(): void {
       EventBus.$off('changeLang')
       EventBus.$off('changeTab')
@@ -199,7 +234,15 @@
       if (this.filter.search) {
         this.resetFilter()
       } else {
-        this.$emit('filter', { ...this.filter, orderBy: 1, fromCreatedAt: '', toCreatedAt: '', nationality: '', identificationType: '', approvedBy: '' })
+        this.$emit('filter', {
+          ...this.filter,
+          orderBy: 1,
+          fromCreatedAt: '',
+          toCreatedAt: '',
+          nationality: '',
+          identificationType: '',
+          approvedBy: ''
+        })
         this.filter = {
           ...this.filter,
           orderBy: 1,
@@ -238,40 +281,48 @@
   }
 </script>
 
-<style scoped lang="scss">
+<style scoped lang='scss'>
   .kyc-filter {
     background-color: #fff;
+
     .input-search {
       width: 400px;
       margin-right: 30px;
     }
+
     .sort {
       margin-left: 30px;
       cursor: pointer;
       color: #0a0b0d;
     }
+
     ::v-deep .filter-item {
       &:hover {
         .text-filter {
           color: #0151fc;
+
           .span-icon {
             color: #0151fc !important;
           }
         }
       }
     }
+
     ::v-deep .sort {
       &:hover {
         .el-dropdown-selfdefine {
           color: #0151fc;
+
           .span-icon {
             color: #0151fc !important;
           }
         }
       }
+
       .sort-title {
         &:focus {
           color: #0151fc;
+
           .span-icon {
             color: #0151fc !important;
           }
