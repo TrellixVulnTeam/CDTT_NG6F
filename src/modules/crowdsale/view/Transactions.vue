@@ -9,11 +9,11 @@
         </el-input>
       </div>
       <div class="btn-filter be-flex align-center cursor" @click="handleOpenPopupFilter">
-        <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="18" /> <span>{{ $t('crowdsale.filter') }}</span>
+        <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="16" /> <span class="fs-16">{{ $t('crowdsale.filter') }}</span>
       </div>
       <el-dropdown class="cursor" trigger="click" @command="handleSort">
         <div class="sort be-flex align-center">
-          <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="18" class="icon" /> <span>{{ $t('crowdsale.sortBy') }}</span>
+          <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="16" class="icon" /> <span class="fs-16">{{ $t('crowdsale.sortBy') }}</span>
         </div>
         <el-dropdown-menu class="header-downloadapp dropdown-sort" slot="dropdown" style="width: 232px">
           <el-dropdown-item v-for="(value, index) in sorts" :key="index" :class="sortActive === value.command ? 'active' : null" :command="value.command" :divided="value.divided">
@@ -38,16 +38,16 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column :label="this.$t('crowdsale.date')" prop="date" align="left" width="220" />
-        <el-table-column :label="this.$t('crowdsale.status')" prop="status" align="center" width="270">
+        <el-table-column :label="this.$t('crowdsale.date')" prop="date" align="left" width="200" />
+        <el-table-column :label="this.$t('crowdsale.status')" prop="status" align="center" width="110">
           <template slot-scope="scope">
             <div class="box-status-tabel" :class="scope.row.status === 'Pending' ? 'pending' : null">
               <span class="fs-12 fw-500">{{ scope.row.status }}</span>
             </div>
           </template>
         </el-table-column>
-        <el-table-column :label="this.$t('crowdsale.price')" prop="price" align="right" width="174" />
-        <el-table-column :label="this.$t('crowdsale.paid')" prop="paid" align="right" width="180">
+        <el-table-column :label="this.$t('crowdsale.price')" prop="price" align="right" width="164" />
+        <el-table-column :label="this.$t('crowdsale.paid')" prop="paid" align="right" width="170">
           <template slot-scope="scope">
             <div class="box-paid">
               <p class="text-paid fw-400 fs-16">{{ scope.row.paid }}</p>
@@ -55,7 +55,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column :label="this.$t('crowdsale.amount')" prop="amount" align="right" width="170">
+        <el-table-column :label="this.$t('crowdsale.amount')" prop="amount" align="right" width="160">
           <template slot-scope="scope">
             <div class="box-paid">
               <p class="text-amount fw-400 fs-16">{{ scope.row.amount }}</p>
@@ -162,6 +162,9 @@
 </script>
 <style scoped lang="scss">
   .bo-crowdsale-transaction {
+    .box-filter {
+      margin-bottom: 24px;
+    }
     .box-search {
       .input-search {
         width: 400px;
