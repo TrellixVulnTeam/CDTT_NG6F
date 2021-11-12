@@ -2,7 +2,7 @@
   <div class="bo-crowdsale-transaction">
     <div class="box-filter be-flex align-center">
       <div class="box-search">
-        <el-input class="input-search" :placeholder="$t('placeholder.search')" v-model="search" clearable>
+        <el-input class="input-search" :placeholder="$t('placeholder.search')" v-model="querry.search" clearable @change="handleSearch">
           <div slot="prefix" class="prefix-search">
             <base-icon icon="icon-search" size="16" />
           </div>
@@ -72,9 +72,17 @@
   import { Mixins, Component } from 'vue-property-decorator'
   import PopupMixin from '@/mixins/popup'
   import PopupFilterCrowdsale from '../components/popup/PopupFilterCrowdsale.vue'
+  import getRepository from '@/services'
+  import { CrowdsaleRepository } from '@/services/repositories/crowdsale'
+
+  const api: CrowdsaleRepository = getRepository('crowdsale')
   @Component({ components: { PopupFilterCrowdsale } })
   export default class BOCrowdsaleTransaction extends Mixins(PopupMixin) {
-    search = ''
+    querry: any = {
+      search: '',
+      limit: 10,
+      page: 1
+    }
     orderBy = 'TRANSACTION_DATE'
     dataTable: any = [
       {
@@ -86,106 +94,6 @@
         paid: '- 0.00020036 BTC',
         avi: '~ $13,04',
         amount: '+ 268.02 LYN'
-      },
-      {
-        name: 'Trần Trung Nguyên',
-        email: 'trungnguyentran@gmail.com',
-        date: '16/10/2021 09:06:07',
-        status: 'Pending',
-        price: 'Round 3 - $0.06',
-        paid: '- 0.00020036 BTC',
-        avi: '~ $13,04',
-        amount: '+ 568.97 LYN'
-      },
-      {
-        name: 'Hoàng Thị Mai',
-        email: 'hoangmai@gmail.com',
-        date: '16/10/2021 14:10:02',
-        status: 'Success',
-        price: 'Round 2 - $0.04',
-        paid: '- 0.00020036 BTC',
-        avi: '~ $13,04',
-        amount: '+ 10.89 LYN'
-      },
-      {
-        name: 'Hoàng Thị Mai',
-        email: 'hoangmai@gmail.com',
-        date: '16/10/2021 14:10:02',
-        status: 'Success',
-        price: 'Round 2 - $0.04',
-        paid: '- 0.00020036 BTC',
-        avi: '~ $13,04',
-        amount: '+ 10.89 LYN'
-      },
-      {
-        name: 'Hoàng Thị Mai',
-        email: 'hoangmai@gmail.com',
-        date: '16/10/2021 14:10:02',
-        status: 'Success',
-        price: 'Round 2 - $0.04',
-        paid: '- 0.00020036 BTC',
-        avi: '~ $13,04',
-        amount: '+ 10.89 LYN'
-      },
-      {
-        name: 'Hoàng Thị Mai',
-        email: 'hoangmai@gmail.com',
-        date: '16/10/2021 14:10:02',
-        status: 'Success',
-        price: 'Round 2 - $0.04',
-        paid: '- 0.00020036 BTC',
-        avi: '~ $13,04',
-        amount: '+ 10.89 LYN'
-      },
-      {
-        name: 'Hoàng Thị Mai',
-        email: 'hoangmai@gmail.com',
-        date: '16/10/2021 14:10:02',
-        status: 'Success',
-        price: 'Round 2 - $0.04',
-        paid: '- 0.00020036 BTC',
-        avi: '~ $13,04',
-        amount: '+ 10.89 LYN'
-      },
-      {
-        name: 'Hoàng Thị Mai',
-        email: 'hoangmai@gmail.com',
-        date: '16/10/2021 14:10:02',
-        status: 'Success',
-        price: 'Round 2 - $0.04',
-        paid: '- 0.00020036 BTC',
-        avi: '~ $13,04',
-        amount: '+ 10.89 LYN'
-      },
-      {
-        name: 'Hoàng Thị Mai',
-        email: 'hoangmai@gmail.com',
-        date: '16/10/2021 14:10:02',
-        status: 'Success',
-        price: 'Round 2 - $0.04',
-        paid: '- 0.00020036 BTC',
-        avi: '~ $13,04',
-        amount: '+ 10.89 LYN'
-      },
-      {
-        name: 'Hoàng Thị Mai',
-        email: 'hoangmai@gmail.com',
-        date: '16/10/2021 14:10:02',
-        status: 'Success',
-        price: 'Round 2 - $0.04',
-        paid: '- 0.00020036 BTC',
-        avi: '~ $13,04',
-        amount: '+ 10.89 LYN'
-      },
-      {
-        name: 'Hoàng Thị Mai',
-        email: 'hoangmai@gmail.com',
-        date: '16/10/2021 14:10:02',
-        status: 'Success',
-        price: 'Round 2 - $0.04',
-        paid: '- 0.00020036 BTC',
-        avi: '~ $13,04',
-        amount: '+ 10.89 LYN'
       },
       {
         name: 'Hoàng Thị Mai',
@@ -202,10 +110,12 @@
       return this.$t('paging.crowdsale')
     }
     handleSizeChange(value: number): void {
-      console.log('handleSizeChange: ', value)
+      this.querry.limit = value
+      this.getDataTable()
     }
     handleCurrentChange(value: number): void {
-      console.log('handleCurrentChange: ', value)
+      this.querry.page = value
+      this.getDataTable()
     }
     handleOpenPopupFilter(): void {
       this.setOpenPopup({
@@ -225,18 +135,28 @@
         label: this.$i18n.t('crowdsale.transactionAmount'),
         divided: false,
         i18n: 'crowdsale.transactionAmount'
-      },
-      {
-        command: 'STATUS',
-        label: this.$i18n.t('crowdsale.Status'),
-        divided: false,
-        i18n: 'crowdsale.Status'
       }
     ]
     sortActive = 'TRANSACTION_DATE'
     handleSort(command: string): void {
       this.sortActive = command
       this.orderBy = command
+    }
+    async getDataTable(): Promise<void> {
+      await api.getDataTable(this.querry).then((res: any) => {
+        console.log('data: ', res)
+      })
+    }
+    handleSearch(val: any): void {
+      if (val) {
+        this.getDataTable()
+      }
+    }
+    async init(): Promise<void> {
+      await this.getDataTable()
+    }
+    created(): void {
+      this.init()
     }
   }
 </script>
@@ -257,7 +177,7 @@
       margin-right: 27.5px;
       color: var(--bc-text-primary);
       .span-icon {
-        color: var(--bc-text-primary)!important;
+        color: var(--bc-text-primary) !important;
       }
       &:hover {
         color: #0151fc;
@@ -267,7 +187,7 @@
       }
     }
     .dropdown-sort {
-      min-width: 250px!important;
+      min-width: 250px !important;
     }
     .table {
       .table-crowdsale {
