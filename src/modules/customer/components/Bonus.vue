@@ -25,12 +25,12 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('customer.table.type')" width="190">
+        <el-table-column :label="$t('customer.table.type')" width="210">
           <template slot-scope="scope">
-            <span>{{ scope.row.typeBounus }}</span>
+            <span>{{ scope.row.typeBounus }} Bonus</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('customer.table.date')" width="200">
+        <el-table-column :label="$t('customer.table.date')" width="180">
           <template slot-scope="scope">
             <span class="text-base">{{ scope.row.transactionDate | formatMMDDYY }} </span>
           </template>
