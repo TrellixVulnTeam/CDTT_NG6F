@@ -21,7 +21,7 @@
           <span class='title text-l text-bold'>{{ $t('kyc.popup.id-verification') }}</span>
           <div class='wrap'>
             <span class='wrap-small'>{{ $t('kyc.popup.id-type') }}</span>
-            <span class='name'>{{ detail.identificationType }}</span>
+            <span class='name'>{{ detail.identificationType | formatIdentificationType }}</span>
           </div>
           <div class='wrap'>
             <span class='wrap-small'>{{ $t('kyc.popup.id-number') }}</span>
@@ -35,7 +35,7 @@
           <el-carousel indicator-position='none' arrow='always' :autoplay='false'>
             <el-carousel-item v-for='(item, index) in listImage' :key='index'>
               <!-- <img :src="item" class="img-fluid" :alt="item" /> -->
-              <el-image style='height: 100%' class='img-fluid' :src='item' :preview-src-list='listImage'></el-image>
+              <el-image style='height: 100%;border-radius:4px' class='img-fluid' :src='item' :preview-src-list='listImage'></el-image>
             </el-carousel-item>
           </el-carousel>
         </div>
@@ -103,13 +103,15 @@
 
     .content {
       padding-bottom: 24px;
+      margin-bottom: 24px;
 
       .detail-left {
         border-radius: 4px;
         width: 216px;
         background-color: #fff;
-        padding: 24px 24px 52px;
-        box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
+        padding: 0px 24px 52px;
+        //box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
+        border-right: 1px solid #dbdbdb;
 
         .title {
           margin-bottom: 8px;
@@ -118,7 +120,7 @@
 
         .detail-item--above {
           padding-bottom: 24px;
-          border-bottom: 1px solid #d2d0ce;
+          //border-bottom: 1px solid #d2d0ce;
         }
 
         .detail-item--below {
@@ -147,8 +149,8 @@
       .detail-right {
         flex: 1;
         background-color: #fff;
-        box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
-        padding: 24px;
+        //box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
+        padding: 0px 24px;
         border-radius: 4px;
 
         .slider {
