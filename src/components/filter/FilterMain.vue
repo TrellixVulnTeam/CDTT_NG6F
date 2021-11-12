@@ -7,9 +7,9 @@
     </el-input>
     <slot />
     <div>
-      <el-dropdown :click="isShowFilter ? 'sort' : 'ml-0'" trigger="click" @command="handleSort">
+      <el-dropdown :class="isShowFilter ? 'sort' : 'sort ml-0'" trigger="click" @command="handleSort">
         <span class="abicon sort-title" style="font-size: 16px">
-          <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}</span
+          <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 4px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}</span
         >
         <el-dropdown-menu class="header-downloadapp dropdown-sort" slot="dropdown">
           <el-dropdown-item v-for="(value, index) in sorts" :key="index" :class="sortActive === value.command ? 'active' : null" :command="value" :divided="value.divided">
@@ -39,7 +39,7 @@
       search: '',
       orderBy: ''
     }
-    sortActive = 0
+    sortActive = null
 
     @Watch('filter.search') handleSearch(value: string): void {
       this.searchText(value)
@@ -55,8 +55,12 @@
     }, 500)
 
     handleSort(value: Record<string, any>): void {
-      this.sortActive = value.command
-      this.filter.orderBy = value.command
+      if (value.command === this.sortActive) {
+        this.sortActive = null
+      } else {
+        this.sortActive = value.command
+      }
+      this.filter.orderBy = this.sortActive
       this.$emit('filter', { ...this.filter })
     }
   }

@@ -67,4 +67,13 @@ export class CustomerRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+  async getlistBonus(params: Record<string, any>): Promise<any> {
+    try {
+      const rs = await request.get(`main/api/v1/bonus-programs/histories`, { params })
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      console.log(error)
+      return Promise.reject(error)
+    }
+  }
 }

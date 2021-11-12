@@ -282,7 +282,9 @@
       "price": "Price",
       "avail-amount": "Available amount",
       "locked-amount": "Locked amount",
-      "balance-amount": "Balance amount"
+      "balance-amount": "Balance amount",
+      "date": "Created date",
+      "amount": "Amount"
     },
     "table": {
       "asset": "asset",
@@ -298,7 +300,12 @@
       "wallet-address": "wallet address",
       "create-date": "Created date",
       "accept": "Accepted",
-      "invited": "Invited"
+      "invited": "Invited",
+      "trans-id": "TRANSACTION ID",
+      "type": "type",
+      "amount": "amount",
+      "paid": "Paid",
+      "pending": "Pending"
     }
   },
   "transaction": {

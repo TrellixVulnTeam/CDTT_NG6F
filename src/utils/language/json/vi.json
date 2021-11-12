@@ -239,7 +239,9 @@
       "price": "Giá bán",
       "avail-amount": "Số lượng có sẵn",
       "locked-amount": "Số lượng bị khóa",
-      "balance-amount": "Số dư"
+      "balance-amount": "Số dư",
+      "date": "Ngày tạo",
+      "amount": "Số lượng"
     },
     "table": {
       "asset": "ví",
@@ -255,7 +257,9 @@
       "wallet-address": "địa chỉ ví",
       "create-date": "ngày tạo",
       "accept": "Chấp nhận",
-      "invited": "Đã mời"
+      "invited": "Đã mời",
+      "paid": "Thanh toán",
+      "pending": "Đang chờ"
     }
   },
   "transaction": {
