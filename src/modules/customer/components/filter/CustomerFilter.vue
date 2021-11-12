@@ -218,7 +218,7 @@
         fromCreatedAt: '',
         toCreatedAt: '',
         nationality: '',
-        identificationType: '',
+        type: '',
         approvedBy: ''
       }
     }
@@ -240,7 +240,7 @@
           fromCreatedAt: '',
           toCreatedAt: '',
           nationality: '',
-          identificationType: '',
+          type: '',
           approvedBy: ''
         })
         this.filter = {
@@ -249,7 +249,7 @@
           fromCreatedAt: '',
           toCreatedAt: '',
           nationality: '',
-          identificationType: '',
+          type: '',
           approvedBy: ''
         }
       }
@@ -272,7 +272,7 @@
         fromCreatedAt: '',
         toCreatedAt: '',
         nationality: '',
-        identificationType: '',
+        type: '',
         approvedBy: ''
       }
       this.$emit('filter', this.filter)
