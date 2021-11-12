@@ -4,7 +4,7 @@
       <span>{{ $t('crowdsale.popup-filter.title') }}</span>
     </div>
     <div class="content">
-      <el-form class="form-filter-crowdsale" ref="filterCrowdsale" :rules="rules" :model="form">
+      <el-form class="form-filter-crowdsale">
         <div class="box-input-1 be-flex align-center jc-space-between">
           <div class="round">
             <div class="label">{{ $t('crowdsale.popup-filter.round') }}</div>
@@ -64,7 +64,7 @@
               type="date"
               clearable
               :picker-options="pickerOptions"
-              :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDate')"
+              :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateStart')"
             >
             </el-date-picker>
           </el-form-item>
@@ -72,7 +72,7 @@
           <div class="line"></div>
           <el-form-item prop="transactionDateEnd" class="box-input">
             <el-date-picker
-              :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDate')"
+              :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateEnd')"
               class="box-input"
               v-model="form.transactionDateEnd"
               value-format="yyyy-MM-dd"
@@ -88,7 +88,7 @@
         <div class="box-input-3 transaction-amount be-flex align-center jc-space-between">
           <el-form-item prop="transactionAmountStart" class="box-input">
             <el-input
-              :placeholder="$t('crowdsale.popup-filter.planceOderTransactionAmount')"
+              :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateStart')"
               v-model="form.transactionAmountStart"
               clearable
               @keyup.native="numberFormat($event)"
@@ -99,7 +99,7 @@
           <div class="line"></div>
           <el-form-item prop="transactionAmountEnd" class="box-input">
             <el-input
-              :placeholder="$t('crowdsale.popup-filter.planceOderTransactionAmount')"
+              :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateEnd')"
               v-model="form.transactionAmountEnd"
               clearable
               @keyup.native="numberFormat($event)"
@@ -207,78 +207,8 @@
         this.$refs.filterCrowdsale.clearValidate()
       }
     }
-    //validate
-    rules: any = {
-      round: [
-        {
-          required: true,
-          message: this.$t('crowdsale.popup-filter.required'),
-          trigger: 'change'
-        }
-      ],
-      country: [
-        {
-          required: true,
-          message: this.$t('crowdsale.popup-filter.required'),
-          trigger: 'change'
-        }
-      ],
-      byWallet: [
-        {
-          required: true,
-          message: this.$t('crowdsale.popup-filter.required'),
-          trigger: 'change'
-        }
-      ],
-      byToken: [
-        {
-          required: true,
-          message: this.$t('crowdsale.popup-filter.required'),
-          trigger: 'change'
-        }
-      ],
-      transactionDateStart: [
-        {
-          required: true,
-          message: this.$t('crowdsale.popup-filter.required'),
-          trigger: 'change'
-        }
-      ],
-      transactionDateEnd: [
-        {
-          required: true,
-          message: this.$t('crowdsale.popup-filter.required'),
-          trigger: 'change'
-        }
-      ],
-      transactionAmountStart: [
-        {
-          required: true,
-          message: this.$t('crowdsale.popup-filter.required'),
-          trigger: 'change'
-        }
-      ],
-      transactionAmountEnd: [
-        {
-          required: true,
-          message: this.$t('crowdsale.popup-filter.required'),
-          trigger: 'change'
-        }
-      ]
-    }
-    validateForm(): boolean {
-      let filterCrowdsale: any = this.$refs.filterCrowdsale
-      let valid = false
-      filterCrowdsale.validate((_valid: boolean) => {
-        valid = _valid
-      })
-      return valid
-    }
     async handleSubmit(): Promise<void> {
-      const valid = this.validateForm()
-      if (valid) {
-        console.log(1)
-      }
+      console.log(1)
     }
     async handleOpen(): Promise<void> {
       await this.handleReset()

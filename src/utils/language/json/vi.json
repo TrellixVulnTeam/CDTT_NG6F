@@ -351,8 +351,8 @@
       "planceOderWallet": "Chọn ví",
       "planceOderRound": "Chọn vòng",
       "planceOderCountry": "Chọn quốc gia",
-      "planceOderTransactionDate": "Chọn ngày",
-      "planceOderTransactionAmount": "Chọn số tiền"
+      "planceOderTransactionDateStart": "Từ",
+      "planceOderTransactionDateEnd": "Đến"
     }
   }
 }
