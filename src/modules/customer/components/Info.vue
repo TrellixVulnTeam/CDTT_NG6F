@@ -81,6 +81,7 @@
           color: #5b616e;
           flex-shrink: 0;
         }
+
       }
       .item:last-child {
         margin-bottom: 24px;
