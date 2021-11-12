@@ -47,6 +47,8 @@
     searchText = debounce((value: string) => {
       this.$emit('filter', {
         ...this.filter,
+        page: 1,
+        limit: 10,
         search: trim(value)
       })
     }, 500)
