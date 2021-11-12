@@ -1,6 +1,6 @@
 <template>
   <div class="list-balance">
-    <filter-main :sorts="sorts" @filter="handleFilter" />
+    <filter-main :sorts="sorts" @filter="handleFilter" :isShowFilter="false" />
     <div class="table" v-loading="isLoading" :class="isLoading ? 'list-loading' : null">
       <base-table
         :data="listReferral"
@@ -18,12 +18,12 @@
         </el-table-column>
 
         <el-table-column :label="$t('customer.table.email')" prop="inviteEmail" width="304"> </el-table-column>
-        <el-table-column :label="$t('customer.table.date')" align="right" width="200">
+        <el-table-column :label="$t('customer.table.date')" width="200">
           <template slot-scope="scope">
             <span class="text-base">{{ scope.row.createdAt | formatMMDDYY }} </span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('customer.table.status')" align="right" width="120">
+        <el-table-column :label="$t('customer.table.status')" align="center" width="120">
           <template slot-scope="scope">
             <span v-if="scope.row.status" :class="checkTypeClass(scope.row.status)">{{ getTypeStatus(scope.row.status) }}</span>
           </template>
@@ -142,7 +142,7 @@
       min-height: 200px;
     }
     .table {
-      padding: 0 24px 24px 24px;
+      padding: 0 24px;
       .small {
         font-size: 14px !important;
         line-height: 16px;
