@@ -242,7 +242,12 @@
       "name": "Tên",
       "email": "Email",
       "date": "Ngày",
-      "status": "Trạng thái"
+      "status": "Trạng thái",
+      "network": "Mạng",
+      "wallet-address": "địa chỉ ví",
+      "create-date": "ngày tạo",
+      "accept": "Chấp nhận",
+      "invited": ""
     }
   },
   "transaction": {

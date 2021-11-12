@@ -1,7 +1,7 @@
 <template>
   <div class="list-balance">
     <filter-main :sorts="sorts" @filter="handleFilter" />
-    <div class="table">
+    <div class="table" v-loading="isLoading" :class="isLoading ? 'list-loading' : null">
       <base-table
         :data="listReferral"
         :table="query"
@@ -10,22 +10,22 @@
         @currentChange="handleCurrentChange"
         class="base-table table-wallet"
       >
-        <el-table-column label="#" type="index" width="40" />
+        <el-table-column label="#" :index="getIndex" type="index" width="40" />
         <el-table-column :label="$t('customer.table.name')">
           <template slot-scope="scope">
             <span>{{ scope.row.name }}</span>
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('customer.table.email')" prop="email" width="304"> </el-table-column>
+        <el-table-column :label="$t('customer.table.email')" prop="inviteEmail" width="304"> </el-table-column>
         <el-table-column :label="$t('customer.table.date')" align="right" width="200">
           <template slot-scope="scope">
-            <span class="text-base">{{ scope.row.date | formatMMDDYY }} </span>
+            <span class="text-base">{{ scope.row.createdAt | formatMMDDYY }} </span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('customer.table.status')" align="right" width="120">
           <template slot-scope="scope">
-            <span class="status">{{ scope.row.status }}</span>
+            <span v-if="scope.row.status" :class="checkTypeClass(scope.row.status)">{{ getTypeStatus(scope.row.status) }}</span>
           </template>
         </el-table-column>
       </base-table>
@@ -71,6 +71,10 @@
       this.handleGetListReferral()
     }
 
+    get getIndex(): number {
+      return this.query.limit * (this.query.page - 1) + 1
+    }
+
     get getPaginationInfo(): any {
       return this.$t('paging.investor')
     }
@@ -78,7 +82,14 @@
     async handleGetListReferral(): Promise<void> {
       try {
         this.isLoading = true
-        this.listReferral = await apiCustomer.getlistBalance(this.userId, this.query)
+        const params = {
+          ...this.query,
+          total: null,
+          userId: this.userId
+        }
+        const result = await apiCustomer.getlistReferral(params)
+        this.listReferral = result.content
+        this.query.total = result.totalElements
         this.isLoading = false
       } catch (error) {
         this.isLoading = false
@@ -99,6 +110,21 @@
       this.query = { ...this.query, ...filter }
       this.handleGetListReferral()
     }
+
+    checkTypeClass(status: string): string {
+      if (status === 'INVITED') {
+        return 'status-invited'
+      } else {
+        return 'status-accept'
+      }
+    }
+    getTypeStatus(status: string): any {
+      if (status === 'INVITED') {
+        return this.$t('customer.table.invited')
+      } else {
+        return this.$t('customer.table.accept')
+      }
+    }
   }
 </script>
 
@@ -111,6 +137,9 @@
     .sort {
       cursor: pointer;
       color: #0a0b0d;
+    }
+    .list-loading {
+      min-height: 200px;
     }
     .table {
       padding: 0 24px 24px 24px;

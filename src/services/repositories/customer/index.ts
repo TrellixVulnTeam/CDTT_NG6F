@@ -49,4 +49,22 @@ export class CustomerRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+  async getlistAddress(id: number, params: Record<string, any>): Promise<any> {
+    try {
+      const rs = await request.get(`${this.prefix}/${id}/addresses`, { params })
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      console.log(error)
+      return Promise.reject(error)
+    }
+  }
+  async getlistReferral(params: Record<string, any>): Promise<any> {
+    try {
+      const rs = await request.get(`api/v1/customers/invited-by-user`, { params })
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      console.log(error)
+      return Promise.reject(error)
+    }
+  }
 }

@@ -52,6 +52,7 @@
         <div v-loading="isLoading" :class="isLoading ? 'main-content-loading' : null" class="main-content">
           <info-customer v-if="tabActive === 0" :info="detailRow" />
           <Kyc-customer-detail v-if="tabActive === 1" :detailRow="detailRow" />
+          <customer-address v-if="tabActive === 2" :userId="detailRow.userId" />
           <customer-balance v-if="tabActive === 3" :userId="detailRow.userId" />
           <customer-transaction v-if="tabActive === 4" :userId="detailRow.userId" />
           <customer-referral v-if="tabActive === 5" :userId="detailRow.userId" />
@@ -69,8 +70,9 @@
   import PopupMixin from '@/mixins/popup'
   import KycCustomerDetail from '@/modules/customer/components/Kyc.vue'
   import CustomerReferral from '../Referral.vue'
+  import CustomerAddress from '../Address.vue'
 
-  @Component({ components: { InfoCustomer, CustomerBalance, KycCustomerDetail, CustomerTransaction, CustomerReferral } })
+  @Component({ components: { InfoCustomer, CustomerBalance, KycCustomerDetail, CustomerTransaction, CustomerReferral, CustomerAddress } })
   export default class CustomerDetail extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Object, default: {} }) detailRow!: Record<string, any>
 
@@ -109,11 +111,11 @@
       {
         id: 7,
         title: 'statistics'
-      },
-      {
-        id: 8,
-        title: 'setting'
       }
+      // {
+      //   id: 8,
+      //   title: 'setting'
+      // }
     ]
     tabActive = 0
 

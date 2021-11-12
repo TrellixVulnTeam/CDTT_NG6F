@@ -335,6 +335,16 @@ input[type="number"] {
     color: var(--bc-status-error);
     background-color: var(--bc-bg-error);
 }
+.status-invited {
+    @include status;
+    color: var(--bc-status-invited);
+    background-color: var(--bc-bg-invited);
+}
+.status-accept {
+    @include status;
+    color: var(--bc-status-accept);
+    background-color: var(--bc-bg-accept);
+}
 
 .h-40 {
     height: 40px;

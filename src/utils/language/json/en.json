@@ -285,7 +285,12 @@
       "name": "name",
       "email": "Email",
       "date": "date",
-      "status": "status"
+      "status": "status",
+      "network": "network",
+      "wallet-address": "wallet address",
+      "create-date": "Created date",
+      "accept": "Accepted",
+      "invited": "Invited"
     }
   },
   "transaction": {
