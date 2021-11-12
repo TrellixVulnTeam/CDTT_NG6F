@@ -93,7 +93,7 @@
         price: 'Round 4 - $0.08',
         paid: '- 0.00020036 BTC',
         avi: '~ $13,04',
-        amount: '+ 268.02 LYN'
+        amount: '+ 268.02 LYNK'
       },
       {
         name: 'Hoàng Thị Mai',
@@ -103,7 +103,7 @@
         price: 'Round 2 - $0.04',
         paid: '- 0.00020036 BTC',
         avi: '~ $13,04',
-        amount: '+ 10.89 LYN'
+        amount: '+ 10.89 LYNK'
       }
     ]
     get getPaginationInfo(): any {
