@@ -95,7 +95,9 @@
     "repassword": "Nhập lại mật khẩu mới",
     "phone-number": "Số điện thoại",
     "reason": "Lý do...",
-    "search": "Tìm kiếm"
+    "search": "Tìm kiếm",
+    "from-amount": " Từ",
+    "to-amount": "Đến"
   },
   "button": {
     "reset": "Làm lại",
@@ -147,7 +149,11 @@
     "state": "Bang",
     "personal-info": "Thông tin cá nhân",
     "kyc-status": "Trạng thái KYC",
-    "placehoder-kyc-status": "Chọn loại trạng thái"
+    "placehoder-kyc-status": "Chọn loại trạng thái",
+    "buy-token": "Loại ví",
+    "trans-date": "Ngày giao dịch",
+    "trans-amount": "Số lượng giao dịch",
+    "status": "Trạng thái"
   },
   "validate": {
     "length": " Độ dài tối thiểu 8 ký tự",
@@ -269,6 +275,9 @@
       "failed": "Thất bại",
       "rejected": "Từ chối",
       "sell": "Bán"
+    },
+    "popup": {
+      "title-filter": "Bộ lọc"
     }
   },
   "params": {

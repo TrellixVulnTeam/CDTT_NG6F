@@ -5,6 +5,10 @@
         <base-icon icon="icon-search" size="24" />
       </span>
     </el-input>
+    <div class="cursor text-filter" style="font-size: 16px" @click="handleOpenPopupFilter">
+      <span class="abicon"> <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="18" /> </span>
+      {{ $t('kyc.filter.filter') }}
+    </div>
     <div>
       <el-dropdown class="sort" trigger="click" @command="handleSort">
         <span class="abicon sort-title" style="font-size: 16px">
@@ -26,10 +30,11 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator'
+  import PopupMixin from '@/mixins/popup'
+  import { Component, Mixins } from 'vue-property-decorator'
 
   @Component
-  export default class FilterTransaction extends Vue {
+  export default class FilterTransaction extends Mixins(PopupMixin) {
     filter: Record<string, any> = {}
     sorts: Array<Record<string, any>> = [
       {
@@ -62,6 +67,13 @@
     handleSort(command: number): void {
       this.sortActive = command
     }
+
+    handleOpenPopupFilter(): void {
+      this.setOpenPopup({
+        popupName: 'popup-filter-transaction',
+        isOpen: true
+      })
+    }
   }
 </script>
 
@@ -72,6 +84,7 @@
       margin-right: 30px;
     }
     .sort {
+      margin-left: 30px;
       cursor: pointer;
       color: #0a0b0d;
     }

@@ -128,7 +128,9 @@
     "repassword": "Confirm password",
     "phone-number": "Phone number",
     "reason": "Other reason...",
-    "search": "Search"
+    "search": "Search",
+    "from-amount": " From amount",
+    "to-amount": "To amoun"
   },
   "button": {
     "reset": "Reset",
@@ -188,7 +190,11 @@
     "state": "State",
     "personal-info": "Personal Information",
     "kyc-status": "KYC status",
-    "placehoder-kyc-status": "Choose Kyc status"
+    "placehoder-kyc-status": "Choose Kyc status",
+    "buy-token": "Buy with token",
+    "trans-date": "Transaction Date",
+    "trans-amount": "Transaction Amount",
+    "status": "Status"
   },
   "buy-lyn": {
     "title": "BUY LYN"
@@ -312,6 +318,9 @@
       "failed": "Failed",
       "rejected": "Rejected",
       "sell": "Sell"
+    },
+    "popup": {
+      "title-filter": "Filter"
     }
   },
   "params": {

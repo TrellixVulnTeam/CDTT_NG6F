@@ -4,6 +4,7 @@
     <div class="table">
       <table-transaction :listTransaction="listTransaction" :query="query" @sizeChange="handleSizeChange" @pageChange="handleCurrentChange" />
     </div>
+    <popup-filter-transaction />
   </div>
 </template>
 
@@ -11,13 +12,14 @@
   import { Component, Prop, Vue } from 'vue-property-decorator'
   import FilterTransaction from '@/components/filter/FilterTransaction.vue'
   import TableTransaction from '@/components/table/TableTransaction.vue'
+  import PopupFilterTransaction from '@/components/popup/PopupFilterTransaction.vue'
 
   import getRepository from '@/services'
   import { CustomerRepository } from '@/services/repositories/customer'
 
   const apiCustomer: CustomerRepository = getRepository('customer')
 
-  @Component({ components: { FilterTransaction, TableTransaction } })
+  @Component({ components: { FilterTransaction, TableTransaction, PopupFilterTransaction } })
   export default class CustomerTransaction extends Vue {
     @Prop({ required: true, type: Number, default: 0 }) userId!: number
 
