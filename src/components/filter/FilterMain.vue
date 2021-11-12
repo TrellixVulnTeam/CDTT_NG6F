@@ -7,7 +7,7 @@
     </el-input>
     <slot />
     <div>
-      <el-dropdown class="sort" trigger="click" @command="handleSort">
+      <el-dropdown :click="isShowFilter ? 'sort' : 'ml-0'" trigger="click" @command="handleSort">
         <span class="abicon sort-title" style="font-size: 16px">
           <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}</span
         >
@@ -34,6 +34,7 @@
   @Component
   export default class FilterMain extends Vue {
     @Prop({ required: false, type: Array, default: [] }) sorts!: Array<Record<string, any>>
+    @Prop({ required: false, type: Boolean, default: true }) isShowFilter!: boolean
     filter: Record<string, any> = {
       search: '',
       orderBy: ''
@@ -47,6 +48,8 @@
     searchText = debounce((value: string) => {
       this.$emit('filter', {
         ...this.filter,
+        page: 1,
+        limit: 10,
         search: trim(value)
       })
     }, 500)

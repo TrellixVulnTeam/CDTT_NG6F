@@ -80,7 +80,8 @@
   },
   "header": {
     "kyc": "KYC",
-    "customer": "Khách hàng"
+    "customer": "Khách hàng",
+    "crowdsale": "Crowdsale"
   },
   "footer": {
     "terms": "Các điều khoản và điều kiện"
@@ -224,6 +225,7 @@
     }
   },
   "customer": {
+    "verified": "Đã xác thực",
     "popup": {
       "title": "CHI TIẾT KHÁCH HÀNG"
     },
@@ -242,7 +244,12 @@
       "name": "Tên",
       "email": "Email",
       "date": "Ngày",
-      "status": "Trạng thái"
+      "status": "Trạng thái",
+      "network": "Mạng",
+      "wallet-address": "địa chỉ ví",
+      "create-date": "ngày tạo",
+      "accept": "Chấp nhận",
+      "invited": "Đã mời"
     }
   },
   "transaction": {
@@ -326,6 +333,26 @@
     "success": "Sự thành công",
     "startDate": "ngày bắt đầu",
     "endDate": "ngày kết thúc",
-    "remain": "duy trì"
+    "remain": "duy trì",
+    "transactionDate": "Ngày giao dịch",
+    "transactionAmount": "Số tiền giao dịch",
+    "popup-filter": {
+      "title": "bộ lọc",
+      "round": "Vòng",
+      "country": "Quốc gia",
+      "buyWithWallet": "Mua bằng ví",
+      "buyWithToken": "Mua bằng Token",
+      "transactionDate": "Ngày giao dịch",
+      "transactionAmount": "Số tiền giao dịch",
+      "reset": "Làm lại",
+      "apply": "Áp dụng",
+      "required": "Vui lòng chọn",
+      "planceOderToken": "Chọn token",
+      "planceOderWallet": "Chọn ví",
+      "planceOderRound": "Chọn vòng",
+      "planceOderCountry": "Chọn quốc gia",
+      "planceOderTransactionDate": "Chọn ngày",
+      "planceOderTransactionAmount": "Chọn số tiền"
+    }
   }
 }

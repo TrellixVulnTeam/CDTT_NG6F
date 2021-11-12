@@ -15,7 +15,7 @@
       </div>
       <div class="be-flex jc-space-between align-center item">
         <span class="label">{{ $t('label.birth-day') }}</span>
-        <span class="text-base">{{ info.birthday | formatDateTimeBirthday}}</span>
+        <span class="text-base">{{ info.birthday | formatDateTimeBirthday }}</span>
       </div>
       <div class="be-flex jc-space-between align-center item">
         <span class="label">{{ $t('label.nationality') }}</span>
@@ -29,7 +29,7 @@
       </div>
       <div class="be-flex jc-space-between align-center item">
         <span class="label">{{ $t('label.address') }}</span>
-        <span class="text-base">{{ info.address | formatAddress}}</span>
+        <span class="text-base">{{ info.address | formatAddress }}</span>
       </div>
       <div class="be-flex jc-space-between align-center item">
         <span class="label">{{ $t('label.city') }}</span>

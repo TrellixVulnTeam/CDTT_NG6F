@@ -1,21 +1,37 @@
 //language
 .select-language {
-    .el-input__inner {
-        padding-left: 36px !important;
-        color: #201f1e;
-    }
+  .el-input__inner {
+    padding-left: 36px !important;
+    color: #201f1e;
+  }
 }
 
 //pagination
 .select-pagination {
-    .el-scrollbar {
-        .el-select-dropdown__list {
-            .el-select-dropdown__item {
-                font-size: 14px;
-                &::after {
-                    content: "" !important;
-                }
-            }
+  .el-scrollbar {
+    .el-select-dropdown__list {
+      .el-select-dropdown__item {
+        font-size: 14px;
+        &::after {
+          content: '' !important;
         }
+      }
     }
+  }
+}
+//popup filter crowdsale
+.popup-filter-crowdsale {
+  .el-tag--info {
+    background-color: #f0f5ff;
+    color: var(--bc-text-primary);
+  }
+  .el-icon-close {
+    background-color: unset !important;
+    font-size: 16px;
+    color: #5b616e;
+    font-weight: 400;
+    &:hover {
+      color: #5b616e!important;
+    }
+  }
 }

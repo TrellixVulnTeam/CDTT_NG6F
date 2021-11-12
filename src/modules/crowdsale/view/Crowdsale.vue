@@ -3,14 +3,14 @@
     <div class="box-content-1">
       <div class="round bg-white box-shadow">
         <div class="head">
-          <div class="fw-600 fs-16 title">{{ $t('crowdsale.round') }} 2</div>
+          <div class="fw-600 fs-24 title">{{ $t('crowdsale.round') }} 2</div>
           <div class="box-status">Opening</div>
         </div>
         <p class="fw-400 fs-16 time-date">11/10/2021 - 21/10/2021</p>
         <div class="box-ellipse">
           <div class="mini-ellipse">
             <p class="fw-600 fs-24" style="margin-bottom: 2px; margin-top: 24px; color: #0151fc">75%</p>
-            <p class="fw-400 fs-12" style="color: #5b616e">{{ $t('crowdsale.of') }} 100M</p>
+            <p class="fw-400 fs-12" style="color: #5b616e">{{ $t('crowdsale.of') }} <span class="fw-600">100M</span></p>
           </div>
           <el-progress type="circle" :percentage="75" :stroke-width="12" color="#0151FC" :show-text="false"></el-progress>
         </div>
@@ -161,6 +161,9 @@
           .box {
             width: 220px;
             height: 48px;
+            .price {
+              margin-bottom: 8px;
+            }
           }
         }
       }

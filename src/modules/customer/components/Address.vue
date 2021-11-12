@@ -1,39 +1,41 @@
 <template>
-  <div class="list-balance">
+  <div class="list-address">
     <filter-main :sorts="sorts" @filter="handleFilter" />
     <div class="table" v-loading="isLoading" :class="isLoading ? 'list-loading' : null">
-      <base-table :data="listBlance" :showPagination="false" class="base-table table-wallet">
+      <base-table :data="listAddress" :showPagination="false" class="base-table table-wallet">
         <el-table-column label="#" type="index" align="center" width="40" />
         <el-table-column :label="$t('customer.table.asset')" width="144">
           <template slot-scope="scope">
             <div class="be-flex align-center">
-              <base-icon :icon="getIcon(scope.row.asset)" size="24" />
-              <span style="padding-left: 8px" class="d-ib">{{ getAssetTitle(scope.row.asset) }}</span>
+              <base-icon :icon="getIcon(scope.row.currency)" size="24" />
+              <span style="padding-left: 8px" class="d-ib">{{ getAssetTitle(scope.row.currency) }}</span>
             </div>
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('customer.table.price')" align="right" width="160">
+        <el-table-column :label="$t('customer.table.network')" width="200">
           <template slot-scope="scope">
-            <span>${{ scope.row.price | convertAmountDecimal('USD') }}</span>
+            <span class="text-base">{{ scope.row.networkName }}</span>
+            <span class="d-block small">{{ scope.row.network }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('customer.table.available')" align="right" width="200">
+        <el-table-column :label="$t('customer.table.wallet-address')" width="310">
           <template slot-scope="scope">
-            <span class="text-base">{{ scope.row.available | convertAmountDecimal(scope.row.asset) }} {{ scope.row.asset }}</span>
-            <span class="d-block small">~${{ scope.row.availableUSD | convertAmountDecimal('USD') }}</span>
+            <div class="be-flex align-center">
+              <span class="d-ib">{{ scope.row.address | formatTransactionCode(15) }}</span>
+            </div>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('customer.table.lock-amount')" align="right" width="200">
+        <el-table-column width="50">
           <template slot-scope="scope">
-            <span class="text-base">{{ scope.row.lockedAmount | convertAmountDecimal(scope.row.asset) }} {{ scope.row.asset }}</span>
-            <span class="d-block small">~${{ scope.row.lockedAmountUSD | convertAmountDecimal('USD') }}</span>
+            <span v-if="scope.row.address" class="icon-copy" @click="handleCopyTransaction(scope.row)">
+              <base-icon icon="icon-copy" size="24" />
+            </span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('customer.table.balance')" align="right">
+        <el-table-column :label="$t('customer.table.create-date')">
           <template slot-scope="scope">
-            <span class="text-base">{{ scope.row.totalBalance | convertAmountDecimal(scope.row.asset) }} {{ scope.row.asset }}</span>
-            <span class="d-block small">~${{ scope.row.totalBalanceUSD | convertAmountDecimal('USD') }}</span>
+            <span>{{ scope.row.createdAt | formatMMDDYY }} </span>
           </template>
         </el-table-column>
       </base-table>
@@ -50,47 +52,33 @@
   const apiCustomer: CustomerRepository = getRepository('customer')
 
   @Component({ components: { FilterMain } })
-  export default class CustomerBalance extends Vue {
+  export default class CustomerAddress extends Vue {
     @Prop({ required: true, type: Number, default: 0 }) userId!: number
 
-    listBlance: Record<string, any>[] = []
+    listAddress: Record<string, any>[] = []
     isLoading = false
-    filter: Record<string, any> = {}
+    query: Record<string, any> = {
+      search: ''
+    }
     sorts: Array<Record<string, any>> = [
       {
         command: 1,
-        label: this.$i18n.t('customer.sort.price'),
+        label: this.$i18n.t('customer.sort.create-date'),
         divided: false,
-        i18n: 'customer.sort.price'
-      },
-      {
-        command: 2,
-        label: this.$i18n.t('customer.sort.avail-amount'),
-        divided: false,
-        i18n: 'customer.sort.avail-amount'
-      },
-      {
-        command: 3,
-        label: this.$i18n.t('customer.sort.locked-amount'),
-        divided: false,
-        i18n: 'customer.sort.locked-amount'
-      },
-      {
-        command: 4,
-        label: this.$i18n.t('customer.sort.balance-amount'),
-        divided: false,
-        i18n: 'customer.sort.balance-amount'
+        i18n: 'customer.sort.create-date'
       }
     ]
 
     created(): void {
-      this.handleGetListBalance()
+      this.handleGetListAddress()
     }
 
-    async handleGetListBalance(): Promise<void> {
+    async handleGetListAddress(): Promise<void> {
       try {
         this.isLoading = true
-        this.listBlance = await apiCustomer.getlistBalance(this.userId, this.filter)
+        const result = await apiCustomer.getlistAddress(this.userId, this.query)
+        this.listAddress = result.content
+        this.query.total = result.totalElements
         this.isLoading = false
       } catch (error) {
         this.isLoading = false
@@ -99,8 +87,20 @@
     }
 
     handleFilter(filter: Record<string, any>): void {
-      this.filter = { ...this.filter, ...filter }
-      this.handleGetListBalance()
+      this.query = { ...this.query, ...filter }
+      this.handleGetListAddress()
+    }
+
+    handleCopyTransaction(row: Record<string, any>): void {
+      let message: any = ''
+      const el = document.createElement('input')
+      el.value = row.address
+      document.body.appendChild(el)
+      el.select()
+      document.execCommand('copy')
+      document.body.removeChild(el)
+      message = this.$t('notify.copy')
+      this.$message.success(message)
     }
 
     getIcon(asset: string): string {
@@ -146,15 +146,7 @@
 </script>
 
 <style scoped lang="scss">
-  .list-balance {
-    .input-search {
-      width: 400px;
-      margin-right: 30px;
-    }
-    .sort {
-      cursor: pointer;
-      color: #0a0b0d;
-    }
+  .list-address {
     .list-loading {
       min-height: 200px;
     }

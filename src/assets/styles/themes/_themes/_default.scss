@@ -43,6 +43,8 @@
   --bc-bg-warning: #fff3e2;
   --bc-bg-pending: #fff3e2;
   --bc-bg-neutral: #f3f2f1;
+  --bc-bg-invited: #fff3e2;
+  --bc-bg-accept: #e4f9e2;
 
   --bc-status-error: #cf202f;
   --bc-required: #cf202f;
@@ -50,6 +52,8 @@
   --bc-status-warning: #dd7d00;
   --bc-status-neutral: #a19f9d;
   --bc-status-pending: #dd7d00;
+  --bc-status-invited: #dd7d00;
+  --bc-status-accept: #129961;
 
   //overlay
   -bc-overlay-light: rgba(255, 255, 255, 0.4);

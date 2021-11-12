@@ -206,14 +206,28 @@ export function formatTransactionCode(code: string | null, number = 10): string 
 export function formatDateTimeBirthday(time: string | null): string {
   if (time !== null) {
     const timeConvert: string[] = time.split(' ')
-    return timeConvert[0].replace(/-/g,"/")
+    return timeConvert[0].replace(/-/g, '/')
   } else return ''
 }
 
-export function formatAddress(address:string|null){
-  if (address){
-    const addressArr:string[]=address.split(",");
-    return addressArr[0]+","+addressArr[1];
-  }else return""
+export function formatIdentificationType(type: string | null): string {
+  if (type !== null) {
+    switch (type) {
+      case 'ID_CARD':
+        return 'ID Card'
+      case 'PASSPORT':
+        return 'Passport'
+      case 'DRIVER_LICENSE':
+        return 'Driver License'
+      default:
+        return ''
+    }
+  } else return ''
+}
 
+export function formatAddress(address: string | null) {
+  if (address) {
+    const addressArr: string[] = address.split(',')
+    return addressArr[0] + ',' + addressArr[1]
+  } else return ''
 }
