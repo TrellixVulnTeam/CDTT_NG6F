@@ -154,7 +154,8 @@
     "show": "Show",
     "customers": "customers",
     "transaction": "transactions",
-    "crowdsale": "transaction"
+    "crowdsale": "transaction",
+    "investor": "investors"
   },
   "label": {
     "buy-from": "Buy from",
@@ -280,7 +281,11 @@
       "price": "price",
       "available": "Available",
       "lock-amount": "locked amount",
-      "balance": "Balance"
+      "balance": "Balance",
+      "name": "name",
+      "email": "Email",
+      "date": "date",
+      "status": "status"
     }
   },
   "transaction": {

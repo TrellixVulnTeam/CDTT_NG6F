@@ -51,11 +51,10 @@
         </div>
         <div v-loading="isLoading" :class="isLoading ? 'main-content-loading' : null" class="main-content">
           <info-customer v-if="tabActive === 0" :info="detailRow" />
-          <customer-balance v-if="tabActive === 3" :listBlance="listBlance" />
+          <Kyc-customer-detail v-if="tabActive === 1" :detailRow="detailRow" />
+          <customer-balance v-if="tabActive === 3" :userId="detailRow.userId" />
           <customer-transaction v-if="tabActive === 4" :userId="detailRow.userId" />
-        </div>
-        <div v-if="tabActive === 1">
-          <Kyc-customer-detail :detailRow="detailRow" />
+          <customer-referral v-if="tabActive === 5" :userId="detailRow.userId" />
         </div>
       </div>
     </div>
@@ -68,16 +67,10 @@
   import CustomerBalance from '../Balance.vue'
   import CustomerTransaction from '../CustomerTransaction.vue'
   import PopupMixin from '@/mixins/popup'
-
-  import getRepository from '@/services'
-  import { CustomerRepository } from '@/services/repositories/customer'
-  const apiCustomer: CustomerRepository = getRepository('customer')
-
-  import { namespace } from 'vuex-class'
   import KycCustomerDetail from '@/modules/customer/components/Kyc.vue'
-  const bcKyc = namespace('bcKyc')
+  import CustomerReferral from '../Referral.vue'
 
-  @Component({ components: { InfoCustomer, CustomerBalance, KycCustomerDetail } })
+  @Component({ components: { InfoCustomer, CustomerBalance, KycCustomerDetail, CustomerTransaction, CustomerReferral } })
   export default class CustomerDetail extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Object, default: {} }) detailRow!: Record<string, any>
 
@@ -137,20 +130,6 @@
 
     handleChangeTab(tab: Record<string, any>): void {
       this.tabActive = tab.id
-      if (tab.id === 3) {
-        this.handleGetListBalance()
-      }
-    }
-
-    async handleGetListBalance(): Promise<void> {
-      try {
-        this.isLoading = true
-        this.listBlance = await apiCustomer.getlistBalance(this.detailRow.userId)
-        this.isLoading = false
-      } catch (error) {
-        this.isLoading = false
-        console.log(error)
-      }
     }
   }
 </script>

@@ -87,11 +87,11 @@
     }
 
     objType: Record<string, any> = {
-      CustomerAll: '',
-      CustomerVerified: 'Verified',
-      CustomerProcessing: 'KYC processing',
-      CustomerNotVerified: 'Not verified',
-      CustomerLocked: 'Locked'
+      CustomerAll: null,
+      CustomerVerified: 'VERIFIED',
+      CustomerProcessing: 'KYC',
+      CustomerNotVerified: 'NOT_VERIFIED',
+      CustomerLocked: 'LOCKED'
     }
 
     created(): void {
@@ -173,9 +173,9 @@
             &:hover {
               color: var(--bc-tab-active);
             }
-            .text-base{
-              color: #5b616e;
-            }
+            // .text-base {
+            //   color: #5b616e;
+            // }
           }
           .tab-active {
             color: var(--bc-tab-active);

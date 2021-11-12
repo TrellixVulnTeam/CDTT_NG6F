@@ -31,9 +31,9 @@ export class CustomerRepository extends BaseRepository {
     }
   }
 
-  async getlistBalance(id: number): Promise<any> {
+  async getlistBalance(id: number, params: Record<string, any>): Promise<any> {
     try {
-      const rs = await request.get(`${this.prefix}/${id}/balance`)
+      const rs = await request.get(`${this.prefix}/${id}/balance`, { params })
       return Promise.resolve(rs.data.data)
     } catch (error) {
       console.log(error)
