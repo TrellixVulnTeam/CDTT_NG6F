@@ -24,6 +24,9 @@
   .el-tag--info {
     background-color: #f0f5ff;
     color: var(--bc-text-primary);
+    border: none;
+    height: 28px;
+    line-height: 28px;
   }
   .el-icon-close {
     background-color: unset !important;
