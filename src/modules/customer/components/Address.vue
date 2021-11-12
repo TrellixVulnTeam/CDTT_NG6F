@@ -22,11 +22,11 @@
         <el-table-column :label="$t('customer.table.wallet-address')" width="310">
           <template slot-scope="scope">
             <div class="be-flex align-center">
-              <span class="d-ib mr-2">{{ scope.row.address | formatTransactionCode(10) }}</span>
+              <span class="d-ib">{{ scope.row.address | formatTransactionCode(15) }}</span>
             </div>
           </template>
         </el-table-column>
-        <el-table-column width="60" align="center">
+        <el-table-column width="50">
           <template slot-scope="scope">
             <span v-if="scope.row.address" class="icon-copy" @click="handleCopyTransaction(scope.row)">
               <base-icon icon="icon-copy" size="24" />
