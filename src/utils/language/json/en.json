@@ -103,7 +103,8 @@
   },
   "header": {
     "kyc": "KYC",
-    "customer": "Customer"
+    "customer": "Customer",
+    "crowdsale": "Crowdsale"
   },
   "footer": {
     "terms": "Terms and Conditions"

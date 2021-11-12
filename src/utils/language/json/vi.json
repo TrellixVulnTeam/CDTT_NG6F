@@ -80,7 +80,8 @@
   },
   "header": {
     "kyc": "KYC",
-    "customer": "Khách hàng"
+    "customer": "Khách hàng",
+    "crowdsale": "Crowdsale"
   },
   "footer": {
     "terms": "Các điều khoản và điều kiện"
