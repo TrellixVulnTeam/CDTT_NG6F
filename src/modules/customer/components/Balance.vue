@@ -1,35 +1,6 @@
 <template>
   <div class="list-balance">
-    <div class="be-flex mb-24 align-center kyc-filter filter">
-      <el-input v-model="filter.search" class="input-search" :placeholder="$t('placeholder.search')">
-        <span slot="prefix" class="prefix-search">
-          <base-icon icon="icon-search" size="24" />
-        </span>
-      </el-input>
-      <div>
-        <el-dropdown class="sort" trigger="click" @command="handleSort">
-          <span class="abicon sort-title" style="font-size: 16px">
-            <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}</span
-          >
-          <el-dropdown-menu class="header-downloadapp dropdown-sort" style="width: 200px" slot="dropdown">
-            <el-dropdown-item
-              v-for="(value, index) in sorts"
-              :key="index"
-              :class="sortActive === value.command ? 'active' : null"
-              :command="value.command"
-              :divided="value.divided"
-            >
-              <span class="be-flex">
-                <span class="be-flex-item">
-                  {{ value.label }}
-                </span>
-                <base-icon v-if="sortActive === value.command" icon="icon-tick-dropdown" size="16" />
-              </span>
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-      </div>
-    </div>
+    <filter-main :sorts="sorts" @filter="handleFilter" />
     <div class="table">
       <base-table :data="listBlance" :showPagination="false" class="base-table table-wallet">
         <el-table-column label="#" type="index" align="center" width="40" />
@@ -72,11 +43,18 @@
 
 <script lang="ts">
   import { Component, Prop, Vue } from 'vue-property-decorator'
+  import FilterMain from '@/components/filter/FilterMain.vue'
 
-  @Component
+  import getRepository from '@/services'
+  import { CustomerRepository } from '@/services/repositories/customer'
+  const apiCustomer: CustomerRepository = getRepository('customer')
+
+  @Component({ components: { FilterMain } })
   export default class CustomerBalance extends Vue {
-    @Prop({ required: true, type: Array, default: [] }) listBlance!: Array<Record<string, any>>
+    @Prop({ required: true, type: Number, default: 0 }) userId!: number
 
+    listBlance: Record<string, any>[] = []
+    isLoading = false
     filter: Record<string, any> = {}
     sorts: Array<Record<string, any>> = [
       {
@@ -104,12 +82,25 @@
         i18n: 'customer.sort.balance-amount'
       }
     ]
-    sortActive = 1
 
-    handleSort(command: number): void {
-      this.sortActive = command
-      // this.filter.orderBy = command
-      // this.$emit('filter', this.filter)
+    created(): void {
+      this.handleGetListBalance()
+    }
+
+    async handleGetListBalance(): Promise<void> {
+      try {
+        this.isLoading = true
+        this.listBlance = await apiCustomer.getlistBalance(this.userId, this.filter)
+        this.isLoading = false
+      } catch (error) {
+        this.isLoading = false
+        console.log(error)
+      }
+    }
+
+    handleFilter(filter: Record<string, any>): void {
+      this.filter = { ...this.filter, ...filter }
+      this.handleGetListBalance()
     }
 
     getIcon(asset: string): string {
