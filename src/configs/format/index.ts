@@ -206,7 +206,7 @@ export function formatTransactionCode(code: string | null, number = 10): string 
 export function formatDateTimeBirthday(time: string | null): string {
   if (time !== null) {
     const timeConvert: string[] = time.split(' ')
-    return timeConvert[0]
+    return timeConvert[0].replace(/-/g, '/')
   } else return ''
 }
 
