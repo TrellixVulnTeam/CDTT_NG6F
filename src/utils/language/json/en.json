@@ -267,6 +267,7 @@
     }
   },
   "customer": {
+    "verified": "Verified",
     "popup": {
       "title": "CUSTOMER DETAIL"
     },

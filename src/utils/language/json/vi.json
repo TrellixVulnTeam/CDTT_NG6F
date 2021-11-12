@@ -224,6 +224,7 @@
     }
   },
   "customer": {
+    "verified": "Đã xác thực",
     "popup": {
       "title": "CHI TIẾT KHÁCH HÀNG"
     },

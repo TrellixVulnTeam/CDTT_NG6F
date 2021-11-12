@@ -15,15 +15,17 @@
             <div class="info-below__left">
               <div class="be-flex jc-space-between info-item">
                 <span class="text-xs label">{{ $t('label.referral-code') }}:</span>
-                <span class="text-base">{{ detailRow.referrerCode }}</span>
+                <span class="text-base">{{ detailRow.affiliationCode }}</span>
               </div>
               <div class="be-flex jc-space-between info-item">
                 <span class="text-xs label">{{ $t('label.phone') }}:</span>
-                <span class="text-base">{{ detailRow.phone }}</span>
+                <span class="text-base">({{ detailRow.countryCode }}) {{ detailRow.phone }}</span>
+                <span class="status-verified" v-if="detailRow.emailVerified === '1'">{{ $t('customer.verified') }}</span>
               </div>
               <div class="be-flex jc-space-between info-item">
                 <span class="text-xs label">{{ $t('label.email') }}:</span>
                 <span class="text-base">{{ detailRow.email }}</span>
+                <span class="status-verified" v-if="detailRow.phoneVerified === '1'">{{ $t('customer.verified') }}</span>
               </div>
             </div>
             <div class="info-below__right">
@@ -166,6 +168,7 @@
             }
             .info-item {
               // margin-bottom: 12px;
+              position: relative;
               height: 24px;
               line-height: 24px;
               align-items: center;
@@ -175,6 +178,12 @@
               }
               .label {
                 color: #5b616e;
+              }
+              .status-verified {
+                background-color: transparent;
+                position: absolute;
+                right: -80px;
+                bottom: -2px;
               }
             }
           }
