@@ -374,6 +374,26 @@
     "success": "Success",
     "startDate": "start date",
     "endDate": "end date",
-    "remain": "remain"
+    "remain": "remain",
+    "transactionDate": "Transaction date",
+    "transactionAmount": "Transaction amount",
+    "popup-filter": {
+      "title": "filter",
+      "round": "Round",
+      "country": "Country",
+      "buyWithWallet": "Buy with wallet",
+      "buyWithToken": "Buy with token",
+      "transactionDate": "Transaction Date",
+      "transactionAmount": "Transaction Amount",
+      "reset": "Reset",
+      "apply": "Apply",
+      "required": "Please enter your",
+      "planceOderToken": "Select token",
+      "planceOderWallet": "Select wallet",
+      "planceOderRound": "Select round",
+      "planceOderCountry": "Select country",
+      "planceOderTransactionDate": "Select date",
+      "planceOderTransactionAmount": "Select amount"
+    }
   }
 }
