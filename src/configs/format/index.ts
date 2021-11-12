@@ -210,20 +210,24 @@ export function formatDateTimeBirthday(time: string | null): string {
   } else return ''
 }
 
-export function formatIdentificationType(type:string|null):string{
-  if (type!==null){
-    switch (type){
-      case "ID_CARD":
-        return "ID Card"
-        break;
-      case "PASSPORT":
-        return "Passport"
-        break;
-      case "DRIVER_LICENSE":
-        return "Driver License"
-        break;
+export function formatIdentificationType(type: string | null): string {
+  if (type !== null) {
+    switch (type) {
+      case 'ID_CARD':
+        return 'ID Card'
+      case 'PASSPORT':
+        return 'Passport'
+      case 'DRIVER_LICENSE':
+        return 'Driver License'
       default:
-        return "";
+        return ''
     }
-  }else return "";
+  } else return ''
+}
+
+export function formatAddress(address: string | null) {
+  if (address) {
+    const addressArr: string[] = address.split(',')
+    return addressArr[0] + ',' + addressArr[1]
+  } else return ''
 }
