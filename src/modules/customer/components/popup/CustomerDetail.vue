@@ -39,7 +39,7 @@
               </div>
               <div class="be-flex jc-space-between info-item">
                 <span class="text-xs label">{{ $t('label.last-login') }}:</span>
-                <span class="text-base">{{ detailRow.lastimeLogin | formatMMDDYY }}</span>
+                <span class="text-base">{{ detailRow.lastTimeLogin | formatMMDDYY }}</span>
               </div>
             </div>
           </div>
@@ -156,6 +156,7 @@
               width: 80px;
               height: 80px;
               border-radius: 100px;
+              object-fit: cover;
             }
           }
           .info-below {
