@@ -271,6 +271,10 @@
       "amount": "số lượng",
       "paid": "Đã thanh toán",
       "pending": "Pending"
+    },
+    "select": {
+      "accepted": "Đã xác nhận",
+      "invited": "Đã mời"
     }
   },
   "transaction": {

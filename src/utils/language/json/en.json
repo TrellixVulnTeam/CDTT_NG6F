@@ -314,6 +314,10 @@
       "amount": "amount",
       "paid": "Paid",
       "pending": "Pending"
+    },
+    "select": {
+      "accepted": "Accepted",
+      "invited": "Invited"
     }
   },
   "transaction": {
