@@ -30,7 +30,7 @@
             </el-button>
           </div>
           <div slot="reference" class="cursor text-filter" style="font-size: 16px">
-            <span class="abicon"> <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="18" /> </span>
+            <span class="abicon"> <base-icon style="color: #5b616e; margin-right: 4px" icon="icon-filter" size="18" /> </span>
             {{ $t('kyc.filter.filter') }}
           </div>
         </el-popover>

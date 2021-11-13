@@ -245,7 +245,10 @@
       "locked-amount": "Số lượng bị khóa",
       "balance-amount": "Số dư",
       "date": "Ngày tạo",
-      "amount": "Số lượng"
+      "amount": "Số lượng",
+      "trans-amount": "Số lượng giao dịch",
+      "trans-date": "Ngày giao dịch",
+      "status": "Trạng thái"
     },
     "table": {
       "asset": "ví",
