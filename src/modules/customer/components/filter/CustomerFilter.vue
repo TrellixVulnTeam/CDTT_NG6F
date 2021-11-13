@@ -18,9 +18,11 @@
                   <el-option v-for="(country, index) in listCountry" :key="index" :label="country.name" :value="country.name" />
                 </el-select>
               </el-form-item>
-              <el-form-item class="be-flex-item" :label="$t('label.kyc-status')">
-                <el-select v-model="filter.type" id-type :placeholder="$t('label.placehoder-kyc-status')" class="w-100" clearable>
-                  <el-option v-for="(type, index) in identificationType" :key="index" :label="type.type" :value="type.value" />
+              <el-form-item class='be-flex-item' :label="$t('label.kyc-status')">
+                <el-select v-model='filter.type' id-type :placeholder="$t('label.placehoder-kyc-status')"
+                           class='w-100' clearable :disabled='isChangeTab'>
+                  <el-option v-for='(type, index) in identificationType' :key='index' :label='type.type'
+                             :value='type.value' />
                 </el-select>
               </el-form-item>
             </div>
@@ -95,6 +97,7 @@
 
   @Component
   export default class KycFilter extends Vue {
+    @Prop({ required: true }) isChangeTab!: boolean
     filter = {
       search: '',
       orderBy: 1,
@@ -124,18 +127,18 @@
         divided: false,
         i18n: 'kyc.sort.country'
       },
-      {
-        command: 3,
-        label: this.$i18n.t('kyc.sort.full-name'),
-        divided: false,
-        i18n: 'kyc.sort.full-name'
-      },
-      {
-        command: 4,
-        label: this.$i18n.t('kyc.sort.transaction'),
-        divided: false,
-        i18n: 'kyc.sort.transaction'
-      }
+      // {
+      //   command: 3,
+      //   label: this.$i18n.t('kyc.sort.full-name'),
+      //   divided: false,
+      //   i18n: 'kyc.sort.full-name'
+      // },
+      // {
+      //   command: 4,
+      //   label: this.$i18n.t('kyc.sort.transaction'),
+      //   divided: false,
+      //   i18n: 'kyc.sort.transaction'
+      // }
     ]
     sortActive = 1
     listCountry: IListCountry[] = countryJson
@@ -181,7 +184,6 @@
 
     created(): void {
       EventBus.$on('changeLang', () => {
-        console.log('a', window.localStorage.getItem('bc-lang'))
         forEach(this.sorts, elm => {
           elm.label = this.$i18n.t(elm.i18n)
         })
@@ -197,6 +199,20 @@
     }
 
     handleShowPopper(): void {
+      switch (this.$route.name) {
+        case "CustomerVerified":
+          this.filter.type="Verified"
+          break;
+        case "CustomerLocked":
+          this.filter.type="Locked"
+          break;
+        case "CustomerNotVerified":
+          this.filter.type="Not verified"
+          break;
+        case "CustomerProcessing":
+          this.filter.type="KYC processing"
+          break;
+      }
       this.isVisible = true
     }
 

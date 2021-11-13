@@ -19,12 +19,13 @@
         </el-form-item>
         <div class="be-flex jc-space-between row">
           <el-form-item class="be-flex-item mr-40 form-item-line" :label="$t('label.trans-date')">
-            <el-date-picker class="w-100" format="yyyy/MM/dd" value-format="yyyy-MM-dd" :placeholder="$t('label.from-date')" v-model="filter.fromDate" type="date">
+            <el-date-picker class="w-100 date-picker" format="MM/dd/yyyy" value-format="yyyy-MM-dd" :placeholder="$t('label.from-date')" v-model="filter.fromDate" type="date">
             </el-date-picker>
           </el-form-item>
 
           <el-form-item class="be-flex-item hide-label" label="1">
-            <el-date-picker class="w-100" format="yyyy/MM/dd" :placeholder="$t('label.to-date')" value-format="yyyy-MM-dd" v-model="filter.toDate" type="date"> </el-date-picker>
+            <el-date-picker class="w-100 date-picker" format="MM/dd/yyyy" :placeholder="$t('label.to-date')" value-format="yyyy-MM-dd" v-model="filter.toDate" type="date">
+            </el-date-picker>
           </el-form-item>
         </div>
         <div class="be-flex jc-space-between row">
@@ -126,15 +127,15 @@
     listStatus: Array<Record<string, any>> = [
       {
         id: 0,
-        label: 'Succsess'
-      },
-      {
-        id: 1,
         label: 'Pending'
       },
       {
-        id: 2,
+        id: 1,
         label: 'Processing'
+      },
+      {
+        id: 2,
+        label: 'Success'
       },
       {
         id: 3,
@@ -155,11 +156,11 @@
         toAmount: '',
         status: ''
       }
-      this.setOpenPopup({
-        popupName: 'popup-filter-transaction',
-        isOpen: false
-      })
-      this.$emit('filter', this.filter)
+      // this.setOpenPopup({
+      //   popupName: 'popup-filter-transaction',
+      //   isOpen: false
+      // })
+      // this.$emit('filter', this.filter)
     }
 
     handleApply(): void {

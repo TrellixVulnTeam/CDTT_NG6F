@@ -98,7 +98,7 @@
     }
     sorts: Array<Record<string, any>> = [
       {
-        command: 1,
+        command: 0,
         label: this.$i18n.t('customer.sort.date'),
         divided: false,
         i18n: 'customer.sort.date'
@@ -116,12 +116,12 @@
     listStatus: Array<Record<string, any>> = [
       {
         id: 0,
-        name: 'Accepted',
+        name: this.$i18n.t('customer.select.accepted'),
         value: 'ACCEPTED'
       },
       {
         id: 1,
-        name: 'Invited',
+        name: this.$i18n.t('customer.select.invited'),
         value: 'INVITED'
       }
     ]

@@ -150,7 +150,7 @@
     "city": "Thành phố",
     "state": "Bang",
     "personal-info": "Thông tin cá nhân",
-    "kyc-status": "Trạng thái KYC",
+    "kyc-status": "Trạng thái",
     "placehoder-kyc-status": "Chọn loại trạng thái",
     "buy-token": "Loại ví",
     "trans-date": "Ngày giao dịch",
@@ -271,6 +271,10 @@
       "amount": "số lượng",
       "paid": "Đã thanh toán",
       "pending": "Pending"
+    },
+    "select": {
+      "accepted": "Đã xác nhận",
+      "invited": "Đã mời"
     }
   },
   "transaction": {
