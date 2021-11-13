@@ -1,10 +1,10 @@
 <template>
   <div class="list-transaction" v-loading="isLoading" :class="isLoading ? 'list-transaction-loading' : null">
-    <filter-transaction />
+    <filter-transaction @filter="handleFilter" />
     <div class="table">
       <table-transaction :listTransaction="listTransaction" :query="query" @sizeChange="handleSizeChange" @pageChange="handleCurrentChange" />
     </div>
-    <popup-filter-transaction />
+    <popup-filter-transaction @filter="handleFilter" />
   </div>
 </template>
 
@@ -48,13 +48,16 @@
       }
     }
 
+    handleFilter(filter: Record<string, any>): void {
+      this.query = { ...this.query, ...filter }
+      this.handleGetListTransaction()
+    }
+
     handleSizeChange(value: number): void {
       this.query.limit = value
       this.handleGetListTransaction()
     }
     handleCurrentChange(value: number): void {
-      console.log(value)
-
       this.query.page = value
       this.handleGetListTransaction()
     }

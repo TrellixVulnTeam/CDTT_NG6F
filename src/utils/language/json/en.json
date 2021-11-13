@@ -288,7 +288,11 @@
       "locked-amount": "Locked amount",
       "balance-amount": "Balance amount",
       "date": "Created date",
-      "amount": "Amount"
+      "amount": "Amount",
+      "trans-amount": "Transaction amount",
+      "trans-date": "Transaction date",
+      "status": "Status",
+      "referral-name": "Referral name"
     },
     "table": {
       "asset": "asset",

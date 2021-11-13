@@ -30,7 +30,7 @@ export class CustomerRepository extends BaseRepository {
     }
 
     forEach(objKey, key => {
-      if (_params[key] === '') {
+      if (_params[key] === '' || key === 'total') {
         _params[key] = null
       }
     })
@@ -59,7 +59,10 @@ export class CustomerRepository extends BaseRepository {
   }
   async getlistTransaction(id: number, params: Record<string, any>): Promise<any> {
     try {
-      const rs = await request.get(`${this.prefix}/transaction-histories/${id}`, { params })
+      const _params = this.converParamsHasNumberDecimal(params)
+      console.log(_params)
+
+      const rs = await request.get(`${this.prefix}/transaction-histories/${id}`, { params: _params })
       return Promise.resolve(rs.data.data)
     } catch (error) {
       console.log(error)
