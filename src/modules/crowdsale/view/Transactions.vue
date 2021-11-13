@@ -66,7 +66,7 @@
         </el-table-column>
         <el-table-column :label="this.$t('crowdsale.price')" prop="price" align="right" width="164">
           <template slot-scope="scope">
-            <span>{{ scope.row.roundName }}</span> - $<span>{{ scope.row.price }}</span>
+            <span>{{ scope.row.roundName }}</span> - $<span>{{ scope.row.price | convertAmountDecimal('USD') }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="this.$t('crowdsale.paid')" prop="paid" align="right" width="170">
@@ -192,6 +192,7 @@
       }
 
       api.getDataTable(params).then((res: any) => {
+        console.log('res: ', res.content)
         this.loadingTable = false
         this.dataTable = res.content
         this.query.total = res.totalElements
