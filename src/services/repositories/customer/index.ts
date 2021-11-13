@@ -77,7 +77,8 @@ export class CustomerRepository extends BaseRepository {
   }
   async getlistReferral(params: Record<string, any>): Promise<any> {
     try {
-      const rs = await request.get(`api/v1/customers/invited-by-user`, { params })
+      const _params = this.converParamsHasNumberDecimal(params)
+      const rs = await request.get(`api/v1/customers/invited-by-user`, { params: _params })
       return Promise.resolve(rs.data.data)
     } catch (error) {
       console.log(error)
