@@ -3,10 +3,10 @@
     <div class="box-content-1">
       <div class="round bg-white box-shadow">
         <div class="head">
-          <div class="fw-600 fs-24 title">{{ $t('crowdsale.round') }} {{ getRoundNumber }}</div>
+          <div class="fw-600 fs-24 title">{{ getRoundNumber }}</div>
           <div v-if="getStatus === 1" class="box-status">{{ $t('crowdsale.opening') }}</div>
-          <div v-if="getStatus !== 1 && isFinish" class="box-status">{{ $t('crowdsale.finish') }}</div>
-          <div v-if="getStatus !== 1 && !isFinish" class="box-status">{{ $t('crowdsale.upcoming') }}</div>
+          <div v-if="getStatus !== 1 && isFinish" class="box-status finish">{{ $t('crowdsale.finish') }}</div>
+          <div v-if="getStatus !== 1 && !isFinish" class="box-status upcoming">{{ $t('crowdsale.upcoming') }}</div>
         </div>
         <p class="fw-400 fs-16 time-date">
           {{ roundCurrent && roundCurrent.fromDate && roundCurrent.fromDate.time | formatDDMMYY }} -
@@ -16,10 +16,10 @@
           <div class="mini-ellipse">
             <p class="fw-600 fs-24" style="margin-bottom: 2px; margin-top: 24px; color: #0151fc">{{ (roundCurrent && roundCurrent.percentageSold * 1000) / 10 }}%</p>
             <p class="fw-400 fs-12" style="color: #5b616e">
-              {{ $t('crowdsale.of') }} <span class="fw-600">{{ ((roundCurrent && roundCurrent.totalAmount) / 1000000) | formatNumber }}M</span>
+              {{ $t('crowdsale.of') }} <span class="fw-600">{{ (roundCurrent && roundCurrent.totalAmount) / 1000000 }}M</span>
             </p>
           </div>
-          <el-progress type="circle" :percentage="(roundCurrent && roundCurrent.percentageSold * 1000) / 10" :stroke-width="12" color="#0151FC" :show-text="false"></el-progress>
+          <el-progress type="circle" :percentage="progressbar" :stroke-width="12" color="#0151FC" :show-text="false"></el-progress>
         </div>
       </div>
       <div class="progress bg-white box-shadow">
@@ -31,7 +31,7 @@
           <div class="box-left fw-400 fs-14">{{ roundCurrent && roundCurrent.totalSold | formatNumber }} {{ $t('crowdsale.sold') }}</div>
           <div class="box-right fw-400 fs-14">{{ roundCurrent && roundCurrent.totalAvailable | formatNumber }} {{ $t('crowdsale.left') }}</div>
         </div>
-        <el-progress type="line" :percentage="(roundCurrent && roundCurrent.percentageSold * 1000) / 10" :stroke-width="20" color="#129961" :show-text="false"></el-progress>
+        <el-progress type="line" :percentage="progressbar" :stroke-width="20" color="#129961" :show-text="false"></el-progress>
         <div class="bottom">
           <div class="box1 box">
             <p class="fw-600 fs-18 price">{{ (roundCurrent && roundCurrent.percentageSold * 1000) / 10 }}%</p>
@@ -107,7 +107,7 @@
       return false
     }
     get getRoundNumber(): string {
-      return this.roundCurrent?.name?.match(/\d+/)[0]
+      return this.roundCurrent?.name
     }
     get getStatus(): string {
       return this.roundCurrent?.isActive
@@ -277,6 +277,14 @@
             font-weight: 600;
             line-height: 18px;
             color: #0151fc;
+          }
+          .finish {
+            color: #ffffff;
+            background: #129961;
+          }
+          .upcoming {
+            color: #5b616e;
+            background: #f3f2f1;
           }
         }
         .time-date {
