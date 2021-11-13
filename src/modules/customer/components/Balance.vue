@@ -64,7 +64,7 @@
         i18n: 'customer.sort.price'
       },
       {
-        command: 'avaiableAmount',
+        command: 'availableAmount',
         label: this.$i18n.t('customer.sort.avail-amount'),
         divided: false,
         i18n: 'customer.sort.avail-amount'
