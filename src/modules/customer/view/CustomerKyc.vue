@@ -9,7 +9,7 @@
         </div>
       </div>
     </div>
-    <customer-filter @filter="handleFilter" />
+    <customer-filter @filter="handleFilter" :is-change-tab='isChangeTab' />
     <customer-table v-loading="isLoading" @rowClick="handleRowClick" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="data" />
     <customer-detail :detailRow="detailRow" @init="init" />
   </div>
@@ -73,6 +73,7 @@
     titlePending = ''
     tabActive = 'Pending'
     isLoading = false
+    isChangeTab=false;
 
     data: Array<Record<string, any>> = []
 
@@ -102,6 +103,10 @@
     async init(): Promise<void> {
       try {
         this.isLoading = true
+        if (!this.query.type) {
+          const routeName = this.$route.name!
+          this.query.type = this.objType[routeName]
+        }
         const result = await apiCustomer.getListCustomer({ ...this.query, total: null })
         this.data = result.content || []
         this.query.total = result.totalElements
@@ -113,10 +118,11 @@
     }
 
     handleChangeTab(tab: Record<string, any>): void {
-      this.$router.push({ name: tab.routeName })
-      this.query.type = this.objType[tab.routeName]
-      this.resetQuery()
-      EventBus.$emit('changeTabCustomer')
+      this.isChangeTab = tab.id !== 1;
+      this.$router.push({ name: tab.routeName }).then(() => {
+        this.resetQuery()
+        EventBus.$emit('changeTabCustomer')
+      })
     }
 
     resetQuery(): void {
@@ -149,8 +155,11 @@
     handleFilter(filter: Record<string, any>): void {
       this.query = {
         ...this.query,
-        ...filter
+        ...filter,
+        page: 1,
+        limit: 10
       }
+
       this.debounceInit()
     }
     debounceInit = debounce(() => {

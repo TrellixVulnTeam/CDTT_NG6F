@@ -7,11 +7,11 @@
     </el-input>
     <slot />
     <div>
-      <el-dropdown class="sort" trigger="click" @command="handleSort">
+      <el-dropdown :class="isShowFilter ? 'sort' : 'sort ml-0'" trigger="click" @command="handleSort">
         <span class="abicon sort-title" style="font-size: 16px">
-          <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}</span
+          <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 4px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}</span
         >
-        <el-dropdown-menu class="header-downloadapp dropdown-sort" slot="dropdown">
+        <el-dropdown-menu class="header-downloadapp dropdown-sort" style="min-width: 210px" slot="dropdown">
           <el-dropdown-item v-for="(value, index) in sorts" :key="index" :class="sortActive === value.command ? 'active' : null" :command="value" :divided="value.divided">
             <span class="be-flex">
               <span class="be-flex-item">
@@ -34,11 +34,12 @@
   @Component
   export default class FilterMain extends Vue {
     @Prop({ required: false, type: Array, default: [] }) sorts!: Array<Record<string, any>>
+    @Prop({ required: false, type: Boolean, default: true }) isShowFilter!: boolean
     filter: Record<string, any> = {
       search: '',
       orderBy: ''
     }
-    sortActive = 0
+    sortActive = null
 
     @Watch('filter.search') handleSearch(value: string): void {
       this.searchText(value)
@@ -47,13 +48,19 @@
     searchText = debounce((value: string) => {
       this.$emit('filter', {
         ...this.filter,
+        page: 1,
+        limit: 10,
         search: trim(value)
       })
     }, 500)
 
     handleSort(value: Record<string, any>): void {
-      this.sortActive = value.command
-      this.filter.orderBy = value.command
+      if (value.command === this.sortActive) {
+        this.sortActive = null
+      } else {
+        this.sortActive = value.command
+      }
+      this.filter.orderBy = this.sortActive
       this.$emit('filter', { ...this.filter })
     }
   }

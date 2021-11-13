@@ -1,9 +1,10 @@
 <template>
   <div class="list-transaction" v-loading="isLoading" :class="isLoading ? 'list-transaction-loading' : null">
-    <filter-transaction />
+    <filter-transaction @filter="handleFilter" />
     <div class="table">
       <table-transaction :listTransaction="listTransaction" :query="query" @sizeChange="handleSizeChange" @pageChange="handleCurrentChange" />
     </div>
+    <popup-filter-transaction @filter="handleFilter" />
   </div>
 </template>
 
@@ -11,13 +12,14 @@
   import { Component, Prop, Vue } from 'vue-property-decorator'
   import FilterTransaction from '@/components/filter/FilterTransaction.vue'
   import TableTransaction from '@/components/table/TableTransaction.vue'
+  import PopupFilterTransaction from '@/components/popup/PopupFilterTransaction.vue'
 
   import getRepository from '@/services'
   import { CustomerRepository } from '@/services/repositories/customer'
 
   const apiCustomer: CustomerRepository = getRepository('customer')
 
-  @Component({ components: { FilterTransaction, TableTransaction } })
+  @Component({ components: { FilterTransaction, TableTransaction, PopupFilterTransaction } })
   export default class CustomerTransaction extends Vue {
     @Prop({ required: true, type: Number, default: 0 }) userId!: number
 
@@ -46,13 +48,16 @@
       }
     }
 
+    handleFilter(filter: Record<string, any>): void {
+      this.query = { ...this.query, ...filter }
+      this.handleGetListTransaction()
+    }
+
     handleSizeChange(value: number): void {
       this.query.limit = value
       this.handleGetListTransaction()
     }
     handleCurrentChange(value: number): void {
-      console.log(value)
-
       this.query.page = value
       this.handleGetListTransaction()
     }

@@ -15,15 +15,17 @@
             <div class="info-below__left">
               <div class="be-flex jc-space-between info-item">
                 <span class="text-xs label">{{ $t('label.referral-code') }}:</span>
-                <span class="text-base">{{ detailRow.referrerCode }}</span>
+                <span class="text-base">{{ detailRow.affiliationCode }}</span>
               </div>
               <div class="be-flex jc-space-between info-item">
                 <span class="text-xs label">{{ $t('label.phone') }}:</span>
-                <span class="text-base">{{ detailRow.phone }}</span>
+                <span class="text-base">({{ detailRow.countryCode }}) {{ detailRow.phone }}</span>
+                <span class="status-verified" v-if="detailRow.emailVerified === '1'">{{ $t('customer.verified') }}</span>
               </div>
               <div class="be-flex jc-space-between info-item">
                 <span class="text-xs label">{{ $t('label.email') }}:</span>
                 <span class="text-base">{{ detailRow.email }}</span>
+                <span class="status-verified" v-if="detailRow.phoneVerified === '1'">{{ $t('customer.verified') }}</span>
               </div>
             </div>
             <div class="info-below__right">
@@ -37,7 +39,7 @@
               </div>
               <div class="be-flex jc-space-between info-item">
                 <span class="text-xs label">{{ $t('label.last-login') }}:</span>
-                <span class="text-base">{{ detailRow.lastimeLogin | formatMMDDYY }}</span>
+                <span class="text-base">{{ detailRow.lastTimeLogin | formatMMDDYY }}</span>
               </div>
             </div>
           </div>
@@ -52,9 +54,11 @@
         <div v-loading="isLoading" :class="isLoading ? 'main-content-loading' : null" class="main-content">
           <info-customer v-if="tabActive === 0" :info="detailRow" />
           <Kyc-customer-detail v-if="tabActive === 1" :detailRow="detailRow" />
+          <customer-address v-if="tabActive === 2" :userId="detailRow.userId" />
           <customer-balance v-if="tabActive === 3" :userId="detailRow.userId" />
           <customer-transaction v-if="tabActive === 4" :userId="detailRow.userId" />
           <customer-referral v-if="tabActive === 5" :userId="detailRow.userId" />
+          <customer-bonus v-if="tabActive === 6" :userId="detailRow.userId" />
         </div>
       </div>
     </div>
@@ -69,8 +73,10 @@
   import PopupMixin from '@/mixins/popup'
   import KycCustomerDetail from '@/modules/customer/components/Kyc.vue'
   import CustomerReferral from '../Referral.vue'
+  import CustomerAddress from '../Address.vue'
+  import CustomerBonus from '../Bonus.vue'
 
-  @Component({ components: { InfoCustomer, CustomerBalance, KycCustomerDetail, CustomerTransaction, CustomerReferral } })
+  @Component({ components: { InfoCustomer, CustomerBalance, KycCustomerDetail, CustomerTransaction, CustomerReferral, CustomerAddress, CustomerBonus } })
   export default class CustomerDetail extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Object, default: {} }) detailRow!: Record<string, any>
 
@@ -105,15 +111,15 @@
       {
         id: 6,
         title: 'bonus'
-      },
-      {
-        id: 7,
-        title: 'statistics'
-      },
-      {
-        id: 8,
-        title: 'setting'
       }
+      // {
+      //   id: 7,
+      //   title: 'statistics'
+      // }
+      // {
+      //   id: 8,
+      //   title: 'setting'
+      // }
     ]
     tabActive = 0
 
@@ -152,6 +158,7 @@
               width: 80px;
               height: 80px;
               border-radius: 100px;
+              object-fit: cover;
             }
           }
           .info-below {
@@ -164,6 +171,7 @@
             }
             .info-item {
               // margin-bottom: 12px;
+              position: relative;
               height: 24px;
               line-height: 24px;
               align-items: center;
@@ -173,6 +181,12 @@
               }
               .label {
                 color: #5b616e;
+              }
+              .status-verified {
+                background-color: transparent;
+                position: absolute;
+                right: -80px;
+                bottom: -2px;
               }
             }
           }

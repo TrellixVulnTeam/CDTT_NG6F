@@ -1,7 +1,46 @@
 <template>
   <div class="list-balance">
-    <filter-main :sorts="sorts" @filter="handleFilter" />
-    <div class="table">
+    <filter-main :sorts="sorts" @filter="handleFilter">
+      <div class="filter-item">
+        <el-popover :value="isVisible" placement="bottom-start" width="330" trigger="click" popper-class="popper-filter" @show="handleShowPopper">
+          <div class="content">
+            <el-form>
+              <el-form-item class="be-flex-item" :label="$t('label.status')">
+                <el-select v-model="filter.status" :placeholder="$t('placeholder.select-type')" class="w-100" clearable>
+                  <el-option v-for="(type, index) in listStatus" :key="index" :label="type.name" :value="type.value" />
+                </el-select>
+              </el-form-item>
+              <el-form-item class="be-flex-item" :label="$t('label.from-date')">
+                <el-date-picker class="w-100" format="yyyy/MM/dd" value-format="yyyy-MM-dd" :placeholder="$t('label.from-date')" v-model="filter.fromCreatedAt" type="date">
+                </el-date-picker>
+              </el-form-item>
+
+              <el-form-item class="be-flex-item" :label="$t('label.to-date')">
+                <el-date-picker class="w-100" format="yyyy/MM/dd" :placeholder="$t('label.to-date')" value-format="yyyy-MM-dd" v-model="filter.toCreatedAt" type="date">
+                </el-date-picker>
+              </el-form-item>
+            </el-form>
+          </div>
+          <div class="be-flex jc-flex-end footer">
+            <el-button class="btn-default btn-400 btn-h-40 btn-close text-regular" @click="handleReset">
+              {{ $t('button.reset') }}
+            </el-button>
+            <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border h-40 text-regular" @click="handleApply">
+              {{ $t('button.apply') }}
+            </el-button>
+          </div>
+          <div slot="reference" class="cursor text-filter" style="font-size: 16px">
+            <span class="abicon"> <base-icon style="color: #5b616e; margin-right: 4px" icon="icon-filter" size="18" /> </span>
+            {{ $t('kyc.filter.filter') }}
+          </div>
+        </el-popover>
+        <!-- <div class="cursor text-filter" style="font-size: 16px">
+        <span class="abicon"> <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="18" /> </span>
+        {{ $t('kyc.filter.filter') }}
+      </div> -->
+      </div>
+    </filter-main>
+    <div class="table" v-loading="isLoading" :class="isLoading ? 'list-loading' : null">
       <base-table
         :data="listReferral"
         :table="query"
@@ -10,22 +49,22 @@
         @currentChange="handleCurrentChange"
         class="base-table table-wallet"
       >
-        <el-table-column label="#" type="index" width="40" />
+        <el-table-column label="#" :index="getIndex" type="index" width="40" />
         <el-table-column :label="$t('customer.table.name')">
           <template slot-scope="scope">
-            <span>{{ scope.row.name }}</span>
+            <span>{{ scope.row.fullName }}</span>
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('customer.table.email')" prop="email" width="304"> </el-table-column>
-        <el-table-column :label="$t('customer.table.date')" align="right" width="200">
+        <el-table-column :label="$t('customer.table.email')" prop="inviteEmail" width="304"> </el-table-column>
+        <el-table-column :label="$t('customer.table.date')" width="200">
           <template slot-scope="scope">
-            <span class="text-base">{{ scope.row.date | formatMMDDYY }} </span>
+            <span class="text-base">{{ scope.row.createdAt | formatMMDDYY }} </span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('customer.table.status')" align="right" width="120">
+        <el-table-column :label="$t('customer.table.status')" align="center" width="120">
           <template slot-scope="scope">
-            <span class="status">{{ scope.row.status }}</span>
+            <span v-if="scope.row.status" :class="checkTypeClass(scope.row.status)">{{ getTypeStatus(scope.row.status) }}</span>
           </template>
         </el-table-column>
       </base-table>
@@ -47,6 +86,11 @@
 
     listReferral: Record<string, any>[] = []
     isLoading = false
+    filter: Record<string, any> = {
+      status: '',
+      fromCreatedAt: '',
+      toCreatedAt: ''
+    }
     query: Record<string, any> = {
       page: 1,
       limit: 10,
@@ -54,7 +98,7 @@
     }
     sorts: Array<Record<string, any>> = [
       {
-        command: 1,
+        command: 0,
         label: this.$i18n.t('customer.sort.date'),
         divided: false,
         i18n: 'customer.sort.date'
@@ -67,8 +111,27 @@
       }
     ]
 
+    isVisible = false
+
+    listStatus: Array<Record<string, any>> = [
+      {
+        id: 0,
+        name: this.$i18n.t('customer.select.accepted'),
+        value: 'ACCEPTED'
+      },
+      {
+        id: 1,
+        name: this.$i18n.t('customer.select.invited'),
+        value: 'INVITED'
+      }
+    ]
+
     created(): void {
       this.handleGetListReferral()
+    }
+
+    get getIndex(): number {
+      return this.query.limit * (this.query.page - 1) + 1
     }
 
     get getPaginationInfo(): any {
@@ -78,7 +141,14 @@
     async handleGetListReferral(): Promise<void> {
       try {
         this.isLoading = true
-        this.listReferral = await apiCustomer.getlistBalance(this.userId, this.query)
+        const params = {
+          ...this.query,
+          total: null,
+          userId: this.userId
+        }
+        const result = await apiCustomer.getlistReferral(params)
+        this.listReferral = result.content
+        this.query.total = result.totalElements
         this.isLoading = false
       } catch (error) {
         this.isLoading = false
@@ -99,6 +169,42 @@
       this.query = { ...this.query, ...filter }
       this.handleGetListReferral()
     }
+
+    handleApply(): void {
+      this.query = { ...this.query, ...this.filter }
+      this.handleGetListReferral()
+      this.isVisible = false
+    }
+
+    handleReset(): void {
+      this.filter = {
+        status: '',
+        fromCreatedAt: '',
+        toCreatedAt: ''
+      }
+      this.query = { ...this.query, ...this.filter }
+      this.handleGetListReferral()
+      this.isVisible = false
+    }
+
+    handleShowPopper(): void {
+      this.isVisible = true
+    }
+
+    checkTypeClass(status: string): string {
+      if (status === 'INVITED') {
+        return 'status-invited'
+      } else {
+        return 'status-accept'
+      }
+    }
+    getTypeStatus(status: string): any {
+      if (status === 'INVITED') {
+        return this.$t('customer.table.invited')
+      } else {
+        return this.$t('customer.table.accept')
+      }
+    }
   }
 </script>
 
@@ -112,8 +218,11 @@
       cursor: pointer;
       color: #0a0b0d;
     }
+    .list-loading {
+      min-height: 200px;
+    }
     .table {
-      padding: 0 24px 24px 24px;
+      padding: 0 24px;
       .small {
         font-size: 14px !important;
         line-height: 16px;

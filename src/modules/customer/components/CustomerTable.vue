@@ -10,7 +10,7 @@
         @rowClick="handleRowClick"
         class="base-table table-wallet"
       >
-        <el-table-column label="#" type="index" align="center" width="40" />
+        <el-table-column label="#" type="index" :index="indexMethod" align="center" width="70" />
         <el-table-column :label="$t('kyc.table.fullName')" min-width="200">
           <template slot-scope="scope">
             <div class="be-flex align-center">
@@ -65,6 +65,9 @@
         default:
           return this.$t('status.rejected')
       }
+    }
+    indexMethod(index: number): number {
+      return (this.query.page - 1) * this.query.limit + index + 1
     }
 
     handleSizeChange(value: number): void {

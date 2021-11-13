@@ -80,7 +80,8 @@
   },
   "header": {
     "kyc": "KYC",
-    "customer": "Khách hàng"
+    "customer": "Khách hàng",
+    "crowdsale": "Crowdsale"
   },
   "footer": {
     "terms": "Các điều khoản và điều kiện"
@@ -94,7 +95,11 @@
     "repassword": "Nhập lại mật khẩu mới",
     "phone-number": "Số điện thoại",
     "reason": "Lý do...",
-    "search": "Tìm kiếm"
+    "search": "Tìm kiếm",
+    "from-amount": " Từ",
+    "to-amount": "Đến",
+    "select-type": "Chọn trạng thái",
+    "status": "Chọn trạng thái"
   },
   "button": {
     "reset": "Làm lại",
@@ -145,8 +150,14 @@
     "city": "Thành phố",
     "state": "Bang",
     "personal-info": "Thông tin cá nhân",
-    "kyc-status": "Trạng thái KYC",
-    "placehoder-kyc-status": "Chọn loại trạng thái"
+    "kyc-status": "Trạng thái",
+    "placehoder-kyc-status": "Chọn loại trạng thái",
+    "buy-token": "Loại ví",
+    "trans-date": "Ngày giao dịch",
+    "trans-amount": "Số lượng giao dịch",
+    "status": "Trạng thái",
+    "trans-type": "Loại giao dịch",
+    "date": "Thời gian"
   },
   "validate": {
     "length": " Độ dài tối thiểu 8 ký tự",
@@ -224,6 +235,7 @@
     }
   },
   "customer": {
+    "verified": "Đã xác thực",
     "popup": {
       "title": "CHI TIẾT KHÁCH HÀNG"
     },
@@ -231,7 +243,13 @@
       "price": "Giá bán",
       "avail-amount": "Số lượng có sẵn",
       "locked-amount": "Số lượng bị khóa",
-      "balance-amount": "Số dư"
+      "balance-amount": "Số dư",
+      "date": "Ngày tạo",
+      "amount": "Số lượng",
+      "trans-amount": "Số lượng giao dịch",
+      "trans-date": "Ngày giao dịch",
+      "status": "Trạng thái",
+      "referral-name": "Tên"
     },
     "table": {
       "asset": "ví",
@@ -242,7 +260,21 @@
       "name": "Tên",
       "email": "Email",
       "date": "Ngày",
-      "status": "Trạng thái"
+      "status": "Trạng thái",
+      "network": "Mạng",
+      "wallet-address": "địa chỉ ví",
+      "create-date": "ngày tạo",
+      "accept": "Chấp nhận",
+      "invited": "Đã mời",
+      "trans-id": "mã giao dịch",
+      "type": "loại",
+      "amount": "số lượng",
+      "paid": "Đã thanh toán",
+      "pending": "Pending"
+    },
+    "select": {
+      "accepted": "Đã xác nhận",
+      "invited": "Đã mời"
     }
   },
   "transaction": {
@@ -262,6 +294,9 @@
       "failed": "Thất bại",
       "rejected": "Từ chối",
       "sell": "Bán"
+    },
+    "popup": {
+      "title-filter": "Bộ lọc"
     }
   },
   "params": {
@@ -326,6 +361,29 @@
     "success": "Sự thành công",
     "startDate": "ngày bắt đầu",
     "endDate": "ngày kết thúc",
-    "remain": "duy trì"
+    "remain": "duy trì",
+    "transactionDate": "Ngày giao dịch",
+    "transactionAmount": "Số tiền giao dịch",
+    "opening": "Mở",
+    "finish": "Kết thúc",
+    "upcoming": "Sắp diễn ra",
+    "popup-filter": {
+      "title": "bộ lọc",
+      "round": "Vòng",
+      "country": "Quốc gia",
+      "buyWithWallet": "Mua bằng ví",
+      "buyWithToken": "Mua bằng Token",
+      "transactionDate": "Ngày giao dịch",
+      "transactionAmount": "Số tiền giao dịch",
+      "reset": "Làm lại",
+      "apply": "Áp dụng",
+      "required": "Vui lòng chọn",
+      "planceOderToken": "Chọn token",
+      "planceOderWallet": "Chọn ví",
+      "planceOderRound": "Chọn vòng",
+      "planceOderCountry": "Chọn quốc gia",
+      "planceOderTransactionDateStart": "Từ",
+      "planceOderTransactionDateEnd": "Đến"
+    }
   }
 }

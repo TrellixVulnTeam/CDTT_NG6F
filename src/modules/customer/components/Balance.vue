@@ -1,7 +1,7 @@
 <template>
   <div class="list-balance">
-    <filter-main :sorts="sorts" @filter="handleFilter" />
-    <div class="table">
+    <filter-main :sorts="sorts" @filter="handleFilter" :isShowFilter="false" />
+    <div class="table" v-loading="isLoading" :class="isLoading ? 'list-loading' : null">
       <base-table :data="listBlance" :showPagination="false" class="base-table table-wallet">
         <el-table-column label="#" type="index" align="center" width="40" />
         <el-table-column :label="$t('customer.table.asset')" width="144">
@@ -58,25 +58,25 @@
     filter: Record<string, any> = {}
     sorts: Array<Record<string, any>> = [
       {
-        command: 1,
+        command: 'price',
         label: this.$i18n.t('customer.sort.price'),
         divided: false,
         i18n: 'customer.sort.price'
       },
       {
-        command: 2,
+        command: 'availableAmount',
         label: this.$i18n.t('customer.sort.avail-amount'),
         divided: false,
         i18n: 'customer.sort.avail-amount'
       },
       {
-        command: 3,
+        command: 'lockedAmount',
         label: this.$i18n.t('customer.sort.locked-amount'),
         divided: false,
         i18n: 'customer.sort.locked-amount'
       },
       {
-        command: 4,
+        command: 'balanceAmount',
         label: this.$i18n.t('customer.sort.balance-amount'),
         divided: false,
         i18n: 'customer.sort.balance-amount'
@@ -99,7 +99,7 @@
     }
 
     handleFilter(filter: Record<string, any>): void {
-      this.filter = { ...this.filter, ...filter }
+      this.filter = { ...this.filter, ...filter, orderType: 'desc' }
       this.handleGetListBalance()
     }
 
@@ -132,9 +132,9 @@
         case 'ETH':
           return 'Ethereum'
         case 'CLM':
-          return 'Clm'
+          return 'CLM'
         case 'USDC':
-          return 'Usdc'
+          return 'USDC'
         case 'USDT':
           return 'Tether'
 
@@ -154,6 +154,9 @@
     .sort {
       cursor: pointer;
       color: #0a0b0d;
+    }
+    .list-loading {
+      min-height: 200px;
     }
     .table {
       padding: 0 24px 24px 24px;

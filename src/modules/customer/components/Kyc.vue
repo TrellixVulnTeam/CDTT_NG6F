@@ -21,7 +21,7 @@
           <span class='title text-l text-bold'>{{ $t('kyc.popup.id-verification') }}</span>
           <div class='wrap'>
             <span class='wrap-small'>{{ $t('kyc.popup.id-type') }}</span>
-            <span class='name'>{{ detail.identificationType }}</span>
+            <span class='name'>{{ detail.identificationType | formatIdentificationType }}</span>
           </div>
           <div class='wrap'>
             <span class='wrap-small'>{{ $t('kyc.popup.id-number') }}</span>
@@ -35,7 +35,8 @@
           <el-carousel indicator-position='none' arrow='always' :autoplay='false'>
             <el-carousel-item v-for='(item, index) in listImage' :key='index'>
               <!-- <img :src="item" class="img-fluid" :alt="item" /> -->
-              <el-image style='height: 100%' class='img-fluid' :src='item' :preview-src-list='listImage'></el-image>
+              <el-image style='height: 100%;border-radius:4px;display: flex;justify-content: center' class='img-fluid'
+                        :src='item' :preview-src-list='listImage'></el-image>
             </el-carousel-item>
           </el-carousel>
         </div>
@@ -45,7 +46,7 @@
 </template>
 
 <script lang='ts'>
-  import { Component, Mixins, Prop,Vue } from 'vue-property-decorator'
+  import { Component, Mixins, Prop, Vue } from 'vue-property-decorator'
   import getRepository from '@/services'
   import { KycRepository } from '@/services/repositories/kyc'
 
@@ -75,40 +76,26 @@
     kycRejectReasonIds: string
   }
 
-  @Component({ components: {  } })
-  export default class KycCustomerDetail extends Vue{
+  @Component({ components: {} })
+  export default class KycCustomerDetail extends Vue {
     @Prop({ required: true, type: Object, default: {} }) detailRow!: Record<string, any>
     @bcKyc.State('listReason') listReason!: Array<Record<string, any>>
 
     detail = {} as IDetail
     isLoading = false
     listReasonReject: Array<Record<string, any>> = []
-     async created(): Promise<void> {
-     try{
-       this.detail = await apiKyc.getDetailKyc(this.detailRow.userId);
-     }catch (e) {
-       console.log(e)
-     }
+
+    async created(): Promise<void> {
+      try {
+        this.detail = await apiKyc.getDetailKyc(this.detailRow.userId)
+      } catch (e) {
+        console.log(e)
+      }
     }
+
     get listImage(): string[] {
       return [this.detail.idPhoto1, this.detail.idPhoto2, this.detail.selfiePhoto]
     }
-
-    get getShowFooter(): boolean {
-      return this.$route.name === 'KycPending'
-    }
-
-
-    handleGetListRejectOfUser(): void {
-      const arrReasonIds = this.detail.kycRejectReasonIds.split(',')
-      this.listReasonReject = arrReasonIds.reduce((prev: any, cur) => {
-        const value = filter(this.listReason, elm => elm.id == cur)[0]
-        prev.push(value)
-        return prev
-      }, [])
-    }
-
-
 
   }
 </script>
@@ -119,13 +106,15 @@
 
     .content {
       padding-bottom: 24px;
+      margin-bottom: 24px;
 
       .detail-left {
         border-radius: 4px;
         width: 216px;
         background-color: #fff;
-        padding: 24px 24px 52px;
-        box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
+        padding: 0px 24px 52px;
+        //box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
+        border-right: 1px solid #dbdbdb;
 
         .title {
           margin-bottom: 8px;
@@ -134,7 +123,7 @@
 
         .detail-item--above {
           padding-bottom: 24px;
-          border-bottom: 1px solid #d2d0ce;
+          //border-bottom: 1px solid #d2d0ce;
         }
 
         .detail-item--below {
@@ -163,8 +152,8 @@
       .detail-right {
         flex: 1;
         background-color: #fff;
-        box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
-        padding: 24px;
+        //box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
+        padding: 0px 24px;
         border-radius: 4px;
 
         .slider {
@@ -184,6 +173,10 @@
                 i {
                   font-size: 20px;
                 }
+              }
+
+              .el-image__inner {
+              width: auto;
               }
             }
           }
