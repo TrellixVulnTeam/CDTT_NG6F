@@ -145,27 +145,27 @@
     identificationType: Array<Record<string, any>> = [
       {
         id: 0,
-        type: 'All status',
+        type: this.$i18n.t('kyc.filter.all-status'),
         value: ''
       },
       {
         id: 1,
-        type: 'KYC processing',
+        type: this.$i18n.t('kyc.filter.kyc-processing'),
         value: 'KYC'
       },
       {
         id: 2,
-        type: 'Not verified',
+        type:this.$i18n.t('kyc.filter.not-verified'),
         value: 'NOT_VERIFIED'
       },
       {
         id: 3,
-        type: 'Verified',
+        type: this.$i18n.t('kyc.filter.verified'),
         value: 'VERIFIED'
       },
       {
         id: 4,
-        type: 'Locked',
+        type:this.$i18n.t('kyc.filter.locked'),
         value: 'LOCKED'
       }
     ]
@@ -201,16 +201,16 @@
     handleShowPopper(): void {
       switch (this.$route.name) {
         case "CustomerVerified":
-          this.filter.type="Verified"
+          this.filter.type=this.$i18n.t('kyc.filter.verified') as string
           break;
         case "CustomerLocked":
-          this.filter.type="Locked"
+          this.filter.type=this.$i18n.t('kyc.filter.locked')as string
           break;
         case "CustomerNotVerified":
-          this.filter.type="Not verified"
+          this.filter.type=this.$i18n.t('kyc.filter.not-verified')as string
           break;
         case "CustomerProcessing":
-          this.filter.type="KYC processing"
+          this.filter.type=this.$i18n.t('kyc.filter.kyc-processing')as string
           break;
       }
       this.isVisible = true

@@ -225,7 +225,12 @@
     },
     "filter": {
       "filter": "Bộ lọc",
-      "sort": "Sắp xếp"
+      "sort": "Sắp xếp",
+      "all-status": "Tất cả",
+      "kyc-processing": "Đang xác minh",
+      "not-verified": "Chưa xác minh",
+      "verified": "Đã xác minh",
+      "locked": "Bị khóa"
     },
     "sort": {
       "date": "Ngày tạo",
@@ -315,7 +320,7 @@
     "Rejected": "Đã từ chối",
     "customer-all": "Tất cả",
     "customer-verified": "Đã xác minh",
-    "customer-processing": "Đang KYC",
+    "customer-processing": "Đang xác minh",
     "customer-not-verified": "Chưa xác minh",
     "customer-locked": "Bị khóa",
     "info": "Thông tin",
