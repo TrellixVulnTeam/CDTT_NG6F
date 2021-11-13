@@ -169,6 +169,7 @@
           this.minute = '00'
           this.second = '00'
           this.roundCurrent = roundLast
+          this.progressbar = (this.roundCurrent.percentageSold * 1000) / 10
           this.isEndOn = true
           this.isLoading = false
           this.isFinish = true
@@ -190,7 +191,6 @@
               return false
             }
           })
-
           this.isEndOn = false
           this.progressbar = (this.roundCurrent.percentageSold * 1000) / 10
           this.handleGetData('from')

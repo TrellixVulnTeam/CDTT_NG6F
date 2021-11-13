@@ -32,7 +32,7 @@
             <span>{{ scope.row.totalAvailable | formatNumber }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="this.$t('crowdsale.progress')" prop="percentageSold" align="right" width="160">
+        <el-table-column :label="this.$t('crowdsale.progress2')" prop="percentageSold" align="right" width="160">
           <template slot-scope="scope">
             <span>{{ (scope.row.percentageSold * 1000) / 10 }}%</span>
           </template>
