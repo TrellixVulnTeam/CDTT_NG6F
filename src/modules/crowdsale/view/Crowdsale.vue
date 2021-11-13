@@ -14,12 +14,22 @@
         </p>
         <div class="box-ellipse">
           <div class="mini-ellipse">
-            <p class="fw-600 fs-24" style="margin-bottom: 2px; margin-top: 24px; color: #0151fc">{{ (roundCurrent && roundCurrent.percentageSold * 1000) / 10 }}%</p>
+            <p v-if="getStatus === 1" class="fw-600 fs-24 percentageSold" style="margin-bottom: 2px; margin-top: 24px">
+              {{ (roundCurrent && roundCurrent.percentageSold * 1000) / 10 }}%
+            </p>
+            <p v-if="getStatus !== 1 && isFinish" class="fw-600 fs-24 percentageSold percentageSoldFinish" style="margin-bottom: 2px; margin-top: 24px">
+              {{ (roundCurrent && roundCurrent.percentageSold * 1000) / 10 }}%
+            </p>
+            <p v-if="getStatus !== 1 && !isFinish" class="fw-600 fs-24 percentageSold percentageSoldUpcoming" style="margin-bottom: 2px; margin-top: 24px">
+              {{ (roundCurrent && roundCurrent.percentageSold * 1000) / 10 }}%
+            </p>
             <p class="fw-400 fs-12" style="color: #5b616e">
               {{ $t('crowdsale.of') }} <span class="fw-600">{{ (roundCurrent && roundCurrent.totalAmount) / 1000000 }}M</span>
             </p>
           </div>
-          <el-progress type="circle" :percentage="progressbar" :stroke-width="12" color="#0151FC" :show-text="false"></el-progress>
+          <el-progress v-if="getStatus === 1" type="circle" :percentage="progressbar" :stroke-width="12" color="#0151FC" :show-text="false"></el-progress>
+          <el-progress v-if="getStatus !== 1 && isFinish" type="circle" :percentage="progressbar" :stroke-width="12" color="#129961" :show-text="false"></el-progress>
+          <el-progress v-if="getStatus !== 1 && !isFinish" type="circle" :percentage="progressbar" :stroke-width="12" color="#5B616E" :show-text="false"></el-progress>
         </div>
       </div>
       <div class="progress bg-white box-shadow">
@@ -305,6 +315,15 @@
             right: 0;
             top: 14px;
             z-index: 999;
+            .percentageSold {
+              color: #0151fc;
+            }
+            .percentageSoldFinish {
+              color: #129961;
+            }
+            .percentageSoldUpcoming {
+              color: #5b616e;
+            }
           }
         }
       }
