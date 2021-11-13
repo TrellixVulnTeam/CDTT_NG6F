@@ -139,7 +139,7 @@
     listCountry: IListCountry[] = countryJson
     pickerOptions = {
       disabledDate(time: any) {
-        return time.getTime() < Date.now()
+        return time.getTime() >= Date.now()
       }
     }
     optionByToken: any = {}
