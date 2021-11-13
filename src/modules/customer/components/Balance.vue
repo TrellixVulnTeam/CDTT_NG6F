@@ -26,8 +26,8 @@
         </el-table-column>
         <el-table-column :label="$t('customer.table.lock-amount')" align="right" width="200">
           <template slot-scope="scope">
-            <span class="text-base">{{ scope.row.lockedAmount | convertAmountDecimal(scope.row.asset) }} {{ scope.row.asset }}</span>
-            <span class="d-block small">~${{ scope.row.lockedAmountUSD | convertAmountDecimal('USD') }}</span>
+            <span class="text-base">{{ scope.row.totalLockedAmount | convertAmountDecimal(scope.row.asset) }} {{ scope.row.asset }}</span>
+            <span class="d-block small">~${{ scope.row.totalLockedAmountUSD | convertAmountDecimal('USD') }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('customer.table.balance')" align="right">
