@@ -77,6 +77,18 @@
           return this.$i18n.t('transaction.table.crowdsale')
         case 'BUY':
           return this.$i18n.t('transaction.table.buy')
+        case 'BONUS_SIGN_UP':
+          return this.$i18n.t('transaction.table.bonus-sign-up')
+        case 'BONUS_CROWDSALE':
+          return this.$i18n.t('transaction.table.bonus-crowdsale')
+        case 'BONUS_FIRST_TRANS':
+          return this.$i18n.t('transaction.table.bonus-first-trans')
+        case 'BONUS_AFFILIATE':
+          return this.$i18n.t('transaction.table.bonus-affiliate')
+        case 'BONUS_BIG_BACKER':
+          return this.$i18n.t('transaction.table.bonus-big-backer')
+        case 'BONUS_EARLY_BACKER':
+          return this.$i18n.t('transaction.table.bonus-early-backer')
 
         default:
           return this.$i18n.t('transaction.table.sell')
