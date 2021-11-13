@@ -353,6 +353,9 @@
     "remain": "duy trì",
     "transactionDate": "Ngày giao dịch",
     "transactionAmount": "Số tiền giao dịch",
+    "opening": "Mở",
+    "finish": "Kết thúc",
+    "upcoming": "Sắp diễn ra",
     "popup-filter": {
       "title": "bộ lọc",
       "round": "Vòng",
