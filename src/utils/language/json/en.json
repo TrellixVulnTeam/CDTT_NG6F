@@ -159,7 +159,7 @@
     "show": "Show",
     "customers": "customers",
     "transaction": "transactions",
-    "crowdsale": "transaction",
+    "crowdsale": "transactions",
     "investor": "investors"
   },
   "label": {
