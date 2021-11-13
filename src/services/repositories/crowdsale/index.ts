@@ -21,4 +21,12 @@ export class CrowdsaleRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+  async getListAssetNetwork(): Promise<any> {
+    try {
+      const rs = await request.get(`${this.prefix}/user/asset-network`)
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
 }

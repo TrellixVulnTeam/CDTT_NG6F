@@ -87,7 +87,7 @@
         </el-table-column>
       </base-table>
     </div>
-    <popup-filter-crowdsale />
+    <popup-filter-crowdsale @apply="getFilter" />
   </div>
 </template>
 <script lang="ts">
@@ -111,6 +111,7 @@
       limit: 10,
       total: 10
     }
+    dataProp: any = {}
     loadingTable = true
     orderBy = 'TRANSACTION_DATE'
     dataTable: any = {}
@@ -161,8 +162,36 @@
       this.getDataTable()
       this.orderBy = command
     }
-    async getDataTable(): Promise<void> {
-      await api.getDataTable(this.querry).then((res: any) => {
+    getFilter(form: any): void {
+      this.dataProp = form
+      this.getDataTable()
+    }
+    getDataTable(): void {
+      let params: any = { ...this.querry }
+      if (this.dataProp.roundId) {
+        params.roundId = this.dataProp.roundId
+      }
+      if (this.dataProp.countryName) {
+        params.countryName = this.dataProp.countryName
+      }
+      if (this.dataProp.currency.length > 0) {
+        params.currency = this.dataProp.currency
+      }
+      if (this.dataProp.fromDate) {
+        params.fromDate = this.dataProp.fromDate
+      }
+      if (this.dataProp.toDate) {
+        params.toDate = this.dataProp.toDate
+      }
+      if (this.dataProp.fromAmount) {
+        params.fromAmount = this.dataProp.fromAmount
+      }
+      if (this.dataProp.toAmount) {
+        params.toAmount = this.dataProp.toAmount
+      }
+      console.log('params: ', params)
+
+      api.getDataTable(params).then((res: any) => {
         this.loadingTable = false
         this.dataTable = res.content
         this.query.total = res.totalElements
