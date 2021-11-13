@@ -144,7 +144,7 @@
     "city": "Thành phố",
     "state": "Bang",
     "personal-info": "Thông tin cá nhân",
-    "kyc-status": "Trạng thái KYC",
+    "kyc-status": "Trạng thái",
     "placehoder-kyc-status": "Chọn loại trạng thái"
   },
   "validate": {
