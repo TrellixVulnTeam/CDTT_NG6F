@@ -127,23 +127,28 @@
     listStatus: Array<Record<string, any>> = [
       {
         id: 0,
-        label: 'Pending'
+        label: 'Pending',
+        value: 'PENDING'
       },
       {
         id: 1,
-        label: 'Processing'
+        label: 'Processing',
+        value: 'PROCESSING'
       },
       {
         id: 2,
-        label: 'Success'
+        label: 'Success',
+        value: 'SUCCESS'
       },
       {
         id: 3,
-        label: 'Failed'
+        label: 'Failed',
+        value: 'FAILED'
       },
       {
         id: 4,
-        label: 'Rejected'
+        label: 'Rejected',
+        value: 'REJECTED'
       }
     ]
 
