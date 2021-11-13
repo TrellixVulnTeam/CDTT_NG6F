@@ -106,7 +106,7 @@
       </el-form>
     </div>
     <div slot="footer" class="footer">
-      <div @click="handleClose" class="btn-action btn-close">{{ $t('crowdsale.popup-filter.reset') }}</div>
+      <div @click="handleReset" class="btn-action btn-close">{{ $t('crowdsale.popup-filter.reset') }}</div>
       <div @click="handleSubmit" class="btn-action btn-submit">{{ $t('crowdsale.popup-filter.apply') }}</div>
     </div>
   </base-popup>
@@ -212,7 +212,14 @@
         }
       }
     }
+    @Watch('form.countryName')
+    clearCountry(value: any) {
+      if (!value) {
+        this.listCountry = countryJson
+      }
+    }
     remoteCountry(query: string): void {
+      console.log('query: ', query)
       if (query) {
         const currentCountry = filter(
           this.listCountry,
