@@ -192,7 +192,7 @@
     "state": "State",
     "personal-info": "Personal Information",
     "kyc-status": "Status",
-    "placehoder-kyc-status": "Choose Kyc status"
+    "placehoder-kyc-status": "Choose Kyc status",
     "buy-token": "Token",
     "trans-date": "Transaction Date",
     "trans-amount": "Transaction Amount",
