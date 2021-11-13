@@ -27,6 +27,7 @@
                 remote
                 :remote-method="remoteCountry"
                 :placeholder="$t('crowdsale.popup-filter.planceOderCountry')"
+                clearable
               >
                 <el-option v-for="(country, index) in listCountry" :key="index" :label="country.name" :value="country.name" />
               </el-select>
@@ -129,7 +130,7 @@
     form: any = {
       roundId: '',
       countryName: '',
-      currency: '',
+      currency: [],
       fromDate: '',
       toDate: '',
       fromAmount: '',
@@ -161,7 +162,7 @@
       this.form = {
         roundId: '',
         countryName: '',
-        currency: '',
+        currency: [],
         fromDate: '',
         toDate: '',
         fromAmount: '',
@@ -173,27 +174,42 @@
       }
     }
     async handleSubmit(): Promise<void> {
-      this.$emit('apply', this.form)
+      let form2: any = { ...this.form }
+      if (this.form.fromAmount) {
+        form2.fromAmount = parseInt(this.form.fromAmount.replaceAll(',', ''))
+      }
+      if (this.form.toAmount) {
+        form2.toAmount = parseInt(this.form.toAmount.replaceAll(',', ''))
+      }
+      if (this.form.currency.length > 0) {
+        form2.currency = this.form.currency.join()
+      }
+      this.$emit('apply', form2)
+
       this.setOpenPopup({
         popupName: 'popup-filter-crowdsale',
         isOpen: false
       })
     }
     async handleOpen(): Promise<void> {
-      await this.handleReset()
       await this.getListRound()
       await this.getListAssetNetwork()
     }
     async handleClose(): Promise<void> {
-      await this.handleReset()
+      console.log('close')
     }
     numberFormat(event: FocusEvent): void {
       const _event: any = event
       let fnumber = _event.target.value
       if (fnumber.length > 0) {
         fnumber = fnumber.replaceAll(',', '')
-        fnumber = this.$options.filters?.numberWithCommas(fnumber)
-        _event.target.value = fnumber
+        fnumber = parseInt(fnumber)
+        if (!isNaN(fnumber)) {
+          fnumber = this.$options.filters?.numberWithCommas(fnumber)
+          _event.target.value = fnumber
+        } else {
+          _event.target.value = 0
+        }
       }
     }
     remoteCountry(query: string): void {

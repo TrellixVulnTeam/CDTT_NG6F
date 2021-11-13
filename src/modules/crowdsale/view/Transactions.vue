@@ -174,8 +174,9 @@
       if (this.dataProp.countryName) {
         params.countryName = this.dataProp.countryName
       }
-      if (this.dataProp.currency.length > 0) {
+      if (this.dataProp.currency) {
         params.currency = this.dataProp.currency
+        console.log('form: ', this.dataProp.currency)
       }
       if (this.dataProp.fromDate) {
         params.fromDate = this.dataProp.fromDate
@@ -189,7 +190,6 @@
       if (this.dataProp.toAmount) {
         params.toAmount = this.dataProp.toAmount
       }
-      console.log('params: ', params)
 
       api.getDataTable(params).then((res: any) => {
         this.loadingTable = false
