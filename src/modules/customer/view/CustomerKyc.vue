@@ -88,11 +88,11 @@
     }
 
     objType: Record<string, any> = {
-      CustomerAll: '',
-      CustomerVerified: 'Verified',
-      CustomerProcessing: 'KYC processing',
-      CustomerNotVerified: 'Not verified',
-      CustomerLocked: 'Locked'
+      CustomerAll: null,
+      CustomerVerified: 'VERIFIED',
+      CustomerProcessing: 'KYC',
+      CustomerNotVerified: 'NOT_VERIFIED',
+      CustomerLocked: 'LOCKED'
     }
 
     created(): void {
@@ -103,6 +103,10 @@
     async init(): Promise<void> {
       try {
         this.isLoading = true
+        if (!this.query.type) {
+          const routeName = this.$route.name!
+          this.query.type = this.objType[routeName]
+        }
         const result = await apiCustomer.getListCustomer({ ...this.query, total: null })
         this.data = result.content || []
         this.query.total = result.totalElements
@@ -115,10 +119,10 @@
 
     handleChangeTab(tab: Record<string, any>): void {
       this.isChangeTab = tab.id !== 1;
-      this.$router.push({ name: tab.routeName })
-      this.query.type = this.objType[tab.routeName]
-      this.resetQuery()
-      EventBus.$emit('changeTabCustomer')
+      this.$router.push({ name: tab.routeName }).then(() => {
+        this.resetQuery()
+        EventBus.$emit('changeTabCustomer')
+      })
     }
 
     resetQuery(): void {
@@ -151,8 +155,11 @@
     handleFilter(filter: Record<string, any>): void {
       this.query = {
         ...this.query,
-        ...filter
+        ...filter,
+        page: 1,
+        limit: 10
       }
+
       this.debounceInit()
     }
     debounceInit = debounce(() => {
@@ -175,9 +182,9 @@
             &:hover {
               color: var(--bc-tab-active);
             }
-            .text-base{
-              color: #5b616e;
-            }
+            // .text-base {
+            //   color: #5b616e;
+            // }
           }
           .tab-active {
             color: var(--bc-tab-active);

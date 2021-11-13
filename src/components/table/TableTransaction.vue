@@ -9,7 +9,7 @@
     @rowClick="handleRowClick"
     class="base-table"
   >
-    <el-table-column label="#" :index="getIndex" type="index" align="center" width="40" />
+    <el-table-column label="#" :index="getIndex" type="index" align="center" width="60" />
     <el-table-column :label="$t('transaction.table.trans-id')">
       <template slot-scope="scope">
         <div class="be-flex align-center">

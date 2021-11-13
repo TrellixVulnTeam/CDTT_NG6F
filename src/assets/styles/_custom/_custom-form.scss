@@ -78,7 +78,7 @@
       margin-bottom: 0px;
       width: 382px;
       .el-input__inner {
-        height: 48px!important;
+        height: 48px !important;
       }
     }
   }
@@ -94,7 +94,20 @@
   .input-phone {
     margin-bottom: 0px;
     .el-input__inner {
-      height: 48px!important;
+      height: 48px !important;
     }
+  }
+}
+//popup filter crowdsale
+.popup-filter-crowdsale {
+  .transaction-amount {
+    .el-input__inner {
+      padding-left: 25px;
+    }
+  }
+}
+.bo-crowdsale-transaction {
+  .el-input__inner {
+    color: var(--bc-text-primary);
   }
 }

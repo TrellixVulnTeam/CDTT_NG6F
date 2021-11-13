@@ -103,7 +103,8 @@
   },
   "header": {
     "kyc": "KYC",
-    "customer": "Customer"
+    "customer": "Customer",
+    "crowdsale": "Crowdsale"
   },
   "footer": {
     "terms": "Terms and Conditions"
@@ -127,7 +128,11 @@
     "repassword": "Confirm password",
     "phone-number": "Phone number",
     "reason": "Other reason...",
-    "search": "Search"
+    "search": "Search",
+    "from-amount": " From amount",
+    "to-amount": "To amount",
+    "select-type": "Select type",
+    "status": "Select status"
   },
   "button": {
     "reset": "Reset",
@@ -154,7 +159,8 @@
     "show": "Show",
     "customers": "customers",
     "transaction": "transactions",
-    "crowdsale": "transaction"
+    "crowdsale": "transaction",
+    "investor": "investors"
   },
   "label": {
     "buy-from": "Buy from",
@@ -187,6 +193,12 @@
     "personal-info": "Personal Information",
     "kyc-status": "Status",
     "placehoder-kyc-status": "Choose Kyc status"
+    "buy-token": "Token",
+    "trans-date": "Transaction Date",
+    "trans-amount": "Transaction Amount",
+    "status": "Status",
+    "trans-type": "Transaction type",
+    "date": "Date"
   },
   "buy-lyn": {
     "title": "BUY LYN"
@@ -266,6 +278,7 @@
     }
   },
   "customer": {
+    "verified": "Verified",
     "popup": {
       "title": "CUSTOMER DETAIL"
     },
@@ -273,14 +286,38 @@
       "price": "Price",
       "avail-amount": "Available amount",
       "locked-amount": "Locked amount",
-      "balance-amount": "Balance amount"
+      "balance-amount": "Balance amount",
+      "date": "Created date",
+      "amount": "Amount",
+      "trans-amount": "Transaction amount",
+      "trans-date": "Transaction date",
+      "status": "Status",
+      "referral-name": "Referral name"
     },
     "table": {
       "asset": "asset",
       "price": "price",
       "available": "Available",
       "lock-amount": "locked amount",
-      "balance": "Balance"
+      "balance": "Balance",
+      "name": "name",
+      "email": "Email",
+      "date": "date",
+      "status": "status",
+      "network": "network",
+      "wallet-address": "wallet address",
+      "create-date": "Created date",
+      "accept": "Accepted",
+      "invited": "Invited",
+      "trans-id": "TRANSACTION ID",
+      "type": "type",
+      "amount": "amount",
+      "paid": "Paid",
+      "pending": "Pending"
+    },
+    "select": {
+      "accepted": "Accepted",
+      "invited": "Invited"
     }
   },
   "transaction": {
@@ -300,6 +337,9 @@
       "failed": "Failed",
       "rejected": "Rejected",
       "sell": "Sell"
+    },
+    "popup": {
+      "title-filter": "Filter"
     }
   },
   "params": {
@@ -364,6 +404,29 @@
     "success": "Success",
     "startDate": "start date",
     "endDate": "end date",
-    "remain": "remain"
+    "remain": "remain",
+    "transactionDate": "Transaction date",
+    "transactionAmount": "Transaction amount",
+    "opening": "Opening",
+    "finish": "Finish",
+    "upcoming": "Upcoming",
+    "popup-filter": {
+      "title": "filter",
+      "round": "Round",
+      "country": "Country",
+      "buyWithWallet": "Buy with wallet",
+      "buyWithToken": "Buy with token",
+      "transactionDate": "Transaction Date",
+      "transactionAmount": "Transaction Amount",
+      "reset": "Reset",
+      "apply": "Apply",
+      "required": "Please enter your",
+      "planceOderToken": "Select token",
+      "planceOderWallet": "Select wallet",
+      "planceOderRound": "Select round",
+      "planceOderCountry": "Select country",
+      "planceOderTransactionDateStart": "From",
+      "planceOderTransactionDateEnd": "To"
+    }
   }
 }

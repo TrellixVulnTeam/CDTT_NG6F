@@ -1,64 +1,71 @@
 <template>
   <div class="bo-crowdsale-round">
     <div class="table">
-      <base-table :data="dataTable" class="base-table table-crowdsale-round" :showPagination="false">
-        <el-table-column :label="this.$t('crowdsale.round')" prop="round" align="left">
+      <base-table :data="listRound" class="base-table table-crowdsale-round" :showPagination="false">
+        <el-table-column :label="this.$t('crowdsale.round')" prop="name" align="left">
           <template slot-scope="scope">
-            <p>{{ $t('crowdsale.round') }} {{ scope.row.round }}</p>
+            <span>{{ getGroupName(scope.row.name) }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="this.$t('crowdsale.startDate')" prop="startDate" align="left" width="160" />
-        <el-table-column :label="this.$t('crowdsale.endDate')" prop="endDate" align="left" width="160" />
-        <el-table-column :label="this.$t('crowdsale.price')" prop="price" align="center" width="124" />
-        <el-table-column :label="this.$t('crowdsale.sold')" prop="sold" align="right" width="180" />
-        <el-table-column :label="this.$t('crowdsale.remain')" prop="remain" align="right" width="180" />
-        <el-table-column :label="this.$t('crowdsale.progress')" prop="progress" align="right" width="160" />
+        <el-table-column :label="this.$t('crowdsale.startDate')" prop="fromDate" align="left" width="160">
+          <template slot-scope="scope">
+            <span>{{ scope.row.fromDate.time | formatDDMMYY }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="this.$t('crowdsale.endDate')" prop="toDate" align="left" width="160">
+          <template slot-scope="scope">
+            <span>{{ scope.row.toDate.time | formatDDMMYY }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="this.$t('crowdsale.price')" prop="price" align="center" width="124">
+          <template slot-scope="scope">
+            <span>${{ scope.row.price | convertAmountDecimal('USD') }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="this.$t('crowdsale.sold')" prop="totalSold" align="right" width="180">
+          <template slot-scope="scope">
+            <span>{{ scope.row.totalSold | formatNumber }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="this.$t('crowdsale.remain')" prop="totalAvailable" align="right" width="180">
+          <template slot-scope="scope">
+            <span>{{ scope.row.totalAvailable | formatNumber }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="this.$t('crowdsale.progress')" prop="percentageSold" align="right" width="160">
+          <template slot-scope="scope">
+            <span>{{ (scope.row.percentageSold * 1000) / 10 }}%</span>
+          </template>
+        </el-table-column>
       </base-table>
     </div>
   </div>
 </template>
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator'
+  import firebase from '@/utils/firebase'
   @Component
   export default class BOCrowdsaleRound extends Vue {
-    dataTable: any = [
-      {
-        round: '1',
-        startDate: '01/10/2021',
-        endDate: '10/10/2021',
-        price: '$0.02',
-        sold: '1,000,000',
-        remain: '0',
-        progress: '100%'
-      },
-      {
-        round: '2',
-        startDate: '11/10/2021',
-        endDate: '20/10/2021',
-        price: '$0.04',
-        sold: '1,000,000',
-        remain: '1,000,000',
-        progress: '50%'
-      },
-      {
-        round: '3',
-        startDate: '01/10/2021',
-        endDate: '10/10/2021',
-        price: '$0.06',
-        sold: '0',
-        remain: '3,000,000',
-        progress: '0%'
-      },
-      {
-        round: '4',
-        startDate: '01/10/2021',
-        endDate: '10/10/2021',
-        price: '$0.08',
-        sold: '0',
-        remain: '4,000,000',
-        progress: '0%'
-      }
-    ]
+    listRound: Record<string, any>[] = []
+    listener: any = null
+
+    created(): void {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const _this = this
+      const crowdSaleRef = firebase.ref('crowd-sales')
+      this.listener = crowdSaleRef.on('value', function (snapshot) {
+        _this.listRound = snapshot.val()
+      })
+    }
+
+    destroyed(): void {
+      const crowdSaleRef = firebase.ref('crowd-sales')
+      crowdSaleRef.off('value', this.listener)
+    }
+    getGroupName(groupName: string): void {
+      let name: any = groupName.charAt(0).toUpperCase() + groupName.toLowerCase().slice(1)
+      return name
+    }
   }
 </script>
 <style scoped lang="scss">
