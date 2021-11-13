@@ -173,7 +173,10 @@
         popupName: 'popup-filter-transaction',
         isOpen: false
       })
-      const _currency = this.filter.currency.join(',')
+      let _currency = ''
+      if (this.filter.currency) {
+        _currency = this.filter.currency.join(',')
+      }
       this.$emit('filter', { ...this.filter, currency: _currency })
     }
 
