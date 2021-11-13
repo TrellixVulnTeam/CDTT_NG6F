@@ -1,6 +1,6 @@
 <template>
   <div class="list-balance">
-    <filter-main :sorts="sorts" @filter="handleFilter" />
+    <filter-main :sorts="sorts" @filter="handleFilter" :isShowFilter="false" />
     <div class="table" v-loading="isLoading" :class="isLoading ? 'list-loading' : null">
       <base-table :data="listBlance" :showPagination="false" class="base-table table-wallet">
         <el-table-column label="#" type="index" align="center" width="40" />

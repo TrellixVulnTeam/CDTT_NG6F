@@ -2,7 +2,7 @@
   <div class="header-login be-flex align-center jc-space-between">
     <div class="header-login__left be-flex align-center cursor" @click="redirect">
       <!-- <base-icon icon="logo-login" size="32" /> -->
-      <img v-if="coinMain === 'LYNK'" src="../../../icons/png/logo.png" alt="" width="20%" />
+      <base-icon v-if="coinMain === 'LYNK'" icon="logo-2" size="120" style="color: #9900cc; display: inline-flex" />
       <img v-else src="../../../icons/png/logo-clm.png" alt="" style="width: 70%" />
       <!-- <span class="title">LYNKEY</span> -->
     </div>
