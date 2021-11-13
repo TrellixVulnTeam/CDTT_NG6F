@@ -35,7 +35,8 @@
           <el-carousel indicator-position='none' arrow='always' :autoplay='false'>
             <el-carousel-item v-for='(item, index) in listImage' :key='index'>
               <!-- <img :src="item" class="img-fluid" :alt="item" /> -->
-              <el-image style='height: 100%;border-radius:4px' class='img-fluid' :src='item' :preview-src-list='listImage'></el-image>
+              <el-image style='height: 100%;border-radius:4px;display: flex;justify-content: center' class='img-fluid'
+                        :src='item' :preview-src-list='listImage'></el-image>
             </el-carousel-item>
           </el-carousel>
         </div>
@@ -45,7 +46,7 @@
 </template>
 
 <script lang='ts'>
-  import { Component, Mixins, Prop,Vue } from 'vue-property-decorator'
+  import { Component, Mixins, Prop, Vue } from 'vue-property-decorator'
   import getRepository from '@/services'
   import { KycRepository } from '@/services/repositories/kyc'
 
@@ -75,21 +76,23 @@
     kycRejectReasonIds: string
   }
 
-  @Component({ components: {  } })
-  export default class KycCustomerDetail extends Vue{
+  @Component({ components: {} })
+  export default class KycCustomerDetail extends Vue {
     @Prop({ required: true, type: Object, default: {} }) detailRow!: Record<string, any>
     @bcKyc.State('listReason') listReason!: Array<Record<string, any>>
 
     detail = {} as IDetail
     isLoading = false
     listReasonReject: Array<Record<string, any>> = []
-     async created(): Promise<void> {
-     try{
-       this.detail = await apiKyc.getDetailKyc(this.detailRow.userId);
-     }catch (e) {
-       console.log(e)
-     }
+
+    async created(): Promise<void> {
+      try {
+        this.detail = await apiKyc.getDetailKyc(this.detailRow.userId)
+      } catch (e) {
+        console.log(e)
+      }
     }
+
     get listImage(): string[] {
       return [this.detail.idPhoto1, this.detail.idPhoto2, this.detail.selfiePhoto]
     }
@@ -170,6 +173,10 @@
                 i {
                   font-size: 20px;
                 }
+              }
+
+              .el-image__inner {
+              width: auto;
               }
             }
           }
