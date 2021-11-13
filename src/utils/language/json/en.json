@@ -336,7 +336,13 @@
       "processing": "Processing",
       "failed": "Failed",
       "rejected": "Rejected",
-      "sell": "Sell"
+      "sell": "Sell",
+      "bonus-sign-up": "Bonus sign up",
+      "bonus-crowdsale": "Bonus crowdsale",
+      "bonus-first-trans": "Bonus first transaction",
+      "bonus-affiliate": "Bonus affiliate",
+      "bonus-big-backer": "Bonus big backer",
+      "bonus-early-backer": "Bonus early backer"
     },
     "popup": {
       "title-filter": "Filter"

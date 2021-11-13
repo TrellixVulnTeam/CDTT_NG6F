@@ -293,7 +293,13 @@
       "processing": "Đang xử lý",
       "failed": "Thất bại",
       "rejected": "Từ chối",
-      "sell": "Bán"
+      "sell": "Bán",
+      "bonus-sign-up": "Thưởng đăng ký",
+      "bonus-crowdsale": "Thưởng crowdsale",
+      "bonus-first-trans": "Thưởng giao dịch lần đầu",
+      "bonus-affiliate": "Thưởng giới thiệu",
+      "bonus-big-backer": "Thưởng nhà đầu tư lớn",
+      "bonus-early-backer": "Thưởng nhà đầu tư sớm"
     },
     "popup": {
       "title-filter": "Bộ lọc"

@@ -48,7 +48,7 @@
         </div>
         <el-form-item :label="$t('label.status')">
           <el-select v-model="filter.status" clearable class="w-100">
-            <el-option v-for="status in listStatus" :key="status.id" :value="status.label" :label="status.label">
+            <el-option v-for="status in listStatus" :key="status.id" :value="status.value" :label="status.label">
               <template>
                 <span class="d-ib">{{ status.label }}</span>
               </template>
@@ -127,23 +127,28 @@
     listStatus: Array<Record<string, any>> = [
       {
         id: 0,
-        label: 'Pending'
+        label: 'Pending',
+        value: 'PENDING'
       },
       {
         id: 1,
-        label: 'Processing'
+        label: 'Processing',
+        value: 'PROCESSING'
       },
       {
         id: 2,
-        label: 'Success'
+        label: 'Success',
+        value: 'SUCCESS'
       },
       {
         id: 3,
-        label: 'Failed'
+        label: 'Failed',
+        value: 'FAILED'
       },
       {
         id: 4,
-        label: 'Rejected'
+        label: 'Rejected',
+        value: 'REJECTED'
       }
     ]
 
@@ -168,7 +173,10 @@
         popupName: 'popup-filter-transaction',
         isOpen: false
       })
-      const _currency = this.filter.currency.join(',')
+      let _currency = ''
+      if (this.filter.currency) {
+        _currency = this.filter.currency.join(',')
+      }
       this.$emit('filter', { ...this.filter, currency: _currency })
     }
 

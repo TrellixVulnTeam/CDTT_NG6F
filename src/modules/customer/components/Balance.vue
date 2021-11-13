@@ -26,8 +26,8 @@
         </el-table-column>
         <el-table-column :label="$t('customer.table.lock-amount')" align="right" width="200">
           <template slot-scope="scope">
-            <span class="text-base">{{ scope.row.lockedAmount | convertAmountDecimal(scope.row.asset) }} {{ scope.row.asset }}</span>
-            <span class="d-block small">~${{ scope.row.lockedAmountUSD | convertAmountDecimal('USD') }}</span>
+            <span class="text-base">{{ scope.row.totalLockedAmount | convertAmountDecimal(scope.row.asset) }} {{ scope.row.asset }}</span>
+            <span class="d-block small">~${{ scope.row.totalLockedAmountUSD | convertAmountDecimal('USD') }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('customer.table.balance')" align="right">
@@ -58,25 +58,25 @@
     filter: Record<string, any> = {}
     sorts: Array<Record<string, any>> = [
       {
-        command: 'price',
+        command: 1,
         label: this.$i18n.t('customer.sort.price'),
         divided: false,
         i18n: 'customer.sort.price'
       },
       {
-        command: 'availableAmount',
+        command: 2,
         label: this.$i18n.t('customer.sort.avail-amount'),
         divided: false,
         i18n: 'customer.sort.avail-amount'
       },
       {
-        command: 'lockedAmount',
+        command: 3,
         label: this.$i18n.t('customer.sort.locked-amount'),
         divided: false,
         i18n: 'customer.sort.locked-amount'
       },
       {
-        command: 'balanceAmount',
+        command: 4,
         label: this.$i18n.t('customer.sort.balance-amount'),
         divided: false,
         i18n: 'customer.sort.balance-amount'
@@ -99,7 +99,7 @@
     }
 
     handleFilter(filter: Record<string, any>): void {
-      this.filter = { ...this.filter, ...filter, orderType: 'desc' }
+      this.filter = { ...this.filter, ...filter }
       this.handleGetListBalance()
     }
 

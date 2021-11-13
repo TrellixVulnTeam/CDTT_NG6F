@@ -114,7 +114,7 @@
     dataProp: any = {}
     loadingTable = true
     orderBy = 'TRANSACTION_DATE'
-    dataTable: any = {}
+    dataTable: any = []
     get getPaginationInfo(): any {
       return this.$t('paging.crowdsale')
     }
