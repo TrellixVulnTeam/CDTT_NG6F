@@ -273,7 +273,7 @@
       "pending": "Pending"
     },
     "select": {
-      "accepted": "Đã xác nhận",
+      "accepted": "Xác nhận",
       "invited": "Đã mời"
     }
   },
