@@ -98,7 +98,7 @@
     "search": "Tìm kiếm",
     "from-amount": " Từ",
     "to-amount": "Đến",
-    "select-type": "Chọn kiểu giao dịch",
+    "select-type": "Chọn trạng thái",
     "status": "Chọn trạng thái"
   },
   "button": {
@@ -248,7 +248,8 @@
       "amount": "Số lượng",
       "trans-amount": "Số lượng giao dịch",
       "trans-date": "Ngày giao dịch",
-      "status": "Trạng thái"
+      "status": "Trạng thái",
+      "referral-name": "Tên"
     },
     "table": {
       "asset": "ví",
@@ -265,8 +266,11 @@
       "create-date": "ngày tạo",
       "accept": "Chấp nhận",
       "invited": "Đã mời",
-      "paid": "Thanh toán",
-      "pending": "Đang chờ"
+      "trans-id": "mã giao dịch",
+      "type": "loại",
+      "amount": "số lượng",
+      "paid": "Đã thanh toán",
+      "pending": "Pending"
     }
   },
   "transaction": {

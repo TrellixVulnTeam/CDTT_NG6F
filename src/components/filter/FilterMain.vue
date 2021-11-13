@@ -11,7 +11,7 @@
         <span class="abicon sort-title" style="font-size: 16px">
           <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 4px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}</span
         >
-        <el-dropdown-menu class="header-downloadapp dropdown-sort" slot="dropdown">
+        <el-dropdown-menu class="header-downloadapp dropdown-sort" style="min-width: 210px" slot="dropdown">
           <el-dropdown-item v-for="(value, index) in sorts" :key="index" :class="sortActive === value.command ? 'active' : null" :command="value" :divided="value.divided">
             <span class="be-flex">
               <span class="be-flex-item">

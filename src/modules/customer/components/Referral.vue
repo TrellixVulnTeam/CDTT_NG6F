@@ -52,7 +52,7 @@
         <el-table-column label="#" :index="getIndex" type="index" width="40" />
         <el-table-column :label="$t('customer.table.name')">
           <template slot-scope="scope">
-            <span>{{ scope.row.name }}</span>
+            <span>{{ scope.row.fullName }}</span>
           </template>
         </el-table-column>
 
