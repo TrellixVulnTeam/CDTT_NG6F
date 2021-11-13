@@ -99,7 +99,7 @@
     }
 
     handleFilter(filter: Record<string, any>): void {
-      this.filter = { ...this.filter, ...filter, orderBy: 'desc' }
+      this.filter = { ...this.filter, ...filter, orderType: 'desc' }
       this.handleGetListBalance()
     }
 
