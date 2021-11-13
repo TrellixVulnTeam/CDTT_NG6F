@@ -1,6 +1,6 @@
 <template>
   <div class="list-address">
-    <filter-main :sorts="sorts" @filter="handleFilter" />
+    <filter-main :sorts="sorts" @filter="handleFilter" :isShowSort="false" />
     <div class="table" v-loading="isLoading" :class="isLoading ? 'list-loading' : null">
       <base-table :data="listAddress" :showPagination="false" class="base-table table-wallet">
         <el-table-column label="#" type="index" align="center" width="40" />
@@ -56,6 +56,7 @@
     @Prop({ required: true, type: Number, default: 0 }) userId!: number
 
     listAddress: Record<string, any>[] = []
+    listAssetNetwork: Record<string, any>[] = []
     isLoading = false
     query: Record<string, any> = {
       search: ''
@@ -71,6 +72,7 @@
 
     created(): void {
       this.handleGetListAddress()
+      this.handleGetListAssetNetwork()
     }
 
     async handleGetListAddress(): Promise<void> {
@@ -82,6 +84,14 @@
         this.isLoading = false
       } catch (error) {
         this.isLoading = false
+        console.log(error)
+      }
+    }
+    async handleGetListAssetNetwork(): Promise<void> {
+      try {
+        const result = await apiCustomer.getlistAssetNetwork()
+        this.listAssetNetwork = result.content
+      } catch (error) {
         console.log(error)
       }
     }
