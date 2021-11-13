@@ -60,6 +60,7 @@
 </template>
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator'
+  import firebase from '@/utils/firebase'
   @Component
   export default class BOCrowdsale extends Vue {
     tabs: Array<Record<string, any>> = [
@@ -74,6 +75,15 @@
         routeName: 'CrowdsaleRound'
       }
     ]
+    listener: any = null
+
+    created(): void {
+      const leadsRef = firebase.ref('crowd-sales')
+      this.listener = leadsRef.on('value', function (snapshot) {
+        console.log('round get firebase', snapshot.val())
+      })
+    }
+
     handleChangeTab(tab: Record<string, any>): void {
       this.$router.push({ name: tab.routeName })
     }
