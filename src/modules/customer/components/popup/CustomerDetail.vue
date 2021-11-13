@@ -111,11 +111,11 @@
       {
         id: 6,
         title: 'bonus'
-      },
-      {
-        id: 7,
-        title: 'statistics'
       }
+      // {
+      //   id: 7,
+      //   title: 'statistics'
+      // }
       // {
       //   id: 8,
       //   title: 'setting'

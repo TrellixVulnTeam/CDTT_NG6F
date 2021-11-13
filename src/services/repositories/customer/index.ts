@@ -11,9 +11,26 @@ export class CustomerRepository extends BaseRepository {
     const _params = { ...params }
     const objKey = Object.keys(_params)
     forEach(objKey, key => {
-      console.log(key)
-
       if (_params[key] === '' && key !== 'type') {
+        _params[key] = null
+      }
+    })
+    return _params
+  }
+
+  private converParamsHasNumberDecimal(params: Record<string, any>): Record<string, any> {
+    const _params = { ...params }
+    const objKey = Object.keys(_params)
+
+    if (_params.fromAmount) {
+      _params.fromAmount = _params.fromAmount.replaceAll(',', '') * 1
+    }
+    if (_params.toAmount) {
+      _params.toAmount = _params.toAmount.replaceAll(',', '') * 1
+    }
+
+    forEach(objKey, key => {
+      if (_params[key] === '') {
         _params[key] = null
       }
     })
@@ -69,7 +86,8 @@ export class CustomerRepository extends BaseRepository {
   }
   async getlistBonus(params: Record<string, any>): Promise<any> {
     try {
-      const rs = await request.get(`main/api/v1/bonus-programs/histories`, { params })
+      const _params = this.converParamsHasNumberDecimal(params)
+      const rs = await request.get(`main/api/v1/bonus-programs/histories`, { params: _params })
       return Promise.resolve(rs.data.data)
     } catch (error) {
       console.log(error)

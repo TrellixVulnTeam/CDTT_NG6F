@@ -130,7 +130,9 @@
     "reason": "Other reason...",
     "search": "Search",
     "from-amount": " From amount",
-    "to-amount": "To amoun"
+    "to-amount": "To amount",
+    "select-type": "Select type",
+    "status": "Select status"
   },
   "button": {
     "reset": "Reset",
@@ -194,7 +196,9 @@
     "buy-token": "Buy with token",
     "trans-date": "Transaction Date",
     "trans-amount": "Transaction Amount",
-    "status": "Status"
+    "status": "Status",
+    "trans-type": "Transaction type",
+    "date": "Date"
   },
   "buy-lyn": {
     "title": "BUY LYN"

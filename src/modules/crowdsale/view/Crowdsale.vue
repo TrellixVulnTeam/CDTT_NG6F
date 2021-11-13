@@ -84,6 +84,11 @@
       })
     }
 
+    destroyed(): void {
+      const leadsRef = firebase.ref('crowd-sales')
+      leadsRef.off('value', this.listener)
+    }
+
     handleChangeTab(tab: Record<string, any>): void {
       this.$router.push({ name: tab.routeName })
     }

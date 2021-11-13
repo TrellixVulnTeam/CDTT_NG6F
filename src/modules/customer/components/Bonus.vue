@@ -1,6 +1,75 @@
 <template>
   <div class="list-bonus">
-    <filter-main :sorts="sorts" @filter="handleFilter" :isShowFilter="false" />
+    <filter-main :sorts="sorts" @filter="handleFilter">
+      <div class="filter-item">
+        <el-popover :value="isVisible" placement="bottom-start" width="518" trigger="click" popper-class="popper-filter" @show="handleShowPopper">
+          <div class="content">
+            <el-form>
+              <div class="be-flex jc-space-between row">
+                <el-form-item class="be-flex-item mr-40" :label="$t('label.trans-type')">
+                  <el-select v-model="filter.transactionType" :placeholder="$t('placeholder.select-type')" class="w-100" clearable>
+                    <el-option v-for="(type, index) in listType" :key="index" :label="type.name" :value="type.value" />
+                  </el-select>
+                </el-form-item>
+                <el-form-item class="be-flex-item" :label="$t('label.status')">
+                  <el-select v-model="filter.status" id-type :placeholder="$t('placeholder.status')" class="w-100" clearable>
+                    <el-option v-for="(status, index) in listStatus" :key="index" :label="status.name" :value="status.value" />
+                  </el-select>
+                </el-form-item>
+              </div>
+              <div class="be-flex jc-space-between row">
+                <el-form-item class="be-flex-item mr-40" :label="$t('label.date')">
+                  <el-date-picker class="w-100" format="yyyy/MM/dd" value-format="yyyy-MM-dd" :placeholder="$t('label.from-date')" v-model="filter.fromDate" type="date">
+                  </el-date-picker>
+                </el-form-item>
+
+                <el-form-item class="be-flex-item hide-label" label="1">
+                  <el-date-picker class="w-100" format="yyyy/MM/dd" :placeholder="$t('label.to-date')" value-format="yyyy-MM-dd" v-model="filter.toDate" type="date">
+                  </el-date-picker>
+                </el-form-item>
+              </div>
+              <div class="be-flex jc-space-between row">
+                <el-form-item class="be-flex-item mr-40 form-item-line" :label="$t('label.trans-amount')">
+                  <el-input
+                    v-model="filter.fromAmount"
+                    :placeholder="$t('placeholder.from-amount')"
+                    @keypress.native="onlyNumber($event, 'fromAmount')"
+                    @keyup.native="numberFormat($event)"
+                  >
+                  </el-input>
+                </el-form-item>
+
+                <el-form-item class="be-flex-item hide-label" label="1">
+                  <el-input
+                    v-model="filter.toAmount"
+                    :placeholder="$t('placeholder.to-amount')"
+                    @keypress.native="onlyNumber($event, 'toAmount')"
+                    @keyup.native="numberFormat($event)"
+                  >
+                  </el-input>
+                </el-form-item>
+              </div>
+            </el-form>
+          </div>
+          <div class="be-flex jc-flex-end footer">
+            <el-button class="btn-default btn-400 btn-h-40 btn-close text-regular" @click="handleReset">
+              {{ $t('button.reset') }}
+            </el-button>
+            <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border h-40 text-regular" @click="handleApply">
+              {{ $t('button.apply') }}
+            </el-button>
+          </div>
+          <div slot="reference" class="cursor text-filter" style="font-size: 16px">
+            <span class="abicon"> <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="18" /> </span>
+            {{ $t('kyc.filter.filter') }}
+          </div>
+        </el-popover>
+        <!-- <div class="cursor text-filter" style="font-size: 16px">
+        <span class="abicon"> <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="18" /> </span>
+        {{ $t('kyc.filter.filter') }}
+      </div> -->
+      </div>
+    </filter-main>
     <div class="table" v-loading="isLoading" :class="isLoading ? 'list-loading' : null">
       <base-table
         :data="listBonus"
@@ -59,6 +128,8 @@
 
   import { namespace } from 'vuex-class'
 
+  import includes from 'lodash/includes'
+
   import getRepository from '@/services'
   import { CustomerRepository } from '@/services/repositories/customer'
 
@@ -72,6 +143,14 @@
 
     listBonus: Record<string, any>[] = []
     isLoading = false
+    filter: Record<string, any> = {
+      fromAmount: '',
+      toAmount: '',
+      toDate: '',
+      fromDate: '',
+      status: '',
+      transactionType: ''
+    }
     query: Record<string, any> = {
       page: 1,
       limit: 10,
@@ -91,6 +170,43 @@
         i18n: 'customer.sort.amount'
       }
     ]
+
+    listType: Array<Record<string, any>> = [
+      {
+        id: 0,
+        name: 'Bonus Sign Up',
+        value: 'BONUS_SIGN_UP'
+      },
+      {
+        id: 1,
+        name: 'Bonus First Transaction',
+        value: 'BONUS_FIRST_TRANS'
+      },
+      {
+        id: 2,
+        name: 'Bonus Crowdsale',
+        value: 'BONUS_CROWDSALE'
+      },
+      {
+        id: 3,
+        name: 'Bonus Big Backers',
+        value: 'BONUS_BIG_BACKER'
+      }
+    ]
+    listStatus: Array<Record<string, any>> = [
+      {
+        id: 0,
+        name: 'Pending',
+        value: 'PENDING'
+      },
+      {
+        id: 1,
+        name: 'Paid',
+        value: 'PAID'
+      }
+    ]
+
+    isVisible = false
 
     created(): void {
       this.handleGetListBonus()
@@ -136,6 +252,26 @@
       this.handleGetListBonus()
     }
 
+    handleApply(): void {
+      this.query = { ...this.query, ...this.filter }
+      this.handleGetListBonus()
+      this.isVisible = false
+    }
+
+    handleReset(): void {
+      this.filter = {
+        fromAmount: '',
+        toAmount: '',
+        toDate: '',
+        fromDate: '',
+        status: '',
+        transactionType: ''
+      }
+      this.query = { ...this.query, ...this.filter }
+      this.handleGetListBonus()
+      this.isVisible = false
+    }
+
     handleCopyTransaction(row: Record<string, any>): void {
       let message: any = ''
       const el = document.createElement('input')
@@ -155,11 +291,38 @@
         return 'status-success'
       }
     }
+
     getTypeStatus(status: string): any {
       if (status === 'PENDING') {
         return this.$t('customer.table.pending')
       } else {
         return this.$t('customer.table.paid')
+      }
+    }
+
+    handleShowPopper(): void {
+      this.isVisible = true
+    }
+
+    onlyNumber(event: KeyboardEvent, type: string): void {
+      let keyCode = event.keyCode ? event.keyCode : event.which
+      //if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
+      // 46 is dot
+      if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
+        event.preventDefault()
+      }
+      if (keyCode === 46 && includes(this.filter[type], '.')) {
+        event.preventDefault()
+      }
+    }
+
+    numberFormat(event: FocusEvent): void {
+      const _event: any = event
+      let fnumber = _event.target.value
+      if (fnumber.length > 0) {
+        fnumber = fnumber.replaceAll(',', '')
+        fnumber = this.$options.filters?.numberWithCommas(fnumber)
+        _event.target.value = fnumber
       }
     }
   }
