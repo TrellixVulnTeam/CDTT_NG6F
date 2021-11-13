@@ -1,41 +1,50 @@
 <template>
-  <div class="w-100 bo-crowdsale">
+  <div class="w-100 bo-crowdsale" v-loading="isLoading">
     <div class="box-content-1">
       <div class="round bg-white box-shadow">
         <div class="head">
-          <div class="fw-600 fs-24 title">{{ $t('crowdsale.round') }} 2</div>
-          <div class="box-status">Opening</div>
+          <div class="fw-600 fs-24 title">{{ $t('crowdsale.round') }} {{ getRoundNumber }}</div>
+          <div v-if="getStatus === 1" class="box-status">{{ $t('crowdsale.opening') }}</div>
+          <div v-if="getStatus !== 1 && isFinish" class="box-status">{{ $t('crowdsale.finish') }}</div>
+          <div v-if="getStatus !== 1 && !isFinish" class="box-status">{{ $t('crowdsale.upcoming') }}</div>
         </div>
-        <p class="fw-400 fs-16 time-date">11/10/2021 - 21/10/2021</p>
+        <p class="fw-400 fs-16 time-date">
+          {{ roundCurrent && roundCurrent.fromDate && roundCurrent.fromDate.time | formatDDMMYY }} -
+          {{ roundCurrent && roundCurrent.toDate && roundCurrent.toDate.time | formatDDMMYY }}
+        </p>
         <div class="box-ellipse">
           <div class="mini-ellipse">
-            <p class="fw-600 fs-24" style="margin-bottom: 2px; margin-top: 24px; color: #0151fc">75%</p>
-            <p class="fw-400 fs-12" style="color: #5b616e">{{ $t('crowdsale.of') }} <span class="fw-600">100M</span></p>
+            <p class="fw-600 fs-24" style="margin-bottom: 2px; margin-top: 24px; color: #0151fc">{{ (roundCurrent && roundCurrent.percentageSold * 1000) / 10 }}%</p>
+            <p class="fw-400 fs-12" style="color: #5b616e">
+              {{ $t('crowdsale.of') }} <span class="fw-600">{{ ((roundCurrent && roundCurrent.totalAmount) / 1000000) | formatNumber }}M</span>
+            </p>
           </div>
-          <el-progress type="circle" :percentage="75" :stroke-width="12" color="#0151FC" :show-text="false"></el-progress>
+          <el-progress type="circle" :percentage="(roundCurrent && roundCurrent.percentageSold * 1000) / 10" :stroke-width="12" color="#0151FC" :show-text="false"></el-progress>
         </div>
       </div>
       <div class="progress bg-white box-shadow">
         <p class="fw-600 fs-24 title">{{ $t('crowdsale.progress') }}</p>
-        <p class="fw-400 fs-16 discript">{{ $t('crowdsale.from') }} 01/10/2021 {{ $t('crowdsale.now') }}</p>
+        <p class="fw-400 fs-16 discript">
+          {{ $t('crowdsale.from') }} {{ roundCurrent && roundCurrent.fromDate && roundCurrent.fromDate.time | formatDDMMYY }} {{ $t('crowdsale.now') }}
+        </p>
         <div class="box-content">
-          <div class="box-left fw-400 fs-14">568,000 {{ $t('crowdsale.sold') }}</div>
-          <div class="box-right fw-400 fs-14">432,000 {{ $t('crowdsale.left') }}</div>
+          <div class="box-left fw-400 fs-14">{{ roundCurrent && roundCurrent.totalSold | formatNumber }} {{ $t('crowdsale.sold') }}</div>
+          <div class="box-right fw-400 fs-14">{{ roundCurrent && roundCurrent.totalAvailable | formatNumber }} {{ $t('crowdsale.left') }}</div>
         </div>
-        <el-progress type="line" :percentage="75" :stroke-width="20" color="#129961" :show-text="false"></el-progress>
+        <el-progress type="line" :percentage="(roundCurrent && roundCurrent.percentageSold * 1000) / 10" :stroke-width="20" color="#129961" :show-text="false"></el-progress>
         <div class="bottom">
           <div class="box1 box">
-            <p class="fw-600 fs-18 price">86%</p>
+            <p class="fw-600 fs-18 price">{{ (roundCurrent && roundCurrent.percentageSold * 1000) / 10 }}%</p>
             <p class="fw-400 fs-14">{{ $t('crowdsale.completed') }}</p>
           </div>
           <div class="line"></div>
           <div class="box2 box">
-            <p class="fw-600 fs-18 price">$4,445,600</p>
+            <p class="fw-600 fs-18 price">${{ roundCurrent && roundCurrent.totalAmount | formatNumber }}</p>
             <p class="fw-400 fs-14">{{ $t('crowdsale.raised') }}</p>
           </div>
           <div class="line"></div>
           <div class="box3 box">
-            <p class="fw-600 fs-18 price">6,000</p>
+            <p class="fw-600 fs-18 price">{{ roundCurrent && roundCurrent.totalBacker | formatNumber }}</p>
             <p class="fw-400 fs-14">{{ $t('crowdsale.backers') }}</p>
           </div>
         </div>
@@ -61,6 +70,7 @@
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator'
   import firebase from '@/utils/firebase'
+  import { filter, findIndex, forEach } from 'lodash'
   @Component
   export default class BOCrowdsale extends Vue {
     tabs: Array<Record<string, any>> = [
@@ -76,12 +86,156 @@
       }
     ]
     listener: any = null
+    listRound: Record<string, any>[] = []
+    roundCurrent: Record<string, any> | any = {}
+    isEndOn = false
+    progressbar = 0
+    timing: any = null
+    day: string | number = 0
+    hour: string | number = 0
+    minute: string | number = 0
+    second: string | number = 0
+    isLoading = true
+    countDownDate = 0
+    isFinish = false
 
+    get getIsEndRound(): boolean {
+      const index = findIndex(this.listRound, elm => elm.id === this.roundCurrent.id)
+      if (index === this.listRound.length - 1) {
+        return true
+      }
+      return false
+    }
+    get getRoundNumber(): string {
+      return this.roundCurrent?.name?.match(/\d+/)[0]
+    }
+    get getStatus(): string {
+      return this.roundCurrent?.isActive
+    }
     created(): void {
+      this.handleTurnOnFirebase()
+    }
+    handleTurnOnFirebase(): void {
       const leadsRef = firebase.ref('crowd-sales')
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      let _this = this
       this.listener = leadsRef.on('value', function (snapshot) {
-        console.log('round get firebase', snapshot.val())
+        _this.listRound = snapshot.val()
+        const roundActive = filter(snapshot.val(), round => round.isActive)
+
+        if (!roundActive.length) {
+          _this.roundCurrent = null
+          _this.isEndOn = false
+          _this.handleGetRoundNext()
+        } else {
+          _this.roundCurrent = roundActive[0]
+          _this.isEndOn = true
+          _this.progressbar = (_this.roundCurrent.percentageSold * 1000) / 10
+          _this.handleGetData()
+        }
       })
+    }
+    handleGetRoundNext(): void {
+      const leadsRef = firebase.ref('crowd-sales')
+      leadsRef.off('value', this.listener)
+
+      /**
+       * Nếu response là round cuối
+       * response là null <=> chưa vào round nào => lấy round 1
+       */
+
+      if (!this.roundCurrent) {
+        const roundFirst = this.listRound[0]
+        const roundLast = this.listRound[this.listRound.length - 1]
+
+        const toDay = Date.now()
+        const fromTimeRoundFirst = new Date(roundFirst.fromDate.time).getTime()
+        const toTimeRoundLast = new Date(roundLast.toDate.time).getTime()
+
+        // Nếu today > time roundLast
+        if (toDay > toTimeRoundLast) {
+          this.day = '00'
+          this.hour = '00'
+          this.minute = '00'
+          this.second = '00'
+          this.roundCurrent = roundLast
+          this.isEndOn = true
+          this.isLoading = false
+          this.isFinish = true
+        }
+        // Nếu today < time roundFirst
+        if (toDay < fromTimeRoundFirst) {
+          this.isFinish = false
+          this.roundCurrent = this.listRound[0]
+          this.progressbar = (this.roundCurrent.percentageSold * 1000) / 10
+          this.handleGetData('from')
+        }
+        // Nếu fromTimeRoundFirst < today < toTimeRoundLast
+        if (toDay > fromTimeRoundFirst && toDay < toTimeRoundLast) {
+          this.isFinish = false
+          forEach(this.listRound, round => {
+            const fromTime = new Date(round.fromDate.time).getTime()
+            if (toDay < fromTime) {
+              this.roundCurrent = round
+              return false
+            }
+          })
+
+          this.isEndOn = false
+          this.progressbar = (this.roundCurrent.percentageSold * 1000) / 10
+          this.handleGetData('from')
+        }
+      }
+    }
+    handleGetData(type = 'to'): void {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      let _this = this
+      this.countDownDate = type === 'to' ? new Date(this.roundCurrent.toDate.time).getTime() : new Date(this.roundCurrent.fromDate.time).getTime()
+
+      this.timing = setInterval(function () {
+        let now = new Date().getTime()
+
+        let distance = _this.countDownDate - now
+
+        //case ready start chạy hết time
+        if (distance <= 0 && !_this.isEndOn) {
+          console.log('vao day 1')
+          _this.countDownDate = new Date(_this.roundCurrent.toDate.time).getTime()
+          _this.handleTurnOnFirebase()
+          _this.isEndOn = true
+          _this.isLoading = false
+        }
+
+        //case chạy hết time end on và không phải round cuối
+        if (distance <= 0 && _this.isEndOn && !_this.getIsEndRound) {
+          _this.isLoading = true
+          _this.handleTurnOnFirebase()
+          _this.isEndOn = true
+          _this.isLoading = false
+          return
+        }
+
+        //case round cuối và hết hạn
+        if (distance <= 0 && _this.isEndOn && _this.getIsEndRound) {
+          clearInterval(_this.timing)
+          const leadsRef = firebase.ref('crowd-sales')
+          leadsRef.off('value', _this.listener)
+          _this.isLoading = false
+          return
+        }
+
+        _this.day = Math.floor(distance / (1000 * 60 * 60 * 24)) >= 10 ? Math.floor(distance / (1000 * 60 * 60 * 24)) : '0' + Math.floor(distance / (1000 * 60 * 60 * 24))
+        _this.hour =
+          Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)) >= 10
+            ? Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+            : '0' + Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+        _this.minute =
+          Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)) >= 10
+            ? Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+            : '0' + Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+        _this.second = Math.floor((distance % (1000 * 60)) / 1000) >= 10 ? Math.floor((distance % (1000 * 60)) / 1000) : '0' + Math.floor((distance % (1000 * 60)) / 1000)
+      }, 1000)
+      this.isLoading = false
     }
 
     handleChangeTab(tab: Record<string, any>): void {

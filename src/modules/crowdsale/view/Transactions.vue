@@ -41,7 +41,13 @@
         <el-table-column :label="this.$t('crowdsale.date')" prop="date" align="left" width="200" />
         <el-table-column :label="this.$t('crowdsale.status')" prop="status" align="center" width="110">
           <template slot-scope="scope">
-            <div class="box-status-tabel" :class="scope.row.status === 'Pending' ? 'pending' : null">
+            <div v-if="scope.row.status === 'LOCKED'" class="box-status-tabel locked">
+              <span class="fs-12 fw-500">{{ scope.row.status }}</span>
+            </div>
+            <div v-else-if="scope.row.status === 'FAILED'" class="box-status-tabel failed">
+              <span class="fs-12 fw-500">{{ scope.row.status }}</span>
+            </div>
+            <div v-else class="box-status-tabel">
               <span class="fs-12 fw-500">{{ scope.row.status }}</span>
             </div>
           </template>
@@ -84,28 +90,7 @@
       page: 1
     }
     orderBy = 'TRANSACTION_DATE'
-    dataTable: any = [
-      {
-        name: 'Nguyễn Hoàng Mai',
-        email: 'maihoangnguyen@gmail.com',
-        date: '16/10/2021 14:10:02',
-        status: 'Pending',
-        price: 'Round 4 - $0.08',
-        paid: '- 0.00020036 BTC',
-        avi: '~ $13,04',
-        amount: '+ 268.02 LYNK'
-      },
-      {
-        name: 'Hoàng Thị Mai',
-        email: 'hoangmai@gmail.com',
-        date: '16/10/2021 14:10:02',
-        status: 'Success',
-        price: 'Round 2 - $0.04',
-        paid: '- 0.00020036 BTC',
-        avi: '~ $13,04',
-        amount: '+ 10.89 LYNK'
-      }
-    ]
+    dataTable: any = {}
     get getPaginationInfo(): any {
       return this.$t('paging.crowdsale')
     }
@@ -145,6 +130,7 @@
     async getDataTable(): Promise<void> {
       await api.getDataTable(this.querry).then((res: any) => {
         console.log('data: ', res)
+        this.dataTable = res.content
       })
     }
     handleSearch(val: any): void {
@@ -202,9 +188,13 @@
           border-radius: 4px;
           margin: 0 auto;
         }
-        .pending {
+        .failed {
           background: #fff3e2;
           color: #dd7d00;
+        }
+        .locked {
+          background: #fbedee;
+          color: #cf202f;
         }
         .text-paid {
           color: #cf202f;

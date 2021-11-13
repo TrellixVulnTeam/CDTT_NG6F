@@ -395,6 +395,9 @@
     "remain": "remain",
     "transactionDate": "Transaction date",
     "transactionAmount": "Transaction amount",
+    "opening": "Opening",
+    "finish": "Finish",
+    "upcoming": "Upcoming",
     "popup-filter": {
       "title": "filter",
       "round": "Round",
