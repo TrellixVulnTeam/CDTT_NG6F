@@ -42,17 +42,22 @@
   --bc-color-divider: #d2d0ce;
 
   //color status
-  --bc-bg-error: #3b3a39;
-  --bc-bg-success: #dff6dd;
-  --bc-bg-warning: #fed9cc;
-  --bc-bg-neutral: #fff4ce;
+  --bc-bg-error: #fbedee;
+  --bc-bg-success: #e4f9e2;
+  --bc-bg-warning: #fff3e2;
+  --bc-bg-pending: #fff3e2;
+  --bc-bg-neutral: #f3f2f1;
+  --bc-bg-invited: #fff3e2;
+  --bc-bg-accept: #e4f9e2;
 
   --bc-status-error: #cf202f;
   --bc-required: #cf202f;
   --bc-status-success: #129961;
   --bc-status-warning: #dd7d00;
   --bc-status-neutral: #a19f9d;
-  --bc-status-pending: #a19f9d;
+  --bc-status-pending: #dd7d00;
+  --bc-status-invited: #dd7d00;
+  --bc-status-accept: #129961;
 
   //overlay
   -bc-overlay-light: rgba(255, 255, 255, 0.4);
@@ -92,7 +97,7 @@
   --bc-amount-lock: #a19f9d;
 
   //table
-  --bc-table-text-color: #201f1e;
+  --bc-table-text-color: #0a0b0d;
   --bc-table-border: #dbdbdb;
   --bc-table-row-hover: #f3f3f3;
 
@@ -101,6 +106,9 @@
   --bc-form-input: #0a0b0d;
   //shadow
   --bc-box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
+  //line
+  --bc-line: #dbdbdb;
+
   //checkbox
   --bc-bg-checkbox: #31b6b5;
 }
