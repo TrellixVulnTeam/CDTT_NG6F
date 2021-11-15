@@ -278,7 +278,7 @@
             margin-right: 10px;
           }
           .box-status {
-            background: #f3f2f1;
+            background: var(--bg-box-status-default);
             text-align: center;
             width: 57px;
             height: 18px;
@@ -286,15 +286,15 @@
             font-size: 10px;
             font-weight: 600;
             line-height: 18px;
-            color: #0151fc;
+            color: var(--cl-box-status-default);
           }
           .finish {
-            color: #ffffff;
-            background: #129961;
+            color: var(--cl-box-status-finish);
+            background: var(--bg-box-status-finish);
           }
           .upcoming {
-            color: #5b616e;
-            background: #f3f2f1;
+            color: var(--cl-box-status-upcoming);
+            background: var(--bg-box-status-upcoming);
           }
         }
         .time-date {
