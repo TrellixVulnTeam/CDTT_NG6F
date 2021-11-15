@@ -136,7 +136,7 @@
               .then(() => {
                 message = this.$t('notify.verify-success')
                 this.$message.success({ message, duration: 5000 })
-                this.$router.push({ name: 'KycPending' })
+                this.$router.push({ name: 'Crowdsale' })
                 this.isLoading = false
               })
               .catch(() => {
@@ -160,7 +160,7 @@
               .verifyCode('CODE', { ...data, type: 'SMS' })
               .then(res => {
                 this.setUserInfo(res)
-                this.$router.push({ name: 'KycPending' })
+                this.$router.push({ name: 'Crowdsale' })
               })
               .catch(error => {
                 console.log(error)
