@@ -27,12 +27,12 @@
         id: 1,
         title: 'withdraw',
         routeName: 'RequestWithdraw'
-      },
-      {
-        id: 2,
-        title: 'transfer',
-        routeName: 'RequestTransfer'
       }
+      // {
+      //   id: 2,
+      //   title: 'transfer',
+      //   routeName: 'RequestTransfer'
+      // }
     ]
     handleChangeTab(tab: Record<string, any>): void {
       this.$router.push({ name: tab.routeName })
@@ -45,12 +45,6 @@
     .box-content {
       // tab active
       .table {
-        margin-top: 24px;
-        // .tab-header {
-        //   height: 24px;
-        //   border-bottom: 1px solid var(--bc-line);
-        //   padding: 16px 12px;
-        // }
         .wallet-header {
           &__above {
             border-bottom: 1px solid var(--bc-border-primary);

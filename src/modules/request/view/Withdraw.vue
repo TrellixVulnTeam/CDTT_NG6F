@@ -8,7 +8,7 @@
           </div>
         </el-input>
       </div>
-      <div class="btn-filter be-flex align-center cursor" @click="handleOpenPopupFilter">
+      <div class="btn-filter be-flex align-center cursor">
         <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="16" /> <span class="fs-16">{{ $t('crowdsale.filter') }}</span>
       </div>
       <el-dropdown class="cursor" trigger="click" @command="handleSort">
@@ -75,19 +75,17 @@
         </el-table-column>
       </base-table>
     </div>
-    <popup-filter-request />
   </div>
 </template>
 <script lang="ts">
   import { Mixins, Component, Watch } from 'vue-property-decorator'
   import PopupMixin from '@/mixins/popup'
-  import PopupFilterRequest from '../components/popup/PopupFilterRequest.vue'
   // import firebase from '@/utils/firebase'
   import getRepository from '@/services'
   import { RequestRepository } from '@/services/repositories/request'
 
   const api: RequestRepository = getRepository('request')
-  @Component({ components: { PopupFilterRequest } })
+  @Component({ components: {} })
   export default class BORequestWithdraw extends Mixins(PopupMixin) {
     querry: any = {
       keywordString: '',
@@ -103,16 +101,28 @@
     dataTable: any = []
     sorts: Array<Record<string, any>> = [
       {
-        command: 'TRANSACTION_DATE',
-        label: this.$i18n.t('crowdsale.transactionDate'),
+        command: 'REQUEST_DATE',
+        label: this.$i18n.t('request.sortBy.requestDate'),
         divided: false,
-        i18n: 'crowdsale.transactionDate'
+        i18n: 'request.sortBy.requestDate'
       },
       {
-        command: 'TRANSACTION_AMOUNT',
-        label: this.$i18n.t('crowdsale.transactionAmount'),
+        command: 'AMOUNT',
+        label: this.$i18n.t('request.sortBy.amount'),
         divided: false,
-        i18n: 'crowdsale.transactionAmount'
+        i18n: 'request.sortBy.amount'
+      },
+      {
+        command: 'STATUS',
+        label: this.$i18n.t('request.sortBy.status'),
+        divided: false,
+        i18n: 'request.sortBy.status'
+      },
+      {
+        command: 'NAME',
+        label: this.$i18n.t('request.sortBy.name'),
+        divided: false,
+        i18n: 'request.sortBy.name'
       }
     ]
     get getPaginationInfo(): any {
@@ -147,21 +157,24 @@
     handleSearch(search: any): void {
       this.getDataTable()
     }
-    handleOpenPopupFilter(): void {
-      this.setOpenPopup({
-        popupName: 'popup-filter-request',
-        isOpen: true
-      })
-      console.log('vao day')
-    }
-    sortActive = 'TRANSACTION_DATE'
+    sortActive = 'REQUEST_DATE'
+    orderBy = 'REQUEST_DATE'
     handleSort(command: string): void {
       this.sortActive = command
-      if (command == 'TRANSACTION_DATE') {
+      if (command == 'REQUEST_DATE') {
         this.querry.orderBy = 1
-      } else {
+      }
+      if (command == 'AMOUNT') {
         this.querry.orderBy = 2
       }
+      if (command == 'STATUS') {
+        this.querry.orderBy = 3
+      }
+      if (command == 'NAME') {
+        this.querry.orderBy = 4
+      }
+      this.getDataTable()
+      this.orderBy = command
     }
   }
 </script>

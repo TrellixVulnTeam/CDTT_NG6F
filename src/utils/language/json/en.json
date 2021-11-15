@@ -99,7 +99,8 @@
     "contract": "Contract",
     "report": "Report",
     "setting": "Setting",
-    "crowdsale": "Crowdsale"
+    "crowdsale": "Crowdsale",
+    "request": "Request"
   },
   "header": {
     "kyc": "KYC",
@@ -446,6 +447,12 @@
       "label3": "CUSTOMER",
       "label4": "STATUS",
       "label5": "AMOUNT"
+    },
+    "sortBy": {
+      "requestDate": "Request date",
+      "amount": "Amount",
+      "status": "Status",
+      "name": "Name"
     }
   }
 }

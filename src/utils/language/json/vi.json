@@ -76,7 +76,8 @@
     "contract": "Hợp đồng",
     "report": "Báo cáo",
     "setting": "Cài đặt",
-    "crowdsale": "Crowdsale"
+    "crowdsale": "Crowdsale",
+    "request": "Yêu cầu"
   },
   "header": {
     "kyc": "KYC",
@@ -403,6 +404,12 @@
       "label3": "KHÁCH HÀNG",
       "label4": "TRẠNG THÁI",
       "label5": "SỐ LƯỢNG"
+    },
+    "sortBy": {
+      "requestDate": "Ngày yêu cầu",
+      "amount": "Số lượng",
+      "status": "Trạng thái",
+      "name": "Tên"
     }
   }
 }

@@ -30,13 +30,14 @@
         <p>{{ $t('leftMenu.customer') }}</p>
       </div>
     </router-link>
-    <router-link :to="{ name: 'Request' }" class="router_center">
+    <!-- <router-link :to="{ name: 'Request' }" class="router_center">
       <div class="sack_avatar">
         <base-icon icon="menu-request-active" class="menu-active" size="32" />
         <base-icon icon="menu-request" class="menu" size="32" />
-        <p>{{ $t('leftMenu.customer') }}</p>
+        <p>{{ $t('leftMenu.request') }}</p>
       </div>
-    </router-link>
+    </router-link> -->
+
     <!-- <router-link :to="{ name: 'Wallet' }" class="router_center" exact>
       <div class="sack_avatar">
         <base-icon icon="menu-contract" size="32" />
