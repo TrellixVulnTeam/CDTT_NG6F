@@ -10,25 +10,44 @@
         @rowClick="handleRowClick"
         class="base-table table-wallet"
       >
-        <el-table-column label="#" type="index" :index="indexMethod" align="center" width="40" />
-        <el-table-column :label="$t('kyc.table.fullName')" min-width="200">
+        <el-table-column label="#" type="index" :index="indexMethod" align="center" width="60" />
+        <!-- <el-table-column :label="$t('kyc.table.fullName')" min-width="200">
           <template slot-scope="scope">
             <div class="be-flex align-center">
-              <span class="d-ib mr-2">{{ scope.row.firstName + '&nbsp;' + scope.row.lastName }}</span>
+              <span class="d-ib mr-2">{{ scope.row.fullName + '&nbsp;' + scope.row.lastName }}</span>
+            </div>
+          </template>
+        </el-table-column> -->
+        <el-table-column :label="$t('kyc.table.fullName')" prop="fullName"> </el-table-column>
+        <el-table-column :label="$t('kyc.table.email')" prop="email"> </el-table-column>
+        <!-- <el-table-column :label="$t('kyc.table.national')" prop="nationality" width="140"> </el-table-column> -->
+        <el-table-column :label="$t('balance.available')" align="right">
+          <template slot-scope="scope">
+            <div>
+              <!-- <span>+{{ scope.row.  | convertAmountDecimal(scope.row.tokenCurrency) }} {{ scope.row.tokenCurrency }}</span> -->
+              <span>{{ scope.row.availableBalance }}</span>
+              <span class="d-block amount-exchange-small">{{ scope.row.availableBalanceUSD }}</span>
             </div>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('kyc.table.email')" prop="email" width="300"> </el-table-column>
-        <el-table-column :label="$t('kyc.table.national')" prop="nationality" width="140"> </el-table-column>
 
-        <el-table-column :label="$t('kyc.table.date')" prop="createdAt" width="200">
+        <el-table-column :label="$t('balance.lockedAmount')" align="right">
           <template slot-scope="scope">
-            <span>{{ scope.row.createdAt | formatDateHourMs }}</span>
+            <div>
+              <!-- <span>+{{ scope.row.  | convertAmountDecimal(scope.row.tokenCurrency) }} {{ scope.row.tokenCurrency }}</span> -->
+              <span>{{ scope.row.availableBalance }}</span>
+              <span class="d-block amount-exchange-small">{{ scope.row.availableBalanceUSD }}</span>
+            </div>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('kyc.table.status')" prop="kycStatus" align="center" width="160">
+
+        <el-table-column :label="$t('balance.balance')" align="right">
           <template slot-scope="scope">
-            <span :class="checkType(scope.row.kycStatus)">{{ checkStatus(scope.row.kycStatus) }}</span>
+            <div>
+              <!-- <span>+{{ scope.row.  | convertAmountDecimal(scope.row.tokenCurrency) }} {{ scope.row.tokenCurrency }}</span> -->
+              <span>{{ scope.row.availableBalance }}</span>
+              <span class="d-block amount-exchange-small">{{ scope.row.availableBalanceUSD }}</span>
+            </div>
           </template>
         </el-table-column>
       </base-table>
@@ -45,13 +64,16 @@
     @Prop({ required: true, type: Array, default: [] }) data!: Array<Record<string, any>>
 
     get getPaginationInfo(): any {
-      return this.$t('paging.customers')
+      return this.$t('paging.investor')
     }
 
     checkType(type: string): string {
       return type === 'Not verified' ? 'status-not-verified' : type === 'PENDING' ? 'status-pending' : type === 'VERIFIED' ? 'status-verified' : 'status-rejected'
     }
-
+    
+    getDataSelectTab(): void{
+      console.log('1')
+    }
     checkStatus(status: string): any {
       switch (status) {
         case 'PENDING':

@@ -30,6 +30,13 @@
         <p>{{ $t('leftMenu.customer') }}</p>
       </div>
     </router-link>
+    <router-link :to="{ name: 'BalanceLynk' }" class="router_center">
+      <div class="sack_avatar">
+        <base-icon icon="menu-customer-active" class="menu-active" size="32" />
+        <base-icon icon="menu-customer" class="menu" size="32" />
+        <p>{{ $t('leftMenu.balance') }}</p>
+      </div>
+    </router-link>
     <!-- <router-link :to="{ name: 'Wallet' }" class="router_center" exact>
       <div class="sack_avatar">
         <base-icon icon="menu-contract" size="32" />

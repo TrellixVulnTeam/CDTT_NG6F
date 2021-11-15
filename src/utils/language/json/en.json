@@ -99,7 +99,8 @@
     "contract": "Contract",
     "report": "Report",
     "setting": "Setting",
-    "crowdsale": "Crowdsale"
+    "crowdsale": "Crowdsale",
+    "balance": "Balance"
   },
   "header": {
     "kyc": "KYC",
@@ -377,7 +378,13 @@
     "statistics": "Statistics",
     "setting": "Settings",
     "Transactions": "Transactions",
-    "Round": "Round"
+    "Round": "Round",
+    "lynk": "LYNK",
+    "btc": "BTC",
+    "eth":"ETH",
+    "bnb":"BNB",
+    "usdt":"USDT",
+    "usdc":"USDC"
   },
   "status": {
     "pending": "Pending",
@@ -434,5 +441,10 @@
       "planceOderTransactionDateStart": "From",
       "planceOderTransactionDateEnd": "To"
     }
+  },
+  "balance":{
+    "available": "Available",
+    "lockedAmount": "Locked Amount",
+    "balance":"Balance"
   }
 }

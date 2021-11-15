@@ -94,7 +94,7 @@
           width: 150px;
           height: 32px;
           font-weight: 600;
-          color: #0A0B0D;
+          color: #0a0b0d;
           line-height: 32px;
         }
       }

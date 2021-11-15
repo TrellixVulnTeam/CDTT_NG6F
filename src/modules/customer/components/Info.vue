@@ -81,11 +81,10 @@
           color: #5b616e;
           flex-shrink: 0;
         }
-        .text-base{
+        .text-base {
           margin-left: 24px;
           word-break: break-word;
         }
-
       }
       .item:last-child {
         margin-bottom: 24px;

@@ -18,32 +18,43 @@
                   <el-option v-for="(country, index) in listCountry" :key="index" :label="country.name" :value="country.name" />
                 </el-select>
               </el-form-item>
-              <el-form-item class="be-flex-item" :label="$t('label.kyc-status')">
-                <el-select v-model="filter.type" id-type :placeholder="$t('label.placehoder-kyc-status')" class="w-100" clearable :disabled="isChangeTab">
-                  <el-option v-for="(type, index) in identificationType" :key="index" :label="type.type" :value="type.value" />
-                </el-select>
+              <el-form-item class="be-flex-item" :label="$t('label.from-date')">
+                <el-date-picker class="w-100" format="dd/MM/yyyy" value-format="yyyy-MM-dd" v-model="filter.fromCreatedAt" type="date"> </el-date-picker>
               </el-form-item>
             </div>
             <div class="be-flex jc-space-between row">
-              <el-form-item class="be-flex-item mr-40" :label="$t('label.create-date')">
-                <el-date-picker class="w-100" format="yyyy/MM/dd" value-format="yyyy-MM-dd" :placeholder="$t('label.from-date')" v-model="filter.fromCreatedAt" type="date">
-                </el-date-picker>
+              <el-form-item class="be-flex-item mr-40" :label="$t('label.id-type')">
+                <el-select v-model="filter.identificationType" id-type :placeholder="$t('label.placehoderidType')" class="w-100" clearable>
+                  <el-option v-for="(type, index) in identificationType" :key="index" :label="type.type" :value="type.value" />
+                </el-select>
               </el-form-item>
-
-              <el-form-item class="be-flex-item hide-label" label="1">
-                <el-date-picker class="w-100" format="yyyy/MM/dd" :placeholder="$t('label.to-date')" value-format="yyyy-MM-dd" v-model="filter.toCreatedAt" type="date">
-                </el-date-picker>
+              <el-form-item class="be-flex-item" :label="$t('label.to-date')">
+                <el-date-picker class="w-100" format="dd/MM/yyyy" value-format="yyyy-MM-dd" v-model="filter.toCreatedAt" type="date"> </el-date-picker>
+              </el-form-item>
+            </div>
+            <div class="be-flex jc-space-between row">
+              <el-form-item class="be-flex-item" :label="$t('label.approve-by')">
+                <el-select
+                  v-model="filter.approvedBy"
+                  filterable
+                  remote
+                  clearable
+                  reserve-keyword
+                  :placeholder="$t('label.placehoderApprove')"
+                  :remote-method="handleSearchApprove"
+                  :loading="loading"
+                >
+                  <div v-infinite-scroll="loadMoreApprove" infinite-scroll-delay="500">
+                    <el-option v-for="item in listApprove" :key="item.id" :label="item.fullName" :value="item.userId"> </el-option>
+                  </div>
+                </el-select>
               </el-form-item>
             </div>
           </el-form>
         </div>
         <div class="be-flex jc-flex-end footer">
-          <el-button class="btn-default btn-400 btn-h-40 btn-close text-regular" @click="handleReset">
-            {{ $t('button.reset') }}
-          </el-button>
-          <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border h-40 text-regular" @click="handleApply">
-            {{ $t('button.apply') }}
-          </el-button>
+          <el-button class="btn-default btn-400 btn-h-40 btn-close text-regular" @click="handleReset">{{ $t('button.reset') }}</el-button>
+          <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border h-40 text-regular" @click="handleApply">{{ $t('button.apply') }}</el-button>
         </div>
         <div slot="reference" class="cursor text-filter" style="font-size: 16px">
           <span class="abicon"> <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="18" /> </span>
@@ -81,31 +92,29 @@
   import { forEach, trim, debounce } from 'lodash'
   import getRepository from '@/services'
   import { KycRepository } from '@/services/repositories/kyc'
-
   const apiKyc: KycRepository = getRepository('kyc')
 
   import countryJson from '@/utils/country/index.json'
-
   interface IListCountry {
     name: string
     dialCode: string
     isoCode: string
     flag: string
   }
-
   @Component
   export default class KycFilter extends Vue {
-    @Prop({ required: true }) isChangeTab!: boolean
+    @Prop({ required: true, type: Array, default: [] }) listApproveBy!: Array<Record<string, any>>
     filter = {
       search: '',
-      orderBy: 1,
+      orderBy: '1',
       fromCreatedAt: '',
       toCreatedAt: '',
       nationality: '',
-      type: '',
+      identificationType: '',
       approvedBy: ''
     }
     loading = false
+    listApprove: Array<Record<string, any>> = []
     queryApprove = {
       page: 1,
       limit: 20,
@@ -114,57 +123,35 @@
 
     sorts: Array<Record<string, any>> = [
       {
-        command: 1,
+        command: '1',
         label: this.$i18n.t('kyc.sort.date'),
         divided: false,
         i18n: 'kyc.sort.date'
       },
       {
-        command: 2,
+        command: '2',
         label: this.$i18n.t('kyc.sort.country'),
         divided: false,
         i18n: 'kyc.sort.country'
       }
-      // {
-      //   command: 3,
-      //   label: this.$i18n.t('kyc.sort.full-name'),
-      //   divided: false,
-      //   i18n: 'kyc.sort.full-name'
-      // },
-      // {
-      //   command: 4,
-      //   label: this.$i18n.t('kyc.sort.transaction'),
-      //   divided: false,
-      //   i18n: 'kyc.sort.transaction'
-      // }
     ]
-    sortActive = 1
+    sortActive = '1'
     listCountry: IListCountry[] = countryJson
     identificationType: Array<Record<string, any>> = [
       {
         id: 0,
-        type: 'All status',
-        value: ''
+        type: 'Id Card',
+        value: 'ID_CARD'
       },
       {
         id: 1,
-        type: 'KYC processing',
-        value: 'KYC'
+        type: 'Passport',
+        value: 'PASSPORT'
       },
       {
         id: 2,
-        type: 'Not verified',
-        value: 'NOT_VERIFIED'
-      },
-      {
-        id: 3,
-        type: 'Verified',
-        value: 'VERIFIED'
-      },
-      {
-        id: 4,
-        type: 'Locked',
-        value: 'LOCKED'
+        type: 'Driver’s License',
+        value: 'DRIVER_LICENSE'
       }
     ]
     isVisible = false
@@ -174,7 +161,7 @@
     }
 
     searchText = debounce((value: string) => {
-      this.$emit('filter', {
+      this.$emit('filterBalance', {
         ...this.filter,
         search: trim(value)
       })
@@ -182,90 +169,77 @@
 
     created(): void {
       EventBus.$on('changeLang', () => {
+        console.log('a', window.localStorage.getItem('bc-lang'))
         forEach(this.sorts, elm => {
           elm.label = this.$i18n.t(elm.i18n)
         })
         this.$forceUpdate()
       })
-      EventBus.$on('changeTabCustomer', this.handleChangeTab)
-      this.$emit('filter', this.filter)
+      EventBus.$on('selectTabBalance', this.handleChangeTab)
+      this.$emit('filterBalance', this.filter)
     }
-
     destroyed(): void {
       EventBus.$off('changeLang')
       EventBus.$off('changeTab')
     }
 
     handleShowPopper(): void {
-      switch (this.$route.name) {
-        case 'CustomerVerified':
-          this.filter.type = 'Verified'
-          break
-        case 'CustomerLocked':
-          this.filter.type = 'Locked'
-          break
-        case 'CustomerNotVerified':
-          this.filter.type = 'Not verified'
-          break
-        case 'CustomerProcessing':
-          this.filter.type = 'KYC processing'
-          break
-      }
       this.isVisible = true
+      this.listApprove = [...this.listApproveBy]
+    }
+
+    handleSearchApprove(query: string): void {
+      if (query !== '') {
+        this.loading = true
+        this.queryApprove.page = 1
+        this.queryApprove.search = trim(query)
+        apiKyc.getListApprove(this.queryApprove).then(res => {
+          this.listApprove = res.content || []
+          this.loading = false
+        })
+      } else {
+        this.listApprove = this.listApproveBy
+      }
+    }
+
+    loadMoreApprove(): void {
+      this.queryApprove.page += 1
+      apiKyc.getListApprove(this.queryApprove).then(res => {
+        this.listApprove = [...this.listApprove, ...res.content]
+      })
     }
 
     resetFilter(): void {
       this.filter = {
         search: '',
-        orderBy: 1,
+        orderBy: 'CREATED_AT',
         fromCreatedAt: '',
         toCreatedAt: '',
         nationality: '',
-        type: '',
+        identificationType: '',
         approvedBy: ''
       }
     }
 
     handleChangeTab(): void {
-      this.sortActive = 1
-      this.queryApprove = {
-        page: 1,
-        limit: 20,
-        search: ''
+      this.filter.search = ''
+      const params = {
+        search: this.filter.search
       }
-
-      if (this.filter.search) {
-        this.resetFilter()
-      } else {
-        this.$emit('filter', {
-          ...this.filter,
-          orderBy: 1,
-          fromCreatedAt: '',
-          toCreatedAt: '',
-          nationality: '',
-          type: '',
-          approvedBy: ''
-        })
-        this.filter = {
-          ...this.filter,
-          orderBy: 1,
-          fromCreatedAt: '',
-          toCreatedAt: '',
-          nationality: '',
-          type: '',
-          approvedBy: ''
-        }
-      }
+      // this.$emit('filterBalance', params);
     }
 
-    handleSort(command: number): void {
+    handleSort(command: string): void {
       this.sortActive = command
       this.filter.orderBy = command
-      this.$emit('filter', this.filter)
+      this.$emit('filterBalance', this.filter)
+      console.log('1')
     }
 
     handleApply(): void {
-      this.$emit('filter', this.filter)
+      console.log('toCreatedAt', this.filter.toCreatedAt)
+      console.log('fromCreatedAt', this.filter.fromCreatedAt)
+      this.$emit('filterBalance', this.filter)
       this.isVisible = false
     }
 
@@ -275,10 +249,10 @@
         fromCreatedAt: '',
         toCreatedAt: '',
         nationality: '',
-        type: '',
+        identificationType: '',
         approvedBy: ''
       }
-      this.$emit('filter', this.filter)
+      this.$emit('filterBalance', this.filter)
       this.isVisible = false
     }
   }
@@ -287,45 +261,37 @@
 <style scoped lang="scss">
   .kyc-filter {
     background-color: #fff;
-
     .input-search {
       width: 400px;
       margin-right: 30px;
     }
-
     .sort {
       margin-left: 30px;
       cursor: pointer;
       color: #0a0b0d;
     }
-
     ::v-deep .filter-item {
       &:hover {
         .text-filter {
           color: #0151fc;
-
           .span-icon {
             color: #0151fc !important;
           }
         }
       }
     }
-
     ::v-deep .sort {
       &:hover {
         .el-dropdown-selfdefine {
           color: #0151fc;
-
           .span-icon {
             color: #0151fc !important;
           }
         }
       }
-
       .sort-title {
         &:focus {
           color: #0151fc;
-
           .span-icon {
             color: #0151fc !important;
           }
