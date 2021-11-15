@@ -147,7 +147,7 @@
 
 <style scoped lang="scss">
   .status {
-    padding: 4px 7px;
+    // padding: 4px 7px;
     border-radius: 4px;
   }
 </style>
