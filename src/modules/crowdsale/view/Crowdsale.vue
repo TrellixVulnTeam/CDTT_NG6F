@@ -136,8 +136,10 @@
         if (!roundActive.length) {
           _this.roundCurrent = null
           _this.isEndOn = false
+          _this.isFinish = false
           _this.handleGetRoundNext()
         } else {
+          _this.isFinish = false
           _this.roundCurrent = roundActive[0]
           _this.isEndOn = true
           _this.progressbar = (_this.roundCurrent.percentageSold * 1000) / 10
@@ -176,14 +178,12 @@
         }
         // Nếu today < time roundFirst
         if (toDay < fromTimeRoundFirst) {
-          this.isFinish = false
           this.roundCurrent = this.listRound[0]
           this.progressbar = (this.roundCurrent.percentageSold * 1000) / 10
           this.handleGetData('from')
         }
         // Nếu fromTimeRoundFirst < today < toTimeRoundLast
         if (toDay > fromTimeRoundFirst && toDay < toTimeRoundLast) {
-          this.isFinish = false
           forEach(this.listRound, round => {
             const fromTime = new Date(round.fromDate.time).getTime()
             if (toDay < fromTime) {
