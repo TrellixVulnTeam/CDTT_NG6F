@@ -11,21 +11,21 @@
     </router-link>
     <router-link :to="{ name: 'Crowdsale' }" class="router_center">
       <div class="sack_avatar">
-        <base-icon icon="menu-crowdsale-active" class="menu-active" size="32" />
+        <base-icon :icon="coinMain === 'LYNK' ? 'menu-crowdsale-active' : 'menu-crowdsale-clm'" class="menu-active" size="32" />
         <base-icon icon="menu-crowdsale" class="menu" size="32" />
         <p>{{ $t('leftMenu.crowdsale') }}</p>
       </div>
     </router-link>
     <router-link :to="{ name: 'Kyc' }" class="router_center">
       <div class="sack_avatar">
-        <base-icon icon="menu-kyc-active" class="menu-active" size="32" />
+        <base-icon :icon="coinMain === 'LYNK' ? 'menu-kyc-active' : 'menu-kyc-clm'" class="menu-active" size="32" />
         <base-icon icon="menu-kyc" class="menu" size="32" />
         <p>{{ $t('leftMenu.kyc') }}</p>
       </div>
     </router-link>
     <router-link :to="{ name: 'CustomerMain' }" class="router_center">
       <div class="sack_avatar">
-        <base-icon icon="menu-customer-active" class="menu-active" size="32" />
+        <base-icon :icon="coinMain === 'LYNK' ? 'menu-customer-active' : 'menu-customer-clm'" class="menu-active" size="32" />
         <base-icon icon="menu-customer" class="menu" size="32" />
         <p>{{ $t('leftMenu.customer') }}</p>
       </div>
@@ -202,9 +202,10 @@
     background: #e9e9e9;
     width: 80px;
     .sack_avatar {
-      color: #0078d4;
+      color: var(--bc-theme-primary);
       p {
-        color: #0078d4 !important;
+        color: var(--bc-theme-primary) !important;
+        font-weight: 600 !important;
       }
       .menu {
         display: none;
