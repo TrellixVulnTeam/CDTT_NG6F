@@ -278,7 +278,6 @@
             margin-right: 10px;
           }
           .box-status {
-            background: var(--bg-box-status-default);
             text-align: center;
             width: 57px;
             height: 18px;
@@ -287,6 +286,7 @@
             font-weight: 600;
             line-height: 18px;
             color: var(--cl-box-status-default);
+            background: var(--bg-box-status-default);
           }
           .finish {
             color: var(--cl-box-status-finish);
