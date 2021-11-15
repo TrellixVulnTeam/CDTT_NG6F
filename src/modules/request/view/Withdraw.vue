@@ -1,8 +1,8 @@
 <template>
-  <div class="bo-crowdsale-transaction">
+  <div class="bo-request-withdraw">
     <div class="box-filter be-flex align-center">
       <div class="box-search">
-        <el-input class="input-search" :placeholder="$t('placeholder.search')" v-model="querry.search" clearable>
+        <el-input class="input-search" :placeholder="$t('placeholder.search')" v-model="querry.keywordString" clearable>
           <div slot="prefix" class="prefix-search">
             <base-icon icon="icon-search" size="16" />
           </div>
@@ -35,10 +35,16 @@
         @sizeChange="handleSizeChange"
         @currentChange="handleCurrentChange"
         v-loading="loadingTable"
-        class="base-table table-crowdsale"
+        class="base-table table-request"
       >
-        <el-table-column label="#" type="index" align="center" width="50" />
-        <el-table-column label="Email" prop="email" align="left">
+        <el-table-column label="#" type="index" align="center" width="40" />
+        <el-table-column :label="this.$t('request.table.label1')" prop="transactionHash" align="left" />
+        <el-table-column :label="this.$t('request.table.label2')" prop="transactionMillisecond" align="left" width="220">
+          <template slot-scope="scope">
+            <span>{{ scope.row.transactionMillisecond | formatDateHourMs }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="this.$t('request.table.label3')" prop="transactionDate" align="left" width="260">
           <template slot-scope="scope">
             <div class="box-email-tabel">
               <p class="fs-16 fw-400">{{ scope.row.fullName }}</p>
@@ -46,17 +52,12 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column :label="this.$t('crowdsale.date')" prop="transactionDate" align="left" width="200">
+        <el-table-column :label="this.$t('request.table.label4')" prop="status" align="center" width="144">
           <template slot-scope="scope">
-            <span>{{ scope.row.transactionDate | formatDateHourMs }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="this.$t('crowdsale.status')" prop="status" align="center" width="120">
-          <template slot-scope="scope">
-            <div v-if="scope.row.status === 'LOCKED'" class="box-status-tabel locked">
+            <div v-if="scope.row.status === 'REJECTED'" class="box-status-tabel locked">
               <span class="fs-12 fw-500">{{ scope.row.status }}</span>
             </div>
-            <div v-else-if="scope.row.status === 'FAILED'" class="box-status-tabel failed">
+            <div v-else-if="scope.row.status === 'PENDING'" class="box-status-tabel failed">
               <span class="fs-12 fw-500">{{ scope.row.status }}</span>
             </div>
             <div v-else class="box-status-tabel">
@@ -64,44 +65,32 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column :label="this.$t('crowdsale.price')" prop="price" align="right" width="164">
-          <template slot-scope="scope">
-            <span>{{ scope.row.roundName }}</span> - $<span>{{ scope.row.price | convertAmountDecimal('USD') }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="this.$t('crowdsale.paid')" prop="paid" align="right" width="170">
+        <el-table-column :label="this.$t('request.table.label5')" align="right" width="200">
           <template slot-scope="scope">
             <div class="box-paid">
-              <p class="text-paid fw-400 fs-16">- {{ scope.row.paidAmountDisplay | convertAmountDecimal(scope.row.paidCurrency) }} {{ scope.row.paidCurrency }}</p>
-              <p class="avi fw-400 fs-14">~ {{ scope.row.paidAmountToUsd | convertAmountDecimal(scope.row.paidCurrency) }}</p>
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column :label="this.$t('crowdsale.amount')" prop="tokenAmount" align="right" width="160">
-          <template slot-scope="scope">
-            <div class="box-paid">
-              <p class="text-amount fw-400 fs-16">+ {{ scope.row.tokenAmountDisplay | convertAmountDecimal(scope.row.tokenCurrency) }} {{ scope.row.tokenCurrency }}</p>
-              <p class="avi fw-400 fs-14">~ {{ scope.row.tokenAmountToUsd | convertAmountDecimal(scope.row.tokenCurrency) }}</p>
+              <p class="text-paid fw-400 fs-16">{{ scope.row.amountDisplay }}</p>
+              <p class="avi fw-400 fs-14">~ ${{ scope.row.amountToUsd | convertAmountDecimal('USD') }}</p>
             </div>
           </template>
         </el-table-column>
       </base-table>
     </div>
-    <popup-filter-crowdsale @apply="getFilter" />
+    <popup-filter-request />
   </div>
 </template>
 <script lang="ts">
   import { Mixins, Component, Watch } from 'vue-property-decorator'
   import PopupMixin from '@/mixins/popup'
-  import PopupFilterCrowdsale from '../components/popup/PopupFilterCrowdsale.vue'
+  import PopupFilterRequest from '../components/popup/PopupFilterRequest.vue'
+  // import firebase from '@/utils/firebase'
   import getRepository from '@/services'
-  import { CrowdsaleRepository } from '@/services/repositories/crowdsale'
+  import { RequestRepository } from '@/services/repositories/request'
 
-  const api: CrowdsaleRepository = getRepository('crowdsale')
-  @Component({ components: { PopupFilterCrowdsale } })
-  export default class BOCrowdsaleTransaction extends Mixins(PopupMixin) {
+  const api: RequestRepository = getRepository('request')
+  @Component({ components: { PopupFilterRequest } })
+  export default class BORequestWithdraw extends Mixins(PopupMixin) {
     querry: any = {
-      search: '',
+      keywordString: '',
       limit: 10,
       page: 1,
       orderBy: 1
@@ -111,31 +100,7 @@
       limit: 10,
       total: 10
     }
-    dataProp: any = {}
-    loadingTable = true
-    orderBy = 'TRANSACTION_DATE'
     dataTable: any = []
-    get getPaginationInfo(): any {
-      return this.$t('paging.crowdsale')
-    }
-    handleSizeChange(value: number): void {
-      this.querry.limit = value
-      this.query.limit = value
-      this.loadingTable = true
-      this.getDataTable()
-    }
-    handleCurrentChange(value: number): void {
-      this.querry.page = value
-      this.query.page = value
-      this.loadingTable = true
-      this.getDataTable()
-    }
-    handleOpenPopupFilter(): void {
-      this.setOpenPopup({
-        popupName: 'popup-filter-crowdsale',
-        isOpen: true
-      })
-    }
     sorts: Array<Record<string, any>> = [
       {
         command: 'TRANSACTION_DATE',
@@ -150,6 +115,45 @@
         i18n: 'crowdsale.transactionAmount'
       }
     ]
+    get getPaginationInfo(): any {
+      return this.$t('paging.request')
+    }
+    handleSizeChange(value: number): void {
+      this.querry.page = 1
+      this.query.page = 1
+      this.querry.limit = value
+      this.query.limit = value
+      this.getDataTable()
+    }
+    handleCurrentChange(value: number): void {
+      this.querry.page = value
+      this.query.page = value
+      this.getDataTable()
+    }
+    getDataTable(): void {
+      api.getDataTable(this.querry).then((res: any) => {
+        // this.loadingTable = false
+        this.dataTable = res.content
+        this.query.total = res.totalElements
+      })
+    }
+    async init(): Promise<void> {
+      await this.getDataTable()
+    }
+    created(): void {
+      this.init()
+    }
+    @Watch('querry.keywordString')
+    handleSearch(search: any): void {
+      this.getDataTable()
+    }
+    handleOpenPopupFilter(): void {
+      this.setOpenPopup({
+        popupName: 'popup-filter-request',
+        isOpen: true
+      })
+      console.log('vao day')
+    }
     sortActive = 'TRANSACTION_DATE'
     handleSort(command: string): void {
       this.sortActive = command
@@ -158,62 +162,11 @@
       } else {
         this.querry.orderBy = 2
       }
-      this.loadingTable = true
-      this.getDataTable()
-      this.orderBy = command
-    }
-    getFilter(form: any): void {
-      this.dataProp = form
-      this.getDataTable()
-    }
-    getDataTable(): void {
-      let params: any = { ...this.querry }
-      if (this.dataProp.roundId) {
-        params.roundId = this.dataProp.roundId
-      }
-      if (this.dataProp.countryName) {
-        params.countryName = this.dataProp.countryName
-      }
-      if (this.dataProp.currency) {
-        params.currency = this.dataProp.currency
-        console.log('form: ', this.dataProp.currency)
-      }
-      if (this.dataProp.fromDate) {
-        params.fromDate = this.dataProp.fromDate
-      }
-      if (this.dataProp.toDate) {
-        params.toDate = this.dataProp.toDate
-      }
-      if (this.dataProp.fromAmount) {
-        params.fromAmount = this.dataProp.fromAmount
-      }
-      if (this.dataProp.toAmount) {
-        params.toAmount = this.dataProp.toAmount
-      }
-
-      api.getDataTable(params).then((res: any) => {
-        console.log('res: ', res.content)
-        this.loadingTable = false
-        this.dataTable = res.content
-        this.query.total = res.totalElements
-      })
-    }
-    @Watch('querry.search')
-    handleSearch(search: any): void {
-      this.loadingTable = true
-      this.getDataTable()
-    }
-    async init(): Promise<void> {
-      this.loadingTable = true
-      await this.getDataTable()
-    }
-    created(): void {
-      this.init()
     }
   }
 </script>
 <style scoped lang="scss">
-  .bo-crowdsale-transaction {
+  .bo-request-withdraw {
     .box-filter {
       margin-bottom: 24px;
     }
@@ -245,7 +198,7 @@
       min-width: 250px !important;
     }
     .table {
-      .table-crowdsale {
+      .table-request {
         .box-status-tabel {
           width: 80px;
           height: 24px;

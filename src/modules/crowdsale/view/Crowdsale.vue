@@ -61,6 +61,7 @@
       </div>
     </div>
 
+    <!-- box-tab-active -->
     <div class="table bg-white box-shadow">
       <div class="wallet-header">
         <div class="be-flex align-center jc-space-between wallet-header__above">
@@ -365,6 +366,7 @@
       }
     }
 
+    // tab active
     .table {
       margin-top: 24px;
       width: 91vw;

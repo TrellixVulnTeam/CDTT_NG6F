@@ -160,7 +160,8 @@
     "customers": "customers",
     "transaction": "transactions",
     "crowdsale": "transactions",
-    "investor": "investors"
+    "investor": "investors",
+    "request": "request"
   },
   "label": {
     "buy-from": "Buy from",
@@ -389,6 +390,7 @@
   "crowdsale": {
     "round": "Round",
     "progress": "Progress",
+    "progress2": "Progress",
     "from": "From",
     "now": "until now",
     "completed": "COMPLETED",
@@ -433,6 +435,17 @@
       "planceOderCountry": "Select country",
       "planceOderTransactionDateStart": "From",
       "planceOderTransactionDateEnd": "To"
+    }
+  },
+  "request": {
+    "withdraw": "Withdraw",
+    "transfer": "Transfer",
+    "table": {
+      "label1": "TRANSACTION ID",
+      "label2": "REQUEST DATE",
+      "label3": "CUSTOMER",
+      "label4": "STATUS",
+      "label5": "AMOUNT"
     }
   }
 }

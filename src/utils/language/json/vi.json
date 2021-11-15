@@ -119,7 +119,8 @@
     "customers": "khách hàng",
     "transaction": "giao dịch",
     "crowdsale": "giao dịch",
-    "investor": "nhà đầu tư"
+    "investor": "nhà đầu tư",
+    "request": "yêu cầu"
   },
   "label": {
     "buy-from": "Chọn ví",
@@ -391,6 +392,17 @@
       "planceOderCountry": "Chọn quốc gia",
       "planceOderTransactionDateStart": "Từ",
       "planceOderTransactionDateEnd": "Đến"
+    }
+  },
+  "request": {
+    "withdraw": "Rút",
+    "transfer": "Chuyển giao",
+    "table": {
+      "label1": "ID GIAO DỊCH",
+      "label2": "NGÀY YÊU CẦU",
+      "label3": "KHÁCH HÀNG",
+      "label4": "TRẠNG THÁI",
+      "label5": "SỐ LƯỢNG"
     }
   }
 }
