@@ -242,7 +242,7 @@
     async getListAssetNetwork(): Promise<void> {
       await api.getListAssetNetwork().then((res: any) => {
         if (res) {
-          this.optionByToken = filter(res, item => item.currency !== 'LYNK')
+          this.optionByToken = filter(res, item => item.currency !== 'LYNK' && item.currency !== 'CLM')
         }
       })
     }
