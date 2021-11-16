@@ -132,7 +132,7 @@
         </el-table-column>
       </base-table>
     </div>
-    <popup-withdraw-request />
+    <popup-withdraw-request :data="dataProp" />
   </div>
 </template>
 <script lang="ts">
@@ -157,6 +157,7 @@
       toAmount: '',
       status: ''
     }
+    dataProp: any = {}
     query: any = {
       page: 1,
       limit: 10,
@@ -315,7 +316,8 @@
         }
       }
     }
-    handleRowClick(): void {
+    handleRowClick(row: Record<string, any>): void {
+      this.dataProp = row.row
       this.setOpenPopup({
         popupName: 'popup-withdraw-request',
         isOpen: true

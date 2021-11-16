@@ -63,8 +63,8 @@
               </div>
             </div>
             <div class="box-table">
-              <transaction-detail v-if="tabActive == 1" />
-              <account-statement v-if="tabActive == 2" />
+              <transaction-detail :data="data" v-if="tabActive == 1" />
+              <account-statement :data="data" v-if="tabActive == 2" />
             </div>
           </div>
         </div>
@@ -82,12 +82,13 @@
 
 <script lang="ts">
   import PopupMixin from '@/mixins/popup'
-  import { Component, Mixins } from 'vue-property-decorator'
+  import { Component, Mixins, Prop } from 'vue-property-decorator'
   import TransactionDetail from './TransactionDetail.vue'
   import AccountStatement from './AccountStatement.vue'
 
   @Component({ components: { TransactionDetail, AccountStatement } })
   export default class PopupWithdrawRequest extends Mixins(PopupMixin) {
+    @Prop() data!: any
     tabs: Array<Record<string, any>> = [
       {
         id: 1,
