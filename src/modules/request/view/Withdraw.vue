@@ -98,6 +98,7 @@
         @sizeChange="handleSizeChange"
         @currentChange="handleCurrentChange"
         v-loading="loadingTable"
+        @rowClick="handleRowClick"
         class="base-table table-request"
       >
         <el-table-column label="#" type="index" align="center" width="40" />
@@ -131,17 +132,19 @@
         </el-table-column>
       </base-table>
     </div>
+    <popup-withdraw-request />
   </div>
 </template>
 <script lang="ts">
   import { Mixins, Component, Watch } from 'vue-property-decorator'
   import PopupMixin from '@/mixins/popup'
+  import PopupWithdrawRequest from '../components/popup/PopupWithdrawRequest.vue'
   // import firebase from '@/utils/firebase'
   import getRepository from '@/services'
   import { RequestRepository } from '@/services/repositories/request'
 
   const api: RequestRepository = getRepository('request')
-  @Component({ components: {} })
+  @Component({ components: { PopupWithdrawRequest } })
   export default class BORequestWithdraw extends Mixins(PopupMixin) {
     querry: any = {
       keywordString: '',
@@ -203,6 +206,7 @@
         label: this.$i18n.t('request.filter.rejected')
       }
     ]
+    loadingTable = true
     get getPaginationInfo(): any {
       return this.$t('paging.request')
     }
@@ -220,7 +224,7 @@
     }
     getDataTable(): void {
       api.getDataTable(this.querry).then((res: any) => {
-        // this.loadingTable = false
+        this.loadingTable = false
         this.dataTable = res.content
         this.query.total = res.totalElements
       })
@@ -310,6 +314,12 @@
           _event.target.value = 0
         }
       }
+    }
+    handleRowClick(): void {
+      this.setOpenPopup({
+        popupName: 'popup-withdraw-request',
+        isOpen: true
+      })
     }
   }
 </script>

@@ -441,6 +441,8 @@
   "request": {
     "withdraw": "Withdraw",
     "transfer": "Transfer",
+    "TransactionDetail": "Transaction detail",
+    "AccountStatement": "Account statement",
     "table": {
       "label1": "FULL NAME",
       "label2": "REQUEST DATE",
@@ -463,6 +465,35 @@
       "planceOder3": "To",
       "pending": "Pending",
       "rejected": "Rejected"
+    },
+    "popup": {
+      "titlePopup": "WITHDRAW REQUEST",
+      "bigTitle1": "Warning",
+      "label1": "Current Balance and Ending Balance are not matched.",
+      "label2": "Unusual activity alert.",
+      "label3": "Customer’s Email",
+      "label4": "Recipient Address",
+      "label5": "Transaction Date",
+      "bigTitle2": "Transaction detail",
+      "bigTitle3": "Account statement",
+      "btn1": "Close",
+      "btn2": "Reject",
+      "btn3": "Approve",
+      "transaction": {
+        "bigTitle1": "Transaction Detail",
+        "bigTitle2": "Customer Info",
+        "label1": "Request date",
+        "label2": "From",
+        "label3": "To",
+        "label4": "Fees",
+        "label5": "Status",
+        "label6": "Full name",
+        "label7": "Phone number",
+        "label8": "Email",
+        "label9": "Nationality",
+        "label10": "Level",
+        "label11": "Created date"
+      }
     }
   }
 }

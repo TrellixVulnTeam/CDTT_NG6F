@@ -1,5 +1,5 @@
 <template>
-  <div></div>
+  <div>AccountStatement</div>
 </template>
 
 <script lang="ts">
