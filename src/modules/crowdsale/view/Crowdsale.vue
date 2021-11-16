@@ -27,7 +27,7 @@
               {{ $t('crowdsale.of') }} <span class="fw-600">{{ (roundCurrent && roundCurrent.totalAmount) / 1000000 }}M</span>
             </p>
           </div>
-          <el-progress v-if="getStatus === 1" type="circle" :percentage="progressbar" :stroke-width="12" color="#0151FC" :show-text="false"></el-progress>
+          <el-progress v-if="getStatus === 1" type="circle" :percentage="progressbar" :stroke-width="12" :color="getColor" :show-text="false"></el-progress>
           <el-progress v-if="getStatus !== 1 && isFinish" type="circle" :percentage="progressbar" :stroke-width="12" color="#129961" :show-text="false"></el-progress>
           <el-progress v-if="getStatus !== 1 && !isFinish" type="circle" :percentage="progressbar" :stroke-width="12" color="#5B616E" :show-text="false"></el-progress>
         </div>
@@ -61,6 +61,7 @@
       </div>
     </div>
 
+    <!-- box-tab-active -->
     <div class="table bg-white box-shadow">
       <div class="wallet-header">
         <div class="be-flex align-center jc-space-between wallet-header__above">
@@ -256,6 +257,10 @@
     handleChangeTab(tab: Record<string, any>): void {
       this.$router.push({ name: tab.routeName })
     }
+    getColor(): void {
+      let color: any = '#31b6b5'
+      return color
+    }
   }
 </script>
 <style scoped lang="scss">
@@ -278,7 +283,6 @@
             margin-right: 10px;
           }
           .box-status {
-            background: #f3f2f1;
             text-align: center;
             width: 57px;
             height: 18px;
@@ -286,15 +290,16 @@
             font-size: 10px;
             font-weight: 600;
             line-height: 18px;
-            color: #0151fc;
+            color: var(--cl-box-status-default);
+            background: var(--bg-box-status-default);
           }
           .finish {
-            color: #ffffff;
-            background: #129961;
+            color: var(--cl-box-status-finish);
+            background: var(--bg-box-status-finish);
           }
           .upcoming {
-            color: #5b616e;
-            background: #f3f2f1;
+            color: var(--cl-box-status-upcoming);
+            background: var(--bg-box-status-upcoming);
           }
         }
         .time-date {
@@ -316,13 +321,13 @@
             top: 14px;
             z-index: 999;
             .percentageSold {
-              color: #0151fc;
+              color: var(--cl-box-status-default);
             }
             .percentageSoldFinish {
-              color: #129961;
+              color: var(--cl-box-status-finish);
             }
             .percentageSoldUpcoming {
-              color: #5b616e;
+              color: var(--cl-box-status-upcoming);
             }
           }
         }
@@ -365,6 +370,7 @@
       }
     }
 
+    // tab active
     .table {
       margin-top: 24px;
       width: 91vw;

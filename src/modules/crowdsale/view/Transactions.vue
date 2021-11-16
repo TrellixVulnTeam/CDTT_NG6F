@@ -51,7 +51,7 @@
             <span>{{ scope.row.transactionDate | formatDateHourMs }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="this.$t('crowdsale.status')" prop="status" align="center" width="110">
+        <el-table-column :label="this.$t('crowdsale.status')" prop="status" align="center" width="120">
           <template slot-scope="scope">
             <div v-if="scope.row.status === 'LOCKED'" class="box-status-tabel locked">
               <span class="fs-12 fw-500">{{ scope.row.status }}</span>
