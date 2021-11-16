@@ -56,18 +56,32 @@
   import BasePageLoading from '../page-loading/BasePageLoading.vue'
   import EventBus from '@/utils/eventBus'
   import { namespace } from 'vuex-class'
+
+  const bcAuth = namespace('beAuth')
   const beBase = namespace('beBase')
+
   @Component({
     components: { MainSidebar, MainHeader, BasePageLoading }
   })
   export default class Layout extends Vue {
     @beBase.State('urlSystem') urlSystem!: Record<string, any>
+    @bcAuth.Action('getInfo') getInfo!: () => Promise<any>
 
     isLoading = false
     selectLanguage = ''
 
-    created(): void {
-      this.selectLanguage = window.localStorage.getItem('bc-lang')!
+    async created(): Promise<void> {
+      try {
+        this.isLoading = true
+        this.selectLanguage = window.localStorage.getItem('bc-lang')!
+        await this.getInfo()
+        setTimeout(() => {
+          this.isLoading = false
+        }, 500)
+      } catch (error) {
+        this.isLoading = false
+        console.log(error)
+      }
     }
     get getIcon(): string {
       return this.selectLanguage === 'vi' ? 'flag-vn' : 'flag-usa'

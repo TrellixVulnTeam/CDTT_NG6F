@@ -66,6 +66,7 @@
   --bc-cb-bg: #c4c4c4;
   --bc-cb-bg-checked: #2050f6;
   --bc-cb-border: #d2d0ce;
+  -bc-cb-border-hover: #409eff;
 
   //select
   --bc-select-border: #d2d0ce;
@@ -80,7 +81,7 @@
   --bc-btn-border: #d2d0ce;
   --bc-btn-text: #3b3a39;
   --bc-btn-default-text-hover: #0151fc;
-  --bc-btn-default-border-hover: #0151fc;
+  --bc-btn-default-border-hover: #0078d4;
   --bc-btn-bg-default-hover: #0a34c7;
   --bc-btn-bg-default: #0151fc;
   --bc-btn-bg-reject: #cf202f;
@@ -108,10 +109,13 @@
   //box status round crowdsale
   --cl-box-status-default: #0151fc;
   --bg-box-status-default: #f3f2f1;
-  
+
   --cl-box-status-finish: #ffffff;
   --bg-box-status-finish: #129961;
-  
+
   --cl-box-status-upcoming: #5b616e;
   --bg-box-status-upcoming: #f3f2f1;
+
+  //popup
+  --bc-icon-close-popup: #0078d4;
 }
