@@ -100,6 +100,7 @@
     "report": "Report",
     "setting": "Setting",
     "crowdsale": "Crowdsale",
+    "balance": "Balance",
     "request": "Request"
   },
   "header": {
@@ -200,7 +201,10 @@
     "trans-amount": "Transaction Amount",
     "status": "Status",
     "trans-type": "Transaction type",
-    "date": "Date"
+    "date": "Date",
+    "available-amount":"Available amount",
+    "locked-amount": "Locked amount",
+    "balance": "Balance"
   },
   "buy-lyn": {
     "title": "BUY LYN"
@@ -379,7 +383,13 @@
     "statistics": "Statistics",
     "setting": "Settings",
     "Transactions": "Transactions",
-    "Round": "Round"
+    "Round": "Round",
+    "lynk": "LYNK",
+    "btc": "BTC",
+    "eth":"ETH",
+    "bnb":"BNB",
+    "usdt":"USDT",
+    "usdc":"USDC"
   },
   "status": {
     "pending": "Pending",
@@ -437,6 +447,14 @@
       "planceOderTransactionDateStart": "From",
       "planceOderTransactionDateEnd": "To"
     }
+  },
+  "balance":{
+    "available": "Available",
+    "lockedAmount": "Locked Amount",
+    "balance":"Balance",
+    "lastChange":"Last changed",
+    "availableAmout": "Available amount",
+    "name": "Name"
   },
   "request": {
     "withdraw": "Withdraw",

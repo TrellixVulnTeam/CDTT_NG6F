@@ -46,8 +46,8 @@
   }
 </script>
 <style lang="scss" scoped>
-  .base-pagination{
-    .info{
+  .base-pagination {
+    .info {
       color: #5b616e;
     }
   }
