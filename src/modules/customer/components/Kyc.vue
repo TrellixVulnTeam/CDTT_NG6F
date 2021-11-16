@@ -35,7 +35,8 @@
           <el-carousel indicator-position="none" arrow="always" :autoplay="false">
             <el-carousel-item v-for="(item, index) in listImage" :key="index">
               <!-- <img :src="item" class="img-fluid" :alt="item" /> -->
-              <el-image style="height: 100%; border-radius: 4px; display: flex; justify-content: center" class="img-fluid" :src="item" :preview-src-list="listImage"></el-image>
+              <el-image style='height: 100%;border-radius:4px;display: flex;justify-content: center;object-fit: contain;' class='img-fluid'
+                        :src='item' :preview-src-list='listImage'></el-image>
             </el-carousel-item>
           </el-carousel>
         </div>
