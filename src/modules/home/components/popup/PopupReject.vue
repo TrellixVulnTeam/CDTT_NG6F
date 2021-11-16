@@ -74,7 +74,7 @@
     .btn-400 {
       font-weight: 400;
       &:hover {
-        border: 1px solid #0078d4;
+        border: 1px solid var(--bc-btn-default-border-hover);
       }
     }
     .checkbox {
@@ -99,7 +99,7 @@
       }
       ::v-deep .el-checkbox__input.is-checked {
         .el-checkbox__inner {
-          background-color: #0151fc;
+          background-color: var(--bc-cb-bg-checked);
         }
       }
     }

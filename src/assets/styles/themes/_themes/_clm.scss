@@ -68,8 +68,9 @@
 
   //checkbox
   --bc-cb-bg: #c4c4c4;
-  --bc-cb-bg-checked: #2050f6;
+  --bc-cb-bg-checked: #31b6b5;
   --bc-cb-border: #d2d0ce;
+  --bc-cb-border-hover: #45d8d8;
 
   //select
   --bc-select-border: #d2d0ce;
@@ -88,6 +89,8 @@
   --bc-btn-default-border-hover: #0a9d9c;
   --bc-btn-bg-default-hover: #0a9d9c;
   --bc-btn-bg-default: #31b6b5;
+  --bc-btn-bg-reject: #cf202f;
+  --bc-btn-bg-approve: #129961;
 
   //amount
   --bc-amount-btc: #f7931a;
@@ -115,10 +118,10 @@
   //box status round crowdsale
   --cl-box-status-default: #31b6b5;
   --bg-box-status-default: #f3f2f1;
-  
+
   --cl-box-status-finish: #ffffff;
   --bg-box-status-finish: #129961;
-  
+
   --cl-box-status-upcoming: #5b616e;
   --bg-box-status-upcoming: #f3f2f1;
 }
