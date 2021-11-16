@@ -199,7 +199,10 @@
     "trans-amount": "Transaction Amount",
     "status": "Status",
     "trans-type": "Transaction type",
-    "date": "Date"
+    "date": "Date",
+    "available-amount":"Available amount",
+    "locked-amount": "Locked amount",
+    "balance": "Balance"
   },
   "buy-lyn": {
     "title": "BUY LYN"
@@ -445,6 +448,10 @@
   "balance":{
     "available": "Available",
     "lockedAmount": "Locked Amount",
-    "balance":"Balance"
+    "balance":"Balance",
+    "lastChange":"Last changed",
+    "availableAmout": "Available amount",
+    "name": "Name"
+    
   }
 }

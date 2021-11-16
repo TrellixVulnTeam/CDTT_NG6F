@@ -9,6 +9,7 @@
         </div>
       </div>
     </div>
+
     <balance-filter @filterBalance="handleFilter" :listApproveBy="listApproveBy" />
     <balance-table v-loading="isLoading" @rowClick="handleRowClick" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="data" />
     <!-- <kyc-detail :detailRow="detailRow" @init="init" /> -->
@@ -95,7 +96,7 @@
       try {
         this.isLoading = true
         const params = {
-          // ...this.query,
+          ...this.query,
           search: this.query.search,
           orderBy: this.query.orderBy,
           limit: this.query.limit,
@@ -121,6 +122,13 @@
       this.query.page = 1
       this.query.limit = 10
       this.query.orderBy = 1
+      this.query.toBalanceAmount = ''
+      ;(this.query.fromBalanceAmount = ''),
+        (this.query.toLockedAmount = ''),
+        (this.query.fromLockedAmount = ''),
+        (this.query.toAvailableAmount = ''),
+        (this.query.fromAvailableAmount = ''),
+        (this.query.search = '')
       this.init()
       this.resetQuery()
       EventBus.$emit('selectTabBalance')
@@ -155,11 +163,12 @@
     }
 
     handleFilter(filter: Record<string, any>): void {
-      console.log('1')
+      console.log('1', filter)
       this.query = {
         ...this.query,
         ...filter
       }
+      console.log('thanh', this.query)
       this.debounceInit()
     }
     debounceInit = debounce(() => {
@@ -169,6 +178,27 @@
 </script>
 
 <style scoped lang="scss">
+  .container {
+    text-align: justify;
+    -ms-text-justify: distribute-all-lines;
+    text-justify: distribute-all-lines;
+    width: 100%;
+  }
+  .container > div {
+    width: 100px;
+    height: 100px;
+    vertical-align: top;
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    background: red;
+  }
+  span {
+    width: 100%;
+    display: inline-block;
+    font-size: 0;
+    line-height: 0;
+  }
   .bo-kyc {
     box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
     border-radius: 4px;

@@ -1,6 +1,6 @@
 <template>
   <div class="pb-24 pt-24 be-flex align-center kyc-filter">
-    <el-input v-model="filter.search" class="input-search" :placeholder="$t('placeholder.search')">
+    <el-input v-model="filterBalance.search" class="input-search" :placeholder="$t('placeholder.search')">
       <span slot="prefix" class="prefix-search">
         <base-icon icon="icon-search" size="24" />
       </span>
@@ -10,44 +10,45 @@
         <div class="content">
           <el-form>
             <div class="be-flex jc-space-between row">
-              <!-- <el-form-item class="be-flex-item mr-40" :label="$t('label.keyword')">
-                <el-input :placeholder="$t('label.placehoderkeyword')" v-model="filter.keyword" clearable />
-              </el-form-item> -->
-              <el-form-item class="be-flex-item mr-40" :label="$t('label.nationality')">
-                <el-select v-model="filter.nationality" filterable :placeholder="$t('label.placehoderNationality')" class="w-100" clearable>
-                  <el-option v-for="(country, index) in listCountry" :key="index" :label="country.name" :value="country.name" />
-                </el-select>
-              </el-form-item>
-              <el-form-item class="be-flex-item" :label="$t('label.from-date')">
-                <el-date-picker class="w-100" format="dd/MM/yyyy" value-format="yyyy-MM-dd" v-model="filter.fromCreatedAt" type="date"> </el-date-picker>
-              </el-form-item>
-            </div>
-            <div class="be-flex jc-space-between row">
-              <el-form-item class="be-flex-item mr-40" :label="$t('label.id-type')">
-                <el-select v-model="filter.identificationType" id-type :placeholder="$t('label.placehoderidType')" class="w-100" clearable>
-                  <el-option v-for="(type, index) in identificationType" :key="index" :label="type.type" :value="type.value" />
-                </el-select>
-              </el-form-item>
-              <el-form-item class="be-flex-item" :label="$t('label.to-date')">
-                <el-date-picker class="w-100" format="dd/MM/yyyy" value-format="yyyy-MM-dd" v-model="filter.toCreatedAt" type="date"> </el-date-picker>
+              <el-form-item class="be-flex-item mr-40" :label="$t('label.available-amount')">
+                <!-- <el-input :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateStart')" clearable></el-input> -->
+                <el-row class="flex_line">
+                  <el-col :span="11">
+                    <el-input v-model="filterBalance.fromAvailableAmount" @keyup.native="numberFormat($event)" type="text" placeholder="From"></el-input>
+                  </el-col>
+                  <span class="dash"><i class="el-icon-minus icon-dash"></i></span>
+                  <el-col :span="11" style="float: right">
+                    <el-input v-model="filterBalance.toAvailableAmount" @keyup.native="numberFormat($event)" type="text" placeholder="To"></el-input>
+                  </el-col>
+                </el-row>
               </el-form-item>
             </div>
             <div class="be-flex jc-space-between row">
-              <el-form-item class="be-flex-item" :label="$t('label.approve-by')">
-                <el-select
-                  v-model="filter.approvedBy"
-                  filterable
-                  remote
-                  clearable
-                  reserve-keyword
-                  :placeholder="$t('label.placehoderApprove')"
-                  :remote-method="handleSearchApprove"
-                  :loading="loading"
-                >
-                  <div v-infinite-scroll="loadMoreApprove" infinite-scroll-delay="500">
-                    <el-option v-for="item in listApprove" :key="item.id" :label="item.fullName" :value="item.userId"> </el-option>
-                  </div>
-                </el-select>
+              <el-form-item class="be-flex-item mr-40" :label="$t('label.locked-amount')">
+                <!-- <el-input :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateStart')" clearable></el-input> -->
+                <el-row class="flex_line">
+                  <el-col :span="11">
+                    <el-input v-model="filterBalance.fromLockedAmount" @keyup.native="numberFormat($event)" type="text" placeholder="From"></el-input>
+                  </el-col>
+                  <span class="dash"><i class="el-icon-minus icon-dash"></i></span>
+                  <el-col :span="11" style="float: right">
+                    <el-input v-model="filterBalance.toLockedAmount" @keyup.native="numberFormat($event)" type="text" placeholder="To"></el-input>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+            </div>
+            <div class="be-flex jc-space-between row">
+              <el-form-item class="be-flex-item mr-40" :label="$t('label.balance')">
+                <!-- <el-input :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateStart')" clearable></el-input> -->
+                <el-row class="flex_line">
+                  <el-col :span="11">
+                    <el-input v-model="filterBalance.fromBalanceAmount" @keyup.native="numberFormat($event)" type="text" placeholder="From"></el-input>
+                  </el-col>
+                  <span class="dash"><i class="el-icon-minus icon-dash"></i></span>
+                  <el-col :span="11" style="float: right">
+                    <el-input v-model="filterBalance.toBalanceAmount" @keyup.native="numberFormat($event)" type="text" placeholder="To"></el-input>
+                  </el-col>
+                </el-row>
               </el-form-item>
             </div>
           </el-form>
@@ -104,14 +105,15 @@
   @Component
   export default class KycFilter extends Vue {
     @Prop({ required: true, type: Array, default: [] }) listApproveBy!: Array<Record<string, any>>
-    filter = {
+    filterBalance = {
       search: '',
-      orderBy: '1',
-      fromCreatedAt: '',
-      toCreatedAt: '',
-      nationality: '',
-      identificationType: '',
-      approvedBy: ''
+      toBalanceAmount: '',
+      fromBalanceAmount: '',
+      toLockedAmount: '',
+      fromLockedAmount: '',
+      toAvailableAmount: '',
+      fromAvailableAmount: '',
+      orderBy: ''
     }
     loading = false
     listApprove: Array<Record<string, any>> = []
@@ -130,9 +132,33 @@
       },
       {
         command: '2',
-        label: this.$i18n.t('kyc.sort.country'),
+        label: this.$i18n.t('balance.lastChange'),
         divided: false,
-        i18n: 'kyc.sort.country'
+        i18n: 'balance.lastChange'
+      },
+      {
+        command: '3',
+        label: this.$i18n.t('balance.balance'),
+        divided: false,
+        i18n: 'balance.balance'
+      },
+      {
+        command: '4',
+        label: this.$i18n.t('balance.lockedAmount'),
+        divided: false,
+        i18n: 'balance.lockedAmount'
+      },
+      {
+        command: '5',
+        label: this.$i18n.t('balance.availableAmout'),
+        divided: false,
+        i18n: 'balance.availableAmout'
+      },
+      {
+        command: '6',
+        label: this.$i18n.t('balance.name'),
+        divided: false,
+        i18n: 'balance.name'
       }
     ]
     sortActive = '1'
@@ -156,17 +182,30 @@
     ]
     isVisible = false
 
-    @Watch('filter.search') handleSearch(value: string): void {
+    @Watch('filterBalance.search') handleSearch(value: string): void {
       this.searchText(value)
     }
 
     searchText = debounce((value: string) => {
       this.$emit('filterBalance', {
-        ...this.filter,
+        ...this.filterBalance,
         search: trim(value)
       })
     }, 500)
-
+    numberFormat(event: FocusEvent): void {
+      const _event: any = event
+      let fnumber = _event.target.value
+      if (fnumber.length > 0) {
+        fnumber = fnumber.replaceAll(',', '')
+        fnumber = parseInt(fnumber)
+        if (!isNaN(fnumber)) {
+          fnumber = this.$options.filters?.numberWithCommas(fnumber)
+          _event.target.value = fnumber
+        } else {
+          _event.target.value = 0
+        }
+      }
+    }
     created(): void {
       EventBus.$on('changeLang', () => {
         console.log('a', window.localStorage.getItem('bc-lang'))
@@ -176,7 +215,7 @@
         this.$forceUpdate()
       })
       EventBus.$on('selectTabBalance', this.handleChangeTab)
-      this.$emit('filterBalance', this.filter)
+      this.$emit('filterBalance', this.filterBalance)
     }
     destroyed(): void {
       EventBus.$off('changeLang')
@@ -210,55 +249,59 @@
     }
 
     resetFilter(): void {
-      this.filter = {
+      this.filterBalance = {
         search: '',
-        orderBy: 'CREATED_AT',
-        fromCreatedAt: '',
-        toCreatedAt: '',
-        nationality: '',
-        identificationType: '',
-        approvedBy: ''
+        toBalanceAmount: '',
+        fromBalanceAmount: '',
+        toLockedAmount: '',
+        fromLockedAmount: '',
+        toAvailableAmount: '',
+        fromAvailableAmount: '',
+        orderBy: ''
       }
     }
 
     handleChangeTab(): void {
-      this.filter.search = ''
+      this.filterBalance.search = ''
       const params = {
-        search: this.filter.search
+        search: this.filterBalance.search
       }
       // this.$emit('filterBalance', params);
     }
 
     handleSort(command: string): void {
       this.sortActive = command
-      this.filter.orderBy = command
-      this.$emit('filterBalance', this.filter)
+      this.filterBalance.orderBy = command
+      this.$emit('filterBalance', this.filterBalance)
       console.log('1')
     }
 
     handleApply(): void {
-      console.log('toCreatedAt', this.filter.toCreatedAt)
-      console.log('fromCreatedAt', this.filter.fromCreatedAt)
-      this.$emit('filterBalance', this.filter)
       this.isVisible = false
+      this.$emit('filterBalance', this.filterBalance)
     }
 
     handleReset(): void {
-      this.filter = {
-        ...this.filter,
-        fromCreatedAt: '',
-        toCreatedAt: '',
-        nationality: '',
-        identificationType: '',
-        approvedBy: ''
+      this.filterBalance = {
+        search: '',
+        orderBy: '',
+        toBalanceAmount: '',
+        fromBalanceAmount: '',
+        toLockedAmount: '',
+        fromLockedAmount: '',
+        toAvailableAmount: '',
+        fromAvailableAmount: ''
       }
-      this.$emit('filterBalance', this.filter)
+      this.$emit('filterBalance', this.filterBalance)
       this.isVisible = false
     }
   }
 </script>
 
 <style scoped lang="scss">
+  .dash {
+    text-align: center;
+  }
   .kyc-filter {
     background-color: #fff;
     .input-search {
