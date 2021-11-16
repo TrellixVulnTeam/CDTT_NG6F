@@ -7,7 +7,7 @@ export class RequestRepository extends BaseRepository {
   }
   async getDataTable(params: Record<string, any>): Promise<any> {
     try {
-      const rs = await request.get(`${this.prefix}/withdraw/request/search`, { params })
+      const rs = await request.get(`${this.prefix}/transaction/request/search`, { params })
       return Promise.resolve(rs.data.data)
     } catch (error) {
       return Promise.reject(error)
