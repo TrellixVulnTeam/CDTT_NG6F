@@ -230,6 +230,7 @@
   .router-home {
     margin-bottom: 0 !important;
     .logo-home {
+      height: 100%;
       padding-top: 0 !important ;
       .style_avatar_hom {
         font-size: 40px;
