@@ -20,33 +20,32 @@
         </el-table-column> -->
         <el-table-column :label="$t('kyc.table.fullName')" prop="fullName"> </el-table-column>
         <el-table-column :label="$t('kyc.table.email')" prop="email"> </el-table-column>
-        <!-- <el-table-column :label="$t('kyc.table.national')" prop="nationality" width="140"> </el-table-column> -->
+
         <el-table-column :label="$t('balance.available')" align="right">
           <template slot-scope="scope">
-            <div>
-              <!-- <span>+{{ scope.row.  | convertAmountDecimal(scope.row.tokenCurrency) }} {{ scope.row.tokenCurrency }}</span> -->
-              <span>{{ scope.row.availableBalance }}</span>
-              <span class="d-block amount-exchange-small">{{ scope.row.availableBalanceUSD }}</span>
+            <div class="box-paid">
+              <p class="text-paid fw-400 fs-16">{{ scope.row.availableBalance | convertAmountDecimal(scope.row.availableBalanceUSD) }} {{ scope.row.currency }}</p>
+              <p class="avi fw-400 fs-14">~ {{ scope.row.availableBalanceUSD | convertAmountDecimal(scope.row.currency) }}</p>
             </div>
           </template>
         </el-table-column>
 
         <el-table-column :label="$t('balance.lockedAmount')" align="right">
           <template slot-scope="scope">
-            <div>
-              <!-- <span>+{{ scope.row.  | convertAmountDecimal(scope.row.tokenCurrency) }} {{ scope.row.tokenCurrency }}</span> -->
-              <span>{{ scope.row.availableBalance }}</span>
-              <span class="d-block amount-exchange-small">{{ scope.row.availableBalanceUSD }}</span>
+            <div class="box-paid">
+              <p class="text-paid fw-400 fs-16">
+                {{ scope.row.totalLockedAmount | convertAmountDecimal(scope.row.availableBtotalLockedAmountUSDalanceUSD) }} {{ scope.row.currency }}
+              </p>
+              <p class="avi fw-400 fs-14">~ {{ scope.row.totalLockedAmountUSD | convertAmountDecimal(scope.row.currency) }}</p>
             </div>
           </template>
         </el-table-column>
 
         <el-table-column :label="$t('balance.balance')" align="right">
           <template slot-scope="scope">
-            <div>
-              <!-- <span>+{{ scope.row.  | convertAmountDecimal(scope.row.tokenCurrency) }} {{ scope.row.tokenCurrency }}</span> -->
-              <span>{{ scope.row.availableBalance }}</span>
-              <span class="d-block amount-exchange-small">{{ scope.row.availableBalanceUSD }}</span>
+            <div class="box-paid">
+              <p class="text-paid fw-400 fs-16">{{ scope.row.balance | convertAmountDecimal(scope.row.availableBalanceUSD) }} {{ scope.row.currency }}</p>
+              <p class="avi fw-400 fs-14">~ {{ scope.row.balanceUSD | convertAmountDecimal(scope.row.currency) }}</p>
             </div>
           </template>
         </el-table-column>
@@ -70,8 +69,8 @@
     checkType(type: string): string {
       return type === 'Not verified' ? 'status-not-verified' : type === 'PENDING' ? 'status-pending' : type === 'VERIFIED' ? 'status-verified' : 'status-rejected'
     }
-    
-    getDataSelectTab(): void{
+
+    getDataSelectTab(): void {
       console.log('1')
     }
     checkStatus(status: string): any {
