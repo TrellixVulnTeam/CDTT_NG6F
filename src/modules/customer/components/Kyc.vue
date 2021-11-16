@@ -1,41 +1,42 @@
 <template>
-  <div class='kyc-customer-detail'>
-    <div class='be-flex content' v-loading='isLoading'>
-      <div class='mr-24 detail-left'>
-        <div class='detail-item detail-item--above'>
-          <span class='title text-l text-bold'>{{ $t('kyc.popup.personal-detail') }}</span>
-          <div class='wrap'>
-            <span class='wrap-small'>{{ $t('kyc.popup.f-name') }}</span>
-            <span class='name'>{{ detail.firstName }}</span>
+  <div class="kyc-customer-detail">
+    <div class="be-flex content" v-loading="isLoading">
+      <div class="mr-24 detail-left">
+        <div class="detail-item detail-item--above">
+          <span class="title text-l text-bold">{{ $t('kyc.popup.personal-detail') }}</span>
+          <div class="wrap">
+            <span class="wrap-small">{{ $t('kyc.popup.f-name') }}</span>
+            <span class="name">{{ detail.firstName }}</span>
           </div>
-          <div class='wrap'>
-            <span class='wrap-small'>{{ $t('kyc.popup.l-name') }}</span>
-            <span class='name'>{{ detail.lastName }}</span>
+          <div class="wrap">
+            <span class="wrap-small">{{ $t('kyc.popup.l-name') }}</span>
+            <span class="name">{{ detail.lastName }}</span>
           </div>
-          <div class='wrap'>
-            <span class='wrap-small'>{{ $t('kyc.popup.national') }}</span>
-            <span class='name'>{{ detail.nationality }}</span>
+          <div class="wrap">
+            <span class="wrap-small">{{ $t('kyc.popup.national') }}</span>
+            <span class="name">{{ detail.nationality }}</span>
           </div>
         </div>
-        <div class='detail-item detail-item--below'>
-          <span class='title text-l text-bold'>{{ $t('kyc.popup.id-verification') }}</span>
-          <div class='wrap'>
-            <span class='wrap-small'>{{ $t('kyc.popup.id-type') }}</span>
-            <span class='name'>{{ detail.identificationType | formatIdentificationType }}</span>
+        <div class="detail-item detail-item--below">
+          <span class="title text-l text-bold">{{ $t('kyc.popup.id-verification') }}</span>
+          <div class="wrap">
+            <span class="wrap-small">{{ $t('kyc.popup.id-type') }}</span>
+            <span class="name">{{ detail.identificationType | formatIdentificationType }}</span>
           </div>
-          <div class='wrap'>
-            <span class='wrap-small'>{{ $t('kyc.popup.id-number') }}</span>
-            <span class='name'>{{ detail.identificationNumber }}</span>
+          <div class="wrap">
+            <span class="wrap-small">{{ $t('kyc.popup.id-number') }}</span>
+            <span class="name">{{ detail.identificationNumber }}</span>
           </div>
         </div>
       </div>
-      <div class='detail-right'>
-        <span class='text-l text-bold mb-24 d-ib'>{{ $t('kyc.popup.title-photo') }}</span>
-        <div class='be-flex w-100 slider'>
-          <el-carousel indicator-position='none' arrow='always' :autoplay='false'>
-            <el-carousel-item v-for='(item, index) in listImage' :key='index'>
+      <div class="detail-right">
+        <span class="text-l text-bold mb-24 d-ib">{{ $t('kyc.popup.title-photo') }}</span>
+        <div class="be-flex w-100 slider">
+          <el-carousel indicator-position="none" arrow="always" :autoplay="false">
+            <el-carousel-item v-for="(item, index) in listImage" :key="index">
               <!-- <img :src="item" class="img-fluid" :alt="item" /> -->
-              <el-image style='height: 100%;border-radius:4px' class='img-fluid' :src='item' :preview-src-list='listImage'></el-image>
+              <el-image style='height: 100%;border-radius:4px;display: flex;justify-content: center;object-fit: contain;' class='img-fluid'
+                        :src='item' :preview-src-list='listImage'></el-image>
             </el-carousel-item>
           </el-carousel>
         </div>
@@ -44,8 +45,8 @@
   </div>
 </template>
 
-<script lang='ts'>
-  import { Component, Mixins, Prop,Vue } from 'vue-property-decorator'
+<script lang="ts">
+  import { Component, Mixins, Prop, Vue } from 'vue-property-decorator'
   import getRepository from '@/services'
   import { KycRepository } from '@/services/repositories/kyc'
 
@@ -75,29 +76,30 @@
     kycRejectReasonIds: string
   }
 
-  @Component({ components: {  } })
-  export default class KycCustomerDetail extends Vue{
+  @Component({ components: {} })
+  export default class KycCustomerDetail extends Vue {
     @Prop({ required: true, type: Object, default: {} }) detailRow!: Record<string, any>
     @bcKyc.State('listReason') listReason!: Array<Record<string, any>>
 
     detail = {} as IDetail
     isLoading = false
     listReasonReject: Array<Record<string, any>> = []
-     async created(): Promise<void> {
-     try{
-       this.detail = await apiKyc.getDetailKyc(this.detailRow.userId);
-     }catch (e) {
-       console.log(e)
-     }
+
+    async created(): Promise<void> {
+      try {
+        this.detail = await apiKyc.getDetailKyc(this.detailRow.userId)
+      } catch (e) {
+        console.log(e)
+      }
     }
+
     get listImage(): string[] {
       return [this.detail.idPhoto1, this.detail.idPhoto2, this.detail.selfiePhoto]
     }
-
   }
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
   .kyc-customer-detail {
     color: var(--bc-text-primary);
 
@@ -170,6 +172,10 @@
                 i {
                   font-size: 20px;
                 }
+              }
+
+              .el-image__inner {
+                width: auto;
               }
             }
           }

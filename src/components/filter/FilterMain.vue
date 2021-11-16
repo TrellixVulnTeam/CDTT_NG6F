@@ -6,12 +6,12 @@
       </span>
     </el-input>
     <slot />
-    <div>
+    <div v-if="isShowSort">
       <el-dropdown :class="isShowFilter ? 'sort' : 'sort ml-0'" trigger="click" @command="handleSort">
         <span class="abicon sort-title" style="font-size: 16px">
           <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 4px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}</span
         >
-        <el-dropdown-menu class="header-downloadapp dropdown-sort" slot="dropdown">
+        <el-dropdown-menu class="header-downloadapp dropdown-sort" style="min-width: 210px" slot="dropdown">
           <el-dropdown-item v-for="(value, index) in sorts" :key="index" :class="sortActive === value.command ? 'active' : null" :command="value" :divided="value.divided">
             <span class="be-flex">
               <span class="be-flex-item">
@@ -35,6 +35,7 @@
   export default class FilterMain extends Vue {
     @Prop({ required: false, type: Array, default: [] }) sorts!: Array<Record<string, any>>
     @Prop({ required: false, type: Boolean, default: true }) isShowFilter!: boolean
+    @Prop({ required: false, type: Boolean, default: true }) isShowSort!: boolean
     filter: Record<string, any> = {
       search: '',
       orderBy: ''
@@ -81,9 +82,9 @@
     ::v-deep .filter-item {
       &:hover {
         .text-filter {
-          color: #0151fc;
+          color: var(--bc-theme-primary);
           .span-icon {
-            color: #0151fc !important;
+            color: var(--bc-theme-primary) !important;
           }
         }
       }
@@ -91,17 +92,17 @@
     ::v-deep .sort {
       &:hover {
         .el-dropdown-selfdefine {
-          color: #0151fc;
+          color: var(--bc-theme-primary);
           .span-icon {
-            color: #0151fc !important;
+            color: var(--bc-theme-primary) !important;
           }
         }
       }
       .sort-title {
         &:focus {
-          color: #0151fc;
+          color: var(--bc-theme-primary);
           .span-icon {
-            color: #0151fc !important;
+            color: var(--bc-theme-primary) !important;
           }
         }
       }

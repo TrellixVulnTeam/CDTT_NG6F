@@ -34,7 +34,18 @@
     color: #5b616e;
     font-weight: 400;
     &:hover {
-      color: #5b616e!important;
+      color: #5b616e !important;
     }
+  }
+}
+
+.date-picker {
+  .el-input__icon {
+    line-height: 48px;
+  }
+}
+.popup-filter-crowdsale {
+  .el-input__prefix {
+    top: 1.8px;
   }
 }

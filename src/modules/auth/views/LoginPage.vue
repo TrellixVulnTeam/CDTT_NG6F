@@ -183,7 +183,7 @@
               console.log('a')
 
               this.login({ ...this.form, password: encodePass }).then(() => {
-                this.$router.push({ name: 'KycPending' })
+                this.$router.push({ name: 'Crowdsale' })
                 message = this.$t('notify.login-success')
                 this.$message.success({ message, duration: 5000 })
               })

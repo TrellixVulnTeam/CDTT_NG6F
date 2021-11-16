@@ -224,10 +224,3 @@ export function formatIdentificationType(type: string | null): string {
     }
   } else return ''
 }
-
-export function formatAddress(address: string | null) {
-  if (address) {
-    const addressArr: string[] = address.split(',')
-    return addressArr[0] + ',' + addressArr[1]
-  } else return ''
-}

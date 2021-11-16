@@ -76,7 +76,8 @@
     "contract": "Hợp đồng",
     "report": "Báo cáo",
     "setting": "Cài đặt",
-    "crowdsale": "Crowdsale"
+    "crowdsale": "Crowdsale",
+    "request": "Yêu cầu"
   },
   "header": {
     "kyc": "KYC",
@@ -98,7 +99,7 @@
     "search": "Tìm kiếm",
     "from-amount": " Từ",
     "to-amount": "Đến",
-    "select-type": "Chọn kiểu giao dịch",
+    "select-type": "Chọn trạng thái",
     "status": "Chọn trạng thái"
   },
   "button": {
@@ -119,7 +120,8 @@
     "customers": "khách hàng",
     "transaction": "giao dịch",
     "crowdsale": "giao dịch",
-    "investor": "nhà đầu tư"
+    "investor": "nhà đầu tư",
+    "request": "yêu cầu"
   },
   "label": {
     "buy-from": "Chọn ví",
@@ -150,7 +152,7 @@
     "city": "Thành phố",
     "state": "Bang",
     "personal-info": "Thông tin cá nhân",
-    "kyc-status": "Trạng thái KYC",
+    "kyc-status": "Trạng thái",
     "placehoder-kyc-status": "Chọn loại trạng thái",
     "buy-token": "Loại ví",
     "trans-date": "Ngày giao dịch",
@@ -245,7 +247,11 @@
       "locked-amount": "Số lượng bị khóa",
       "balance-amount": "Số dư",
       "date": "Ngày tạo",
-      "amount": "Số lượng"
+      "amount": "Số lượng",
+      "trans-amount": "Số lượng giao dịch",
+      "trans-date": "Ngày giao dịch",
+      "status": "Trạng thái",
+      "referral-name": "Tên"
     },
     "table": {
       "asset": "ví",
@@ -262,8 +268,15 @@
       "create-date": "ngày tạo",
       "accept": "Chấp nhận",
       "invited": "Đã mời",
-      "paid": "Thanh toán",
-      "pending": "Đang chờ"
+      "trans-id": "mã giao dịch",
+      "type": "loại",
+      "amount": "số lượng",
+      "paid": "Đã thanh toán",
+      "pending": "Pending"
+    },
+    "select": {
+      "accepted": "Xác nhận",
+      "invited": "Đã mời"
     }
   },
   "transaction": {
@@ -282,7 +295,13 @@
       "processing": "Đang xử lý",
       "failed": "Thất bại",
       "rejected": "Từ chối",
-      "sell": "Bán"
+      "sell": "Bán",
+      "bonus-sign-up": "Thưởng đăng ký",
+      "bonus-crowdsale": "Thưởng crowdsale",
+      "bonus-first-trans": "Thưởng giao dịch lần đầu",
+      "bonus-affiliate": "Thưởng giới thiệu",
+      "bonus-big-backer": "Thưởng nhà đầu tư lớn",
+      "bonus-early-backer": "Thưởng nhà đầu tư sớm"
     },
     "popup": {
       "title-filter": "Bộ lọc"
@@ -328,14 +347,15 @@
   },
   "crowdsale": {
     "round": "Vòng",
-    "progress": "Tiến triển",
+    "progress": "Tiến trình",
+    "progress2": "Tiến độ",
     "from": "Từ",
     "now": "đến nay",
     "completed": "HOÀN THÀNH",
     "sold": "đã bán",
-    "left": "trái",
-    "raised": "ĐƯA LÊN",
-    "backers": "QUAY LẠI",
+    "left": "còn lại",
+    "raised": "ĐÃ GỌI VỐN",
+    "backers": "NHÀ ĐẦU TƯ",
     "of": "của",
     "transactions": "Giao dịch",
     "filter": "Bộ lọc",
@@ -343,14 +363,14 @@
     "search": "Tìm kiếm",
     "date": "NGÀY",
     "status": "TRẠNG THÁI",
-    "price": "GIÁ BÁN",
-    "paid": "TRẢ",
+    "price": "GIÁ",
+    "paid": "Thanh toán",
     "amount": "SỐ LƯỢNG",
     "pending": "Chưa giải quyết",
     "success": "Sự thành công",
     "startDate": "ngày bắt đầu",
     "endDate": "ngày kết thúc",
-    "remain": "duy trì",
+    "remain": "còn lại",
     "transactionDate": "Ngày giao dịch",
     "transactionAmount": "Số tiền giao dịch",
     "opening": "Mở",
@@ -373,6 +393,64 @@
       "planceOderCountry": "Chọn quốc gia",
       "planceOderTransactionDateStart": "Từ",
       "planceOderTransactionDateEnd": "Đến"
+    }
+  },
+  "request": {
+    "withdraw": "Rút",
+    "transfer": "Chuyển giao",
+    "TransactionDetail": "Chi tiết giao dịch",
+    "AccountStatement": "Sao kê tài khoản",
+    "table": {
+      "label1": "HỌ VÀ TÊN",
+      "label2": "NGÀY YÊU CẦU",
+      "label4": "TRẠNG THÁI",
+      "label5": "SỐ LƯỢNG",
+      "label3": "EMAIL"
+    },
+    "sortBy": {
+      "requestDate": "Ngày yêu cầu",
+      "amount": "Số lượng",
+      "status": "Trạng thái",
+      "name": "Tên"
+    },
+    "filter": {
+      "label1": "Trạng thái",
+      "planceOder1": "Chọn",
+      "label2": "Ngày yêu cầu",
+      "planceOder2": "Từ",
+      "label3": "Số lượng",
+      "planceOder3": "Đến",
+      "pending": "Chưa giải quyết",
+      "rejected": "Từ chối"
+    },
+    "popup": {
+      "titlePopup": "RÚT LẠI YÊU CẦU",
+      "bigTitle1": "Cảnh báo",
+      "label1": "Số dư Hiện tại và Số dư Cuối kỳ không khớp với nhau.",
+      "label2": "Cảnh báo hoạt động bất thường.",
+      "label3": "Email của khách hàng",
+      "label4": "Địa chỉ người nhận",
+      "label5": "Ngày Giao dịch",
+      "bigTitle2": "Chi tiết giao dịch",
+      "bigTitle3": "Sao kê tài khoản",
+      "btn1": "Đóng",
+      "btn2": "Từ chối",
+      "btn3": "Chấp nhuận",
+      "transaction": {
+        "bigTitle1": "Chi tiết giao dịch",
+        "bigTitle2": "Thông tin khách hàng",
+        "label1": "Ngày yêu cầu",
+        "label2": "Từ",
+        "label3": "Đến",
+        "label4": "Lệ phí",
+        "label5": "Trạng thái",
+        "label6": "Họ và tên",
+        "label7": "Số điện thoại",
+        "label8": "Email",
+        "label9": "Quốc tịch",
+        "label10": "Cấp độ",
+        "label11": "Ngày tạo"
+      }
     }
   }
 }

@@ -8,25 +8,26 @@
         <div class="box-input-1 be-flex align-center jc-space-between">
           <div class="round">
             <div class="label">{{ $t('crowdsale.popup-filter.round') }}</div>
-            <el-form-item prop="round" class="box-input">
-              <el-select class="select" v-model="form.round" :placeholder="$t('crowdsale.popup-filter.planceOderRound')" clearable>
+            <el-form-item prop="roundId" class="box-input">
+              <el-select class="select" v-model="form.roundId" :placeholder="$t('crowdsale.popup-filter.planceOderRound')" clearable>
                 <div infinite-scroll-delay="500">
-                  <el-option v-for="item in optionByRound" :key="item.id" :label="item.label" :value="item.id"> </el-option>
+                  <el-option v-for="item in optionByRound" :key="item.id" :label="item.name" :value="item.id"> </el-option>
                 </div>
               </el-select>
             </el-form-item>
           </div>
           <div class="country">
             <div class="label">{{ $t('crowdsale.popup-filter.country') }}</div>
-            <el-form-item prop="country" class="box-input">
+            <el-form-item prop="countryName" class="box-input">
               <el-select
                 class="select"
-                v-model="form.country"
+                v-model="form.countryName"
                 filterable
                 reserve-keyword
                 remote
                 :remote-method="remoteCountry"
                 :placeholder="$t('crowdsale.popup-filter.planceOderCountry')"
+                clearable
               >
                 <el-option v-for="(country, index) in listCountry" :key="index" :label="country.name" :value="country.name" />
               </el-select>
@@ -35,30 +36,30 @@
         </div>
         <div class="by-with-wallet">
           <div class="label">{{ $t('crowdsale.popup-filter.buyWithWallet') }}</div>
-          <el-form-item prop="byWallet" class="box-input">
-            <el-select class="select" v-model="form.byWallet" :placeholder="$t('crowdsale.popup-filter.planceOderWallet')" clearable>
+          <el-form-item prop="paidWallet" class="box-input">
+            <el-select class="select" v-model="form.paidWallet" :placeholder="$t('crowdsale.popup-filter.planceOderWallet')" clearable>
               <div infinite-scroll-delay="500">
-                <el-option v-for="item in optionByWallet" :key="item.id" :label="item.label" :value="item.id"> </el-option>
+                <el-option v-for="item in optionByWallet" :key="item.value" :label="item.label" :value="item.value"> </el-option>
               </div>
             </el-select>
           </el-form-item>
         </div>
         <div class="by-with-token">
           <div class="label">{{ $t('crowdsale.popup-filter.buyWithToken') }}</div>
-          <el-form-item prop="byToken" class="box-input">
-            <el-select class="select" v-model="form.byToken" multiple :placeholder="$t('crowdsale.popup-filter.planceOderToken')">
+          <el-form-item prop="currency" class="box-input">
+            <el-select class="select" v-model="form.currency" multiple :placeholder="$t('crowdsale.popup-filter.planceOderToken')">
               <div infinite-scroll-delay="500">
-                <el-option v-for="item in optionByToken" :key="item.id" :label="item.label" :value="item.id"> </el-option>
+                <el-option v-for="(item, index) in optionByToken" :key="index" :label="item.currency" :value="item.currency"> </el-option>
               </div>
             </el-select>
           </el-form-item>
         </div>
         <div class="label">{{ $t('crowdsale.popup-filter.transactionDate') }}</div>
         <div class="box-input-2 transaction-date be-flex align-center jc-space-between">
-          <el-form-item prop="transactionDateStart" class="box-input">
+          <el-form-item prop="fromDate" class="box-input">
             <el-date-picker
               class="box-input"
-              v-model="form.transactionDateStart"
+              v-model="form.fromDate"
               value-format="yyyy-MM-dd"
               format="MM/dd/yyyy"
               type="date"
@@ -70,11 +71,11 @@
           </el-form-item>
 
           <div class="line"></div>
-          <el-form-item prop="transactionDateEnd" class="box-input">
+          <el-form-item prop="toDate" class="box-input">
             <el-date-picker
               :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateEnd')"
               class="box-input"
-              v-model="form.transactionDateEnd"
+              v-model="form.toDate"
               value-format="yyyy-MM-dd"
               format="MM/dd/yyyy"
               type="date"
@@ -86,31 +87,26 @@
         </div>
         <div class="label">{{ $t('crowdsale.popup-filter.transactionAmount') }}</div>
         <div class="box-input-3 transaction-amount be-flex align-center jc-space-between">
-          <el-form-item prop="transactionAmountStart" class="box-input">
+          <el-form-item prop="fromAmount" class="box-input">
             <el-input
               :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateStart')"
-              v-model="form.transactionAmountStart"
+              v-model="form.fromAmount"
               clearable
               @keyup.native="numberFormat($event)"
             ></el-input>
-            <div v-if="form.transactionAmountStart" class="dolar fw-400 fs-16">$</div>
+            <div v-if="form.fromAmount" class="dolar fw-400 fs-16">$</div>
           </el-form-item>
 
           <div class="line"></div>
-          <el-form-item prop="transactionAmountEnd" class="box-input">
-            <el-input
-              :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateEnd')"
-              v-model="form.transactionAmountEnd"
-              clearable
-              @keyup.native="numberFormat($event)"
-            ></el-input>
-            <div v-if="form.transactionAmountEnd" class="dolar fw-400 fs-16">$</div>
+          <el-form-item prop="toAmount" class="box-input">
+            <el-input :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateEnd')" v-model="form.toAmount" clearable @keyup.native="numberFormat($event)"></el-input>
+            <div v-if="form.toAmount" class="dolar fw-400 fs-16">$</div>
           </el-form-item>
         </div>
       </el-form>
     </div>
     <div slot="footer" class="footer">
-      <div @click="handleClose" class="btn-action btn-close">{{ $t('crowdsale.popup-filter.reset') }}</div>
+      <div @click="handleReset" class="btn-action btn-close">{{ $t('crowdsale.popup-filter.reset') }}</div>
       <div @click="handleSubmit" class="btn-action btn-submit">{{ $t('crowdsale.popup-filter.apply') }}</div>
     </div>
   </base-popup>
@@ -121,86 +117,58 @@
   import { trim, filter, debounce } from 'lodash'
   import getRepository from '@/services'
   import countryJson from '@/utils/country/index.json'
+  import { CrowdsaleRepository } from '@/services/repositories/crowdsale'
   interface IListCountry {
     name: string
     dialCode: string
     isoCode: string
     flag: string
   }
+  const api: CrowdsaleRepository = getRepository('crowdsale')
   @Component({ components: {} })
   export default class PopupFilterCrowdsale extends Mixins(PopupMixin) {
     form: any = {
-      round: '',
-      country: '',
-      byWallet: '',
-      byToken: '',
-      transactionDateStart: '',
-      transactionDateEnd: '',
-      transactionAmountStart: '',
-      transactionAmountEnd: ''
+      roundId: '',
+      countryName: '',
+      paidWallet: '',
+      currency: [],
+      fromDate: '',
+      toDate: '',
+      fromAmount: '',
+      toAmount: ''
     }
     listCountry: IListCountry[] = countryJson
     pickerOptions = {
       disabledDate(time: any) {
-        return time.getTime() < Date.now()
+        return time.getTime() >= Date.now()
       }
     }
-    optionByToken: any = [
-      {
-        id: '1',
-        label: 'BTC'
-      },
-      {
-        id: '2',
-        label: 'LYNK'
-      },
-      {
-        id: '3',
-        label: 'ETH'
-      }
-    ]
+    optionByToken: any = {}
     optionByWallet: any = [
       {
-        id: '1',
-        label: 'Meta Mask'
+        value: 'Metamask',
+        label: 'Metamask'
       },
       {
-        id: '2',
-        label: 'Wallet Binance'
+        value: 'Binance',
+        label: 'Binance'
       },
       {
-        id: '3',
-        label: 'Wallet ETH'
+        value: 'Ethereum',
+        label: 'Ethereum'
       }
     ]
-    optionByRound: any = [
-      {
-        id: '1',
-        label: `${this.$t('crowdsale.popup-filter.round')} 1`
-      },
-      {
-        id: '2',
-        label: `${this.$t('crowdsale.popup-filter.round')} 2`
-      },
-      {
-        id: '3',
-        label: `${this.$t('crowdsale.popup-filter.round')} 3`
-      },
-      {
-        id: '4',
-        label: `${this.$t('crowdsale.popup-filter.round')} 4`
-      }
-    ]
+    optionByRound: any = {}
     handleReset(): void {
       this.form = {
-        round: '',
-        country: '',
-        byWallet: '',
-        byToken: '',
-        transactionDateStart: '',
-        transactionDateEnd: '',
-        transactionAmountStart: '',
-        transactionAmountEnd: ''
+        roundId: '',
+        countryName: '',
+        paidWallet: '',
+        currency: [],
+        fromDate: '',
+        toDate: '',
+        fromAmount: '',
+        toAmount: ''
       }
       if (this.$refs.filterCrowdsale) {
         //@ts-ignore
@@ -208,24 +176,52 @@
       }
     }
     async handleSubmit(): Promise<void> {
-      console.log(1)
+      let form2: any = { ...this.form }
+      if (this.form.fromAmount) {
+        form2.fromAmount = parseInt(this.form.fromAmount.replaceAll(',', ''))
+      }
+      if (this.form.toAmount) {
+        form2.toAmount = parseInt(this.form.toAmount.replaceAll(',', ''))
+      }
+      if (this.form.currency.length > 0) {
+        form2.currency = this.form.currency.join()
+      }
+      this.$emit('apply', form2)
+
+      this.setOpenPopup({
+        popupName: 'popup-filter-crowdsale',
+        isOpen: false
+      })
     }
     async handleOpen(): Promise<void> {
-      await this.handleReset()
+      await this.getListRound()
+      await this.getListAssetNetwork()
     }
     async handleClose(): Promise<void> {
-      await this.handleReset()
+      console.log('close')
     }
     numberFormat(event: FocusEvent): void {
       const _event: any = event
       let fnumber = _event.target.value
       if (fnumber.length > 0) {
         fnumber = fnumber.replaceAll(',', '')
-        fnumber = this.$options.filters?.numberWithCommas(fnumber)
-        _event.target.value = fnumber
+        fnumber = parseInt(fnumber)
+        if (!isNaN(fnumber)) {
+          fnumber = this.$options.filters?.numberWithCommas(fnumber)
+          _event.target.value = fnumber
+        } else {
+          _event.target.value = 0
+        }
+      }
+    }
+    @Watch('form.countryName')
+    clearCountry(value: any) {
+      if (!value) {
+        this.listCountry = countryJson
       }
     }
     remoteCountry(query: string): void {
+      console.log('query: ', query)
       if (query) {
         const currentCountry = filter(
           this.listCountry,
@@ -237,6 +233,20 @@
       } else if (!query) {
         this.listCountry = countryJson
       }
+    }
+    async getListRound(): Promise<void> {
+      await api.getListRound().then((res: any) => {
+        if (res) {
+          this.optionByRound = res
+        }
+      })
+    }
+    async getListAssetNetwork(): Promise<void> {
+      await api.getListAssetNetwork().then((res: any) => {
+        if (res) {
+          this.optionByToken = filter(res, item => item.currency !== 'LYNK' && item.currency !== 'CLM')
+        }
+      })
     }
     created(): void {
       const currentCountry = filter(this.listCountry, country => country.isoCode === 'VN')[0]

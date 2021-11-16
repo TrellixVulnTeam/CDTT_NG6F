@@ -56,10 +56,15 @@ const actions: ActionTree<IAuth, unknown> = {
       return Promise.reject(error)
     }
   },
-  getInfo({ commit }) {
-    authRes.getInfo().then(res => {
-      commit('SET_INFO', res)
-    })
+  async getInfo({ commit }) {
+    try {
+      const result = await authRes.getInfo()
+      console.log(result)
+
+      commit('SET_INFO', result)
+    } catch (error: any) {
+      return Promise.reject(error)
+    }
   }
 }
 

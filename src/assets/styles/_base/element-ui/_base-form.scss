@@ -124,3 +124,19 @@
         opacity: 0;
     }
 }
+
+.el-checkbox {
+    .el-checkbox__input {
+        .el-checkbox__inner {
+            &:hover {
+                border-color: var(--bc-cb-border-hover) !important;
+            }
+        }
+    }
+    .is-checked,
+    .is-focus {
+        .el-checkbox__inner {
+            border-color: var(--bc-cb-border-hover) !important;
+        }
+    }
+}

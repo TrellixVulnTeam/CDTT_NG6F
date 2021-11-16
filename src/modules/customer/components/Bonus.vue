@@ -60,7 +60,7 @@
             </el-button>
           </div>
           <div slot="reference" class="cursor text-filter" style="font-size: 16px">
-            <span class="abicon"> <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="18" /> </span>
+            <span class="abicon"> <base-icon style="color: #5b616e; margin-right: 4px" icon="icon-filter" size="18" /> </span>
             {{ $t('kyc.filter.filter') }}
           </div>
         </el-popover>
@@ -174,22 +174,22 @@
     listType: Array<Record<string, any>> = [
       {
         id: 0,
-        name: 'Bonus Sign Up',
+        name: 'Sign Up Bonus',
         value: 'BONUS_SIGN_UP'
       },
       {
         id: 1,
-        name: 'Bonus First Transaction',
+        name: 'First Transaction Bonus',
         value: 'BONUS_FIRST_TRANS'
       },
       {
         id: 2,
-        name: 'Bonus Crowdsale',
+        name: 'Crowdsale Bonus',
         value: 'BONUS_CROWDSALE'
       },
       {
         id: 3,
-        name: 'Bonus Big Backers',
+        name: 'Big Backers Bonus',
         value: 'BONUS_BIG_BACKER'
       }
     ]

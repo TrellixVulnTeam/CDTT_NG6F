@@ -9,7 +9,7 @@
     @rowClick="handleRowClick"
     class="base-table"
   >
-    <el-table-column label="#" :index="getIndex" type="index" align="center" width="40" />
+    <el-table-column label="#" :index="getIndex" type="index" align="center" width="60" />
     <el-table-column :label="$t('transaction.table.trans-id')">
       <template slot-scope="scope">
         <div class="be-flex align-center">
@@ -77,6 +77,18 @@
           return this.$i18n.t('transaction.table.crowdsale')
         case 'BUY':
           return this.$i18n.t('transaction.table.buy')
+        case 'BONUS_SIGN_UP':
+          return this.$i18n.t('transaction.table.bonus-sign-up')
+        case 'BONUS_CROWDSALE':
+          return this.$i18n.t('transaction.table.bonus-crowdsale')
+        case 'BONUS_FIRST_TRANS':
+          return this.$i18n.t('transaction.table.bonus-first-trans')
+        case 'BONUS_AFFILIATE':
+          return this.$i18n.t('transaction.table.bonus-affiliate')
+        case 'BONUS_BIG_BACKER':
+          return this.$i18n.t('transaction.table.bonus-big-backer')
+        case 'BONUS_EARLY_BACKER':
+          return this.$i18n.t('transaction.table.bonus-early-backer')
 
         default:
           return this.$i18n.t('transaction.table.sell')
@@ -135,7 +147,7 @@
 
 <style scoped lang="scss">
   .status {
-    padding: 4px 7px;
+    // padding: 4px 7px;
     border-radius: 4px;
   }
 </style>
