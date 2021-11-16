@@ -76,7 +76,8 @@
     "contract": "Hợp đồng",
     "report": "Báo cáo",
     "setting": "Cài đặt",
-    "crowdsale": "Crowdsale"
+    "crowdsale": "Crowdsale",
+    "request": "Yêu cầu"
   },
   "header": {
     "kyc": "KYC",
@@ -119,7 +120,8 @@
     "customers": "khách hàng",
     "transaction": "giao dịch",
     "crowdsale": "giao dịch",
-    "investor": "nhà đầu tư"
+    "investor": "nhà đầu tư",
+    "request": "yêu cầu"
   },
   "label": {
     "buy-from": "Chọn ví",
@@ -391,6 +393,64 @@
       "planceOderCountry": "Chọn quốc gia",
       "planceOderTransactionDateStart": "Từ",
       "planceOderTransactionDateEnd": "Đến"
+    }
+  },
+  "request": {
+    "withdraw": "Rút",
+    "transfer": "Chuyển giao",
+    "TransactionDetail": "Chi tiết giao dịch",
+    "AccountStatement": "Sao kê tài khoản",
+    "table": {
+      "label1": "HỌ VÀ TÊN",
+      "label2": "NGÀY YÊU CẦU",
+      "label4": "TRẠNG THÁI",
+      "label5": "SỐ LƯỢNG",
+      "label3": "EMAIL"
+    },
+    "sortBy": {
+      "requestDate": "Ngày yêu cầu",
+      "amount": "Số lượng",
+      "status": "Trạng thái",
+      "name": "Tên"
+    },
+    "filter": {
+      "label1": "Trạng thái",
+      "planceOder1": "Chọn",
+      "label2": "Ngày yêu cầu",
+      "planceOder2": "Từ",
+      "label3": "Số lượng",
+      "planceOder3": "Đến",
+      "pending": "Chưa giải quyết",
+      "rejected": "Từ chối"
+    },
+    "popup": {
+      "titlePopup": "RÚT LẠI YÊU CẦU",
+      "bigTitle1": "Cảnh báo",
+      "label1": "Số dư Hiện tại và Số dư Cuối kỳ không khớp với nhau.",
+      "label2": "Cảnh báo hoạt động bất thường.",
+      "label3": "Email của khách hàng",
+      "label4": "Địa chỉ người nhận",
+      "label5": "Ngày Giao dịch",
+      "bigTitle2": "Chi tiết giao dịch",
+      "bigTitle3": "Sao kê tài khoản",
+      "btn1": "Đóng",
+      "btn2": "Từ chối",
+      "btn3": "Chấp nhuận",
+      "transaction": {
+        "bigTitle1": "Chi tiết giao dịch",
+        "bigTitle2": "Thông tin khách hàng",
+        "label1": "Ngày yêu cầu",
+        "label2": "Từ",
+        "label3": "Đến",
+        "label4": "Lệ phí",
+        "label5": "Trạng thái",
+        "label6": "Họ và tên",
+        "label7": "Số điện thoại",
+        "label8": "Email",
+        "label9": "Quốc tịch",
+        "label10": "Cấp độ",
+        "label11": "Ngày tạo"
+      }
     }
   }
 }

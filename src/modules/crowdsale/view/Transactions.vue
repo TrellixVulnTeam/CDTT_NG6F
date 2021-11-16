@@ -51,7 +51,7 @@
             <span>{{ scope.row.transactionDate | formatDateHourMs }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="this.$t('crowdsale.status')" prop="status" align="center" width="110">
+        <el-table-column :label="this.$t('crowdsale.status')" prop="status" align="center" width="120">
           <template slot-scope="scope">
             <div v-if="scope.row.status === 'LOCKED'" class="box-status-tabel locked">
               <span class="fs-12 fw-500">{{ scope.row.status }}</span>
@@ -174,9 +174,11 @@
       if (this.dataProp.countryName) {
         params.countryName = this.dataProp.countryName
       }
+      if (this.dataProp.paidWallet) {
+        params.paidWallet = this.dataProp.paidWallet
+      }
       if (this.dataProp.currency) {
         params.currency = this.dataProp.currency
-        console.log('form: ', this.dataProp.currency)
       }
       if (this.dataProp.fromDate) {
         params.fromDate = this.dataProp.fromDate
@@ -192,7 +194,6 @@
       }
 
       api.getDataTable(params).then((res: any) => {
-        console.log('res: ', res.content)
         this.loadingTable = false
         this.dataTable = res.content
         this.query.total = res.totalElements

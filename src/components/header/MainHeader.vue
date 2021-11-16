@@ -21,7 +21,8 @@
           <div class="avatar">
             <el-dropdown trigger="click" class="pl-2 login-page-header" @command="handleCommand">
               <span class="el-dropdown-link" style="color: #201f1e">
-                <img src="@/assets/images/avatar.png" alt="" />
+                <base-icon v-if="!user.avatar" icon="default-avatar" size="40" style="display: inline-flex" />
+                <img v-else :src="user.avatar" />
               </span>
 
               <el-dropdown-menu slot="dropdown" class="header-downloadapp">
@@ -49,8 +50,9 @@
   @Component
   export default class MainHeader extends Vue {
     @bcAuth.Action('logout') logout!: () => Promise<any>
+    @bcAuth.State('user') user!: Record<string, any>
 
-    image = './avatar.png'
+    // image = './avatar.png'
 
     get getTitle(): any {
       switch (this.$route.matched[0].path) {

@@ -4,12 +4,14 @@ import authModule from './auth'
 import customerModule from './customer'
 import crowdsaleModule from './crowdsale'
 import balanceModule from './balance'
+import requestModule from './request'
 const listModules: Record<string, ModuleInterface> = {
   homeModule,
   authModule,
   customerModule,
   crowdsaleModule,
-  balanceModule
+  balanceModule,
+  requestModule
 }
 
 export default listModules

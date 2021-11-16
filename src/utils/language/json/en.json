@@ -100,7 +100,8 @@
     "report": "Report",
     "setting": "Setting",
     "crowdsale": "Crowdsale",
-    "balance": "Balance"
+    "balance": "Balance",
+    "request": "Request"
   },
   "header": {
     "kyc": "KYC",
@@ -161,7 +162,8 @@
     "customers": "customers",
     "transaction": "transactions",
     "crowdsale": "transactions",
-    "investor": "investors"
+    "investor": "investors",
+    "request": "request"
   },
   "label": {
     "buy-from": "Buy from",
@@ -399,6 +401,7 @@
   "crowdsale": {
     "round": "Round",
     "progress": "Progress",
+    "progress2": "Progress",
     "from": "From",
     "now": "until now",
     "completed": "COMPLETED",
@@ -452,6 +455,63 @@
     "lastChange":"Last changed",
     "availableAmout": "Available amount",
     "name": "Name"
-    
+  },
+  "request": {
+    "withdraw": "Withdraw",
+    "transfer": "Transfer",
+    "TransactionDetail": "Transaction detail",
+    "AccountStatement": "Account statement",
+    "table": {
+      "label1": "FULL NAME",
+      "label2": "REQUEST DATE",
+      "label4": "STATUS",
+      "label5": "AMOUNT",
+      "label3": "EMAIL"
+    },
+    "sortBy": {
+      "requestDate": "Request date",
+      "amount": "Amount",
+      "status": "Status",
+      "name": "Name"
+    },
+    "filter": {
+      "label1": "Status",
+      "planceOder1": "Select",
+      "label2": "Request date",
+      "planceOder2": "From",
+      "label3": "Amount",
+      "planceOder3": "To",
+      "pending": "Pending",
+      "rejected": "Rejected"
+    },
+    "popup": {
+      "titlePopup": "WITHDRAW REQUEST",
+      "bigTitle1": "Warning",
+      "label1": "Current Balance and Ending Balance are not matched.",
+      "label2": "Unusual activity alert.",
+      "label3": "Customer’s Email",
+      "label4": "Recipient Address",
+      "label5": "Transaction Date",
+      "bigTitle2": "Transaction detail",
+      "bigTitle3": "Account statement",
+      "btn1": "Close",
+      "btn2": "Reject",
+      "btn3": "Approve",
+      "transaction": {
+        "bigTitle1": "Transaction Detail",
+        "bigTitle2": "Customer Info",
+        "label1": "Request date",
+        "label2": "From",
+        "label3": "To",
+        "label4": "Fees",
+        "label5": "Status",
+        "label6": "Full name",
+        "label7": "Phone number",
+        "label8": "Email",
+        "label9": "Nationality",
+        "label10": "Level",
+        "label11": "Created date"
+      }
+    }
   }
 }

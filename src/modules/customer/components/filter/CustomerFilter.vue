@@ -302,10 +302,9 @@
     ::v-deep .filter-item {
       &:hover {
         .text-filter {
-          color: #0151fc;
-
+          color: var(--bc-theme-primary);
           .span-icon {
-            color: #0151fc !important;
+            color: var(--bc-theme-primary) !important;
           }
         }
       }
@@ -314,20 +313,18 @@
     ::v-deep .sort {
       &:hover {
         .el-dropdown-selfdefine {
-          color: #0151fc;
-
+          color: var(--bc-theme-primary);
           .span-icon {
-            color: #0151fc !important;
+            color: var(--bc-theme-primary) !important;
           }
         }
       }
 
       .sort-title {
         &:focus {
-          color: #0151fc;
-
+          color: var(--bc-theme-primary);
           .span-icon {
-            color: #0151fc !important;
+            color: var(--bc-theme-primary) !important;
           }
         }
       }
