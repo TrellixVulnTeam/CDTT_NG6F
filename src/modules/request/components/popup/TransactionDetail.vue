@@ -1,6 +1,12 @@
 <template>
-  <div class="transaction-detail">transaction-detail</div>
+  <div></div>
 </template>
+
 <script lang="ts">
+  import { Component, Vue } from 'vue-property-decorator'
+
+  @Component
+  export default class TransactionDetail extends Vue {}
 </script>
-<style scoped lang="scss"></style>
+
+<style scoped></style>

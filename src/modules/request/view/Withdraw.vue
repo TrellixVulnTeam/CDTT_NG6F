@@ -8,9 +8,72 @@
           </div>
         </el-input>
       </div>
-      <div class="btn-filter be-flex align-center cursor">
-        <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="16" /> <span class="fs-16">{{ $t('crowdsale.filter') }}</span>
-      </div>
+
+      <el-popover :value="isVisible" placement="bottom-start" width="518" trigger="click" popper-class="popper-filter-request-withdraw" @show="handleShowPopper">
+        <!-- <el-button slot="reference">Click to activate</el-button> -->
+        <div class="content">
+          <div class="label">{{ $t('request.filter.label1') }}</div>
+          <div class="be-flex jc-space-between row box">
+            <el-select v-model="filter.status" multiple :placeholder="$t('request.filter.planceOder1')" clearable>
+              <el-option v-for="item in optionStatus" :key="item.value" :label="item.label" :value="item.value"> </el-option>
+            </el-select>
+          </div>
+          <div class="label">{{ $t('request.filter.label2') }}</div>
+          <div class="be-flex jc-space-between align-center row box">
+            <el-date-picker
+              v-model="filter.fromDate"
+              value-format="yyyy-MM-dd"
+              format="MM/dd/yyyy"
+              clearable
+              type="date"
+              :placeholder="$t('request.filter.planceOder2')"
+              class="box-input-request-date"
+            >
+            </el-date-picker>
+            <div class="line"></div>
+            <el-date-picker
+              v-model="filter.toDate"
+              value-format="yyyy-MM-dd"
+              format="MM/dd/yyyy"
+              clearable
+              type="date"
+              :placeholder="$t('request.filter.planceOder3')"
+              class="box-input-request-date"
+            >
+            </el-date-picker>
+          </div>
+          <div class="label">{{ $t('request.filter.label3') }}</div>
+          <div class="be-flex jc-space-between align-center row box">
+            <el-input
+              v-model="filter.fromAmount"
+              :placeholder="$t('request.filter.planceOder2')"
+              class="box-input-request-date"
+              clearable
+              @keyup.native="numberFormat($event)"
+            ></el-input>
+            <div class="line"></div>
+            <el-input
+              v-model="filter.toAmount"
+              :placeholder="$t('request.filter.planceOder3')"
+              class="box-input-request-date"
+              clearable
+              @keyup.native="numberFormat($event)"
+            ></el-input>
+          </div>
+          <div class="be-flex jc-flex-end footer">
+            <el-button class="btn-default btn-400 btn-h-40 btn-close text-regular" @click="handleResetFilter">
+              {{ $t('button.reset') }}
+            </el-button>
+            <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border h-40 text-regular" @click="handleApply">
+              {{ $t('button.apply') }}
+            </el-button>
+          </div>
+        </div>
+        <div slot="reference" class="btn-filter be-flex align-center cursor">
+          <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="16" /> <span class="fs-16">{{ $t('crowdsale.filter') }}</span>
+        </div>
+      </el-popover>
+
       <el-dropdown class="cursor" trigger="click" @command="handleSort">
         <div class="sort be-flex align-center">
           <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="16" class="icon" /> <span class="fs-16">{{ $t('crowdsale.sortBy') }}</span>
@@ -38,20 +101,13 @@
         class="base-table table-request"
       >
         <el-table-column label="#" type="index" align="center" width="40" />
-        <el-table-column :label="this.$t('request.table.label1')" prop="transactionHash" align="left" />
         <el-table-column :label="this.$t('request.table.label2')" prop="transactionMillisecond" align="left" width="220">
           <template slot-scope="scope">
             <span>{{ scope.row.transactionMillisecond | formatDateHourMs }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="this.$t('request.table.label3')" prop="transactionDate" align="left" width="260">
-          <template slot-scope="scope">
-            <div class="box-email-tabel">
-              <p class="fs-16 fw-400">{{ scope.row.fullName }}</p>
-              <p class="fs-14 fw-400" style="color: #5b616e">{{ scope.row.email }}</p>
-            </div>
-          </template>
-        </el-table-column>
+        <el-table-column :label="this.$t('request.table.label1')" prop="fullName" align="left" width="264" />
+        <el-table-column :label="this.$t('request.table.label3')" prop="email" align="left" />
         <el-table-column :label="this.$t('request.table.label4')" prop="status" align="center" width="144">
           <template slot-scope="scope">
             <div v-if="scope.row.status === 'REJECTED'" class="box-status-tabel locked">
@@ -91,7 +147,12 @@
       keywordString: '',
       limit: 10,
       page: 1,
-      orderBy: 1
+      orderBy: 1,
+      fromDate: '',
+      toDate: '',
+      fromAmount: '',
+      toAmount: '',
+      status: ''
     }
     query: any = {
       page: 1,
@@ -123,6 +184,23 @@
         label: this.$i18n.t('request.sortBy.name'),
         divided: false,
         i18n: 'request.sortBy.name'
+      }
+    ]
+    filter: any = {
+      fromDate: '',
+      toDate: '',
+      fromAmount: '',
+      toAmount: '',
+      status: ''
+    }
+    optionStatus: any = [
+      {
+        value: 'locked',
+        label: this.$i18n.t('request.filter.pending')
+      },
+      {
+        value: 'rejected',
+        label: this.$i18n.t('request.filter.rejected')
       }
     ]
     get getPaginationInfo(): any {
@@ -176,6 +254,63 @@
       this.getDataTable()
       this.orderBy = command
     }
+    isVisible = false
+    handleShowPopper(): void {
+      console.log('vao day')
+      // switch (this.$route.name) {
+      //   case 'CustomerVerified':
+      //     this.filter.type = 'Verified'
+      //     break
+      //   case 'CustomerLocked':
+      //     this.filter.type = 'Locked'
+      //     break
+      //   case 'CustomerNotVerified':
+      //     this.filter.type = 'Not verified'
+      //     break
+      //   case 'CustomerProcessing':
+      //     this.filter.type = 'KYC processing'
+      //     break
+      // }
+      this.isVisible = true
+    }
+    handleResetFilter(): void {
+      this.filter = {
+        fromDate: '',
+        toDate: '',
+        fromAmount: '',
+        toAmount: '',
+        status: ''
+      }
+    }
+    handleApply(): void {
+      let filter: any = { ...this.filter }
+      if (this.filter.status.length > 0) {
+        filter.status = this.filter.status.join()
+      }
+      if (filter) {
+        this.querry.fromDate = filter.fromDate
+        this.querry.toDate = filter.toDate
+        this.querry.fromAmount = filter.fromAmount
+        this.querry.toAmount = filter.toAmount
+        this.querry.status = filter.status
+      }
+      this.getDataTable()
+      this.isVisible = false
+    }
+    numberFormat(event: FocusEvent): void {
+      const _event: any = event
+      let fnumber = _event.target.value
+      if (fnumber.length > 0) {
+        fnumber = fnumber.replaceAll(',', '')
+        fnumber = parseInt(fnumber)
+        if (!isNaN(fnumber)) {
+          fnumber = this.$options.filters?.numberWithCommas(fnumber)
+          _event.target.value = fnumber
+        } else {
+          _event.target.value = 0
+        }
+      }
+    }
   }
 </script>
 <style scoped lang="scss">
@@ -201,9 +336,9 @@
         color: var(--bc-text-primary) !important;
       }
       &:hover {
-        color: #0151fc;
+        color: var(--bc-theme-primary);
         .span-icon {
-          color: #0151fc !important;
+          color: var(--bc-theme-primary) !important;
         }
       }
     }

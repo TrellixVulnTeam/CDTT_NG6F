@@ -1,8 +1,13 @@
 <template>
-  <base-popup name="popup-withdraw-request" class="popup-withdraw-request">
-    <div>popup-withdraw-request</div>
-  </base-popup>
+  <div></div>
 </template>
+
 <script lang="ts">
+  import PopupMixin from '@/mixins/popup'
+  import { Component, Mixins, Vue } from 'vue-property-decorator'
+
+  @Component
+  export default class PopupwithDrawRequest extends Mixins(PopupMixin) {}
 </script>
-<style scoped lang="scss"></style>
+
+<style scoped></style>

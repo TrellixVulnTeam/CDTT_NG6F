@@ -1,5 +1,12 @@
 <template>
-  <div>Transfer</div>
+  <div></div>
 </template>
-<script lang="ts"></script>
-<style scoped lang="ts"></style>
+
+<script lang="ts">
+  import { Component, Vue } from 'vue-property-decorator'
+
+  @Component
+  export default class Transfer extends Vue {}
+</script>
+
+<style scoped></style>

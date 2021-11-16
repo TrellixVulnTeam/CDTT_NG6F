@@ -399,17 +399,27 @@
     "withdraw": "Rút",
     "transfer": "Chuyển giao",
     "table": {
-      "label1": "ID GIAO DỊCH",
+      "label1": "HỌ VÀ TÊN",
       "label2": "NGÀY YÊU CẦU",
-      "label3": "KHÁCH HÀNG",
       "label4": "TRẠNG THÁI",
-      "label5": "SỐ LƯỢNG"
+      "label5": "SỐ LƯỢNG",
+      "label3": "EMAIL"
     },
     "sortBy": {
       "requestDate": "Ngày yêu cầu",
       "amount": "Số lượng",
       "status": "Trạng thái",
       "name": "Tên"
+    },
+    "filter": {
+      "label1": "Trạng thái",
+      "planceOder1": "Chọn",
+      "label2": "Ngày yêu cầu",
+      "planceOder2": "Từ",
+      "label3": "Số lượng",
+      "planceOder3": "Đến",
+      "pending": "Chưa giải quyết",
+      "rejected": "Từ chối"
     }
   }
 }
