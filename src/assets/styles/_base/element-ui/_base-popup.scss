@@ -27,7 +27,7 @@
 
                 &:hover {
                     .el-icon-close {
-                        color: #0078d4!important;
+                        color: var(--bc-icon-close-popup);
                     }
                 }
             }

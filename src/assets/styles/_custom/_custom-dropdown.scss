@@ -41,10 +41,10 @@
         font-size: 16px;
         // margin-bottom: 16px;
         &:hover {
-            color: #0151fc !important;
+            color: var(--bc-theme-primary) !important;
         }
     }
     .active {
-        color: #0151fc;
+        color: var(--bc-theme-primary) !important;
     }
 }

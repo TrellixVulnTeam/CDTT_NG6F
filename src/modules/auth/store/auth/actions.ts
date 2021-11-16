@@ -59,6 +59,8 @@ const actions: ActionTree<IAuth, unknown> = {
   async getInfo({ commit }) {
     try {
       const result = await authRes.getInfo()
+      console.log(result)
+
       commit('SET_INFO', result)
     } catch (error: any) {
       return Promise.reject(error)
