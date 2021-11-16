@@ -442,17 +442,27 @@
     "withdraw": "Withdraw",
     "transfer": "Transfer",
     "table": {
-      "label1": "TRANSACTION ID",
+      "label1": "FULL NAME",
       "label2": "REQUEST DATE",
-      "label3": "CUSTOMER",
       "label4": "STATUS",
-      "label5": "AMOUNT"
+      "label5": "AMOUNT",
+      "label3": "EMAIL"
     },
     "sortBy": {
       "requestDate": "Request date",
       "amount": "Amount",
       "status": "Status",
       "name": "Name"
+    },
+    "filter": {
+      "label1": "Status",
+      "planceOder1": "Select",
+      "label2": "Request date",
+      "planceOder2": "From",
+      "label3": "Amount",
+      "planceOder3": "To",
+      "pending": "Pending",
+      "rejected": "Rejected"
     }
   }
 }

@@ -1,6 +1,12 @@
 <template>
-  <div class="account-statement">Account statement</div>
+  <div></div>
 </template>
+
 <script lang="ts">
+  import { Component, Vue } from 'vue-property-decorator'
+
+  @Component
+  export default class AccountStatement extends Vue {}
 </script>
-<style scoped lang="scss"></style>
+
+<style scoped></style>
