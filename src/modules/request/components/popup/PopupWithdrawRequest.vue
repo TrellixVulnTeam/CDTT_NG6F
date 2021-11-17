@@ -24,7 +24,7 @@
         <div class="box-left be-flex">
           <div class="icon"><base-icon icon="request-popup-icon1" size="48"></base-icon></div>
           <div class="box-amount">
-            <div class="big-amout fw-600 fs-24">-{{ data.transactionFee | convertAmountDecimal(data.currency) }} {{ data.currency }}</div>
+            <div class="big-amout fw-600 fs-24" v-if="data.currency">-{{ data.transactionFee | convertAmountDecimal(data.currency) }} {{ data.currency }}</div>
             <div class="dolar fw-400 fs-12">~${{ data.amountToUsd | convertAmountDecimal('USD') }}</div>
           </div>
           <div class="box-status fw-400 fs-12" :class="data.status != 'PENDING' ? 'rejected' : null">{{ data.status }}</div>
@@ -38,8 +38,8 @@
           <div class="mini-box be-flex align-center jc-space-between">
             <div class="left fw-400 fs-14">{{ $t('request.popup.label4') }}</div>
             <div class="right fw-400 fs-16">
-              <base-icon :icon="getIcon(data.currency)" size="20" class="mini-icon"></base-icon><span style="margin-right: 9px">{{ data.toAddress | formatTransactionCode }}</span
-              ><span class="icon-copy" @click="handleCopyTransaction(data.toAddress)">
+              <base-icon v-if="data.currency" :icon="getIcon(data.currency)" size="20" class="mini-icon"></base-icon><span style="margin-right: 9px">{{ data.toAddress | formatTransactionCode }}</span
+              ><span class="icon-copy" v-if="data.toAddress" @click="handleCopyTransaction(data.toAddress)">
                 <base-icon icon="icon-copy" size="20" />
               </span>
             </div>

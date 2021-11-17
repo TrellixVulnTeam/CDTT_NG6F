@@ -451,6 +451,21 @@
         "label9": "Quốc tịch",
         "label10": "Cấp độ",
         "label11": "Ngày tạo"
+      },
+      "account": {
+        "wallet": "Ví",
+        "Amount": "Số lượng",
+        "Available": "Có sẵn",
+        "Locked": "Đã khóa",
+        "bigTitle1": "Sao kê tài khoản",
+        "bigTitle2": "MỞ CÂN BẰNG",
+        "bigTitle3": "TOÀN BỘ",
+        "bigTitle4": "CÂN BẰNG KẾT THÚC",
+        "label1": "KIỂU",
+        "label2": "TÍN DỤNG",
+        "label3": "GHI NỢ",
+        "label4": "THĂNG BẰNG",
+        "label5": "TRẠNG THÁI"
       }
     }
   }
