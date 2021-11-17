@@ -106,7 +106,8 @@
   "header": {
     "kyc": "KYC",
     "customer": "Customer",
-    "crowdsale": "Crowdsale"
+    "crowdsale": "Crowdsale",
+    "balance":"Balance"
   },
   "footer": {
     "terms": "Terms and Conditions"
@@ -202,7 +203,7 @@
     "status": "Status",
     "trans-type": "Transaction type",
     "date": "Date",
-    "available-amount":"Available amount",
+    "available-amount": "Available amount",
     "locked-amount": "Locked amount",
     "balance": "Balance"
   },
@@ -238,6 +239,7 @@
     "reject-success": "Rejected successfully",
     "no-select-reject": "Must choose at least 1 reason",
     "no-data": "There are no data",
+    "no-data-kyc": "No data",
     "copy": "Copied"
   },
   "logout": {
@@ -274,7 +276,12 @@
     },
     "filter": {
       "filter": "Filter",
-      "sort": "Sort by"
+      "sort": "Sort by",
+      "all-status": "All status",
+      "kyc-processing": "KYC processing",
+      "not-verified": "Not verified",
+      "verified": "Verified",
+      "locked": "Locked"
     },
     "sort": {
       "date": "Created date",
@@ -386,10 +393,10 @@
     "Round": "Round",
     "lynk": "LYNK",
     "btc": "BTC",
-    "eth":"ETH",
-    "bnb":"BNB",
-    "usdt":"USDT",
-    "usdc":"USDC"
+    "eth": "ETH",
+    "bnb": "BNB",
+    "usdt": "USDT",
+    "usdc": "USDC"
   },
   "status": {
     "pending": "Pending",
@@ -450,13 +457,18 @@
       "planceOderTransactionDateEnd": "To"
     }
   },
-  "balance":{
+  "balance": {
     "available": "Available",
     "lockedAmount": "Locked Amount",
-    "balance":"Balance",
-    "lastChange":"Last changed",
+    "balance": "Balance",
+    "lastChange": "Last changed",
     "availableAmout": "Available amount",
     "name": "Name",
+    "investor":"Investor",
+    "total-available":"Total Available",
+    "total-locked":"Total Locked",
+    "of-total":"Of total",
+    "balance-wallet":"Balance"
     "popup": {
       "title": "BALANCE DETAIL"
     }
@@ -516,6 +528,21 @@
         "label9": "Nationality",
         "label10": "Level",
         "label11": "Created date"
+      },
+      "account": {
+        "wallet": "Wallet",
+        "Amount": "Amount",
+        "Available": "Available",
+        "Locked": "Locked",
+        "bigTitle1": "Account Statement",
+        "bigTitle2": "OPENING BALANCE",
+        "bigTitle3": "TOTAL",
+        "bigTitle4": "ENDING BALANCE",
+        "label1": "TYPE",
+        "label2": "CREDIT",
+        "label3": "DEBIT",
+        "label4": "BALANCE",
+        "label5": "STATUS"
       }
     }
   }

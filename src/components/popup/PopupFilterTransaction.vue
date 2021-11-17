@@ -85,39 +85,39 @@
     listWallet: Array<Record<string, any>> = [
       {
         id: 5,
-        name: 'Lynkey Wallet',
+        name: 'Lynkey',
         symbol: 'lynk',
         icon: 'icon-lin'
       },
       {
         id: 0,
-        name: 'Bitcoin Wallet',
+        name: 'Bitcoin',
         symbol: 'btc',
         icon: 'icon-btc'
       },
       {
         id: 1,
-        name: 'Ethereum Wallet',
+        name: 'Ethereum',
         symbol: 'eth',
         icon: 'icon-eth'
       },
       {
         id: 2,
-        name: 'Tether Wallet',
+        name: 'Tether',
         symbol: 'usdt',
         icon: 'icon-usdt',
         disabled: true
       },
       {
         id: 3,
-        name: 'USDC Wallet',
+        name: 'USDC',
         symbol: 'usdc',
         icon: 'icon-usdc',
         disabled: true
       },
       {
         id: 4,
-        name: 'BNB Wallet',
+        name: 'BNB',
         symbol: 'bnb',
         icon: 'icon-bnb',
         disabled: true

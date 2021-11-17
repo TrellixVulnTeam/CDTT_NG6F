@@ -295,8 +295,8 @@
       if (filter) {
         this.querry.fromDate = filter.fromDate
         this.querry.toDate = filter.toDate
-        this.querry.fromAmount = filter.fromAmount
-        this.querry.toAmount = filter.toAmount
+        this.querry.fromAmount = filter.fromAmount.replace(/,/g, '')
+        this.querry.toAmount = filter.toAmount.replace(/,/g, '')
         this.querry.status = filter.status
       }
       this.getDataTable()

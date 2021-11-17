@@ -28,9 +28,8 @@
         </el-table-column>
         <el-table-column :label="$t('kyc.table.status')" prop="kycStatus" align="center" width="160">
           <template slot-scope="scope">
-            <span v-if="scope.row.userStatus === 'ACTIVE'" :class="checkType(scope.row.kycStatus)">{{ checkStatus(scope.row.kycStatus) }}</span>
-            <span v-else-if="scope.row.userStatus === 'UNVERIFIED'" class="status-not-verified">{{ checkStatus(scope.row.userStatus) }}</span>
-            <span v-else class="status-locked">{{ $t('status.locked') }}</span>
+            <span :class="checkType(scope.row.kycStatus)">{{ checkStatus(scope.row.kycStatus) }}</span>
+            <!-- <span class="status-locked">{{ $t('status.locked') }}</span> -->
           </template>
         </el-table-column>
       </base-table>
@@ -51,7 +50,16 @@
     }
 
     checkType(type: string): string {
-      return type === 'Not verified' ? 'status-not-verified' : type === 'PENDING' ? 'status-pending' : type === 'VERIFIED' ? 'status-verified' : 'status-rejected'
+      switch (type) {
+        case 'PENDING':
+          return 'status-pending'
+        case 'VERIFIED':
+          return 'status-verified'
+        case 'REJECTED ':
+          return 'status-rejected'
+        default:
+          return 'status-not-verified'
+      }
     }
 
     checkStatus(status: string): any {
@@ -60,10 +68,10 @@
           return this.$t('status.pending')
         case 'VERIFIED':
           return this.$t('status.verified')
-        case 'UNVERIFIED':
-          return this.$t('status.unverified')
-        default:
+        case 'REJECTED':
           return this.$t('status.rejected')
+        default:
+          return this.$t('status.unverified')
       }
     }
     indexMethod(index: number): number {

@@ -1,5 +1,5 @@
 <template>
-  <base-popup name="popup-withdraw-request" class="popup-withdraw-request" width="1040px" :open="handleOpen" :close="handleClose">
+  <base-popup name="popup-withdraw-request" class="popup-withdraw-request" width="1040px" :open="handleOpen" :close="handleClose" v-loading="loading">
     <div slot="title">
       <span>{{ $t('request.popup.titlePopup') }}</span>
     </div>
@@ -10,7 +10,7 @@
         </div>
         <div class="box-right">
           <div class="big-title fw-600 fs-18">{{ $t('request.popup.bigTitle1') }}</div>
-          <div class="discript be-flex align-center">
+          <div class="discript be-flex align-center" style="margin-bottom: 8px">
             <div class="dot"></div>
             <div class="comment fw-400 fs-16">{{ $t('request.popup.label1') }}</div>
           </div>
@@ -24,29 +24,29 @@
         <div class="box-left be-flex">
           <div class="icon"><base-icon icon="request-popup-icon1" size="48"></base-icon></div>
           <div class="box-amount">
-            <div class="big-amout fw-600 fs-24">-0.00864788 BTC</div>
-            <div class="dolar fw-400 fs-12">~$44,152.00</div>
+            <div class="big-amout fw-600 fs-24" v-if="data.currency">-{{ data.transactionFee | convertAmountDecimal(data.currency) }} {{ data.currency }}</div>
+            <div class="dolar fw-400 fs-12">~${{ data.amountToUsd | convertAmountDecimal('USD') }}</div>
           </div>
-          <div class="box-status fw-400 fs-12">Pending</div>
+          <div class="box-status fw-400 fs-12" :class="data.status != 'PENDING' ? 'rejected' : null">{{ data.status }}</div>
         </div>
         <div class="line"></div>
         <div class="box-right">
           <div class="mini-box be-flex align-center jc-space-between">
             <div class="left fw-400 fs-14">{{ $t('request.popup.label3') }}</div>
-            <div class="right fw-400 fs-16">phuonganhnguyentran123@gmail.com</div>
+            <div class="right fw-400 fs-16">{{ dataUser.email }}</div>
           </div>
           <div class="mini-box be-flex align-center jc-space-between">
             <div class="left fw-400 fs-14">{{ $t('request.popup.label4') }}</div>
             <div class="right fw-400 fs-16">
-              <base-icon icon="icon-btc" size="20" class="mini-icon"></base-icon><span style="margin-right: 9px">1Nb4wT...bspXQe</span
-              ><span class="icon-copy" @click="handleCopyTransaction('Vi Thị Nưu')">
+              <base-icon v-if="data.currency" :icon="getIcon(data.currency)" size="20" class="mini-icon"></base-icon><span style="margin-right: 9px">{{ data.toAddress | formatTransactionCode }}</span
+              ><span class="icon-copy" v-if="data.toAddress" @click="handleCopyTransaction(data.toAddress)">
                 <base-icon icon="icon-copy" size="20" />
               </span>
             </div>
           </div>
           <div class="mini-box be-flex align-center jc-space-between">
             <div class="left fw-400 fs-14">{{ $t('request.popup.label5') }}</div>
-            <div class="right fw-400 fs-16">01/10/2022 12:09:06</div>
+            <div class="right fw-400 fs-16">{{ data.transactionDate | formatDateHourMs }}</div>
           </div>
         </div>
       </div>
@@ -63,7 +63,7 @@
               </div>
             </div>
             <div class="box-table">
-              <transaction-detail :data="data" v-if="tabActive == 1" />
+              <transaction-detail :dataUser="dataUser" :data="data" v-if="tabActive == 1" />
               <account-statement :data="data" v-if="tabActive == 2" />
             </div>
           </div>
@@ -85,10 +85,16 @@
   import { Component, Mixins, Prop } from 'vue-property-decorator'
   import TransactionDetail from './TransactionDetail.vue'
   import AccountStatement from './AccountStatement.vue'
+  import getRepository from '@/services'
+  import { RequestRepository } from '@/services/repositories/request'
+
+  const api: RequestRepository = getRepository('request')
 
   @Component({ components: { TransactionDetail, AccountStatement } })
   export default class PopupWithdrawRequest extends Mixins(PopupMixin) {
     @Prop() data!: any
+    dataUser: any = {}
+    loading = false
     tabs: Array<Record<string, any>> = [
       {
         id: 1,
@@ -104,19 +110,29 @@
       this.tabActive = tab.id
     }
     handleOpen(): void {
-      console.log('open')
+      if (this.data.userId) {
+        this.getUserInfo(this.data.userId)
+      }
     }
     handleClose(): void {
       this.handleReset()
     }
     handleReset(): void {
       this.tabActive = 1
+      this.loading = false
     }
     handleBtnClose(): void {
       this.handleReset()
       this.setOpenPopup({
         popupName: 'popup-withdraw-request',
         isOpen: false
+      })
+    }
+    async getUserInfo(userId: string | number): Promise<void> {
+      this.loading = true
+      api.getUserInfo(userId).then((res: any) => {
+        this.dataUser = res.content[0]
+        this.loading = false
       })
     }
     handleCopyTransaction(string: any): void {
@@ -131,6 +147,13 @@
         message = this.$t('notify.copy')
         this.$message.success(message)
       }
+    }
+    getIcon(currency: string): void {
+      let icon: any = ''
+      if (currency) {
+        icon = `icon-${currency.toLowerCase()}`
+      }
+      return icon
     }
   }
 </script>
@@ -207,6 +230,10 @@
             height: 24px;
             text-align: center;
             line-height: 24px;
+          }
+          .rejected {
+            background: #fbedee;
+            color: #cf202f;
           }
         }
         .box-right {

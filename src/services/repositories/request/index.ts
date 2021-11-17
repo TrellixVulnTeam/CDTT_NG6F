@@ -13,4 +13,20 @@ export class RequestRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+  async getUserInfo(id: string | number): Promise<any> {
+    try {
+      const rs = await request.get(`${this.prefix}/customers?userId=${id}`)
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+  async getTableStatement(id: string | number): Promise<any> {
+    try {
+      const rs = await request.get(`${this.prefix}/transaction/request/transactions?currency=BTC&transactionType=&orderBy&page&limit&userId=${id}`)
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
 }
