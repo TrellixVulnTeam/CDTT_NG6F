@@ -11,24 +11,49 @@
     </div>
     <div class="container bg-white wallet-header" style="width: 100%">
       <div style="" class="col-width col-margin">
-        <span class="text1"> Investor</span>
+        <div class="sack-banlance">
+          <span class="text1">
+            {{ $t(`balance.investor`) }}
+          </span>
+          <div>
+            <base-icon icon="icon-people" size="19" />
+          </div>
+        </div>
         <span class="number2"> {{ numOfInvestor }}</span>
-        <span class="text3"> of total {{ numOfUser | formatNumber }}</span>
+        <div>
+          <span class="text3"> of total {{ numOfUser | formatNumber }}</span>
+        </div>
       </div>
+
       <div class="col-width col-margin">
-        <span class="text1"> Total Available</span>
+        <div class="sack-banlance">
+          <span class="text1">{{ $t(`balance.total-available`) }}</span>
+          <div>
+            <base-icon icon="icon-swap" size="19" />
+          </div>
+        </div>
         <span class="number2"> {{ totalAvailable | formatNumber }}</span>
-        <span class="text3"> ~$1000,000</span>
+        <span class="text3"> ~${{ totalAvailableUSD | convertAmountDecimal(this.tabActive) }}</span>
       </div>
       <div class="col-width col-margin">
-        <span class="text1"> Total Locked</span>
+        <div class="sack-banlance">
+          <span class="text1">{{ $t(`balance.total-locked`) }}</span>
+          <div>
+            <base-icon icon="icon-lock-balance" size="19" />
+          </div>
+        </div>
         <span class="number2"> {{ totalLocked | formatNumber }}</span>
-        <span class="text3"> ~$1000,000</span>
+        <span class="text3">~${{ totalLockedUSD | convertAmountDecimal(this.tabActive) }}</span>
       </div>
       <div class="col-width col-margin">
-        <span class="text1"> Balance</span>
+        <div class="sack-banlance">
+          <span class="text1"> {{ $t(`balance.balance-wallet`) }}</span>
+          <div>
+            <base-icon icon="icon-wallet" size="19" />
+          </div>
+        </div>
         <span class="number2"> {{ totalBalance | formatNumber }}</span>
-        <span class="text3"> ~$1000,000</span>
+        <span class="text3"> ~${{ totalBalanceUSD | convertAmountDecimal(this.tabActive) }}</span>
       </div>
     </div>
     <balance-filter @filterBalance="handleFilter" :listApproveBy="listApproveBy" />
@@ -106,6 +131,9 @@
     totalBalance = ''
     totalElement = ''
     totalLocked = ''
+    totalAvailableUSD =''
+    totalLockedUSD = ''
+    totalBalanceUSD = ''
     listApproveBy: Record<string, any>[] = []
     getListBalance(): void {
       console.log('1')
@@ -142,6 +170,9 @@
         this.totalBalance = result.totalBalance
         this.totalLocked = result.totalLocked
         this.totalBalance = result.totalBalance
+        this.totalAvailableUSD = result.totalAvailableUSD
+        this.totalLockedUSD = result.totalLockedUSD
+        this.totalBalanceUSD = result.totalBalanceUSD
       } catch (error) {
         this.isLoading = false
         console.log(error)
@@ -227,6 +258,12 @@
     zoom: 1;
     background: #efefef;
   }
+  .sack-banlance {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+    padding: 0 18px;
+  }
   .col-width {
     width: 20% !important;
     height: 112px !important;
@@ -235,8 +272,8 @@
     box-sizing: border-box !important;
   }
   .text1 {
-    margin-top: 16px;
-    margin-left: 18px;
+    // margin-top: 16px;
+    // margin-left: 18px;
     font-weight: 400;
     font-size: 16px;
     line-height: 24px;
