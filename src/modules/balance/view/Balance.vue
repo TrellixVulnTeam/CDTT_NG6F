@@ -9,10 +9,57 @@
         </div>
       </div>
     </div>
+    <div class="container bg-white wallet-header" style="width: 100%">
+      <div style="" class="col-width col-margin">
+        <div class="sack-banlance">
+          <span class="text1">
+            {{ $t(`balance.investor`) }}
+          </span>
+          <div>
+            <base-icon icon="icon-people" size="19" />
+          </div>
+        </div>
+        <span class="number2"> {{ numOfInvestor }}</span>
+        <div>
+          <span class="text3"> of total {{ numOfUser | formatNumber }}</span>
+        </div>
+      </div>
 
+      <div class="col-width col-margin">
+        <div class="sack-banlance">
+          <span class="text1">{{ $t(`balance.total-available`) }}</span>
+          <div>
+            <base-icon icon="icon-swap" size="19" />
+          </div>
+        </div>
+        <span class="number2"> {{ totalAvailable | formatNumber }}</span>
+        <span class="text3"> ~${{ totalAvailableUSD | convertAmountDecimal(this.tabActive) }}</span>
+      </div>
+      <div class="col-width col-margin">
+        <div class="sack-banlance">
+          <span class="text1">{{ $t(`balance.total-locked`) }}</span>
+          <div>
+            <base-icon icon="icon-lock-balance" size="19" />
+          </div>
+        </div>
+        <span class="number2"> {{ totalLocked | formatNumber }}</span>
+        <span class="text3">~${{ totalLockedUSD | convertAmountDecimal(this.tabActive) }}</span>
+      </div>
+      <div class="col-width col-margin">
+        <div class="sack-banlance">
+          <span class="text1"> {{ $t(`balance.balance-wallet`) }}</span>
+          <div>
+            <base-icon icon="icon-wallet" size="19" />
+          </div>
+        </div>
+        <span class="number2"> {{ totalBalance | formatNumber }}</span>
+        <span class="text3"> ~${{ totalBalanceUSD | convertAmountDecimal(this.tabActive) }}</span>
+      </div>
+    </div>
     <balance-filter @filterBalance="handleFilter" :listApproveBy="listApproveBy" />
     <balance-table v-loading="isLoading" @rowClick="handleRowClick" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="data" />
     <!-- <kyc-detail :detailRow="detailRow" @init="init" /> -->
+    <balance-detail :detailRow="detailRow" :data='dataDetail'/>
   </div>
 </template>
 
@@ -27,10 +74,10 @@
   import EventBus from '@/utils/eventBus'
   import { debounce } from 'lodash'
 
-  import { namespace } from 'vuex-class'
+  import BalanceDetail from '@/modules/balance/components/balanceDetail/BalanceDetail.vue'
   const api: BalanceRepository = getRepository('balance')
 
-  @Component({ components: { BalanceTable, BalanceFilter } })
+  @Component({ components: { BalanceTable, BalanceFilter,BalanceDetail } })
   export default class BOKyc extends Mixins(PopupMixin) {
     tabs: Array<Record<string, any>> = [
       {
@@ -71,7 +118,7 @@
     data: Array<Record<string, any>> = []
 
     detailRow = {}
-
+    dataDetail={}
     query: any = {
       search: '',
       orderBy: 1,
@@ -79,6 +126,15 @@
       limit: 10,
       total: 10
     }
+    numOfInvestor = ''
+    numOfUser = ''
+    totalAvailable = ''
+    totalBalance = ''
+    totalElement = ''
+    totalLocked = ''
+    totalAvailableUSD =''
+    totalLockedUSD = ''
+    totalBalanceUSD = ''
     listApproveBy: Record<string, any>[] = []
     getListBalance(): void {
       console.log('1')
@@ -90,6 +146,7 @@
       // const name = this.$route.name
       // this.query.kycStatus = name === 'KycPending' ? 'PENDING' : name === 'KycVerified' ? 'VERIFIED' : 'REJECTED'
       // this.init()
+
     }
 
     async init(): Promise<void> {
@@ -107,7 +164,34 @@
         this.data = result.balances || []
         this.query.total = result.totalElement
         this.isLoading = false
+        console.log('result', result)
         // console.log('result', result)
+        this.numOfInvestor = result.numOfInvestor
+        this.numOfUser = result.numOfUser
+        this.totalAvailable = result.totalAvailable
+        this.totalBalance = result.totalBalance
+        this.totalLocked = result.totalLocked
+        this.totalBalance = result.totalBalance
+        this.totalAvailableUSD = result.totalAvailableUSD
+        this.totalLockedUSD = result.totalLockedUSD
+        this.totalBalanceUSD = result.totalBalanceUSD
+      } catch (error) {
+        this.isLoading = false
+        console.log(error)
+      }
+    }
+
+    async handleGetBalanceDetail(userId:number){
+      try {
+        const params = {
+          ...this.query,
+          search: this.query.search,
+          orderBy: this.query.orderBy,
+          limit: this.query.limit,
+          page: this.query.page,
+          total: null
+        }
+
       } catch (error) {
         this.isLoading = false
         console.log(error)
@@ -149,7 +233,6 @@
       this.init()
     }
     handleSizeChange(limit: number): void {
-      console.log('limit', limit)
       this.query.limit = limit
       this.init()
     }
@@ -157,7 +240,7 @@
     handleRowClick(row: Record<string, any>): void {
       this.detailRow = row
       this.setOpenPopup({
-        popupName: 'popup-kyc-detail',
+        popupName: 'popup-balance-detail',
         isOpen: true
       })
     }
@@ -184,6 +267,53 @@
     text-justify: distribute-all-lines;
     width: 100%;
   }
+  ::v-deep .container > div {
+    width: 100px;
+    height: 100px;
+    vertical-align: top;
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    background: #efefef;
+  }
+  .sack-banlance {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+    padding: 0 18px;
+  }
+  .col-width {
+    width: 20% !important;
+    height: 112px !important;
+    border-radius: 8px !important;
+    border: 1px solid #dbdbdb !important;
+    box-sizing: border-box !important;
+  }
+  .text1 {
+    // margin-top: 16px;
+    // margin-left: 18px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #0a0b0d;
+  }
+  .number2 {
+    margin-top: 8px;
+    margin-left: 18px;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 32px;
+    color: #0a0b0d;
+  }
+  .text3 {
+    margin-top: 6px;
+    margin-left: 18px;
+    margin-bottom: 16px;
+  }
+  .col-margin {
+    margin: 24px 24px;
+    background: #fff !important;
+  }
   .container > div {
     width: 100px;
     height: 100px;
@@ -196,8 +326,8 @@
   span {
     width: 100%;
     display: inline-block;
-    font-size: 0;
-    line-height: 0;
+    font-size: 16px;
+    line-height: 24px;
   }
   .bo-kyc {
     box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);

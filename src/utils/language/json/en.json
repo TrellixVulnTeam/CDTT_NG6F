@@ -107,7 +107,8 @@
     "kyc": "KYC",
     "customer": "Customer",
     "crowdsale": "Crowdsale",
-    "request": "Request"
+    "request": "Request",
+    "balance":"Balance"
   },
   "footer": {
     "terms": "Terms and Conditions"
@@ -276,7 +277,12 @@
     },
     "filter": {
       "filter": "Filter",
-      "sort": "Sort by"
+      "sort": "Sort by",
+      "all-status": "All status",
+      "kyc-processing": "KYC processing",
+      "not-verified": "Not verified",
+      "verified": "Verified",
+      "locked": "Locked"
     },
     "sort": {
       "date": "Created date",
@@ -398,7 +404,9 @@
     "verified": "Verified",
     "rejected": "Rejected",
     "unverified": "Not verified",
-    "locked": "Locked"
+    "locked": "Locked",
+    "success": "Success",
+    "failed": "Failed"
   },
   "crowdsale": {
     "round": "Round",
@@ -456,7 +464,15 @@
     "balance": "Balance",
     "lastChange": "Last changed",
     "availableAmout": "Available amount",
-    "name": "Name"
+    "name": "Name",
+    "investor":"Investor",
+    "total-available":"Total Available",
+    "total-locked":"Total Locked",
+    "of-total":"Of total",
+    "balance-wallet":"Balance",
+    "popup": {
+      "title": "BALANCE DETAIL"
+    }
   },
   "request": {
     "withdraw": "Withdraw",

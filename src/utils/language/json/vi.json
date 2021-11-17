@@ -83,7 +83,8 @@
     "kyc": "KYC",
     "customer": "Khách hàng",
     "crowdsale": "Crowdsale",
-    "request": "Yêu cầu"
+    "request": "Yêu cầu",
+    "balance":"Balance"
   },
   "footer": {
     "terms": "Các điều khoản và điều kiện"
@@ -229,7 +230,12 @@
     },
     "filter": {
       "filter": "Bộ lọc",
-      "sort": "Sắp xếp"
+      "sort": "Sắp xếp",
+      "all-status": "Tất cả",
+      "kyc-processing": "Đang xác minh",
+      "not-verified": "Chưa xác minh",
+      "verified": "Đã xác minh",
+      "locked": "Bị khóa"
     },
     "sort": {
       "date": "Ngày tạo",
@@ -325,7 +331,7 @@
     "Rejected": "Đã từ chối",
     "customer-all": "Tất cả",
     "customer-verified": "Đã xác minh",
-    "customer-processing": "Đang KYC",
+    "customer-processing": "Đang xác minh",
     "customer-not-verified": "Chưa xác minh",
     "customer-locked": "Bị khóa",
     "info": "Thông tin",
@@ -338,7 +344,13 @@
     "statistics": "Thống kê",
     "setting": "Cài đặt",
     "Transactions": "Giao dịch",
-    "Round": "Vòng"
+    "Round": "Vòng",
+    "lynk": "LYNK",
+    "btc": "BTC",
+    "eth":"ETH",
+    "bnb":"BNB",
+    "usdt":"USDT",
+    "usdc":"USDC"
   },
   "status": {
     "pending": "Đang chờ",
@@ -471,6 +483,22 @@
         "label4": "THĂNG BẰNG",
         "label5": "TRẠNG THÁI"
       }
+    }
+  },
+  "balance":{
+    "available": "Có sẵn",
+    "lockedAmount": "Số tiền đã khóa",
+    "balance":"Balance",
+    "lastChange":"Mới đổi",
+    "availableAmout": "Số lượng có sẵn",
+    "name": "Tên",
+    "investor":"Nhà đầu tư",
+    "total-available":"Tổng số tiền hiện có",
+    "total-locked":"Tổng số tiền đã khóa",
+    "of-total":"Of total",
+    "balance-wallet":"Số dư ví",
+    "popup": {
+      "title": "CHI TIẾT BALANCE"
     }
   }
 }

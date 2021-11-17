@@ -64,6 +64,8 @@
           return this.$t('header.crowdsale')
         case '/request':
           return this.$t('header.request')
+        case '/balance':
+          return this.$t('header.balance')
         default:
           return this.$t('header.kyc')
       }
