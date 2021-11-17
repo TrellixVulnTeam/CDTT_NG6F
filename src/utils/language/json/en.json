@@ -531,7 +531,13 @@
         "label11": "Created date"
       },
       "account": {
-        "wallet": "Wallet",
+        "Linkey": "Lynkey Wallet",
+        "Ethereum": "Ethereum Wallet",
+        "Bitcoin": "Bitcoin Wallet",
+        "Bnb": "BNB Wallet",
+        "Usdt": "Tether Wallet",
+        "Usdc": "USDC Wallet",
+        "Cleverme": "CleverMe Wallet",
         "amount": "Amount",
         "available": "Available Amount",
         "locked": "Locked Amount",

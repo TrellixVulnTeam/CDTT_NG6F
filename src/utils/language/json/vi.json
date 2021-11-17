@@ -466,7 +466,13 @@
         "label11": "Ngày tạo"
       },
       "account": {
-        "wallet": "Ví",
+        "Linkey": "Ví Lynkey",
+        "Ethereum": "Ví Ethereum",
+        "Bitcoin": "Ví Bitcoin",
+        "Bnb": "Ví BNB",
+        "Usdt": "Ví USDT",
+        "Usdc": "Ví USDC",
+        "Cleverme": "Ví Cleverme",
         "amount": "Số lượng",
         "available": "Số lượng có sẵn",
         "locked": "Số lượng đã khóa",

@@ -1,17 +1,17 @@
 <template>
-  <div class="content-account">
+  <div class="content-account" v-loading="loading">
     <div class="box1 be-flex align-center">
       <div class="mini-boxcontent">
         <div class="be-flex align-center header">
           <base-icon class="icon-header" :icon="getIcon(data.currency)" size="40"></base-icon>
           <div>
-            <p class="fw-600 fs-18">{{ $t('request.popup.account.wallet') }}</p>
+            <p class="fw-600 fs-18">{{ getTitle }}</p>
             <p class="fw-400 fs-12 text-color">{{ $t('request.popup.account.discription1') }}</p>
           </div>
         </div>
         <div>
-          <p class="fw-600 fs-24 color-coin" style="line-height: 32px">0.00864788 BTC</p>
-          <p class="fw-400 fs-14 dolar">~$44,152.00</p>
+          <p class="fw-600 fs-24" style="line-height: 32px" :class="getClassUnit">{{ summary.balance }}</p>
+          <p class="fw-400 fs-14 dolar">~${{ summary.balanceToUsd }}</p>
         </div>
       </div>
       <div class="mini-boxcontent mini-boxcontent2">
@@ -23,8 +23,8 @@
           </div>
         </div>
         <div>
-          <p class="fw-600 fs-24 color-coin" style="line-height: 32px">0.00864788 BTC</p>
-          <p class="fw-400 fs-14 dolar">~$44,152.00</p>
+          <p class="fw-600 fs-24" style="line-height: 32px" :class="getClassUnit">{{ summary.availableBalance }}</p>
+          <p class="fw-400 fs-14 dolar">~${{ summary.availableBalanceToUsd }}</p>
         </div>
       </div>
       <div class="mini-boxcontent mini-boxcontent3">
@@ -36,8 +36,8 @@
           </div>
         </div>
         <div>
-          <p class="fw-600 fs-24 color-coin" style="line-height: 32px">0.00864788 BTC</p>
-          <p class="fw-400 fs-14 dolar">~$44,152.00</p>
+          <p class="fw-600 fs-24" style="line-height: 32px">{{ summary.totalLockedAmount }}</p>
+          <p class="fw-400 fs-14 dolar">~${{ summary.totalLockedAmountToUsd }}</p>
         </div>
       </div>
     </div>
@@ -96,11 +96,22 @@
   export default class AccountStatement extends Vue {
     @Prop() data!: any
     dataTable: any = []
+    summary: any = {}
+    coin: any = ''
+    loading = true
     async getTable(): Promise<void> {
       if (this.data.userId) {
-        await api.getTableStatement(this.data.userId).then((res: any) => {
-          this.dataTable = res.transactions.content
-        })
+        await api
+          .getTableStatement(this.data.currency, this.data.userId)
+          .then((res: any) => {
+            this.loading = false
+            this.dataTable = res.transactions.content
+            this.summary = res.summary
+          })
+          .catch(error => {
+            console.log(error)
+            this.loading = false
+          })
       }
     }
     getIcon(currency: string): void {
@@ -109,6 +120,42 @@
         icon = `icon-${currency.toLowerCase()}`
       }
       return icon
+    }
+    get getTitle(): any {
+      switch (this.data.currency) {
+        case 'LYNK':
+          return this.$t('request.popup.account.Linkey')
+        case 'BTC':
+          return this.$t('request.popup.account.Bitcoin')
+        case 'ETH':
+          return this.$t('request.popup.account.Ethereum')
+        case 'BNB':
+          return this.$t('request.popup.account.Bnb')
+        case 'USDT':
+          return this.$t('request.popup.account.Usdt')
+        case 'USDC':
+          return this.$t('request.popup.account.Usdc')
+        default:
+          return this.$t('request.popup.account.Cleverme')
+      }
+    }
+    get getClassUnit(): string {
+      switch (this.data.currency) {
+        case 'LYNK':
+          return 'amount-lyn'
+        case 'BTC':
+          return 'amount-btc'
+        case 'ETH':
+          return 'amount-eth'
+        case 'BNB':
+          return 'amount-bnb'
+        case 'USDT':
+          return 'amount-usdt'
+        case 'USDC':
+          return 'amount-usdc'
+        default:
+          return 'amount-clm'
+      }
     }
     created(): void {
       this.getTable()
