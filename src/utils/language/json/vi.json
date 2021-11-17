@@ -82,7 +82,8 @@
   "header": {
     "kyc": "KYC",
     "customer": "Khách hàng",
-    "crowdsale": "Crowdsale"
+    "crowdsale": "Crowdsale",
+    "balance":"Balance"
   },
   "footer": {
     "terms": "Các điều khoản và điều kiện"
