@@ -16,7 +16,7 @@
                   <el-col :span="11">
                     <el-input v-model="filterBalance.fromAvailableAmount" @keyup.native="numberFormat($event)" type="text" placeholder="From"></el-input>
                   </el-col>
-                  <span class="dash"><i class="el-icon-minus icon-dash"></i></span>
+                  <!-- <span class="dash"><i class="el-icon-minus icon-dash"></i></span> -->
                   <el-col :span="11" style="float: right">
                     <el-input v-model="filterBalance.toAvailableAmount" @keyup.native="numberFormat($event)" type="text" placeholder="To"></el-input>
                   </el-col>
@@ -30,7 +30,7 @@
                   <el-col :span="11">
                     <el-input v-model="filterBalance.fromLockedAmount" @keyup.native="numberFormat($event)" type="text" placeholder="From"></el-input>
                   </el-col>
-                  <span class="dash"><i class="el-icon-minus icon-dash"></i></span>
+                  <!-- <span class="dash"><i class="el-icon-minus icon-dash"></i></span> -->
                   <el-col :span="11" style="float: right">
                     <el-input v-model="filterBalance.toLockedAmount" @keyup.native="numberFormat($event)" type="text" placeholder="To"></el-input>
                   </el-col>
@@ -44,7 +44,7 @@
                   <el-col :span="11">
                     <el-input v-model="filterBalance.fromBalanceAmount" @keyup.native="numberFormat($event)" type="text" placeholder="From"></el-input>
                   </el-col>
-                  <span class="dash"><i class="el-icon-minus icon-dash"></i></span>
+                  <!-- <span class="dash"><i class="el-icon-minus icon-dash"></i></span> -->
                   <el-col :span="11" style="float: right">
                     <el-input v-model="filterBalance.toBalanceAmount" @keyup.native="numberFormat($event)" type="text" placeholder="To"></el-input>
                   </el-col>

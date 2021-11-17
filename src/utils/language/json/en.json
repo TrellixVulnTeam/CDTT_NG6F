@@ -106,7 +106,8 @@
   "header": {
     "kyc": "KYC",
     "customer": "Customer",
-    "crowdsale": "Crowdsale"
+    "crowdsale": "Crowdsale",
+    "balance":"Balance"
   },
   "footer": {
     "terms": "Terms and Conditions"
@@ -455,7 +456,12 @@
     "balance": "Balance",
     "lastChange": "Last changed",
     "availableAmout": "Available amount",
-    "name": "Name"
+    "name": "Name",
+    "investor":"Investor",
+    "total-available":"Total Available",
+    "total-locked":"Total Locked",
+    "of-total":"Of total",
+    "balance-wallet":"Balance"
   },
   "request": {
     "withdraw": "Withdraw",

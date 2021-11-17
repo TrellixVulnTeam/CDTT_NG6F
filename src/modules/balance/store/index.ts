@@ -1,5 +1,5 @@
 import { Module } from 'vuex'
-import bcBalance from './kyc'
+import bcBalance from './balance'
 
 const BalanceStores: Record<string, Module<any, any>> = {
   bcBalance

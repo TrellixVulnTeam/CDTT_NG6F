@@ -82,7 +82,8 @@
   "header": {
     "kyc": "KYC",
     "customer": "Khách hàng",
-    "crowdsale": "Crowdsale"
+    "crowdsale": "Crowdsale",
+    "balance":"Balance"
   },
   "footer": {
     "terms": "Các điều khoản và điều kiện"
@@ -337,7 +338,13 @@
     "statistics": "Thống kê",
     "setting": "Cài đặt",
     "Transactions": "Giao dịch",
-    "Round": "Vòng"
+    "Round": "Vòng",
+    "lynk": "LYNK",
+    "btc": "BTC",
+    "eth":"ETH",
+    "bnb":"BNB",
+    "usdt":"USDT",
+    "usdc":"USDC"
   },
   "status": {
     "pending": "Đang chờ",
@@ -468,5 +475,18 @@
         "label5": "TRẠNG THÁI"
       }
     }
+  },
+  "balance":{
+    "available": "Available",
+    "lockedAmount": "Locked Amount",
+    "balance":"Balance",
+    "lastChange":"Last changed",
+    "availableAmout": "Available amount",
+    "name": "Name",
+    "investor":"Nhà đầu tư",
+    "total-available":"Tổng số tiền hiện có",
+    "total-locked":"Tổng số tiền đã khóa",
+    "of-total":"Of total",
+    "balance-wallet":"Số dư ví"
   }
 }
