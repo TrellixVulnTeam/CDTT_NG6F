@@ -174,22 +174,22 @@
     listType: Array<Record<string, any>> = [
       {
         id: 0,
-        name: 'Bonus Sign Up',
+        name: 'Sign Up Bonus',
         value: 'BONUS_SIGN_UP'
       },
       {
         id: 1,
-        name: 'Bonus First Transaction',
+        name: 'First Transaction Bonus',
         value: 'BONUS_FIRST_TRANS'
       },
       {
         id: 2,
-        name: 'Bonus Crowdsale',
+        name: 'Crowdsale Bonus',
         value: 'BONUS_CROWDSALE'
       },
       {
         id: 3,
-        name: 'Bonus Big Backers',
+        name: 'Big Backers Bonus',
         value: 'BONUS_BIG_BACKER'
       }
     ]

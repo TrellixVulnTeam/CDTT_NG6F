@@ -11,25 +11,40 @@
     </router-link>
     <router-link :to="{ name: 'Crowdsale' }" class="router_center">
       <div class="sack_avatar">
-        <base-icon icon="menu-crowdsale-active" class="menu-active" size="32" />
+        <base-icon :icon="coinMain === 'LYNK' ? 'menu-crowdsale-active' : 'menu-crowdsale-clm'" class="menu-active" size="32" />
         <base-icon icon="menu-crowdsale" class="menu" size="32" />
         <p>{{ $t('leftMenu.crowdsale') }}</p>
       </div>
     </router-link>
     <router-link :to="{ name: 'Kyc' }" class="router_center">
       <div class="sack_avatar">
-        <base-icon icon="menu-kyc-active" class="menu-active" size="32" />
+        <base-icon :icon="coinMain === 'LYNK' ? 'menu-kyc-active' : 'menu-kyc-clm'" class="menu-active" size="32" />
         <base-icon icon="menu-kyc" class="menu" size="32" />
         <p>{{ $t('leftMenu.kyc') }}</p>
       </div>
     </router-link>
     <router-link :to="{ name: 'CustomerMain' }" class="router_center">
       <div class="sack_avatar">
-        <base-icon icon="menu-customer-active" class="menu-active" size="32" />
+        <base-icon :icon="coinMain === 'LYNK' ? 'menu-customer-active' : 'menu-customer-clm'" class="menu-active" size="32" />
         <base-icon icon="menu-customer" class="menu" size="32" />
         <p>{{ $t('leftMenu.customer') }}</p>
       </div>
     </router-link>
+    <router-link :to="{ name: 'BalanceLynk' }" class="router_center">
+      <div class="sack_avatar">
+        <base-icon icon="icon-balance-active" class="menu-active" size="32" />
+        <base-icon icon="icon-balance" class="menu" size="32" />
+        <p>{{ $t('leftMenu.balance') }}</p>
+      </div>
+    </router-link>
+    <!-- <router-link :to="{ name: 'Request' }" class="router_center">
+      <div class="sack_avatar">
+        <base-icon icon="menu-request-active" class="menu-active" size="32" />
+        <base-icon icon="menu-request" class="menu" size="32" />
+        <p>{{ $t('leftMenu.request') }}</p>
+      </div>
+    </router-link> -->
+
     <!-- <router-link :to="{ name: 'Wallet' }" class="router_center" exact>
       <div class="sack_avatar">
         <base-icon icon="menu-contract" size="32" />
@@ -202,9 +217,10 @@
     background: #e9e9e9;
     width: 80px;
     .sack_avatar {
-      color: #0078d4;
+      color: var(--bc-theme-primary);
       p {
-        color: #0078d4 !important;
+        color: var(--bc-theme-primary) !important;
+        font-weight: 600 !important;
       }
       .menu {
         display: none;
@@ -221,6 +237,7 @@
   .router-home {
     margin-bottom: 0 !important;
     .logo-home {
+      height: 100%;
       padding-top: 0 !important ;
       .style_avatar_hom {
         font-size: 40px;

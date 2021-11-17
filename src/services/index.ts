@@ -5,8 +5,9 @@ import { KycRepository } from './repositories/kyc'
 import { ParamsRepository } from './repositories/params'
 import { CustomerRepository } from './repositories/customer'
 import { CrowdsaleRepository } from './repositories/crowdsale'
-
-type RepositoryName = 'verify' | 'auth' | 'setting' | 'kyc' | 'params' | 'customer' | 'crowdsale'
+import { BalanceRepository } from './repositories/balance'
+import { RequestRepository } from './repositories/request'
+type RepositoryName = 'verify' | 'auth' | 'setting' | 'kyc' | 'params' | 'customer' | 'crowdsale' | 'balance' | 'request'
 
 export default function getRepository(name: RepositoryName): any {
   switch (name) {
@@ -24,6 +25,10 @@ export default function getRepository(name: RepositoryName): any {
       return new CustomerRepository()
     case 'crowdsale':
       return new CrowdsaleRepository()
+    case 'balance':
+      return new BalanceRepository()
+    case 'request':
+        return new RequestRepository()
     default:
       return null
   }

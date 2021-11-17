@@ -11,7 +11,7 @@ export interface ISBase {
 
 const state: ISBase = {
   popup: [],
-  coinMain: 'LYNK',
+  coinMain: 'CLM',
   urlSystem: {}
 }
 

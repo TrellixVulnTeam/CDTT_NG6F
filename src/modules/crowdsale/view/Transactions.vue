@@ -51,7 +51,7 @@
             <span>{{ scope.row.transactionDate | formatDateHourMs }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="this.$t('crowdsale.status')" prop="status" align="center" width="110">
+        <el-table-column :label="this.$t('crowdsale.status')" prop="status" align="center" width="120">
           <template slot-scope="scope">
             <div v-if="scope.row.status === 'LOCKED'" class="box-status-tabel locked">
               <span class="fs-12 fw-500">{{ scope.row.status }}</span>
@@ -66,7 +66,7 @@
         </el-table-column>
         <el-table-column :label="this.$t('crowdsale.price')" prop="price" align="right" width="164">
           <template slot-scope="scope">
-            <span>{{ scope.row.roundName }}</span> - $<span>{{ scope.row.price }}</span>
+            <span>{{ scope.row.roundName }}</span> - $<span>{{ scope.row.price | convertAmountDecimal('USD') }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="this.$t('crowdsale.paid')" prop="paid" align="right" width="170">
@@ -114,7 +114,7 @@
     dataProp: any = {}
     loadingTable = true
     orderBy = 'TRANSACTION_DATE'
-    dataTable: any = {}
+    dataTable: any = []
     get getPaginationInfo(): any {
       return this.$t('paging.crowdsale')
     }
@@ -174,9 +174,11 @@
       if (this.dataProp.countryName) {
         params.countryName = this.dataProp.countryName
       }
+      if (this.dataProp.paidWallet) {
+        params.paidWallet = this.dataProp.paidWallet
+      }
       if (this.dataProp.currency) {
         params.currency = this.dataProp.currency
-        console.log('form: ', this.dataProp.currency)
       }
       if (this.dataProp.fromDate) {
         params.fromDate = this.dataProp.fromDate

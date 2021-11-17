@@ -93,4 +93,42 @@
       color: #0a0b0d;
     }
   }
+  .kyc-filter {
+    ::v-deep .filter-item {
+      &:hover {
+        .text-filter {
+          color: var(--bc-theme-primary);
+          .span-icon {
+            color: var(--bc-theme-primary) !important;
+          }
+        }
+      }
+    }
+    ::v-deep .sort {
+      &:hover {
+        .el-dropdown-selfdefine {
+          color: var(--bc-theme-primary);
+          .span-icon {
+            color: var(--bc-theme-primary) !important;
+          }
+        }
+      }
+      .sort-title {
+        &:focus {
+          color: var(--bc-theme-primary);
+          .span-icon {
+            color: var(--bc-theme-primary) !important;
+          }
+        }
+      }
+    }
+    .text-filter {
+      &:hover {
+        color: var(--bc-theme-primary);
+        .span-icon {
+          color: var(--bc-theme-primary) !important;
+        }
+      }
+    }
+  }
 </style>

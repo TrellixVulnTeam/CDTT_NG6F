@@ -66,6 +66,7 @@
   --bc-cb-bg: #c4c4c4;
   --bc-cb-bg-checked: #2050f6;
   --bc-cb-border: #d2d0ce;
+  -bc-cb-border-hover: #409eff;
 
   //select
   --bc-select-border: #d2d0ce;
@@ -80,7 +81,7 @@
   --bc-btn-border: #d2d0ce;
   --bc-btn-text: #3b3a39;
   --bc-btn-default-text-hover: #0151fc;
-  --bc-btn-default-border-hover: #0151fc;
+  --bc-btn-default-border-hover: #0078d4;
   --bc-btn-bg-default-hover: #0a34c7;
   --bc-btn-bg-default: #0151fc;
   --bc-btn-bg-reject: #cf202f;
@@ -90,6 +91,7 @@
   --bc-amount-btc: #f7931a;
   --bc-amount-eth: #605e5c;
   --bc-amount-lin: #1741b5;
+  --bc-amount-clm: #31b6b5;
   --bc-amount-lock: #a19f9d;
 
   //table
@@ -104,4 +106,16 @@
   --bc-box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
   //line
   --bc-line: #dbdbdb;
+  //box status round crowdsale
+  --cl-box-status-default: #0151fc;
+  --bg-box-status-default: #f3f2f1;
+
+  --cl-box-status-finish: #ffffff;
+  --bg-box-status-finish: #129961;
+
+  --cl-box-status-upcoming: #5b616e;
+  --bg-box-status-upcoming: #f3f2f1;
+
+  //popup
+  --bc-icon-close-popup: #0078d4;
 }

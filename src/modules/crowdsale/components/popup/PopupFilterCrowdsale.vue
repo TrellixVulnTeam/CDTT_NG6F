@@ -34,16 +34,16 @@
             </el-form-item>
           </div>
         </div>
-        <!-- <div class="by-with-wallet">
+        <div class="by-with-wallet">
           <div class="label">{{ $t('crowdsale.popup-filter.buyWithWallet') }}</div>
-          <el-form-item prop="byWallet" class="box-input">
-            <el-select class="select" v-model="form.byWallet" :placeholder="$t('crowdsale.popup-filter.planceOderWallet')" clearable>
+          <el-form-item prop="paidWallet" class="box-input">
+            <el-select class="select" v-model="form.paidWallet" :placeholder="$t('crowdsale.popup-filter.planceOderWallet')" clearable>
               <div infinite-scroll-delay="500">
-                <el-option v-for="item in optionByWallet" :key="item.id" :label="item.label" :value="item.id"> </el-option>
+                <el-option v-for="item in optionByWallet" :key="item.value" :label="item.label" :value="item.value"> </el-option>
               </div>
             </el-select>
           </el-form-item>
-        </div> -->
+        </div>
         <div class="by-with-token">
           <div class="label">{{ $t('crowdsale.popup-filter.buyWithToken') }}</div>
           <el-form-item prop="currency" class="box-input">
@@ -106,7 +106,7 @@
       </el-form>
     </div>
     <div slot="footer" class="footer">
-      <div @click="handleClose" class="btn-action btn-close">{{ $t('crowdsale.popup-filter.reset') }}</div>
+      <div @click="handleReset" class="btn-action btn-close">{{ $t('crowdsale.popup-filter.reset') }}</div>
       <div @click="handleSubmit" class="btn-action btn-submit">{{ $t('crowdsale.popup-filter.apply') }}</div>
     </div>
   </base-popup>
@@ -130,6 +130,7 @@
     form: any = {
       roundId: '',
       countryName: '',
+      paidWallet: '',
       currency: [],
       fromDate: '',
       toDate: '',
@@ -145,16 +146,16 @@
     optionByToken: any = {}
     optionByWallet: any = [
       {
-        id: '1',
-        label: 'Meta Mask'
+        value: 'Metamask',
+        label: 'Metamask'
       },
       {
-        id: '2',
-        label: 'Wallet Binance'
+        value: 'Binance',
+        label: 'Binance'
       },
       {
-        id: '3',
-        label: 'Wallet ETH'
+        value: 'Ethereum',
+        label: 'Ethereum'
       }
     ]
     optionByRound: any = {}
@@ -162,6 +163,7 @@
       this.form = {
         roundId: '',
         countryName: '',
+        paidWallet: '',
         currency: [],
         fromDate: '',
         toDate: '',
@@ -212,7 +214,14 @@
         }
       }
     }
+    @Watch('form.countryName')
+    clearCountry(value: any) {
+      if (!value) {
+        this.listCountry = countryJson
+      }
+    }
     remoteCountry(query: string): void {
+      console.log('query: ', query)
       if (query) {
         const currentCountry = filter(
           this.listCountry,
@@ -235,7 +244,7 @@
     async getListAssetNetwork(): Promise<void> {
       await api.getListAssetNetwork().then((res: any) => {
         if (res) {
-          this.optionByToken = res
+          this.optionByToken = filter(res, item => item.currency !== 'LYNK' && item.currency !== 'CLM')
         }
       })
     }

@@ -1,5 +1,5 @@
 <template>
-  <base-popup name="popup-customer-detail" class="popup-customer-detail" width="1040px" :isShowFooter="false" :close="handleClose">
+  <base-popup name="popup-customer-detail" class="popup-customer-detail" width="1040px" :isShowFooter="false" :close="handleClose" :open="handleOpen">
     <div class="title-popup" slot="title">
       <span>{{ $t('customer.popup.title') }}</span>
     </div>
@@ -20,12 +20,16 @@
               <div class="be-flex jc-space-between info-item">
                 <span class="text-xs label">{{ $t('label.phone') }}:</span>
                 <span class="text-base">({{ detailRow.countryCode }}) {{ detailRow.phone }}</span>
-                <span class="status-verified" v-if="detailRow.emailVerified === '1'">{{ $t('customer.verified') }}</span>
+                <span style="width: fit-content" class="status-verified" :style="lang === 'en' ? 'right:-50px' : 'right:-75px'" v-if="detailRow.emailVerified === '1'">{{
+                  $t('customer.verified')
+                }}</span>
               </div>
               <div class="be-flex jc-space-between info-item">
                 <span class="text-xs label">{{ $t('label.email') }}:</span>
                 <span class="text-base">{{ detailRow.email }}</span>
-                <span class="status-verified" v-if="detailRow.phoneVerified === '1'">{{ $t('customer.verified') }}</span>
+                <span style="width: fit-content" class="status-verified" :style="lang === 'en' ? 'right:-50px' : 'right:-75px'" v-if="detailRow.phoneVerified === '1'">{{
+                  $t('customer.verified')
+                }}</span>
               </div>
             </div>
             <div class="info-below__right">
@@ -122,9 +126,14 @@
       // }
     ]
     tabActive = 0
+    lang = 'en'
 
     //balance
     listBlance: Record<string, any>[] = []
+
+    handleOpen(): void {
+      this.lang = window.localStorage.getItem('bc-lang')!
+    }
 
     handleClose(): void {
       this.tabActive = 0

@@ -20,6 +20,9 @@ import './plugins/element-ui'
 
 import './assets/styles/index.scss'
 
+// mixin
+import PermissionMixin from './mixins/permisson'
+
 // import module
 import { forEach } from 'lodash'
 
@@ -48,6 +51,8 @@ forEach(listModules, module => {
     Vue.component(key, value)
   })
 })
+
+Vue.mixin(PermissionMixin)
 
 //register filter
 Object.keys(format).forEach(key => {

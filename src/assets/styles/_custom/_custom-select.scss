@@ -13,7 +13,7 @@
       .el-select-dropdown__item {
         font-size: 14px;
         &::after {
-          content: "" !important;
+          content: '' !important;
         }
       }
     }
@@ -42,5 +42,10 @@
 .date-picker {
   .el-input__icon {
     line-height: 48px;
+  }
+}
+.popup-filter-crowdsale {
+  .el-input__prefix {
+    top: 1.8px;
   }
 }

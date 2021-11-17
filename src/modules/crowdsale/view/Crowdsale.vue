@@ -14,12 +14,22 @@
         </p>
         <div class="box-ellipse">
           <div class="mini-ellipse">
-            <p class="fw-600 fs-24" style="margin-bottom: 2px; margin-top: 24px; color: #0151fc">{{ (roundCurrent && roundCurrent.percentageSold * 1000) / 10 }}%</p>
+            <p v-if="getStatus === 1" class="fw-600 fs-24 percentageSold" style="margin-bottom: 2px; margin-top: 24px">
+              {{ (roundCurrent && roundCurrent.percentageSold * 1000) / 10 }}%
+            </p>
+            <p v-if="getStatus !== 1 && isFinish" class="fw-600 fs-24 percentageSold percentageSoldFinish" style="margin-bottom: 2px; margin-top: 24px">
+              {{ (roundCurrent && roundCurrent.percentageSold * 1000) / 10 }}%
+            </p>
+            <p v-if="getStatus !== 1 && !isFinish" class="fw-600 fs-24 percentageSold percentageSoldUpcoming" style="margin-bottom: 2px; margin-top: 24px">
+              {{ (roundCurrent && roundCurrent.percentageSold * 1000) / 10 }}%
+            </p>
             <p class="fw-400 fs-12" style="color: #5b616e">
               {{ $t('crowdsale.of') }} <span class="fw-600">{{ (roundCurrent && roundCurrent.totalAmount) / 1000000 }}M</span>
             </p>
           </div>
-          <el-progress type="circle" :percentage="progressbar" :stroke-width="12" color="#0151FC" :show-text="false"></el-progress>
+          <el-progress v-if="getStatus === 1" type="circle" :percentage="progressbar" :stroke-width="12" :color="getColor" :show-text="false"></el-progress>
+          <el-progress v-if="getStatus !== 1 && isFinish" type="circle" :percentage="progressbar" :stroke-width="12" color="#129961" :show-text="false"></el-progress>
+          <el-progress v-if="getStatus !== 1 && !isFinish" type="circle" :percentage="progressbar" :stroke-width="12" color="#5B616E" :show-text="false"></el-progress>
         </div>
       </div>
       <div class="progress bg-white box-shadow">
@@ -51,6 +61,7 @@
       </div>
     </div>
 
+    <!-- box-tab-active -->
     <div class="table bg-white box-shadow">
       <div class="wallet-header">
         <div class="be-flex align-center jc-space-between wallet-header__above">
@@ -126,8 +137,10 @@
         if (!roundActive.length) {
           _this.roundCurrent = null
           _this.isEndOn = false
+          _this.isFinish = false
           _this.handleGetRoundNext()
         } else {
+          _this.isFinish = false
           _this.roundCurrent = roundActive[0]
           _this.isEndOn = true
           _this.progressbar = (_this.roundCurrent.percentageSold * 1000) / 10
@@ -159,20 +172,19 @@
           this.minute = '00'
           this.second = '00'
           this.roundCurrent = roundLast
+          this.progressbar = (this.roundCurrent.percentageSold * 1000) / 10
           this.isEndOn = true
           this.isLoading = false
           this.isFinish = true
         }
         // Nếu today < time roundFirst
         if (toDay < fromTimeRoundFirst) {
-          this.isFinish = false
           this.roundCurrent = this.listRound[0]
           this.progressbar = (this.roundCurrent.percentageSold * 1000) / 10
           this.handleGetData('from')
         }
         // Nếu fromTimeRoundFirst < today < toTimeRoundLast
         if (toDay > fromTimeRoundFirst && toDay < toTimeRoundLast) {
-          this.isFinish = false
           forEach(this.listRound, round => {
             const fromTime = new Date(round.fromDate.time).getTime()
             if (toDay < fromTime) {
@@ -180,7 +192,6 @@
               return false
             }
           })
-
           this.isEndOn = false
           this.progressbar = (this.roundCurrent.percentageSold * 1000) / 10
           this.handleGetData('from')
@@ -246,6 +257,10 @@
     handleChangeTab(tab: Record<string, any>): void {
       this.$router.push({ name: tab.routeName })
     }
+    getColor(): void {
+      let color: any = '#31b6b5'
+      return color
+    }
   }
 </script>
 <style scoped lang="scss">
@@ -268,7 +283,6 @@
             margin-right: 10px;
           }
           .box-status {
-            background: #f3f2f1;
             text-align: center;
             width: 57px;
             height: 18px;
@@ -276,15 +290,16 @@
             font-size: 10px;
             font-weight: 600;
             line-height: 18px;
-            color: #0151fc;
+            color: var(--cl-box-status-default);
+            background: var(--bg-box-status-default);
           }
           .finish {
-            color: #ffffff;
-            background: #129961;
+            color: var(--cl-box-status-finish);
+            background: var(--bg-box-status-finish);
           }
           .upcoming {
-            color: #5b616e;
-            background: #f3f2f1;
+            color: var(--cl-box-status-upcoming);
+            background: var(--bg-box-status-upcoming);
           }
         }
         .time-date {
@@ -305,6 +320,15 @@
             right: 0;
             top: 14px;
             z-index: 999;
+            .percentageSold {
+              color: var(--cl-box-status-default);
+            }
+            .percentageSoldFinish {
+              color: var(--cl-box-status-finish);
+            }
+            .percentageSoldUpcoming {
+              color: var(--cl-box-status-upcoming);
+            }
           }
         }
       }
@@ -346,6 +370,7 @@
       }
     }
 
+    // tab active
     .table {
       margin-top: 24px;
       width: 91vw;

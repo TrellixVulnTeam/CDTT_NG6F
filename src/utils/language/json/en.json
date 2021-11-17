@@ -99,7 +99,9 @@
     "contract": "Contract",
     "report": "Report",
     "setting": "Setting",
-    "crowdsale": "Crowdsale"
+    "crowdsale": "Crowdsale",
+    "balance": "Balance",
+    "request": "Request"
   },
   "header": {
     "kyc": "KYC",
@@ -159,8 +161,9 @@
     "show": "Show",
     "customers": "customers",
     "transaction": "transactions",
-    "crowdsale": "transaction",
-    "investor": "investors"
+    "crowdsale": "transactions",
+    "investor": "investors",
+    "request": "request"
   },
   "label": {
     "buy-from": "Buy from",
@@ -198,7 +201,10 @@
     "trans-amount": "Transaction Amount",
     "status": "Status",
     "trans-type": "Transaction type",
-    "date": "Date"
+    "date": "Date",
+    "available-amount":"Available amount",
+    "locked-amount": "Locked amount",
+    "balance": "Balance"
   },
   "buy-lyn": {
     "title": "BUY LYN"
@@ -341,7 +347,13 @@
       "processing": "Processing",
       "failed": "Failed",
       "rejected": "Rejected",
-      "sell": "Sell"
+      "sell": "Sell",
+      "bonus-sign-up": "Bonus sign up",
+      "bonus-crowdsale": "Bonus crowdsale",
+      "bonus-first-trans": "Bonus first transaction",
+      "bonus-affiliate": "Bonus affiliate",
+      "bonus-big-backer": "Bonus big backer",
+      "bonus-early-backer": "Bonus early backer"
     },
     "popup": {
       "title-filter": "Filter"
@@ -376,7 +388,13 @@
     "statistics": "Statistics",
     "setting": "Settings",
     "Transactions": "Transactions",
-    "Round": "Round"
+    "Round": "Round",
+    "lynk": "LYNK",
+    "btc": "BTC",
+    "eth":"ETH",
+    "bnb":"BNB",
+    "usdt":"USDT",
+    "usdc":"USDC"
   },
   "status": {
     "pending": "Pending",
@@ -388,6 +406,7 @@
   "crowdsale": {
     "round": "Round",
     "progress": "Progress",
+    "progress2": "Progress",
     "from": "From",
     "now": "until now",
     "completed": "COMPLETED",
@@ -432,6 +451,72 @@
       "planceOderCountry": "Select country",
       "planceOderTransactionDateStart": "From",
       "planceOderTransactionDateEnd": "To"
+    }
+  },
+  "balance":{
+    "available": "Available",
+    "lockedAmount": "Locked Amount",
+    "balance":"Balance",
+    "lastChange":"Last changed",
+    "availableAmout": "Available amount",
+    "name": "Name"
+  },
+  "request": {
+    "withdraw": "Withdraw",
+    "transfer": "Transfer",
+    "TransactionDetail": "Transaction detail",
+    "AccountStatement": "Account statement",
+    "table": {
+      "label1": "FULL NAME",
+      "label2": "REQUEST DATE",
+      "label4": "STATUS",
+      "label5": "AMOUNT",
+      "label3": "EMAIL"
+    },
+    "sortBy": {
+      "requestDate": "Request date",
+      "amount": "Amount",
+      "status": "Status",
+      "name": "Name"
+    },
+    "filter": {
+      "label1": "Status",
+      "planceOder1": "Select",
+      "label2": "Request date",
+      "planceOder2": "From",
+      "label3": "Amount",
+      "planceOder3": "To",
+      "pending": "Pending",
+      "rejected": "Rejected"
+    },
+    "popup": {
+      "titlePopup": "WITHDRAW REQUEST",
+      "bigTitle1": "Warning",
+      "label1": "Current Balance and Ending Balance are not matched.",
+      "label2": "Unusual activity alert.",
+      "label3": "Customer’s Email",
+      "label4": "Recipient Address",
+      "label5": "Transaction Date",
+      "bigTitle2": "Transaction detail",
+      "bigTitle3": "Account statement",
+      "btn1": "Close",
+      "btn2": "Reject",
+      "btn3": "Approve",
+      "transaction": {
+        "bigTitle1": "Transaction Detail",
+        "bigTitle2": "Customer Info",
+        "label1": "Request date",
+        "label2": "From",
+        "label3": "To",
+        "label4": "Fees",
+        "label5": "Status",
+        "label6": "Full name",
+        "label7": "Phone number",
+        "label8": "Email",
+        "label9": "Nationality",
+        "label10": "Level",
+        "label11": "Created date"
+      }
     }
   }
 }

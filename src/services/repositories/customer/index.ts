@@ -98,4 +98,13 @@ export class CustomerRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+  async getlistAssetNetwork(): Promise<any> {
+    try {
+      const rs = await request.get(`main/api/v1/user/asset-network`)
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      console.log(error)
+      return Promise.reject(error)
+    }
+  }
 }
