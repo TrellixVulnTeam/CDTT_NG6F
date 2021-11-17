@@ -9,108 +9,105 @@
         </div>
       </div>
     </div>
-    <customer-filter @filter="handleFilter" :is-change-tab="isChangeTab" />
-    <customer-table v-loading="isLoading" @rowClick="handleRowClick" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="data" />
-    <customer-detail :detailRow="detailRow" @init="init" />
+
+    <balance-filter @filterBalance="handleFilter" :listApproveBy="listApproveBy" />
+    <balance-table v-loading="isLoading" @rowClick="handleRowClick" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="data" />
+    <!-- <kyc-detail :detailRow="detailRow" @init="init" /> -->
   </div>
 </template>
 
 <script lang="ts">
-  import { Component, Mixins } from 'vue-property-decorator'
+  import { Component, Mixins, Watch } from 'vue-property-decorator'
   //@ts-ignore
-  import CustomerTable from '../components/CustomerTable.vue'
-  import CustomerFilter from '../components/filter/CustomerFilter.vue'
-  import CustomerDetail from '../components/popup/CustomerDetail.vue'
+  import BalanceTable from '../components/BalanceTable.vue'
+  import BalanceFilter from '../components/filter/BalanceFilter.vue'
   import PopupMixin from '@/mixins/popup'
   import getRepository from '@/services'
-  import { CustomerRepository } from '@/services/repositories/customer'
+  import { BalanceRepository } from '@/services/repositories/balance'
   import EventBus from '@/utils/eventBus'
   import { debounce } from 'lodash'
 
   import { namespace } from 'vuex-class'
-  import { SettingRepository } from '@/services/repositories/setting'
-  const bcKyc = namespace('bcKyc')
-  const apiCustomer: CustomerRepository = getRepository('customer')
-  interface IQuery {
-    page?: number
-    limit?: number
-    search?: string
-    orderBy: string | number
-    total: number
-    type?: string | null | undefined
-  }
+  const api: BalanceRepository = getRepository('balance')
 
-  @Component({ components: { CustomerTable, CustomerFilter, CustomerDetail } })
-  export default class BOCustomer extends Mixins(PopupMixin) {
-    @bcKyc.Action('getListReason') getListReason!: () => void
+  @Component({ components: { BalanceTable, BalanceFilter } })
+  export default class BOKyc extends Mixins(PopupMixin) {
     tabs: Array<Record<string, any>> = [
       {
         id: 1,
-        title: 'customer-all',
-        routeName: 'CustomerAll'
+        title: 'lynk',
+        routeName: 'BalanceLynk'
       },
       {
         id: 2,
-        title: 'customer-verified',
-        routeName: 'CustomerVerified'
+        title: 'btc',
+        routeName: 'BalanceBtc'
       },
       {
         id: 3,
-        title: 'customer-processing',
-        routeName: 'CustomerProcessing'
+        title: 'eth',
+        routeName: 'BalanceEth'
       },
       {
         id: 4,
-        title: 'customer-not-verified',
-        routeName: 'CustomerNotVerified'
+        title: 'bnb',
+        routeName: 'BalanceBnb'
       },
       {
         id: 5,
-        title: 'customer-locked',
-        routeName: 'CustomerLocked'
+        title: 'usdt',
+        routeName: 'BalanceUsdt'
+      },
+      {
+        id: 6,
+        title: 'usdc',
+        routeName: 'BalanceUsdc'
       }
     ]
     titlePending = ''
-    tabActive = 'Pending'
+    tabActive = 'lynk'
     isLoading = false
-    isChangeTab = false
 
     data: Array<Record<string, any>> = []
 
     detailRow = {}
 
-    query: IQuery = {
+    query: any = {
+      search: '',
       orderBy: 1,
       page: 1,
       limit: 10,
-      total: 10,
-      type: null
+      total: 10
     }
-
-    objType: Record<string, any> = {
-      CustomerAll: null,
-      CustomerVerified: 'VERIFIED',
-      CustomerProcessing: 'KYC',
-      CustomerNotVerified: 'NOT_VERIFIED',
-      CustomerLocked: 'LOCKED'
+    listApproveBy: Record<string, any>[] = []
+    getListBalance(): void {
+      console.log('1')
     }
-
     created(): void {
-      const name = this.$route.name!
-      this.query.type = this.objType[name]
+      // apiKyc.getListApprove({ page: 1, limit: 20 }).then(res => {
+      //   this.listApproveBy = res.content || []
+      // })
+      // const name = this.$route.name
+      // this.query.kycStatus = name === 'KycPending' ? 'PENDING' : name === 'KycVerified' ? 'VERIFIED' : 'REJECTED'
+      // this.init()
     }
 
     async init(): Promise<void> {
       try {
         this.isLoading = true
-        if (!this.query.type) {
-          const routeName = this.$route.name!
-          this.query.type = this.objType[routeName]
+        const params = {
+          ...this.query,
+          search: this.query.search,
+          orderBy: this.query.orderBy,
+          limit: this.query.limit,
+          page: this.query.page,
+          total: null
         }
-        const result = await apiCustomer.getListCustomer({ ...this.query, total: null })
-        this.data = result.content || []
-        this.query.total = result.totalElements
+        const result = await api.getlistBalance(this.tabActive, params)
+        this.data = result.balances || []
+        this.query.total = result.totalElement
         this.isLoading = false
+        // console.log('result', result)
       } catch (error) {
         this.isLoading = false
         console.log(error)
@@ -118,11 +115,23 @@
     }
 
     handleChangeTab(tab: Record<string, any>): void {
-      this.isChangeTab = tab.id !== 1
-      this.$router.push({ name: tab.routeName }).then(() => {
-        this.resetQuery()
-        EventBus.$emit('changeTabCustomer')
-      })
+      console.log('tabs', tab.title)
+      this.$router.push({ name: tab.routeName })
+      // this.query.tabBalance = this.kycStatus[tab.title]
+      this.tabActive = tab.title
+      this.query.page = 1
+      this.query.limit = 10
+      this.query.orderBy = 1
+      this.query.toBalanceAmount = ''
+      ;(this.query.fromBalanceAmount = ''),
+        (this.query.toLockedAmount = ''),
+        (this.query.fromLockedAmount = ''),
+        (this.query.toAvailableAmount = ''),
+        (this.query.fromAvailableAmount = ''),
+        (this.query.search = '')
+      this.init()
+      this.resetQuery()
+      EventBus.$emit('selectTabBalance')
     }
 
     resetQuery(): void {
@@ -131,7 +140,7 @@
         page: 1,
         limit: 10,
         search: '',
-        orderBy: 'CREATED_AT'
+        orderBy: '1'
       }
     }
 
@@ -140,6 +149,7 @@
       this.init()
     }
     handleSizeChange(limit: number): void {
+      console.log('limit', limit)
       this.query.limit = limit
       this.init()
     }
@@ -147,19 +157,18 @@
     handleRowClick(row: Record<string, any>): void {
       this.detailRow = row
       this.setOpenPopup({
-        popupName: 'popup-customer-detail',
+        popupName: 'popup-kyc-detail',
         isOpen: true
       })
     }
 
     handleFilter(filter: Record<string, any>): void {
+      console.log('1', filter)
       this.query = {
         ...this.query,
-        ...filter,
-        page: 1,
-        limit: 10
+        ...filter
       }
-
+      console.log('thanh', this.query)
       this.debounceInit()
     }
     debounceInit = debounce(() => {
@@ -169,6 +178,27 @@
 </script>
 
 <style scoped lang="scss">
+  .container {
+    text-align: justify;
+    -ms-text-justify: distribute-all-lines;
+    text-justify: distribute-all-lines;
+    width: 100%;
+  }
+  .container > div {
+    width: 100px;
+    height: 100px;
+    vertical-align: top;
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    background: red;
+  }
+  span {
+    width: 100%;
+    display: inline-block;
+    font-size: 0;
+    line-height: 0;
+  }
   .bo-kyc {
     box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
     border-radius: 4px;
@@ -182,9 +212,6 @@
             &:hover {
               color: var(--bc-tab-active);
             }
-            // .text-base {
-            //   color: #5b616e;
-            // }
           }
           .tab-active {
             color: var(--bc-tab-active);

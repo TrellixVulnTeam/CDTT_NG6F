@@ -1,5 +1,5 @@
 <template>
-  <div class="content be-flex align-center jc-space-between">
+  <div class="content-transaction be-flex align-center jc-space-between">
     <div class="box-left">
       <div class="be-flex align-center" style="margin-bottom: 20px">
         <base-icon class="icon" icon="icon-document" size="24"></base-icon>
@@ -7,14 +7,15 @@
       </div>
       <div class="mini-box be-flex align-center jc-space-between">
         <div class="left">{{ $t('request.popup.transaction.label1') }}</div>
-        <div class="right">01/10/2022 12:09:06</div>
+        <div class="right">{{ data.transactionMilisecond }}</div>
       </div>
       <div class="line"></div>
       <div class="mini-box be-flex align-center jc-space-between">
         <div class="left">{{ $t('request.popup.transaction.label2') }}</div>
         <div class="right">
-          <base-icon icon="icon-btc" size="20" class="mini-icon"></base-icon><span style="margin-right: 9px">1Nb4wT...bspXQe</span
-          ><span class="icon-copy" @click="handleCopyTransaction('Vi Thị Nưu')">
+          <base-icon :icon="getIcon(data.currency)" size="20" class="mini-icon"></base-icon>
+          <span style="margin-right: 9px">{{ data.fromAddress }}</span
+          ><span class="icon-copy" @click="handleCopyTransaction(data.fromAddress)">
             <base-icon icon="icon-copy" size="20" />
           </span>
         </div>
@@ -23,8 +24,9 @@
       <div class="mini-box be-flex align-center jc-space-between">
         <div class="left">{{ $t('request.popup.transaction.label3') }}</div>
         <div class="right">
-          <base-icon icon="icon-btc" size="20" class="mini-icon"></base-icon><span style="margin-right: 9px">1Nb4wT...bspXQe</span
-          ><span class="icon-copy" @click="handleCopyTransaction('Vi Thị Nưu')">
+          <base-icon :icon="getIcon(data.currency)" size="20" class="mini-icon"></base-icon>
+          <span style="margin-right: 9px">{{ data.toAddress }}</span
+          ><span class="icon-copy" @click="handleCopyTransaction(data.toAddress)">
             <base-icon icon="icon-copy" size="20" />
           </span>
         </div>
@@ -32,12 +34,16 @@
       <div class="line"></div>
       <div class="mini-box be-flex align-center jc-space-between">
         <div class="left">{{ $t('request.popup.transaction.label4') }}</div>
-        <div class="right"><span class="fee">-0.00065 BTC</span> <span class="dolar">(~$1.65)</span></div>
+        <div class="right">
+          <span class="fee">-{{ data.transactionFee | convertAmountDecimal(data.currency) }} {{ data.currency }}</span> <span class="dolar">(~${{ data.amountToUsd | convertAmountDecimal('USD') }})</span>
+        </div>
       </div>
       <div class="line"></div>
       <div class="mini-box be-flex align-center jc-space-between">
         <div class="left">{{ $t('request.popup.transaction.label5') }}</div>
-        <div class="right"><div class="status">Pending</div></div>
+        <div class="right">
+          <div class="status" :class="data.status != 'PENDING' ? 'rejected' : null">{{ data.status }}</div>
+        </div>
       </div>
       <div class="line"></div>
     </div>
@@ -81,10 +87,18 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator'
+  import { Component, Prop, Vue } from 'vue-property-decorator'
 
   @Component
   export default class TransactionDetail extends Vue {
+    @Prop() data!: any
+    getIcon(currency: string): void {
+      let icon: any = ''
+      if (currency) {
+        icon = `icon-${currency.toLowerCase()}`
+      }
+      return icon
+    }
     handleCopyTransaction(string: any): void {
       if (string) {
         let message: any = ''
@@ -102,7 +116,7 @@
 </script>
 
 <style scoped lang="scss">
-  .content {
+  .content-transaction {
     min-height: 316px;
     .icon {
       position: absolute;
@@ -121,6 +135,10 @@
         font-weight: 400;
         font-size: 12px;
         border-radius: 4px;
+      }
+      .rejected {
+        background: #fbedee;
+        color: #cf202f;
       }
       .right {
         .fee {
