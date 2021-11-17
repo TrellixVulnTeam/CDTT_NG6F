@@ -13,6 +13,7 @@
     <balance-filter @filterBalance="handleFilter" :listApproveBy="listApproveBy" />
     <balance-table v-loading="isLoading" @rowClick="handleRowClick" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="data" />
     <!-- <kyc-detail :detailRow="detailRow" @init="init" /> -->
+    <balance-detail :detailRow="detailRow"/>
   </div>
 </template>
 
@@ -27,10 +28,10 @@
   import EventBus from '@/utils/eventBus'
   import { debounce } from 'lodash'
 
-  import { namespace } from 'vuex-class'
+  import BalanceDetail from '@/modules/balance/components/balanceDetail/BalanceDetail.vue'
   const api: BalanceRepository = getRepository('balance')
 
-  @Component({ components: { BalanceTable, BalanceFilter } })
+  @Component({ components: { BalanceTable, BalanceFilter,BalanceDetail } })
   export default class BOKyc extends Mixins(PopupMixin) {
     tabs: Array<Record<string, any>> = [
       {
@@ -157,7 +158,7 @@
     handleRowClick(row: Record<string, any>): void {
       this.detailRow = row
       this.setOpenPopup({
-        popupName: 'popup-kyc-detail',
+        popupName: 'popup-balance-detail',
         isOpen: true
       })
     }

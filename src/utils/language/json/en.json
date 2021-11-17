@@ -454,7 +454,10 @@
     "balance":"Balance",
     "lastChange":"Last changed",
     "availableAmout": "Available amount",
-    "name": "Name"
+    "name": "Name",
+    "popup": {
+      "title": "BALANCE DETAIL"
+    }
   },
   "request": {
     "withdraw": "Withdraw",

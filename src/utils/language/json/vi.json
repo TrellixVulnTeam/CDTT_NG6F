@@ -452,5 +452,16 @@
         "label11": "Ngày tạo"
       }
     }
+  },
+  "balance":{
+    "available": "Có sẵn",
+    "lockedAmount": "Số tiền đã khóa",
+    "balance":"Balance",
+    "lastChange":"Mới đổi",
+    "availableAmout": "Số lượng có sẵn",
+    "name": "Tên",
+    "popup": {
+      "title": "CHI TIẾT BALANCE"
+    }
   }
 }

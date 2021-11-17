@@ -1,7 +1,7 @@
 <template>
   <base-popup name="popup-balance-detail" class="popup-customer-detail" width="1040px" :isShowFooter="false" :close="handleClose">
     <div class="title-popup" slot="title">
-      <span>{{ $t('customer.popup.title') }}</span>
+      <span>{{ $t('balance.popup.title') }}</span>
     </div>
     <div class="content">
       <div class="be-flex mb-24 content__header">
@@ -11,66 +11,23 @@
         </div>
         <div class="ml-24 w-100 info">
           <div class="full-name mb-12 text-l text-bold">{{ detailRow.fullName }}</div>
-          <div class="be-flex info-below">
-            <div class="info-below__left">
-              <div class="be-flex jc-space-between info-item">
-                <span class="text-xs label">{{ $t('label.referral-code') }}:</span>
-                <span class="text-base">{{ detailRow.affiliationCode }}</span>
-              </div>
-              <div class="be-flex jc-space-between info-item">
-                <span class="text-xs label">{{ $t('label.phone') }}:</span>
-                <span class="text-base">({{ detailRow.countryCode }}) {{ detailRow.phone }}</span>
-                <span class="status-verified" v-if="detailRow.emailVerified === '1'">{{ $t('customer.verified') }}</span>
-              </div>
-              <div class="be-flex jc-space-between info-item">
-                <span class="text-xs label">{{ $t('label.email') }}:</span>
-                <span class="text-base">{{ detailRow.email }}</span>
-                <span class="status-verified" v-if="detailRow.phoneVerified === '1'">{{ $t('customer.verified') }}</span>
-              </div>
-            </div>
-            <div class="info-below__right">
-              <div class="be-flex jc-space-between info-item">
-                <span class="text-xs label">{{ $t('label.level') }}:</span>
-                <span class="text-base">{{ detailRow.level }}</span>
-              </div>
-              <div class="be-flex jc-space-between info-item">
-                <span class="text-xs label">{{ $t('label.create-date') }}:</span>
-                <span class="text-base">{{ detailRow.createdDate | formatMMDDYY }}</span>
-              </div>
-              <div class="be-flex jc-space-between info-item">
-                <span class="text-xs label">{{ $t('label.last-login') }}:</span>
-                <span class="text-base">{{ detailRow.lastTimeLogin | formatMMDDYY }}</span>
-              </div>
-            </div>
-          </div>
+          <span> hoan...@gmail.com | (+84)...76</span>
         </div>
       </div>
-      <div class="content__bottom">
-        <div class="be-flex mb-24 tabs">
-          <div class="tab-item cursor" v-for="tab in tabs" :key="tab.id" :class="tabActive === tab.id ? 'tab-active' : null" @click="handleChangeTab(tab)">
-            <span class="text-base">{{ $t(`menu.${tab.title}`) }}</span>
-          </div>
-        </div>
-        <div v-loading="isLoading" :class="isLoading ? 'main-content-loading' : null" class="main-content">
+      <balance-detail-card/>
 
-        </div>
-      </div>
     </div>
   </base-popup>
 </template>
 
 <script lang="ts">
   import { Component, Mixins, Prop } from 'vue-property-decorator'
-  import InfoCustomer from '../Info.vue'
-  import CustomerBalance from '../Balance.vue'
-  import CustomerTransaction from '../CustomerTransaction.vue'
-  import PopupMixin from '@/mixins/popup'
-  import KycCustomerDetail from '@/modules/customer/components/Kyc.vue'
-  import CustomerReferral from '../Referral.vue'
-  import CustomerAddress from '../Address.vue'
-  import CustomerBonus from '../Bonus.vue'
 
-  @Component({ components: { InfoCustomer, CustomerBalance, KycCustomerDetail, CustomerTransaction, CustomerReferral, CustomerAddress, CustomerBonus } })
+  import PopupMixin from '@/mixins/popup'
+
+  import BalanceDetailCard from '@/modules/balance/components/balanceDetail/BalanceDetailCard.vue'
+
+  @Component({ components: {BalanceDetailCard  } })
   export default class BalanceDetail extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Object, default: {} }) detailRow!: Record<string, any>
 
