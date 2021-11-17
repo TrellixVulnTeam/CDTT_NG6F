@@ -512,6 +512,21 @@
         "label9": "Nationality",
         "label10": "Level",
         "label11": "Created date"
+      },
+      "account": {
+        "wallet": "Wallet",
+        "Amount": "Amount",
+        "Available": "Available",
+        "Locked": "Locked",
+        "bigTitle1": "Account Statement",
+        "bigTitle2": "OPENING BALANCE",
+        "bigTitle3": "TOTAL",
+        "bigTitle4": "ENDING BALANCE",
+        "label1": "TYPE",
+        "label2": "CREDIT",
+        "label3": "DEBIT",
+        "label4": "BALANCE",
+        "label5": "STATUS"
       }
     }
   }

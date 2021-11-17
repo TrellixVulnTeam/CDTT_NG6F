@@ -136,6 +136,9 @@
     }
     .mini-box {
       margin-bottom: 12px;
+      .left {
+        color: #5b616e;
+      }
       .status {
         width: 80px;
         height: 24px;
