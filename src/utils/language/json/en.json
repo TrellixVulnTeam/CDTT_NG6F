@@ -107,6 +107,7 @@
     "kyc": "KYC",
     "customer": "Customer",
     "crowdsale": "Crowdsale",
+    "request": "Request",
     "balance":"Balance"
   },
   "footer": {
@@ -276,7 +277,12 @@
     },
     "filter": {
       "filter": "Filter",
-      "sort": "Sort by"
+      "sort": "Sort by",
+      "all-status": "All status",
+      "kyc-processing": "KYC processing",
+      "not-verified": "Not verified",
+      "verified": "Verified",
+      "locked": "Locked"
     },
     "sort": {
       "date": "Created date",
@@ -398,7 +404,9 @@
     "verified": "Verified",
     "rejected": "Rejected",
     "unverified": "Not verified",
-    "locked": "Locked"
+    "locked": "Locked",
+    "success": "Success",
+    "failed": "Failed"
   },
   "crowdsale": {
     "round": "Round",
@@ -414,7 +422,7 @@
     "of": "of",
     "transactions": "Transactions",
     "filter": "Filter",
-    "sortBy": "Sort By",
+    "sortBy": "Sort by",
     "search": "Search",
     "date": "DATE",
     "status": "STATUS",
@@ -461,7 +469,10 @@
     "total-available":"Total Available",
     "total-locked":"Total Locked",
     "of-total":"Of total",
-    "balance-wallet":"Balance"
+    "balance-wallet":"Balance",
+    "popup": {
+      "title": "BALANCE DETAIL"
+    }
   },
   "request": {
     "withdraw": "Withdraw",
@@ -520,14 +531,23 @@
         "label11": "Created date"
       },
       "account": {
-        "wallet": "Wallet",
-        "Amount": "Amount",
-        "Available": "Available",
-        "Locked": "Locked",
+        "Linkey": "Lynkey Wallet",
+        "Ethereum": "Ethereum Wallet",
+        "Bitcoin": "Bitcoin Wallet",
+        "Bnb": "BNB Wallet",
+        "Usdt": "Tether Wallet",
+        "Usdc": "USDC Wallet",
+        "Cleverme": "CleverMe Wallet",
+        "amount": "Amount",
+        "available": "Available Amount",
+        "locked": "Locked Amount",
         "bigTitle1": "Account Statement",
         "bigTitle2": "OPENING BALANCE",
         "bigTitle3": "TOTAL",
         "bigTitle4": "ENDING BALANCE",
+        "discription1": "Balance",
+        "discription2": "Available Amount",
+        "discription3": "Withdrawal Request",
         "label1": "TYPE",
         "label2": "CREDIT",
         "label3": "DEBIT",

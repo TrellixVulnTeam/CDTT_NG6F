@@ -7,7 +7,8 @@ import { CustomerRepository } from './repositories/customer'
 import { CrowdsaleRepository } from './repositories/crowdsale'
 import { BalanceRepository } from './repositories/balance'
 import { RequestRepository } from './repositories/request'
-type RepositoryName = 'verify' | 'auth' | 'setting' | 'kyc' | 'params' | 'customer' | 'crowdsale' | 'balance' | 'request'
+import { TransactionRepository } from './repositories/transaction'
+type RepositoryName = 'verify' | 'auth' | 'setting' | 'kyc' | 'params' | 'customer' | 'crowdsale' | 'balance' | 'request'|'transaction'
 
 export default function getRepository(name: RepositoryName): any {
   switch (name) {
@@ -28,7 +29,9 @@ export default function getRepository(name: RepositoryName): any {
     case 'balance':
       return new BalanceRepository()
     case 'request':
-      return new RequestRepository()
+        return new RequestRepository()
+    case 'transaction':
+      return new TransactionRepository()
     default:
       return null
   }

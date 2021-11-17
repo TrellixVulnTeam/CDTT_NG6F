@@ -83,6 +83,7 @@
     "kyc": "KYC",
     "customer": "Khách hàng",
     "crowdsale": "Crowdsale",
+    "request": "Yêu cầu",
     "balance":"Balance"
   },
   "footer": {
@@ -229,7 +230,12 @@
     },
     "filter": {
       "filter": "Bộ lọc",
-      "sort": "Sắp xếp"
+      "sort": "Sắp xếp",
+      "all-status": "Tất cả",
+      "kyc-processing": "Đang xác minh",
+      "not-verified": "Chưa xác minh",
+      "verified": "Đã xác minh",
+      "locked": "Bị khóa"
     },
     "sort": {
       "date": "Ngày tạo",
@@ -325,7 +331,7 @@
     "Rejected": "Đã từ chối",
     "customer-all": "Tất cả",
     "customer-verified": "Đã xác minh",
-    "customer-processing": "Đang KYC",
+    "customer-processing": "Đang xác minh",
     "customer-not-verified": "Chưa xác minh",
     "customer-locked": "Bị khóa",
     "info": "Thông tin",
@@ -434,7 +440,7 @@
     "popup": {
       "titlePopup": "RÚT LẠI YÊU CẦU",
       "bigTitle1": "Cảnh báo",
-      "label1": "Số dư Hiện tại và Số dư Cuối kỳ không khớp với nhau.",
+      "label1": "Số dư hiện tại và số dư cuối kỳ không khớp với nhau.",
       "label2": "Cảnh báo hoạt động bất thường.",
       "label3": "Email của khách hàng",
       "label4": "Địa chỉ người nhận",
@@ -460,14 +466,23 @@
         "label11": "Ngày tạo"
       },
       "account": {
-        "wallet": "Ví",
-        "Amount": "Số lượng",
-        "Available": "Có sẵn",
-        "Locked": "Đã khóa",
+        "Linkey": "Ví Lynkey",
+        "Ethereum": "Ví Ethereum",
+        "Bitcoin": "Ví Bitcoin",
+        "Bnb": "Ví BNB",
+        "Usdt": "Ví USDT",
+        "Usdc": "Ví USDC",
+        "Cleverme": "Ví Cleverme",
+        "amount": "Số lượng",
+        "available": "Số lượng có sẵn",
+        "locked": "Số lượng đã khóa",
         "bigTitle1": "Sao kê tài khoản",
         "bigTitle2": "MỞ CÂN BẰNG",
         "bigTitle3": "TOÀN BỘ",
         "bigTitle4": "CÂN BẰNG KẾT THÚC",
+        "discription1": "Thăng bằng",
+        "discription2": "Số tiền có sẵn",
+        "discription3": "Yêu cầu rút tiền",
         "label1": "KIỂU",
         "label2": "TÍN DỤNG",
         "label3": "GHI NỢ",
@@ -477,16 +492,19 @@
     }
   },
   "balance":{
-    "available": "Available",
-    "lockedAmount": "Locked Amount",
+    "available": "Có sẵn",
+    "lockedAmount": "Số tiền đã khóa",
     "balance":"Balance",
-    "lastChange":"Last changed",
-    "availableAmout": "Available amount",
-    "name": "Name",
+    "lastChange":"Mới đổi",
+    "availableAmout": "Số lượng có sẵn",
+    "name": "Tên",
     "investor":"Nhà đầu tư",
     "total-available":"Tổng số tiền hiện có",
     "total-locked":"Tổng số tiền đã khóa",
     "of-total":"Of total",
-    "balance-wallet":"Số dư ví"
+    "balance-wallet":"Số dư ví",
+    "popup": {
+      "title": "CHI TIẾT BALANCE"
+    }
   }
 }
