@@ -32,7 +32,11 @@
       <div class="detail-right">
         <span class="text-l text-bold mb-24 d-ib">{{ $t('kyc.popup.title-photo') }}</span>
         <div class="be-flex w-100 slider">
-          <el-carousel indicator-position="none" arrow="always" :autoplay="false">
+          <div v-if="isUserNotFound" class="user-not-found">
+            <base-icon icon="icon-no-data" size="64" style="display: inline-flex" />
+            <span>{{ $t('notify.no-data-kyc') }}</span>
+          </div>
+          <el-carousel v-else indicator-position="none" arrow="always" :autoplay="false">
             <el-carousel-item v-for="(item, index) in listImage" :key="index">
               <!-- <img :src="item" class="img-fluid" :alt="item" /> -->
               <el-image
@@ -50,14 +54,13 @@
 </template>
 
 <script lang="ts">
-  import { Component, Mixins, Prop, Vue } from 'vue-property-decorator'
+  import { Component, Prop, Vue } from 'vue-property-decorator'
   import getRepository from '@/services'
   import { KycRepository } from '@/services/repositories/kyc'
 
   const apiKyc: KycRepository = getRepository('kyc')
 
   import { namespace } from 'vuex-class'
-  import { filter } from 'lodash'
 
   const bcKyc = namespace('bcKyc')
 
@@ -87,13 +90,18 @@
 
     detail = {} as IDetail
     isLoading = false
+    isUserNotFound = false
     listReasonReject: Array<Record<string, any>> = []
 
     async created(): Promise<void> {
       try {
+        this.isLoading = true
         this.detail = await apiKyc.getDetailKyc(this.detailRow.userId)
-      } catch (e) {
-        console.log(e)
+        this.isLoading = false
+      } catch (error) {
+        console.log(error)
+        this.isLoading = false
+        this.isUserNotFound = true
       }
     }
 
@@ -185,6 +193,14 @@
           }
 
           height: calc(100% - 48px);
+        }
+        .user-not-found {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          justify-content: center;
+          background: #f3f2f1;
         }
       }
     }

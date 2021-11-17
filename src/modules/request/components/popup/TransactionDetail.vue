@@ -1,5 +1,5 @@
 <template>
-  <div class="content-transaction be-flex align-center jc-space-between">
+  <div class="content-transaction be-flex jc-space-between">
     <div class="box-left">
       <div class="be-flex align-center" style="margin-bottom: 20px">
         <base-icon class="icon" icon="icon-document" size="24"></base-icon>
@@ -14,7 +14,7 @@
         <div class="left">{{ $t('request.popup.transaction.label2') }}</div>
         <div class="right">
           <base-icon :icon="getIcon(data.currency)" size="20" class="mini-icon"></base-icon>
-          <span style="margin-right: 9px">{{ data.fromAddress }}</span
+          <span style="margin-right: 9px">{{ data.fromAddress | formatTransactionCode }}</span
           ><span class="icon-copy" @click="handleCopyTransaction(data.fromAddress)">
             <base-icon icon="icon-copy" size="20" />
           </span>
@@ -25,7 +25,7 @@
         <div class="left">{{ $t('request.popup.transaction.label3') }}</div>
         <div class="right">
           <base-icon :icon="getIcon(data.currency)" size="20" class="mini-icon"></base-icon>
-          <span style="margin-right: 9px">{{ data.toAddress }}</span
+          <span style="margin-right: 9px">{{ data.toAddress | formatTransactionCode }}</span
           ><span class="icon-copy" @click="handleCopyTransaction(data.toAddress)">
             <base-icon icon="icon-copy" size="20" />
           </span>
@@ -35,7 +35,7 @@
       <div class="mini-box be-flex align-center jc-space-between">
         <div class="left">{{ $t('request.popup.transaction.label4') }}</div>
         <div class="right">
-          <span class="fee">-{{ data.transactionFee | convertAmountDecimal(data.currency) }} {{ data.currency }}</span>
+          <span class="fee">-{{ data.transactionFee | convertAmountDecimal(data.currency) }} {{ data.currency }} </span>
           <span class="dolar">(~${{ data.amountToUsd | convertAmountDecimal('USD') }})</span>
         </div>
       </div>
@@ -53,34 +53,36 @@
         <base-icon class="icon" icon="icon-user" size="24"></base-icon>
         <span class="big-title">{{ $t('request.popup.transaction.bigTitle2') }}</span>
       </div>
-      <div class="mini-box be-flex align-center jc-space-between">
+      <div class="mini-box be-flex align-center jc-space-between mini-box1">
         <div class="left">{{ $t('request.popup.transaction.label6') }}</div>
-        <div class="right">Nguyễn Trần Phương Anh</div>
+        <div class="right">{{ dataUser.fullName }}</div>
       </div>
       <div class="line"></div>
-      <div class="mini-box be-flex align-center jc-space-between">
+      <div class="mini-box be-flex align-center jc-space-between mini-box2">
         <div class="left">{{ $t('request.popup.transaction.label7') }}</div>
-        <div class="right"><span class="plus">(+84)</span> 945567796</div>
+        <div class="right">
+          <span class="plus" v-if="dataUser.countryCode">({{ dataUser.countryCode }})</span> {{ dataUser.phone }}
+        </div>
       </div>
       <div class="line"></div>
-      <div class="mini-box be-flex align-center jc-space-between">
+      <div class="mini-box be-flex align-center jc-space-between mini-box3">
         <div class="left">{{ $t('request.popup.transaction.label8') }}</div>
-        <div class="right">phuonganhnguyentran123@gmail.com</div>
+        <div class="right">{{ dataUser.email }}</div>
       </div>
       <div class="line"></div>
-      <div class="mini-box be-flex align-center jc-space-between">
+      <div class="mini-box be-flex align-center jc-space-between mini-box4">
         <div class="left">{{ $t('request.popup.transaction.label9') }}</div>
-        <div class="right">Vietnam</div>
+        <div class="right">{{ dataUser.country }}</div>
       </div>
       <div class="line"></div>
-      <div class="mini-box be-flex align-center jc-space-between">
+      <div class="mini-box be-flex align-center jc-space-between mini-box5">
         <div class="left">{{ $t('request.popup.transaction.label10') }}</div>
-        <div class="right">Level 1</div>
+        <div class="right" style="text-transform: capitalize">{{ getLavel(dataUser.level) }}</div>
       </div>
       <div class="line"></div>
       <div class="mini-box be-flex align-center jc-space-between">
         <div class="left">{{ $t('request.popup.transaction.label11') }}</div>
-        <div class="right">11/30/2021 12:09:06</div>
+        <div class="right">{{ dataUser.createdDate | formatDateHourMs }}</div>
       </div>
       <div class="line"></div>
     </div>
@@ -93,12 +95,20 @@
   @Component
   export default class TransactionDetail extends Vue {
     @Prop() data!: any
+    @Prop() dataUser!: any
     getIcon(currency: string): void {
       let icon: any = ''
       if (currency) {
         icon = `icon-${currency.toLowerCase()}`
       }
       return icon
+    }
+    getLavel(level: string | any): void {
+      let name: any = ''
+      if (level) {
+        name = level.toLowerCase()
+      }
+      return name
     }
     handleCopyTransaction(string: any): void {
       if (string) {
@@ -177,6 +187,23 @@
       min-width: 369px;
       position: relative;
       min-height: 316px;
+      .mini-box1 {
+        margin-bottom: 13px;
+      }
+      .mini-box2 {
+        margin-top: 22px;
+        margin-bottom: 13px;
+      }
+      .mini-box3 {
+        margin-top: 20px;
+        margin-bottom: 18px;
+      }
+      .mini-box4 {
+        margin-bottom: 10px;
+      }
+      .mini-box5 {
+        margin-bottom: 17px;
+      }
     }
   }
 </style>
