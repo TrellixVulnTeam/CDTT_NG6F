@@ -1,7 +1,7 @@
 <template>
   <div class='w-100 bg-white wallet-table-balance'>
     <div class='title-popup' slot='title'>
-      <span>Account Statement</span>
+      <span style='font-weight: 600'>Account Statement</span>
     </div>
     <div class='opening-balance be-flex jc-space-between'>
       <p>OPENING BALANCE</p>
