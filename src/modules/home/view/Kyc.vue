@@ -108,10 +108,11 @@
     }
 
     handleChangeTab(tab: Record<string, any>): void {
-      this.$router.push({ name: tab.routeName })
-      this.query.kycStatus = this.kycStatus[tab.title]
-      this.resetQuery()
-      EventBus.$emit('changeTab')
+      this.$router.push({ name: tab.routeName }).then(() => {
+        this.query.kycStatus = this.kycStatus[tab.title]
+        this.resetQuery()
+        EventBus.$emit('changeTabKyc')
+      })
     }
 
     resetQuery(): void {
@@ -142,6 +143,8 @@
     }
 
     handleFilter(filter: Record<string, any>): void {
+      console.log('tab')
+
       this.query = {
         ...this.query,
         ...filter
