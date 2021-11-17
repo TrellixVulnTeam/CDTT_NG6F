@@ -1,93 +1,96 @@
 <template>
-  <div class="w-100 bg-white wallet-table">
-    <div class="title-popup" slot="title">
+  <div class='w-100 bg-white wallet-table-balance'>
+    <div class='title-popup' slot='title'>
       <span>{{ $t('balance.popup.title') }}</span>
     </div>
-    <div class='opening-balance'>
-
+    <div class='opening-balance be-flex jc-space-between'>
+      <p>OPENING BALANCE</p>
+      <p>{{ summary.openBalance }}</p>
     </div>
-    <div class="wallet-table__below">
-      <base-table
-        :data="data"
-        :table="query"
-        :paginationInfo="getPaginationInfo"
-        @sizeChange="handleSizeChange"
-        @currentChange="handleCurrentChange"
-        @rowClick="handleRowClick"
-        class="base-table table-wallet"
-      >
-        <el-table-column label="TYPE" type="index" :index="indexMethod" align="center" width="200" />
-        <!-- <el-table-column :label="$t('kyc.table.fullName')" min-width="200">
-          <template slot-scope="scope">
-            <div class="be-flex align-center">
-              <span class="d-ib mr-2">{{ scope.row.fullName + '&nbsp;' + scope.row.lastName }}</span>
-            </div>
-          </template>
-        </el-table-column> -->
-        <el-table-column label="CREDIT" prop="fullName" > </el-table-column>
-        <el-table-column label="DEBIT" prop="email" > </el-table-column>
-
-        <el-table-column label="BALANCE" align="right" >
-          <template slot-scope="scope">
-            <div class="box-paid">
-              <p class="text-paid fw-400 fs-16">{{ scope.row.availableBalance | convertAmountDecimal(scope.row.availableBalanceUSD) }} {{ scope.row.currency }}</p>
-              <p class="avi fw-400 fs-14">~ {{ scope.row.availableBalanceUSD | convertAmountDecimal(scope.row.currency) }}</p>
-            </div>
+    <div class='wallet-table-balance__below'>
+      <el-table
+        :data='data'
+        style='width: 100%'>
+        <el-table-column label='TYPE' width='200' prop='transactionType'>
+          <template slot-scope='scope'>
+            <p style='font-size: 16px'>{{scope.row.transactionType}}</p>
+            <p style='color: #5B616E;font-size: 14px'>{{scope.row.transactionMillisecond| formatDateHourMs }}</p>
           </template>
         </el-table-column>
-
-        <el-table-column label="STATUS" align="right" width='144'>
-          <template slot-scope="scope">
-            <div class="box-paid">
-              <p class="text-paid fw-400 fs-16">
-                {{ scope.row.totalLockedAmount | convertAmountDecimal(scope.row.availableBtotalLockedAmountUSDalanceUSD) }} {{ scope.row.currency }}
-              </p>
-              <p class="avi fw-400 fs-14">~ {{ scope.row.totalLockedAmountUSD | convertAmountDecimal(scope.row.currency) }}</p>
-            </div>
+        <el-table-column label='CREDIT' prop='creditAmountDisplay'>
+          <template slot-scope='scope'>
+            <span v-if='scope.row.creditAmount === 0'></span>
+            <span v-else style='color: #129961;font-size: 16px'>+{{ scope.row.creditAmountDisplay }}</span>
           </template>
         </el-table-column>
-
-      </base-table>
+        <el-table-column label='DEBIT' prop='debitAmountDisplay'>
+          <template slot-scope='scope'>
+            <span v-if='scope.row.debitAmount === 0'></span>
+            <span v-else style='color: #CF202F;font-size: 16px'>{{ scope.row.debitAmountDisplay }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label='BALANCE' align='right' prop='balanceDisplay'>
+        </el-table-column>
+        <el-table-column label='STATUS' align='right' width='144' prop='status'>
+          <template slot-scope='scope'>
+            <span v-if="scope.row.status !== 'FAILED'"
+                  :class='checkType(scope.row.status)'>{{ checkStatus(scope.row.status) }}</span>
+            <span v-else class='status-locked'>{{ $t('status.failed') }}</span>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+    <div class='total be-flex '>
+      <p>TOTAL</p>
+      <p>{{ summary.totalCreditAmount  }}</p>
+      <p>{{ summary.totalDebitAmount }}</p>
+    </div>
+    <div class='ending-balance be-flex jc-space-between '>
+      <p>ENDING BALANCE</p>
+      <p>{{ summary.closeBalance }}</p>
     </div>
   </div>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
   import { Component, Prop, Vue } from 'vue-property-decorator'
 
   @Component
   export default class AccountStatementCard extends Vue {
-    @Prop({ required: true, type: Object, default: {} }) query!: Record<string, any>
     @Prop({ required: true, type: Array, default: [] }) data!: Array<Record<string, any>>
+    @Prop({ required: true }) summary!: Record<string, any>
 
     get getPaginationInfo(): any {
       return this.$t('paging.investor')
     }
 
     checkType(type: string): string {
-      return type === 'Not verified' ? 'status-not-verified' : type === 'PENDING' ? 'status-pending' : type === 'VERIFIED' ? 'status-verified' : 'status-rejected'
+      return type === 'Not verified' ? 'status-not-verified' : type === 'PENDING' ? 'status-pending' : type === 'SUCCESS' ? 'status-verified' : 'status-rejected'
     }
 
     getDataSelectTab(): void {
       console.log('1')
     }
+
     checkStatus(status: string): any {
       switch (status) {
+        case 'SUCCESS':
+          return this.$t('status.success')
         case 'PENDING':
           return this.$t('status.pending')
-        case 'VERIFIED':
-          return this.$t('status.verified')
         default:
-          return this.$t('status.rejected')
+          return this.$t('status.failed')
       }
     }
-    indexMethod(index: number): number {
-      return (this.query.page - 1) * this.query.limit + index + 1
-    }
+
+    // indexMethod(index: number): number {
+    //   return (this.query.page - 1) * this.query.limit + index + 1
+    // }
 
     handleSizeChange(value: number): void {
       this.$emit('sizeChange', value)
     }
+
     handleCurrentChange(value: number): void {
       this.$emit('pageChange', value)
     }
@@ -98,21 +101,25 @@
   }
 </script>
 
-<style scoped lang="scss">
-  .wallet-table {
+<style scoped lang='scss'>
+  .wallet-table-balance {
     &__above {
       border-bottom: 1px solid var(--bc-border-primary);
+
       &-tabs {
         .tab-item {
           padding: 16px 12px;
           position: relative;
+
           &:hover {
             color: var(--bc-tab-active);
           }
         }
+
         .tab-active {
           color: var(--bc-tab-active);
           font-weight: 600;
+
           &::after {
             content: '';
             position: absolute;
@@ -125,21 +132,66 @@
         }
       }
     }
+
     &__below {
-      padding: 0 24px;
+      padding: 0 6px;
+
       .table-wallet {
         .amount-decrease {
           color: var(--bc-status-error);
         }
+
         .amount-increase {
           color: var(--bc-status-success);
         }
       }
+
     }
-    .title-popup{
+
+    .title-popup {
       padding: 24px;
       font-size: 24px;
       color: #0A0B0D;
+    }
+
+    .opening-balance {
+      background-color: #F3F2F1;
+      padding: 12px 16px;
+      p{
+        font-size: 16px;
+        color: #0A0B0D;
+        font-weight: 600;
+      }
+      p:last-of-type {
+        margin-right: 144px;
+      }
+    }
+    .total{
+      background-color: #F3F2F1;
+      padding: 12px 16px;
+      p{
+        width: 200px;
+        font-size: 16px;
+        color: #0A0B0D;
+        font-weight: 600;
+      }
+      p:last-of-type {
+        margin-right: 144px;
+      }
+    }
+    .ending-balance{
+      margin-top: 8px;
+      border-radius: 4px;
+      background-color: #0151FC;
+      padding: 12px 16px;
+      p{
+        font-size: 16px;
+        color: #FFFFFF;
+        font-weight: 600;
+      }
+      p:last-of-type {
+        margin-right: 144px;
+      }
     }
   }
 </style>

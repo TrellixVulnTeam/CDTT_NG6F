@@ -1,5 +1,5 @@
 <template>
-  <base-popup name="popup-balance-detail" class="popup-balance-detail" width="1040px" :isShowFooter="false"  :close="handleClose">
+  <base-popup name="popup-balance-detail" class="popup-balance-detail" width="1040px" :isShowFooter="false" :open="handleOpen" :close="handleClose">
     <div class="title-popup" slot="title">
       <span>{{ $t('balance.popup.title') }}</span>
     </div>
@@ -15,7 +15,7 @@
         </div>
       </div>
       <balance-detail-card :data-card='detailRow'/>
-      <account-statement-card/>
+      <account-statement-card :data='dataTable.content' :summary='dataSummary'/>
     </div>
   </base-popup>
 </template>
@@ -27,14 +27,71 @@
 
   import BalanceDetailCard from '@/modules/balance/components/balanceDetail/BalanceDetailCard.vue'
   import AccountStatementCard from '@/modules/balance/components/balanceDetail/AccountStatementCard.vue'
+  import getRepository from '@/services'
+  import { TransactionRepository } from '@/services/repositories/transaction'
+interface ITransaction{
+    content:{
+      balance: number
+      balanceDisplay: string
+      createdAt: string
+      createdBy: number
+      creditAddress: string
+      creditAmount: number
+      creditAmountDisplay: string
+      creditAmountToUsd: number
+      creditCurrency:string
+      creditFee: number
+      creditNetwork: string
+      creditUsdExchangeRate: number
+      debitAddress: string
+      debitAmount: number
+      debitAmountDisplay: string
+      debitAmountToUsd: number
+      debitCurrency: string
+      debitFee: number
+      debitNetwork: string
+      debitUsdExchangeRate: number
+      description:string
+      id: number
+      locked: number
+      lockedDisplay: string
+      refTransactionCode:string
+      status:string
+      transactionCode: string
+      transactionDate: string
+      transactionDay:string
+      transactionMillisecond: number
+      transactionType: string
+      updatedAt: string
+      updatedBy: number
+      userId: number
+    }[],
 
+}
+interface ISummary{
+  summary:{
+    openBalance:string,
+    closeBalance:string,
+    totalCreditAmount:string,
+    totalDebitAmount:string
+  }
+}
+  const api: TransactionRepository = getRepository('transaction')
   @Component({ components: {BalanceDetailCard ,AccountStatementCard } })
   export default class BalanceDetail extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Object, default: {} }) detailRow!: Record<string, any>
-    @Prop({ required: true, type: Object, default: {} }) data!: Record<string, any>
     detail: Record<string, any> = {}
     isLoading = false
-
+    query: any = {
+      currency:'',
+      transactionType:'',
+      orderBy:'',
+      page:'',
+      limit:'',
+      userId:0
+    }
+    dataTable:ITransaction = {} as ITransaction
+    dataSummary:ISummary={} as ISummary
     tabs: Record<string, any>[] = [
       {
         id: 0,
@@ -77,7 +134,17 @@
 
     //balance
     listBlance: Record<string, any>[] = []
+    async handleOpen():Promise<void>{
+      const params = {
+        ...this.query,
+        currency: this.detailRow.currency,
+        userId:this.detailRow.id
+      }
+      const result = await api.getlistBalanceDetail("request/transactions",params);
+        this.dataTable=result.transactions;
+        this.dataSummary=result.summary;
 
+    }
     handleClose(): void {
       this.tabActive = 0
       this.setOpenPopup({

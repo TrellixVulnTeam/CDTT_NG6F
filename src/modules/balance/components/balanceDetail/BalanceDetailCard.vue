@@ -9,8 +9,8 @@
         </div>
       </div>
       <div class='value-card'>
-        <p class='current'>0,00864 BTC</p>
-        <p class='last'>-$44,152</p>
+        <p class='current'>{{dataCard.balance | convertAmountDecimal()}} {{ dataCard.currency }}</p>
+        <p class='last'>-${{ dataCard.balanceUSD | convertAmountDecimal("USD") }}</p>
       </div>
     </div>
     <div class='card-item'>
@@ -22,8 +22,8 @@
         </div>
       </div>
       <div class='value-card'>
-        <p class='current'>0,00864 BTC</p>
-        <p class='last'>-$44,152</p>
+        <p class='current'>{{dataCard.availableBalance | convertAmountDecimal()}} {{ dataCard.currency }}</p>
+        <p class='last'>-${{ dataCard.availableBalanceUSD| convertAmountDecimal("USD")}}</p>
       </div>
     </div>
     <div class='card-item'>
@@ -35,8 +35,8 @@
         </div>
       </div>
       <div class='value-card'>
-        <p class='current'>0,00864 BTC</p>
-        <p class='last'>-$44,152</p>
+        <p class='current'>{{ dataCard.totalLockedAmount | convertAmountDecimal() }} {{ dataCard.currency }}</p>
+        <p class='last'>-${{ dataCard.totalLockedAmountUSD | convertAmountDecimal("USD") }}</p>
       </div>
     </div>
   </div>

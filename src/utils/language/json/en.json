@@ -396,7 +396,9 @@
     "verified": "Verified",
     "rejected": "Rejected",
     "unverified": "Not verified",
-    "locked": "Locked"
+    "locked": "Locked",
+    "success": "Success",
+    "failed": "Failed"
   },
   "crowdsale": {
     "round": "Round",
