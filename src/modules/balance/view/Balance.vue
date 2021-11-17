@@ -131,7 +131,7 @@
     totalBalance = ''
     totalElement = ''
     totalLocked = ''
-    totalAvailableUSD =''
+    totalAvailableUSD = ''
     totalLockedUSD = ''
     totalBalanceUSD = ''
     listApproveBy: Record<string, any>[] = []

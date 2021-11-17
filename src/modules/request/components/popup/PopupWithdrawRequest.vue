@@ -38,7 +38,8 @@
           <div class="mini-box be-flex align-center jc-space-between">
             <div class="left fw-400 fs-14">{{ $t('request.popup.label4') }}</div>
             <div class="right fw-400 fs-16">
-              <base-icon v-if="data.currency" :icon="getIcon(data.currency)" size="20" class="mini-icon"></base-icon><span style="margin-right: 9px">{{ data.toAddress | formatTransactionCode }}</span
+              <base-icon v-if="data.currency" :icon="getIcon(data.currency)" size="20" class="mini-icon"></base-icon
+              ><span style="margin-right: 9px">{{ data.toAddress | formatTransactionCode }}</span
               ><span class="icon-copy" v-if="data.toAddress" @click="handleCopyTransaction(data.toAddress)">
                 <base-icon icon="icon-copy" size="20" />
               </span>

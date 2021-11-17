@@ -28,8 +28,8 @@
         <base-icon icon="icon-address" size="24" class="icon-personal" />
       </div>
       <div class="be-flex jc-space-between item">
-        <span class="label" style='line-height: 25px'>{{ $t('label.address') }}</span>
-        <span class="text-base" style='padding-bottom: 8px'>{{ info.address }}</span>
+        <span class="label" style="line-height: 25px">{{ $t('label.address') }}</span>
+        <span class="text-base" style="padding-bottom: 8px">{{ info.address }}</span>
       </div>
       <div class="be-flex jc-space-between align-center item">
         <span class="label">{{ $t('label.city') }}</span>

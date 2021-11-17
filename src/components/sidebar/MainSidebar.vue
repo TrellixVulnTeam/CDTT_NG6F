@@ -37,7 +37,7 @@
         <p>{{ $t('leftMenu.balance') }}</p>
       </div>
     </router-link> -->
-    
+
     <!-- <router-link :to="{ name: 'Request' }" class="router_center">
       <div class="sack_avatar">
         <base-icon icon="menu-request-active" class="menu-active" size="32" />
