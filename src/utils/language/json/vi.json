@@ -492,7 +492,7 @@
     "total-available":"Tổng số tiền hiện có",
     "total-locked":"Tổng số tiền đã khóa",
     "of-total":"Of total",
-    "balance-wallet":"Số dư ví"
+    "balance-wallet":"Số dư ví",
     "popup": {
       "title": "CHI TIẾT BALANCE"
     }

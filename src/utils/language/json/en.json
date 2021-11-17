@@ -468,7 +468,7 @@
     "total-available":"Total Available",
     "total-locked":"Total Locked",
     "of-total":"Of total",
-    "balance-wallet":"Balance"
+    "balance-wallet":"Balance",
     "popup": {
       "title": "BALANCE DETAIL"
     }
