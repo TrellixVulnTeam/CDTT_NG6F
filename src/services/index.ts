@@ -28,7 +28,7 @@ export default function getRepository(name: RepositoryName): any {
     case 'balance':
       return new BalanceRepository()
     case 'request':
-        return new RequestRepository()
+      return new RequestRepository()
     default:
       return null
   }
