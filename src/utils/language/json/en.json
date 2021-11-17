@@ -106,7 +106,8 @@
   "header": {
     "kyc": "KYC",
     "customer": "Customer",
-    "crowdsale": "Crowdsale"
+    "crowdsale": "Crowdsale",
+    "request": "Request"
   },
   "footer": {
     "terms": "Terms and Conditions"
@@ -413,7 +414,7 @@
     "of": "of",
     "transactions": "Transactions",
     "filter": "Filter",
-    "sortBy": "Sort By",
+    "sortBy": "Sort by",
     "search": "Search",
     "date": "DATE",
     "status": "STATUS",
@@ -515,13 +516,16 @@
       },
       "account": {
         "wallet": "Wallet",
-        "Amount": "Amount",
-        "Available": "Available",
-        "Locked": "Locked",
+        "amount": "Amount",
+        "available": "Available Amount",
+        "locked": "Locked Amount",
         "bigTitle1": "Account Statement",
         "bigTitle2": "OPENING BALANCE",
         "bigTitle3": "TOTAL",
         "bigTitle4": "ENDING BALANCE",
+        "discription1": "Balance",
+        "discription2": "Available Amount",
+        "discription3": "Withdrawal Request",
         "label1": "TYPE",
         "label2": "CREDIT",
         "label3": "DEBIT",

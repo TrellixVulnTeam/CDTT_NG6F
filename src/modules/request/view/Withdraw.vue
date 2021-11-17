@@ -207,28 +207,40 @@
         label: this.$i18n.t('request.filter.rejected')
       }
     ]
+    sortActive = 'REQUEST_DATE'
+    orderBy = 'REQUEST_DATE'
     loadingTable = true
     get getPaginationInfo(): any {
       return this.$t('paging.request')
     }
     handleSizeChange(value: number): void {
-      this.querry.page = 1
-      this.query.page = 1
-      this.querry.limit = value
-      this.query.limit = value
-      this.getDataTable()
+      if (value) {
+        this.querry.page = 1
+        this.query.page = 1
+        this.querry.limit = value
+        this.query.limit = value
+        this.getDataTable()
+      }
     }
     handleCurrentChange(value: number): void {
-      this.querry.page = value
-      this.query.page = value
-      this.getDataTable()
+      if (value) {
+        this.querry.page = value
+        this.query.page = value
+        this.getDataTable()
+      }
     }
-    getDataTable(): void {
-      api.getDataTable(this.querry).then((res: any) => {
-        this.loadingTable = false
-        this.dataTable = res.content
-        this.query.total = res.totalElements
-      })
+    async getDataTable(): Promise<void> {
+      await api
+        .getDataTable(this.querry)
+        .then((res: any) => {
+          this.loadingTable = false
+          this.dataTable = res.content
+          this.query.total = res.totalElements
+        })
+        .catch(error => {
+          console.log(error)
+          this.loadingTable = false
+        })
     }
     async init(): Promise<void> {
       await this.getDataTable()
@@ -237,11 +249,9 @@
       this.init()
     }
     @Watch('querry.keywordString')
-    handleSearch(search: any): void {
+    handleSearch(): void {
       this.getDataTable()
     }
-    sortActive = 'REQUEST_DATE'
-    orderBy = 'REQUEST_DATE'
     handleSort(command: string): void {
       this.sortActive = command
       if (command == 'REQUEST_DATE') {

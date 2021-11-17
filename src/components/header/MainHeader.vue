@@ -62,6 +62,8 @@
           return this.$t('header.customer')
         case '/crowd-sale':
           return this.$t('header.crowdsale')
+        case '/request':
+          return this.$t('header.request')
         default:
           return this.$t('header.kyc')
       }

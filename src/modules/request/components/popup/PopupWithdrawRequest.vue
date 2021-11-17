@@ -25,7 +25,7 @@
           <div class="icon"><base-icon icon="request-popup-icon1" size="48"></base-icon></div>
           <div class="box-amount">
             <div class="big-amout fw-600 fs-24" v-if="data.currency">-{{ data.transactionFee | convertAmountDecimal(data.currency) }} {{ data.currency }}</div>
-            <div class="dolar fw-400 fs-12">~${{ data.amountToUsd | convertAmountDecimal('USD') }}</div>
+            <div class="dolar fw-400 fs-12">~${{ getAmountToUsd(data.amountToUsd) }}1</div>
           </div>
           <div class="box-status fw-400 fs-12" :class="data.status != 'PENDING' ? 'rejected' : null">{{ data.status }}</div>
         </div>
@@ -38,7 +38,8 @@
           <div class="mini-box be-flex align-center jc-space-between">
             <div class="left fw-400 fs-14">{{ $t('request.popup.label4') }}</div>
             <div class="right fw-400 fs-16">
-              <base-icon v-if="data.currency" :icon="getIcon(data.currency)" size="20" class="mini-icon"></base-icon><span style="margin-right: 9px">{{ data.toAddress | formatTransactionCode }}</span
+              <base-icon v-if="data.currency" :icon="getIcon(data.currency)" size="20" class="mini-icon"></base-icon
+              ><span style="margin-right: 9px">{{ data.toAddress | formatTransactionCode }}</span
               ><span class="icon-copy" v-if="data.toAddress" @click="handleCopyTransaction(data.toAddress)">
                 <base-icon icon="icon-copy" size="20" />
               </span>
@@ -106,6 +107,13 @@
       }
     ]
     tabActive = 1
+    getAmountToUsd(amountToUsd: Record<string, any>): void {
+      let string: any = ''
+      if (amountToUsd) {
+        string = this.$options.filters?.convertAmountDecimal(amountToUsd, 'USD')
+      }
+      return string
+    }
     handleChangeTab(tab: Record<string, any>): void {
       this.tabActive = tab.id
     }

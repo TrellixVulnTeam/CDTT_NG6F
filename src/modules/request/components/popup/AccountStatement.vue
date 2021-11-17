@@ -1,6 +1,46 @@
 <template>
   <div class="content-account">
-    <div class="box1 be-flex"></div>
+    <div class="box1 be-flex align-center">
+      <div class="mini-boxcontent">
+        <div class="be-flex align-center header">
+          <base-icon class="icon-header" :icon="getIcon(data.currency)" size="40"></base-icon>
+          <div>
+            <p class="fw-600 fs-18">{{ $t('request.popup.account.wallet') }}</p>
+            <p class="fw-400 fs-12 text-color">{{ $t('request.popup.account.discription1') }}</p>
+          </div>
+        </div>
+        <div>
+          <p class="fw-600 fs-24 color-coin" style="line-height: 32px">0.00864788 BTC</p>
+          <p class="fw-400 fs-14 dolar">~$44,152.00</p>
+        </div>
+      </div>
+      <div class="mini-boxcontent mini-boxcontent2">
+        <div class="be-flex align-center header">
+          <base-icon class="icon-header" :icon="getIcon(data.currency)" size="40"></base-icon>
+          <div>
+            <p class="fw-600 fs-18">{{ $t('request.popup.account.available') }}</p>
+            <p class="fw-400 fs-12 text-color">{{ $t('request.popup.account.discription2') }}</p>
+          </div>
+        </div>
+        <div>
+          <p class="fw-600 fs-24 color-coin" style="line-height: 32px">0.00864788 BTC</p>
+          <p class="fw-400 fs-14 dolar">~$44,152.00</p>
+        </div>
+      </div>
+      <div class="mini-boxcontent mini-boxcontent3">
+        <div class="be-flex align-center header">
+          <base-icon class="icon-header" icon="icon-lock" size="40"></base-icon>
+          <div>
+            <p class="fw-600 fs-18">{{ $t('request.popup.account.locked') }}</p>
+            <p class="fw-400 fs-12 text-color">{{ $t('request.popup.account.discription3') }}</p>
+          </div>
+        </div>
+        <div>
+          <p class="fw-600 fs-24 color-coin" style="line-height: 32px">0.00864788 BTC</p>
+          <p class="fw-400 fs-14 dolar">~$44,152.00</p>
+        </div>
+      </div>
+    </div>
     <div class="big-title fw-600 fs-24">{{ $t('request.popup.account.bigTitle1') }}</div>
     <div class="box-table">
       <base-table :data="dataTable" class="base-table table-request" :showPagination="false">
@@ -8,7 +48,7 @@
           <template slot-scope="scope">
             <div>
               <p class="fw-400 fs-16" style="color: #0a0b0d">{{ scope.row.transactionType }}</p>
-              <p class="fw-400 fs-14" style="color: #5b616e">{{ scope.row.transactionDate | formatDateHourMs }}</p>
+              <p class="fw-400 fs-14 text-color">{{ scope.row.transactionDate | formatDateHourMs }}</p>
             </div>
           </template>
         </el-table-column>
@@ -63,6 +103,13 @@
         })
       }
     }
+    getIcon(currency: string): void {
+      let icon: any = ''
+      if (currency) {
+        icon = `icon-${currency.toLowerCase()}`
+      }
+      return icon
+    }
     created(): void {
       this.getTable()
     }
@@ -71,12 +118,32 @@
 
 <style scoped lang="scss">
   .content-account {
+    .text-color {
+      color: #5b616e;
+    }
     .box1 {
-      padding: 16px 24px;
-      height: 108px;
       border-radius: 4px;
       border: 1px solid #dbdbdb;
       margin-bottom: 24px;
+      justify-content: space-between;
+      padding: 16px 24px;
+      .mini-boxcontent {
+        min-width: 250px;
+        .header {
+          margin-bottom: 16px;
+          .icon-header {
+            margin-right: 16px;
+          }
+        }
+        .dolar {
+          color: #5b616e;
+        }
+      }
+      .mini-boxcontent2,
+      .mini-boxcontent3 {
+        padding-left: 24px;
+        border-left: 1px solid #dbdbdb;
+      }
     }
     .big-title {
       margin-bottom: 24px;

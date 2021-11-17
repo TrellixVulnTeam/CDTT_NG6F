@@ -82,7 +82,8 @@
   "header": {
     "kyc": "KYC",
     "customer": "Khách hàng",
-    "crowdsale": "Crowdsale"
+    "crowdsale": "Crowdsale",
+    "request": "Yêu cầu"
   },
   "footer": {
     "terms": "Các điều khoản và điều kiện"
@@ -427,7 +428,7 @@
     "popup": {
       "titlePopup": "RÚT LẠI YÊU CẦU",
       "bigTitle1": "Cảnh báo",
-      "label1": "Số dư Hiện tại và Số dư Cuối kỳ không khớp với nhau.",
+      "label1": "Số dư hiện tại và số dư cuối kỳ không khớp với nhau.",
       "label2": "Cảnh báo hoạt động bất thường.",
       "label3": "Email của khách hàng",
       "label4": "Địa chỉ người nhận",
@@ -454,13 +455,16 @@
       },
       "account": {
         "wallet": "Ví",
-        "Amount": "Số lượng",
-        "Available": "Có sẵn",
-        "Locked": "Đã khóa",
+        "amount": "Số lượng",
+        "available": "Số lượng có sẵn",
+        "locked": "Số lượng đã khóa",
         "bigTitle1": "Sao kê tài khoản",
         "bigTitle2": "MỞ CÂN BẰNG",
         "bigTitle3": "TOÀN BỘ",
         "bigTitle4": "CÂN BẰNG KẾT THÚC",
+        "discription1": "Thăng bằng",
+        "discription2": "Số tiền có sẵn",
+        "discription3": "Yêu cầu rút tiền",
         "label1": "KIỂU",
         "label2": "TÍN DỤNG",
         "label3": "GHI NỢ",
