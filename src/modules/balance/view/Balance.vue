@@ -9,7 +9,28 @@
         </div>
       </div>
     </div>
-
+    <div class="container bg-white wallet-header" style="width: 100%">
+      <div style="" class="col-width col-margin">
+        <span class="text1"> Investor</span>
+        <span class="number2"> {{ numOfInvestor }}</span>
+        <span class="text3"> of total {{ numOfUser | formatNumber }}</span>
+      </div>
+      <div class="col-width col-margin">
+        <span class="text1"> Total Available</span>
+        <span class="number2"> {{ totalAvailable | formatNumber }}</span>
+        <span class="text3"> ~$1000,000</span>
+      </div>
+      <div class="col-width col-margin">
+        <span class="text1"> Total Locked</span>
+        <span class="number2"> {{ totalLocked | formatNumber }}</span>
+        <span class="text3"> ~$1000,000</span>
+      </div>
+      <div class="col-width col-margin">
+        <span class="text1"> Balance</span>
+        <span class="number2"> {{ totalBalance | formatNumber }}</span>
+        <span class="text3"> ~$1000,000</span>
+      </div>
+    </div>
     <balance-filter @filterBalance="handleFilter" :listApproveBy="listApproveBy" />
     <balance-table v-loading="isLoading" @rowClick="handleRowClick" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="data" />
     <!-- <kyc-detail :detailRow="detailRow" @init="init" /> -->
@@ -79,6 +100,12 @@
       limit: 10,
       total: 10
     }
+    numOfInvestor = ''
+    numOfUser = ''
+    totalAvailable = ''
+    totalBalance = ''
+    totalElement = ''
+    totalLocked = ''
     listApproveBy: Record<string, any>[] = []
     getListBalance(): void {
       console.log('1')
@@ -107,7 +134,14 @@
         this.data = result.balances || []
         this.query.total = result.totalElement
         this.isLoading = false
+        console.log('result', result)
         // console.log('result', result)
+        this.numOfInvestor = result.numOfInvestor
+        this.numOfUser = result.numOfUser
+        this.totalAvailable = result.totalAvailable
+        this.totalBalance = result.totalBalance
+        this.totalLocked = result.totalLocked
+        this.totalBalance = result.totalBalance
       } catch (error) {
         this.isLoading = false
         console.log(error)
@@ -183,6 +217,47 @@
     -ms-text-justify: distribute-all-lines;
     text-justify: distribute-all-lines;
     width: 100%;
+  }
+  ::v-deep .container > div {
+    width: 100px;
+    height: 100px;
+    vertical-align: top;
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    background: #efefef;
+  }
+  .col-width {
+    width: 20% !important;
+    height: 112px !important;
+    border-radius: 8px !important;
+    border: 1px solid #dbdbdb !important;
+    box-sizing: border-box !important;
+  }
+  .text1 {
+    margin-top: 16px;
+    margin-left: 18px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #0a0b0d;
+  }
+  .number2 {
+    margin-top: 8px;
+    margin-left: 18px;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 32px;
+    color: #0a0b0d;
+  }
+  .text3 {
+    margin-top: 6px;
+    margin-left: 18px;
+    margin-bottom: 16px;
+  }
+  .col-margin {
+    margin: 24px 24px;
+    background: #fff !important;
   }
   .container > div {
     width: 100px;
