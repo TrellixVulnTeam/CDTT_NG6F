@@ -29,7 +29,7 @@
       </div>
       <div class="be-flex jc-space-between item">
         <span class="label" style='line-height: 25px'>{{ $t('label.address') }}</span>
-        <span class="text-base">{{ info.address }}</span>
+        <span class="text-base" style='padding-bottom: 8px'>{{ info.address }}</span>
       </div>
       <div class="be-flex jc-space-between align-center item">
         <span class="label">{{ $t('label.city') }}</span>
