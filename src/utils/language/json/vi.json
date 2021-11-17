@@ -191,6 +191,7 @@
     "reject-success": "Từ chối thành công",
     "no-select-reject": "Tối thiểu 1 lý do từ chối",
     "no-data": "Không có dữ liệu",
+    "no-data-kyc": "Không có dữ liệu",
     "copy": "Sao chép thành công"
   },
   "logout": {

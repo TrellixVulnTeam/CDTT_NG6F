@@ -3,6 +3,7 @@ import { Message } from 'element-ui'
 import Cookies from 'js-cookie'
 import store from '../store'
 import i18n from '@/utils/language'
+import { includes } from 'lodash'
 
 const isAlreadyFetchingAccessToken = false
 let subscribers: any[] = []
@@ -72,6 +73,9 @@ request.interceptors.response.use(
       let message = ''
       if (data.message === 'User not exits') {
         message = i18n.tc('notify.user-exits')
+      }
+      if (data.status === 'BAD_REQUEST' && includes(config.url, 'user/settings/kyc-requests')) {
+        return Promise.reject(error)
       }
       if (data.status === 'INVALID_PASSWORD') {
         message = i18n.tc('notify.pass-invalid')

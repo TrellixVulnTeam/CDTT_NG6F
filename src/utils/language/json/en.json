@@ -202,7 +202,7 @@
     "status": "Status",
     "trans-type": "Transaction type",
     "date": "Date",
-    "available-amount":"Available amount",
+    "available-amount": "Available amount",
     "locked-amount": "Locked amount",
     "balance": "Balance"
   },
@@ -238,6 +238,7 @@
     "reject-success": "Rejected successfully",
     "no-select-reject": "Must choose at least 1 reason",
     "no-data": "There are no data",
+    "no-data-kyc": "No data",
     "copy": "Copied"
   },
   "logout": {
@@ -386,10 +387,10 @@
     "Round": "Round",
     "lynk": "LYNK",
     "btc": "BTC",
-    "eth":"ETH",
-    "bnb":"BNB",
-    "usdt":"USDT",
-    "usdc":"USDC"
+    "eth": "ETH",
+    "bnb": "BNB",
+    "usdt": "USDT",
+    "usdc": "USDC"
   },
   "status": {
     "pending": "Pending",
@@ -448,11 +449,11 @@
       "planceOderTransactionDateEnd": "To"
     }
   },
-  "balance":{
+  "balance": {
     "available": "Available",
     "lockedAmount": "Locked Amount",
-    "balance":"Balance",
-    "lastChange":"Last changed",
+    "balance": "Balance",
+    "lastChange": "Last changed",
     "availableAmout": "Available amount",
     "name": "Name"
   },

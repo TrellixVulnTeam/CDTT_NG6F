@@ -41,7 +41,7 @@
           <span class="title text-l text-bold">{{ $t('kyc.popup.id-verification') }}</span>
           <div class="wrap">
             <span class="wrap-small">{{ $t('kyc.popup.id-type') }}</span>
-            <span class="name">{{ detail.identificationType }}</span>
+            <span class="name">{{ detail.identificationType | formatIdentificationType }}</span>
           </div>
           <div class="wrap">
             <span class="wrap-small">{{ $t('kyc.popup.id-number') }}</span>
