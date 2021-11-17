@@ -1,5 +1,5 @@
 <template>
-  <base-popup name="popup-balance-detail" class="popup-customer-detail" width="1040px" :isShowFooter="false" :close="handleClose">
+  <base-popup name="popup-balance-detail" class="popup-balance-detail" width="1040px" :isShowFooter="false"  :close="handleClose">
     <div class="title-popup" slot="title">
       <span>{{ $t('balance.popup.title') }}</span>
     </div>
@@ -7,15 +7,15 @@
       <div class="be-flex mb-24 content__header">
         <div class="avatar">
           <img v-if="detailRow.avatar" :src="detailRow.avatar" altdetailRow.avatar />
-          <base-icon v-else icon="default-avatar" size="80" style="display: inline-flex" />
+          <base-icon v-else icon="default-avatar" size="48" style="display: inline-flex" />
         </div>
         <div class="ml-24 w-100 info">
           <div class="full-name mb-12 text-l text-bold">{{ detailRow.fullName }}</div>
-          <span> hoan...@gmail.com | (+84)...76</span>
+          <span> {{ detailRow.email | formatEmail }}| {{detailRow.phone | formatNumberPhone}}</span>
         </div>
       </div>
-      <balance-detail-card/>
-
+      <balance-detail-card :data-card='detailRow'/>
+      <account-statement-card/>
     </div>
   </base-popup>
 </template>
@@ -26,11 +26,12 @@
   import PopupMixin from '@/mixins/popup'
 
   import BalanceDetailCard from '@/modules/balance/components/balanceDetail/BalanceDetailCard.vue'
+  import AccountStatementCard from '@/modules/balance/components/balanceDetail/AccountStatementCard.vue'
 
-  @Component({ components: {BalanceDetailCard  } })
+  @Component({ components: {BalanceDetailCard ,AccountStatementCard } })
   export default class BalanceDetail extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Object, default: {} }) detailRow!: Record<string, any>
-
+    @Prop({ required: true, type: Object, default: {} }) data!: Record<string, any>
     detail: Record<string, any> = {}
     isLoading = false
 
@@ -106,39 +107,22 @@
         &__header {
           .avatar {
             img {
-              width: 80px;
-              height: 80px;
+              width: 48px;
+              height: 48px;
               border-radius: 100px;
               object-fit: cover;
             }
           }
-          .info-below {
-            &__left {
-              width: 316px;
-              margin-right: 160px;
+          .info{
+            .full-name{
+              font-size: 18px;
+              color: #0A0B0D;
+              font-family: Open Sans;
             }
-            &__right {
-              width: 316px;
-            }
-            .info-item {
-              // margin-bottom: 12px;
-              position: relative;
-              height: 24px;
-              line-height: 24px;
-              align-items: center;
-              margin-bottom: 4px;
-              &:last-child {
-                margin-bottom: 0;
-              }
-              .label {
-                color: #5b616e;
-              }
-              .status-verified {
-                background-color: transparent;
-                position: absolute;
-                right: -80px;
-                bottom: -2px;
-              }
+            span{
+              font-size: 12px;
+              color: #5b616e;
+              font-family: "Open Sans";
             }
           }
         }

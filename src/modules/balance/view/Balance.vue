@@ -13,7 +13,7 @@
     <balance-filter @filterBalance="handleFilter" :listApproveBy="listApproveBy" />
     <balance-table v-loading="isLoading" @rowClick="handleRowClick" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="data" />
     <!-- <kyc-detail :detailRow="detailRow" @init="init" /> -->
-    <balance-detail :detailRow="detailRow"/>
+    <balance-detail :detailRow="detailRow" :data='dataDetail'/>
   </div>
 </template>
 
@@ -72,7 +72,7 @@
     data: Array<Record<string, any>> = []
 
     detailRow = {}
-
+    dataDetail={}
     query: any = {
       search: '',
       orderBy: 1,
@@ -91,6 +91,7 @@
       // const name = this.$route.name
       // this.query.kycStatus = name === 'KycPending' ? 'PENDING' : name === 'KycVerified' ? 'VERIFIED' : 'REJECTED'
       // this.init()
+
     }
 
     async init(): Promise<void> {
@@ -109,6 +110,24 @@
         this.query.total = result.totalElement
         this.isLoading = false
         // console.log('result', result)
+      } catch (error) {
+        this.isLoading = false
+        console.log(error)
+      }
+    }
+
+    async handleGetBalanceDetail(userId:number){
+      try {
+        const params = {
+          ...this.query,
+          search: this.query.search,
+          orderBy: this.query.orderBy,
+          limit: this.query.limit,
+          page: this.query.page,
+          total: null
+        }
+        const result = await api.getlistBalanceDetail(this.tabActive, params)
+
       } catch (error) {
         this.isLoading = false
         console.log(error)
@@ -150,7 +169,6 @@
       this.init()
     }
     handleSizeChange(limit: number): void {
-      console.log('limit', limit)
       this.query.limit = limit
       this.init()
     }

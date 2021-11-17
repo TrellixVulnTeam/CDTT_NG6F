@@ -15,4 +15,14 @@ export class BalanceRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+  async getlistBalanceDetail(params: Record<string, any>): Promise<any> {
+    try {
+      const rs = await request.get(`${this.prefix}`, { params })
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      console.log(error)
+      return Promise.reject(error)
+    }
+  }
+
 }
