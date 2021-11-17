@@ -482,16 +482,19 @@
     }
   },
   "balance":{
-    "available": "Available",
-    "lockedAmount": "Locked Amount",
+    "available": "Có sẵn",
+    "lockedAmount": "Số tiền đã khóa",
     "balance":"Balance",
-    "lastChange":"Last changed",
-    "availableAmout": "Available amount",
-    "name": "Name",
+    "lastChange":"Mới đổi",
+    "availableAmout": "Số lượng có sẵn",
+    "name": "Tên",
     "investor":"Nhà đầu tư",
     "total-available":"Tổng số tiền hiện có",
     "total-locked":"Tổng số tiền đã khóa",
     "of-total":"Of total",
-    "balance-wallet":"Số dư ví"
+    "balance-wallet":"Số dư ví",
+    "popup": {
+      "title": "CHI TIẾT BALANCE"
+    }
   }
 }

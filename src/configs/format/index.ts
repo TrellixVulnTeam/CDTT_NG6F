@@ -224,3 +224,21 @@ export function formatIdentificationType(type: string | null): string {
     }
   } else return ''
 }
+
+export function formatEmail(email:string|null):string{
+ if (email){
+   var a= email.toString().split("@");
+   var b = a[0] ? a[0] : "";
+   var c = Math.floor(b.length * 0.5);
+   var str:string= b.slice(0, b.length - c) + "*".repeat(c) + "@"+a[1];
+   return str;
+ }else return "";
+}
+export function formatNumberPhone(numberPhone:string|null):string{
+  if (numberPhone){
+    var c = Math.floor(numberPhone.length * 0.5);
+    var str:string= "(+84)"+"*".repeat(c)+numberPhone.slice(0, numberPhone.length - c);
+    return str;
+  }else return "";
+}
+

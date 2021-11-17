@@ -403,7 +403,9 @@
     "verified": "Verified",
     "rejected": "Rejected",
     "unverified": "Not verified",
-    "locked": "Locked"
+    "locked": "Locked",
+    "success": "Success",
+    "failed": "Failed"
   },
   "crowdsale": {
     "round": "Round",
@@ -466,7 +468,10 @@
     "total-available":"Total Available",
     "total-locked":"Total Locked",
     "of-total":"Of total",
-    "balance-wallet":"Balance"
+    "balance-wallet":"Balance",
+    "popup": {
+      "title": "BALANCE DETAIL"
+    }
   },
   "request": {
     "withdraw": "Withdraw",
