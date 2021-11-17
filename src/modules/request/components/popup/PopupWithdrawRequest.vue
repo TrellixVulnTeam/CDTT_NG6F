@@ -10,7 +10,7 @@
         </div>
         <div class="box-right">
           <div class="big-title fw-600 fs-18">{{ $t('request.popup.bigTitle1') }}</div>
-          <div class="discript be-flex align-center">
+          <div class="discript be-flex align-center" style="margin-bottom: 8px">
             <div class="dot"></div>
             <div class="comment fw-400 fs-16">{{ $t('request.popup.label1') }}</div>
           </div>
