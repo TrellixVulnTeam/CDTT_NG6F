@@ -276,7 +276,12 @@
     },
     "filter": {
       "filter": "Filter",
-      "sort": "Sort by"
+      "sort": "Sort by",
+      "all-status": "All status",
+      "kyc-processing": "KYC processing",
+      "not-verified": "Not verified",
+      "verified": "Verified",
+      "locked": "Locked"
     },
     "sort": {
       "date": "Created date",
