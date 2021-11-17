@@ -42,6 +42,11 @@
       </div>
     </div>
     <div class="big-title fw-600 fs-24">{{ $t('request.popup.account.bigTitle1') }}</div>
+    <div class="open align-center be-flex row">
+      <div class="title fw-600 fs-16">OPENING BALANCE</div>
+      <div class="title2 fw-600 fs-16">{{ summary.openBalance }}</div>
+      <!-- <div>{{summary.closeBalance}}</div> -->
+    </div>
     <div class="box-table">
       <base-table :data="dataTable" class="base-table table-request" :showPagination="false">
         <el-table-column :label="$t('request.popup.account.label1')" prop="transactionType" align="left">
@@ -81,6 +86,15 @@
           </template>
         </el-table-column>
       </base-table>
+    </div>
+    <div class="total align-center be-flex row">
+      <div class="title fw-600 fs-16">TOTAL</div>
+      <div class="title2 fw-600 fs-16">{{ summary.totalCreditAmount }}</div>
+      <div class="title3 fw-600 fs-16">{{ summary.totalDebitAmount }}</div>
+    </div>
+    <div class="close align-center be-flex row">
+      <div class="title fw-600 fs-16">OPENING BALANCE</div>
+      <div class="title2 fw-600 fs-16">{{ summary.closeBalance }}</div>
     </div>
   </div>
 </template>
@@ -194,6 +208,50 @@
     }
     .big-title {
       margin-bottom: 24px;
+    }
+    .open,
+    .total,
+    .close {
+      background: #f3f2f1;
+      color: #0a0b0d;
+      height: 24px;
+      padding: 12px 16px;
+      .title {
+        min-width: 570px;
+      }
+      .title2 {
+        min-width: 200px;
+        text-align: right;
+      }
+    }
+    .open {
+      border-radius: 4px 4px 0 0;
+    }
+    .total {
+      margin-bottom: 8px;
+      .title {
+        min-width: 170px;
+      }
+      .title2 {
+        min-width: 200px;
+        text-align: right;
+      }
+      .title3 {
+        min-width: 200px;
+        text-align: right;
+      }
+    }
+    .close {
+      border-radius: 4px;
+      color: #fff;
+      background: #0151fc;
+      .title {
+        min-width: 570px;
+      }
+      .title2 {
+        min-width: 200px;
+        text-align: right;
+      }
     }
     .box-table {
       .box-status {
