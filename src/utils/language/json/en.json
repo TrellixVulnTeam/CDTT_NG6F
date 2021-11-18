@@ -165,7 +165,8 @@
     "transaction": "transactions",
     "crowdsale": "transactions",
     "investor": "investors",
-    "request": "request"
+    "request": "request",
+    "balance": "balance"
   },
   "label": {
     "buy-from": "Buy from",
@@ -471,7 +472,20 @@
     "of-total":"Of total",
     "balance-wallet":"Balance",
     "popup": {
-      "title": "BALANCE DETAIL"
+      "title": "BALANCE DETAIL",
+      "bitcoin-wallet": "Bitcoin Wallet",
+      "available-amount": "Available Amount",
+      "locked-amount": "Locked Amount",
+      "opening-balance": "OPENING BALANCE",
+      "type": "TYPE",
+      "credit": "CREDIT",
+      "debit": "DEBIT",
+      "balance": "BALANCE",
+      "status": "STATUS",
+      "ending-balance": "ENDING BALANCE",
+      "total": "TOTAL",
+      "account-statement": "Account Statement",
+      "withdrawal-request": "Withdrawal Request"
     }
   },
   "request": {
