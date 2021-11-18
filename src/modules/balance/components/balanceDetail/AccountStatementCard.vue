@@ -1,58 +1,54 @@
 <template>
-  <div class='w-100 bg-white wallet-table-balance'>
-    <div class='title-popup' slot='title'>
+  <div class="w-100 bg-white wallet-table-balance">
+    <div class="title-popup" slot="title">
       <span>{{ $t('balance.popup.title') }}</span>
     </div>
-    <div class='opening-balance be-flex jc-space-between'>
+    <div class="opening-balance be-flex jc-space-between">
       <p>OPENING BALANCE</p>
       <p>{{ summary.openBalance }}</p>
     </div>
-    <div class='wallet-table-balance__below'>
-      <el-table
-        :data='data'
-        style='width: 100%'>
-        <el-table-column label='TYPE' width='200' prop='transactionType'>
-          <template slot-scope='scope'>
-            <p style='font-size: 16px'>{{scope.row.transactionType}}</p>
-            <p style='color: #5B616E;font-size: 14px'>{{scope.row.transactionMillisecond| formatDateHourMs }}</p>
+    <div class="wallet-table-balance__below">
+      <el-table :data="data" style="width: 100%">
+        <el-table-column label="TYPE" width="200" prop="transactionType">
+          <template slot-scope="scope">
+            <p style="font-size: 16px">{{ scope.row.transactionType }}</p>
+            <p style="color: #5b616e; font-size: 14px">{{ scope.row.transactionMillisecond | formatDateHourMs }}</p>
           </template>
         </el-table-column>
-        <el-table-column label='CREDIT' prop='creditAmountDisplay'>
-          <template slot-scope='scope'>
-            <span v-if='scope.row.creditAmount === 0'></span>
-            <span v-else style='color: #129961;font-size: 16px'>+{{ scope.row.creditAmountDisplay }}</span>
+        <el-table-column label="CREDIT" prop="creditAmountDisplay">
+          <template slot-scope="scope">
+            <span v-if="scope.row.creditAmount === 0"></span>
+            <span v-else style="color: #129961; font-size: 16px">+{{ scope.row.creditAmountDisplay }}</span>
           </template>
         </el-table-column>
-        <el-table-column label='DEBIT' prop='debitAmountDisplay'>
-          <template slot-scope='scope'>
-            <span v-if='scope.row.debitAmount === 0'></span>
-            <span v-else style='color: #CF202F;font-size: 16px'>{{ scope.row.debitAmountDisplay }}</span>
+        <el-table-column label="DEBIT" prop="debitAmountDisplay">
+          <template slot-scope="scope">
+            <span v-if="scope.row.debitAmount === 0"></span>
+            <span v-else style="color: #cf202f; font-size: 16px">{{ scope.row.debitAmountDisplay }}</span>
           </template>
         </el-table-column>
-        <el-table-column label='BALANCE' align='right' prop='balanceDisplay'>
-        </el-table-column>
-        <el-table-column label='STATUS' align='right' width='144' prop='status'>
-          <template slot-scope='scope'>
-            <span v-if="scope.row.status !== 'FAILED'"
-                  :class='checkType(scope.row.status)'>{{ checkStatus(scope.row.status) }}</span>
-            <span v-else class='status-locked'>{{ $t('status.failed') }}</span>
+        <el-table-column label="BALANCE" align="right" prop="balanceDisplay"> </el-table-column>
+        <el-table-column label="STATUS" align="right" width="144" prop="status">
+          <template slot-scope="scope">
+            <span v-if="scope.row.status !== 'FAILED'" :class="checkType(scope.row.status)">{{ checkStatus(scope.row.status) }}</span>
+            <span v-else class="status-locked">{{ $t('status.failed') }}</span>
           </template>
         </el-table-column>
       </el-table>
     </div>
-    <div class='total be-flex '>
+    <div class="total be-flex">
       <p>TOTAL</p>
-      <p>{{ summary.totalCreditAmount  }}</p>
+      <p>{{ summary.totalCreditAmount }}</p>
       <p>{{ summary.totalDebitAmount }}</p>
     </div>
-    <div class='ending-balance be-flex jc-space-between '>
+    <div class="ending-balance be-flex jc-space-between">
       <p>ENDING BALANCE</p>
       <p>{{ summary.closeBalance }}</p>
     </div>
   </div>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
   import { Component, Prop, Vue } from 'vue-property-decorator'
 
   @Component
@@ -101,7 +97,7 @@
   }
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
   .wallet-table-balance {
     &__above {
       border-bottom: 1px solid var(--bc-border-primary);
@@ -145,48 +141,47 @@
           color: var(--bc-status-success);
         }
       }
-
     }
 
     .title-popup {
       padding: 24px;
       font-size: 24px;
-      color: #0A0B0D;
+      color: #0a0b0d;
     }
 
     .opening-balance {
-      background-color: #F3F2F1;
+      background-color: #f3f2f1;
       padding: 12px 16px;
-      p{
+      p {
         font-size: 16px;
-        color: #0A0B0D;
+        color: #0a0b0d;
         font-weight: 600;
       }
       p:last-of-type {
         margin-right: 144px;
       }
     }
-    .total{
-      background-color: #F3F2F1;
+    .total {
+      background-color: #f3f2f1;
       padding: 12px 16px;
-      p{
+      p {
         width: 200px;
         font-size: 16px;
-        color: #0A0B0D;
+        color: #0a0b0d;
         font-weight: 600;
       }
       p:last-of-type {
         margin-right: 144px;
       }
     }
-    .ending-balance{
+    .ending-balance {
       margin-top: 8px;
       border-radius: 4px;
-      background-color: #0151FC;
+      background-color: #0151fc;
       padding: 12px 16px;
-      p{
+      p {
         font-size: 16px;
-        color: #FFFFFF;
+        color: #ffffff;
         font-weight: 600;
       }
       p:last-of-type {

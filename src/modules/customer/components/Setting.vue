@@ -9,18 +9,15 @@
         <el-row>
           <el-form-item label="thanh dz">
             <!-- <el-date-picker class="filter-select" v-model="filters.kpiMonth" format="MM" type="month" placeholder="Chọn tháng"> </el-date-picker> -->
-            <el-select style="width:432px" placeholder="select">
+            <el-select style="width: 432px" placeholder="select">
               <!-- <el-option v-for="item in 12" :key="item" :label="`Tháng ${item}`" :value="item"> </el-option> -->
             </el-select>
           </el-form-item>
         </el-row>
 
         <el-row>
-          <el-form-item label="thanh dz">
-          </el-form-item>
+          <el-form-item label="thanh dz"> </el-form-item>
         </el-row>
-
-
       </el-form>
     </base-popup>
     <div class="table" style="padding-bottom: 24px" v-loading="isLoading" :class="isLoading ? 'list-loading' : null">

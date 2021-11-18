@@ -11,11 +11,11 @@
         </div>
         <div class="ml-24 w-100 info">
           <div class="full-name mb-12 text-l text-bold">{{ detailRow.fullName }}</div>
-          <span> {{ detailRow.email | formatEmail }}| {{detailRow.phone | formatNumberPhone}}</span>
+          <span> {{ detailRow.email | formatEmail }}| {{ detailRow.phone | formatNumberPhone }}</span>
         </div>
       </div>
-      <balance-detail-card :data-card='detailRow'/>
-      <account-statement-card :data='dataTable.content' :summary='dataSummary'/>
+      <balance-detail-card :data-card="detailRow" />
+      <account-statement-card :data="dataTable.content" :summary="dataSummary" />
     </div>
   </base-popup>
 </template>
@@ -29,8 +29,8 @@
   import AccountStatementCard from '@/modules/balance/components/balanceDetail/AccountStatementCard.vue'
   import getRepository from '@/services'
   import { TransactionRepository } from '@/services/repositories/transaction'
-interface ITransaction{
-    content:{
+  interface ITransaction {
+    content: {
       balance: number
       balanceDisplay: string
       createdAt: string
@@ -39,7 +39,7 @@ interface ITransaction{
       creditAmount: number
       creditAmountDisplay: string
       creditAmountToUsd: number
-      creditCurrency:string
+      creditCurrency: string
       creditFee: number
       creditNetwork: string
       creditUsdExchangeRate: number
@@ -51,47 +51,46 @@ interface ITransaction{
       debitFee: number
       debitNetwork: string
       debitUsdExchangeRate: number
-      description:string
+      description: string
       id: number
       locked: number
       lockedDisplay: string
-      refTransactionCode:string
-      status:string
+      refTransactionCode: string
+      status: string
       transactionCode: string
       transactionDate: string
-      transactionDay:string
+      transactionDay: string
       transactionMillisecond: number
       transactionType: string
       updatedAt: string
       updatedBy: number
       userId: number
-    }[],
-
-}
-interface ISummary{
-  summary:{
-    openBalance:string,
-    closeBalance:string,
-    totalCreditAmount:string,
-    totalDebitAmount:string
+    }[]
   }
-}
+  interface ISummary {
+    summary: {
+      openBalance: string
+      closeBalance: string
+      totalCreditAmount: string
+      totalDebitAmount: string
+    }
+  }
   const api: TransactionRepository = getRepository('transaction')
-  @Component({ components: {BalanceDetailCard ,AccountStatementCard } })
+  @Component({ components: { BalanceDetailCard, AccountStatementCard } })
   export default class BalanceDetail extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Object, default: {} }) detailRow!: Record<string, any>
     detail: Record<string, any> = {}
     isLoading = false
     query: any = {
-      currency:'',
-      transactionType:'',
-      orderBy:'',
-      page:'',
-      limit:'',
-      userId:0
+      currency: '',
+      transactionType: '',
+      orderBy: '',
+      page: '',
+      limit: '',
+      userId: 0
     }
-    dataTable:ITransaction = {} as ITransaction
-    dataSummary:ISummary={} as ISummary
+    dataTable: ITransaction = {} as ITransaction
+    dataSummary: ISummary = {} as ISummary
     tabs: Record<string, any>[] = [
       {
         id: 0,
@@ -134,16 +133,15 @@ interface ISummary{
 
     //balance
     listBlance: Record<string, any>[] = []
-    async handleOpen():Promise<void>{
+    async handleOpen(): Promise<void> {
       const params = {
         ...this.query,
         currency: this.detailRow.currency,
-        userId:this.detailRow.id
+        userId: this.detailRow.id
       }
-      const result = await api.getlistBalanceDetail("request/transactions",params);
-        this.dataTable=result.transactions;
-        this.dataSummary=result.summary;
-
+      const result = await api.getlistBalanceDetail('request/transactions', params)
+      this.dataTable = result.transactions
+      this.dataSummary = result.summary
     }
     handleClose(): void {
       this.tabActive = 0
@@ -180,16 +178,16 @@ interface ISummary{
               object-fit: cover;
             }
           }
-          .info{
-            .full-name{
+          .info {
+            .full-name {
               font-size: 18px;
-              color: #0A0B0D;
+              color: #0a0b0d;
               font-family: Open Sans;
             }
-            span{
+            span {
               font-size: 12px;
               color: #5b616e;
-              font-family: "Open Sans";
+              font-family: 'Open Sans';
             }
           }
         }

@@ -59,7 +59,7 @@
     <balance-filter @filterBalance="handleFilter" :listApproveBy="listApproveBy" />
     <balance-table v-loading="isLoading" @rowClick="handleRowClick" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="data" />
     <!-- <kyc-detail :detailRow="detailRow" @init="init" /> -->
-    <balance-detail :detailRow="detailRow" :data='dataDetail'/>
+    <balance-detail :detailRow="detailRow" :data="dataDetail" />
   </div>
 </template>
 
@@ -77,7 +77,7 @@
   import BalanceDetail from '@/modules/balance/components/balanceDetail/BalanceDetail.vue'
   const api: BalanceRepository = getRepository('balance')
 
-  @Component({ components: { BalanceTable, BalanceFilter,BalanceDetail } })
+  @Component({ components: { BalanceTable, BalanceFilter, BalanceDetail } })
   export default class BOKyc extends Mixins(PopupMixin) {
     tabs: Array<Record<string, any>> = [
       {
@@ -118,7 +118,7 @@
     data: Array<Record<string, any>> = []
 
     detailRow = {}
-    dataDetail={}
+    dataDetail = {}
     query: any = {
       search: '',
       orderBy: 1,
@@ -146,7 +146,6 @@
       // const name = this.$route.name
       // this.query.kycStatus = name === 'KycPending' ? 'PENDING' : name === 'KycVerified' ? 'VERIFIED' : 'REJECTED'
       // this.init()
-
     }
 
     async init(): Promise<void> {
@@ -181,7 +180,7 @@
       }
     }
 
-    async handleGetBalanceDetail(userId:number){
+    async handleGetBalanceDetail(userId: number) {
       try {
         const params = {
           ...this.query,
@@ -191,7 +190,6 @@
           page: this.query.page,
           total: null
         }
-
       } catch (error) {
         this.isLoading = false
         console.log(error)

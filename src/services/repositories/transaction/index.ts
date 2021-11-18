@@ -6,8 +6,7 @@ export class TransactionRepository extends BaseRepository {
     super('main/api/v1/transaction')
   }
 
-
-  async getlistBalanceDetail(tab:string,params: Record<string, any>): Promise<any> {
+  async getlistBalanceDetail(tab: string, params: Record<string, any>): Promise<any> {
     try {
       const rs = await request.get(`${this.prefix}/${tab}`, { params })
       return Promise.resolve(rs.data.data)
@@ -16,5 +15,4 @@ export class TransactionRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
-
 }
