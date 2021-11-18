@@ -63,6 +63,7 @@
           <customer-transaction v-if="tabActive === 4" :userId="detailRow.userId" />
           <customer-referral v-if="tabActive === 5" :userId="detailRow.userId" />
           <customer-bonus v-if="tabActive === 6" :userId="detailRow.userId" />
+          <statistic v-if="tabActive === 7" :userId="detailRow.userId" />
         </div>
       </div>
     </div>
@@ -79,8 +80,9 @@
   import CustomerReferral from '../Referral.vue'
   import CustomerAddress from '../Address.vue'
   import CustomerBonus from '../Bonus.vue'
+  import Statistic from '@/modules/customer/components/Statistic.vue'
 
-  @Component({ components: { InfoCustomer, CustomerBalance, KycCustomerDetail, CustomerTransaction, CustomerReferral, CustomerAddress, CustomerBonus } })
+  @Component({ components: { InfoCustomer, CustomerBalance, KycCustomerDetail, CustomerTransaction, CustomerReferral, CustomerAddress, CustomerBonus,Statistic } })
   export default class CustomerDetail extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Object, default: {} }) detailRow!: Record<string, any>
 
@@ -115,11 +117,11 @@
       {
         id: 6,
         title: 'bonus'
+      },
+      {
+        id: 7,
+        title: 'statistics'
       }
-      // {
-      //   id: 7,
-      //   title: 'statistics'
-      // }
       // {
       //   id: 8,
       //   title: 'setting'
