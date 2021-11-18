@@ -529,6 +529,8 @@
       "btn1": "Close",
       "btn2": "Reject",
       "btn3": "Approve",
+      "ApproveMessage": "Approve successfully",
+      "RejectMessage": "Reject successfully",
       "transaction": {
         "bigTitle1": "Transaction Detail",
         "bigTitle2": "Customer Info",
@@ -566,7 +568,18 @@
         "label2": "CREDIT",
         "label3": "DEBIT",
         "label4": "BALANCE",
-        "label5": "STATUS"
+        "label5": "STATUS",
+        "title1": "OPENING BALANCE",
+        "title2": "TOTAL",
+        "title3": "ENDING BALANCE"
+      },
+      "reason": {
+        "bigTitle": "REJECT REASON",
+        "label": "Enter reject reason:",
+        "planceOder": "Reject reason...",
+        "btn1": "Cancel",
+        "btn2": "Submit",
+        "wrong-reason": "Please enter reason"
       }
     }
   }
