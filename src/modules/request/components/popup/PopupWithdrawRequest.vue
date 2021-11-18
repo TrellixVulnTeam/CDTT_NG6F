@@ -359,7 +359,7 @@
       }
       .btn-close {
         border: 1px solid #89909e;
-        color: var(--bc-text-primary);
+        color: #3b3a39;
       }
       .btn-reject {
         margin-right: 16px;
