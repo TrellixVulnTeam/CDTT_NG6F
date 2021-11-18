@@ -1,10 +1,10 @@
 <template>
   <div class='w-100 bg-white wallet-table-balance'>
     <div class='title-popup' slot='title'>
-      <span style='font-weight: 600'>Account Statement</span>
+      <span style='font-weight: 600'>{{ $t('balance.popup.account-statement') }}</span>
     </div>
     <div class='opening-balance be-flex jc-space-between'>
-      <p>OPENING BALANCE</p>
+      <p>{{ $t('balance.popup.opening-balance') }}</p>
       <p>{{ summary.openBalance }}</p>
     </div>
     <div class='wallet-table-balance__below'>
@@ -17,27 +17,27 @@
         @rowClick="handleRowClick"
         class="base-table table-wallet"
       >
-        <el-table-column label='TYPE' width='200' prop='transactionType'>
+        <el-table-column :label="$t('balance.popup.type')" width='200' prop='transactionType'>
           <template slot-scope='scope'>
-            <p style='font-size: 16px'>{{scope.row.transactionType}}</p>
+            <p style='font-size: 16px'>{{scope.row.transactionType |formatType}}</p>
             <p style='color: #5B616E;font-size: 14px'>{{scope.row.transactionMillisecond| formatDateHourMs }}</p>
           </template>
         </el-table-column>
-        <el-table-column label='CREDIT' prop='creditAmountDisplay'>
+        <el-table-column :label="$t('balance.popup.credit')" align='right' prop='creditAmountDisplay'>
           <template slot-scope='scope'>
 <!--            <span v-if='scope.row.creditAmount === 0'></span>-->
             <span  style='color: #129961;font-size: 16px'>+{{ scope.row.creditAmountDisplay }}</span>
           </template>
         </el-table-column>
-        <el-table-column label='DEBIT' prop='debitAmountDisplay'>
+        <el-table-column :label="$t('balance.popup.debit')" align='right' prop='debitAmountDisplay'>
           <template slot-scope='scope'>
 <!--            <span v-if='scope.row.debitAmount === 0'></span>-->
             <span  style='color: #CF202F;font-size: 16px'>{{ scope.row.debitAmountDisplay }}</span>
           </template>
         </el-table-column>
-        <el-table-column label='BALANCE' align='right' prop='balanceDisplay'>
+        <el-table-column :label="$t('balance.popup.balance')" align='right' prop='balanceDisplay'>
         </el-table-column>
-        <el-table-column label='STATUS' align='right' width='144' prop='status'>
+        <el-table-column :label="$t('balance.popup.status')" align='center' width='144' prop='status'>
           <template slot-scope='scope'>
             <span v-if="scope.row.status !== 'FAILED'"
                   :class='checkType(scope.row.status)'>{{ checkStatus(scope.row.status) }}</span>
@@ -47,12 +47,12 @@
       </base-table>
     </div>
     <div class='total be-flex '>
-      <p>TOTAL</p>
-      <p>{{ summary.totalCreditAmount  }}</p>
-      <p>{{ summary.totalDebitAmount }}</p>
+      <p>{{ $t('balance.popup.total') }}</p>
+      <p>+{{ summary.totalCreditAmount  }}</p>
+      <p>-{{ summary.totalDebitAmount }}</p>
     </div>
     <div class='ending-balance be-flex jc-space-between '>
-      <p>ENDING BALANCE</p>
+      <p>{{ $t('balance.popup.ending-balance') }}</p>
       <p>{{ summary.closeBalance }}</p>
     </div>
   </div>
@@ -111,6 +111,7 @@
 
 <style scoped lang='scss'>
   .wallet-table-balance {
+    padding-bottom: 24px;
     &__above {
       border-bottom: 1px solid var(--bc-border-primary);
 
@@ -142,7 +143,7 @@
     }
 
     &__below {
-      padding: 0 6px;
+      padding: 0 24px;
 
       .table-wallet {
         .amount-decrease {
@@ -165,6 +166,7 @@
     .opening-balance {
       background-color: #F3F2F1;
       padding: 12px 16px;
+      margin: 0 24px;
       p{
         font-size: 16px;
         color: #0A0B0D;
@@ -175,6 +177,7 @@
       }
     }
     .total{
+      margin: 0 24px;
       background-color: #F3F2F1;
       padding: 12px 16px;
       p{
@@ -188,7 +191,7 @@
       }
     }
     .ending-balance{
-      margin-top: 8px;
+      margin: 8px 24px 0 24px;
       border-radius: 4px;
       background-color: #0151FC;
       padding: 12px 16px;

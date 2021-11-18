@@ -4,8 +4,8 @@
       <div class='title be-flex align-center'>
         <base-icon :icon='checkTypeIcon(tabActiveFilter)' size='40' />
         <div class='content-card'>
-          <p>Bitcoin Wallet</p>
-          <p>Balance</p>
+          <p>{{ $t('balance.popup.bitcoin-wallet') }}</p>
+          <p>{{ $t('balance.balance') }}</p>
         </div>
       </div>
       <div class='value-card' :class='checkType(tabActiveFilter)'>
@@ -17,8 +17,8 @@
       <div class='title be-flex align-center'>
         <base-icon :icon='checkTypeIcon(tabActiveFilter)' size='40'/>
         <div class='content-card'>
-          <p>Available Amount</p>
-          <p>Available Amount</p>
+          <p>{{ $t('balance.popup.available-amount') }}</p>
+          <p>{{ $t('balance.popup.available-amount') }}</p>
         </div>
       </div>
       <div class='value-card' :class='checkType(tabActiveFilter)'>
@@ -30,8 +30,8 @@
       <div class='title be-flex align-center'>
         <base-icon icon='icon-lock' size='40' />
         <div class='content-card'>
-          <p>Locked Amount</p>
-          <p>Withdrawal Request</p>
+          <p>{{ $t('balance.popup.locked-amount') }}</p>
+          <p>{{ $t('balance.popup.withdrawal-request') }}</p>
         </div>
       </div>
       <div class='value-card amount-locker'>
@@ -79,6 +79,7 @@
           margin-left: 16px;
 
           p:first-of-type {
+            font-weight: 600;
             font-size: 18px;
             color: #0A0B0D;
             font-family: "Open Sans";
