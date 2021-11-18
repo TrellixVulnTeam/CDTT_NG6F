@@ -1,5 +1,5 @@
 <template>
-  <div class="content-account" v-loading="loading">
+  <div class="content-account">
     <div class="box1 be-flex align-center">
       <div class="mini-boxcontent">
         <div class="be-flex align-center header">
@@ -43,7 +43,7 @@
     </div>
     <div class="big-title fw-600 fs-24">{{ $t('request.popup.account.bigTitle1') }}</div>
     <div class="open align-center be-flex row">
-      <div class="title fw-600 fs-16">OPENING BALANCE</div>
+      <div class="title fw-600 fs-16">{{ $t('request.popup.account.title1') }}</div>
       <div class="title2 fw-600 fs-16">{{ summary.openBalance }}</div>
       <!-- <div>{{summary.closeBalance}}</div> -->
     </div>
@@ -88,12 +88,12 @@
       </base-table>
     </div>
     <div class="total align-center be-flex row">
-      <div class="title fw-600 fs-16">TOTAL</div>
+      <div class="title fw-600 fs-16">{{ $t('request.popup.account.title2') }}</div>
       <div class="title2 fw-600 fs-16">{{ summary.totalCreditAmount }}</div>
       <div class="title3 fw-600 fs-16">{{ summary.totalDebitAmount }}</div>
     </div>
     <div class="close align-center be-flex row">
-      <div class="title fw-600 fs-16">OPENING BALANCE</div>
+      <div class="title fw-600 fs-16">{{ $t('request.popup.account.title3') }}</div>
       <div class="title2 fw-600 fs-16">{{ summary.closeBalance }}</div>
     </div>
   </div>
@@ -109,25 +109,9 @@
   @Component
   export default class AccountStatement extends Vue {
     @Prop() data!: any
-    dataTable: any = []
-    summary: any = {}
+    @Prop() dataTable!: any
+    @Prop() summary!: any
     coin: any = ''
-    loading = true
-    async getTable(): Promise<void> {
-      if (this.data.userId) {
-        await api
-          .getTableStatement(this.data.currency, this.data.userId)
-          .then((res: any) => {
-            this.loading = false
-            this.dataTable = res.transactions.content
-            this.summary = res.summary
-          })
-          .catch(error => {
-            console.log(error)
-            this.loading = false
-          })
-      }
-    }
     getIcon(currency: string): void {
       let icon: any = ''
       if (currency) {
@@ -170,9 +154,6 @@
         default:
           return 'amount-clm'
       }
-    }
-    created(): void {
-      this.getTable()
     }
   }
 </script>

@@ -1,10 +1,10 @@
 <template>
-  <base-popup name="popup-withdraw-request" class="popup-withdraw-request" width="1040px" :open="handleOpen" :close="handleClose" v-loading="loading">
+  <base-popup name="popup-withdraw-request" class="popup-withdraw-request" width="1040px" :open="handleOpen" :close="handleClose">
     <div slot="title">
       <span>{{ $t('request.popup.titlePopup') }}</span>
     </div>
     <div class="content">
-      <div class="box1 be-flex">
+      <div class="box1 be-flex" v-if="summaryAccount.length > 0 && summaryAccount.balance != summary.closeBalance">
         <div class="box-left">
           <base-icon icon="iconWarning" size="20"></base-icon>
         </div>
@@ -65,7 +65,7 @@
             </div>
             <div class="box-table">
               <transaction-detail :dataUser="dataUser" :data="data" v-if="tabActive == 1" />
-              <account-statement :data="data" v-if="tabActive == 2" />
+              <account-statement :data="data" :dataTable="dataTableAccount" :summary="summaryAccount" v-if="tabActive == 2" />
             </div>
           </div>
         </div>
@@ -74,10 +74,11 @@
     <div slot="footer" class="footer be-flex jc-space-between align-center">
       <div class="btn-action btn-close" @click="handleBtnClose">{{ $t('request.popup.btn1') }}</div>
       <div class="be-flex jc-space-between align-center">
-        <div class="btn-action btn-reject">{{ $t('request.popup.btn2') }}</div>
-        <div class="btn-action btn-approve">{{ $t('request.popup.btn3') }}</div>
+        <el-button class="btn-action btn-reject" @click="handleReject">{{ $t('request.popup.btn2') }}</el-button>
+        <el-button class="btn-action btn-approve" style="margin-left: 0px !important" @click="handleApprove" :loading="loadingBtn">{{ $t('request.popup.btn3') }}</el-button>
       </div>
     </div>
+    <popup-reject-reason :transactionId="data.id" @reLoadTable="reLoadTable" />
   </base-popup>
 </template>
 
@@ -86,12 +87,14 @@
   import { Component, Mixins, Prop } from 'vue-property-decorator'
   import TransactionDetail from './TransactionDetail.vue'
   import AccountStatement from './AccountStatement.vue'
+  import PopupRejectReason from './PopupRejectReason.vue'
   import getRepository from '@/services'
   import { RequestRepository } from '@/services/repositories/request'
+  import { debounce } from 'lodash'
 
   const api: RequestRepository = getRepository('request')
 
-  @Component({ components: { TransactionDetail, AccountStatement } })
+  @Component({ components: { TransactionDetail, AccountStatement, PopupRejectReason } })
   export default class PopupWithdrawRequest extends Mixins(PopupMixin) {
     @Prop() data!: any
     dataUser: any = {}
@@ -107,6 +110,9 @@
       }
     ]
     tabActive = 1
+    dataTableAccount: any = []
+    summaryAccount: any = {}
+    loadingBtn = false
     getAmountToUsd(amountToUsd: Record<string, any>): void {
       let string: any = ''
       if (amountToUsd) {
@@ -120,6 +126,22 @@
     handleOpen(): void {
       if (this.data.userId) {
         this.getUserInfo(this.data.userId)
+      }
+      this.getTable()
+    }
+    async getTable(): Promise<void> {
+      if (this.data.userId) {
+        await api
+          .getTableStatement(this.data.currency, this.data.userId)
+          .then((res: any) => {
+            this.loading = false
+            this.dataTableAccount = res.transactions.content
+            this.summaryAccount = res.summary
+          })
+          .catch(error => {
+            console.log(error)
+            this.loading = false
+          })
       }
     }
     handleClose(): void {
@@ -136,6 +158,39 @@
         isOpen: false
       })
     }
+    handleReject(): void {
+      if (this.data.id) {
+        this.setOpenPopup({
+          popupName: 'popup-reject-reason',
+          isOpen: true
+        })
+      }
+    }
+    handleApprove(): void {
+      if (this.data.id) {
+        this.debounceFilter('handleApprove')
+      }
+    }
+    async approve(): Promise<void> {
+      this.loadingBtn = true
+      await api.updateRequest(this.data.id, 'APPROVE', '').then(() => {
+        let message: any = ''
+        message = this.$t('request.popup.ApproveMessage')
+        this.$message.success({ message, duration: 5000 })
+        this.loadingBtn = false
+        this.reLoadTable()
+        this.setOpenPopup({
+          popupName: 'popup-withdraw-request',
+          isOpen: false
+        })
+      })
+    }
+    // debounce chan doble click
+    debounceFilter = debounce((nameAction: any) => {
+      if (nameAction == 'handleApprove') {
+        this.approve()
+      }
+    }, 400)
     async getUserInfo(userId: string | number): Promise<void> {
       this.loading = true
       api.getUserInfo(userId).then((res: any) => {
@@ -162,6 +217,13 @@
         icon = `icon-${currency.toLowerCase()}`
       }
       return icon
+    }
+    reLoadTable(): void {
+      this.$emit('reLoadTable')
+      this.setOpenPopup({
+        popupName: 'popup-withdraw-request',
+        isOpen: false
+      })
     }
   }
 </script>
@@ -356,6 +418,12 @@
         line-height: 40px;
         cursor: pointer;
         color: var(--bc-color-white);
+        padding: unset !important;
+        text-align: center;
+        line-height: 35px;
+        .btn-approve {
+          margin-left: 0px !important;
+        }
       }
       .btn-close {
         border: 1px solid #89909e;

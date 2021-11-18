@@ -29,4 +29,12 @@ export class RequestRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+  async updateRequest(transactionId: number | any, action: string | any, reason: string | any): Promise<any> {
+    try {
+      const rs = await request.put(`${this.prefix}/transaction/request/update?transactionId=${transactionId}&action=${action}&reason=${reason}`)
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
 }

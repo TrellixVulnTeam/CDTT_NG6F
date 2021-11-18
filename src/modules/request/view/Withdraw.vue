@@ -132,7 +132,7 @@
         </el-table-column>
       </base-table>
     </div>
-    <popup-withdraw-request :data="dataProp" />
+    <popup-withdraw-request :data="dataProp" @reLoadTable="init" />
   </div>
 </template>
 <script lang="ts">
