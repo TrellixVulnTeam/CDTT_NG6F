@@ -74,8 +74,13 @@ export function convertAmountDecimal(amount: string | number, currency: string):
     const afterDot = amount.substr(amount.indexOf('.'))
     const _afterDotString = Number(afterDot).toFixed(objConvert[currency])
     const _afterDot = _afterDotString.substr(_afterDotString.lastIndexOf('.') + 1)
+    let _beforeDot = 0
     const beforeDot = amount.substring(0, amount.indexOf('.'))
-    const _beforeDot = +beforeDot
+    if (Number(_afterDotString) === 1) {
+      _beforeDot = +beforeDot + 1
+    } else {
+      _beforeDot = +beforeDot
+    }
     const temp = _beforeDot.toLocaleString().replaceAll('.', ',')
     return temp + '.' + _afterDot
   }
@@ -225,21 +230,21 @@ export function formatIdentificationType(type: string | null): string {
   } else return ''
 }
 
-export function formatEmail(email:string|null):string{
- if (email){
-   var a= email.toString().split("@");
-   var b = a[0] ? a[0] : "";
-   var c = Math.floor(b.length * 0.5);
-   var str:string= b.slice(0, b.length - c) + "*".repeat(c) + "@"+a[1];
-   return str;
- }else return "";
+export function formatEmail(email: string | null): string {
+  if (email) {
+    const a = email.toString().split('@')
+    const b = a[0] ? a[0] : ''
+    const c = Math.floor(b.length * 0.5)
+    const str: string = b.slice(0, b.length - c) + '*'.repeat(c) + '@' + a[1]
+    return str
+  } else return ''
 }
-export function formatNumberPhone(numberPhone:string|null):string{
-  if (numberPhone){
-    var c = Math.floor(numberPhone.length * 0.5);
-    var str:string= "(+84)"+"*".repeat(c)+numberPhone.slice(0, numberPhone.length - c);
-    return str;
-  }else return "";
+export function formatNumberPhone(numberPhone: string | null): string {
+  if (numberPhone) {
+    const c = Math.floor(numberPhone.length * 0.5)
+    const str: string = '(+84)' + '*'.repeat(c) + numberPhone.slice(0, numberPhone.length - c)
+    return str
+  } else return ''
 }
 
 export function formatType(type:string|null):string{
