@@ -8,9 +8,15 @@
       <p>{{ summary.openBalance }}</p>
     </div>
     <div class='wallet-table-balance__below'>
-      <el-table
-        :data='data'
-        style='width: 100%'>
+      <base-table
+        :data="data"
+        :table="query"
+        :paginationInfo="getPaginationInfo"
+        @sizeChange="handleSizeChange"
+        @currentChange="handleCurrentChange"
+        @rowClick="handleRowClick"
+        class="base-table table-wallet"
+      >
         <el-table-column label='TYPE' width='200' prop='transactionType'>
           <template slot-scope='scope'>
             <p style='font-size: 16px'>{{scope.row.transactionType}}</p>
@@ -19,14 +25,14 @@
         </el-table-column>
         <el-table-column label='CREDIT' prop='creditAmountDisplay'>
           <template slot-scope='scope'>
-            <span v-if='scope.row.creditAmount === 0'></span>
-            <span v-else style='color: #129961;font-size: 16px'>+{{ scope.row.creditAmountDisplay }}</span>
+<!--            <span v-if='scope.row.creditAmount === 0'></span>-->
+            <span  style='color: #129961;font-size: 16px'>+{{ scope.row.creditAmountDisplay }}</span>
           </template>
         </el-table-column>
         <el-table-column label='DEBIT' prop='debitAmountDisplay'>
           <template slot-scope='scope'>
-            <span v-if='scope.row.debitAmount === 0'></span>
-            <span v-else style='color: #CF202F;font-size: 16px'>{{ scope.row.debitAmountDisplay }}</span>
+<!--            <span v-if='scope.row.debitAmount === 0'></span>-->
+            <span  style='color: #CF202F;font-size: 16px'>{{ scope.row.debitAmountDisplay }}</span>
           </template>
         </el-table-column>
         <el-table-column label='BALANCE' align='right' prop='balanceDisplay'>
@@ -38,7 +44,7 @@
             <span v-else class='status-locked'>{{ $t('status.failed') }}</span>
           </template>
         </el-table-column>
-      </el-table>
+      </base-table>
     </div>
     <div class='total be-flex '>
       <p>TOTAL</p>
@@ -59,9 +65,10 @@
   export default class AccountStatementCard extends Vue {
     @Prop({ required: true, type: Array, default: [] }) data!: Array<Record<string, any>>
     @Prop({ required: true }) summary!: Record<string, any>
+    @Prop({ required: true, type: Object, default: {} }) query!: Record<string, any>
 
     get getPaginationInfo(): any {
-      return this.$t('paging.investor')
+      return this.$t('paging.balance')
     }
 
     checkType(type: string): string {
@@ -71,6 +78,7 @@
     getDataSelectTab(): void {
       console.log('1')
     }
+
 
     checkStatus(status: string): any {
       switch (status) {
