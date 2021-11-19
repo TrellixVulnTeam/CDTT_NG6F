@@ -50,6 +50,7 @@
     <div class="box-table">
       <base-table
         :data="dataTable2.length > 0 ? dataTable2 : dataTable"
+        :table="query"
         class="base-table table-request"
         :paginationInfo="getPaginationInfo"
         @sizeChange="handleSizeChange"
