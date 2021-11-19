@@ -107,4 +107,14 @@ export class CustomerRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+
+  async getStatistics(customerId:number):Promise<any>{
+    try {
+      const rs = await request.get(`${this.prefix}/${customerId}/statistic`)
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      console.log(error)
+      return Promise.reject(error)
+    }
+  }
 }

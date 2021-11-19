@@ -280,7 +280,11 @@
       "type": "loại",
       "amount": "số lượng",
       "paid": "Đã thanh toán",
-      "pending": "Pending"
+      "pending": "Pending",
+      "num-of-trans": "NUM OF TRANS",
+      "total-amount": "TOTAL AMOUNT",
+      "avg-trans-amount": "AVG TRANS AMOUNT",
+      "last-transaction": "LAST TRANSACTION"
     },
     "select": {
       "accepted": "Xác nhận",
