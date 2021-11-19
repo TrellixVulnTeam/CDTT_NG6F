@@ -24,10 +24,10 @@
         <div class="box-left be-flex">
           <div class="icon"><base-icon icon="request-popup-icon1" size="48"></base-icon></div>
           <div class="box-amount">
-            <div class="big-amout fw-600 fs-24" v-if="data.currency">-{{ data.transactionFee | convertAmountDecimal(data.currency) }} {{ data.currency }}</div>
-            <div class="dolar fw-400 fs-12">~${{ getAmountToUsd(data.amountToUsd) }}1</div>
+            <div class="big-amout fw-600 fs-24" v-if="data.currency">{{ data.amountDisplay }}</div>
+            <div class="dolar fw-400 fs-12">~${{ getAmountToUsd(data.amountToUsd) }}</div>
           </div>
-          <div class="box-status fw-400 fs-12" :class="data.status != 'PENDING' ? 'rejected' : null">{{ data.status }}</div>
+          <div class="box-status fw-400 fs-12" :class="data.status != 'PENDING' ? 'rejected' : null" style="text-transform: capitalize">{{ getStatus(data.status) }}</div>
         </div>
         <div class="line"></div>
         <div class="box-right">
@@ -74,8 +74,10 @@
     <div slot="footer" class="footer be-flex jc-space-between align-center">
       <div class="btn-action btn-close" @click="handleBtnClose">{{ $t('request.popup.btn1') }}</div>
       <div class="be-flex jc-space-between align-center">
-        <el-button class="btn-action btn-reject" @click="handleReject">{{ $t('request.popup.btn2') }}</el-button>
-        <el-button class="btn-action btn-approve" style="margin-left: 0px !important" @click="handleApprove" :loading="loadingBtn">{{ $t('request.popup.btn3') }}</el-button>
+        <el-button v-if="data.status && data.status == 'PENDING'" class="btn-action btn-reject" @click="handleReject">{{ $t('request.popup.btn2') }}</el-button>
+        <el-button v-if="data.status && data.status == 'PENDING'" class="btn-action btn-approve" style="margin-left: 0px !important" @click="handleApprove" :loading="loadingBtn">{{
+          $t('request.popup.btn3')
+        }}</el-button>
       </div>
     </div>
     <popup-reject-reason :transactionId="data.id" @reLoadTable="reLoadTable" />
@@ -120,8 +122,13 @@
       }
       return string
     }
-    handleChangeTab(tab: Record<string, any>): void {
-      this.tabActive = tab.id
+    async handleChangeTab(tab: Record<string, any>): Promise<void> {
+      if (tab.id == 2) {
+        await this.getTable()
+        this.tabActive = tab.id
+      } else {
+        this.tabActive = tab.id
+      }
     }
     handleOpen(): void {
       if (this.data.userId) {
@@ -132,7 +139,7 @@
     async getTable(): Promise<void> {
       if (this.data.userId) {
         await api
-          .getTableStatement(this.data.currency, this.data.userId)
+          .getTableStatement(this.data.currency, this.data.userId, 1, 10)
           .then((res: any) => {
             this.loading = false
             this.dataTableAccount = res.transactions.content
@@ -225,6 +232,13 @@
         isOpen: false
       })
     }
+    getStatus(status: string): void {
+      let string: any = ''
+      if (status) {
+        string = status.toLowerCase()
+      }
+      return string
+    }
   }
 </script>
 
@@ -247,7 +261,7 @@
           position: relative;
           span {
             position: absolute;
-            top: -4px;
+            top: -1px;
           }
         }
         .box-right {
@@ -428,6 +442,7 @@
       .btn-close {
         border: 1px solid #89909e;
         color: #3b3a39;
+        line-height: 40px;
       }
       .btn-reject {
         margin-right: 16px;
