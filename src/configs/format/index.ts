@@ -247,16 +247,15 @@ export function formatNumberPhone(numberPhone: string | null): string {
   } else return ''
 }
 
-export function formatType(type:string|null):string{
- if (type){
-   var arrStr=type.split("_");
-   var strTotal=""
-   arrStr.map((value,i)=>{
-     var str:string=value.substr(0,1);
-     var str2:string=value.substring(1)
-     strTotal+=str.toUpperCase()+str2.toLowerCase()+" ";
-   })
-   return strTotal;
- }else return ""
+export function formatType(type: string | null): string {
+  if (type) {
+    const arrStr = type.split('_')
+    let strTotal = ''
+    arrStr.map((value, i) => {
+      const str: string = value.substr(0, 1)
+      const str2: string = value.substring(1)
+      strTotal += str.toUpperCase() + str2.toLowerCase() + ' '
+    })
+    return strTotal
+  } else return ''
 }
-
