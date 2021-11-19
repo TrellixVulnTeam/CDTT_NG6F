@@ -366,7 +366,7 @@
                       content: '';
                       position: absolute;
                       width: 100%;
-                      height: 2px;
+                      height: 2.5px;
                       bottom: -1px;
                       left: 0;
                       background-color: var(--bc-tab-active);
