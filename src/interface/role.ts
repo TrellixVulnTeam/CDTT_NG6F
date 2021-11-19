@@ -1,7 +1,7 @@
 import { ROLE_TYPE } from '@/configs/role/index'
-export type RoleActions = 'view' | 'edit' | 'remove' | 'all' | 'view-firebase'
+export type RoleActions = 'view' | 'edit' | 'remove' | 'all' | 'view-kyc-customer-detail'
 
-// view-firebase: role INVESTOR sẽ lấy list từ firebase
+//view-kyc-customer-detail: quyền xem tab kyc trong popup detail customer
 
 export type UserRoles = ROLE_TYPE[keyof ROLE_TYPE]
 
