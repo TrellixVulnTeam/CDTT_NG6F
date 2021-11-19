@@ -35,3 +35,21 @@
 .cursor {
   cursor: pointer;
 }
+.amount-btc{
+  color: var(--bc-amount-btc);
+}
+.amount-locker{
+  color: var(--bc-amount-lock);
+}
+.amount-usdt{
+  color: var(--bc-amount-clm);
+}
+.amount-eth{
+  color: var(--bc-amount-eth);
+}
+.amount-lynk {
+  color: var(--bc-amount-lin);
+}
+.amount-usdc{
+  color: var(--bc-text-primary);
+}

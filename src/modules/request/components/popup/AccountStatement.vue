@@ -1,29 +1,29 @@
 <template>
-  <div class="content-account" v-loading="loading">
+  <div class="content-account">
     <div class="box1 be-flex align-center">
       <div class="mini-boxcontent">
         <div class="be-flex align-center header">
-          <base-icon class="icon-header" :icon="getIcon(data.currency)" size="40"></base-icon>
+          <base-icon class="icon-header" :class="data.currency == 'LYNK' ? 'icon-lin' : null" :icon="getIcon(data.currency)" :size="data.currency == 'LYNK' ? 30 : 40"></base-icon>
           <div>
             <p class="fw-600 fs-18">{{ getTitle }}</p>
             <p class="fw-400 fs-12 text-color">{{ $t('request.popup.account.discription1') }}</p>
           </div>
         </div>
         <div>
-          <p class="fw-600 fs-24" style="line-height: 32px" :class="getClassUnit">{{ summary.balance }}</p>
+          <p class="fw-600 fs-24" style="line-height: 32px" :class="getClassUnit">{{ summary.balance }} {{ data.currency }}</p>
           <p class="fw-400 fs-14 dolar">~${{ summary.balanceToUsd }}</p>
         </div>
       </div>
       <div class="mini-boxcontent mini-boxcontent2">
         <div class="be-flex align-center header">
-          <base-icon class="icon-header" :icon="getIcon(data.currency)" size="40"></base-icon>
+          <base-icon class="icon-header" :class="data.currency == 'LYNK' ? 'icon-lin' : null" :icon="getIcon(data.currency)" :size="data.currency == 'LYNK' ? 30 : 40"></base-icon>
           <div>
             <p class="fw-600 fs-18">{{ $t('request.popup.account.available') }}</p>
             <p class="fw-400 fs-12 text-color">{{ $t('request.popup.account.discription2') }}</p>
           </div>
         </div>
         <div>
-          <p class="fw-600 fs-24" style="line-height: 32px" :class="getClassUnit">{{ summary.availableBalance }}</p>
+          <p class="fw-600 fs-24" style="line-height: 32px" :class="getClassUnit">{{ summary.availableBalance }} {{ data.currency }}</p>
           <p class="fw-400 fs-14 dolar">~${{ summary.availableBalanceToUsd }}</p>
         </div>
       </div>
@@ -36,23 +36,29 @@
           </div>
         </div>
         <div>
-          <p class="fw-600 fs-24" style="line-height: 32px">{{ summary.totalLockedAmount }}</p>
+          <p class="fw-600 fs-24" style="line-height: 32px">{{ summary.totalLockedAmount }} {{ data.currency }}</p>
           <p class="fw-400 fs-14 dolar">~${{ summary.totalLockedAmountToUsd }}</p>
         </div>
       </div>
     </div>
     <div class="big-title fw-600 fs-24">{{ $t('request.popup.account.bigTitle1') }}</div>
     <div class="open align-center be-flex row">
-      <div class="title fw-600 fs-16">OPENING BALANCE</div>
-      <div class="title2 fw-600 fs-16">{{ summary.openBalance }}</div>
+      <div class="title fw-600 fs-16">{{ $t('request.popup.account.title1') }}</div>
+      <div class="title2 fw-600 fs-16">{{ summary.openBalance }} {{ data.currency }}</div>
       <!-- <div>{{summary.closeBalance}}</div> -->
     </div>
     <div class="box-table">
-      <base-table :data="dataTable" class="base-table table-request" :showPagination="false">
+      <base-table
+        :data="dataTable2.length > 0 ? dataTable2 : dataTable"
+        class="base-table table-request"
+        :paginationInfo="getPaginationInfo"
+        @sizeChange="handleSizeChange"
+        @currentChange="handleCurrentChange"
+      >
         <el-table-column :label="$t('request.popup.account.label1')" prop="transactionType" align="left">
           <template slot-scope="scope">
-            <div>
-              <p class="fw-400 fs-16" style="color: #0a0b0d">{{ scope.row.transactionType }}</p>
+            <div class="box-type" style="margin-left: 6px">
+              <p class="fw-400 fs-16" style="color: #0a0b0d; text-transform: capitalize">{{ scope.row.transactionType.toLowerCase() }}</p>
               <p class="fw-400 fs-14 text-color">{{ scope.row.transactionDate | formatDateHourMs }}</p>
             </div>
           </template>
@@ -88,19 +94,19 @@
       </base-table>
     </div>
     <div class="total align-center be-flex row">
-      <div class="title fw-600 fs-16">TOTAL</div>
-      <div class="title2 fw-600 fs-16">{{ summary.totalCreditAmount }}</div>
-      <div class="title3 fw-600 fs-16">{{ summary.totalDebitAmount }}</div>
+      <div class="title fw-600 fs-16">{{ $t('request.popup.account.title2') }}</div>
+      <div class="title2 fw-600 fs-16">{{ summary.totalCreditAmount }} {{ data.currency }}</div>
+      <div class="title3 fw-600 fs-16">{{ summary.totalDebitAmount }} {{ data.currency }}</div>
     </div>
     <div class="close align-center be-flex row">
-      <div class="title fw-600 fs-16">OPENING BALANCE</div>
-      <div class="title2 fw-600 fs-16">{{ summary.closeBalance }}</div>
+      <div class="title fw-600 fs-16">{{ $t('request.popup.account.title3') }}</div>
+      <div class="title2 fw-600 fs-16">{{ summary.closeBalance }} {{ data.currency }}</div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-  import { Component, Prop, Vue } from 'vue-property-decorator'
+  import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
   import getRepository from '@/services'
   import { RequestRepository } from '@/services/repositories/request'
 
@@ -109,31 +115,25 @@
   @Component
   export default class AccountStatement extends Vue {
     @Prop() data!: any
-    dataTable: any = []
-    summary: any = {}
+    @Prop() dataTable!: any
+    @Prop() summary!: any
     coin: any = ''
-    loading = true
-    async getTable(): Promise<void> {
-      if (this.data.userId) {
-        await api
-          .getTableStatement(this.data.currency, this.data.userId)
-          .then((res: any) => {
-            this.loading = false
-            this.dataTable = res.transactions.content
-            this.summary = res.summary
-          })
-          .catch(error => {
-            console.log(error)
-            this.loading = false
-          })
-      }
-    }
+    dataTable2: any = []
     getIcon(currency: string): void {
       let icon: any = ''
       if (currency) {
         icon = `icon-${currency.toLowerCase()}`
       }
       return icon
+    }
+    querry: any = {
+      limit: 10,
+      page: 1
+    }
+    query: any = {
+      page: 1,
+      limit: 10,
+      total: 10
     }
     get getTitle(): any {
       switch (this.data.currency) {
@@ -171,8 +171,36 @@
           return 'amount-clm'
       }
     }
-    created(): void {
-      this.getTable()
+    get getPaginationInfo(): any {
+      return this.$t('paging.request')
+    }
+    handleSizeChange(value: number): void {
+      if (value) {
+        this.querry.page = 1
+        this.query.page = 1
+        this.querry.limit = value
+        this.query.limit = value
+        this.getDataTable()
+      }
+    }
+    handleCurrentChange(value: number): void {
+      if (value) {
+        this.querry.page = value
+        this.query.page = value
+        this.getDataTable()
+      }
+    }
+    async getDataTable(): Promise<void> {
+      if (this.data.userId) {
+        await api
+          .getTableStatement(this.data.currency, this.data.userId, this.querry.page, this.querry.limit)
+          .then((res: any) => {
+            this.dataTable2 = res.transactions.content
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      }
     }
   }
 </script>
@@ -194,6 +222,14 @@
           margin-bottom: 16px;
           .icon-header {
             margin-right: 16px;
+          }
+          .icon-lin {
+            background: #f3f2f1;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
           }
         }
         .dolar {

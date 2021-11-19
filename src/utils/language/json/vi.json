@@ -453,7 +453,9 @@
       "bigTitle3": "Sao kê tài khoản",
       "btn1": "Đóng",
       "btn2": "Từ chối",
-      "btn3": "Chấp nhuận",
+      "btn3": "Chấp nhận",
+      "ApproveMessage": "Phê duyệt thành công",
+      "RejectMessage": "Từ chối thành công",
       "transaction": {
         "bigTitle1": "Chi tiết giao dịch",
         "bigTitle2": "Thông tin khách hàng",
@@ -467,7 +469,8 @@
         "label8": "Email",
         "label9": "Quốc tịch",
         "label10": "Cấp độ",
-        "label11": "Ngày tạo"
+        "label11": "Ngày tạo",
+        "label12": "Lý do"
       },
       "account": {
         "Linkey": "Ví Lynkey",
@@ -481,17 +484,28 @@
         "available": "Số lượng có sẵn",
         "locked": "Số lượng đã khóa",
         "bigTitle1": "Sao kê tài khoản",
-        "bigTitle2": "MỞ CÂN BẰNG",
+        "bigTitle2": "MỞ SỐ DƯ",
         "bigTitle3": "TOÀN BỘ",
-        "bigTitle4": "CÂN BẰNG KẾT THÚC",
-        "discription1": "Thăng bằng",
+        "bigTitle4": "SỐ DƯ KẾT THÚC",
+        "discription1": "Số dư",
         "discription2": "Số tiền có sẵn",
         "discription3": "Yêu cầu rút tiền",
         "label1": "KIỂU",
         "label2": "TÍN DỤNG",
         "label3": "GHI NỢ",
-        "label4": "THĂNG BẰNG",
-        "label5": "TRẠNG THÁI"
+        "label4": "SỐ DƯ",
+        "label5": "TRẠNG THÁI",
+        "title1": "MỞ SỐ DƯ",
+        "title2": "TỔNG",
+        "title3": "KẾT THÚC SỐ DƯ"
+      },
+      "reason": {
+        "bigTitle": "LÝ DO TỪ CHỐI",
+        "label": "Nhập lý do từ chối:",
+        "planceOder": "Lý do từ chối ...",
+        "btn1": "Hủy",
+        "btn2": "Gửi",
+        "wrong-reason": "Vui lòng nhập lý do"
       }
     }
   },

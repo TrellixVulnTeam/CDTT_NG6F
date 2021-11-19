@@ -3,11 +3,11 @@
     <div class="box-left">
       <div class="be-flex align-center" style="margin-bottom: 20px">
         <base-icon class="icon" icon="icon-document" size="24"></base-icon>
-        <span class="big-title">{{ $t('request.popup.transaction.bigTitle1') }}</span>
+        <span class="big-title fw-600">{{ $t('request.popup.transaction.bigTitle1') }}</span>
       </div>
       <div class="mini-box be-flex align-center jc-space-between">
         <div class="left">{{ $t('request.popup.transaction.label1') }}</div>
-        <div class="right">{{ data.transactionMilisecond }}</div>
+        <div class="right">{{ data.transactionDate | formatDateHourMs }}</div>
       </div>
       <div class="line"></div>
       <div class="mini-box be-flex align-center jc-space-between">
@@ -43,7 +43,14 @@
       <div class="mini-box be-flex align-center jc-space-between">
         <div class="left">{{ $t('request.popup.transaction.label5') }}</div>
         <div class="right">
-          <div class="status" :class="data.status != 'PENDING' ? 'rejected' : null">{{ data.status }}</div>
+          <div class="status" :class="data.status != 'PENDING' ? 'rejected' : null" style="text-transform: capitalize">{{ data.status.toLowerCase() }}</div>
+        </div>
+      </div>
+      <div class="line"></div>
+      <div class="mini-box be-flex align-center jc-space-between">
+        <div class="left">{{ $t('request.popup.transaction.label12') }}</div>
+        <div class="right">
+          {{ data.rejectedReason }}
         </div>
       </div>
       <div class="line"></div>
@@ -51,7 +58,7 @@
     <div class="box-right">
       <div class="be-flex align-center" style="margin-bottom: 20px">
         <base-icon class="icon" icon="icon-user" size="24"></base-icon>
-        <span class="big-title">{{ $t('request.popup.transaction.bigTitle2') }}</span>
+        <span class="big-title fw-600">{{ $t('request.popup.transaction.bigTitle2') }}</span>
       </div>
       <div class="mini-box be-flex align-center jc-space-between mini-box1">
         <div class="left">{{ $t('request.popup.transaction.label6') }}</div>

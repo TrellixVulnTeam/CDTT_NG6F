@@ -241,8 +241,22 @@ export function formatEmail(email: string | null): string {
 }
 export function formatNumberPhone(numberPhone: string | null): string {
   if (numberPhone) {
-    const c = Math.floor(numberPhone.length * 0.5)
+    const c = 5
     const str: string = '(+84)' + '*'.repeat(c) + numberPhone.slice(0, numberPhone.length - c)
     return str
   } else return ''
 }
+
+export function formatType(type:string|null):string{
+ if (type){
+   var arrStr=type.split("_");
+   var strTotal=""
+   arrStr.map((value,i)=>{
+     var str:string=value.substr(0,1);
+     var str2:string=value.substring(1)
+     strTotal+=str.toUpperCase()+str2.toLowerCase()+" ";
+   })
+   return strTotal;
+ }else return ""
+}
+
