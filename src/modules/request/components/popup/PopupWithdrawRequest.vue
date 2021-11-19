@@ -47,7 +47,7 @@
           </div>
           <div class="mini-box be-flex align-center jc-space-between">
             <div class="left fw-400 fs-14">{{ $t('request.popup.label5') }}</div>
-            <div class="right fw-400 fs-16">{{ data.transactionDate | formatDateHourMs }}</div>
+            <div class="right fw-400 fs-16">{{ data.transactionDate | formatMMDDYY }}</div>
           </div>
         </div>
       </div>
@@ -65,7 +65,7 @@
             </div>
             <div class="box-table">
               <transaction-detail :dataUser="dataUser" :data="data" v-if="tabActive == 1" />
-              <account-statement :data="data" :dataTable="dataTableAccount" :summary="summaryAccount" v-if="tabActive == 2" />
+              <account-statement :data="data" v-if="tabActive == 2" />
             </div>
           </div>
         </div>
@@ -112,7 +112,6 @@
       }
     ]
     tabActive = 1
-    dataTableAccount: any = []
     summaryAccount: any = {}
     loadingBtn = false
     getAmountToUsd(amountToUsd: Record<string, any>): void {
@@ -123,12 +122,7 @@
       return string
     }
     async handleChangeTab(tab: Record<string, any>): Promise<void> {
-      if (tab.id == 2) {
-        await this.getTable()
-        this.tabActive = tab.id
-      } else {
-        this.tabActive = tab.id
-      }
+      this.tabActive = tab.id
     }
     handleOpen(): void {
       if (this.data.userId) {
@@ -142,7 +136,6 @@
           .getTableStatement(this.data.currency, this.data.userId, 1, 10)
           .then((res: any) => {
             this.loading = false
-            this.dataTableAccount = res.transactions.content
             this.summaryAccount = res.summary
           })
           .catch(error => {
@@ -373,8 +366,8 @@
                       content: '';
                       position: absolute;
                       width: 100%;
-                      height: 2px;
-                      bottom: 0;
+                      height: 2.5px;
+                      bottom: -1px;
                       left: 0;
                       background-color: var(--bc-tab-active);
                     }

@@ -165,7 +165,7 @@
     "transaction": "transactions",
     "crowdsale": "transactions",
     "investor": "investors",
-    "request": "request",
+    "request": "requests",
     "balance": "balance"
   },
   "label": {

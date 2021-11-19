@@ -1,5 +1,5 @@
 <template>
-  <div class="content-account">
+  <div class="content-account" v-loading="loading">
     <div class="box1 be-flex align-center">
       <div class="mini-boxcontent">
         <div class="be-flex align-center header">
@@ -49,7 +49,8 @@
     </div>
     <div class="box-table">
       <base-table
-        :data="dataTable2.length > 0 ? dataTable2 : dataTable"
+        :data="dataTable"
+        :table="query"
         class="base-table table-request"
         :paginationInfo="getPaginationInfo"
         @sizeChange="handleSizeChange"
@@ -59,7 +60,7 @@
           <template slot-scope="scope">
             <div class="box-type" style="margin-left: 6px">
               <p class="fw-400 fs-16" style="color: #0a0b0d; text-transform: capitalize">{{ scope.row.transactionType.toLowerCase() }}</p>
-              <p class="fw-400 fs-14 text-color">{{ scope.row.transactionDate | formatDateHourMs }}</p>
+              <p class="fw-400 fs-14 text-color">{{ scope.row.transactionDate | formatMMDDYY }}</p>
             </div>
           </template>
         </el-table-column>
@@ -115,10 +116,10 @@
   @Component
   export default class AccountStatement extends Vue {
     @Prop() data!: any
-    @Prop() dataTable!: any
-    @Prop() summary!: any
     coin: any = ''
-    dataTable2: any = []
+    dataTable: any = []
+    summary: any = {}
+    loading = true
     getIcon(currency: string): void {
       let icon: any = ''
       if (currency) {
@@ -195,12 +196,20 @@
         await api
           .getTableStatement(this.data.currency, this.data.userId, this.querry.page, this.querry.limit)
           .then((res: any) => {
-            this.dataTable2 = res.transactions.content
+            this.loading = false
+            this.dataTable = res.transactions.content
+            this.summary = res.summary
           })
           .catch(error => {
             console.log(error)
           })
       }
+    }
+    async init(): Promise<void> {
+      this.getDataTable()
+    }
+    created(): void {
+      this.init()
     }
   }
 </script>

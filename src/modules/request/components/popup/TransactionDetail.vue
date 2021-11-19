@@ -3,18 +3,18 @@
     <div class="box-left">
       <div class="be-flex align-center" style="margin-bottom: 20px">
         <base-icon class="icon" icon="icon-document" size="24"></base-icon>
-        <span class="big-title fw-600">{{ $t('request.popup.transaction.bigTitle1') }}</span>
+        <span class="big-title fw-600 fs-16">{{ $t('request.popup.transaction.bigTitle1') }}</span>
       </div>
       <div class="mini-box be-flex align-center jc-space-between">
         <div class="left">{{ $t('request.popup.transaction.label1') }}</div>
-        <div class="right">{{ data.transactionDate | formatDateHourMs }}</div>
+        <div class="right fs-16">{{ data.transactionDate | formatMMDDYY }}</div>
       </div>
       <div class="line"></div>
       <div class="mini-box be-flex align-center jc-space-between">
         <div class="left">{{ $t('request.popup.transaction.label2') }}</div>
         <div class="right">
           <base-icon :icon="getIcon(data.currency)" size="20" class="mini-icon"></base-icon>
-          <span style="margin-right: 9px">{{ data.fromAddress | formatTransactionCode }}</span
+          <span style="margin-right: 9px" class="fs-16">{{ data.fromAddress | formatTransactionCode }}</span
           ><span class="icon-copy" @click="handleCopyTransaction(data.fromAddress)">
             <base-icon icon="icon-copy" size="20" />
           </span>
@@ -25,7 +25,7 @@
         <div class="left">{{ $t('request.popup.transaction.label3') }}</div>
         <div class="right">
           <base-icon :icon="getIcon(data.currency)" size="20" class="mini-icon"></base-icon>
-          <span style="margin-right: 9px">{{ data.toAddress | formatTransactionCode }}</span
+          <span style="margin-right: 9px" class="fs-16">{{ data.toAddress | formatTransactionCode }}</span
           ><span class="icon-copy" @click="handleCopyTransaction(data.toAddress)">
             <base-icon icon="icon-copy" size="20" />
           </span>
@@ -58,11 +58,11 @@
     <div class="box-right">
       <div class="be-flex align-center" style="margin-bottom: 20px">
         <base-icon class="icon" icon="icon-user" size="24"></base-icon>
-        <span class="big-title fw-600">{{ $t('request.popup.transaction.bigTitle2') }}</span>
+        <span class="big-title fw-600 fs-16">{{ $t('request.popup.transaction.bigTitle2') }}</span>
       </div>
       <div class="mini-box be-flex align-center jc-space-between mini-box1">
         <div class="left">{{ $t('request.popup.transaction.label6') }}</div>
-        <div class="right">{{ dataUser.fullName }}</div>
+        <div class="right fs-16">{{ dataUser.fullName }}</div>
       </div>
       <div class="line"></div>
       <div class="mini-box be-flex align-center jc-space-between mini-box2">
@@ -89,7 +89,7 @@
       <div class="line"></div>
       <div class="mini-box be-flex align-center jc-space-between">
         <div class="left">{{ $t('request.popup.transaction.label11') }}</div>
-        <div class="right">{{ dataUser.createdDate | formatDateHourMs }}</div>
+        <div class="right">{{ dataUser.createdDate | formatMMDDYY }}</div>
       </div>
       <div class="line"></div>
     </div>
