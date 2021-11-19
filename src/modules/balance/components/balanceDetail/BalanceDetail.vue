@@ -14,8 +14,8 @@
           <span> {{ detailRow.email | formatEmail }}| {{ detailRow.phone | formatNumberPhone }}</span>
         </div>
       </div>
-      <balance-detail-card :data-card="detailRow" />
-      <account-statement-card :data="dataTable.content" :summary="dataSummary" />
+      <balance-detail-card :data-card="detailRow" :tab-active-filter="tabActiveFilter" />
+      <account-statement-card :data="dataTable" :summary="dataSummary" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" />
     </div>
   </base-popup>
 </template>
@@ -29,43 +29,41 @@
   import AccountStatementCard from '@/modules/balance/components/balanceDetail/AccountStatementCard.vue'
   import getRepository from '@/services'
   import { TransactionRepository } from '@/services/repositories/transaction'
-  interface ITransaction {
-    content: {
-      balance: number
-      balanceDisplay: string
-      createdAt: string
-      createdBy: number
-      creditAddress: string
-      creditAmount: number
-      creditAmountDisplay: string
-      creditAmountToUsd: number
-      creditCurrency: string
-      creditFee: number
-      creditNetwork: string
-      creditUsdExchangeRate: number
-      debitAddress: string
-      debitAmount: number
-      debitAmountDisplay: string
-      debitAmountToUsd: number
-      debitCurrency: string
-      debitFee: number
-      debitNetwork: string
-      debitUsdExchangeRate: number
-      description: string
-      id: number
-      locked: number
-      lockedDisplay: string
-      refTransactionCode: string
-      status: string
-      transactionCode: string
-      transactionDate: string
-      transactionDay: string
-      transactionMillisecond: number
-      transactionType: string
-      updatedAt: string
-      updatedBy: number
-      userId: number
-    }[]
+  interface IContent {
+    balance: number
+    balanceDisplay: string
+    createdAt: string
+    createdBy: number
+    creditAddress: string
+    creditAmount: number
+    creditAmountDisplay: string
+    creditAmountToUsd: number
+    creditCurrency: string
+    creditFee: number
+    creditNetwork: string
+    creditUsdExchangeRate: number
+    debitAddress: string
+    debitAmount: number
+    debitAmountDisplay: string
+    debitAmountToUsd: number
+    debitCurrency: string
+    debitFee: number
+    debitNetwork: string
+    debitUsdExchangeRate: number
+    description: string
+    id: number
+    locked: number
+    lockedDisplay: string
+    refTransactionCode: string
+    status: string
+    transactionCode: string
+    transactionDate: string
+    transactionDay: string
+    transactionMillisecond: number
+    transactionType: string
+    updatedAt: string
+    updatedBy: number
+    userId: number
   }
   interface ISummary {
     summary: {
@@ -75,73 +73,52 @@
       totalDebitAmount: string
     }
   }
+  interface IQuery {
+    currency?: string
+    transactionType?: string
+    userId?: number
+    page?: number
+    limit?: number
+    search?: string
+    orderBy: string | number
+    total: number
+    type?: string | null | undefined
+  }
   const api: TransactionRepository = getRepository('transaction')
   @Component({ components: { BalanceDetailCard, AccountStatementCard } })
   export default class BalanceDetail extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Object, default: {} }) detailRow!: Record<string, any>
+    @Prop({ required: true }) tabActiveFilter!: string
     detail: Record<string, any> = {}
     isLoading = false
-    query: any = {
+    query: IQuery = {
       currency: '',
       transactionType: '',
-      orderBy: '',
-      page: '',
-      limit: '',
+      orderBy: 1,
+      page: 1,
+      limit: 10,
+      total: 10,
       userId: 0
     }
-    dataTable: ITransaction = {} as ITransaction
+    dataTable: IContent[] = [] as IContent[]
     dataSummary: ISummary = {} as ISummary
-    tabs: Record<string, any>[] = [
-      {
-        id: 0,
-        title: 'info'
-      },
-      {
-        id: 1,
-        title: 'kyc'
-      },
-      {
-        id: 2,
-        title: 'address'
-      },
-      {
-        id: 3,
-        title: 'balance'
-      },
-      {
-        id: 4,
-        title: 'transaction'
-      },
-      {
-        id: 5,
-        title: 'referral'
-      },
-      {
-        id: 6,
-        title: 'bonus'
-      }
-      // {
-      //   id: 7,
-      //   title: 'statistics'
-      // }
-      // {
-      //   id: 8,
-      //   title: 'setting'
-      // }
-    ]
     tabActive = 0
 
     //balance
     listBlance: Record<string, any>[] = []
-    async handleOpen(): Promise<void> {
+    async init(): Promise<void> {
       const params = {
         ...this.query,
-        currency: this.detailRow.currency,
+        currency: this.tabActiveFilter,
         userId: this.detailRow.id
       }
       const result = await api.getlistBalanceDetail('request/transactions', params)
-      this.dataTable = result.transactions
+      this.dataTable = result.transactions.content
       this.dataSummary = result.summary
+    }
+    async handleOpen(): Promise<void> {
+      console.log('fill', this.tabActiveFilter)
+      this.init().then()
     }
     handleClose(): void {
       this.tabActive = 0
@@ -153,6 +130,15 @@
 
     handleChangeTab(tab: Record<string, any>): void {
       this.tabActive = tab.id
+    }
+
+    handlePageChange(page: number): void {
+      this.query.page = page
+      this.init()
+    }
+    handleSizeChange(limit: number): void {
+      this.query.limit = limit
+      this.init()
     }
   }
 </script>

@@ -165,7 +165,8 @@
     "transaction": "transactions",
     "crowdsale": "transactions",
     "investor": "investors",
-    "request": "request"
+    "request": "request",
+    "balance": "balance"
   },
   "label": {
     "buy-from": "Buy from",
@@ -471,7 +472,20 @@
     "of-total":"Of total",
     "balance-wallet":"Balance",
     "popup": {
-      "title": "BALANCE DETAIL"
+      "title": "BALANCE DETAIL",
+      "bitcoin-wallet": "Bitcoin Wallet",
+      "available-amount": "Available Amount",
+      "locked-amount": "Locked Amount",
+      "opening-balance": "OPENING BALANCE",
+      "type": "TYPE",
+      "credit": "CREDIT",
+      "debit": "DEBIT",
+      "balance": "BALANCE",
+      "status": "STATUS",
+      "ending-balance": "ENDING BALANCE",
+      "total": "TOTAL",
+      "account-statement": "Account Statement",
+      "withdrawal-request": "Withdrawal Request"
     }
   },
   "request": {
@@ -515,6 +529,8 @@
       "btn1": "Close",
       "btn2": "Reject",
       "btn3": "Approve",
+      "ApproveMessage": "Approve successfully",
+      "RejectMessage": "Reject successfully",
       "transaction": {
         "bigTitle1": "Transaction Detail",
         "bigTitle2": "Customer Info",
@@ -552,7 +568,18 @@
         "label2": "CREDIT",
         "label3": "DEBIT",
         "label4": "BALANCE",
-        "label5": "STATUS"
+        "label5": "STATUS",
+        "title1": "OPENING BALANCE",
+        "title2": "TOTAL",
+        "title3": "ENDING BALANCE"
+      },
+      "reason": {
+        "bigTitle": "REJECT REASON",
+        "label": "Enter reject reason:",
+        "planceOder": "Reject reason...",
+        "btn1": "Cancel",
+        "btn2": "Submit",
+        "wrong-reason": "Please enter reason"
       }
     }
   }

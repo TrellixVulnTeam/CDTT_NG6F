@@ -59,7 +59,7 @@
     <balance-filter @filterBalance="handleFilter" :listApproveBy="listApproveBy" />
     <balance-table v-loading="isLoading" @rowClick="handleRowClick" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="data" />
     <!-- <kyc-detail :detailRow="detailRow" @init="init" /> -->
-    <balance-detail :detailRow="detailRow" :data="dataDetail" />
+    <balance-detail :detailRow="detailRow" :data="dataDetail" :tab-active-filter="tabActive" />
   </div>
 </template>
 
@@ -197,7 +197,6 @@
     }
 
     handleChangeTab(tab: Record<string, any>): void {
-      console.log('tabs', tab.title)
       this.$router.push({ name: tab.routeName })
       // this.query.tabBalance = this.kycStatus[tab.title]
       this.tabActive = tab.title

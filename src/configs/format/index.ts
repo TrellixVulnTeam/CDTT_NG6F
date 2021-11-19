@@ -246,3 +246,17 @@ export function formatNumberPhone(numberPhone: string | null): string {
     return str
   } else return ''
 }
+
+export function formatType(type:string|null):string{
+ if (type){
+   var arrStr=type.split("_");
+   var strTotal=""
+   arrStr.map((value,i)=>{
+     var str:string=value.substr(0,1);
+     var str2:string=value.substring(1)
+     strTotal+=str.toUpperCase()+str2.toLowerCase()+" ";
+   })
+   return strTotal;
+ }else return ""
+}
+
