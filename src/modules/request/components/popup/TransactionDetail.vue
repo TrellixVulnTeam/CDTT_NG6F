@@ -7,7 +7,7 @@
       </div>
       <div class="mini-box be-flex align-center jc-space-between">
         <div class="left">{{ $t('request.popup.transaction.label1') }}</div>
-        <div class="right">{{ data.transactionDate | formatDateHourMs }}</div>
+        <div class="right">{{ data.transactionDate | formatMMDDYY }}</div>
       </div>
       <div class="line"></div>
       <div class="mini-box be-flex align-center jc-space-between">
@@ -89,7 +89,7 @@
       <div class="line"></div>
       <div class="mini-box be-flex align-center jc-space-between">
         <div class="left">{{ $t('request.popup.transaction.label11') }}</div>
-        <div class="right">{{ dataUser.createdDate | formatDateHourMs }}</div>
+        <div class="right">{{ dataUser.createdDate | formatMMDDYY }}</div>
       </div>
       <div class="line"></div>
     </div>
