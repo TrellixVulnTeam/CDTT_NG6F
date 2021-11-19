@@ -21,7 +21,7 @@
         <el-table-column label='#' :index='getIndex' type='index' width='40' />
         <el-table-column :label="$t('customer.table.type')" prop='transactionType' align='left'>
           <template slot-scope='scope'>
-            <span>{{ scope.row.transactionType }}</span>
+            <span>{{ scope.row.transactionType |formatType}}</span>
           </template>
         </el-table-column>
 
@@ -73,25 +73,25 @@
         id: 0,
         label: 'Balance',
         icon: 'icon-wallet',
-        value: this.summary.totalBalance
+        value: this.summary.totalBalance?this.summary.totalBalance:0
       },
       {
         id: 1,
         label: 'Total Deposit',
         icon: 'icon-download',
-        value:  this.summary.totalDeposit
+        value:  this.summary.totalDeposit?this.summary.totalDeposit:0
       },
       {
         id: 2,
         label: 'Total Withdraw',
         icon: 'icon-upload',
-        value:  this.summary.totalWithdraw
+        value:  this.summary.totalWithdraw?this.summary.totalWithdraw:0
       },
       {
         id: 3,
         label: 'Total Trade',
         icon: 'icon-swap',
-        value:  this.summary.totalTrade
+        value:  this.summary.totalTrade?this.summary.totalTrade:0
       }
     ]
 
@@ -189,7 +189,7 @@
         padding: 16px;
         box-sizing: border-box;
         width: 218px;
-        height: 112px;
+        height: auto;
         margin-right: 24px;
 
         &:last-of-type {
