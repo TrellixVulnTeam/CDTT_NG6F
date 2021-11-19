@@ -544,7 +544,8 @@
         "label8": "Email",
         "label9": "Nationality",
         "label10": "Level",
-        "label11": "Created date"
+        "label11": "Created date",
+        "label12": "Reason"
       },
       "account": {
         "Linkey": "Lynkey Wallet",

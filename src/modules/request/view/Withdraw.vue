@@ -101,24 +101,24 @@
         @rowClick="handleRowClick"
         class="base-table table-request"
       >
-        <el-table-column label="#" type="index" align="center" width="40" />
+        <el-table-column label="#" type="index" :index="indexMethod" align="center" width="40" />
         <el-table-column :label="this.$t('request.table.label2')" prop="transactionMillisecond" align="left" width="220">
           <template slot-scope="scope">
             <span>{{ scope.row.transactionMillisecond | formatDateHourMs }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="this.$t('request.table.label1')" prop="fullName" align="left" width="264" />
+        <el-table-column :label="this.$t('request.table.label1')" prop="fullName" align="left" width="250" />
         <el-table-column :label="this.$t('request.table.label3')" prop="email" align="left" />
         <el-table-column :label="this.$t('request.table.label4')" prop="status" align="center" width="144">
           <template slot-scope="scope">
             <div v-if="scope.row.status === 'REJECTED'" class="box-status-tabel locked">
-              <span class="fs-12 fw-500">{{ scope.row.status }}</span>
+              <span class="fs-12 fw-500" style="text-transform: capitalize">{{ scope.row.status.toLowerCase() }}</span>
             </div>
-            <div v-else-if="scope.row.status === 'PENDING'" class="box-status-tabel failed">
-              <span class="fs-12 fw-500">{{ scope.row.status }}</span>
+            <div v-else-if="scope.row.status === 'PENDING'" class="box-status-tabel failed" style="text-transform: capitalize">
+              <span class="fs-12 fw-500">{{ scope.row.status.toLowerCase() }}</span>
             </div>
-            <div v-else class="box-status-tabel">
-              <span class="fs-12 fw-500">{{ scope.row.status }}</span>
+            <div v-else class="box-status-tabel" style="text-transform: capitalize">
+              <span class="fs-12 fw-500">{{ scope.row.status.toLowerCase() }}</span>
             </div>
           </template>
         </el-table-column>
@@ -332,6 +332,9 @@
         popupName: 'popup-withdraw-request',
         isOpen: true
       })
+    }
+    indexMethod(index: number): number {
+      return (this.query.page - 1) * this.query.limit + index + 1
     }
   }
 </script>

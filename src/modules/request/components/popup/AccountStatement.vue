@@ -3,7 +3,7 @@
     <div class="box1 be-flex align-center">
       <div class="mini-boxcontent">
         <div class="be-flex align-center header">
-          <base-icon class="icon-header" :icon="getIcon(data.currency)" size="40"></base-icon>
+          <base-icon class="icon-header" :class="data.currency == 'LYNK' ? 'icon-lin' : null" :icon="getIcon(data.currency)" :size="data.currency == 'LYNK' ? 30 : 40"></base-icon>
           <div>
             <p class="fw-600 fs-18">{{ getTitle }}</p>
             <p class="fw-400 fs-12 text-color">{{ $t('request.popup.account.discription1') }}</p>
@@ -16,7 +16,7 @@
       </div>
       <div class="mini-boxcontent mini-boxcontent2">
         <div class="be-flex align-center header">
-          <base-icon class="icon-header" :icon="getIcon(data.currency)" size="40"></base-icon>
+          <base-icon class="icon-header" :class="data.currency == 'LYNK' ? 'icon-lin' : null" :icon="getIcon(data.currency)" :size="data.currency == 'LYNK' ? 30 : 40"></base-icon>
           <div>
             <p class="fw-600 fs-18">{{ $t('request.popup.account.available') }}</p>
             <p class="fw-400 fs-12 text-color">{{ $t('request.popup.account.discription2') }}</p>
@@ -51,8 +51,8 @@
       <base-table :data="dataTable" class="base-table table-request" :showPagination="false">
         <el-table-column :label="$t('request.popup.account.label1')" prop="transactionType" align="left">
           <template slot-scope="scope">
-            <div>
-              <p class="fw-400 fs-16" style="color: #0a0b0d">{{ scope.row.transactionType }}</p>
+            <div class="box-type" style="margin-left: 6px">
+              <p class="fw-400 fs-16" style="color: #0a0b0d; text-transform: capitalize">{{ scope.row.transactionType.toLowerCase() }}</p>
               <p class="fw-400 fs-14 text-color">{{ scope.row.transactionDate | formatDateHourMs }}</p>
             </div>
           </template>
@@ -175,6 +175,14 @@
           margin-bottom: 16px;
           .icon-header {
             margin-right: 16px;
+          }
+          .icon-lin {
+            background: #f3f2f1;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
           }
         }
         .dolar {

@@ -465,7 +465,8 @@
         "label8": "Email",
         "label9": "Quốc tịch",
         "label10": "Cấp độ",
-        "label11": "Ngày tạo"
+        "label11": "Ngày tạo",
+        "label12": "Lý do"
       },
       "account": {
         "Linkey": "Ví Lynkey",

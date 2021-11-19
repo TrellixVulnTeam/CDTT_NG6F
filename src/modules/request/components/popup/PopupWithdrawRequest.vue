@@ -27,7 +27,7 @@
             <div class="big-amout fw-600 fs-24" v-if="data.currency">-{{ data.transactionFee | convertAmountDecimal(data.currency) }} {{ data.currency }}</div>
             <div class="dolar fw-400 fs-12">~${{ getAmountToUsd(data.amountToUsd) }}1</div>
           </div>
-          <div class="box-status fw-400 fs-12" :class="data.status != 'PENDING' ? 'rejected' : null">{{ data.status }}</div>
+          <div class="box-status fw-400 fs-12" :class="data.status != 'PENDING' ? 'rejected' : null" style="text-transform: capitalize">{{ data.status.toLowerCase() }}</div>
         </div>
         <div class="line"></div>
         <div class="box-right">
@@ -247,7 +247,7 @@
           position: relative;
           span {
             position: absolute;
-            top: -4px;
+            top: -1px;
           }
         }
         .box-right {
