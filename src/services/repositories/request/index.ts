@@ -21,9 +21,9 @@ export class RequestRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
-  async getTableStatement(currency: string | any, id: string | number): Promise<any> {
+  async getTableStatement(currency: string | any, id: string | number, page: number | any, limit: number | any): Promise<any> {
     try {
-      const rs = await request.get(`${this.prefix}/transaction/request/transactions?currency=${currency}&transactionType=&orderBy&page&limit&userId=${id}`)
+      const rs = await request.get(`${this.prefix}/transaction/request/transactions?currency=${currency}&transactionType=&orderBy&page=${page}&limit=${limit}&userId=${id}`)
       return Promise.resolve(rs.data.data)
     } catch (error) {
       return Promise.reject(error)

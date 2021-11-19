@@ -1,26 +1,29 @@
 <template>
-  <base-popup name="popup-balance-detail" class="popup-balance-detail" width="1040px" :isShowFooter="false" :open="handleOpen" :close="handleClose">
-    <div class="title-popup" slot="title">
+  <base-popup name='popup-balance-detail' class='popup-balance-detail' width='1040px' :isShowFooter='false'
+              :open='handleOpen' :close='handleClose'>
+    <div class='title-popup' slot='title'>
       <span>{{ $t('balance.popup.title') }}</span>
     </div>
-    <div class="content">
-      <div class="be-flex mb-24 content__header">
-        <div class="avatar">
-          <img v-if="detailRow.avatar" :src="detailRow.avatar" altdetailRow.avatar />
-          <base-icon v-else icon="default-avatar" size="48" style="display: inline-flex" />
+    <div class='content'>
+      <div class='be-flex mb-24 content__header'>
+        <div class='avatar'>
+          <img v-if='detailRow.avatar' :src='detailRow.avatar' altdetailRow.avatar />
+          <base-icon v-else icon='default-avatar' size='48' style='display: inline-flex' />
         </div>
-        <div class="ml-24 w-100 info">
-          <div class="full-name mb-12 text-l text-bold">{{ detailRow.fullName }}</div>
-          <span> {{ detailRow.email | formatEmail }}| {{ detailRow.phone | formatNumberPhone }}</span>
+        <div class='ml-24 w-100 info'>
+          <div class='full-name text-l text-bold'>{{ detailRow.fullName }}</div>
+          <span v-if='detailRow.phone===""'>{{ detailRow.email | formatEmail }}</span>
+          <span v-else> {{ detailRow.email | formatEmail }}| {{ detailRow.phone | formatNumberPhone }}</span>
         </div>
       </div>
-      <balance-detail-card :data-card="detailRow" :tab-active-filter="tabActiveFilter" />
-      <account-statement-card :data="dataTable" :summary="dataSummary" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" />
+      <balance-detail-card :data-card='detailRow' :tab-active-filter='tabActiveFilter' />
+      <account-statement-card :data='dataTable' :summary='dataSummary' @sizeChange='handleSizeChange'
+                              @pageChange='handlePageChange' :query='query' />
     </div>
   </base-popup>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
   import { Component, Mixins, Prop } from 'vue-property-decorator'
 
   import PopupMixin from '@/mixins/popup'
@@ -65,18 +68,20 @@
     updatedBy: number
     userId: number
   }
+
   interface ISummary {
     summary: {
-      openBalance: string
-      closeBalance: string
-      totalCreditAmount: string
+      openBalance: string,
+      closeBalance: string,
+      totalCreditAmount: string,
       totalDebitAmount: string
     }
   }
+
   interface IQuery {
-    currency?: string
-    transactionType?: string
-    userId?: number
+    currency?: string,
+    transactionType?: string,
+    userId?: number,
     page?: number
     limit?: number
     search?: string
@@ -84,6 +89,7 @@
     total: number
     type?: string | null | undefined
   }
+
   const api: TransactionRepository = getRepository('transaction')
   @Component({ components: { BalanceDetailCard, AccountStatementCard } })
   export default class BalanceDetail extends Mixins(PopupMixin) {
@@ -104,22 +110,29 @@
     dataSummary: ISummary = {} as ISummary
     tabActive = 0
 
-    //balance
-    listBlance: Record<string, any>[] = []
     async init(): Promise<void> {
-      const params = {
-        ...this.query,
-        currency: this.tabActiveFilter,
-        userId: this.detailRow.id
+      try {
+        const params = {
+          ...this.query,
+          currency: this.tabActiveFilter.toUpperCase(),
+          userId: this.detailRow.id
+        }
+        const result = await api.getlistBalanceDetail('request/transactions', params)
+        this.dataTable = result.transactions.content
+        this.dataSummary = result.summary
+        this.query.total = result.transactions.totalElements
+        this.isLoading = false
+      } catch (error) {
+        this.isLoading = false
+        console.log(error)
       }
-      const result = await api.getlistBalanceDetail('request/transactions', params)
-      this.dataTable = result.transactions.content
-      this.dataSummary = result.summary
     }
+
     async handleOpen(): Promise<void> {
-      console.log('fill', this.tabActiveFilter)
       this.init().then()
+
     }
+
     handleClose(): void {
       this.tabActive = 0
       this.setOpenPopup({
@@ -136,6 +149,7 @@
       this.query.page = page
       this.init()
     }
+
     handleSizeChange(limit: number): void {
       this.query.limit = limit
       this.init()
@@ -143,18 +157,22 @@
   }
 </script>
 
-<style scoped lang="scss">
+<style scoped lang='scss'>
   .popup-balance-detail {
     color: var(--bc-text-primary);
+
     .title-popup {
       span {
         color: #0a0b0d;
       }
     }
+
     ::v-deep .popup-content {
       background-color: #f6f8fc;
+
       .content {
         padding-bottom: 24px;
+
         &__header {
           .avatar {
             img {
@@ -169,6 +187,7 @@
               font-size: 18px;
               color: #0a0b0d;
               font-family: Open Sans;
+              margin-bottom: 8px;
             }
             span {
               font-size: 12px;
@@ -182,19 +201,24 @@
           background-color: #fff;
           box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
           border-radius: 4px;
+
           .tabs {
             border-bottom: 1px solid #d2d0ce;
+
             .tab-item {
               padding: 16px 12px;
               position: relative;
               color: #5b616e;
+
               &:hover {
                 color: var(--bc-tab-active);
               }
             }
+
             .tab-active {
               color: var(--bc-tab-active);
               font-weight: 600;
+
               &::after {
                 content: '';
                 position: absolute;

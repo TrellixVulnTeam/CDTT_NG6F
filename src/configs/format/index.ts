@@ -241,7 +241,7 @@ export function formatEmail(email: string | null): string {
 }
 export function formatNumberPhone(numberPhone: string | null): string {
   if (numberPhone) {
-    const c = Math.floor(numberPhone.length * 0.5)
+    const c = 5
     const str: string = '(+84)' + '*'.repeat(c) + numberPhone.slice(0, numberPhone.length - c)
     return str
   } else return ''
