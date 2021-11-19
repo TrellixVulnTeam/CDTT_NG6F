@@ -309,6 +309,8 @@
         this.querry.toAmount = filter.toAmount.replace(/,/g, '')
         this.querry.status = filter.status
       }
+      this.querry.page = 1
+      this.query.page = 1
       this.getDataTable()
       this.isVisible = false
     }

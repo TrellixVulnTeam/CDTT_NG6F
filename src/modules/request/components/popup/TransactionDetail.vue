@@ -7,7 +7,7 @@
       </div>
       <div class="mini-box be-flex align-center jc-space-between">
         <div class="left">{{ $t('request.popup.transaction.label1') }}</div>
-        <div class="right">{{ data.transactionMilisecond }}</div>
+        <div class="right">{{ data.transactionDate | formatDateHourMs }}</div>
       </div>
       <div class="line"></div>
       <div class="mini-box be-flex align-center jc-space-between">
