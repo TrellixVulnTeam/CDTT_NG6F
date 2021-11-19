@@ -9,8 +9,8 @@
         </div>
       </div>
       <div class='value-card' :class='checkType(tabActiveFilter)'>
-        <p class='current'>{{ dataCard.balance }} {{ dataCard.currency }}</p>
-        <p class='last'>-${{ dataCard.balanceUSD }}</p>
+        <p class='current'>{{ dataCard.balance |numberWithCommas }} {{ dataCard.currency }}</p>
+        <p class='last'>-${{ dataCard.balanceUSD |numberWithCommas }}</p>
       </div>
     </div>
     <div class='card-item'>
@@ -22,8 +22,8 @@
         </div>
       </div>
       <div class='value-card' :class='checkType(tabActiveFilter)'>
-        <p class='current'>{{ dataCard.availableBalance }} {{ dataCard.currency }}</p>
-        <p class='last'>-${{ dataCard.availableBalanceUSD }}</p>
+        <p class='current'>{{ dataCard.availableBalance  |numberWithCommas}} {{ dataCard.currency }}</p>
+        <p class='last'>-${{ dataCard.availableBalanceUSD  |numberWithCommas}}</p>
       </div>
     </div>
     <div class='card-item'>
@@ -35,8 +35,8 @@
         </div>
       </div>
       <div class='value-card amount-locker'>
-        <p class='current'>{{ dataCard.totalLockedAmount }} {{ dataCard.currency }}</p>
-        <p class='last'>~${{ dataCard.totalLockedAmountUSD }}</p>
+        <p class='current'>{{ dataCard.totalLockedAmount  |numberWithCommas}} {{ dataCard.currency }}</p>
+        <p class='last'>~${{ dataCard.totalLockedAmountUSD  |numberWithCommas}}</p>
       </div>
     </div>
   </div>

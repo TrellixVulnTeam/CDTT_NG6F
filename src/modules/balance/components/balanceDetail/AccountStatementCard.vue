@@ -20,19 +20,19 @@
         <el-table-column :label="$t('balance.popup.type')" width='200' prop='transactionType'>
           <template slot-scope='scope'>
             <p style='font-size: 16px'>{{scope.row.transactionType |formatType}}</p>
-            <p style='color: #5B616E;font-size: 14px'>{{scope.row.transactionMillisecond| formatDateHourMs }}</p>
+            <p style='color: #5B616E;font-size: 14px'>{{scope.row.transactionMillisecond| formatMMDDYY }}</p>
           </template>
         </el-table-column>
         <el-table-column :label="$t('balance.popup.credit')" align='right' prop='creditAmountDisplay'>
           <template slot-scope='scope'>
-<!--            <span v-if='scope.row.creditAmount === 0'></span>-->
-            <span  style='color: #129961;font-size: 16px'>+{{ scope.row.creditAmountDisplay }}</span>
+            <span v-if='scope.row.creditAmount === 0'  style='color: #129961;font-size: 16px'> {{ scope.row.creditAmountDisplay  }}</span>
+            <span v-else  style='color: #129961;font-size: 16px'>+ {{ scope.row.creditAmountDisplay  }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('balance.popup.debit')" align='right' prop='debitAmountDisplay'>
           <template slot-scope='scope'>
-<!--            <span v-if='scope.row.debitAmount === 0'></span>-->
-            <span  style='color: #CF202F;font-size: 16px'>{{ scope.row.debitAmountDisplay }}</span>
+            <span v-if='scope.row.debitAmount === 0'  style='color: #CF202F;font-size: 16px'>{{ scope.row.debitAmountDisplay  }}</span>
+            <span v-else style='color: #CF202F;font-size: 16px'>{{ scope.row.debitAmountDisplay  }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('balance.popup.balance')" align='right' prop='balanceDisplay'>
@@ -47,13 +47,16 @@
       </base-table>
     </div>
     <div class='total be-flex '>
-      <p>{{ $t('balance.popup.total') }}</p>
-      <p>+{{ summary.totalCreditAmount  }}</p>
-      <p>-{{ summary.totalDebitAmount }}</p>
+      <div class='total-title'>{{ $t('balance.popup.total') }}</div>
+      <p v-if='summary.totalCreditAmount==="0"'>0</p>
+      <p v-else>+ {{ summary.totalCreditAmount   |numberWithCommas}}</p>
+      <p v-if='summary.totalDebitAmount==="0"'>0</p>
+      <p v-else>- {{ summary.totalDebitAmount |numberWithCommas }}</p>
     </div>
     <div class='ending-balance be-flex jc-space-between '>
       <p>{{ $t('balance.popup.ending-balance') }}</p>
-      <p>{{ summary.closeBalance }}</p>
+      <p v-if='summary.closeBalance==="0"'>0</p>
+      <p v-else>{{ summary.closeBalance  |numberWithCommas}}</p>
     </div>
   </div>
 </template>
@@ -68,7 +71,7 @@
     @Prop({ required: true, type: Object, default: {} }) query!: Record<string, any>
 
     get getPaginationInfo(): any {
-      return this.$t('paging.balance')
+      return this.$t('paging.transaction')
     }
 
     checkType(type: string): string {
@@ -180,11 +183,18 @@
       margin: 0 24px;
       background-color: #F3F2F1;
       padding: 12px 16px;
-      p{
-        width: 200px;
+      .total-title{
+        width: 188px;
         font-size: 16px;
         color: #0A0B0D;
         font-weight: 600;
+      }
+      p{
+        width: 190px;
+        font-size: 16px;
+        color: #0A0B0D;
+        font-weight: 600;
+        text-align: right;
       }
       p:last-of-type {
         margin-right: 144px;
