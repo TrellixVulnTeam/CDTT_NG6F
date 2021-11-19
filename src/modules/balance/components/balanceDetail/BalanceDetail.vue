@@ -10,8 +10,9 @@
           <base-icon v-else icon="default-avatar" size="48" style="display: inline-flex" />
         </div>
         <div class="ml-24 w-100 info">
-          <div class="full-name mb-12 text-l text-bold">{{ detailRow.fullName }}</div>
-          <span> {{ detailRow.email | formatEmail }}| {{detailRow.phone | formatNumberPhone}}</span>
+          <div class="full-name text-l text-bold">{{ detailRow.fullName }}</div>
+          <span v-if='detailRow.phone===""'>{{ detailRow.email | formatEmail }}</span>
+          <span v-else> {{ detailRow.email | formatEmail }}| {{detailRow.phone | formatNumberPhone}}</span>
         </div>
       </div>
       <balance-detail-card :data-card='detailRow' :tab-active-filter='tabActiveFilter'/>
@@ -170,6 +171,7 @@ interface ISummary{
               font-size: 18px;
               color: #0A0B0D;
               font-family: Open Sans;
+              margin-bottom: 8px;
             }
             span{
               font-size: 12px;
