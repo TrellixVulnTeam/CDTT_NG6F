@@ -295,7 +295,8 @@
   "customer": {
     "verified": "Verified",
     "popup": {
-      "title": "CUSTOMER DETAIL"
+      "title": "CUSTOMER DETAIL",
+      "transaction-statistics": "Transaction Statistics"
     },
     "sort": {
       "price": "Price",
@@ -328,7 +329,11 @@
       "type": "type",
       "amount": "amount",
       "paid": "Paid",
-      "pending": "Pending"
+      "pending": "Pending",
+      "num-of-trans": "NUM OF TRANS",
+      "total-amount": "TOTAL AMOUNT",
+      "avg-trans-amount": "AVG TRANS AMOUNT",
+      "last-transaction": "LAST TRANSACTION"
     },
     "select": {
       "accepted": "Accepted",

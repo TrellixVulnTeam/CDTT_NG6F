@@ -63,6 +63,7 @@
           <customer-transaction v-if="tabActive === 4" :userId="detailRow.userId" />
           <customer-referral v-if="tabActive === 5" :userId="detailRow.userId" />
           <customer-bonus v-if="tabActive === 6" :userId="detailRow.userId" />
+          <statistic v-if="tabActive === 7" :userId="detailRow.userId" :summary='summary' :list-statistics='listStatistics'/>
         </div>
       </div>
     </div>
@@ -79,14 +80,31 @@
   import CustomerReferral from '../Referral.vue'
   import CustomerAddress from '../Address.vue'
   import CustomerBonus from '../Bonus.vue'
-
-  @Component({ components: { InfoCustomer, CustomerBalance, KycCustomerDetail, CustomerTransaction, CustomerReferral, CustomerAddress, CustomerBonus } })
+  import Statistic from '@/modules/customer/components/Statistic.vue'
+  import { CustomerRepository } from '@/services/repositories/customer'
+  import getRepository from '@/services'
+  const apiCustomer: CustomerRepository = getRepository('customer')
+  export interface IStatistics{
+    "transactionType": string,
+    "numOfTransaction": number,
+    "lastTransaction": string,
+    "totalAmount": number,
+    "avgAmount": number
+  }
+  export interface ISummary{
+    "totalWithdraw": number,
+    "totalTrade": number,
+    "totalBalance": number,
+    "totalDeposit": number
+  }
+  @Component({ components: { InfoCustomer, CustomerBalance, KycCustomerDetail, CustomerTransaction, CustomerReferral, CustomerAddress, CustomerBonus,Statistic } })
   export default class CustomerDetail extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Object, default: {} }) detailRow!: Record<string, any>
 
     detail: Record<string, any> = {}
     isLoading = false
-
+    listStatistics!:IStatistics[]
+    summary!:ISummary
     tabs: Record<string, any>[] = [
       {
         id: 0,
@@ -115,11 +133,11 @@
       {
         id: 6,
         title: 'bonus'
+      },
+      {
+        id: 7,
+        title: 'statistics'
       }
-      // {
-      //   id: 7,
-      //   title: 'statistics'
-      // }
       // {
       //   id: 8,
       //   title: 'setting'
@@ -132,6 +150,7 @@
     listBlance: Record<string, any>[] = []
 
     handleOpen(): void {
+      this.initStatistics();
       this.lang = window.localStorage.getItem('bc-lang')!
     }
 
@@ -143,6 +162,17 @@
       })
     }
 
+    async initStatistics():Promise<any>{
+      try{
+        const result = await apiCustomer.getStatistics(this.detailRow.userId);
+        console.log(result)
+        this.listStatistics=result.statistics;
+        this.summary=result.summary;
+      }catch (e) {
+        console.log(e)
+      }
+
+    }
     handleChangeTab(tab: Record<string, any>): void {
       this.tabActive = tab.id
     }
