@@ -26,10 +26,13 @@
   import { CustomerRepository } from '@/services/repositories/customer'
   import EventBus from '@/utils/eventBus'
   import { debounce } from 'lodash'
+  import { MODULE_WITH_ROUTENAME } from '@/configs/role'
 
   import { namespace } from 'vuex-class'
   import { SettingRepository } from '@/services/repositories/setting'
   const bcKyc = namespace('bcKyc')
+  const bcAuth = namespace('beAuth')
+
   const apiCustomer: CustomerRepository = getRepository('customer')
   interface IQuery {
     page?: number
@@ -43,6 +46,8 @@
   @Component({ components: { CustomerTable, CustomerFilter, CustomerDetail } })
   export default class BOCustomer extends Mixins(PopupMixin) {
     @bcKyc.Action('getListReason') getListReason!: () => void
+    @bcAuth.Getter('listModuleCanView') listModuleCanView!: Array<Record<string, any>>
+
     tabs: Array<Record<string, any>> = [
       {
         id: 1,
@@ -96,6 +101,12 @@
     }
 
     created(): void {
+      if (!this.checkPemission('customer', ['view'])) {
+        const routeName = MODULE_WITH_ROUTENAME[this.listModuleCanView[0].module]
+        this.$router.push({ name: routeName })
+        return
+      }
+
       const name = this.$route.name!
       this.query.type = this.objType[name]
     }

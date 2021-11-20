@@ -87,6 +87,10 @@
       return this.selectLanguage === 'vi' ? 'flag-vn' : 'flag-usa'
     }
 
+    // handleRedirectRoute():void{
+
+    // }
+
     handleChangeLanguage(lang: string): void {
       this.$i18n.locale = lang
       window.localStorage.setItem('bc-lang', lang)

@@ -82,8 +82,15 @@
   import { Vue, Component } from 'vue-property-decorator'
   import firebase from '@/utils/firebase'
   import { filter, findIndex, forEach } from 'lodash'
+  import { namespace } from 'vuex-class'
+  import { MODULE_WITH_ROUTENAME } from '@/configs/role'
+
+  const bcAuth = namespace('beAuth')
+
   @Component
   export default class BOCrowdsale extends Vue {
+    @bcAuth.Getter('listModuleCanView') listModuleCanView!: Array<Record<string, any>>
+
     tabs: Array<Record<string, any>> = [
       {
         id: 1,
@@ -124,6 +131,11 @@
       return this.roundCurrent?.isActive
     }
     created(): void {
+      if (!this.checkPemission('crowd-sale', ['view'])) {
+        const routeName = MODULE_WITH_ROUTENAME[this.listModuleCanView[0].module]
+        this.$router.push({ name: routeName })
+        return
+      }
       this.handleTurnOnFirebase()
     }
     handleTurnOnFirebase(): void {

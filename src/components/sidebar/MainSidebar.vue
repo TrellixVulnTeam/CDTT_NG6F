@@ -1,6 +1,6 @@
 <template>
   <div class="main-side-bar be-flex-column align-center">
-    <router-link :to="{ name: 'dashboard' }" class="style_router_home router_center router-home" exact>
+    <router-link :to="{ name: 'Crowdsale' }" class="style_router_home router_center router-home" exact>
       <div class="sack_avatar logo-home">
         <!-- <base-icon icon="logo-lienviet" style="font-size: 40px; display: block; height: 40px" class="style_avatar_home" /> -->
         <!-- <base-icon icon="logo-login" size="32" /> -->

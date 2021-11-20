@@ -164,3 +164,11 @@ export const ROLE_DEFINE: UserRoleInterface[] = [
     ]
   }
 ]
+
+export const MODULE_WITH_ROUTENAME: Record<string, any> = {
+  'crowd-sale': 'Crowdsale',
+  kyc: 'Kyc',
+  customer: 'CustomerMain',
+  balance: 'Balance',
+  request: 'Request'
+}
