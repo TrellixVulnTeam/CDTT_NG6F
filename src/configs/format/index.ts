@@ -58,7 +58,7 @@ export function convertAmount8digit(amount: string | number): string {
 }
 
 export function convertAmountDecimal(amount: string | number, currency: string): string {
-  // if (!amount) return '0'
+  if (!amount) return '0'
   const objConvert = {
     LYNK: 2,
     CLM: 2,

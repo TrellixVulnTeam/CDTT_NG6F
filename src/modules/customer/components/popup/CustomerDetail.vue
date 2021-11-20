@@ -51,7 +51,7 @@
       </div>
       <div class="content__bottom">
         <div class="be-flex mb-24 tabs">
-          <div class="tab-item cursor" v-for="tab in tabs" :key="tab.id" :class="tabActive === tab.id ? 'tab-active' : null" @click="handleChangeTab(tab)">
+          <div class="tab-item cursor" v-for="tab in getTabs" :key="tab.id" :class="tabActive === tab.id ? 'tab-active' : null" @click="handleChangeTab(tab)">
             <span class="text-base">{{ $t(`menu.${tab.title}`) }}</span>
           </div>
         </div>
@@ -63,7 +63,7 @@
           <customer-transaction v-if="tabActive === 4" :userId="detailRow.userId" />
           <customer-referral v-if="tabActive === 5" :userId="detailRow.userId" />
           <customer-bonus v-if="tabActive === 6" :userId="detailRow.userId" />
-          <statistic v-if="tabActive === 7" :userId="detailRow.userId" :summary='summary' :list-statistics='listStatistics'/>
+          <statistic v-if="tabActive === 7" :userId="detailRow.userId" :summary="summary" :list-statistics="listStatistics" />
         </div>
       </div>
     </div>
@@ -84,27 +84,27 @@
   import { CustomerRepository } from '@/services/repositories/customer'
   import getRepository from '@/services'
   const apiCustomer: CustomerRepository = getRepository('customer')
-  export interface IStatistics{
-    "transactionType": string,
-    "numOfTransaction": number,
-    "lastTransaction": string,
-    "totalAmount": number,
-    "avgAmount": number
+  export interface IStatistics {
+    transactionType: string
+    numOfTransaction: number
+    lastTransaction: string
+    totalAmount: number
+    avgAmount: number
   }
-  export interface ISummary{
-    "totalWithdraw": number,
-    "totalTrade": number,
-    "totalBalance": number,
-    "totalDeposit": number
+  export interface ISummary {
+    totalWithdraw: number
+    totalTrade: number
+    totalBalance: number
+    totalDeposit: number
   }
-  @Component({ components: { InfoCustomer, CustomerBalance, KycCustomerDetail, CustomerTransaction, CustomerReferral, CustomerAddress, CustomerBonus,Statistic } })
+  @Component({ components: { InfoCustomer, CustomerBalance, KycCustomerDetail, CustomerTransaction, CustomerReferral, CustomerAddress, CustomerBonus, Statistic } })
   export default class CustomerDetail extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Object, default: {} }) detailRow!: Record<string, any>
 
     detail: Record<string, any> = {}
     isLoading = false
-    listStatistics!:IStatistics[]
-    summary!:ISummary
+    listStatistics!: IStatistics[]
+    summary!: ISummary
     tabs: Record<string, any>[] = [
       {
         id: 0,
@@ -149,8 +149,44 @@
     //balance
     listBlance: Record<string, any>[] = []
 
+    get getTabs(): Array<Record<string, any>> {
+      if (this.checkPemission('customer', ['view-kyc-customer-detail'])) {
+        return this.tabs
+      }
+      return [
+        {
+          id: 0,
+          title: 'info'
+        },
+        {
+          id: 2,
+          title: 'address'
+        },
+        {
+          id: 3,
+          title: 'balance'
+        },
+        {
+          id: 4,
+          title: 'transaction'
+        },
+        {
+          id: 5,
+          title: 'referral'
+        },
+        {
+          id: 6,
+          title: 'bonus'
+        },
+        {
+          id: 7,
+          title: 'statistics'
+        }
+      ]
+    }
+
     handleOpen(): void {
-      this.initStatistics();
+      this.initStatistics()
       this.lang = window.localStorage.getItem('bc-lang')!
     }
 
@@ -162,16 +198,15 @@
       })
     }
 
-    async initStatistics():Promise<any>{
-      try{
-        const result = await apiCustomer.getStatistics(this.detailRow.userId);
+    async initStatistics(): Promise<any> {
+      try {
+        const result = await apiCustomer.getStatistics(this.detailRow.userId)
         console.log(result)
-        this.listStatistics=result.statistics;
-        this.summary=result.summary;
-      }catch (e) {
+        this.listStatistics = result.statistics
+        this.summary = result.summary
+      } catch (e) {
         console.log(e)
       }
-
     }
     handleChangeTab(tab: Record<string, any>): void {
       this.tabActive = tab.id

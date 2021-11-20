@@ -1,6 +1,6 @@
 import { RoleActions } from './../src/interface/role'
 import Vue from 'vue'
-type LIST_MODULE = 'wallet' | 'crowd-sale' | 'setting' | 'affiliate'
+type LIST_MODULE = 'crowd-sale' | 'kyc' | 'customer' | 'balance' | 'request' | 'transaction' | 'exception' | 'setting'
 
 declare module 'vue/types/vue' {
   interface Vue {

@@ -11,8 +11,8 @@
       <div class="btn-filter be-flex align-center cursor" @click="handleOpenPopupFilter">
         <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="16" /> <span class="fs-16">{{ $t('crowdsale.filter') }}</span>
       </div>
-      <el-dropdown class="cursor" trigger="click" @command="handleSort">
-        <div class="sort be-flex align-center">
+      <el-dropdown class="sort cursor" trigger="click" @command="handleSort">
+        <div class="sort-title be-flex align-center">
           <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="16" class="icon" /> <span class="fs-16">{{ $t('crowdsale.sortBy') }}</span>
         </div>
         <el-dropdown-menu class="header-downloadapp dropdown-sort" slot="dropdown" style="width: 232px">
@@ -235,12 +235,6 @@
       .span-icon {
         color: var(--bc-text-primary) !important;
       }
-      &:hover {
-        color: #0151fc;
-        .span-icon {
-          color: #0151fc !important;
-        }
-      }
     }
     .dropdown-sort {
       min-width: 250px !important;
@@ -272,6 +266,33 @@
         .avi {
           color: #5b616e;
         }
+      }
+    }
+  }
+  ::v-deep .sort {
+    &:hover {
+      .el-dropdown-selfdefine {
+        color: var(--bc-theme-primary);
+        .span-icon {
+          color: var(--bc-theme-primary) !important;
+        }
+      }
+    }
+
+    .sort-title {
+      &:focus {
+        color: var(--bc-theme-primary);
+        .span-icon {
+          color: var(--bc-theme-primary) !important;
+        }
+      }
+    }
+  }
+  .btn-filter {
+    &:hover {
+      color: var(--bc-theme-primary) !important;
+      .span-icon {
+        color: var(--bc-theme-primary) !important;
       }
     }
   }
