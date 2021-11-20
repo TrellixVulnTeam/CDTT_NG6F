@@ -253,7 +253,7 @@
     }
 
     handleApply(): void {
-      this.query = { ...this.query, ...this.filter }
+      this.query = { ...this.query, ...this.filter, page: 1 }
       this.handleGetListBonus()
       this.isVisible = false
     }
@@ -286,7 +286,7 @@
 
     checkTypeClass(status: string): string {
       if (status === 'PENDING') {
-        return 'status-peding'
+        return 'status-pending'
       } else {
         return 'status-success'
       }

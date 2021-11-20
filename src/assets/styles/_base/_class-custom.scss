@@ -322,8 +322,8 @@ input[type="number"] {
 }
 .status-rejected {
     @include status;
-    color: var(--bc-status-error);
-    background-color: #fbedee;
+    color: var(--bc-status-reject);
+    background-color: var(--bc-bg-reject);
 }
 .status-locked {
     @include status;

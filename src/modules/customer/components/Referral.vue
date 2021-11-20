@@ -171,7 +171,7 @@
     }
 
     handleApply(): void {
-      this.query = { ...this.query, ...this.filter }
+      this.query = { ...this.query, ...this.filter, page: 1 }
       this.handleGetListReferral()
       this.isVisible = false
     }
