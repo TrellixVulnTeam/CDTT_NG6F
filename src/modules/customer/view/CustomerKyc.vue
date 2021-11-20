@@ -156,11 +156,13 @@
     }
 
     handleRowClick(row: Record<string, any>): void {
-      this.detailRow = row
-      this.setOpenPopup({
-        popupName: 'popup-customer-detail',
-        isOpen: true
-      })
+      if (this.checkPemission('customer', ['view-detail-customer'])) {
+        this.detailRow = row
+        this.setOpenPopup({
+          popupName: 'popup-customer-detail',
+          isOpen: true
+        })
+      }
     }
 
     handleFilter(filter: Record<string, any>): void {
