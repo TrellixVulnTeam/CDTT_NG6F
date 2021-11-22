@@ -45,6 +45,55 @@ export class CustomerRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+  async validatePhoneNumber(params: Record<string, any>): Promise<any> {
+    try {
+      const rs = await request.post(`/api/v1/customers/settings/validate`,{
+        ...params
+      })
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      console.log(error)
+      return Promise.reject(error)
+    }
+  }
+  async sendCode(): Promise<any> {
+    try {
+      const rs = await request.post(`/api/v1/customers/settings/sendcode`)
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      console.log(error)
+      return Promise.reject(error)
+    }
+  }
+  async reset2Fa(userId: string | number): Promise<any> {
+    try {
+      const rs = await request.post(`/api/v1/customers/settings/${userId}/reset2FA`)
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      console.log(error)
+      return Promise.reject(error)
+    }
+  }
+  async sendCodeCustomer(userId: string | number,params: Record<string, any>): Promise<any> {
+    try {
+      const rs = await request.post(`/api/v1/customers/settings/${userId}/changePhone`,{
+        ...params
+      })
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      console.log(error)
+      return Promise.reject(error)
+    }
+  }
+  async verifyResetDefault(code: string | number): Promise<any> {
+    try {
+      const rs = await request.post(`/api/v1/customers/settings/verify?code=${code}`)
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      console.log(error)
+      return Promise.reject(error)
+    }
+  }
   async getListCustomer(params: Record<string, any>): Promise<any> {
     try {
       const _params = this.convertParams(params)

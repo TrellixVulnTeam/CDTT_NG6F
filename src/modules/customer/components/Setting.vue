@@ -18,9 +18,9 @@
             <div class="be-flex label" slot="label">{{ $t('label.phone-number') }}</div>
 
             <el-input type="number" :placeholder="$t('placeholder.phone-number')" v-model="form.phone">
-              <template style="cursor: pointer" slot="prepend"
+              <!-- <template style="cursor: pointer" slot="prepend"
                 ><span style="color: #5b616e">{{ phoneDefault }}</span></template
-              >
+              > -->
             </el-input>
           </el-form-item>
         </el-form>
@@ -28,7 +28,7 @@
           <div class="be-flex jc-space-between wrap-button" style="padding-bottom: 12px; float: right">
             <div class="btn-right">
               <el-button class="btn-default btn-close btn-h-40" @click="handleClose">{{ $t('button.close') }}</el-button>
-              <el-button class="btn-continue btn-h-40 is-none-border" @click="handleApprove">{{ $t('verify.continue') }}</el-button>
+              <el-button class="btn-continue btn-h-40 is-none-border" @click="handleContinue">{{ $t('verify.continue') }}</el-button>
             </div>
           </div>
         </div>
@@ -36,32 +36,76 @@
     </base-popup>
 
     <!-- popup verify -->
-    <base-popup name="popup-verify" class="popup-customer-detail" width="480px" :isShowFooter="false" :close="handleClose" :open="handleOpen">
+    <base-popup name="popup-verify" class="popup-customer-detail" width="480px" :isShowFooter="false" :close="handleCloseVerify" :open="handleOpenVerify">
       <div class="title-popup" slot="title">
         <span>{{ $t('customer.setting.verify') }}</span>
       </div>
       <div class="bc-verify">
-        <h3 class="text-3xl text-center text-semibold title-form" style="justify-content: center">hahahahaha</h3>
+        <h3 class="text-3xl text-center text-semibold title-form" style="justify-content: center">{{ $t('verify.title-phone') }}</h3>
         <div class="be-flex verify-code">
-          <base-icon icon="verify-phone" size="80" />
+          <base-icon :icon="getIcon" size="80" />
           <div class="ml-1 w-100 input-code">
-            <el-form :model="form" :rules="rules" ref="form-verify" @submit.native.prevent="handleSubmit">
-              <el-form-item prop="code" :label="`${$t('verify.label')}`" class="no-require-label">
-                <el-input type="text" v-model.trim="form.code" maxlength="6" :placeholder="`${$t('verify.placeholder')}`" />
+            <el-form>
+              <!-- <el-form-item prop="code" :label="`${$t('verify.label')}`" class="no-require-label">
+                <el-input type="text" v-model.trim="twoFaCode" maxlength="6" :placeholder="`${$t('verify.placeholder')}`" />
+              </el-form-item> -->
+              <el-form-item prop="phone">
+                <div class="be-flex label" slot="label">{{ $t('label.enter-verify-code') }}</div>
+
+                <el-input type="number" :placeholder="$t('label.verify-code')" v-model="form.resendCode">
+                  <!-- <template style="cursor: pointer" slot="prepend"
+                    ><span style="color: #5b616e">{{ phoneDefault }}</span></template
+                  > -->
+                </el-input>
               </el-form-item>
             </el-form>
           </div>
         </div>
-        <el-button :loading="isLoading" :class="getDisableBtn ? 'btn--disabled' : null" class="btn w-100 is-none-border btn-h-40 cursor" style="height: 40px" @click="handleSubmit"
-          >{{ $t('verify.submit') }}
-        </el-button>
-        <!-- <button :class="getDisableBtn ? 'btn--disabled' : null" type="button" class="btn is-none-border w-100 cursor" @click="handleSubmit">{{ $t('verify.submit') }}</button> -->
-        <div v-if="$route.name !== 'verify-app'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
+        <el-button :loading="isLoading" class="btn w-100 is-none-border btn-h-40 cursor" style="height: 40px" @click="handleSubmit">{{ $t('verify.submit') }} </el-button>
+        <div v-if="this.type2Fa !== 'verify-app'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
           {{ $t('verify.question') }} &nbsp;<span class="text-hyperlink text-semibold cursor" @click="handleResendCode"> {{ $t('verify.re-send') }} </span>
         </div>
-        <div v-if="$route.query.reason === 'VERIFY-SMS'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
+        <!-- <div v-if="$route.query.reason === 'VERIFY-SMS'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
           <span class="text-hyperlink text-semibold cursor" @click="handleUseOtherPhone"> {{ $t('verify.another-phone') }} </span>
+        </div> -->
+      </div>
+    </base-popup>
+
+    <!-- popup rest default-->
+    <base-popup name="popup-reset-default" class="popup-customer-detail" width="480px" :isShowFooter="false" :close="handleCloseVerify" :open="handleOpenVerify">
+      <div class="title-popup" slot="title">
+        <span>{{ $t('customer.setting.verify') }}</span>
+      </div>
+      <div class="bc-verify">
+        <h3 class="text-3xl text-center text-semibold title-form" style="justify-content: center">{{ $t('verify.title-phone') }}</h3>
+        <div class="be-flex verify-code">
+          <base-icon :icon="getIcon" size="80" />
+          <div class="ml-1 w-100 input-code">
+            <el-form>
+              <!-- <el-form-item prop="code" :label="`${$t('verify.label')}`" class="no-require-label">
+                <el-input type="text" v-model.trim="twoFaCode" maxlength="6" :placeholder="`${$t('verify.placeholder')}`" />
+              </el-form-item> -->
+              <el-form-item prop="phone">
+                <div class="be-flex label" slot="label">{{ $t('label.enter-verify-code') }}</div>
+
+                <el-input type="number" :placeholder="$t('label.verify-code')" v-model="form.resendCode">
+                  <!-- <template style="cursor: pointer" slot="prepend"
+                    ><span style="color: #5b616e">{{ phoneDefault }}</span></template
+                  > -->
+                </el-input>
+              </el-form-item>
+            </el-form>
+          </div>
         </div>
+        <el-button :loading="isLoading" class="btn w-100 is-none-border btn-h-40 cursor" style="height: 40px" @click="handleSubmitResetDefault"
+          >{{ $t('verify.submit') }}
+        </el-button>
+        <div v-if="this.type2Fa !== 'verify-app'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
+          {{ $t('verify.question') }} &nbsp;<span class="text-hyperlink text-semibold cursor" @click="handleResendCode"> {{ $t('verify.re-send') }} </span>
+        </div>
+        <!-- <div v-if="$route.query.reason === 'VERIFY-SMS'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
+          <span class="text-hyperlink text-semibold cursor" @click="handleUseOtherPhone"> {{ $t('verify.another-phone') }} </span>
+        </div> -->
       </div>
     </base-popup>
     <div class="table" style="padding-bottom: 24px" v-loading="isLoading" :class="isLoading ? 'list-loading' : null">
@@ -81,7 +125,7 @@
         <div class="text1">{{ $t('customer.setting.2factor') }}</div>
         <div class="phone" style="margin-left: 380px"><base-icon icon="icon-phone" size="40" /><span class="style-phone">Authenticator app</span></div>
         <div class="button">
-          <el-button type="button" class="style-button" style="width: 130px">{{ $t('customer.setting.reset') }}</el-button>
+          <el-button type="button" class="style-button" style="width: 130px" @click="handleResetDefault">{{ $t('customer.setting.reset') }}</el-button>
         </div>
       </div>
       <hr class="hr1" />
@@ -106,9 +150,13 @@
   import PopupMixin from '@/mixins/popup'
   import getRepository from '@/services'
   import { CustomerRepository } from '@/services/repositories/customer'
+  import { SettingRepository } from '@/services/repositories/setting'
   import countryJson from '@/utils/country/index.json'
+  import { AuthRepository } from '@/services/repositories/auth'
   import { trim, filter } from 'lodash'
   const apiCustomer: CustomerRepository = getRepository('customer')
+  const apiSetting: SettingRepository = getRepository('setting')
+  const apiAuth: AuthRepository = getRepository('auth')
   const beBase = namespace('beBase')
   const bcAuth = namespace('beAuth')
   interface IListCountry {
@@ -121,17 +169,20 @@
   export default class CustomerBonus extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Number, default: 0 }) userId!: number
     @beBase.State('coinMain') coinMain!: string
-
+    @bcAuth.State('user') user!: Record<string, any>
     isLoading = false
     listCountry: IListCountry[] = countryJson
     language = ''
     selectLanguage = ''
     phoneDefault = '+84'
+    type2Fa = ''
     form: Record<string, any> = {
       country: '',
-      phone: ''
+      phone: '',
+      code: '',
+      resendCode: ''
     }
-
+    twoFaCode = ''
     optionLanguage: Array<Record<string, any>> = [
       {
         id: 1,
@@ -159,6 +210,16 @@
         }
       ]
     }
+    get getIcon(): string {
+      const name = this.type2Fa
+      if (name === 'verify-phone') {
+        return 'verify-phone'
+      }
+      if (name === 'verify-email') {
+        return 'verify-email'
+      }
+      return 'verify-app'
+    }
     isVisible = false
     clickChangePhoneNumber(): void {
       this.setOpenPopup({
@@ -166,26 +227,187 @@
         isOpen: true
       })
     }
-    async handleLockUser(): Promise<void> {
-      console.log('ok')
-      const result = await apiCustomer.updateLockedUser(35)
-      console.log('result', result)
-      const message = 'Success'
-      this.$message.success(message)
-    }
-    handleApprove(): void {
+    handleCloseVerify(): void {
       this.setOpenPopup({
         popupName: 'popup-verify',
+        isOpen: false
+      })
+      this.form.resendCode = ''
+      // this.resetForm()
+    }
+    handleClose(): void {
+      this.setOpenPopup({
+        popupName: 'popup-change-phone',
+        isOpen: false
+      })
+      this.form.resendCode = ''
+      // this.resetForm()
+    }
+    resetForm(): void {
+      ;(this.form.phone = ''), (this.form.code = ''), (this.form.resendCode = '')
+    }
+    handleOpen(): void {
+      // this.resetForm()
+    }
+    handleOpenVerify(): void {
+      // this.resetForm()
+    }
+    async handleResendCode(): Promise<void> {
+      console.log('ah')
+    }
+    async handleResetDefault(): Promise<void> {
+      await this.handleSendCode()
+      this.setOpenPopup({
+        popupName: 'popup-reset-default',
         isOpen: true
       })
+      // this.sendEmailReset2FA()
+      // this.sendEmailcustomer()
+    }
+    sendEmailReset2FA(): void {
+      apiCustomer
+        .reset2Fa(this.userId)
+        .then(() => {
+          let message: any = this.$t('customer.setting.send-mail-success')
+          this.$message.success(message)
+        })
+        .catch(() => {
+          let message: any = this.$t('customer.setting.send-mail-fail')
+          this.$message.error(message)
+        })
+    }
+    async handleSubmitResetDefault(): Promise<void> {
+      apiCustomer
+        .verifyResetDefault(this.form.resendCode)
+        .then(() => {
+          // let message: any = this.$t('customer.setting.send-code')
+          // this.$message.success(message)
+          this.setOpenPopup({
+            popupName: 'popup-reset-default',
+            isOpen: false
+          })
+          this.sendEmailReset2FA()
+        })
+        .catch(() => {
+          let message: any = this.$t('customer.setting.send-code-fail')
+          this.$message.error(message)
+        })
+    }
+    verifyCode(): void {
+      apiCustomer
+        .verifyResetDefault(this.form.resendCode)
+        .then(() => {
+          // let message: any = this.$t('customer.setting.send-code')
+          // this.$message.success(message)
+          this.setOpenPopup({
+            popupName: 'popup-reset-default',
+            isOpen: false
+          })
+          this.sendEmailcustomer()
+        })
+        .catch(() => {
+          let message: any = this.$t('customer.setting.send-code-fail')
+          this.$message.error(message)
+        })
+    }
+    sendEmailcustomer(): void {
+      this.handleSendCodeCustomer()
+        .then(() => {
+          let message: any = this.$t('customer.setting.send-mail-success')
+          this.$message.success(message)
+          this.setOpenPopup({
+            popupName: 'popup-verify',
+            isOpen: false
+          })
+        })
+        .catch(() => {
+          let message: any = this.$t('customer.setting.send-mail-fail')
+          this.$message.error(message)
+        })
+    }
+    async handleSubmit(): Promise<void> {
+      this.verifyCode()
+      // await this.sendEmailcustomer()
+    }
+
+    async handleSendCodeCustomer(): Promise<void> {
+      const params = {
+        countryCode: this.phoneDefault,
+        country: this.form.country,
+        newPhone: this.form.phone
+      }
+      await apiCustomer
+        .sendCodeCustomer(this.userId, params)
+        .then(() => {
+          console.log('ok')
+        })
+        .catch(() => {
+          console.log('fail')
+        })
+    }
+    async handleSendCode(): Promise<void> {
+      await apiCustomer
+        .sendCode()
+        .then(() => {
+          let message: any = this.$t('customer.setting.send-code')
+          this.$message.success(message)
+          this.setOpenPopup({
+            popupName: 'popup-change-phone',
+            isOpen: false
+          })
+        })
+        .catch(() => {
+          let message: any = this.$t('customer.setting.send-code-fail')
+          this.$message.error(message)
+        })
+    }
+    async handleLockUser(): Promise<void> {
+      console.log('ok')
+      const result = await apiCustomer
+        .updateLockedUser(this.userId)
+        .then(() => {
+          let message: any = this.$t('customer.setting.lock-user-success')
+          this.$message.success(message)
+        })
+        .catch(() => {
+          let message: any = this.$t('customer.setting.lock-user-fail')
+          this.$message.success(message)
+        })
+    }
+    async handleContinue(): Promise<void> {
+      if (this.form.country !== '' && this.form.phone !== '') {
+        const params = {
+          countryCode: this.phoneDefault,
+          country: this.form.country,
+          newPhone: this.form.phone
+        }
+        const result = await apiCustomer.validatePhoneNumber(params)
+        console.log('thanh', result)
+        this.setOpenPopup({
+          popupName: 'popup-verify',
+          isOpen: true
+        })
+        this.handleSendCode()
+      }
     }
     created(): void {
+      console.log('usser', this.user)
+
       this.language = window.localStorage.getItem('bc-lang')!
       this.selectLanguage = this.language
       const currentCountry = filter(this.listCountry, country => country.isoCode === 'VN')[0]
       this.form.country = currentCountry.name
+      this.get2Fa()
     }
-
+    async get2Fa(): Promise<void> {
+      const params = {
+        email: this.user.email
+      }
+      await apiAuth.get2FA(params).then((res: any) => {
+        this.type2Fa = res
+        console.log('res', res)
+      })
+    }
     handleSelectCountry(country: string): void {
       this.phoneDefault = filter(this.listCountry, item => item.name === country)[0].dialCode
     }
