@@ -338,6 +338,16 @@
     "select": {
       "accepted": "Accepted",
       "invited": "Invited"
+    },
+    "setting":{
+      "new-phone":"New phone number",
+      "verify":"Verify",
+      "phone":"Phone number",
+      "2factor":"2-factor Authentication",
+      "status":"Active status",
+      "change":"Change",
+      "lock":"Lock user",
+      "reset":"Reset Default"
     }
   },
   "transaction": {

@@ -289,6 +289,16 @@
     "select": {
       "accepted": "Xác nhận",
       "invited": "Đã mời"
+    },
+    "setting":{
+      "new-phone":"Số điện thoại mới",
+      "verify":"Xác minh",
+      "phone":"Số điện thoại",
+      "2factor":"Xác minh 2 bước",
+      "status":"Trạng thái",
+      "change":"Thay đổi",
+      "lock":"Khóa",
+      "reset":"Khôi phục"
     }
   },
   "transaction": {

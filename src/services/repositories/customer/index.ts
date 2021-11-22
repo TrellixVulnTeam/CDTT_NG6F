@@ -36,7 +36,15 @@ export class CustomerRepository extends BaseRepository {
     })
     return _params
   }
-
+  async updateLockedUser(userId: string| number): Promise<any> {
+    try {
+      const rs = await request.post(`/api/v1/customers/settings/lock-customer/${userId}`)
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      console.log(error)
+      return Promise.reject(error)
+    }
+  }
   async getListCustomer(params: Record<string, any>): Promise<any> {
     try {
       const _params = this.convertParams(params)
@@ -108,7 +116,7 @@ export class CustomerRepository extends BaseRepository {
     }
   }
 
-  async getStatistics(customerId:number):Promise<any>{
+  async getStatistics(customerId: number): Promise<any> {
     try {
       const rs = await request.get(`${this.prefix}/${customerId}/statistic`)
       return Promise.resolve(rs.data.data)
