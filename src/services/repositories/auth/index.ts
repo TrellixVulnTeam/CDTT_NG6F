@@ -41,7 +41,7 @@ export class AuthRepository extends BaseRepository {
 
   async get2FA(params: Record<string, any>): Promise<any> {
     try {
-      const rs = await request.get(`${this.prefix}/get2FA`,{
+      const rs = await request.get(`${this.prefix}/get2FA`, {
         params: params
       })
       return Promise.resolve(rs.data.data)
@@ -81,7 +81,6 @@ export class AuthRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
-  
 
   async verifyPhone(data: IBodyApiVerify): Promise<any> {
     try {

@@ -300,12 +300,15 @@
       "status":"Trạng thái",
       "change":"Thay đổi",
       "lock":"Khóa",
+      "unlock":"Mở khóa",
       "reset":"Khôi phục",
       "enter-code":"Nhập mã g",
       "send-code":"Gửi mã xác minh thành công!",
       "send-code-fail":"Gửi mã xác minh thất bại!",
       "lock-user-success":"Khóa tài khoản thành công!",
-      "lock-user-fail":"Khóa tài khoản thất bại!"
+      "lock-user-fail":"Khóa tài khoản thất bại!",
+      "unlock-user-success":"Mở khóa tài khoản thành công!",
+      "unlock-user-fail":"Mở khóa tài khoản thất bại!"
     }
   },
   "transaction": {

@@ -350,12 +350,15 @@
       "status":"Active status",
       "change":"Change",
       "lock":"Lock user",
+      "unlock":"Unlock user",
       "reset":"Reset Default",
       "enter-code":"Enter the 6-digit code we texted to your phone number",
       "send-code":"Send code verification success!",
       "send-code-fail":"Send code verification fail!",
       "lock-user-success":"Locked user success!",
       "lock-user-fail":"Locked user fail!",
+      "unlock-user-success":"Unlocked user success!",
+      "unlock-user-fail":"Unlocked user fail!",
       "send-mail-success":"Send mail and verification code to customer success!",
       "send-mail-fail":"Send mail and verification code to customer fail!"
     }

@@ -36,9 +36,22 @@ export class CustomerRepository extends BaseRepository {
     })
     return _params
   }
-  async updateLockedUser(userId: string| number): Promise<any> {
+  async updateLockedUser(params: Record<string, any>): Promise<any> {
     try {
-      const rs = await request.post(`/api/v1/customers/settings/lock-customer/${userId}`)
+      const rs = await request.post(`/api/v1/user/settings/lock`, {
+        ...params
+      })
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      console.log(error)
+      return Promise.reject(error)
+    }
+  }
+  async updateUnlockUser(params: Record<string, any>): Promise<any> {
+    try {
+      const rs = await request.post(`/api/v1/user/settings/unlock`, {
+        ...params
+      })
       return Promise.resolve(rs.data.data)
     } catch (error) {
       console.log(error)
@@ -47,7 +60,7 @@ export class CustomerRepository extends BaseRepository {
   }
   async validatePhoneNumber(params: Record<string, any>): Promise<any> {
     try {
-      const rs = await request.post(`/api/v1/customers/settings/validate`,{
+      const rs = await request.post(`/api/v1/customers/settings/validate`, {
         ...params
       })
       return Promise.resolve(rs.data.data)
@@ -74,9 +87,9 @@ export class CustomerRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
-  async sendCodeCustomer(userId: string | number,params: Record<string, any>): Promise<any> {
+  async sendCodeCustomer(userId: string | number, params: Record<string, any>): Promise<any> {
     try {
-      const rs = await request.post(`/api/v1/customers/settings/${userId}/changePhone`,{
+      const rs = await request.post(`/api/v1/customers/settings/${userId}/changePhone`, {
         ...params
       })
       return Promise.resolve(rs.data.data)
@@ -88,6 +101,15 @@ export class CustomerRepository extends BaseRepository {
   async verifyResetDefault(code: string | number): Promise<any> {
     try {
       const rs = await request.post(`/api/v1/customers/settings/verify?code=${code}`)
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      console.log(error)
+      return Promise.reject(error)
+    }
+  }
+  async sendCodeLockUser(userId: string | number): Promise<any> {
+    try {
+      const rs = await request.post(`/api/v1/customers/settings/sendcode?userId=${userId}`)
       return Promise.resolve(rs.data.data)
     } catch (error) {
       console.log(error)

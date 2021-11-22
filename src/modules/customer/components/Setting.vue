@@ -63,7 +63,7 @@
         </div>
         <el-button :loading="isLoading" class="btn w-100 is-none-border btn-h-40 cursor" style="height: 40px" @click="handleSubmit">{{ $t('verify.submit') }} </el-button>
         <div v-if="this.type2Fa !== 'verify-app'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
-          {{ $t('verify.question') }} &nbsp;<span class="text-hyperlink text-semibold cursor" @click="handleResendCode"> {{ $t('verify.re-send') }} </span>
+          {{ $t('verify.question') }} &nbsp;<span class="text-hyperlink text-semibold cursor" @click="handleResendCodeChangePhone"> {{ $t('verify.re-send') }} </span>
         </div>
         <!-- <div v-if="$route.query.reason === 'VERIFY-SMS'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
           <span class="text-hyperlink text-semibold cursor" @click="handleUseOtherPhone"> {{ $t('verify.another-phone') }} </span>
@@ -101,13 +101,51 @@
           >{{ $t('verify.submit') }}
         </el-button>
         <div v-if="this.type2Fa !== 'verify-app'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
-          {{ $t('verify.question') }} &nbsp;<span class="text-hyperlink text-semibold cursor" @click="handleResendCode"> {{ $t('verify.re-send') }} </span>
+          {{ $t('verify.question') }} &nbsp;<span class="text-hyperlink text-semibold cursor" @click="handleResendCodeResetDefault"> {{ $t('verify.re-send') }} </span>
         </div>
         <!-- <div v-if="$route.query.reason === 'VERIFY-SMS'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
           <span class="text-hyperlink text-semibold cursor" @click="handleUseOtherPhone"> {{ $t('verify.another-phone') }} </span>
         </div> -->
       </div>
     </base-popup>
+
+    <!-- lock user -->
+    <!-- popup rest default-->
+    <base-popup name="popup-verify-lock" class="popup-customer-detail" width="480px" :isShowFooter="false" :close="handleCloseLock" :open="handleOpenLock">
+      <div class="title-popup" slot="title">
+        <span>{{ $t('customer.setting.verify') }}</span>
+      </div>
+      <div class="bc-verify">
+        <h3 class="text-3xl text-center text-semibold title-form" style="justify-content: center">{{ $t('verify.title-phone') }}</h3>
+        <div class="be-flex verify-code">
+          <base-icon :icon="getIcon" size="80" />
+          <div class="ml-1 w-100 input-code">
+            <el-form>
+              <!-- <el-form-item prop="code" :label="`${$t('verify.label')}`" class="no-require-label">
+                <el-input type="text" v-model.trim="twoFaCode" maxlength="6" :placeholder="`${$t('verify.placeholder')}`" />
+              </el-form-item> -->
+              <el-form-item prop="phone">
+                <div class="be-flex label" slot="label">{{ $t('label.enter-verify-code') }}</div>
+
+                <el-input type="number" :placeholder="$t('label.verify-code')" v-model="form.resendCode">
+                  <!-- <template style="cursor: pointer" slot="prepend"
+                    ><span style="color: #5b616e">{{ phoneDefault }}</span></template
+                  > -->
+                </el-input>
+              </el-form-item>
+            </el-form>
+          </div>
+        </div>
+        <el-button :loading="isLoading" class="btn w-100 is-none-border btn-h-40 cursor" style="height: 40px" @click="handleSubmitLockUser">{{ $t('verify.submit') }} </el-button>
+        <div v-if="this.type2Fa !== 'verify-app'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
+          {{ $t('verify.question') }} &nbsp;<span class="text-hyperlink text-semibold cursor" @click="handleResendCodeLockUser"> {{ $t('verify.re-send') }} </span>
+        </div>
+        <!-- <div v-if="$route.query.reason === 'VERIFY-SMS'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
+          <span class="text-hyperlink text-semibold cursor" @click="handleUseOtherPhone"> {{ $t('verify.another-phone') }} </span>
+        </div> -->
+      </div>
+    </base-popup>
+
     <div class="table" style="padding-bottom: 24px" v-loading="isLoading" :class="isLoading ? 'list-loading' : null">
       <div class="be-flex jc-space-between align-center">
         <div class="text1">{{ $t('customer.setting.phone') }}</div>
@@ -121,19 +159,23 @@
       </div>
       <hr class="hr1" />
 
-      <div class="be-flex jc-space-between align-center">
+      <div v-if="this.dataDetail.faType !== 'EMAIL'" class="be-flex jc-space-between align-center">
         <div class="text1">{{ $t('customer.setting.2factor') }}</div>
         <div class="phone" style="margin-left: 380px"><base-icon icon="icon-phone" size="40" /><span class="style-phone">Authenticator app</span></div>
         <div class="button">
           <el-button type="button" class="style-button" style="width: 130px" @click="handleResetDefault">{{ $t('customer.setting.reset') }}</el-button>
         </div>
+        <hr class="hr1" />
       </div>
-      <hr class="hr1" />
+
       <div class="be-flex jc-space-between align-center">
         <div class="text1">{{ $t('customer.setting.status') }}</div>
-        <div class="phone" style="margin-left: 585px"><span class="style-phone">Active</span></div>
+        <div class="phone" style="margin-left: 585px">
+          <span class="style-phone">{{ userStatus }}</span>
+        </div>
         <div class="button">
-          <el-button type="button" class="style-button" style="width: 130px" @click="handleLockUser">{{ $t('customer.setting.lock') }}</el-button>
+          <el-button v-if="userStatus == 'Active'" type="button" class="style-button" style="width: 130px" @click="handleLockUser">{{ $t('customer.setting.lock') }}</el-button>
+          <el-button v-else type="button" class="style-button" style="width: 130px" @click="handleUnlockUser">{{ $t('customer.setting.unlock') }}</el-button>
         </div>
       </div>
       <hr class="hr1" />
@@ -168,6 +210,7 @@
   @Component({ components: {} })
   export default class CustomerBonus extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Number, default: 0 }) userId!: number
+    @Prop({ required: true, type: Number, default: 0 }) dataDetail!: any
     @beBase.State('coinMain') coinMain!: string
     @bcAuth.State('user') user!: Record<string, any>
     isLoading = false
@@ -176,6 +219,7 @@
     selectLanguage = ''
     phoneDefault = '+84'
     type2Fa = ''
+    userStatus = ''
     form: Record<string, any> = {
       country: '',
       phone: '',
@@ -210,6 +254,7 @@
         }
       ]
     }
+
     get getIcon(): string {
       const name = this.type2Fa
       if (name === 'verify-phone') {
@@ -252,8 +297,11 @@
     handleOpenVerify(): void {
       // this.resetForm()
     }
-    async handleResendCode(): Promise<void> {
-      console.log('ah')
+    async handleResendCodeChangePhone(): Promise<void> {
+      this.handleSendCode()
+    }
+    async handleResendCodeResetDefault(): Promise<void> {
+      this.handleSendCodeCustomer()
     }
     async handleResetDefault(): Promise<void> {
       await this.handleSendCode()
@@ -361,18 +409,100 @@
           this.$message.error(message)
         })
     }
-    async handleLockUser(): Promise<void> {
-      console.log('ok')
-      const result = await apiCustomer
-        .updateLockedUser(this.userId)
+    count = 0
+    handleSubmitLockUser(): void {
+      if (this.userStatus == 'Active') {
+        this.count = 1
+        const params = {
+          userId: this.userId,
+          verificationCode: this.form.resendCode
+        }
+        apiCustomer
+          .updateLockedUser(params)
+          .then(() => {
+            let message: any = this.$t('customer.setting.lock-user-success')
+            this.$message.success(message)
+            this.setOpenPopup({
+              popupName: 'popup-verify-lock',
+              isOpen: false
+            })
+            this.userStatus == 'Locked'
+            this.form.resendCode = ''
+          })
+          .catch(() => {
+            let message: any = this.$t('customer.setting.lock-user-fail')
+            this.$message.error(message)
+          })
+      } else {
+        this.count = 2
+        const paramsUnlock = {
+          userId: this.userId,
+          verificationCode: this.form.resendCode,
+          email: this.dataDetail.email
+        }
+        apiCustomer
+          .updateUnlockUser(paramsUnlock)
+          .then(() => {
+            let message: any = this.$t('customer.setting.unlock-user-success')
+            this.$message.success(message)
+            this.setOpenPopup({
+              popupName: 'popup-verify-lock',
+              isOpen: false
+            })
+            this.userStatus == 'Active'
+            this.form.resendCode = ''
+          })
+          .catch(() => {
+            let message: any = this.$t('customer.setting.unlock-user-fail')
+            this.$message.error(message)
+          })
+      }
+      this.count == 2 ? (this.userStatus = 'Active') : (this.userStatus = 'Locked')
+      console.log('status', this.userStatus)
+    }
+    handleResendCodeLockUser(): void {
+      apiCustomer
+        .sendCodeLockUser(this.userId)
         .then(() => {
-          let message: any = this.$t('customer.setting.lock-user-success')
+          let message: any = this.$t('customer.setting.send-code')
           this.$message.success(message)
         })
         .catch(() => {
-          let message: any = this.$t('customer.setting.lock-user-fail')
+          let message: any = this.$t('customer.setting.send-code-fail')
+          this.$message.error(message)
+        })
+    }
+    async handleLockUser(): Promise<void> {
+      await apiCustomer
+        .sendCodeLockUser(this.userId)
+        .then(() => {
+          let message: any = this.$t('customer.setting.send-code')
           this.$message.success(message)
         })
+        .catch(() => {
+          let message: any = this.$t('customer.setting.send-code-fail')
+          this.$message.error(message)
+        })
+      this.setOpenPopup({
+        popupName: 'popup-verify-lock',
+        isOpen: true
+      })
+    }
+    async handleUnlockUser(): Promise<void> {
+      await apiCustomer
+        .sendCodeLockUser(this.userId)
+        .then(() => {
+          let message: any = this.$t('customer.setting.send-code')
+          this.$message.success(message)
+        })
+        .catch(() => {
+          let message: any = this.$t('customer.setting.send-code-fail')
+          this.$message.error(message)
+        })
+      this.setOpenPopup({
+        popupName: 'popup-verify-lock',
+        isOpen: true
+      })
     }
     async handleContinue(): Promise<void> {
       if (this.form.country !== '' && this.form.phone !== '') {
@@ -391,7 +521,13 @@
       }
     }
     created(): void {
-      console.log('usser', this.user)
+      console.log('detail', this.dataDetail.userStatus)
+      // this.userStatus ? this.dataDetail.userStatus =='ACTIVE' :
+      if (this.dataDetail.userStatus == 'ACTIVE') {
+        this.userStatus = 'Active'
+      } else {
+        this.userStatus = 'Locked'
+      }
 
       this.language = window.localStorage.getItem('bc-lang')!
       this.selectLanguage = this.language
