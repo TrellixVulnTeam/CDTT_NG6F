@@ -49,7 +49,7 @@
           </div>
           <div class="line"></div>
           <div class="box2 box">
-            <p class="fw-600 fs-18 price">${{ roundCurrent && roundCurrent.totalAmount | formatNumber }}</p>
+            <p class="fw-600 fs-18 price">${{ roundCurrent && (roundCurrent.totalAmount * roundCurrent.price) | formatNumber }}</p>
             <p class="fw-400 fs-14">{{ $t('crowdsale.raised') }}</p>
           </div>
           <div class="line"></div>
