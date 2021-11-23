@@ -47,6 +47,8 @@
   import { namespace } from 'vuex-class'
 
   const bcAuth = namespace('beAuth')
+  const beBase = namespace('beBase')
+
   const apiAuth: AuthRepository = getRepository('auth')
 
   interface FormLogin {
@@ -57,10 +59,11 @@
   @Component({ components: { VueRecaptcha, HeaderLogin, VerifyPage, Language } })
   export default class LoginPage extends Vue {
     @bcAuth.Action('login') login!: (data: Record<string, any>) => Promise<void>
+    @beBase.State('siteKey') siteKey!: string
 
     showPass = false
     language = 'en'
-    siteKey = '6LcbbKAcAAAAAGS9BixBvH4okIBVNsY7lywPDleX'
+    // siteKey = '6LcbbKAcAAAAAGS9BixBvH4okIBVNsY7lywPDleX'
     form: FormLogin = {
       email: '',
       password: ''

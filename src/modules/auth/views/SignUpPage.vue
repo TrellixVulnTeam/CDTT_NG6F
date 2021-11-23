@@ -120,6 +120,10 @@
   import { AuthRepository } from '@/services/repositories/auth'
   import { Component, Vue, Watch } from 'vue-property-decorator'
 
+  import { namespace } from 'vuex-class'
+
+  const beBase = namespace('beBase')
+
   interface FormLogin {
     email: string
     password: string
@@ -134,9 +138,11 @@
 
   @Component({ components: { VueRecaptcha, HeaderLogin, VerifyPage, Language } })
   export default class LoginPage extends Vue {
+    @beBase.State('siteKey') siteKey!: string
+
     showPass = false
     language = 'en'
-    siteKey = '6LcbbKAcAAAAAGS9BixBvH4okIBVNsY7lywPDleX'
+    // siteKey = '6LcbbKAcAAAAAGS9BixBvH4okIBVNsY7lywPDleX'
     form: FormLogin = {
       email: '',
       password: '',
