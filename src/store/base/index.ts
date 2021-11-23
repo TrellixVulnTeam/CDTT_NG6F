@@ -15,9 +15,9 @@ const state: ISBase = {
   coinMain: 'LYNK',
   urlSystem: {},
   // site key live
-  siteKey: '6Ld51lIdAAAAAEF0cK0CBRSL9H_nnGWJfKUYmcHz'
+  // siteKey: '6Ld51lIdAAAAAEF0cK0CBRSL9H_nnGWJfKUYmcHz'
   // site key test
-  // siteKey: '6LcbbKAcAAAAAGS9BixBvH4okIBVNsY7lywPDleX'
+  siteKey: '6LcbbKAcAAAAAGS9BixBvH4okIBVNsY7lywPDleX'
 }
 
 const beBase: Module<ISBase, unknown> = {
