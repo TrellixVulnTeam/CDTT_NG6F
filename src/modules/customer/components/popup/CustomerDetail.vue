@@ -64,6 +64,7 @@
           <customer-referral v-if="tabActive === 5" :userId="detailRow.userId" />
           <customer-bonus v-if="tabActive === 6" :userId="detailRow.userId" />
           <statistic v-if="tabActive === 7" :userId="detailRow.userId" :summary="summary" :list-statistics="listStatistics" />
+          <setting v-if="tabActive === 8" :userId="detailRow.userId" :dataDetail="detailRow" :summary="summary" />
         </div>
       </div>
     </div>
@@ -81,6 +82,7 @@
   import CustomerAddress from '../Address.vue'
   import CustomerBonus from '../Bonus.vue'
   import Statistic from '@/modules/customer/components/Statistic.vue'
+  import Setting from '@/modules/customer/components/Setting.vue'
   import { CustomerRepository } from '@/services/repositories/customer'
   import getRepository from '@/services'
   const apiCustomer: CustomerRepository = getRepository('customer')
@@ -97,7 +99,7 @@
     totalBalance: number
     totalDeposit: number
   }
-  @Component({ components: { InfoCustomer, CustomerBalance, KycCustomerDetail, CustomerTransaction, CustomerReferral, CustomerAddress, CustomerBonus, Statistic } })
+  @Component({ components: { InfoCustomer, CustomerBalance, KycCustomerDetail, CustomerTransaction, CustomerReferral, CustomerAddress, CustomerBonus, Statistic, Setting } })
   export default class CustomerDetail extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Object, default: {} }) detailRow!: Record<string, any>
 
@@ -137,11 +139,11 @@
       {
         id: 7,
         title: 'statistics'
+      },
+      {
+        id: 8,
+        title: 'setting'
       }
-      // {
-      //   id: 8,
-      //   title: 'setting'
-      // }
     ]
     tabActive = 0
     lang = 'en'

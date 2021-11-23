@@ -1,44 +1,40 @@
 <template>
-  <div class='list-balance'>
-    <div class='statistics-card be-flex'>
-      <div class='item-statistics' v-for='(value,index) in dataStatisticCard' :key='index'>
-        <div class='be-flex jc-space-between'>
+  <div class="list-balance">
+    <div class="statistics-card be-flex">
+      <div class="item-statistics" v-for="(value, index) in dataStatisticCard" :key="index">
+        <div class="be-flex jc-space-between">
           <p>{{ value.label }}</p>
-          <base-icon :icon='value.icon' size='20' style='display: inline-flex' />
+          <base-icon :icon="value.icon" size="20" style="display: inline-flex" />
         </div>
-        <p class='value-statistics'>${{ value.value }}</p>
+        <p class="value-statistics">${{ value.value }}</p>
       </div>
     </div>
-    <div class='title-list-statistics'>
-      <p>{{$t('customer.popup.transaction-statistics')}}</p>
+    <div class="title-list-statistics">
+      <p>{{ $t('customer.popup.transaction-statistics') }}</p>
     </div>
-    <div class='table' v-loading='isLoading' :class="isLoading ? 'list-loading' : null">
-      <base-table
-        :data='listStatistics'
-        :showPagination='false'
-        class='base-table table-wallet'
-      >
-        <el-table-column label='#' :index='getIndex' type='index' width='40' />
-        <el-table-column :label="$t('customer.table.type')" prop='transactionType' align='left'>
-          <template slot-scope='scope'>
-            <span>{{ scope.row.transactionType |formatType}}</span>
+    <div class="table" v-loading="isLoading" :class="isLoading ? 'list-loading' : null">
+      <base-table :data="listStatistics" :showPagination="false" class="base-table table-wallet">
+        <el-table-column label="#" :index="getIndex" type="index" width="40" />
+        <el-table-column :label="$t('customer.table.type')" prop="transactionType" align="left">
+          <template slot-scope="scope">
+            <span>{{ scope.row.transactionType | formatType }}</span>
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('customer.table.num-of-trans')" prop='numOfTransaction' align='center'></el-table-column>
-        <el-table-column :label="$t('customer.table.total-amount')" prop='totalAmount' align='right'>
-          <template slot-scope='scope'>
-            <span class='text-base'>${{ scope.row.totalAmount |numberWithCommas}} </span>
+        <el-table-column :label="$t('customer.table.num-of-trans')" prop="numOfTransaction" align="center"></el-table-column>
+        <el-table-column :label="$t('customer.table.total-amount')" prop="totalAmount" align="right">
+          <template slot-scope="scope">
+            <span class="text-base">${{ scope.row.totalAmount | numberWithCommas }} </span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('customer.table.avg-trans-amount')" align='right' prop='avgAmount' width='210'>
-          <template slot-scope='scope'>
-            <span>${{scope.row.avgAmount|numberWithCommas}}</span>
+        <el-table-column :label="$t('customer.table.avg-trans-amount')" align="right" prop="avgAmount" width="210">
+          <template slot-scope="scope">
+            <span>${{ scope.row.avgAmount | numberWithCommas }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('customer.table.last-transaction')" prop='lastTransaction' width='210' align='center'>
-          <template slot-scope='scope'>
-            <span>{{scope.row.lastTransaction|formatDateHourMs}}</span>
+        <el-table-column :label="$t('customer.table.last-transaction')" prop="lastTransaction" width="210" align="center">
+          <template slot-scope="scope">
+            <span>{{ scope.row.lastTransaction | formatDateHourMs }}</span>
           </template>
         </el-table-column>
       </base-table>
@@ -46,7 +42,7 @@
   </div>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
   import { Component, Prop, Vue } from 'vue-property-decorator'
   import FilterMain from '@/components/filter/FilterMain.vue'
 
@@ -73,25 +69,25 @@
         id: 0,
         label: 'Balance',
         icon: 'icon-wallet',
-        value: this.summary.totalBalance?this.summary.totalBalance:0
+        value: this.summary.totalBalance ? this.summary.totalBalance : 0
       },
       {
         id: 1,
         label: 'Total Deposit',
         icon: 'icon-download',
-        value:  this.summary.totalDeposit?this.summary.totalDeposit:0
+        value: this.summary.totalDeposit ? this.summary.totalDeposit : 0
       },
       {
         id: 2,
         label: 'Total Withdraw',
         icon: 'icon-upload',
-        value:  this.summary.totalWithdraw?this.summary.totalWithdraw:0
+        value: this.summary.totalWithdraw ? this.summary.totalWithdraw : 0
       },
       {
         id: 3,
         label: 'Total Trade',
         icon: 'icon-swap',
-        value:  this.summary.totalTrade?this.summary.totalTrade:0
+        value: this.summary.totalTrade ? this.summary.totalTrade : 0
       }
     ]
 
@@ -155,7 +151,6 @@
       this.handleGetListReferral()
     }
 
-
     handleShowPopper(): void {
       this.isVisible = true
     }
@@ -178,7 +173,7 @@
   }
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
   .list-balance {
     padding-bottom: 24px;
     .statistics-card {
@@ -198,18 +193,18 @@
 
         .value-statistics {
           font-size: 30px;
-          color: #0A0B0D;
+          color: #0a0b0d;
           margin-top: 8px;
         }
       }
     }
-    .title-list-statistics{
+    .title-list-statistics {
       margin-bottom: 16px;
       margin-top: 40px;
       padding-left: 24px;
-      p{
+      p {
         font-size: 18px;
-        color: #0A0B0D;
+        color: #0a0b0d;
         font-weight: 600;
       }
     }

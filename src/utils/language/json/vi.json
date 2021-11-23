@@ -161,7 +161,9 @@
     "trans-amount": "Số lượng giao dịch",
     "status": "Trạng thái",
     "trans-type": "Loại giao dịch",
-    "date": "Thời gian"
+    "date": "Thời gian",
+    "enter-verify-code":"Nhập mã xác thực",
+    "verify-code":"Mã xác thực"
   },
   "validate": {
     "length": " Độ dài tối thiểu 8 ký tự",
@@ -289,6 +291,29 @@
     "select": {
       "accepted": "Xác nhận",
       "invited": "Đã mời"
+    },
+    "setting":{
+      "new-phone":"Số điện thoại mới",
+      "verify":"Xác minh",
+      "phone":"Số điện thoại",
+      "2factor":"Xác minh 2 bước",
+      "status":"Trạng thái",
+      "change":"Thay đổi",
+      "lock":"Khóa",
+      "unlock":"Mở khóa",
+      "reset":"Khôi phục",
+      "enter-code":"Nhập mã g",
+      "send-code":"Gửi mã xác minh thành công!",
+      "send-code-fail":"Gửi mã xác minh thất bại!",
+      "lock-user-success":"Khóa tài khoản thành công!",
+      "lock-user-fail":"Khóa tài khoản thất bại!",
+      "unlock-user-success":"Mở khóa tài khoản thành công!",
+      "unlock-user-fail":"Mở khóa tài khoản thất bại!",
+      "user-active":"Kích hoạt",
+      "user-locked":"Đã khóa",
+      "user-unverified":"Chưa xác thực",
+      "send-reset-default":"Gửi email cho khách hàng thành công!",
+      "send-reset-default-fail":"Gửi email cho khách hàng thất bại!"
     }
   },
   "transaction": {

@@ -278,6 +278,16 @@
 
     handleApply(): void {
       this.isVisible = false
+      const filters = {
+        ...this.filterBalance
+        // toBalanceAmount: this.filterBalance.replace(',')
+        // fromBalanceAmount: '',
+        // toLockedAmount: '',
+        // fromLockedAmount: '',
+        // toAvailableAmount: '',
+        // fromAvailableAmount: '',
+      }
+      console.log('thissd', this.filterBalance)
       this.$emit('filterBalance', this.filterBalance)
     }
 

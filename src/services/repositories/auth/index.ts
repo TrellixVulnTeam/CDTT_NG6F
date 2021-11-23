@@ -39,13 +39,10 @@ export class AuthRepository extends BaseRepository {
     }
   }
 
-  async get2FA(data: Record<string, any>, captcha: string): Promise<any> {
+  async get2FA(params: Record<string, any>): Promise<any> {
     try {
       const rs = await request.get(`${this.prefix}/get2FA`, {
-        headers: {
-          'captcha-response': captcha
-        },
-        params: { ...data }
+        params: params
       })
       return Promise.resolve(rs.data.data)
     } catch (error) {
