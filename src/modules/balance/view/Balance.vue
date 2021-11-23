@@ -33,7 +33,7 @@
           </div>
         </div>
         <span class="number2"> {{ totalAvailable | formatNumber }}</span>
-        <span class="text3"> ~${{ totalAvailableUSD | convertAmountDecimal(this.tabActive) }}</span>
+        <span class="text3"> ~ ${{ totalAvailableUSD | convertAmountDecimal(this.tabActive) }}</span>
       </div>
       <div class="col-width col-margin">
         <div class="sack-banlance">
@@ -43,7 +43,7 @@
           </div>
         </div>
         <span class="number2"> {{ totalLocked | formatNumber }}</span>
-        <span class="text3">~${{ totalLockedUSD | convertAmountDecimal(this.tabActive) }}</span>
+        <span class="text3">~ ${{ totalLockedUSD | convertAmountDecimal(this.tabActive) }}</span>
       </div>
       <div class="col-width col-margin">
         <div class="sack-banlance">
@@ -53,11 +53,11 @@
           </div>
         </div>
         <span class="number2"> {{ totalBalance | formatNumber }}</span>
-        <span class="text3"> ~${{ totalBalanceUSD | convertAmountDecimal(this.tabActive) }}</span>
+        <span class="text3"> ~ ${{ totalBalanceUSD | convertAmountDecimal(this.tabActive) }}</span>
       </div>
     </div>
     <balance-filter @filterBalance="handleFilter" :listApproveBy="listApproveBy" />
-    <balance-table v-loading="isLoading" @rowClick="handleRowClick" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="data" />
+    <balance-table v-loading="isLoading" @rowClick="handleRowClick" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="propdataTable" />
     <!-- <kyc-detail :detailRow="detailRow" @init="init" /> -->
     <balance-detail :detailRow="detailRow" :data="dataDetail" :tab-active-filter="tabActive" />
   </div>
@@ -147,9 +147,10 @@
       // this.query.kycStatus = name === 'KycPending' ? 'PENDING' : name === 'KycVerified' ? 'VERIFIED' : 'REJECTED'
       // this.init()
     }
-
+    propdataTable: Record<string, any>[] = []
     async init(): Promise<void> {
       try {
+        console.log('query', this.query)
         this.isLoading = true
         const params = {
           ...this.query,
@@ -163,8 +164,20 @@
         this.data = result.balances || []
         this.query.total = result.totalElement
         this.isLoading = false
-        console.log('result', result)
-        // console.log('result', result)
+        if (this.data.length > 0) {
+          for (let i = 0; i < this.data.length; i++) {
+            let str = this.data[i].email
+            const newEmail = str.substring(0, 6) + '...' + str.substring(str.length - 10, str.length)
+            const dataItem = {
+              ...this.data[i],
+              email: newEmail
+            }
+            this.propdataTable.push(dataItem)
+          }
+        }
+
+        console.log('propdataTable', this.propdataTable)
+
         this.numOfInvestor = result.numOfInvestor
         this.numOfUser = result.numOfUser
         this.totalAvailable = result.totalAvailable
@@ -243,12 +256,10 @@
     }
 
     handleFilter(filter: Record<string, any>): void {
-      console.log('1', filter)
       this.query = {
         ...this.query,
         ...filter
       }
-      console.log('thanh', this.query)
       this.debounceInit()
     }
     debounceInit = debounce(() => {
@@ -263,6 +274,9 @@
     -ms-text-justify: distribute-all-lines;
     text-justify: distribute-all-lines;
     width: 100%;
+  }
+  .bo-kyc .wallet-header__above-tabs .tab-item {
+    color: var(--bc-text-discript);
   }
   ::v-deep .container > div {
     width: 100px;
@@ -292,7 +306,7 @@
     font-weight: 400;
     font-size: 16px;
     line-height: 24px;
-    color: #0a0b0d;
+    color: var(--bc-text-discript);
   }
   .number2 {
     margin-top: 8px;
@@ -306,6 +320,7 @@
     margin-top: 6px;
     margin-left: 18px;
     margin-bottom: 16px;
+    color: var(--bc-text-discript);
   }
   .col-margin {
     margin: 24px 24px;

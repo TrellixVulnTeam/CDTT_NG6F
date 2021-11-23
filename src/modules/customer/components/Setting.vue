@@ -192,11 +192,11 @@
 
         <div class="be-flex">
           <div class="phone">
-            <div class="phone"><base-icon icon="icon-phone" size="40" /><span class="style-phone" style=" position: relative;top: -7px;">Authenticator app</span></div>
+            <div class="phone"><base-icon icon="icon-phone" size="40" /><span class="style-phone" style="position: relative; top: -7px">Authenticator app</span></div>
           </div>
           <!-- <div class="status">verified</div> -->
           <div style="width: 250px">
-            <div class="button"  style="float:right" v-if="this.dataDetail.faType !== 'EMAIL' || this.userStatus !== 'Unverified'">
+            <div class="button" style="float: right" v-if="this.dataDetail.faType !== 'EMAIL' || this.userStatus !== 'Unverified'">
               <el-button type="button" class="style-button" style="width: 130px" @click="handleResetDefault">{{ $t('customer.setting.reset') }}</el-button>
             </div>
           </div>
@@ -207,19 +207,19 @@
         <div class="text1">{{ $t('customer.setting.status') }}</div>
         <div class="be-flex">
           <div class="phone">
-            <span class="style-phone" style=" position: relative;top: 7px;" v-if="this.userStatus == 'Active'"
+            <span class="style-phone" style="position: relative; top: 7px" v-if="this.userStatus == 'Active'"
               ><base-icon style="vertical-align: 0.25em; margin-right: 8px" icon="icon-status" size="8" />{{ $t('customer.setting.user-active') }}</span
             >
-            <span class="style-phone" style=" position: relative;top: 7px;" v-else-if="this.userStatus == 'Unverified'"
+            <span class="style-phone" style="position: relative; top: 7px" v-else-if="this.userStatus == 'Unverified'"
               ><base-icon style="vertical-align: 0.25em; margin-right: 8px; color: red" icon="icon-status-red" size="8" />{{ $t('customer.setting.user-unverified') }}</span
             >
-            <span class="style-phone"  style=" position: relative;top: 7px;" v-else
+            <span class="style-phone" style="position: relative; top: 7px" v-else
               ><base-icon style="vertical-align: 0.25em; margin-right: 8px; color: red" icon="icon-status-red" size="8" />{{ $t('customer.setting.user-locked') }}</span
             >
           </div>
           <!-- <div class="status">verified</div> -->
           <div style="width: 250px">
-            <div class="button" style="float:right" v-if="this.userStatus !== 'Unverified'">
+            <div class="button" style="float: right" v-if="this.userStatus !== 'Unverified'">
               <el-button v-if="userStatus == 'Active'" type="button" class="style-button" style="width: 130px" @click="handleLockUser">{{ $t('customer.setting.lock') }}</el-button>
               <el-button v-else type="button" class="style-button" style="width: 130px" @click="handleUnlockUser">{{ $t('customer.setting.unlock') }}</el-button>
             </div>
