@@ -173,7 +173,7 @@
     <div class="table" style="padding-bottom: 24px" v-loading="isLoading" :class="isLoading ? 'list-loading' : null">
       <div class="be-flex jc-space-between align-center">
         <div class="text1">{{ $t('customer.setting.phone') }}</div>
-        <div class="phone" style="margin-left: 463px">
+        <div class="phone">
           <span class="style-phone">{{ phoneNumber }}</span> <span style="color: blue; margin-left: 8px; font-size: 14px; line-height: 20px; color: #129961">verified</span>
         </div>
         <!-- <div class="status">verified</div> -->
@@ -183,19 +183,19 @@
       </div>
       <hr class="hr1" />
 
-      <div v-if="this.dataDetail.faType !== 'EMAIL'" class="be-flex jc-space-between align-center">
+      <div class="be-flex jc-space-between align-center">
         <div class="text1">{{ $t('customer.setting.2factor') }}</div>
-        <div class="phone" style="margin-left: 380px"><base-icon icon="icon-phone" size="40" /><span class="style-phone">Authenticator app</span></div>
+        <div class="phone"><base-icon icon="icon-phone" size="40" /><span class="style-phone">Authenticator app</span></div>
         <div class="button">
           <el-button type="button" class="style-button" style="width: 130px" @click="handleResetDefault">{{ $t('customer.setting.reset') }}</el-button>
         </div>
-        <hr class="hr1" />
       </div>
-
+      <hr class="hr1" />
       <div class="be-flex jc-space-between align-center">
         <div class="text1">{{ $t('customer.setting.status') }}</div>
-        <div class="phone" style="margin-left: 585px">
-          <span class="style-phone">{{ userStatus }}</span>
+        <div class="phone">
+          <span class="style-phone" v-if="this.userStatus == 'ACTIVE'">{{ $t('customer.setting.user-active') }}</span>
+          <span class="style-phone" v-else>{{ $t('customer.setting.user-locked') }}</span>
         </div>
         <div class="button">
           <el-button v-if="userStatus == 'ACTIVE'" type="button" class="style-button" style="width: 130px" @click="handleLockUser">{{ $t('customer.setting.lock') }}</el-button>
@@ -212,17 +212,14 @@
 
   import { namespace } from 'vuex-class'
 
-  import includes from 'lodash/includes'
   import PopupMixin from '@/mixins/popup'
   import getRepository from '@/services'
   import { CustomerRepository } from '@/services/repositories/customer'
-  import { SettingRepository } from '@/services/repositories/setting'
   import countryJson from '@/utils/country/index.json'
   import { AuthRepository } from '@/services/repositories/auth'
-  import { trim, filter } from 'lodash'
-  import { Vue, Watch } from 'vue-property-decorator'
+  import { filter } from 'lodash'
+  import { Watch } from 'vue-property-decorator'
   const apiCustomer: CustomerRepository = getRepository('customer')
-  const apiSetting: SettingRepository = getRepository('setting')
   const apiAuth: AuthRepository = getRepository('auth')
   const beBase = namespace('beBase')
   const bcAuth = namespace('beAuth')

@@ -361,7 +361,9 @@
       "unlock-user-success":"Unlocked user success!",
       "unlock-user-fail":"Unlocked user fail!",
       "send-mail-success":"Send mail and verification code to customer success!",
-      "send-mail-fail":"Send mail and verification code to customer fail!"
+      "send-mail-fail":"Send mail and verification code to customer fail!",
+      "user-active":"Active",
+      "user-locked":"Locked"
     }
   },
   "transaction": {
