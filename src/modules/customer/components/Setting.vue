@@ -28,7 +28,7 @@
           <div class="be-flex jc-space-between wrap-button" style="padding-bottom: 12px; float: right">
             <div class="btn-right">
               <el-button class="btn-default btn-close btn-h-40" @click="handleClose">{{ $t('button.close') }}</el-button>
-              <el-button class="btn-continue btn-h-40 is-none-border" @click="handleContinue">{{ $t('verify.continue') }}</el-button>
+              <el-button class="btn btn-continue btn-h-40 is-none-border" @click="handleContinue">{{ $t('verify.continue') }}</el-button>
             </div>
           </div>
         </div>
@@ -174,7 +174,7 @@
           <span class="style-phone">{{ userStatus }}</span>
         </div>
         <div class="button">
-          <el-button v-if="userStatus == 'Active'" type="button" class="style-button" style="width: 130px" @click="handleLockUser">{{ $t('customer.setting.lock') }}</el-button>
+          <el-button v-if="userStatus == 'ACTIVE'" type="button" class="style-button" style="width: 130px" @click="handleLockUser">{{ $t('customer.setting.lock') }}</el-button>
           <el-button v-else type="button" class="style-button" style="width: 130px" @click="handleUnlockUser">{{ $t('customer.setting.unlock') }}</el-button>
         </div>
       </div>
@@ -403,6 +403,7 @@
             popupName: 'popup-change-phone',
             isOpen: false
           })
+          // this.form.phone = ''
         })
         .catch(() => {
           let message: any = this.$t('customer.setting.send-code-fail')
@@ -411,7 +412,7 @@
     }
     count = 0
     handleSubmitLockUser(): void {
-      if (this.userStatus == 'Active') {
+      if (this.userStatus == 'ACTIVE') {
         const params = {
           userId: this.userId,
           verificationCode: this.form.resendCode
@@ -426,7 +427,7 @@
               isOpen: false
             })
             this.count = 1
-            this.userStatus == 'Locked'
+            this.userStatus == 'LOCKED'
             this.form.resendCode = ''
           })
           .catch(() => {
@@ -449,7 +450,7 @@
               popupName: 'popup-verify-lock',
               isOpen: false
             })
-            this.userStatus == 'Active'
+            this.userStatus == 'ACTIVE'
             this.form.resendCode = ''
           })
           .catch(() => {
@@ -457,7 +458,7 @@
             this.$message.error(message)
           })
       }
-      this.count == 2 ? (this.userStatus = 'Active') : (this.userStatus = 'Locked')
+      this.count == 2 ? (this.userStatus = 'ACTIVE') : (this.userStatus = 'LOCKED')
       console.log('status', this.userStatus)
     }
     handleResendCodeLockUser(): void {
@@ -476,33 +477,39 @@
       await apiCustomer
         .sendCodeLockUser(this.userId)
         .then(() => {
-          let message: any = this.$t('customer.setting.send-code')
-          this.$message.success(message)
+          this.setOpenPopup({
+            popupName: 'popup-verify-lock',
+            isOpen: true
+          })
+          setTimeout(() => {
+            let message: any = this.$t('customer.setting.send-code')
+            this.$message.success(message)
+          }, 300)
         })
         .catch(() => {
           let message: any = this.$t('customer.setting.send-code-fail')
           this.$message.error(message)
         })
-      this.setOpenPopup({
-        popupName: 'popup-verify-lock',
-        isOpen: true
-      })
     }
     async handleUnlockUser(): Promise<void> {
       await apiCustomer
         .sendCodeLockUser(this.userId)
         .then(() => {
-          let message: any = this.$t('customer.setting.send-code')
-          this.$message.success(message)
+          this.setOpenPopup({
+            popupName: 'popup-verify-lock',
+            isOpen: true
+          })
+          // let message: any = this.$t('customer.setting.send-code')
+          // this.$message.success(message)
+          setTimeout(() => {
+            let message: any = this.$t('customer.setting.send-code')
+            this.$message.success(message)
+          }, 300)
         })
         .catch(() => {
           let message: any = this.$t('customer.setting.send-code-fail')
           this.$message.error(message)
         })
-      this.setOpenPopup({
-        popupName: 'popup-verify-lock',
-        isOpen: true
-      })
     }
     async handleContinue(): Promise<void> {
       if (this.form.country !== '' && this.form.phone !== '') {
@@ -528,9 +535,9 @@
 
       // this.userStatus ? this.dataDetail.userStatus =='ACTIVE' :
       if (this.dataDetail.userStatus == 'ACTIVE') {
-        this.userStatus = 'Active'
+        this.userStatus = 'ACTIVE'
       } else {
-        this.userStatus = 'Locked'
+        this.userStatus = 'LOCKED'
       }
 
       this.language = window.localStorage.getItem('bc-lang')!
