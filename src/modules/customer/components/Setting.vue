@@ -150,7 +150,7 @@
       <div class="be-flex jc-space-between align-center">
         <div class="text1">{{ $t('customer.setting.phone') }}</div>
         <div class="phone" style="margin-left: 463px">
-          <span class="style-phone">0982642610</span> <span style="color: blue; margin-left: 8px; font-size: 14px; line-height: 20px; color: #129961">verified</span>
+          <span class="style-phone">{{ phoneNumber }}</span> <span style="color: blue; margin-left: 8px; font-size: 14px; line-height: 20px; color: #129961">verified</span>
         </div>
         <!-- <div class="status">verified</div> -->
         <div class="button">
@@ -412,7 +412,6 @@
     count = 0
     handleSubmitLockUser(): void {
       if (this.userStatus == 'Active') {
-        this.count = 1
         const params = {
           userId: this.userId,
           verificationCode: this.form.resendCode
@@ -426,6 +425,7 @@
               popupName: 'popup-verify-lock',
               isOpen: false
             })
+            this.count = 1
             this.userStatus == 'Locked'
             this.form.resendCode = ''
           })
@@ -434,7 +434,6 @@
             this.$message.error(message)
           })
       } else {
-        this.count = 2
         const paramsUnlock = {
           userId: this.userId,
           verificationCode: this.form.resendCode,
@@ -443,6 +442,7 @@
         apiCustomer
           .updateUnlockUser(paramsUnlock)
           .then(() => {
+            this.count = 2
             let message: any = this.$t('customer.setting.unlock-user-success')
             this.$message.success(message)
             this.setOpenPopup({
@@ -520,8 +520,12 @@
         this.handleSendCode()
       }
     }
+    phoneNumber = ''
     created(): void {
-      console.log('detail', this.dataDetail.userStatus)
+      console.log('detail', this.dataDetail)
+      this.phoneNumber = '(' + this.dataDetail.countryCode + ') ' + this.dataDetail.phone
+      console.log('phone', this.phoneNumber)
+
       // this.userStatus ? this.dataDetail.userStatus =='ACTIVE' :
       if (this.dataDetail.userStatus == 'ACTIVE') {
         this.userStatus = 'Active'
