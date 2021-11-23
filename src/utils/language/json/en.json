@@ -354,16 +354,19 @@
       "unlock":"Unlock user",
       "reset":"Reset Default",
       "enter-code":"Enter the 6-digit code we texted to your phone number",
-      "send-code":"Send code verification success!",
-      "send-code-fail":"Send code verification fail!",
-      "lock-user-success":"Locked user success!",
-      "lock-user-fail":"Locked user fail!",
-      "unlock-user-success":"Unlocked user success!",
-      "unlock-user-fail":"Unlocked user fail!",
-      "send-mail-success":"Send mail and verification code to customer success!",
-      "send-mail-fail":"Send mail and verification code to customer fail!",
+      "send-code":"Send code verification successfully!",
+      "send-code-fail":"Send code verification failed!",
+      "lock-user-success":"Locked user successfully!",
+      "lock-user-fail":"Locked user failed!",
+      "unlock-user-success":"Unlocked user successfully!",
+      "unlock-user-fail":"Unlocked user failed!",
+      "send-mail-success":"Send mail and verification code to customer successfully!",
+      "send-reset-default":"Send mail to customer successfully!",
+      "send-reset-default-fail":"Send mail to customer failed!",
+      "send-mail-fail":"Send mail and verification code to customer failed!",
       "user-active":"Active",
-      "user-locked":"Locked"
+      "user-locked":"Locked",
+      "user-unverified":"Unverified"
     }
   },
   "transaction": {

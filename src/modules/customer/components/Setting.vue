@@ -173,33 +173,57 @@
     <div class="table" style="padding-bottom: 24px" v-loading="isLoading" :class="isLoading ? 'list-loading' : null">
       <div class="be-flex jc-space-between align-center">
         <div class="text1">{{ $t('customer.setting.phone') }}</div>
-        <div class="phone">
-          <span class="style-phone">{{ phoneNumber }}</span> <span style="color: blue; margin-left: 8px; font-size: 14px; line-height: 20px; color: #129961">verified</span>
-        </div>
-        <!-- <div class="status">verified</div> -->
-        <div class="button">
-          <el-button type="button" class="style-button" style="width: 130px" @click="clickChangePhoneNumber">{{ $t('customer.setting.change') }}</el-button>
+        <div class="be-flex">
+          <div class="phone">
+            <span class="style-phone">{{ phoneNumber }}</span> <span style="color: blue; margin-left: 8px; font-size: 14px; line-height: 20px; color: #129961">verified</span>
+          </div>
+          <!-- <div class="status">verified</div> -->
+          <div style="width: 250px">
+            <div class="button" style="float: right" v-if="this.userStatus !== 'Unverified'">
+              <el-button type="button" class="style-button" style="width: 130px" @click="clickChangePhoneNumber">{{ $t('customer.setting.change') }}</el-button>
+            </div>
+          </div>
         </div>
       </div>
       <hr class="hr1" />
 
       <div class="be-flex jc-space-between align-center">
         <div class="text1">{{ $t('customer.setting.2factor') }}</div>
-        <div class="phone"><base-icon icon="icon-phone" size="40" /><span class="style-phone">Authenticator app</span></div>
-        <div class="button">
-          <el-button type="button" class="style-button" style="width: 130px" @click="handleResetDefault">{{ $t('customer.setting.reset') }}</el-button>
+
+        <div class="be-flex">
+          <div class="phone">
+            <div class="phone"><base-icon icon="icon-phone" size="40" /><span class="style-phone" style=" position: relative;top: -7px;">Authenticator app</span></div>
+          </div>
+          <!-- <div class="status">verified</div> -->
+          <div style="width: 250px">
+            <div class="button"  style="float:right" v-if="this.dataDetail.faType !== 'EMAIL' || this.userStatus !== 'Unverified'">
+              <el-button type="button" class="style-button" style="width: 130px" @click="handleResetDefault">{{ $t('customer.setting.reset') }}</el-button>
+            </div>
+          </div>
         </div>
       </div>
       <hr class="hr1" />
       <div class="be-flex jc-space-between align-center">
         <div class="text1">{{ $t('customer.setting.status') }}</div>
-        <div class="phone">
-          <span class="style-phone" v-if="this.userStatus == 'ACTIVE'">{{ $t('customer.setting.user-active') }}</span>
-          <span class="style-phone" v-else>{{ $t('customer.setting.user-locked') }}</span>
-        </div>
-        <div class="button">
-          <el-button v-if="userStatus == 'ACTIVE'" type="button" class="style-button" style="width: 130px" @click="handleLockUser">{{ $t('customer.setting.lock') }}</el-button>
-          <el-button v-else type="button" class="style-button" style="width: 130px" @click="handleUnlockUser">{{ $t('customer.setting.unlock') }}</el-button>
+        <div class="be-flex">
+          <div class="phone">
+            <span class="style-phone" style=" position: relative;top: 7px;" v-if="this.userStatus == 'Active'"
+              ><base-icon style="vertical-align: 0.25em; margin-right: 8px" icon="icon-status" size="8" />{{ $t('customer.setting.user-active') }}</span
+            >
+            <span class="style-phone" style=" position: relative;top: 7px;" v-else-if="this.userStatus == 'Unverified'"
+              ><base-icon style="vertical-align: 0.25em; margin-right: 8px; color: red" icon="icon-status-red" size="8" />{{ $t('customer.setting.user-unverified') }}</span
+            >
+            <span class="style-phone"  style=" position: relative;top: 7px;" v-else
+              ><base-icon style="vertical-align: 0.25em; margin-right: 8px; color: red" icon="icon-status-red" size="8" />{{ $t('customer.setting.user-locked') }}</span
+            >
+          </div>
+          <!-- <div class="status">verified</div> -->
+          <div style="width: 250px">
+            <div class="button" style="float:right" v-if="this.userStatus !== 'Unverified'">
+              <el-button v-if="userStatus == 'Active'" type="button" class="style-button" style="width: 130px" @click="handleLockUser">{{ $t('customer.setting.lock') }}</el-button>
+              <el-button v-else type="button" class="style-button" style="width: 130px" @click="handleUnlockUser">{{ $t('customer.setting.unlock') }}</el-button>
+            </div>
+          </div>
         </div>
       </div>
       <hr class="hr1" />
@@ -347,11 +371,11 @@
       apiCustomer
         .reset2Fa(this.userId)
         .then(() => {
-          let message: any = this.$t('customer.setting.send-mail-success')
+          let message: any = this.$t('customer.setting.send-reset-default')
           this.$message.success(message)
         })
         .catch(() => {
-          let message: any = this.$t('customer.setting.send-mail-fail')
+          let message: any = this.$t('customer.setting.send-reset-default-fail')
           this.$message.error(message)
         })
     }
@@ -562,9 +586,11 @@
 
       // this.userStatus ? this.dataDetail.userStatus =='ACTIVE' :
       if (this.dataDetail.userStatus == 'ACTIVE') {
-        this.userStatus = 'ACTIVE'
+        this.userStatus = 'Active'
+      } else if (this.dataDetail.userStatus == 'UNVERIFIED') {
+        this.userStatus = 'Unverified'
       } else {
-        this.userStatus = 'LOCKED'
+        this.userStatus = 'Locked'
       }
 
       this.language = window.localStorage.getItem('bc-lang')!

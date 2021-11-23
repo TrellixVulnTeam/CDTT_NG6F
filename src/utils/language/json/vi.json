@@ -310,7 +310,10 @@
       "unlock-user-success":"Mở khóa tài khoản thành công!",
       "unlock-user-fail":"Mở khóa tài khoản thất bại!",
       "user-active":"Kích hoạt",
-      "user-locked":"Đã khóa"
+      "user-locked":"Đã khóa",
+      "user-unverified":"Chưa xác thực",
+      "send-reset-default":"Gửi email cho khách hàng thành công!",
+      "send-reset-default-fail":"Gửi email cho khách hàng thất bại!"
     }
   },
   "transaction": {
