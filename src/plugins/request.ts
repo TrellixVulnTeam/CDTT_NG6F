@@ -95,6 +95,9 @@ request.interceptors.response.use(
       if (data.status === 'INVALID_VERIFICATION') {
         message = i18n.tc('notify.verify-fail')
       }
+      if (data.status === 'Invalid verification code') {
+        message = i18n.tc('notify.verify-fail')
+      }
       console.log(message)
 
       Message.error({ message, duration: 5000 })

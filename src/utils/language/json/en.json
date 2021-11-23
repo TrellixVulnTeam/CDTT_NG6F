@@ -245,7 +245,8 @@
     "no-select-reject": "Must choose at least 1 reason",
     "no-data": "There are no data",
     "no-data-kyc": "No data",
-    "copy": "Copied"
+    "copy": "Copied",
+    "invalid-code":"Invalid verification code"
   },
   "logout": {
     "title": "Sign out"

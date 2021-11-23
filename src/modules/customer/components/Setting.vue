@@ -28,7 +28,12 @@
           <div class="be-flex jc-space-between wrap-button" style="padding-bottom: 12px; float: right">
             <div class="btn-right">
               <el-button class="btn-default btn-close btn-h-40" @click="handleClose">{{ $t('button.close') }}</el-button>
-              <el-button class="btn btn-continue btn-h-40 is-none-border" @click="handleContinue">{{ $t('verify.continue') }}</el-button>
+              <el-button
+                :class="disabledContinue ? 'btn btn-h-40 is-none-border backgroundDisable' : 'btn btn-continue btn-h-40 is-none-border'"
+                :disabled="disabledContinue"
+                @click="handleContinue"
+                >{{ $t('verify.continue') }}</el-button
+              >
             </div>
           </div>
         </div>
@@ -61,7 +66,14 @@
             </el-form>
           </div>
         </div>
-        <el-button :loading="isLoading" class="btn w-100 is-none-border btn-h-40 cursor" style="height: 40px" @click="handleSubmit">{{ $t('verify.submit') }} </el-button>
+        <el-button
+          :loading="isLoading"
+          :class="disableSubmit ? 'btn w-100 is-none-border btn-h-40 cursor backgroundDisable' : 'btn w-100 is-none-border btn-h-40 cursor'"
+          :disabled="disableSubmit"
+          style="height: 40px"
+          @click="handleSubmit"
+          >{{ $t('verify.submit') }}
+        </el-button>
         <div v-if="this.type2Fa !== 'verify-app'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
           {{ $t('verify.question') }} &nbsp;<span class="text-hyperlink text-semibold cursor" @click="handleResendCodeChangePhone"> {{ $t('verify.re-send') }} </span>
         </div>
@@ -97,7 +109,12 @@
             </el-form>
           </div>
         </div>
-        <el-button :loading="isLoading" class="btn w-100 is-none-border btn-h-40 cursor" style="height: 40px" @click="handleSubmitResetDefault"
+        <el-button
+          :loading="isLoading"
+          :class="disableSubmit ? 'btn w-100 is-none-border btn-h-40 cursor backgroundDisable' : 'btn w-100 is-none-border btn-h-40 cursor'"
+          :disabled="disableSubmit"
+          style="height: 40px"
+          @click="handleSubmitResetDefault"
           >{{ $t('verify.submit') }}
         </el-button>
         <div v-if="this.type2Fa !== 'verify-app'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
@@ -136,7 +153,14 @@
             </el-form>
           </div>
         </div>
-        <el-button :loading="isLoading" class="btn w-100 is-none-border btn-h-40 cursor" style="height: 40px" @click="handleSubmitLockUser">{{ $t('verify.submit') }} </el-button>
+        <el-button
+          :loading="isLoading"
+          :class="disableSubmit ? 'btn w-100 is-none-border btn-h-40 cursor backgroundDisable' : 'btn w-100 is-none-border btn-h-40 cursor'"
+          :disabled="disableSubmit"
+          style="height: 40px"
+          @click="handleSubmitLockUser"
+          >{{ $t('verify.submit') }}
+        </el-button>
         <div v-if="this.type2Fa !== 'verify-app'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
           {{ $t('verify.question') }} &nbsp;<span class="text-hyperlink text-semibold cursor" @click="handleResendCodeLockUser"> {{ $t('verify.re-send') }} </span>
         </div>
@@ -196,6 +220,7 @@
   import countryJson from '@/utils/country/index.json'
   import { AuthRepository } from '@/services/repositories/auth'
   import { trim, filter } from 'lodash'
+  import { Vue, Watch } from 'vue-property-decorator'
   const apiCustomer: CustomerRepository = getRepository('customer')
   const apiSetting: SettingRepository = getRepository('setting')
   const apiAuth: AuthRepository = getRepository('auth')
@@ -254,7 +279,14 @@
         }
       ]
     }
-
+    disabledContinue = true
+    disableSubmit = true
+    @Watch('form.phone') watchList(value: string): void {
+      this.disabledContinue = value.length > 0 ? false : true
+    }
+    @Watch('form.resendCode') watchSubmit(value: string): void {
+      this.disableSubmit = value.length > 0 ? false : true
+    }
     get getIcon(): string {
       const name = this.type2Fa
       if (name === 'verify-phone') {
@@ -298,9 +330,11 @@
       // this.resetForm()
     }
     async handleResendCodeChangePhone(): Promise<void> {
+      this.form.resendCode = ''
       this.handleSendCode()
     }
     async handleResendCodeResetDefault(): Promise<void> {
+      this.form.resendCode = ''
       this.handleSendCodeCustomer()
     }
     async handleResetDefault(): Promise<void> {
@@ -337,8 +371,8 @@
           this.sendEmailReset2FA()
         })
         .catch(() => {
-          let message: any = this.$t('customer.setting.send-code-fail')
-          this.$message.error(message)
+          // let message: any = this.$t('customer.setting.send-code-fail')
+          // this.$message.error(message)
         })
     }
     verifyCode(): void {
@@ -354,8 +388,8 @@
           this.sendEmailcustomer()
         })
         .catch(() => {
-          let message: any = this.$t('customer.setting.send-code-fail')
-          this.$message.error(message)
+          // let message: any = this.$t('customer.setting.send-code-fail')
+          // this.$message.error(message)
         })
     }
     sendEmailcustomer(): void {
@@ -444,8 +478,6 @@
           .updateUnlockUser(paramsUnlock)
           .then(() => {
             this.count = 2
-            let message: any = this.$t('customer.setting.unlock-user-success')
-            this.$message.success(message)
             this.setOpenPopup({
               popupName: 'popup-verify-lock',
               isOpen: false
@@ -453,15 +485,15 @@
             this.userStatus == 'ACTIVE'
             this.form.resendCode = ''
           })
-          .catch(() => {
-            let message: any = this.$t('customer.setting.unlock-user-fail')
-            this.$message.error(message)
+          .catch(err => {
+            console.log(err)
           })
       }
       this.count == 2 ? (this.userStatus = 'ACTIVE') : (this.userStatus = 'LOCKED')
       console.log('status', this.userStatus)
     }
     handleResendCodeLockUser(): void {
+      this.form.resendCode = ''
       apiCustomer
         .sendCodeLockUser(this.userId)
         .then(() => {
@@ -499,8 +531,6 @@
             popupName: 'popup-verify-lock',
             isOpen: true
           })
-          // let message: any = this.$t('customer.setting.send-code')
-          // this.$message.success(message)
           setTimeout(() => {
             let message: any = this.$t('customer.setting.send-code')
             this.$message.success(message)
@@ -626,13 +656,28 @@
     padding-bottom: 24px;
     margin-top: 24px;
   }
-  // .btn {
-  //   padding: 12px 0 !important;
-  //   font-size: 16px !important;
-  //   line-height: 24px !important;
-  // }
+  .btn:hover {
+    // background: var(--bc-btn-disable);
+    background-color: var(--bc-btn-bg-default);
+    border: none;
+    color: var(--bc-color-white);
+  }
+  .backgroundDisable:hover {
+    background: var(--bc-btn-disable);
+    border: none;
+    color: var(--bc-color-white);
+  }
+  .backgroundDisable {
+    background: var(--bc-btn-disable);
+    border: none;
+    color: var(--bc-color-white);
+  }
   .btn-continue {
     background-color: var(--bc-btn-bg-default);
+  }
+  .btn-continue:hover {
+    background-color: var(--bc-btn-bg-default);
+    color: var(--bc-color-white);
   }
   .title-form {
     color: #201f1e;
