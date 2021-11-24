@@ -191,7 +191,7 @@
                 console.log('listRoles', listRoles)
 
                 if ((listRoles.length == 1 && listRoles.includes('INVESTOR')) || listRoles.length == 0) {
-                  message = this.$t('notify.login-faild')
+                  message = this.$t('notify.invalid-username')
                   this.$message.error({ message, duration: 5000 })
                 } else {
                   this.$router.push({ name: 'Crowdsale' })
