@@ -247,7 +247,8 @@
     "no-data-kyc": "No data",
     "copy": "Copied",
     "invalid-code":"Invalid verification code",
-    "captcha-invalid":"Invalid captcha"
+    "captcha-invalid":"Invalid captcha",
+    "invalid-username":"Username or password is incorrect!"
   },
   "logout": {
     "title": "Sign out"

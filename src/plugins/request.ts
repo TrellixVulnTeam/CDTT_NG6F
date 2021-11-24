@@ -77,6 +77,9 @@ request.interceptors.response.use(
       if (data.status === 'BAD_REQUEST' && includes(config.url, 'user/settings/kyc-requests')) {
         return Promise.reject(error)
       }
+      if (data.message === 'Username or password is incorrect') {
+        message = i18n.tc('notify.invalid-username')
+      }
       if (data.status === 'INVALID_PASSWORD') {
         message = i18n.tc('notify.pass-invalid')
       }

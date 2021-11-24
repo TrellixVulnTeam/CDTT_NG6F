@@ -182,13 +182,22 @@
               this.$router.push({ name: nameRoute, query: { type: type.type, email: this.form.email, pass: encodePass, reason: 'REQUEST_LOGIN' } })
             }
 
+            // const roles = await apiAuth.getInfo()
+            // role INVESTOR show message - không vào màn home
             if (type.type === 'NONE') {
-              console.log('a')
+              this.login({ ...this.form, password: encodePass }).then(async () => {
+                const result = await apiAuth.getInfo()
+                const listRoles = result.roles
+                console.log('listRoles', listRoles)
 
-              this.login({ ...this.form, password: encodePass }).then(() => {
-                this.$router.push({ name: 'Crowdsale' })
-                message = this.$t('notify.login-success')
-                this.$message.success({ message, duration: 5000 })
+                if ((listRoles.length == 1 && listRoles.includes('INVESTOR')) || listRoles.length == 0) {
+                  message = this.$t('notify.login-faild')
+                  this.$message.error({ message, duration: 5000 })
+                } else {
+                  this.$router.push({ name: 'Crowdsale' })
+                  message = this.$t('notify.login-success')
+                  this.$message.success({ message, duration: 5000 })
+                }
               })
             }
 
