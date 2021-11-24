@@ -246,7 +246,8 @@
     "no-data": "There are no data",
     "no-data-kyc": "No data",
     "copy": "Copied",
-    "invalid-code":"Invalid verification code"
+    "invalid-code":"Invalid verification code",
+    "captcha-invalid":"Invalid captcha"
   },
   "logout": {
     "title": "Sign out"

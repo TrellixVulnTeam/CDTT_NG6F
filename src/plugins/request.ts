@@ -80,6 +80,9 @@ request.interceptors.response.use(
       if (data.status === 'INVALID_PASSWORD') {
         message = i18n.tc('notify.pass-invalid')
       }
+      if (data.status === 'INVALID_CAPTCHA') {
+        message = i18n.tc('notify.captcha-invalid')
+      }
       if (data.message === 'Email already register') {
         message = i18n.tc('notify.email-register')
       }

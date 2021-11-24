@@ -313,7 +313,8 @@
       "user-locked":"Đã khóa",
       "user-unverified":"Chưa xác thực",
       "send-reset-default":"Gửi email cho khách hàng thành công!",
-      "send-reset-default-fail":"Gửi email cho khách hàng thất bại!"
+      "send-reset-default-fail":"Gửi email cho khách hàng thất bại!",
+      "captcha-invalid":"Hình ảnh xác thực không hợp lệ!"
     }
   },
   "transaction": {
