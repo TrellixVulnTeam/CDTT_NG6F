@@ -77,8 +77,14 @@ request.interceptors.response.use(
       if (data.status === 'BAD_REQUEST' && includes(config.url, 'user/settings/kyc-requests')) {
         return Promise.reject(error)
       }
+      if (data.message === 'Username or password is incorrect') {
+        message = i18n.tc('notify.invalid-username')
+      }
       if (data.status === 'INVALID_PASSWORD') {
         message = i18n.tc('notify.pass-invalid')
+      }
+      if (data.status === 'INVALID_CAPTCHA') {
+        message = i18n.tc('notify.captcha-invalid')
       }
       if (data.message === 'Email already register') {
         message = i18n.tc('notify.email-register')
