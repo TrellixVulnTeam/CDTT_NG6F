@@ -196,7 +196,9 @@
     "no-select-reject": "Tối thiểu 1 lý do từ chối",
     "no-data": "Không có dữ liệu",
     "no-data-kyc": "Không có dữ liệu",
-    "copy": "Sao chép thành công"
+    "copy": "Sao chép thành công",
+    "captcha-invalid":"Captcha không hợp lệ!",
+      "invalid-username":"Tên đăng nhập và mật khẩu không chính xác!"
   },
   "logout": {
     "title": "Đăng xuất"
@@ -313,9 +315,8 @@
       "user-locked":"Đã khóa",
       "user-unverified":"Chưa xác thực",
       "send-reset-default":"Gửi email cho khách hàng thành công!",
-      "send-reset-default-fail":"Gửi email cho khách hàng thất bại!",
-      "captcha-invalid":"Captcha không hợp lệ!",
-      "invalid-username":"Tên đăng nhập và mật khẩu không chính xác!"
+      "send-reset-default-fail":"Gửi email cho khách hàng thất bại!"
+      
     }
   },
   "transaction": {
