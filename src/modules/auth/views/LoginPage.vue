@@ -43,7 +43,7 @@
   import VerifyPage from './Verify.vue'
   import getRepository from '@/services'
   import { AuthRepository } from '@/services/repositories/auth'
-  import { Component, Vue } from 'vue-property-decorator'
+  import { Component, Vue, Watch } from 'vue-property-decorator'
   import { namespace } from 'vuex-class'
 
   const bcAuth = namespace('beAuth')
@@ -100,12 +100,16 @@
         }
       ]
     }
+    checkCaptcha = false
+    @Watch('isVerifyCaptcha') watchCaptcha(value: boolean): void {
+      this.checkCaptcha = value
+    }
     created(): void {
       this.language = window.localStorage.getItem('bc-lang')!
     }
 
     get getDisableBtn(): boolean {
-      return !(this.form.email && this.form.password && this.isVerifyCaptcha)
+      return !(this.form.email && this.form.password && this.checkCaptcha)
     }
 
     verifyCaptcha(captcha: string): void {
