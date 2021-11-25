@@ -18,7 +18,7 @@
     }
   },
   "verify": {
-    "title-phone": "Enter the 6-digit code we texted to your phone number",
+    "title-phone": "Enter the 6-digit code we texted to your",
     "title-email": "Enter the 6-digit code we sent to your email",
     "title-app": "Enter the 6-digit code from your authenticator app",
     "label": "Enter 2-step authentication code:",
@@ -347,7 +347,7 @@
     },
     "setting":{
       "new-phone":"New phone number",
-      "verify":"Verify",
+      "verify":"VERIFICATION",
       "phone":"Phone number",
       "2factor":"2-factor Authentication",
       "status":"Active status",
@@ -369,6 +369,15 @@
       "user-active":"Active",
       "user-locked":"Locked",
       "user-unverified":"Unverified"
+    },
+    "authen":{
+      "phone":"Phone",
+      "app":"Authenticator app",
+      "email":"Email"
+    },
+    "phoneveri":{
+      "verified":"Verified",
+      "not-verified":"Not verified"
     }
   },
   "transaction": {
