@@ -208,7 +208,7 @@
         <div class="be-flex">
           <div class="phone">
             <span class="style-phone" style="position: relative; top: 7px" v-if="this.userStatus == 'Active'"
-              ><base-icon style="vertical-align: 0.25em; margin-right: 8px" icon="icon-status" size="8" />{{ $t('customer.setting.user-active') }}</span
+              ><base-icon style="vertical-align: 0.25em; " icon="icon-status" size="8" />{{ $t('customer.setting.user-active') }}</span
             >
             <span class="style-phone" style="position: relative; top: 7px" v-else-if="this.userStatus == 'Unverified'"
               ><base-icon style="vertical-align: 0.25em; margin-right: 8px; color: red" icon="icon-status-red" size="8" />{{ $t('customer.setting.user-unverified') }}</span
