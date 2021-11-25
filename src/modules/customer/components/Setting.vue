@@ -86,7 +86,7 @@
         <span>{{ $t('customer.setting.verify') }}</span>
       </div>
       <div class="bc-verify">
-        <h3 class="text-3xl text-center text-semibold title-form" style="justify-content: center">{{ $t('verify.title-phone') }}</h3>
+        <h3 class="text-3xl text-center text-semibold title-form" style="justify-content: center">{{ $t('verify.title-phone') }} {{ typeVerified }}</h3>
         <div class="be-flex verify-code">
           <base-icon :icon="getIcon" size="80" />
           <div class="ml-1 w-100 input-code">
@@ -130,7 +130,7 @@
         <span>{{ $t('customer.setting.verify') }}</span>
       </div>
       <div class="bc-verify">
-        <h3 class="text-3xl text-center text-semibold title-form" style="justify-content: center">{{ $t('verify.title-phone') }}</h3>
+        <h3 class="text-3xl text-center text-semibold title-form" style="justify-content: center">{{ $t('verify.title-phone') }} {{ typeVerified }}</h3>
         <div class="be-flex verify-code">
           <base-icon :icon="getIcon" size="80" />
           <div class="ml-1 w-100 input-code">
@@ -366,7 +366,7 @@
     }
     async handleResendCodeResetDefault(): Promise<void> {
       this.form.resendCode = ''
-      this.handleSendCodeCustomer()
+      await this.handleSendCode()
     }
     async handleResetDefault(): Promise<void> {
       await this.handleSendCode()
