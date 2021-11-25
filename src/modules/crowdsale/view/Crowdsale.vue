@@ -86,10 +86,11 @@
   import { MODULE_WITH_ROUTENAME } from '@/configs/role'
 
   const bcAuth = namespace('beAuth')
-
+  const beBase = namespace('beBase')
   @Component
   export default class BOCrowdsale extends Vue {
     @bcAuth.Getter('listModuleCanView') listModuleCanView!: Array<Record<string, any>>
+    @beBase.State('coinMain') coinMain!: string
 
     tabs: Array<Record<string, any>> = [
       {
@@ -269,9 +270,8 @@
     handleChangeTab(tab: Record<string, any>): void {
       this.$router.push({ name: tab.routeName })
     }
-    getColor(): void {
-      let color: any = '#31b6b5'
-      return color
+    getColor(): string {
+      return this.coinMain === 'LYNK' ? '#0151fc' : '#31b6b5'
     }
   }
 </script>
