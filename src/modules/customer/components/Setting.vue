@@ -18,16 +18,16 @@
             <div class="be-flex label" slot="label">{{ $t('label.phone-number') }}</div>
 
             <el-input type="number" :placeholder="$t('placeholder.phone-number')" v-model="form.phone">
-              <!-- <template style="cursor: pointer" slot="prepend"
+              <template style="cursor: pointer" slot="prepend"
                 ><span style="color: #5b616e">{{ phoneDefault }}</span></template
-              > -->
+              >
             </el-input>
           </el-form-item>
         </el-form>
         <div class="footer" slot="footer">
           <div class="be-flex jc-space-between wrap-button" style="padding-bottom: 12px; float: right">
             <div class="btn-right">
-              <el-button class="btn-default btn-close btn-h-40" @click="handleClose">{{ $t('button.close') }}</el-button>
+              <el-button class="btn-default btn-close btn-h-40" @click="handleClose">{{ $t('button.cancel') }}</el-button>
               <el-button
                 :class="disabledContinue ? 'btn btn-h-40 is-none-border backgroundDisable' : 'btn btn-continue btn-h-40 is-none-border'"
                 :disabled="disabledContinue"
@@ -46,18 +46,15 @@
         <span>{{ $t('customer.setting.verify') }}</span>
       </div>
       <div class="bc-verify">
-        <h3 class="text-3xl text-center text-semibold title-form" style="justify-content: center">{{ $t('verify.title-phone') }}</h3>
-        <div class="be-flex verify-code">
+        <h3 class="text-3xl text-center text-semibold title-form" style="justify-content: center">{{ $t('verify.title-phone') }} {{ typeVerified }}</h3>
+        <div class="be-flex verify-code" style="margin-right: 8px">
           <base-icon :icon="getIcon" size="80" />
           <div class="ml-1 w-100 input-code">
             <el-form>
-              <!-- <el-form-item prop="code" :label="`${$t('verify.label')}`" class="no-require-label">
-                <el-input type="text" v-model.trim="twoFaCode" maxlength="6" :placeholder="`${$t('verify.placeholder')}`" />
-              </el-form-item> -->
               <el-form-item prop="phone">
-                <div class="be-flex label" slot="label">{{ $t('label.enter-verify-code') }}</div>
+                <div class="be-flex label text-semibold" slot="label" style="color: #5b616e">{{ $t('label.enter-verify-code') }}</div>
 
-                <el-input type="number" :placeholder="$t('label.verify-code')" v-model="form.resendCode">
+                <el-input type="text" maxlength="6" :placeholder="$t('label.verify-code')" v-model.trim="form.resendCode">
                   <!-- <template style="cursor: pointer" slot="prepend"
                     ><span style="color: #5b616e">{{ phoneDefault }}</span></template
                   > -->
@@ -100,7 +97,7 @@
               <el-form-item prop="phone">
                 <div class="be-flex label" slot="label">{{ $t('label.enter-verify-code') }}</div>
 
-                <el-input type="number" :placeholder="$t('label.verify-code')" v-model="form.resendCode">
+                <el-input type="number" maxlength="6" :placeholder="$t('label.verify-code')" v-model="form.resendCode">
                   <!-- <template style="cursor: pointer" slot="prepend"
                     ><span style="color: #5b616e">{{ phoneDefault }}</span></template
                   > -->
@@ -144,7 +141,7 @@
               <el-form-item prop="phone">
                 <div class="be-flex label" slot="label">{{ $t('label.enter-verify-code') }}</div>
 
-                <el-input type="number" :placeholder="$t('label.verify-code')" v-model="form.resendCode">
+                <el-input type="number" maxlength="6" :placeholder="$t('label.verify-code')" v-model="form.resendCode">
                   <!-- <template style="cursor: pointer" slot="prepend"
                     ><span style="color: #5b616e">{{ phoneDefault }}</span></template
                   > -->
@@ -172,14 +169,15 @@
 
     <div class="table" style="padding-bottom: 24px" v-loading="isLoading" :class="isLoading ? 'list-loading' : null">
       <div class="be-flex jc-space-between align-center">
-        <div class="text1">{{ $t('customer.setting.phone') }}</div>
+        <div class="text1" style="transform: translateY(-9px)">{{ $t('customer.setting.phone') }}</div>
         <div class="be-flex">
           <div class="phone">
-            <span class="style-phone">{{ phoneNumber }}</span> <span style="color: blue; margin-left: 8px; font-size: 14px; line-height: 20px; color: #129961">verified</span>
+            <span class="style-phone">{{ phoneNumber }}</span>
+            <span v-if="this.dataDetail.phoneVerified == '0'" style="color: blue; margin-left: 4px; font-size: 14px; line-height: 20px; color: #5b616e">{{ phoneVerified }}</span>
+            <span v-else style="color: blue; margin-left: 4px; font-size: 14px; line-height: 20px; color: #129961">{{ phoneVerified }}</span>
           </div>
-          <!-- <div class="status">verified</div> -->
-          <div style="width: 250px">
-            <div class="button" style="float: right" v-if="this.userStatus !== 'Unverified'">
+          <div style="width: 170px">
+            <div class="button" style="float: right; transform: translateY(-9px)" v-if="this.userStatus !== 'Unverified'">
               <el-button type="button" class="style-button" style="width: 130px" @click="clickChangePhoneNumber">{{ $t('customer.setting.change') }}</el-button>
             </div>
           </div>
@@ -192,11 +190,13 @@
 
         <div class="be-flex">
           <div class="phone">
-            <div class="phone"><base-icon icon="icon-phone" size="40" /><span class="style-phone" style="position: relative; top: -7px">Authenticator app</span></div>
+            <div class="phone">
+              <base-icon :icon="getIcon" size="40" /><span class="style-phone" style="position: relative; top: -7px; left: -2px">{{ authenType }}</span>
+            </div>
           </div>
           <!-- <div class="status">verified</div> -->
-          <div style="width: 250px">
-            <div class="button" style="float: right" v-if="this.dataDetail.faType !== 'EMAIL' || this.userStatus !== 'Unverified'">
+          <div style="width: 170px">
+            <div class="button" style="float: right" v-if="this.dataDetail.faType !== 'EMAIL' && this.userStatus !== 'Unverified'">
               <el-button type="button" class="style-button" style="width: 130px" @click="handleResetDefault">{{ $t('customer.setting.reset') }}</el-button>
             </div>
           </div>
@@ -218,7 +218,7 @@
             >
           </div>
           <!-- <div class="status">verified</div> -->
-          <div style="width: 250px">
+          <div style="width: 170px">
             <div class="button" style="float: right" v-if="this.userStatus !== 'Unverified'">
               <el-button v-if="userStatus == 'Active'" type="button" class="style-button" style="width: 130px" @click="handleLockUser">{{ $t('customer.setting.lock') }}</el-button>
               <el-button v-else type="button" class="style-button" style="width: 130px" @click="handleUnlockUser">{{ $t('customer.setting.unlock') }}</el-button>
@@ -265,6 +265,7 @@
     selectLanguage = ''
     phoneDefault = '+84'
     type2Fa = ''
+    typeVerified = ''
     userStatus = ''
     form: Record<string, any> = {
       country: '',
@@ -310,10 +311,12 @@
     }
     get getIcon(): string {
       const name = this.type2Fa
-      if (name === 'verify-phone') {
+      console.log('type', this.type2Fa)
+
+      if (name == 'PHONE') {
         return 'verify-phone'
       }
-      if (name === 'verify-email') {
+      if (name === 'EMAIL') {
         return 'verify-email'
       }
       return 'verify-app'
@@ -345,9 +348,16 @@
       ;(this.form.phone = ''), (this.form.code = ''), (this.form.resendCode = '')
     }
     handleOpen(): void {
+      this.form.phone = ''
       // this.resetForm()
     }
     handleOpenVerify(): void {
+      // this.resetForm()
+    }
+    handleOpenLock(): void {
+      // this.resetForm()
+    }
+    handleCloseLock(): void {
       // this.resetForm()
     }
     async handleResendCodeChangePhone(): Promise<void> {
@@ -454,10 +464,10 @@
         .then(() => {
           let message: any = this.$t('customer.setting.send-code')
           this.$message.success(message)
-          this.setOpenPopup({
-            popupName: 'popup-change-phone',
-            isOpen: false
-          })
+          // this.setOpenPopup({
+          //   popupName: 'popup-change-phone',
+          //   isOpen: false
+          // })
           // this.form.phone = ''
         })
         .catch(() => {
@@ -579,11 +589,12 @@
       }
     }
     phoneNumber = ''
+    authenType = ''
+    phoneVerified = ''
     created(): void {
       console.log('detail', this.dataDetail)
       this.phoneNumber = '(' + this.dataDetail.countryCode + ') ' + this.dataDetail.phone
       console.log('phone', this.phoneNumber)
-
       // this.userStatus ? this.dataDetail.userStatus =='ACTIVE' :
       if (this.dataDetail.userStatus == 'ACTIVE') {
         this.userStatus = 'Active'
@@ -591,6 +602,24 @@
         this.userStatus = 'Unverified'
       } else {
         this.userStatus = 'Locked'
+      }
+      if (this.dataDetail.phoneVerified == '0') {
+        let message: any = this.$t('customer.phoneveri.not-verified')
+        this.phoneVerified = message
+      } else {
+        let message: any = this.$t('customer.phoneveri.verified')
+        this.phoneVerified = message
+      }
+
+      if (this.dataDetail.faType == 'EMAIL') {
+        let message: any = this.$t('customer.authen.email')
+        this.authenType = message
+      } else if (this.dataDetail.faType == 'APP') {
+        let message: any = this.$t('customer.authen.app')
+        this.authenType = message
+      } else {
+        let message: any = this.$t('customer.authen.phone')
+        this.authenType = message
       }
 
       this.language = window.localStorage.getItem('bc-lang')!
@@ -605,7 +634,8 @@
       }
       await apiAuth.get2FA(params).then((res: any) => {
         this.type2Fa = res
-        console.log('res', res)
+        this.typeVerified = this.type2Fa.toLowerCase()
+        console.log('res', this.typeVerified)
       })
     }
     handleSelectCountry(country: string): void {
@@ -674,6 +704,17 @@
 </script>
 
 <style scoped lang="scss">
+  .input.el-input__inner {
+    color: var(--bc-text-discript);
+  }
+  ::v-deep .svg-icon {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+    margin-right: 8px;
+  }
   .jc-space-center {
     justify-content: center;
     padding-bottom: 24px;
@@ -705,6 +746,7 @@
   .title-form {
     color: #201f1e;
     margin-bottom: 3px;
+    word-break: break-word;
   }
   .input-code {
     margin-top: 17px;

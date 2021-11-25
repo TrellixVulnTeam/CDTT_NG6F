@@ -317,6 +317,15 @@
       "send-reset-default":"Gửi email cho khách hàng thành công!",
       "send-reset-default-fail":"Gửi email cho khách hàng thất bại!"
       
+    },
+    "authen":{
+      "phone":"Xác thực SMS",
+      "app":"Xác thực ứng dụng",
+      "email":"Xác thực email"
+    },
+    "phoneveri":{
+      "verified":"Đã xác minh",
+      "not-verified":"Chưa xác minh"
     }
   },
   "transaction": {
