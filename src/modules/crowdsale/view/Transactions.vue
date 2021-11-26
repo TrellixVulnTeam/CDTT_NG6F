@@ -69,7 +69,7 @@
             <span>{{ scope.row.roundName }}</span> - $<span>{{ scope.row.price | convertAmountDecimal('USD') }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="this.$t('crowdsale.paid')" prop="paid" align="right" width="170">
+        <el-table-column :label="this.$t('crowdsale.paid')" prop="paid" align="right" min-width="160">
           <template slot-scope="scope">
             <div class="box-paid">
               <p class="text-paid fw-400 fs-16">- {{ scope.row.paidAmountDisplay | convertAmountDecimal(scope.row.paidCurrency) }} {{ scope.row.paidCurrency }}</p>
@@ -77,7 +77,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column :label="this.$t('crowdsale.amount')" prop="tokenAmount" align="right" width="160">
+        <el-table-column :label="this.$t('crowdsale.amount')" prop="tokenAmount" align="right" min-width="160">
           <template slot-scope="scope">
             <div class="box-paid">
               <p class="text-amount fw-400 fs-16">+ {{ scope.row.tokenAmountDisplay | convertAmountDecimal(scope.row.tokenCurrency) }} {{ scope.row.tokenCurrency }}</p>
