@@ -639,6 +639,12 @@
       "widthdraw":"Withdraw",
       "deposit":"Deposit",
       "crowdsale":"Crowdsale"
+    },
+    "warning":{
+      "notmatched":"Current Balance and Ending Balance are not matched.",
+      "exceeded1":"Current Balance and Ending Balance are not matched.",
+      "exceeded2":" The request has exceeded the allowable limit.",
+      "allow":"The request has exceeded the allowable limit."
     }
     
   }

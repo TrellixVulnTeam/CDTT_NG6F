@@ -213,12 +213,13 @@
       // this.query.limit = value
       this.getDataTable()
     }
+  
     async getDataTable(): Promise<void> {
       if (this.data.userId) {
         await api
           .getTableStatement(this.data.currency, this.data.userId, this.query.page, this.query.limit)
           .then((res: any) => {
-            console.log('res', res)
+
             this.loading = false
             this.responseList = res.transactions.content
             this.summary = res.summary

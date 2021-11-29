@@ -556,6 +556,12 @@
       "widthdraw":"Rút",
       "deposit":"Nạp",
       "crowdsale":"Crowdsale"
+    },
+    "warning":{
+      "notmatched":"Số dư Hiện tại và Số dư Cuối kỳ không khớp với nhau.",
+      "exceeded1":"Số dư Hiện tại và Số dư Cuối kỳ không khớp với nhau.",
+      "exceeded2":"Yêu cầu đã vượt quá giới hạn cho phép.",
+      "allow":"Yêu cầu đã vượt quá giới hạn cho phép."
     }
   },
   "balance":{
