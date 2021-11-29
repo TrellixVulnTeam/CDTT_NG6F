@@ -190,13 +190,22 @@
             this.summaryAccount = res.summary
             console.log('summaryAccount.balance', this.summaryAccount.balance)
             console.log('summaryAccount.closeBalance', this.summaryAccount.closeBalance)
-            console.log('data.amount', this.data.amount)
+            console.log('value', this.data.amount + this.data.transactionFee)
             console.log('summaryAccount.limitAmount', this.summaryAccount.limitAmount)
-            if (this.summaryAccount.balance !== this.summaryAccount.closeBalance && parseFloat(this.data.amount) < parseFloat(this.summaryAccount.limitAmount)) {
+            if (
+              this.summaryAccount.balance !== this.summaryAccount.closeBalance &&
+              parseFloat(this.data.amount + this.data.transactionFee) < parseFloat(this.summaryAccount.limitAmount)
+            ) {
               this.checkWarning = 'NOTMATCHED'
-            } else if (this.summaryAccount.balance !== this.summaryAccount.closeBalance && parseFloat(this.data.amount) > parseFloat(this.summaryAccount.limitAmount)) {
+            } else if (
+              this.summaryAccount.balance !== this.summaryAccount.closeBalance &&
+              parseFloat(this.data.amount + this.data.transactionFee) > parseFloat(this.summaryAccount.limitAmount)
+            ) {
               this.checkWarning = 'EXCEEDED'
-            } else if (this.summaryAccount.balance == this.summaryAccount.closeBalance && parseFloat(this.data.amount) > parseFloat(this.summaryAccount.limitAmount)) {
+            } else if (
+              this.summaryAccount.balance == this.summaryAccount.closeBalance &&
+              parseFloat(this.data.amount + this.data.transactionFee) > parseFloat(this.summaryAccount.limitAmount)
+            ) {
               this.checkWarning = 'ALLOWABLE'
             }
           })
