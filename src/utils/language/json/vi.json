@@ -198,7 +198,7 @@
     "no-data-kyc": "Không có dữ liệu",
     "copy": "Sao chép thành công",
     "captcha-invalid":"Captcha không hợp lệ!",
-      "invalid-username":"Tên đăng nhập và mật khẩu không chính xác!"
+    "invalid-username":"Tên đăng nhập hoặc mật khẩu không chính xác!"
   },
   "logout": {
     "title": "Đăng xuất"
@@ -544,6 +544,18 @@
         "btn2": "Gửi",
         "wrong-reason": "Vui lòng nhập lý do"
       }
+    },
+    "transactiontype":{
+      "sign-up":"Thưởng đăng ký",
+      "crowd-sale":"Thưởng crowdsale",
+      "first-trans":"Thưởng giao dịch đầu",
+      "affiliate":"Thưởng giới thiệu",
+      "bigbacker":"Thưởng nhà đầu tư lớn",
+      "earlybacker":"Thưởng nhà đầu tư sớm",
+      "tranfer":"Chuyển",
+      "widthdraw":"Rút",
+      "deposit":"Nạp",
+      "crowdsale":"Crowdsale"
     }
   },
   "balance":{
