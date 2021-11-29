@@ -611,17 +611,6 @@
         this.phoneVerified = message
       }
 
-      if (this.dataDetail.faType == 'EMAIL') {
-        let message: any = this.$t('customer.authen.email')
-        this.authenType = message
-      } else if (this.dataDetail.faType == 'APP') {
-        let message: any = this.$t('customer.authen.app')
-        this.authenType = message
-      } else {
-        let message: any = this.$t('customer.authen.phone')
-        this.authenType = message
-      }
-
       this.language = window.localStorage.getItem('bc-lang')!
       this.selectLanguage = this.language
       const currentCountry = filter(this.listCountry, country => country.isoCode === 'VN')[0]
@@ -635,7 +624,16 @@
       await apiAuth.get2FA(params).then((res: any) => {
         this.type2Fa = res
         this.typeVerified = this.type2Fa.toLowerCase()
-        console.log('res', this.typeVerified)
+        if (this.type2Fa == 'EMAIL') {
+          let message: any = this.$t('customer.authen.email')
+          this.authenType = message
+        } else if (this.type2Fa == 'APP') {
+          let message: any = this.$t('customer.authen.app')
+          this.authenType = message
+        } else {
+          let message: any = this.$t('customer.authen.phone')
+          this.authenType = message
+        }
       })
     }
     handleSelectCountry(country: string): void {
