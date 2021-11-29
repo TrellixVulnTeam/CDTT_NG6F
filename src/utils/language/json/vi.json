@@ -548,10 +548,14 @@
     "transactiontype":{
       "sign-up":"Thưởng đăng ký",
       "crowd-sale":"Thưởng crowdsale",
-      "first-trans":"Thưởng giao dịch đầu tiên",
+      "first-trans":"Thưởng giao dịch đầu",
       "affiliate":"Thưởng giới thiệu",
       "bigbacker":"Thưởng nhà đầu tư lớn",
-      "earlybacker":"Thưởng nhà đầu tư sớm"
+      "earlybacker":"Thưởng nhà đầu tư sớm",
+      "tranfer":"Chuyển",
+      "widthdraw":"Rút",
+      "deposit":"Nạp",
+      "crowdsale":"Crowdsale"
     }
   },
   "balance":{

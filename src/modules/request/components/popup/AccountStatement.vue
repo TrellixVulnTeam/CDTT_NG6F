@@ -58,7 +58,7 @@
         @sizeChange="handleSizeChange"
         @currentChange="handleCurrentChange"
       >
-        <el-table-column :label="$t('request.popup.account.label1')" prop="transactionType" align="left" width="200">
+        <el-table-column :label="$t('request.popup.account.label1')" prop="transactionType" align="left" min-width="200">
           <template slot-scope="scope">
             <div class="box-type" style="margin-left: 6px">
               <p v-if="scope.row.transactionType == 'BONUS_SIGN_UP'" class="fw-400 fs-16" style="color: #0a0b0d">
@@ -79,7 +79,18 @@
               <p v-else-if="scope.row.transactionType == 'BONUS_EARLY_BACKER'" class="fw-400 fs-16" style="color: #0a0b0d">
                 {{ $t('request.transactiontype.earlybacker') }}
               </p>
-              <p v-else class="fw-400 fs-16" style="color: #0a0b0d">{{ scope.row.transactionType.toLowerCase() }}</p>
+              <p v-else-if="scope.row.transactionType == 'TRANSFER'" class="fw-400 fs-16" style="color: #0a0b0d">
+                {{ $t('request.transactiontype.tranfer') }}
+              </p>
+              <p v-else-if="scope.row.transactionType == 'WITHDRAW'" class="fw-400 fs-16" style="color: #0a0b0d">
+                {{ $t('request.transactiontype.widthdraw') }}
+              </p>
+              <p v-else-if="scope.row.transactionType == 'DEPOSIT'" class="fw-400 fs-16" style="color: #0a0b0d">
+                {{ $t('request.transactiontype.deposit') }}
+              </p>
+              <p v-else-if="scope.row.transactionType == 'CROWDSALE'" class="fw-400 fs-16" style="color: #0a0b0d">
+                {{ $t('request.transactiontype.crowdsale') }}
+              </p>
 
               <p class="fw-400 fs-14 text-color">{{ scope.row.transactionDate | formatMMDDYY }}</p>
             </div>
@@ -228,6 +239,9 @@
 </script>
 
 <style scoped lang="scss">
+  ::v-deep .el-dialog {
+    width: 1100px !important;
+  }
   .content-account {
     .text-color {
       color: #5b616e;

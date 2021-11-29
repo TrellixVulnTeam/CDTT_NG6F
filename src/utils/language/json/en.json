@@ -634,7 +634,11 @@
       "first-trans":"Bonus first transaction",
       "affiliate":"Bonus affiliate",
       "bigbacker":"Bonus big backer",
-      "earlybacker":"Bonus early backer"
+      "earlybacker":"Bonus early backer",
+      "tranfer":"Transfer",
+      "widthdraw":"Withdraw",
+      "deposit":"Deposit",
+      "crowdsale":"Crowdsale"
     }
     
   }
