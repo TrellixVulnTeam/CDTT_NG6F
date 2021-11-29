@@ -10,7 +10,7 @@
           </div>
         </div>
         <div>
-          <p class="fw-600 fs-24" style="line-height: 32px" :class="getClassUnit">{{ summary.balance | formatNumber }} {{ data.currency }}</p>
+          <p class="fw-600 fs-24" style="line-height: 32px" :class="getClassUnit">{{ summary.balance | numberWithCommas }} {{ data.currency }}</p>
           <p class="fw-400 fs-14 dolar">~${{ summary.balanceToUsd | convertAmountDecimal('USD') }}</p>
         </div>
       </div>
@@ -23,7 +23,7 @@
           </div>
         </div>
         <div>
-          <p class="fw-600 fs-24" style="line-height: 32px" :class="getClassUnit">{{ summary.availableBalance | formatNumber }} {{ data.currency }}</p>
+          <p class="fw-600 fs-24" style="line-height: 32px" :class="getClassUnit">{{ summary.availableBalance | numberWithCommas }} {{ data.currency }}</p>
           <p class="fw-400 fs-14 dolar">~${{ summary.availableBalanceToUsd | convertAmountDecimal('USD') }}</p>
         </div>
       </div>
@@ -36,7 +36,7 @@
           </div>
         </div>
         <div>
-          <p class="fw-600 fs-24" style="line-height: 32px">{{ summary.totalLockedAmount | formatNumber }} {{ data.currency }}</p>
+          <p class="fw-600 fs-24" style="line-height: 32px">{{ summary.totalLockedAmount | numberWithCommas }} {{ data.currency }}</p>
           <p class="fw-400 fs-14 dolar">~${{ summary.totalLockedAmountToUsd | convertAmountDecimal('USD') }}</p>
         </div>
       </div>
@@ -128,12 +128,12 @@
     </div>
     <div class="total align-center be-flex row">
       <div class="title fw-600 fs-16">{{ $t('request.popup.account.title2') }}</div>
-      <div class="title2 fw-600 fs-16">{{ summary.totalCreditAmount | formatNumber }} {{ data.currency }}</div>
-      <div class="title3 fw-600 fs-16">{{ summary.totalDebitAmount | formatNumber }} {{ data.currency }}</div>
+      <div class="title2 fw-600 fs-16">+{{ summary.totalCreditAmount | numberWithCommas }} {{ data.currency }}</div>
+      <div class="title3 fw-600 fs-16">-{{ summary.totalDebitAmount | numberWithCommas }} {{ data.currency }}</div>
     </div>
     <div class="close align-center be-flex row">
       <div class="title fw-600 fs-16">{{ $t('request.popup.account.title3') }}</div>
-      <div class="title2 fw-600 fs-16">{{ summary.closeBalance | formatNumber }} {{ data.currency }}</div>
+      <div class="title2 fw-600 fs-16">{{ summary.closeBalance | numberWithCommas }} {{ data.currency }}</div>
     </div>
   </div>
 </template>

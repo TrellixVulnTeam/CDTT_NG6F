@@ -46,8 +46,8 @@
           <div class="status" :class="data.status != 'PENDING' ? 'rejected' : null" style="text-transform: capitalize">{{ data.status.toLowerCase() }}</div>
         </div>
       </div>
-      <div class="line"></div>
-      <div class="mini-box be-flex align-center jc-space-between">
+      <div v-if="this.data.rejectedReason" class="line"></div>
+      <div v-if="this.data.rejectedReason" class="mini-box be-flex align-center jc-space-between">
         <div class="left">{{ $t('request.popup.transaction.label12') }}</div>
         <div class="right">
           {{ data.rejectedReason }}
