@@ -98,16 +98,21 @@
         </el-table-column>
         <el-table-column :label="$t('request.popup.account.label2')" width="200" prop="transactionType" align="right">
           <template slot-scope="scope">
-            <div>
-              <p class="fw-400 fs-16" style="color: #129961">+ {{ scope.row.creditAmountDisplay }}</p>
+            <div v-if="parseFloat(scope.row.creditAmountDisplay) != 0">
+              <p class="fw-400 fs-16" style="color: #129961">+{{ scope.row.creditAmountDisplay }}</p>
             </div>
+            <div v-else></div>
           </template>
         </el-table-column>
         <el-table-column :label="$t('request.popup.account.label3')" width="200" prop="transactionType" align="right">
           <template slot-scope="scope">
-            <div>
+            <!-- <div>
+              <p class="fw-400 fs-16" style="color: #cf202f">{{ scope.row.debitAmountDisplay }}</p>
+            </div> -->
+             <div v-if="parseFloat(scope.row.debitAmountDisplay) != 0">
               <p class="fw-400 fs-16" style="color: #cf202f">{{ scope.row.debitAmountDisplay }}</p>
             </div>
+            <div v-else></div>
           </template>
         </el-table-column>
         <el-table-column :label="$t('request.popup.account.label4')" width="200" prop="transactionType" align="right">
@@ -119,7 +124,16 @@
         </el-table-column>
         <el-table-column :label="$t('request.popup.account.label5')" width="144" prop="status" align="center">
           <template slot-scope="scope">
-            <div class="box-status" :class="scope.row.status == 'PENDING' ? 'pending' : null">
+            <div v-if="scope.row.status == 'PENDING'" class="box-status pending">
+              <p style="text-transform: capitalize">{{ scope.row.status.toLowerCase() }}</p>
+            </div>
+            <div v-else-if="scope.row.status == 'FAILED'" class="box-status failed">
+              <p style="text-transform: capitalize">{{ scope.row.status.toLowerCase() }}</p>
+            </div>
+            <div v-else-if="scope.row.status == 'SUCCESS'" class="box-status success">
+              <p style="text-transform: capitalize">{{ scope.row.status.toLowerCase() }}</p>
+            </div>
+            <div v-else-if="scope.row.status == 'PROCESSING'" class="box-status processing">
               <p style="text-transform: capitalize">{{ scope.row.status.toLowerCase() }}</p>
             </div>
           </template>
@@ -213,13 +227,12 @@
       // this.query.limit = value
       this.getDataTable()
     }
-  
+
     async getDataTable(): Promise<void> {
       if (this.data.userId) {
         await api
           .getTableStatement(this.data.currency, this.data.userId, this.query.page, this.query.limit)
           .then((res: any) => {
-
             this.loading = false
             this.responseList = res.transactions.content
             this.summary = res.summary
@@ -340,6 +353,18 @@
         margin: 0 auto;
       }
       .pending {
+        background: #fff3e2;
+        color: #dd7d00;
+      }
+      .failed {
+        background: #fbedee;
+        color: #cf202f;
+      }
+      .success {
+        background: #e4f9e2;
+        color: #129961;
+      }
+      .processing {
         background: #fff3e2;
         color: #dd7d00;
       }

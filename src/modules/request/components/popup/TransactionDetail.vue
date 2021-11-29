@@ -162,6 +162,7 @@
         color: #cf202f;
       }
       .right {
+        font-size: 16px;
         .fee {
           color: #cf202f;
           font-weight: 400;
