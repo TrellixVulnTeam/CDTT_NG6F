@@ -4,6 +4,56 @@
       <span>{{ $t('request.popup.titlePopup') }}</span>
     </div>
     <div class="content">
+      <div class="box1 be-flex" v-if="this.checkWarning == 'NOTMATCHED'">
+        <div class="box-left">
+          <base-icon icon="iconWarning" size="20"></base-icon>
+        </div>
+        <div class="box-right">
+          <div class="big-title fw-600 fs-18">{{ $t('request.popup.bigTitle1') }}</div>
+
+          <div>
+            <div class="discript be-flex align-center" style="margin-bottom: 8px">
+              <div class="dot"></div>
+              <div class="comment fw-400 fs-16">{{ $t('request.warning.notmatched') }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="box1 be-flex" v-else-if="this.checkWarning == 'EXCEEDED'">
+        <div class="box-left">
+          <base-icon icon="iconWarning" size="20"></base-icon>
+        </div>
+        <div class="box-right">
+          <div class="big-title fw-600 fs-18">{{ $t('request.popup.bigTitle1') }}</div>
+
+          <div>
+            <div class="discript be-flex align-center" style="margin-bottom: 8px">
+              <div class="dot"></div>
+              <div class="comment fw-400 fs-16">{{ $t('request.warning.exceeded1') }}</div>
+            </div>
+            <div class="discript be-flex align-center">
+              <div class="dot"></div>
+              <div class="comment fw-400 fs-16">{{ $t('request.warning.exceeded2') }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="box1 be-flex" v-else-if="this.checkWarning == 'ALLOWABLE'">
+        <div class="box-left">
+          <base-icon icon="iconWarning" size="20"></base-icon>
+        </div>
+        <div class="box-right">
+          <div class="big-title fw-600 fs-18">{{ $t('request.popup.bigTitle1') }}</div>
+          <div>
+            <div class="discript be-flex align-center" style="margin-bottom: 8px">
+              <div class="dot"></div>
+              <div class="comment fw-400 fs-16">{{ $t('request.warning.allow') }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="box1 be-flex" v-if="summaryAccount.length > 0 && summaryAccount.balance != summary.closeBalance">
         <div class="box-left">
           <base-icon icon="iconWarning" size="20"></base-icon>
@@ -130,6 +180,7 @@
       }
       this.getTable()
     }
+    checkWarning = ''
     async getTable(): Promise<void> {
       if (this.data.userId) {
         await api
@@ -137,6 +188,17 @@
           .then((res: any) => {
             this.loading = false
             this.summaryAccount = res.summary
+            console.log('summaryAccount.balance', this.summaryAccount.balance)
+            console.log('summaryAccount.closeBalance', this.summaryAccount.closeBalance)
+            console.log('data.amount', this.data.amount)
+            console.log('summaryAccount.limitAmount', this.summaryAccount.limitAmount)
+            if (this.summaryAccount.balance !== this.summaryAccount.closeBalance && parseFloat(this.data.amount) < parseFloat(this.summaryAccount.limitAmount)) {
+              this.checkWarning = 'NOTMATCHED'
+            } else if (this.summaryAccount.balance !== this.summaryAccount.closeBalance && parseFloat(this.data.amount) > parseFloat(this.summaryAccount.limitAmount)) {
+              this.checkWarning = 'EXCEEDED'
+            } else if (this.summaryAccount.balance == this.summaryAccount.closeBalance && parseFloat(this.data.amount) > parseFloat(this.summaryAccount.limitAmount)) {
+              this.checkWarning = 'ALLOWABLE'
+            }
           })
           .catch(error => {
             console.log(error)
