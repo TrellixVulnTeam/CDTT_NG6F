@@ -490,8 +490,6 @@
               popupName: 'popup-verify-lock',
               isOpen: false
             })
-
-            this.userStatus == 'LOCKED'
             this.form.resendCode = ''
           })
           .catch(() => {
@@ -511,14 +509,15 @@
               popupName: 'popup-verify-lock',
               isOpen: false
             })
-            this.userStatus == 'ACTIVE'
             this.form.resendCode = ''
           })
           .catch(err => {
             console.log(err)
           })
       }
-      console.log('status', this.userStatus)
+      setTimeout(() => {
+        this.getData()
+      }, 1000)
     }
     handleResendCodeLockUser(): void {
       this.form.resendCode = ''
@@ -591,26 +590,37 @@
     phoneNumber = ''
     authenType = ''
     phoneVerified = ''
-    created(): void {
-      console.log('detail', this.dataDetail)
-      this.phoneNumber = '(' + this.dataDetail.countryCode + ') ' + this.dataDetail.phone
+    data: any = {}
+    async getData(): Promise<void> {
+      const params = {
+        userId: this.dataDetail.userId
+      }
+      const result: any = await apiCustomer.getListCustomer(params)
+      this.data = result.content[0]
+      console.log('result', result)
+
+      this.phoneNumber = '(' + this.data.countryCode + ') ' + this.data.phone
       console.log('phone', this.phoneNumber)
-      // this.userStatus ? this.dataDetail.userStatus =='ACTIVE' :
-      if (this.dataDetail.userStatus == 'ACTIVE') {
+      // this.userStatus ? result.userStatus =='ACTIVE' :
+      if (this.data.userStatus == 'ACTIVE') {
         this.userStatus = 'Active'
-      } else if (this.dataDetail.userStatus == 'UNVERIFIED') {
+      } else if (this.data.userStatus == 'UNVERIFIED') {
         this.userStatus = 'Unverified'
       } else {
         this.userStatus = 'Locked'
       }
-      if (this.dataDetail.phoneVerified == '0') {
+      console.log('userStatus', this.userStatus)
+
+      if (this.data.phoneVerified == '0') {
         let message: any = this.$t('customer.phoneveri.not-verified')
         this.phoneVerified = message
       } else {
         let message: any = this.$t('customer.phoneveri.verified')
         this.phoneVerified = message
       }
-
+    }
+    async created(): Promise<void> {
+      await this.getData()
       this.language = window.localStorage.getItem('bc-lang')!
       this.selectLanguage = this.language
       const currentCountry = filter(this.listCountry, country => country.isoCode === 'VN')[0]
