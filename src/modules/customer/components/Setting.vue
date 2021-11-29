@@ -475,9 +475,8 @@
           this.$message.error(message)
         })
     }
-    count = 0
     handleSubmitLockUser(): void {
-      if (this.userStatus == 'ACTIVE') {
+      if (this.checkStatus == 'LOCK') {
         const params = {
           userId: this.userId,
           verificationCode: this.form.resendCode
@@ -491,7 +490,7 @@
               popupName: 'popup-verify-lock',
               isOpen: false
             })
-            this.count = 1
+
             this.userStatus == 'LOCKED'
             this.form.resendCode = ''
           })
@@ -508,7 +507,6 @@
         apiCustomer
           .updateUnlockUser(paramsUnlock)
           .then(() => {
-            this.count = 2
             this.setOpenPopup({
               popupName: 'popup-verify-lock',
               isOpen: false
@@ -520,7 +518,6 @@
             console.log(err)
           })
       }
-      this.count == 2 ? (this.userStatus = 'ACTIVE') : (this.userStatus = 'LOCKED')
       console.log('status', this.userStatus)
     }
     handleResendCodeLockUser(): void {
@@ -536,7 +533,9 @@
           this.$message.error(message)
         })
     }
+    checkStatus = ''
     async handleLockUser(): Promise<void> {
+      this.checkStatus = 'LOCK'
       await apiCustomer
         .sendCodeLockUser(this.userId)
         .then(() => {
@@ -555,6 +554,7 @@
         })
     }
     async handleUnlockUser(): Promise<void> {
+      this.checkStatus = 'UNLOCK'
       await apiCustomer
         .sendCodeLockUser(this.userId)
         .then(() => {

@@ -109,7 +109,7 @@
             <!-- <div>
               <p class="fw-400 fs-16" style="color: #cf202f">{{ scope.row.debitAmountDisplay }}</p>
             </div> -->
-             <div v-if="parseFloat(scope.row.debitAmountDisplay) != 0">
+            <div v-if="parseFloat(scope.row.debitAmountDisplay) != 0">
               <p class="fw-400 fs-16" style="color: #cf202f">{{ scope.row.debitAmountDisplay }}</p>
             </div>
             <div v-else></div>
