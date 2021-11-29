@@ -99,7 +99,7 @@
         <el-table-column :label="$t('request.popup.account.label2')" width="200" prop="transactionType" align="right">
           <template slot-scope="scope">
             <div>
-              <p class="fw-400 fs-16" style="color: #129961">+ {{ scope.row.creditAmountDisplay }}</p>
+              <p class="fw-400 fs-16" style="color: #129961">+{{ scope.row.creditAmountDisplay }}</p>
             </div>
           </template>
         </el-table-column>
@@ -213,13 +213,12 @@
       // this.query.limit = value
       this.getDataTable()
     }
-  
+
     async getDataTable(): Promise<void> {
       if (this.data.userId) {
         await api
           .getTableStatement(this.data.currency, this.data.userId, this.query.page, this.query.limit)
           .then((res: any) => {
-
             this.loading = false
             this.responseList = res.transactions.content
             this.summary = res.summary
