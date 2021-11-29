@@ -98,16 +98,21 @@
         </el-table-column>
         <el-table-column :label="$t('request.popup.account.label2')" width="200" prop="transactionType" align="right">
           <template slot-scope="scope">
-            <div>
+            <div v-if="parseFloat(scope.row.creditAmountDisplay) != 0">
               <p class="fw-400 fs-16" style="color: #129961">+{{ scope.row.creditAmountDisplay }}</p>
             </div>
+            <div v-else></div>
           </template>
         </el-table-column>
         <el-table-column :label="$t('request.popup.account.label3')" width="200" prop="transactionType" align="right">
           <template slot-scope="scope">
-            <div>
+            <!-- <div>
+              <p class="fw-400 fs-16" style="color: #cf202f">{{ scope.row.debitAmountDisplay }}</p>
+            </div> -->
+             <div v-if="parseFloat(scope.row.debitAmountDisplay) != 0">
               <p class="fw-400 fs-16" style="color: #cf202f">{{ scope.row.debitAmountDisplay }}</p>
             </div>
+            <div v-else></div>
           </template>
         </el-table-column>
         <el-table-column :label="$t('request.popup.account.label4')" width="200" prop="transactionType" align="right">
