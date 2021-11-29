@@ -125,9 +125,9 @@ export function formatDateHourMs(value: string | number): any {
   }
   const date = new Date(value)
   return (
-    (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
-    '/' +
     (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+    '/' +
+    (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
     '/' +
     date.getFullYear() +
     ' ' +
@@ -138,6 +138,7 @@ export function formatDateHourMs(value: string | number): any {
     (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds())
   )
 }
+
 export function formatMMDDYY(value: string | number): any {
   if (!value) {
     return ''

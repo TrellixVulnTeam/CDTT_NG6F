@@ -627,6 +627,15 @@
         "btn2": "Submit",
         "wrong-reason": "Please enter reason"
       }
+    },
+    "transactiontype":{
+      "sign-up":"Bonus sign up",
+      "crowd-sale":"Bonus crowdsale",
+      "first-trans":"Bonus first transaction",
+      "affiliate":"Bonus affiliate",
+      "bigbacker":"Bonus big backer",
+      "earlybacker":"Bonus early backer"
     }
+    
   }
 }
