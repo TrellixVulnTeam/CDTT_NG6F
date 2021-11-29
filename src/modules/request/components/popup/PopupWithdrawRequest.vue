@@ -194,7 +194,7 @@
             console.log('summaryAccount.limitAmount', this.summaryAccount.limitAmount)
             if (
               this.summaryAccount.balance !== this.summaryAccount.closeBalance &&
-              parseFloat(this.data.amount + this.data.transactionFee) < parseFloat(this.summaryAccount.limitAmount)
+              parseFloat(this.data.amount + this.data.transactionFee) <= parseFloat(this.summaryAccount.limitAmount)
             ) {
               this.checkWarning = 'NOTMATCHED'
             } else if (
