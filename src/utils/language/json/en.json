@@ -507,7 +507,7 @@
   },
   "balance": {
     "available": "Available",
-    "lockedAmount": "Locked Amount",
+    "lockedAmount": "Locked amount",
     "balance": "Balance",
     "lastChange": "Last changed",
     "availableAmout": "Available amount",
@@ -521,7 +521,7 @@
       "title": "BALANCE DETAIL",
       "bitcoin-wallet": "Bitcoin Wallet",
       "available-amount": "Available Amount",
-      "locked-amount": "Locked Amount",
+      "locked-amount": "Locked amount",
       "opening-balance": "OPENING BALANCE",
       "type": "TYPE",
       "credit": "CREDIT",

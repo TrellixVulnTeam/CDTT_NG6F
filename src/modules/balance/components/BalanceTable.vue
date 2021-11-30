@@ -34,7 +34,7 @@
           <template slot-scope="scope">
             <div class="box-paid">
               <p class="text-paid fw-400 fs-16">
-                {{ scope.row.totalLockedAmount | convertAmountDecimal(scope.row.availableBtotalLockedAmountUSDalanceUSD) }} {{ scope.row.currency }}
+                {{ scope.row.totalLockedAmount | convertAmountDecimal(scope.row.currency) }} {{ scope.row.currency }}
               </p>
               <p class="avi fw-400 fs-14" style="color: #5b616e">~ ${{ scope.row.totalLockedAmountUSD | convertAmountDecimal(scope.row.currency) }}</p>
             </div>

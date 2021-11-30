@@ -360,6 +360,7 @@
     }
     handleCloseLock(): void {
       // this.resetForm()
+      this.form.resendCode = ''
     }
     async handleResendCodeChangePhone(): Promise<void> {
       this.form.resendCode = ''
