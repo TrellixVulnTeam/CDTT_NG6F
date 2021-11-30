@@ -71,9 +71,10 @@
           @click="handleSubmit"
           >{{ $t('verify.submit') }}
         </el-button>
-        <div v-if="this.type2Fa !== 'verify-app'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
-          {{ $t('verify.question') }} &nbsp;<span class="text-hyperlink text-semibold cursor" @click="handleResendCodeChangePhone"> {{ $t('verify.re-send') }} </span>
+        <div v-if="this.data.faType !== 'APP'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
+          {{ $t('verify.question') }} &nbsp;<span class="text-hyperlink text-semibold cursor" @click="handleResendCodeLockUser"> {{ $t('verify.re-send') }} </span>
         </div>
+        <div v-else class="text-base be-flex jc-space-center mt-24 text-grey-130"></div>
         <!-- <div v-if="$route.query.reason === 'VERIFY-SMS'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
           <span class="text-hyperlink text-semibold cursor" @click="handleUseOtherPhone"> {{ $t('verify.another-phone') }} </span>
         </div> -->
@@ -114,9 +115,10 @@
           @click="handleSubmitResetDefault"
           >{{ $t('verify.submit') }}
         </el-button>
-        <div v-if="this.type2Fa !== 'verify-app'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
-          {{ $t('verify.question') }} &nbsp;<span class="text-hyperlink text-semibold cursor" @click="handleResendCodeResetDefault"> {{ $t('verify.re-send') }} </span>
+        <div v-if="this.data.faType !== 'APP'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
+          {{ $t('verify.question') }} &nbsp;<span class="text-hyperlink text-semibold cursor" @click="handleResendCodeLockUser"> {{ $t('verify.re-send') }} </span>
         </div>
+        <div v-else class="text-base be-flex jc-space-center mt-24 text-grey-130"></div>
         <!-- <div v-if="$route.query.reason === 'VERIFY-SMS'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
           <span class="text-hyperlink text-semibold cursor" @click="handleUseOtherPhone"> {{ $t('verify.another-phone') }} </span>
         </div> -->
@@ -158,9 +160,10 @@
           @click="handleSubmitLockUser"
           >{{ $t('verify.submit') }}
         </el-button>
-        <div v-if="this.type2Fa !== 'verify-app'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
+        <div v-if="this.data.faType !== 'APP'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
           {{ $t('verify.question') }} &nbsp;<span class="text-hyperlink text-semibold cursor" @click="handleResendCodeLockUser"> {{ $t('verify.re-send') }} </span>
         </div>
+        <div v-else class="text-base be-flex jc-space-center mt-24 text-grey-130"></div>
         <!-- <div v-if="$route.query.reason === 'VERIFY-SMS'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
           <span class="text-hyperlink text-semibold cursor" @click="handleUseOtherPhone"> {{ $t('verify.another-phone') }} </span>
         </div> -->
@@ -311,8 +314,6 @@
     }
     get getIcon(): string {
       const name = this.type2Fa
-      console.log('type', this.type2Fa)
-
       if (name == 'PHONE') {
         return 'verify-phone'
       }
@@ -579,7 +580,6 @@
           newPhone: this.form.phone
         }
         const result = await apiCustomer.validatePhoneNumber(params)
-        console.log('thanh', result)
         this.setOpenPopup({
           popupName: 'popup-verify',
           isOpen: true
@@ -597,10 +597,7 @@
       }
       const result: any = await apiCustomer.getListCustomer(params)
       this.data = result.content[0]
-      console.log('result', result)
-
       this.phoneNumber = '(' + this.data.countryCode + ') ' + this.data.phone
-      console.log('phone', this.phoneNumber)
       // this.userStatus ? result.userStatus =='ACTIVE' :
       if (this.data.userStatus == 'ACTIVE') {
         this.userStatus = 'Active'
@@ -609,7 +606,19 @@
       } else {
         this.userStatus = 'Locked'
       }
-      console.log('userStatus', this.userStatus)
+      console.log('data', this.data.faType)
+
+      //check faType
+      if (this.data.faType == 'EMAIL') {
+        let message: any = this.$t('customer.authen.email')
+        this.authenType = message
+      } else if (this.data.faType == 'APP') {
+        let message: any = this.$t('customer.authen.app')
+        this.authenType = message
+      } else {
+        let message: any = this.$t('customer.authen.phone')
+        this.authenType = message
+      }
 
       if (this.data.phoneVerified == '0') {
         let message: any = this.$t('customer.phoneveri.not-verified')
@@ -632,18 +641,11 @@
         email: this.user.email
       }
       await apiAuth.get2FA(params).then((res: any) => {
-        this.type2Fa = res
-        this.typeVerified = this.type2Fa.toLowerCase()
-        if (this.type2Fa == 'EMAIL') {
-          let message: any = this.$t('customer.authen.email')
-          this.authenType = message
-        } else if (this.type2Fa == 'APP') {
-          let message: any = this.$t('customer.authen.app')
-          this.authenType = message
-        } else {
-          let message: any = this.$t('customer.authen.phone')
-          this.authenType = message
+        this.typeVerified = res.toLowerCase()
+        if (this.typeVerified == 'sms') {
+          this.typeVerified = 'phone number'
         }
+        console.log('typeverified', res)
       })
     }
     handleSelectCountry(country: string): void {

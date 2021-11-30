@@ -63,8 +63,8 @@
           <customer-transaction v-if="tabActive === 4" :userId="detailRow.userId" />
           <customer-referral v-if="tabActive === 5" :userId="detailRow.userId" />
           <customer-bonus v-if="tabActive === 6" :userId="detailRow.userId" />
-          <!-- <statistic v-if="tabActive === 7" :userId="detailRow.userId" :summary="summary" :list-statistics="listStatistics" /> -->
-          <!-- <setting v-if="tabActive === 8" :userId="detailRow.userId" :dataDetail="detailRow" :summary="summary" /> -->
+          <statistic v-if="tabActive === 7" :userId="detailRow.userId" :summary="summary" :list-statistics="listStatistics" />
+          <setting v-if="tabActive === 8" :userId="detailRow.userId" :dataDetail="detailRow" :summary="summary" />
         </div>
       </div>
     </div>
@@ -139,11 +139,11 @@
       {
         id: 7,
         title: 'statistics'
+      },
+      {
+        id: 8,
+        title: 'setting'
       }
-      // {
-      //   id: 8,
-      //   title: 'setting'
-      // }
     ]
     tabActive = 0
     lang = 'en'

@@ -92,6 +92,9 @@ request.interceptors.response.use(
       if (data.message === 'Wrong more than over times. User locked!') {
         message = i18n.tc('notify.user-locked')
       }
+      if (data.message === 'An account already exists with this phone number') {
+        message = i18n.tc('notify.account-exits')
+      }
       if (data.status === 'USER_LOCKED') {
         message = i18n.tc('notify.user-locked')
       }
