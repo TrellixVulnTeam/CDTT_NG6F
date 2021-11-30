@@ -248,7 +248,8 @@
     "copy": "Copied",
     "invalid-code":"Invalid verification code",
     "captcha-invalid":"Invalid captcha",
-    "invalid-username":"Username or password is incorrect!"
+    "invalid-username":"Username or password is incorrect!",
+    "account-exits":"An account already exists with this phone number!"
   },
   "logout": {
     "title": "Sign out"

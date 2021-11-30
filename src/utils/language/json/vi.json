@@ -198,7 +198,8 @@
     "no-data-kyc": "Không có dữ liệu",
     "copy": "Sao chép thành công",
     "captcha-invalid":"Captcha không hợp lệ!",
-    "invalid-username":"Tên đăng nhập hoặc mật khẩu không chính xác!"
+    "invalid-username":"Tên đăng nhập hoặc mật khẩu không chính xác!",
+    "account-exits":"Số điện thoại đã được sử dụng!"
   },
   "logout": {
     "title": "Đăng xuất"
