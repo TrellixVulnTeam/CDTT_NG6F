@@ -6,16 +6,16 @@
       <div id="box"></div>
     </div> -->
     <div class="loader">
-      <div class="vertical-centered-box">
+      <div v-if="coinMain === 'CLM'" class="vertical-centered-box">
         <div class="content">
-          <div class="loader-circle" :class="coinMain === 'CLM' ? 'loader-circle--clm' : null" />
+          <div class="loader-circle loader-circle--clm" />
           <div class="loader-line-mask">
-            <div class="loader-line" :class="coinMain === 'CLM' ? 'loader-line--clm' : null" />
+            <div class="loader-line loader-line--clm" />
           </div>
-          <base-icon v-if="coinMain === 'LYNK'" icon="logo-login" style="font-size: 79px; color: #f07525" />
-          <base-icon v-else icon="icon-clm" style="font-size: 79px" />
+          <base-icon icon="icon-clm" style="font-size: 79px" />
         </div>
       </div>
+      <img v-else src="@/assets/images/loading.gif" alt="" />
     </div>
   </div>
 </template>
@@ -108,6 +108,13 @@
   }
   .loader {
     height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fbfbfb;
+    img {
+      width: 15%;
+    }
     .vertical-centered-box {
       position: absolute;
       width: 100%;

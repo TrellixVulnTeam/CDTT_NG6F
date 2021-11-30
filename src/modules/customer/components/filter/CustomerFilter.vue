@@ -153,7 +153,7 @@
       },
       {
         id: 2,
-        type:this.$i18n.t('kyc.filter.not-verified'),
+        type: this.$i18n.t('kyc.filter.not-verified'),
         value: 'NOT_VERIFIED'
       },
       {
@@ -163,7 +163,7 @@
       },
       {
         id: 4,
-        type:this.$i18n.t('kyc.filter.locked'),
+        type: this.$i18n.t('kyc.filter.locked'),
         value: 'LOCKED'
       }
     ]
@@ -198,18 +198,18 @@
 
     handleShowPopper(): void {
       switch (this.$route.name) {
-        case "CustomerVerified":
-          this.filter.type=this.$i18n.t('kyc.filter.verified') as string
-          break;
-        case "CustomerLocked":
-          this.filter.type=this.$i18n.t('kyc.filter.locked')as string
-          break;
-        case "CustomerNotVerified":
-          this.filter.type=this.$i18n.t('kyc.filter.not-verified')as string
-          break;
-        case "CustomerProcessing":
-          this.filter.type=this.$i18n.t('kyc.filter.kyc-processing')as string
-          break;
+        case 'CustomerVerified':
+          this.filter.type = this.$i18n.t('kyc.filter.verified') as string
+          break
+        case 'CustomerLocked':
+          this.filter.type = this.$i18n.t('kyc.filter.locked') as string
+          break
+        case 'CustomerNotVerified':
+          this.filter.type = this.$i18n.t('kyc.filter.not-verified') as string
+          break
+        case 'CustomerProcessing':
+          this.filter.type = this.$i18n.t('kyc.filter.kyc-processing') as string
+          break
       }
       this.isVisible = true
     }

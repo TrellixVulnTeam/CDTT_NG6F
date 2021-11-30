@@ -55,7 +55,7 @@
           return 'status-pending'
         case 'VERIFIED':
           return 'status-verified'
-        case 'REJECTED ':
+        case 'REJECTED':
           return 'status-rejected'
         default:
           return 'status-not-verified'

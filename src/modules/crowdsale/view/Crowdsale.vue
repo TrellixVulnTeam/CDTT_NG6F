@@ -49,7 +49,7 @@
           </div>
           <div class="line"></div>
           <div class="box2 box">
-            <p class="fw-600 fs-18 price">${{ roundCurrent && roundCurrent.totalAmount | formatNumber }}</p>
+            <p class="fw-600 fs-18 price">${{ roundCurrent && (roundCurrent.totalSold * roundCurrent.price) | convertAmountDecimal('USD') }}</p>
             <p class="fw-400 fs-14">{{ $t('crowdsale.raised') }}</p>
           </div>
           <div class="line"></div>
@@ -82,8 +82,16 @@
   import { Vue, Component } from 'vue-property-decorator'
   import firebase from '@/utils/firebase'
   import { filter, findIndex, forEach } from 'lodash'
+  import { namespace } from 'vuex-class'
+  import { MODULE_WITH_ROUTENAME } from '@/configs/role'
+
+  const bcAuth = namespace('beAuth')
+  const beBase = namespace('beBase')
   @Component
   export default class BOCrowdsale extends Vue {
+    @bcAuth.Getter('listModuleCanView') listModuleCanView!: Array<Record<string, any>>
+    @beBase.State('coinMain') coinMain!: string
+
     tabs: Array<Record<string, any>> = [
       {
         id: 1,
@@ -124,6 +132,11 @@
       return this.roundCurrent?.isActive
     }
     created(): void {
+      if (!this.checkPemission('crowd-sale', ['view'])) {
+        const routeName = MODULE_WITH_ROUTENAME[this.listModuleCanView[0].module]
+        this.$router.push({ name: routeName })
+        return
+      }
       this.handleTurnOnFirebase()
     }
     handleTurnOnFirebase(): void {
@@ -257,9 +270,8 @@
     handleChangeTab(tab: Record<string, any>): void {
       this.$router.push({ name: tab.routeName })
     }
-    getColor(): void {
-      let color: any = '#31b6b5'
-      return color
+    getColor(): string {
+      return this.coinMain === 'LYNK' ? '#0151fc' : '#31b6b5'
     }
   }
 </script>

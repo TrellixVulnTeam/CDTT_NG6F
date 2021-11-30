@@ -25,7 +25,7 @@
           <template slot-scope="scope">
             <div class="box-paid">
               <p class="text-paid fw-400 fs-16">{{ scope.row.availableBalance | convertAmountDecimal(scope.row.availableBalanceUSD) }} {{ scope.row.currency }}</p>
-              <p class="avi fw-400 fs-14">~ {{ scope.row.availableBalanceUSD | convertAmountDecimal(scope.row.currency) }}</p>
+              <p class="avi fw-400 fs-14" style="color: #5b616e">~ ${{ scope.row.availableBalanceUSD | convertAmountDecimal(scope.row.currency) }}</p>
             </div>
           </template>
         </el-table-column>
@@ -33,10 +33,8 @@
         <el-table-column :label="$t('balance.lockedAmount')" align="right">
           <template slot-scope="scope">
             <div class="box-paid">
-              <p class="text-paid fw-400 fs-16">
-                {{ scope.row.totalLockedAmount | convertAmountDecimal(scope.row.availableBtotalLockedAmountUSDalanceUSD) }} {{ scope.row.currency }}
-              </p>
-              <p class="avi fw-400 fs-14">~ {{ scope.row.totalLockedAmountUSD | convertAmountDecimal(scope.row.currency) }}</p>
+              <p class="text-paid fw-400 fs-16">{{ scope.row.totalLockedAmount | convertAmountDecimal(scope.row.currency) }} {{ scope.row.currency }}</p>
+              <p class="avi fw-400 fs-14" style="color: #5b616e">~ ${{ scope.row.totalLockedAmountUSD | convertAmountDecimal(scope.row.currency) }}</p>
             </div>
           </template>
         </el-table-column>
@@ -45,7 +43,7 @@
           <template slot-scope="scope">
             <div class="box-paid">
               <p class="text-paid fw-400 fs-16">{{ scope.row.balance | convertAmountDecimal(scope.row.availableBalanceUSD) }} {{ scope.row.currency }}</p>
-              <p class="avi fw-400 fs-14">~ {{ scope.row.balanceUSD | convertAmountDecimal(scope.row.currency) }}</p>
+              <p class="avi fw-400 fs-14" style="color: #5b616e">~ ${{ scope.row.balanceUSD | convertAmountDecimal(scope.row.currency) }}</p>
             </div>
           </template>
         </el-table-column>
@@ -69,7 +67,6 @@
     checkType(type: string): string {
       return type === 'Not verified' ? 'status-not-verified' : type === 'PENDING' ? 'status-pending' : type === 'VERIFIED' ? 'status-verified' : 'status-rejected'
     }
-
     getDataSelectTab(): void {
       console.log('1')
     }

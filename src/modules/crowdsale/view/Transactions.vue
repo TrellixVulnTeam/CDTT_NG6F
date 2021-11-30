@@ -11,8 +11,8 @@
       <div class="btn-filter be-flex align-center cursor" @click="handleOpenPopupFilter">
         <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="16" /> <span class="fs-16">{{ $t('crowdsale.filter') }}</span>
       </div>
-      <el-dropdown class="cursor" trigger="click" @command="handleSort">
-        <div class="sort be-flex align-center">
+      <el-dropdown class="sort cursor" trigger="click" @command="handleSort">
+        <div class="sort-title be-flex align-center">
           <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="16" class="icon" /> <span class="fs-16">{{ $t('crowdsale.sortBy') }}</span>
         </div>
         <el-dropdown-menu class="header-downloadapp dropdown-sort" slot="dropdown" style="width: 232px">
@@ -69,19 +69,19 @@
             <span>{{ scope.row.roundName }}</span> - $<span>{{ scope.row.price | convertAmountDecimal('USD') }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="this.$t('crowdsale.paid')" prop="paid" align="right" width="170">
+        <el-table-column :label="this.$t('crowdsale.paid')" prop="paid" align="right" min-width="160">
           <template slot-scope="scope">
             <div class="box-paid">
               <p class="text-paid fw-400 fs-16">- {{ scope.row.paidAmountDisplay | convertAmountDecimal(scope.row.paidCurrency) }} {{ scope.row.paidCurrency }}</p>
-              <p class="avi fw-400 fs-14">~ {{ scope.row.paidAmountToUsd | convertAmountDecimal(scope.row.paidCurrency) }}</p>
+              <p class="avi fw-400 fs-14">~${{ scope.row.paidAmountToUsd | convertAmountDecimal(scope.row.paidCurrency) }}</p>
             </div>
           </template>
         </el-table-column>
-        <el-table-column :label="this.$t('crowdsale.amount')" prop="tokenAmount" align="right" width="160">
+        <el-table-column :label="this.$t('crowdsale.amount')" prop="tokenAmount" align="right" min-width="160">
           <template slot-scope="scope">
             <div class="box-paid">
               <p class="text-amount fw-400 fs-16">+ {{ scope.row.tokenAmountDisplay | convertAmountDecimal(scope.row.tokenCurrency) }} {{ scope.row.tokenCurrency }}</p>
-              <p class="avi fw-400 fs-14">~ {{ scope.row.tokenAmountToUsd | convertAmountDecimal(scope.row.tokenCurrency) }}</p>
+              <p class="avi fw-400 fs-14">~${{ scope.row.tokenAmountToUsd | convertAmountDecimal(scope.row.tokenCurrency) }}</p>
             </div>
           </template>
         </el-table-column>
@@ -235,12 +235,6 @@
       .span-icon {
         color: var(--bc-text-primary) !important;
       }
-      &:hover {
-        color: #0151fc;
-        .span-icon {
-          color: #0151fc !important;
-        }
-      }
     }
     .dropdown-sort {
       min-width: 250px !important;
@@ -272,6 +266,33 @@
         .avi {
           color: #5b616e;
         }
+      }
+    }
+  }
+  ::v-deep .sort {
+    &:hover {
+      .el-dropdown-selfdefine {
+        color: var(--bc-theme-primary);
+        .span-icon {
+          color: var(--bc-theme-primary) !important;
+        }
+      }
+    }
+
+    .sort-title {
+      &:focus {
+        color: var(--bc-theme-primary);
+        .span-icon {
+          color: var(--bc-theme-primary) !important;
+        }
+      }
+    }
+  }
+  .btn-filter {
+    &:hover {
+      color: var(--bc-theme-primary) !important;
+      .span-icon {
+        color: var(--bc-theme-primary) !important;
       }
     }
   }

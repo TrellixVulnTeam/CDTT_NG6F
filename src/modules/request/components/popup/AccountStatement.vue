@@ -1,5 +1,5 @@
 <template>
-  <div class="content-account">
+  <div class="content-account" v-loading="loading">
     <div class="box1 be-flex align-center">
       <div class="mini-boxcontent">
         <div class="be-flex align-center header">
@@ -10,8 +10,8 @@
           </div>
         </div>
         <div>
-          <p class="fw-600 fs-24" style="line-height: 32px" :class="getClassUnit">{{ summary.balance }} {{ data.currency }}</p>
-          <p class="fw-400 fs-14 dolar">~${{ summary.balanceToUsd }}</p>
+          <p class="fw-600 fs-24" style="line-height: 32px" :class="getClassUnit">{{ summary.balance | numberWithCommas }} {{ data.currency }}</p>
+          <p class="fw-400 fs-14 dolar">~${{ summary.balanceToUsd | convertAmountDecimal('USD') }}</p>
         </div>
       </div>
       <div class="mini-boxcontent mini-boxcontent2">
@@ -23,8 +23,8 @@
           </div>
         </div>
         <div>
-          <p class="fw-600 fs-24" style="line-height: 32px" :class="getClassUnit">{{ summary.availableBalance }} {{ data.currency }}</p>
-          <p class="fw-400 fs-14 dolar">~${{ summary.availableBalanceToUsd }}</p>
+          <p class="fw-600 fs-24" style="line-height: 32px" :class="getClassUnit">{{ summary.availableBalance | numberWithCommas }} {{ data.currency }}</p>
+          <p class="fw-400 fs-14 dolar">~${{ summary.availableBalanceToUsd | convertAmountDecimal('USD') }}</p>
         </div>
       </div>
       <div class="mini-boxcontent mini-boxcontent3">
@@ -36,8 +36,8 @@
           </div>
         </div>
         <div>
-          <p class="fw-600 fs-24" style="line-height: 32px">{{ summary.totalLockedAmount }} {{ data.currency }}</p>
-          <p class="fw-400 fs-14 dolar">~${{ summary.totalLockedAmountToUsd }}</p>
+          <p class="fw-600 fs-24" style="line-height: 32px">{{ summary.totalLockedAmount | numberWithCommas }} {{ data.currency }}</p>
+          <p class="fw-400 fs-14 dolar">~${{ summary.totalLockedAmountToUsd | convertAmountDecimal('USD') }}</p>
         </div>
       </div>
     </div>
@@ -49,32 +49,70 @@
     </div>
     <div class="box-table">
       <base-table
-        :data="dataTable2.length > 0 ? dataTable2 : dataTable"
         class="base-table table-request"
+        :data="responseList"
+        :isLoading="isLoading"
+        :showPagination="true"
         :paginationInfo="getPaginationInfo"
+        :table="query"
         @sizeChange="handleSizeChange"
         @currentChange="handleCurrentChange"
       >
-        <el-table-column :label="$t('request.popup.account.label1')" prop="transactionType" align="left">
+        <el-table-column :label="$t('request.popup.account.label1')" prop="transactionType" align="left" min-width="200">
           <template slot-scope="scope">
             <div class="box-type" style="margin-left: 6px">
-              <p class="fw-400 fs-16" style="color: #0a0b0d; text-transform: capitalize">{{ scope.row.transactionType.toLowerCase() }}</p>
-              <p class="fw-400 fs-14 text-color">{{ scope.row.transactionDate | formatDateHourMs }}</p>
+              <p v-if="scope.row.transactionType == 'BONUS_SIGN_UP'" class="fw-400 fs-16" style="color: #0a0b0d">
+                {{ $t('request.transactiontype.sign-up') }}
+              </p>
+              <p v-else-if="scope.row.transactionType == 'BONUS_CROWDSALE'" class="fw-400 fs-16" style="color: #0a0b0d">
+                {{ $t('request.transactiontype.crowd-sale') }}
+              </p>
+              <p v-else-if="scope.row.transactionType == 'BONUS_FIRST_TRANS'" class="fw-400 fs-16" style="color: #0a0b0d; text-overflow: clip">
+                {{ $t('request.transactiontype.first-trans') }}
+              </p>
+              <p v-else-if="scope.row.transactionType == 'BONUS_AFFILIATE'" class="fw-400 fs-16" style="color: #0a0b0d">
+                {{ $t('request.transactiontype.affiliate') }}
+              </p>
+              <p v-else-if="scope.row.transactionType == 'BONUS_BIG_BACKER'" class="fw-400 fs-16" style="color: #0a0b0d">
+                {{ $t('request.transactiontype.bigbacker') }}
+              </p>
+              <p v-else-if="scope.row.transactionType == 'BONUS_EARLY_BACKER'" class="fw-400 fs-16" style="color: #0a0b0d">
+                {{ $t('request.transactiontype.earlybacker') }}
+              </p>
+              <p v-else-if="scope.row.transactionType == 'TRANSFER'" class="fw-400 fs-16" style="color: #0a0b0d">
+                {{ $t('request.transactiontype.tranfer') }}
+              </p>
+              <p v-else-if="scope.row.transactionType == 'WITHDRAW'" class="fw-400 fs-16" style="color: #0a0b0d">
+                {{ $t('request.transactiontype.widthdraw') }}
+              </p>
+              <p v-else-if="scope.row.transactionType == 'DEPOSIT'" class="fw-400 fs-16" style="color: #0a0b0d">
+                {{ $t('request.transactiontype.deposit') }}
+              </p>
+              <p v-else-if="scope.row.transactionType == 'CROWDSALE'" class="fw-400 fs-16" style="color: #0a0b0d">
+                {{ $t('request.transactiontype.crowdsale') }}
+              </p>
+
+              <p class="fw-400 fs-14 text-color">{{ scope.row.transactionDate | formatMMDDYY }}</p>
             </div>
           </template>
         </el-table-column>
         <el-table-column :label="$t('request.popup.account.label2')" width="200" prop="transactionType" align="right">
           <template slot-scope="scope">
-            <div>
-              <p class="fw-400 fs-16" style="color: #129961">+ {{ scope.row.creditAmountDisplay }}</p>
+            <div v-if="parseFloat(scope.row.creditAmountDisplay) != 0">
+              <p class="fw-400 fs-16" style="color: #129961">+{{ scope.row.creditAmountDisplay }}</p>
             </div>
+            <div v-else></div>
           </template>
         </el-table-column>
         <el-table-column :label="$t('request.popup.account.label3')" width="200" prop="transactionType" align="right">
           <template slot-scope="scope">
-            <div>
+            <!-- <div>
+              <p class="fw-400 fs-16" style="color: #cf202f">{{ scope.row.debitAmountDisplay }}</p>
+            </div> -->
+            <div v-if="parseFloat(scope.row.debitAmountDisplay) != 0">
               <p class="fw-400 fs-16" style="color: #cf202f">{{ scope.row.debitAmountDisplay }}</p>
             </div>
+            <div v-else></div>
           </template>
         </el-table-column>
         <el-table-column :label="$t('request.popup.account.label4')" width="200" prop="transactionType" align="right">
@@ -86,7 +124,16 @@
         </el-table-column>
         <el-table-column :label="$t('request.popup.account.label5')" width="144" prop="status" align="center">
           <template slot-scope="scope">
-            <div class="box-status" :class="scope.row.status == 'PENDING' ? 'pending' : null">
+            <div v-if="scope.row.status == 'PENDING'" class="box-status pending">
+              <p style="text-transform: capitalize">{{ scope.row.status.toLowerCase() }}</p>
+            </div>
+            <div v-else-if="scope.row.status == 'FAILED'" class="box-status failed">
+              <p style="text-transform: capitalize">{{ scope.row.status.toLowerCase() }}</p>
+            </div>
+            <div v-else-if="scope.row.status == 'SUCCESS'" class="box-status success">
+              <p style="text-transform: capitalize">{{ scope.row.status.toLowerCase() }}</p>
+            </div>
+            <div v-else-if="scope.row.status == 'PROCESSING'" class="box-status processing">
               <p style="text-transform: capitalize">{{ scope.row.status.toLowerCase() }}</p>
             </div>
           </template>
@@ -95,12 +142,12 @@
     </div>
     <div class="total align-center be-flex row">
       <div class="title fw-600 fs-16">{{ $t('request.popup.account.title2') }}</div>
-      <div class="title2 fw-600 fs-16">{{ summary.totalCreditAmount }} {{ data.currency }}</div>
-      <div class="title3 fw-600 fs-16">{{ summary.totalDebitAmount }} {{ data.currency }}</div>
+      <div class="title2 fw-600 fs-16">+{{ summary.totalCreditAmount | numberWithCommas }} {{ data.currency }}</div>
+      <div class="title3 fw-600 fs-16">-{{ summary.totalDebitAmount | numberWithCommas }} {{ data.currency }}</div>
     </div>
     <div class="close align-center be-flex row">
       <div class="title fw-600 fs-16">{{ $t('request.popup.account.title3') }}</div>
-      <div class="title2 fw-600 fs-16">{{ summary.closeBalance }} {{ data.currency }}</div>
+      <div class="title2 fw-600 fs-16">{{ summary.closeBalance | numberWithCommas }} {{ data.currency }}</div>
     </div>
   </div>
 </template>
@@ -115,20 +162,16 @@
   @Component
   export default class AccountStatement extends Vue {
     @Prop() data!: any
-    @Prop() dataTable!: any
-    @Prop() summary!: any
     coin: any = ''
-    dataTable2: any = []
+    responseList: any = []
+    summary: any = {}
+    loading = true
     getIcon(currency: string): void {
       let icon: any = ''
       if (currency) {
         icon = `icon-${currency.toLowerCase()}`
       }
       return icon
-    }
-    querry: any = {
-      limit: 10,
-      page: 1
     }
     query: any = {
       page: 1,
@@ -174,38 +217,45 @@
     get getPaginationInfo(): any {
       return this.$t('paging.request')
     }
-    handleSizeChange(value: number): void {
-      if (value) {
-        this.querry.page = 1
-        this.query.page = 1
-        this.querry.limit = value
-        this.query.limit = value
-        this.getDataTable()
-      }
+    handleSizeChange(value: string | number): void {
+      this.query.page = 1
+      this.query.limit = value
+      this.getDataTable()
     }
-    handleCurrentChange(value: number): void {
-      if (value) {
-        this.querry.page = value
-        this.query.page = value
-        this.getDataTable()
-      }
+    handleCurrentChange(value: string | number): void {
+      this.query.page = value
+      // this.query.limit = value
+      this.getDataTable()
     }
+
     async getDataTable(): Promise<void> {
       if (this.data.userId) {
         await api
-          .getTableStatement(this.data.currency, this.data.userId, this.querry.page, this.querry.limit)
+          .getTableStatement(this.data.currency, this.data.userId, this.query.page, this.query.limit)
           .then((res: any) => {
-            this.dataTable2 = res.transactions.content
+            this.loading = false
+            this.responseList = res.transactions.content
+            this.summary = res.summary
+            this.query.total = res.transactions.totalElements
           })
           .catch(error => {
             console.log(error)
           })
       }
     }
+    async init(): Promise<void> {
+      this.getDataTable()
+    }
+    created(): void {
+      this.init()
+    }
   }
 </script>
 
 <style scoped lang="scss">
+  ::v-deep .el-dialog {
+    width: 1100px !important;
+  }
   .content-account {
     .text-color {
       color: #5b616e;
@@ -303,6 +353,18 @@
         margin: 0 auto;
       }
       .pending {
+        background: #fff3e2;
+        color: #dd7d00;
+      }
+      .failed {
+        background: #fbedee;
+        color: #cf202f;
+      }
+      .success {
+        background: #e4f9e2;
+        color: #129961;
+      }
+      .processing {
         background: #fff3e2;
         color: #dd7d00;
       }

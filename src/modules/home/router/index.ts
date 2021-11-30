@@ -5,12 +5,12 @@ import { RouteConfig } from 'vue-router'
 const homeRouters: RouteConfig[] = [
   {
     path: '/kyc',
-    name: 'Kyc',
-    redirect: { name: 'KycPending' },
     component: Layout,
     children: [
       {
         path: '/',
+        name: 'Kyc',
+        redirect: { name: 'KycPending' },
         components: {
           default: LayoutSecond
         },

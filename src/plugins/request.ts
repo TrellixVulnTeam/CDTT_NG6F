@@ -77,14 +77,23 @@ request.interceptors.response.use(
       if (data.status === 'BAD_REQUEST' && includes(config.url, 'user/settings/kyc-requests')) {
         return Promise.reject(error)
       }
+      if (data.message === 'Username or password is incorrect') {
+        message = i18n.tc('notify.invalid-username')
+      }
       if (data.status === 'INVALID_PASSWORD') {
         message = i18n.tc('notify.pass-invalid')
+      }
+      if (data.status === 'INVALID_CAPTCHA') {
+        message = i18n.tc('notify.captcha-invalid')
       }
       if (data.message === 'Email already register') {
         message = i18n.tc('notify.email-register')
       }
       if (data.message === 'Wrong more than over times. User locked!') {
         message = i18n.tc('notify.user-locked')
+      }
+      if (data.message === 'An account already exists with this phone number') {
+        message = i18n.tc('notify.account-exits')
       }
       if (data.status === 'USER_LOCKED') {
         message = i18n.tc('notify.user-locked')
@@ -95,6 +104,10 @@ request.interceptors.response.use(
       if (data.status === 'INVALID_VERIFICATION') {
         message = i18n.tc('notify.verify-fail')
       }
+      if (data.status === 'Invalid verification code') {
+        message = i18n.tc('notify.verify-fail')
+      }
+
       console.log(message)
 
       Message.error({ message, duration: 5000 })

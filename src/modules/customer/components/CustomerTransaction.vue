@@ -49,7 +49,7 @@
     }
 
     handleFilter(filter: Record<string, any>): void {
-      this.query = { ...this.query, ...filter }
+      this.query = { ...this.query, ...filter, page: 1 }
       this.handleGetListTransaction()
     }
 

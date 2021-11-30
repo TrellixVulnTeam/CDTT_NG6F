@@ -18,7 +18,7 @@
     }
   },
   "verify": {
-    "title-phone": "Enter the 6-digit code we texted to your phone number",
+    "title-phone": "Enter the 6-digit code we texted to your",
     "title-email": "Enter the 6-digit code we sent to your email",
     "title-app": "Enter the 6-digit code from your authenticator app",
     "label": "Enter 2-step authentication code:",
@@ -165,7 +165,7 @@
     "transaction": "transactions",
     "crowdsale": "transactions",
     "investor": "investors",
-    "request": "request",
+    "request": "requests",
     "balance": "balance"
   },
   "label": {
@@ -207,7 +207,10 @@
     "date": "Date",
     "available-amount": "Available amount",
     "locked-amount": "Locked amount",
-    "balance": "Balance"
+    "balance": "Balance",
+    "enter-verify-code":"Enter verification code",
+    "verify-code":"Verification code"
+   
   },
   "buy-lyn": {
     "title": "BUY LYN"
@@ -242,7 +245,11 @@
     "no-select-reject": "Must choose at least 1 reason",
     "no-data": "There are no data",
     "no-data-kyc": "No data",
-    "copy": "Copied"
+    "copy": "Copied",
+    "invalid-code":"Invalid verification code",
+    "captcha-invalid":"Invalid captcha",
+    "invalid-username":"Username or password is incorrect!",
+    "account-exits":"An account already exists with this phone number!"
   },
   "logout": {
     "title": "Sign out"
@@ -338,6 +345,40 @@
     "select": {
       "accepted": "Accepted",
       "invited": "Invited"
+    },
+    "setting":{
+      "new-phone":"New phone number",
+      "verify":"VERIFICATION",
+      "phone":"Phone number",
+      "2factor":"2-factor Authentication",
+      "status":"Active status",
+      "change":"Change",
+      "lock":"Lock user",
+      "unlock":"Unlock user",
+      "reset":"Reset Default",
+      "enter-code":"Enter the 6-digit code we texted to your phone number",
+      "send-code":"Send code verification successfully!",
+      "send-code-fail":"Send code verification failed!",
+      "lock-user-success":"Locked user successfully!",
+      "lock-user-fail":"Locked user failed!",
+      "unlock-user-success":"Unlocked user successfully!",
+      "unlock-user-fail":"Unlocked user failed!",
+      "send-mail-success":"Send mail and verification code to customer successfully!",
+      "send-reset-default":"Send mail to customer successfully!",
+      "send-reset-default-fail":"Send mail to customer failed!",
+      "send-mail-fail":"Send mail and verification code to customer failed!",
+      "user-active":"Active",
+      "user-locked":"Locked",
+      "user-unverified":"Unverified"
+    },
+    "authen":{
+      "phone":"Phone",
+      "app":"Authenticator app",
+      "email":"Email"
+    },
+    "phoneveri":{
+      "verified":"Verified",
+      "not-verified":"Not verified"
     }
   },
   "transaction": {
@@ -466,7 +507,7 @@
   },
   "balance": {
     "available": "Available",
-    "lockedAmount": "Locked Amount",
+    "lockedAmount": "Locked amount",
     "balance": "Balance",
     "lastChange": "Last changed",
     "availableAmout": "Available amount",
@@ -480,7 +521,7 @@
       "title": "BALANCE DETAIL",
       "bitcoin-wallet": "Bitcoin Wallet",
       "available-amount": "Available Amount",
-      "locked-amount": "Locked Amount",
+      "locked-amount": "Locked amount",
       "opening-balance": "OPENING BALANCE",
       "type": "TYPE",
       "credit": "CREDIT",
@@ -490,7 +531,27 @@
       "ending-balance": "ENDING BALANCE",
       "total": "TOTAL",
       "account-statement": "Account Statement",
-      "withdrawal-request": "Withdrawal Request"
+      "withdrawal-request": "Withdrawal Request",
+      "wallet": {
+        "bitcoin-wallet": "Bitcoin Wallet",
+        "eth-wallet": "ETH Wallet",
+        "bnb-wallet": "BNB Wallet",
+        "usdt-wallet": "USDT Wallet",
+        "usdc-wallet": "USDC Wallet",
+        "lynk-wallet": "LYNK Wallet"
+      },
+      "crow-type": {
+        "withdraw": "Withdraw",
+        "deposit": "Deposit",
+        "transfer": "Transfer",
+        "crowdsale": "Crowdsale",
+        "bonus-early-backers": "Bonus Early Backers",
+        "bonus-big-backers": "Bonus Big Backers",
+        "bonus-affiliate": "Bonus Affiliate",
+        "bonus-first-trans": "Bonus First Trans",
+        "bonus-crowdsale": "Bonus Crowdsale",
+        "bonus-sign-up": "Bonus Sign Up"
+      }
     }
   },
   "request": {
@@ -587,6 +648,25 @@
         "btn2": "Submit",
         "wrong-reason": "Please enter reason"
       }
+    },
+    "transactiontype":{
+      "sign-up":"Bonus sign up",
+      "crowd-sale":"Bonus crowdsale",
+      "first-trans":"Bonus first transaction",
+      "affiliate":"Bonus affiliate",
+      "bigbacker":"Bonus big backer",
+      "earlybacker":"Bonus early backer",
+      "tranfer":"Transfer",
+      "widthdraw":"Withdraw",
+      "deposit":"Deposit",
+      "crowdsale":"Crowdsale"
+    },
+    "warning":{
+      "notmatched":"Current Balance and Ending Balance are not matched.",
+      "exceeded1":"Current Balance and Ending Balance are not matched.",
+      "exceeded2":" The request has exceeded the allowable limit.",
+      "allow":"The request has exceeded the allowable limit."
     }
+    
   }
 }

@@ -1,13 +1,13 @@
 <template>
-  <div class='w-100 bg-white wallet-table-balance'>
-    <div class='title-popup' slot='title'>
-      <span style='font-weight: 600'>{{ $t('balance.popup.account-statement') }}</span>
+  <div class="w-100 bg-white wallet-table-balance">
+    <div class="title-popup" slot="title">
+      <span style="font-weight: 600">{{ $t('balance.popup.account-statement') }}</span>
     </div>
-    <div class='opening-balance be-flex jc-space-between'>
+    <div class="opening-balance be-flex jc-space-between">
       <p>{{ $t('balance.popup.opening-balance') }}</p>
       <p>{{ summary.openBalance }}</p>
     </div>
-    <div class='wallet-table-balance__below'>
+    <div class="wallet-table-balance__below">
       <base-table
         :data="data"
         :table="query"
@@ -17,52 +17,51 @@
         @rowClick="handleRowClick"
         class="base-table table-wallet"
       >
-        <el-table-column :label="$t('balance.popup.type')" width='200' prop='transactionType'>
-          <template slot-scope='scope'>
-            <p style='font-size: 16px'>{{scope.row.transactionType |formatType}}</p>
-            <p style='color: #5B616E;font-size: 14px'>{{scope.row.transactionMillisecond| formatMMDDYY }}</p>
+        <el-table-column :label="$t('balance.popup.type')" width="200" prop="transactionType">
+          <template slot-scope="scope">
+            <p style="font-size: 16px">{{ checkRowType(scope.row.transactionType) }}</p>
+            <p style="color: #5b616e; font-size: 14px">{{ scope.row.transactionMillisecond | formatMMDDYY }}</p>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('balance.popup.credit')" align='right' prop='creditAmountDisplay'>
-          <template slot-scope='scope'>
-            <span v-if='scope.row.creditAmount === 0'  style='color: #129961;font-size: 16px'> {{ scope.row.creditAmountDisplay  }}</span>
-            <span v-else  style='color: #129961;font-size: 16px'>+ {{ scope.row.creditAmountDisplay  }}</span>
+        <el-table-column :label="$t('balance.popup.credit')" align="right" prop="creditAmountDisplay">
+          <template slot-scope="scope">
+            <span v-if="scope.row.creditAmount === 0" style="color: #129961; font-size: 16px"> {{ scope.row.creditAmountDisplay }}</span>
+            <span v-else style="color: #129961; font-size: 16px">+ {{ scope.row.creditAmountDisplay }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('balance.popup.debit')" align='right' prop='debitAmountDisplay'>
-          <template slot-scope='scope'>
-            <span v-if='scope.row.debitAmount === 0'  style='color: #CF202F;font-size: 16px'>{{ scope.row.debitAmountDisplay  }}</span>
-            <span v-else style='color: #CF202F;font-size: 16px'>{{ scope.row.debitAmountDisplay  }}</span>
+        <el-table-column :label="$t('balance.popup.debit')" align="right" prop="debitAmountDisplay">
+          <template slot-scope="scope">
+            <span v-if="scope.row.debitAmount === 0" style="color: #cf202f; font-size: 16px">{{ scope.row.debitAmountDisplay }}</span>
+            <span v-else style="color: #cf202f; font-size: 16px">{{ scope.row.debitAmountDisplay }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('balance.popup.balance')" align='right' prop='balanceDisplay'>
-        </el-table-column>
-        <el-table-column :label="$t('balance.popup.status')" align='center' width='144' prop='status'>
-          <template slot-scope='scope'>
-            <span v-if="scope.row.status !== 'FAILED'"
-                  :class='checkType(scope.row.status)'>{{ checkStatus(scope.row.status) }}</span>
-            <span v-else class='status-locked'>{{ $t('status.failed') }}</span>
+        <el-table-column :label="$t('balance.popup.balance')" align="right" prop="balanceDisplay"> </el-table-column>
+        <el-table-column :label="$t('balance.popup.status')" align="center" width="144" prop="status">
+          <template slot-scope="scope">
+            <span v-if="scope.row.status !== 'FAILED'" :class="checkType(scope.row.status)">{{ checkStatus(scope.row.status) }}</span>
+            <span v-else class="status-locked">{{ $t('status.failed') }}</span>
           </template>
         </el-table-column>
       </base-table>
     </div>
-    <div class='total be-flex '>
-      <div class='total-title'>{{ $t('balance.popup.total') }}</div>
-      <p v-if='summary.totalCreditAmount==="0"'>0</p>
-      <p v-else>+ {{ summary.totalCreditAmount   |numberWithCommas}}</p>
-      <p v-if='summary.totalDebitAmount==="0"'>0</p>
-      <p v-else>- {{ summary.totalDebitAmount |numberWithCommas }}</p>
+    <div class="total be-flex">
+      <div class="total-title">{{ $t('balance.popup.total') }}</div>
+      <p v-if="summary.totalCreditAmount === '0'">0</p>
+      <p v-else>+ {{ summary.totalCreditAmount | numberWithCommas }}</p>
+      <p v-if="summary.totalDebitAmount === '0'">0</p>
+      <p v-else>- {{ summary.totalDebitAmount | numberWithCommas }}</p>
     </div>
-    <div class='ending-balance be-flex jc-space-between '>
+    <div class="ending-balance be-flex jc-space-between">
       <p>{{ $t('balance.popup.ending-balance') }}</p>
-      <p v-if='summary.closeBalance==="0"'>0</p>
-      <p v-else>{{ summary.closeBalance  |numberWithCommas}}</p>
+      <p v-if="summary.closeBalance === '0'">0</p>
+      <p v-else>{{ summary.closeBalance | numberWithCommas }}</p>
     </div>
   </div>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
   import { Component, Prop, Vue } from 'vue-property-decorator'
+  import { formatType } from '@/configs'
 
   @Component
   export default class AccountStatementCard extends Vue {
@@ -81,8 +80,30 @@
     getDataSelectTab(): void {
       console.log('1')
     }
-
-
+    checkRowType(type: string) {
+      switch (type) {
+        case 'WITHDRAW':
+          return this.$i18n.t('balance.popup.crow-type.withdraw')
+        case 'DEPOSIT':
+          return this.$i18n.t('balance.popup.crow-type.deposit')
+        case 'TRANSFER':
+          return this.$i18n.t('balance.popup.crow-type.transfer')
+        case 'CROWDSALE':
+          return this.$i18n.t('balance.popup.crow-type.crowdsale')
+        case 'BONUS_EARLY_BACKERS':
+          return this.$i18n.t('balance.popup.crow-type.bonus-early-backers')
+        case 'BONUS_BIG_BACKERS':
+          return this.$i18n.t('balance.popup.crow-type.bonus-big-backers')
+        case 'BONUS_AFFILIATE':
+          return this.$i18n.t('balance.popup.crow-type.bonus-affiliate')
+        case 'BONUS_FIRST_TRANS':
+          return this.$i18n.t('balance.popup.crow-type.bonus-first-trans')
+        case 'BONUS_CROWDSALE':
+          return this.$i18n.t('balance.popup.crow-type.bonus-crowdsale')
+        case 'BONUS_SIGN_UP':
+          return this.$i18n.t('balance.popup.crow-type.bonus-sign-up')
+      }
+    }
     checkStatus(status: string): any {
       switch (status) {
         case 'SUCCESS':
@@ -112,7 +133,7 @@
   }
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
   .wallet-table-balance {
     padding-bottom: 24px;
     &__above {
@@ -157,42 +178,41 @@
           color: var(--bc-status-success);
         }
       }
-
     }
 
     .title-popup {
       padding: 24px;
       font-size: 24px;
-      color: #0A0B0D;
+      color: #0a0b0d;
     }
 
     .opening-balance {
-      background-color: #F3F2F1;
+      background-color: #f3f2f1;
       padding: 12px 16px;
       margin: 0 24px;
-      p{
+      p {
         font-size: 16px;
-        color: #0A0B0D;
+        color: #0a0b0d;
         font-weight: 600;
       }
       p:last-of-type {
         margin-right: 144px;
       }
     }
-    .total{
+    .total {
       margin: 0 24px;
-      background-color: #F3F2F1;
+      background-color: #f3f2f1;
       padding: 12px 16px;
-      .total-title{
+      .total-title {
         width: 188px;
         font-size: 16px;
-        color: #0A0B0D;
+        color: #0a0b0d;
         font-weight: 600;
       }
-      p{
+      p {
         width: 190px;
         font-size: 16px;
-        color: #0A0B0D;
+        color: #0a0b0d;
         font-weight: 600;
         text-align: right;
       }
@@ -200,14 +220,14 @@
         margin-right: 144px;
       }
     }
-    .ending-balance{
+    .ending-balance {
       margin: 8px 24px 0 24px;
       border-radius: 4px;
-      background-color: #0151FC;
+      background-color: #0151fc;
       padding: 12px 16px;
-      p{
+      p {
         font-size: 16px;
-        color: #FFFFFF;
+        color: #ffffff;
         font-weight: 600;
       }
       p:last-of-type {

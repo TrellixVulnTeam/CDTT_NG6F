@@ -1,29 +1,27 @@
 <template>
-  <base-popup name='popup-balance-detail' class='popup-balance-detail' width='1040px' :isShowFooter='false'
-              :open='handleOpen' :close='handleClose'>
-    <div class='title-popup' slot='title'>
+  <base-popup name="popup-balance-detail" class="popup-balance-detail" width="1040px" :isShowFooter="false" :open="handleOpen" :close="handleClose">
+    <div class="title-popup" slot="title">
       <span>{{ $t('balance.popup.title') }}</span>
     </div>
-    <div class='content'>
-      <div class='be-flex mb-24 content__header'>
-        <div class='avatar'>
-          <img v-if='detailRow.avatar' :src='detailRow.avatar' altdetailRow.avatar />
-          <base-icon v-else icon='default-avatar' size='48' style='display: inline-flex' />
+    <div class="content">
+      <div class="be-flex mb-24 content__header">
+        <div class="avatar">
+          <img v-if="detailRow.avatar" :src="detailRow.avatar" altdetailRow.avatar />
+          <base-icon v-else icon="default-avatar" size="48" style="display: inline-flex" />
         </div>
-        <div class='ml-24 w-100 info'>
-          <div class='full-name text-l text-bold'>{{ detailRow.fullName }}</div>
-          <span v-if='detailRow.phone===""'>{{ detailRow.email | formatEmail }}</span>
+        <div class="ml-24 w-100 info">
+          <div class="full-name text-l text-bold">{{ detailRow.fullName }}</div>
+          <span v-if="detailRow.phone === ''">{{ detailRow.email | formatEmail }}</span>
           <span v-else> {{ detailRow.email | formatEmail }}| {{ detailRow.phone | formatNumberPhone }}</span>
         </div>
       </div>
-      <balance-detail-card :data-card='detailRow' :tab-active-filter='tabActiveFilter' />
-      <account-statement-card :data='dataTable' :summary='dataSummary' @sizeChange='handleSizeChange'
-                              @pageChange='handlePageChange' :query='query' />
+      <balance-detail-card :data-card="detailRow" :tab-active-filter="tabActiveFilter" />
+      <account-statement-card :data="dataTable" :summary="dataSummary" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" />
     </div>
   </base-popup>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
   import { Component, Mixins, Prop } from 'vue-property-decorator'
 
   import PopupMixin from '@/mixins/popup'
@@ -32,7 +30,6 @@
   import AccountStatementCard from '@/modules/balance/components/balanceDetail/AccountStatementCard.vue'
   import getRepository from '@/services'
   import { TransactionRepository } from '@/services/repositories/transaction'
-
   interface IContent {
     balance: number
     balanceDisplay: string
@@ -72,17 +69,17 @@
 
   interface ISummary {
     summary: {
-      openBalance: string,
-      closeBalance: string,
-      totalCreditAmount: string,
+      openBalance: string
+      closeBalance: string
+      totalCreditAmount: string
       totalDebitAmount: string
     }
   }
 
   interface IQuery {
-    currency?: string,
-    transactionType?: string,
-    userId?: number,
+    currency?: string
+    transactionType?: string
+    userId?: number
     page?: number
     limit?: number
     search?: string
@@ -131,7 +128,6 @@
 
     async handleOpen(): Promise<void> {
       this.init().then()
-
     }
 
     handleClose(): void {
@@ -158,7 +154,7 @@
   }
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
   .popup-balance-detail {
     color: var(--bc-text-primary);
 
@@ -183,19 +179,17 @@
               object-fit: cover;
             }
           }
-
           .info {
             .full-name {
               font-size: 18px;
-              color: #0A0B0D;
+              color: #0a0b0d;
               font-family: Open Sans;
               margin-bottom: 8px;
             }
-
             span {
               font-size: 12px;
               color: #5b616e;
-              font-family: "Open Sans";
+              font-family: 'Open Sans';
             }
           }
         }

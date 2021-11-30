@@ -4,6 +4,56 @@
       <span>{{ $t('request.popup.titlePopup') }}</span>
     </div>
     <div class="content">
+      <div class="box1 be-flex" v-if="this.checkWarning == 'NOTMATCHED'">
+        <div class="box-left">
+          <base-icon icon="iconWarning" size="20"></base-icon>
+        </div>
+        <div class="box-right">
+          <div class="big-title fw-600 fs-18">{{ $t('request.popup.bigTitle1') }}</div>
+
+          <div>
+            <div class="discript be-flex align-center" style="margin-bottom: 8px">
+              <div class="dot"></div>
+              <div class="comment fw-400 fs-16">{{ $t('request.warning.notmatched') }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="box1 be-flex" v-else-if="this.checkWarning == 'EXCEEDED'">
+        <div class="box-left">
+          <base-icon icon="iconWarning" size="20"></base-icon>
+        </div>
+        <div class="box-right">
+          <div class="big-title fw-600 fs-18">{{ $t('request.popup.bigTitle1') }}</div>
+
+          <div>
+            <div class="discript be-flex align-center" style="margin-bottom: 8px">
+              <div class="dot"></div>
+              <div class="comment fw-400 fs-16">{{ $t('request.warning.exceeded1') }}</div>
+            </div>
+            <div class="discript be-flex align-center">
+              <div class="dot"></div>
+              <div class="comment fw-400 fs-16">{{ $t('request.warning.exceeded2') }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="box1 be-flex" v-else-if="this.checkWarning == 'ALLOWABLE'">
+        <div class="box-left">
+          <base-icon icon="iconWarning" size="20"></base-icon>
+        </div>
+        <div class="box-right">
+          <div class="big-title fw-600 fs-18">{{ $t('request.popup.bigTitle1') }}</div>
+          <div>
+            <div class="discript be-flex align-center" style="margin-bottom: 8px">
+              <div class="dot"></div>
+              <div class="comment fw-400 fs-16">{{ $t('request.warning.allow') }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="box1 be-flex" v-if="summaryAccount.length > 0 && summaryAccount.balance != summary.closeBalance">
         <div class="box-left">
           <base-icon icon="iconWarning" size="20"></base-icon>
@@ -47,7 +97,7 @@
           </div>
           <div class="mini-box be-flex align-center jc-space-between">
             <div class="left fw-400 fs-14">{{ $t('request.popup.label5') }}</div>
-            <div class="right fw-400 fs-16">{{ data.transactionDate | formatDateHourMs }}</div>
+            <div class="right fw-400 fs-16">{{ data.transactionDate | formatMMDDYY }}</div>
           </div>
         </div>
       </div>
@@ -65,7 +115,7 @@
             </div>
             <div class="box-table">
               <transaction-detail :dataUser="dataUser" :data="data" v-if="tabActive == 1" />
-              <account-statement :data="data" :dataTable="dataTableAccount" :summary="summaryAccount" v-if="tabActive == 2" />
+              <account-statement :data="data" v-if="tabActive == 2" />
             </div>
           </div>
         </div>
@@ -112,7 +162,6 @@
       }
     ]
     tabActive = 1
-    dataTableAccount: any = []
     summaryAccount: any = {}
     loadingBtn = false
     getAmountToUsd(amountToUsd: Record<string, any>): void {
@@ -123,27 +172,35 @@
       return string
     }
     async handleChangeTab(tab: Record<string, any>): Promise<void> {
-      if (tab.id == 2) {
-        await this.getTable()
-        this.tabActive = tab.id
-      } else {
-        this.tabActive = tab.id
-      }
+      this.tabActive = tab.id
     }
     handleOpen(): void {
+      console.log('data', this.data)
+
       if (this.data.userId) {
         this.getUserInfo(this.data.userId)
       }
       this.getTable()
     }
+    checkWarning = ''
     async getTable(): Promise<void> {
       if (this.data.userId) {
         await api
           .getTableStatement(this.data.currency, this.data.userId, 1, 10)
           .then((res: any) => {
             this.loading = false
-            this.dataTableAccount = res.transactions.content
             this.summaryAccount = res.summary
+            console.log('summaryAccount.balance', this.summaryAccount.balance)
+            console.log('summaryAccount.closeBalance', this.summaryAccount.closeBalance)
+            console.log('value', this.data.amount + this.data.transactionFee)
+            console.log('summaryAccount.limitAmount', this.summaryAccount.limitAmount)
+            if (this.summaryAccount.balance !== this.summaryAccount.closeBalance && this.data.isLimitAmount == '0') {
+              this.checkWarning = 'NOTMATCHED'
+            } else if (this.summaryAccount.balance !== this.summaryAccount.closeBalance && this.data.isLimitAmount == '1') {
+              this.checkWarning = 'EXCEEDED'
+            } else if (this.summaryAccount.balance == this.summaryAccount.closeBalance && this.data.isLimitAmount == '1') {
+              this.checkWarning = 'ALLOWABLE'
+            }
           })
           .catch(error => {
             console.log(error)
@@ -373,8 +430,8 @@
                       content: '';
                       position: absolute;
                       width: 100%;
-                      height: 2px;
-                      bottom: 0;
+                      height: 2.5px;
+                      bottom: -1px;
                       left: 0;
                       background-color: var(--bc-tab-active);
                     }

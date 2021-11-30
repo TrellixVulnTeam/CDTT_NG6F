@@ -58,7 +58,7 @@ export function convertAmount8digit(amount: string | number): string {
 }
 
 export function convertAmountDecimal(amount: string | number, currency: string): string {
-  // if (!amount) return '0'
+  if (!amount) return '0'
   const objConvert = {
     LYNK: 2,
     CLM: 2,
@@ -125,9 +125,9 @@ export function formatDateHourMs(value: string | number): any {
   }
   const date = new Date(value)
   return (
-    (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
-    '/' +
     (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+    '/' +
+    (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
     '/' +
     date.getFullYear() +
     ' ' +
@@ -138,6 +138,7 @@ export function formatDateHourMs(value: string | number): any {
     (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds())
   )
 }
+
 export function formatMMDDYY(value: string | number): any {
   if (!value) {
     return ''
@@ -247,16 +248,15 @@ export function formatNumberPhone(numberPhone: string | null): string {
   } else return ''
 }
 
-export function formatType(type:string|null):string{
- if (type){
-   var arrStr=type.split("_");
-   var strTotal=""
-   arrStr.map((value,i)=>{
-     var str:string=value.substr(0,1);
-     var str2:string=value.substring(1)
-     strTotal+=str.toUpperCase()+str2.toLowerCase()+" ";
-   })
-   return strTotal;
- }else return ""
+export function formatType(type: string | null): string {
+  if (type) {
+    const arrStr = type.split('_')
+    let strTotal = ''
+    arrStr.map((value, i) => {
+      const str: string = value.substr(0, 1)
+      const str2: string = value.substring(1)
+      strTotal += str.toUpperCase() + str2.toLowerCase() + ' '
+    })
+    return strTotal
+  } else return ''
 }
-
