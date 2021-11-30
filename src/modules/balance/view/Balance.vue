@@ -21,7 +21,7 @@
         </div>
         <span class="number2"> {{ numOfInvestor }}</span>
         <div>
-          <span class="text3"> of total {{ numOfUser | formatNumber }}</span>
+          <span class="text3"> {{ $t(`balance.of-total`) }} {{ numOfUser | formatNumber }}</span>
         </div>
       </div>
 
@@ -33,7 +33,7 @@
           </div>
         </div>
         <span class="number2"> {{ totalAvailable | formatNumber }}</span>
-        <span class="text3"> ~ ${{ totalAvailableUSD | convertAmountDecimal(this.tabActive) }}</span>
+        <span class="text3"> ~ ${{ totalAvailableUSD | convertAmountDecimal('USD') }}</span>
       </div>
       <div class="col-width col-margin">
         <div class="sack-banlance">
@@ -43,7 +43,7 @@
           </div>
         </div>
         <span class="number2"> {{ totalLocked | formatNumber }}</span>
-        <span class="text3">~ ${{ totalLockedUSD | convertAmountDecimal(this.tabActive) }}</span>
+        <span class="text3">~ ${{ totalLockedUSD | convertAmountDecimal('USD') }}</span>
       </div>
       <div class="col-width col-margin">
         <div class="sack-banlance">
@@ -53,7 +53,7 @@
           </div>
         </div>
         <span class="number2"> {{ totalBalance | formatNumber }}</span>
-        <span class="text3"> ~ ${{ totalBalanceUSD | convertAmountDecimal(this.tabActive) }}</span>
+        <span class="text3"> ~ ${{ totalBalanceUSD | convertAmountDecimal('USD') }}</span>
       </div>
     </div>
     <balance-filter @filterBalance="handleFilter" :listApproveBy="listApproveBy" />
@@ -290,7 +290,7 @@
   .sack-banlance {
     display: flex;
     justify-content: space-between;
-    margin-top: 16px;
+    margin-top: 6px;
     padding: 0 18px;
   }
   .col-width {

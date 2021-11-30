@@ -1,9 +1,9 @@
 <template>
-  <div class='balance-card-detail be-flex'>
-    <div class='card-item'>
-      <div class='title be-flex align-center'>
-        <base-icon :icon='checkTypeIcon(tabActiveFilter)' size='40' />
-        <div class='content-card'>
+  <div class="balance-card-detail be-flex">
+    <div class="card-item">
+      <div class="title be-flex align-center">
+        <base-icon :icon="checkTypeIcon(tabActiveFilter)" size="40" />
+        <div class="content-card">
           <p>{{ checkCoin(tabActiveFilter) }}</p>
           <p>{{ $t('balance.balance') }}</p>
         </div>
@@ -13,10 +13,10 @@
         <p class='last'>-${{ dataCard.balanceUSD | convertAmountDecimal(this.tabActiveFilter) }}</p>
       </div>
     </div>
-    <div class='card-item'>
-      <div class='title be-flex align-center'>
-        <base-icon :icon='checkTypeIcon(tabActiveFilter)' size='40' />
-        <div class='content-card'>
+    <div class="card-item">
+      <div class="title be-flex align-center">
+        <base-icon :icon="checkTypeIcon(tabActiveFilter)" size="40" />
+        <div class="content-card">
           <p>{{ $t('balance.popup.available-amount') }}</p>
           <p>{{ $t('balance.popup.available-amount') }}</p>
         </div>
@@ -26,10 +26,10 @@
         <p class='last'>-${{ dataCard.availableBalanceUSD | convertAmountDecimal(this.tabActiveFilter) }}</p>
       </div>
     </div>
-    <div class='card-item'>
-      <div class='title be-flex align-center'>
-        <base-icon icon='icon-lock' size='40' />
-        <div class='content-card'>
+    <div class="card-item">
+      <div class="title be-flex align-center">
+        <base-icon icon="icon-lock" size="40" />
+        <div class="content-card">
           <p>{{ $t('balance.popup.locked-amount') }}</p>
           <p>{{ $t('balance.popup.withdrawal-request') }}</p>
         </div>
@@ -41,7 +41,7 @@
     </div>
   </div>
 </template>
-<script lang='ts'>
+<script lang="ts">
   import { Component, Prop, Vue } from 'vue-property-decorator'
 
   @Component
@@ -50,54 +50,54 @@
     @Prop({ required: true }) tabActiveFilter!: string
     checkCoin(type: string): string {
       return type === 'lynk'
-        ? this.$i18n.t('balance.popup.wallet.lynk-wallet')as string
+        ? (this.$i18n.t('balance.popup.wallet.lynk-wallet') as string)
         : type === 'btc'
-          ? this.$i18n.t('balance.popup.wallet.bitcoin-wallet')as string
-          : type === 'eth'
-            ? this.$i18n.t('balance.popup.wallet.eth-wallet')as string
-            : type === 'usdt'
-              ? this.$i18n.t('balance.popup.wallet.usdt-wallet')as string
-              : type === 'bnb'
-                ? this.$i18n.t('balance.popup.wallet.bnb-wallet')as string
-                : type === 'usdc'
-                  ?  this.$i18n.t('balance.popup.wallet.usdc-wallet')as string
-                  :  this.$i18n.t('balance.popup.wallet.lynk-wallet')as string
+        ? (this.$i18n.t('balance.popup.wallet.bitcoin-wallet') as string)
+        : type === 'eth'
+        ? (this.$i18n.t('balance.popup.wallet.eth-wallet') as string)
+        : type === 'usdt'
+        ? (this.$i18n.t('balance.popup.wallet.usdt-wallet') as string)
+        : type === 'bnb'
+        ? (this.$i18n.t('balance.popup.wallet.bnb-wallet') as string)
+        : type === 'usdc'
+        ? (this.$i18n.t('balance.popup.wallet.usdc-wallet') as string)
+        : (this.$i18n.t('balance.popup.wallet.lynk-wallet') as string)
     }
 
     checkType(type: string): string {
       return type === 'lynk'
         ? 'amount-lynk'
         : type === 'btc'
-          ? 'amount-btc'
-          : type === 'eth'
-            ? 'amount-eth'
-            : type === 'usdt'
-              ? 'amount-usdt'
-              : type === 'bnb'
-                ? 'amount-bnb'
-                : type === 'usdc'
-                  ? 'amount-usdc'
-                  : 'amount-locker'
+        ? 'amount-btc'
+        : type === 'eth'
+        ? 'amount-eth'
+        : type === 'usdt'
+        ? 'amount-usdt'
+        : type === 'bnb'
+        ? 'amount-bnb'
+        : type === 'usdc'
+        ? 'amount-usdc'
+        : 'amount-locker'
     }
 
     checkTypeIcon(type: string): string {
       return type === 'lynk'
         ? 'icon-lynk'
         : type === 'btc'
-          ? 'icon-btc'
-          : type === 'eth'
-            ? 'icon-eth'
-            : type === 'usdt'
-              ? 'icon-usdt'
-              : type === 'bnb'
-                ? 'icon-bnb'
-                : type === 'usdc'
-                  ? 'icon-usdc'
-                  : 'icon-locker'
+        ? 'icon-btc'
+        : type === 'eth'
+        ? 'icon-eth'
+        : type === 'usdt'
+        ? 'icon-usdt'
+        : type === 'bnb'
+        ? 'icon-bnb'
+        : type === 'usdc'
+        ? 'icon-usdc'
+        : 'icon-locker'
     }
   }
 </script>
-<style scoped lang='scss'>
+<style scoped lang="scss">
   .balance-card-detail {
     padding: 16px 24px;
     box-sizing: border-box;
