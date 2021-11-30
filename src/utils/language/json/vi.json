@@ -400,7 +400,8 @@
     "verified": " Đã xác thực",
     "rejected": "Từ chối",
     "unverified": "Chưa xác thực",
-    "locked": "Bị khóa"
+    "locked": "Bị khóa",
+    "success": "Thành công"
   },
   "crowdsale": {
     "round": "Vòng",

@@ -27,12 +27,12 @@
 
       <div class="col-width col-margin">
         <div class="sack-banlance">
-          <span class="text1">{{ $t(`balance.total-available`) }}</span>
+          <span class="text1">{{ $t(`balance.total-available`) }} </span>
           <div>
             <base-icon icon="icon-swap" size="19" />
           </div>
         </div>
-        <span class="number2"> {{ totalAvailable | formatNumber }}</span>
+        <span class="number2"> {{ totalAvailable | convertAmountDecimal(tabActive) }} {{ tabActive }}</span>
         <span class="text3"> ~ ${{ totalAvailableUSD | convertAmountDecimal('USD') }}</span>
       </div>
       <div class="col-width col-margin">
@@ -42,7 +42,7 @@
             <base-icon icon="icon-lock-balance" size="19" />
           </div>
         </div>
-        <span class="number2"> {{ totalLocked | formatNumber }}</span>
+        <span class="number2"> {{ totalLocked | convertAmountDecimal(tabActive) }} {{ tabActive }}</span>
         <span class="text3">~ ${{ totalLockedUSD | convertAmountDecimal('USD') }}</span>
       </div>
       <div class="col-width col-margin">
@@ -52,7 +52,7 @@
             <base-icon icon="icon-wallet" size="19" />
           </div>
         </div>
-        <span class="number2"> {{ totalBalance | formatNumber }}</span>
+        <span class="number2"> {{ totalBalance | convertAmountDecimal(tabActive) }} {{ tabActive }}</span>
         <span class="text3"> ~ ${{ totalBalanceUSD | convertAmountDecimal('USD') }}</span>
       </div>
     </div>
@@ -82,37 +82,37 @@
     tabs: Array<Record<string, any>> = [
       {
         id: 1,
-        title: 'lynk',
+        title: 'LYNK',
         routeName: 'BalanceLynk'
       },
       {
         id: 2,
-        title: 'btc',
+        title: 'BTC',
         routeName: 'BalanceBtc'
       },
       {
         id: 3,
-        title: 'eth',
+        title: 'ETH',
         routeName: 'BalanceEth'
       },
       {
         id: 4,
-        title: 'bnb',
+        title: 'BNB',
         routeName: 'BalanceBnb'
       },
       {
         id: 5,
-        title: 'usdt',
+        title: 'USDT',
         routeName: 'BalanceUsdt'
       },
       {
         id: 6,
-        title: 'usdc',
+        title: 'USDC',
         routeName: 'BalanceUsdc'
       }
     ]
     titlePending = ''
-    tabActive = 'lynk'
+    tabActive = 'LYNK'
     isLoading = false
 
     data: Array<Record<string, any>> = []
@@ -149,6 +149,8 @@
     }
     propdataTable: Record<string, any>[] = []
     async init(): Promise<void> {
+      this.data= []
+      this.propdataTable = []
       try {
         console.log('query', this.query)
         this.isLoading = true
@@ -162,6 +164,8 @@
         }
         const result = await api.getlistBalance(this.tabActive, params)
         this.data = result.balances || []
+        console.log('this.data', this.data)
+
         this.query.total = result.totalElement
         this.isLoading = false
         if (this.data.length > 0) {
@@ -175,8 +179,6 @@
             this.propdataTable.push(dataItem)
           }
         }
-
-        console.log('propdataTable', this.propdataTable)
 
         this.numOfInvestor = result.numOfInvestor
         this.numOfUser = result.numOfUser

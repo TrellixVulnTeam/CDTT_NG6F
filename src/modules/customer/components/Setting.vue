@@ -71,7 +71,7 @@
           @click="handleSubmit"
           >{{ $t('verify.submit') }}
         </el-button>
-        <div v-if="this.data.faType !== 'APP'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
+        <div v-if="this.data.faType !== 'SMS'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
           {{ $t('verify.question') }} &nbsp;<span class="text-hyperlink text-semibold cursor" @click="handleResendCodeLockUser"> {{ $t('verify.re-send') }} </span>
         </div>
         <div v-else class="text-base be-flex jc-space-center mt-24 text-grey-130"></div>
@@ -115,7 +115,7 @@
           @click="handleSubmitResetDefault"
           >{{ $t('verify.submit') }}
         </el-button>
-        <div v-if="this.data.faType !== 'APP'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
+        <div v-if="this.data.faType !== 'SMS'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
           {{ $t('verify.question') }} &nbsp;<span class="text-hyperlink text-semibold cursor" @click="handleResendCodeLockUser"> {{ $t('verify.re-send') }} </span>
         </div>
         <div v-else class="text-base be-flex jc-space-center mt-24 text-grey-130"></div>
@@ -160,7 +160,7 @@
           @click="handleSubmitLockUser"
           >{{ $t('verify.submit') }}
         </el-button>
-        <div v-if="this.data.faType !== 'APP'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
+        <div v-if="this.data.faType !== 'SMS'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
           {{ $t('verify.question') }} &nbsp;<span class="text-hyperlink text-semibold cursor" @click="handleResendCodeLockUser"> {{ $t('verify.re-send') }} </span>
         </div>
         <div v-else class="text-base be-flex jc-space-center mt-24 text-grey-130"></div>
