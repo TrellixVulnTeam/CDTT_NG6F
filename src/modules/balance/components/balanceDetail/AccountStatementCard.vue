@@ -19,7 +19,7 @@
       >
         <el-table-column :label="$t('balance.popup.type')" width="200" prop="transactionType">
           <template slot-scope="scope">
-            <p style="font-size: 16px">{{ scope.row.transactionType | formatType }}</p>
+            <p style="font-size: 16px">{{ checkRowType(scope.row.transactionType) }}</p>
             <p style="color: #5b616e; font-size: 14px">{{ scope.row.transactionMillisecond | formatMMDDYY }}</p>
           </template>
         </el-table-column>
@@ -61,6 +61,7 @@
 
 <script lang="ts">
   import { Component, Prop, Vue } from 'vue-property-decorator'
+  import { formatType } from '@/configs'
 
   @Component
   export default class AccountStatementCard extends Vue {
@@ -79,7 +80,30 @@
     getDataSelectTab(): void {
       console.log('1')
     }
-
+    checkRowType(type:string){
+      switch (type){
+        case "WITHDRAW":
+          return this.$i18n.t('balance.popup.crow-type.withdraw')
+        case "DEPOSIT":
+          return  this.$i18n.t('balance.popup.crow-type.deposit')
+        case "TRANSFER":
+          return this.$i18n.t('balance.popup.crow-type.transfer')
+        case "CROWDSALE":
+          return this.$i18n.t('balance.popup.crow-type.crowdsale')
+        case "BONUS_EARLY_BACKERS":
+          return this.$i18n.t('balance.popup.crow-type.bonus-early-backers')
+        case "BONUS_BIG_BACKERS":
+          return this.$i18n.t('balance.popup.crow-type.bonus-big-backers')
+        case "BONUS_AFFILIATE":
+          return this.$i18n.t('balance.popup.crow-type.bonus-affiliate')
+        case "BONUS_FIRST_TRANS":
+          return this.$i18n.t('balance.popup.crow-type.bonus-first-trans')
+        case "BONUS_CROWDSALE":
+          return this.$i18n.t('balance.popup.crow-type.bonus-crowdsale')
+        case "BONUS_SIGN_UP":
+          return this.$i18n.t('balance.popup.crow-type.bonus-sign-up')
+      }
+    }
     checkStatus(status: string): any {
       switch (status) {
         case 'SUCCESS':
