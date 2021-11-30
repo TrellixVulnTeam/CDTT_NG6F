@@ -531,7 +531,27 @@
       "ending-balance": "ENDING BALANCE",
       "total": "TOTAL",
       "account-statement": "Account Statement",
-      "withdrawal-request": "Withdrawal Request"
+      "withdrawal-request": "Withdrawal Request",
+      "wallet": {
+        "bitcoin-wallet": "Bitcoin Wallet",
+        "eth-wallet": "ETH Wallet",
+        "bnb-wallet": "BNB Wallet",
+        "usdt-wallet": "USDT Wallet",
+        "usdc-wallet": "USDC Wallet",
+        "lynk-wallet": "LYNK Wallet"
+      },
+      "crow-type": {
+        "withdraw": "Withdraw",
+        "deposit": "Deposit",
+        "transfer": "Transfer",
+        "crowdsale": "Crowdsale",
+        "bonus-early-backers": "Bonus Early Backers",
+        "bonus-big-backers": "Bonus Big Backers",
+        "bonus-affiliate": "Bonus Affiliate",
+        "bonus-first-trans": "Bonus First Trans",
+        "bonus-crowdsale": "Bonus Crowdsale",
+        "bonus-sign-up": "Bonus Sign Up"
+      }
     }
   },
   "request": {
