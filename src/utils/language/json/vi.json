@@ -578,7 +578,39 @@
     "of-total":"Of total",
     "balance-wallet":"Số dư ví",
     "popup": {
-      "title": "CHI TIẾT BALANCE"
+      "title": "CHI TIẾT BALANCE",
+      "available-amount": "Số lượng hiện có",
+      "locked-amount": "Số lượng đã khóa",
+      "opening-balance": "Số dư đầu kỳ",
+      "type": "Loại",
+      "credit": "CREDIT",
+      "debit": "DEBIT",
+      "balance": "Số dư",
+      "status": "Trạng thái",
+      "ending-balance": "Số dư cuối",
+      "total": "TOTAL",
+      "account-statement": "Bảng sao kê",
+      "withdrawal-request": "Yêu cầu rút",
+      "wallet": {
+        "bitcoin-wallet": "Ví Bitcoin",
+        "eth-wallet": "Ví ETH",
+        "bnb-wallet": "Ví BNB",
+        "usdt-wallet": "Ví USDT",
+        "usdc-wallet": "Ví USDC",
+        "lynk-wallet": "ví LYNK"
+      },
+      "crow-type": {
+        "withdraw": "Rút",
+        "deposit": "Nạp",
+        "transfer": "Chuyển",
+        "crowdsale": "Crowdsale",
+        "bonus-early-backers": "Thưởng mua sớm",
+        "bonus-big-backers": "Thưởng giao dịch lớn",
+        "bonus-affiliate": "Thưởng affiliate",
+        "bonus-first-trans": "Thưởng giới thiệu",
+        "bonus-crowdsale": "Thưởng mua crowdsale",
+        "bonus-sign-up": "Thưởng đăng ký"
+      }
     }
   }
 }
