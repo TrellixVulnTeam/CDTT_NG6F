@@ -80,27 +80,27 @@
     getDataSelectTab(): void {
       console.log('1')
     }
-    checkRowType(type:string){
-      switch (type){
-        case "WITHDRAW":
+    checkRowType(type: string) {
+      switch (type) {
+        case 'WITHDRAW':
           return this.$i18n.t('balance.popup.crow-type.withdraw')
-        case "DEPOSIT":
-          return  this.$i18n.t('balance.popup.crow-type.deposit')
-        case "TRANSFER":
+        case 'DEPOSIT':
+          return this.$i18n.t('balance.popup.crow-type.deposit')
+        case 'TRANSFER':
           return this.$i18n.t('balance.popup.crow-type.transfer')
-        case "CROWDSALE":
+        case 'CROWDSALE':
           return this.$i18n.t('balance.popup.crow-type.crowdsale')
-        case "BONUS_EARLY_BACKERS":
+        case 'BONUS_EARLY_BACKERS':
           return this.$i18n.t('balance.popup.crow-type.bonus-early-backers')
-        case "BONUS_BIG_BACKERS":
+        case 'BONUS_BIG_BACKERS':
           return this.$i18n.t('balance.popup.crow-type.bonus-big-backers')
-        case "BONUS_AFFILIATE":
+        case 'BONUS_AFFILIATE':
           return this.$i18n.t('balance.popup.crow-type.bonus-affiliate')
-        case "BONUS_FIRST_TRANS":
+        case 'BONUS_FIRST_TRANS':
           return this.$i18n.t('balance.popup.crow-type.bonus-first-trans')
-        case "BONUS_CROWDSALE":
+        case 'BONUS_CROWDSALE':
           return this.$i18n.t('balance.popup.crow-type.bonus-crowdsale')
-        case "BONUS_SIGN_UP":
+        case 'BONUS_SIGN_UP':
           return this.$i18n.t('balance.popup.crow-type.bonus-sign-up')
       }
     }
