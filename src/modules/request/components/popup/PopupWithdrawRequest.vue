@@ -175,6 +175,8 @@
       this.tabActive = tab.id
     }
     handleOpen(): void {
+      console.log('data', this.data)
+
       if (this.data.userId) {
         this.getUserInfo(this.data.userId)
       }
@@ -192,20 +194,11 @@
             console.log('summaryAccount.closeBalance', this.summaryAccount.closeBalance)
             console.log('value', this.data.amount + this.data.transactionFee)
             console.log('summaryAccount.limitAmount', this.summaryAccount.limitAmount)
-            if (
-              this.summaryAccount.balance !== this.summaryAccount.closeBalance &&
-              parseFloat(this.data.amount + this.data.transactionFee) <= parseFloat(this.summaryAccount.limitAmount)
-            ) {
+            if (this.summaryAccount.balance !== this.summaryAccount.closeBalance && this.data.isLimitAmount == '0') {
               this.checkWarning = 'NOTMATCHED'
-            } else if (
-              this.summaryAccount.balance !== this.summaryAccount.closeBalance &&
-              parseFloat(this.data.amount + this.data.transactionFee) > parseFloat(this.summaryAccount.limitAmount)
-            ) {
+            } else if (this.summaryAccount.balance !== this.summaryAccount.closeBalance && this.data.isLimitAmount == '1') {
               this.checkWarning = 'EXCEEDED'
-            } else if (
-              this.summaryAccount.balance == this.summaryAccount.closeBalance &&
-              parseFloat(this.data.amount + this.data.transactionFee) > parseFloat(this.summaryAccount.limitAmount)
-            ) {
+            } else if (this.summaryAccount.balance == this.summaryAccount.closeBalance && this.data.isLimitAmount == '1') {
               this.checkWarning = 'ALLOWABLE'
             }
           })
