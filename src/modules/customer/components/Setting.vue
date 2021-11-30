@@ -311,8 +311,6 @@
     }
     get getIcon(): string {
       const name = this.type2Fa
-      console.log('type', this.type2Fa)
-
       if (name == 'PHONE') {
         return 'verify-phone'
       }
@@ -579,7 +577,6 @@
           newPhone: this.form.phone
         }
         const result = await apiCustomer.validatePhoneNumber(params)
-        console.log('thanh', result)
         this.setOpenPopup({
           popupName: 'popup-verify',
           isOpen: true
@@ -597,10 +594,7 @@
       }
       const result: any = await apiCustomer.getListCustomer(params)
       this.data = result.content[0]
-      console.log('result', result)
-
       this.phoneNumber = '(' + this.data.countryCode + ') ' + this.data.phone
-      console.log('phone', this.phoneNumber)
       // this.userStatus ? result.userStatus =='ACTIVE' :
       if (this.data.userStatus == 'ACTIVE') {
         this.userStatus = 'Active'
@@ -609,7 +603,19 @@
       } else {
         this.userStatus = 'Locked'
       }
-      console.log('userStatus', this.userStatus)
+      console.log('data', this.data.faType)
+
+      //check faType
+      if (this.data.faType == 'EMAIL') {
+        let message: any = this.$t('customer.authen.email')
+        this.authenType = message
+      } else if (this.data.faType == 'APP') {
+        let message: any = this.$t('customer.authen.app')
+        this.authenType = message
+      } else {
+        let message: any = this.$t('customer.authen.phone')
+        this.authenType = message
+      }
 
       if (this.data.phoneVerified == '0') {
         let message: any = this.$t('customer.phoneveri.not-verified')
@@ -632,18 +638,7 @@
         email: this.user.email
       }
       await apiAuth.get2FA(params).then((res: any) => {
-        this.type2Fa = res
-        this.typeVerified = this.type2Fa.toLowerCase()
-        if (this.type2Fa == 'EMAIL') {
-          let message: any = this.$t('customer.authen.email')
-          this.authenType = message
-        } else if (this.type2Fa == 'APP') {
-          let message: any = this.$t('customer.authen.app')
-          this.authenType = message
-        } else {
-          let message: any = this.$t('customer.authen.phone')
-          this.authenType = message
-        }
+        this.typeVerified = res.toLowerCase()
       })
     }
     handleSelectCountry(country: string): void {
