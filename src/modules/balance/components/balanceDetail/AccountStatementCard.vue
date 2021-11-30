@@ -107,11 +107,11 @@
     checkStatus(status: string): any {
       switch (status) {
         case 'SUCCESS':
-          return this.$t('status.success')
+          return this.$i18n.t('status.success')
         case 'PENDING':
-          return this.$t('status.pending')
+          return this.$i18n.t('status.pending')
         default:
-          return this.$t('status.failed')
+          return this.$i18n.t('status.failed')
       }
     }
 

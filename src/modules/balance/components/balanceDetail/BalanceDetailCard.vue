@@ -9,8 +9,8 @@
         </div>
       </div>
       <div class='value-card' :class='checkType(tabActiveFilter)'>
-        <p class='current'>{{ dataCard.balance | formatNumber }} {{ dataCard.currency }}</p>
-        <p class='last'>-${{ dataCard.balanceUSD | convertAmountDecimal(this.tabActiveFilter) }}</p>
+        <p class='current'>{{ dataCard.balance | convertAmountDecimal(this.tabActiveFilter.toUpperCase()) }} {{ this.tabActiveFilter.toUpperCase() }}</p>
+        <p class='last'>-${{ dataCard.balanceUSD | convertAmountDecimal("USD") }}</p>
       </div>
     </div>
     <div class="card-item">
@@ -22,8 +22,8 @@
         </div>
       </div>
       <div class='value-card' :class='checkType(tabActiveFilter)'>
-        <p class='current'>{{ dataCard.availableBalance | formatNumber }} {{ dataCard.currency }}</p>
-        <p class='last'>-${{ dataCard.availableBalanceUSD | convertAmountDecimal(this.tabActiveFilter) }}</p>
+        <p class='current'>{{ dataCard.availableBalance | convertAmountDecimal(this.tabActiveFilter.toUpperCase()) }} {{ this.tabActiveFilter.toUpperCase() }}</p>
+        <p class='last'>-${{ dataCard.availableBalanceUSD | convertAmountDecimal("USD") }}</p>
       </div>
     </div>
     <div class="card-item">
@@ -35,8 +35,8 @@
         </div>
       </div>
       <div class='value-card amount-locker'>
-        <p class='current'>{{ dataCard.totalLockedAmount | formatNumber }} {{ dataCard.currency }}</p>
-        <p class='last'>~${{ dataCard.totalLockedAmountUSD | convertAmountDecimal(this.tabActiveFilter) }}</p>
+        <p class='current'>{{ dataCard.totalLockedAmount | convertAmountDecimal(this.tabActiveFilter.toUpperCase()) }} {{ this.tabActiveFilter.toUpperCase() }}</p>
+        <p class='last'>~${{ dataCard.totalLockedAmountUSD | convertAmountDecimal("USD") }}</p>
       </div>
     </div>
   </div>
