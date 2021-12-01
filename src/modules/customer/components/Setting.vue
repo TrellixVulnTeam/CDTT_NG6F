@@ -71,7 +71,7 @@
           @click="handleSubmit"
           >{{ $t('verify.submit') }}
         </el-button>
-        <div v-if="this.data.faType !== 'APP'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
+        <div v-if="this.data.faType !== 'SMS'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
           {{ $t('verify.question') }} &nbsp;<span class="text-hyperlink text-semibold cursor" @click="handleResendCodeLockUser"> {{ $t('verify.re-send') }} </span>
         </div>
         <div v-else class="text-base be-flex jc-space-center mt-24 text-grey-130"></div>
@@ -115,7 +115,7 @@
           @click="handleSubmitResetDefault"
           >{{ $t('verify.submit') }}
         </el-button>
-        <div v-if="this.data.faType !== 'APP'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
+        <div v-if="this.data.faType !== 'SMS'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
           {{ $t('verify.question') }} &nbsp;<span class="text-hyperlink text-semibold cursor" @click="handleResendCodeLockUser"> {{ $t('verify.re-send') }} </span>
         </div>
         <div v-else class="text-base be-flex jc-space-center mt-24 text-grey-130"></div>
@@ -126,7 +126,6 @@
     </base-popup>
 
     <!-- lock user -->
-    <!-- popup rest default-->
     <base-popup name="popup-verify-lock" class="popup-customer-detail" width="480px" :isShowFooter="false" :close="handleCloseLock" :open="handleOpenLock">
       <div class="title-popup" slot="title">
         <span>{{ $t('customer.setting.verify') }}</span>
@@ -160,7 +159,7 @@
           @click="handleSubmitLockUser"
           >{{ $t('verify.submit') }}
         </el-button>
-        <div v-if="this.data.faType !== 'APP'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
+        <div v-if="this.data.faType !== 'SMS'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
           {{ $t('verify.question') }} &nbsp;<span class="text-hyperlink text-semibold cursor" @click="handleResendCodeLockUser"> {{ $t('verify.re-send') }} </span>
         </div>
         <div v-else class="text-base be-flex jc-space-center mt-24 text-grey-130"></div>
@@ -194,7 +193,7 @@
         <div class="be-flex">
           <div class="phone">
             <div class="phone">
-              <base-icon :icon="getIcon" size="40" /><span class="style-phone" style="position: relative; top: -7px; left: -2px">{{ authenType }}</span>
+              <base-icon :icon="getIconUser" size="40" /><span class="style-phone" style="position: relative; top: -7px; left: -2px">{{ authenType }}</span>
             </div>
           </div>
           <!-- <div class="status">verified</div> -->
@@ -312,8 +311,10 @@
     @Watch('form.resendCode') watchSubmit(value: string): void {
       this.disableSubmit = value.length > 0 ? false : true
     }
-    get getIcon(): string {
-      const name = this.type2Fa
+    get getIconUser(): string {
+      const name = this.data.faType
+      console.log('typeaa', this.data.faType)
+
       if (name == 'PHONE') {
         return 'verify-phone'
       }
