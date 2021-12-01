@@ -407,7 +407,9 @@
     "verified": " Đã xác thực",
     "rejected": "Từ chối",
     "unverified": "Chưa xác thực",
-    "locked": "Bị khóa"
+    "locked": "Bị khóa",
+    "success": "Thành công",
+    "failed": "Thất bại"
   },
   "crowdsale": {
     "round": "Vòng",
@@ -586,7 +588,7 @@
     "balance-wallet":"Số dư ví",
     "balance":"Số dư",
     "popup": {
-      "title": "CHI TIẾT BALANCE",
+      "title": "CHI TIẾT SỐ DƯ",
       "available-amount": "Số lượng hiện có",
       "locked-amount": "Số lượng đã khóa",
       "opening-balance": "Số dư đầu kỳ",
@@ -596,7 +598,7 @@
       "balance": "Số dư",
       "status": "Trạng thái",
       "ending-balance": "Số dư cuối",
-      "total": "TOTAL",
+      "total": "Tổng",
       "account-statement": "Bảng sao kê",
       "withdrawal-request": "Yêu cầu rút",
       "wallet": {
