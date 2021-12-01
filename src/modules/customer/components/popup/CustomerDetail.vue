@@ -67,8 +67,7 @@
           <customer-transaction v-if='tabActive === 4' :userId='detailRow.userId' />
           <customer-referral v-if='tabActive === 5' :userId='detailRow.userId' />
           <customer-bonus v-if='tabActive === 6' :userId='detailRow.userId' />
-          <statistic v-if='tabActive === 7' :userId='detailRow.userId' :summary='summary'
-                     :list-statistics='listStatistics' />
+          <statistic v-if='tabActive === 7'  :summary='summary' :list-statistics='listStatistics' :is-loading='isLoading'/>
           <setting v-if='tabActive === 8' :userId='detailRow.userId' :dataDetail='detailRow' :summary='summary' />
         </div>
       </div>
@@ -94,18 +93,18 @@
   const apiCustomer: CustomerRepository = getRepository('customer')
 
   export interface IStatistics {
-    transactionType: string
-    numOfTransaction: number
-    lastTransaction: string
-    totalAmount: number
-    avgAmount: number
+    transactionType: string|null
+    numOfTransaction: number|null
+    lastTransaction: string|null
+    totalAmount: number|null
+    avgAmount: number|null
   }
 
   export interface ISummary {
-    totalWithdraw: number
-    totalTrade: number
-    totalBalance: number
-    totalDeposit: number
+    totalWithdraw: number|null
+    totalTrade: number|null
+    totalBalance: number|null
+    totalDeposit: number|null
   }
 
   @Component({
@@ -126,8 +125,8 @@
 
     detail: Record<string, any> = {}
     isLoading = false
-    listStatistics: IStatistics[]=[]
-    summary: ISummary={}as ISummary
+    listStatistics!: IStatistics[]
+    summary!: ISummary
     tabs: Record<string, any>[] = [
       {
         id: 0,
@@ -209,7 +208,6 @@
     }
 
     handleOpen(): void {
-      this.initStatistics()
       this.lang = window.localStorage.getItem('bc-lang')!
     }
 
@@ -225,8 +223,8 @@
       this.isLoading=true;
       try {
         const result = await apiCustomer.getStatistics(this.detailRow.userId)
-        this.listStatistics = result.statistics
-        this.summary = result.summary
+        this.listStatistics = result.statistics;
+        this.summary = result.summary;
         this.isLoading=false;
       } catch (e) {
         console.log(e)
@@ -234,10 +232,10 @@
     }
 
     handleChangeTab(tab: Record<string, any>): void {
-      this.tabActive = tab.id
       if (tab.id===7){
         this.initStatistics()
       }
+      this.tabActive = tab.id
     }
   }
 </script>

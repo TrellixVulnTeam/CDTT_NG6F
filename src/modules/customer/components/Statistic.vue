@@ -1,6 +1,6 @@
 <template>
   <div class="list-balance">
-    <div class="statistics-card be-flex">
+    <div v-loading="isLoading" class="statistics-card be-flex">
       <div class="item-statistics" v-for="(value, index) in dataStatisticCard" :key="index">
         <div class="be-flex jc-space-between">
           <p>{{ value.label }}</p>
@@ -56,19 +56,17 @@
   import { IStatistics, ISummary } from '@/modules/customer/components/popup/CustomerDetail.vue'
   //const apiCustomer: CustomerRepository = getRepository('customer')
 
-  @Component({ components: { BaseIcon, FilterMain } })
+  @Component({ components: { BaseIcon } })
   export default class Statistic extends Vue {
-    @Prop({ required: true, type: Array, default: 0 }) listStatistics!: IStatistics[]
-    @Prop({ required: true, type: Object, default: 0 }) summary!: ISummary
-    listReferral: Record<string, any>[] = []
-    isLoading = false
-
+    @Prop({ required: true, type: Array, default: [] }) listStatistics!: IStatistics[]
+    @Prop({ required: true, type: Object, default: {} }) summary!: ISummary
+    @Prop({ required: true, type: Boolean, default: false  }) isLoading!:boolean
     query: Record<string, any> = {
       page: 1,
       limit: 10,
       total: 0
     }
-    dataStatisticCard: Array<Record<string, any>> = [
+    dataStatisticCard: Array<Record<any, any>> = [
       {
         id: 0,
         label:this.$i18n.t('customer.statistics.balance'),
