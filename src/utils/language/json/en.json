@@ -384,7 +384,12 @@
       "balance": "Balance",
       "total-deposit": "Total Deposit",
       "total-withdraw": "Total Withdraw",
-      "total-trade": "Total Trade"
+      "total-trade": "Total Trade",
+      "bonus": "Bonus",
+      "crowdsale": "Crowdsale",
+      "deposit":"Deposit",
+      "transfer": "Transfer",
+      "withdraw": "Withdraw"
     }
   },
   "transaction": {

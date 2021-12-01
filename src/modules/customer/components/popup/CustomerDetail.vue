@@ -235,6 +235,9 @@
 
     handleChangeTab(tab: Record<string, any>): void {
       this.tabActive = tab.id
+      if (tab.id===7){
+        this.initStatistics()
+      }
     }
   }
 </script>

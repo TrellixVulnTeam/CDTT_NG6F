@@ -288,9 +288,9 @@
       "amount": "số lượng",
       "paid": "Đã thanh toán",
       "pending": "Pending",
-      "num-of-trans": "SỐ LƯỢNG CHUYỂN",
-      "total-amount": "TỔNG CỘNG",
-      "avg-trans-amount": "SỐ TIỀN CHUYỂN KHOẢN TRUNG BÌNH ",
+      "num-of-trans": "SỐ LẦN GIAO DỊCH",
+      "total-amount": "TỔNG SỐ",
+      "avg-trans-amount": "SỐ TIỀN GIAO DỊCH TRUNG BÌNH ",
       "last-transaction": "GIAO DỊCH CUỐI CÙNG"
     },
     "select": {
@@ -334,7 +334,12 @@
       "balance": "Số dư",
       "total-deposit": "Tổng tiền gửi",
       "total-withdraw": "Tổng số tiền đã rút",
-      "total-trade": "Tổng giao dịch"
+      "total-trade": "Tổng số tiền đã bán",
+      "bonus": "Tiền thưởng",
+      "crowdsale": "Crowdsale",
+      "deposit":"Tiền nạp",
+      "transfer": "Tiền chuyển",
+      "withdraw": "Tiền rút"
     }
   },
   "transaction": {
