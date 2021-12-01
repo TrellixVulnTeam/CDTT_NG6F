@@ -59,7 +59,7 @@
   export default class KycTable extends Vue {
     @Prop({ required: true, type: Object, default: {} }) query!: Record<string, any>
     @Prop({ required: true, type: Array, default: [] }) data!: Array<Record<string, any>>
-
+    @Prop() propTabActive!: string
     get getPaginationInfo(): any {
       return this.$t('paging.investor')
     }
@@ -70,8 +70,10 @@
     getDataSelectTab(): void {
       console.log('1')
     }
-    created() {
-      console.log('hjaha', this.data)
+    created(): void {
+      // EventBus.$on('pushAvatar', url => {
+      //   this.image = url
+      // })
     }
     checkStatus(status: string): any {
       switch (status) {

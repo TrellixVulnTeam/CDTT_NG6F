@@ -57,7 +57,15 @@
       </div>
     </div>
     <balance-filter @filterBalance="handleFilter" :listApproveBy="listApproveBy" />
-    <balance-table v-loading="isLoading" @rowClick="handleRowClick" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="propdataTable" />
+    <balance-table
+      v-loading="isLoading"
+      @rowClick="handleRowClick"
+      @sizeChange="handleSizeChange"
+      @pageChange="handlePageChange"
+      :query="query"
+      :propTabActive="tabActive"
+      :data="propdataTable"
+    />
     <!-- <kyc-detail :detailRow="detailRow" @init="init" /> -->
     <balance-detail :detailRow="detailRow" :data="dataDetail" :tab-active-filter="tabActive" />
   </div>
@@ -149,7 +157,7 @@
     }
     propdataTable: Record<string, any>[] = []
     async init(): Promise<void> {
-      this.data= []
+      this.data = []
       this.propdataTable = []
       try {
         console.log('query', this.query)
@@ -212,6 +220,7 @@
     }
 
     handleChangeTab(tab: Record<string, any>): void {
+      // console.log('tab', tab.title)
       this.$router.push({ name: tab.routeName })
       // this.query.tabBalance = this.kycStatus[tab.title]
       this.tabActive = tab.title
@@ -228,8 +237,11 @@
       this.init()
       this.resetQuery()
       EventBus.$emit('selectTabBalance')
+      EventBus.$emit('changeTab',this.tabActive)
     }
-
+    destroyed(): void {
+      EventBus.$off('selectTabBalance')
+    }
     resetQuery(): void {
       this.query = {
         ...this.query,
