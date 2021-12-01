@@ -8,9 +8,9 @@
           <p>{{ $t('balance.balance') }}</p>
         </div>
       </div>
-      <div class="value-card" :class="checkType(tabActiveFilter)">
-        <p class="current">{{ dataCard.balance | numberWithCommas }} {{ dataCard.currency }}</p>
-        <p class="last">-${{ dataCard.balanceUSD | numberWithCommas }}</p>
+      <div class='value-card' :class='checkType(tabActiveFilter)'>
+        <p class='current'>{{ dataCard.balance | convertAmountDecimal(this.tabActiveFilter.toUpperCase()) }} {{ this.tabActiveFilter.toUpperCase() }}</p>
+        <p class='last'>-${{ dataCard.balanceUSD | convertAmountDecimal("USD") }}</p>
       </div>
     </div>
     <div class="card-item">
@@ -21,9 +21,9 @@
           <p>{{ $t('balance.popup.available-amount') }}</p>
         </div>
       </div>
-      <div class="value-card" :class="checkType(tabActiveFilter)">
-        <p class="current">{{ dataCard.availableBalance | numberWithCommas }} {{ dataCard.currency }}</p>
-        <p class="last">-${{ dataCard.availableBalanceUSD | numberWithCommas }}</p>
+      <div class='value-card' :class='checkType(tabActiveFilter)'>
+        <p class='current'>{{ dataCard.availableBalance | convertAmountDecimal(this.tabActiveFilter.toUpperCase()) }} {{ this.tabActiveFilter.toUpperCase() }}</p>
+        <p class='last'>-${{ dataCard.availableBalanceUSD | convertAmountDecimal("USD") }}</p>
       </div>
     </div>
     <div class="card-item">
@@ -34,9 +34,9 @@
           <p>{{ $t('balance.popup.withdrawal-request') }}</p>
         </div>
       </div>
-      <div class="value-card amount-locker">
-        <p class="current">{{ dataCard.totalLockedAmount | numberWithCommas }} {{ dataCard.currency }}</p>
-        <p class="last">~${{ dataCard.totalLockedAmountUSD | numberWithCommas }}</p>
+      <div class='value-card amount-locker'>
+        <p class='current'>{{ dataCard.totalLockedAmount | convertAmountDecimal(this.tabActiveFilter.toUpperCase()) }} {{ this.tabActiveFilter.toUpperCase() }}</p>
+        <p class='last'>~${{ dataCard.totalLockedAmountUSD | convertAmountDecimal("USD") }}</p>
       </div>
     </div>
   </div>
@@ -48,7 +48,6 @@
   export default class BalanceDetailCard extends Vue {
     @Prop({ required: true, type: Object, default: {} }) dataCard!: Record<string, any>
     @Prop({ required: true }) tabActiveFilter!: string
-
     checkCoin(type: string): string {
       return type === 'lynk'
         ? (this.$i18n.t('balance.popup.wallet.lynk-wallet') as string)
@@ -137,6 +136,8 @@
         .current {
           font-weight: 600;
           font-size: 24px;
+          word-wrap: break-word;
+          word-break: break-word;
         }
 
         .last {

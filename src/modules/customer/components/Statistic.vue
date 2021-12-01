@@ -6,7 +6,7 @@
           <p>{{ value.label }}</p>
           <base-icon :icon="value.icon" size="20" style="display: inline-flex" />
         </div>
-        <p class="value-statistics">${{ value.value }}</p>
+        <p class="value-statistics">${{ value.value | convertAmountDecimal("USD")}}</p>
       </div>
     </div>
     <div class="title-list-statistics">
@@ -24,12 +24,12 @@
         <el-table-column :label="$t('customer.table.num-of-trans')" prop="numOfTransaction" align="center"></el-table-column>
         <el-table-column :label="$t('customer.table.total-amount')" prop="totalAmount" align="right">
           <template slot-scope="scope">
-            <span class="text-base">${{ scope.row.totalAmount | numberWithCommas }} </span>
+            <span class="text-base">${{ scope.row.totalAmount | convertAmountDecimal("USD") }} </span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('customer.table.avg-trans-amount')" align="right" prop="avgAmount" width="210">
           <template slot-scope="scope">
-            <span>${{ scope.row.avgAmount | numberWithCommas }}</span>
+            <span>${{ scope.row.avgAmount | convertAmountDecimal("USD") }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('customer.table.last-transaction')" prop="lastTransaction" width="210" align="center">
@@ -194,7 +194,12 @@
         .value-statistics {
           font-size: 30px;
           color: #0a0b0d;
-          margin-top: 8px;
+          line-height: 48px;
+        }
+        p{
+          color: #5B616E;
+          font-size: 16px;
+          line-height: 24px;
         }
       }
     }
