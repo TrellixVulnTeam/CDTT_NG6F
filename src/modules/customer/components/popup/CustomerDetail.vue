@@ -67,8 +67,8 @@
           <customer-transaction v-if='tabActive === 4' :userId='detailRow.userId' />
           <customer-referral v-if='tabActive === 5' :userId='detailRow.userId' />
           <customer-bonus v-if='tabActive === 6' :userId='detailRow.userId' />
-          <statistic v-if='tabActive === 7'  :summary='summary' :list-statistics='listStatistics' :is-loading='isLoading'/>
-          <setting v-if='tabActive === 8' :userId='detailRow.userId' :dataDetail='detailRow' :summary='summary' />
+          <statistic v-if='tabActive === 7'  :summary='summaryStatistic' :list-statistics='listStatistics' :is-loading='isLoading'/>
+          <setting v-if='tabActive === 8' :userId='detailRow.userId' :dataDetail='detailRow'  />
         </div>
       </div>
     </div>
@@ -126,7 +126,7 @@
     detail: Record<string, any> = {}
     isLoading = false
     listStatistics!: IStatistics[]
-    summary!: ISummary
+    summaryStatistic!: ISummary
     tabs: Record<string, any>[] = [
       {
         id: 0,
@@ -224,7 +224,7 @@
       try {
         const result = await apiCustomer.getStatistics(this.detailRow.userId)
         this.listStatistics = result.statistics;
-        this.summary = result.summary;
+        this.summaryStatistic = result.summary;
         this.isLoading=false;
       } catch (e) {
         console.log(e)
