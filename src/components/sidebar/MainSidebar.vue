@@ -37,6 +37,13 @@
         <p>{{ $t('leftMenu.balance') }}</p>
       </div>
     </router-link> -->
+     <router-link :to="{ name: 'Transaction' }" class="router_center">
+    <div class="sack_avatar">
+      <base-icon :icon="coinMain === 'LYNK' ? 'menu-swap-active' : 'menu-swap-active-clm'" class="menu-active" size="32" />
+      <base-icon icon="menu-swap-active-clm" class="menu" size="32" />
+      <p>{{ $t('leftMenu.transaction') }}</p>
+    </div>
+  </router-link>
 
     <router-link :to="{ name: 'Request' }" v-if="checkPemission('request', ['view'])" class="router_center">
       <div class="sack_avatar">

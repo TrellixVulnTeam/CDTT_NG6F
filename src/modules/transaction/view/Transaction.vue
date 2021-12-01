@@ -1,0 +1,440 @@
+<template>
+  <div class='w-100 bo-kyc'>
+    <div class='bg-white wallet-header'>
+      <div class='be-flex align-center jc-space-between wallet-header__above'>
+        <div class='wallet-header__above-tabs be-flex'>
+          <div class='tab-item cursor' v-for='tab in tabs' :key='tab.id'
+               :class="$route.name === tab.routeName ? 'tab-active' : null" @click='handleChangeTab(tab)'>
+            <span class='text-base'>{{ $t(`menu.${tab.title}`) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class='container bg-white wallet-header' style='width: 100%'>
+      <div style='' class='col-width col-margin'>
+        <div class='sack-banlance'>
+          <span class='text1'>
+            {{ $t(`transaction.table.total-deposit`) }}
+          </span>
+          <div>
+            <base-icon icon='icon-people' size='19' />
+          </div>
+        </div>
+        <span class='number2'> {{ numOfInvestor }}</span>
+        <div>
+          <span class='text3'> {{ $t(`balance.of-total`) }} {{ numOfUser | formatNumber }}</span>
+        </div>
+      </div>
+
+      <div class='col-width col-margin'>
+        <div class='sack-banlance'>
+          <span class='text1'>{{ $t(`transaction.table.total-withdraw`) }}</span>
+          <div>
+            <base-icon icon='icon-swap' size='19' />
+          </div>
+        </div>
+        <span class='number2'> {{ totalAvailable | formatNumber }}</span>
+        <span class='text3'> ~ ${{ totalAvailableUSD | convertAmountDecimal('USD') }}</span>
+      </div>
+      <div class='col-width col-margin'>
+        <div class='sack-banlance'>
+          <span class='text1'>{{ $t(`transaction.table.total-transfer`) }}</span>
+          <div>
+            <base-icon icon='icon-lock-balance' size='19' />
+          </div>
+        </div>
+        <span class='number2'> {{ totalLocked | formatNumber }}</span>
+        <span class='text3'>~ ${{ totalLockedUSD | convertAmountDecimal('USD') }}</span>
+      </div>
+      <div class='col-width col-margin'>
+        <div class='sack-banlance'>
+          <span class='text1'> {{ $t(`transaction.table.total-bonus`) }}</span>
+          <div>
+            <base-icon icon='icon-wallet' size='19' />
+          </div>
+        </div>
+        <span class='number2'> {{ totalBalance | formatNumber }}</span>
+        <span class='text3'> ~ ${{ totalBalanceUSD | convertAmountDecimal('USD') }}</span>
+      </div>
+    </div>
+    <transaction-filter @filterBalance='handleFilter' :listApproveBy='listApproveBy' />
+    <transaction-table v-loading='isLoading' @rowClick='handleRowClick' @sizeChange='handleSizeChange'
+                   @pageChange='handlePageChange' :query='query' :data='propdataTable' />
+    <!-- <kyc-detail :detailRow="detailRow" @init="init" /> -->
+    <balance-detail :detailRow='detailRow' :data='dataDetail' :tab-active-filter='tabActive' />
+  </div>
+</template>
+
+<script lang='ts'>
+  import { Component, Mixins, Watch } from 'vue-property-decorator'
+  //@ts-ignore
+  import TransactionTable from '../components/TransactionTable.vue'
+  import TransactionFilter from '../components/filter/TransactionFilter.vue'
+  import PopupMixin from '@/mixins/popup'
+  import getRepository from '@/services'
+  import { BalanceRepository } from '@/services/repositories/balance'
+  import EventBus from '@/utils/eventBus'
+  import { debounce } from 'lodash'
+
+  import BalanceDetail from '@/modules/balance/components/balanceDetail/BalanceDetail.vue'
+
+  const api: BalanceRepository = getRepository('balance')
+
+  interface IDataCard {
+   totalDeposit:number,
+    totalDepositTransaction:number,
+    totalWithdraw:number,
+    totalWithdrawTransaction:number,
+    totalTransfer:number,
+    totalTransferTransaction:number,
+    totalBonus:number,
+    totalBonusTransaction:number,
+  }
+
+  @Component({ components: { TransactionTable, TransactionFilter, BalanceDetail } })
+  export default class Transaction extends Mixins(PopupMixin) {
+    tabs: Array<Record<string, any>> = [
+      {
+        id: 1,
+        title: 'deposit',
+        routeName: 'TransactionDeposit'
+      },
+      {
+        id: 2,
+        title: 'withdraw',
+        routeName: 'TransactionWithdraw'
+      },
+      {
+        id: 3,
+        title: 'transfer',
+        routeName: 'TransactionTransfer'
+      },
+      {
+        id: 4,
+        title: 'bonus',
+        routeName: 'TransactionBonus'
+      }
+    ]
+    titlePending = ''
+    tabActive = 'Deposit'
+    isLoading = false
+
+    data: Array<Record<string, any>> = []
+
+    detailRow = {}
+    dataDetail = {}
+    query: any = {
+      search: '',
+      orderBy: 1,
+      page: 1,
+      limit: 10,
+      total: 10
+    }
+    numOfInvestor = ''
+    numOfUser = ''
+    totalAvailable = ''
+    totalBalance = ''
+    totalElement = ''
+    totalLocked = ''
+    totalAvailableUSD = ''
+    totalLockedUSD = ''
+    totalBalanceUSD = ''
+    listApproveBy: Record<string, any>[] = []
+
+    getListBalance(): void {
+      console.log('1')
+    }
+
+    created(): void {
+      // apiKyc.getListApprove({ page: 1, limit: 20 }).then(res => {
+      //   this.listApproveBy = res.content || []
+      // })
+      // const name = this.$route.name
+      // this.query.kycStatus = name === 'KycPending' ? 'PENDING' : name === 'KycVerified' ? 'VERIFIED' : 'REJECTED'
+      // this.init()
+    }
+
+    propdataTable: Record<string, any>[] = []
+
+    async init(): Promise<void> {
+      try {
+        console.log('query', this.query)
+        this.isLoading = true
+        const params = {
+          ...this.query,
+          search: this.query.search,
+          orderBy: this.query.orderBy,
+          limit: this.query.limit,
+          page: this.query.page,
+          total: null
+        }
+        const result = await api.getlistBalance(this.tabActive, params)
+        this.data = result.balances || []
+        this.query.total = result.totalElement
+        this.isLoading = false
+        if (this.data.length > 0) {
+          for (let i = 0; i < this.data.length; i++) {
+            let str = this.data[i].email
+            const newEmail = str.substring(0, 6) + '...' + str.substring(str.length - 10, str.length)
+            const dataItem = {
+              ...this.data[i],
+              email: newEmail
+            }
+            this.propdataTable.push(dataItem)
+          }
+        }
+
+        console.log('propdataTable', this.propdataTable)
+
+        this.numOfInvestor = result.numOfInvestor
+        this.numOfUser = result.numOfUser
+        this.totalAvailable = result.totalAvailable
+        this.totalBalance = result.totalBalance
+        this.totalLocked = result.totalLocked
+        this.totalBalance = result.totalBalance
+        this.totalAvailableUSD = result.totalAvailableUSD
+        this.totalLockedUSD = result.totalLockedUSD
+        this.totalBalanceUSD = result.totalBalanceUSD
+      } catch (error) {
+        this.isLoading = false
+        console.log(error)
+      }
+    }
+
+    async handleGetBalanceDetail(userId: number) {
+      try {
+        const params = {
+          ...this.query,
+          search: this.query.search,
+          orderBy: this.query.orderBy,
+          limit: this.query.limit,
+          page: this.query.page,
+          total: null
+        }
+      } catch (error) {
+        this.isLoading = false
+        console.log(error)
+      }
+    }
+
+    handleChangeTab(tab: Record<string, any>): void {
+      this.$router.push({ name: tab.routeName })
+      // this.query.tabBalance = this.kycStatus[tab.title]
+      this.tabActive = tab.title
+      this.query.page = 1
+      this.query.limit = 10
+      this.query.orderBy = 1
+      this.query.toBalanceAmount = ''
+      ;(this.query.fromBalanceAmount = ''),
+        (this.query.toLockedAmount = ''),
+        (this.query.fromLockedAmount = ''),
+        (this.query.toAvailableAmount = ''),
+        (this.query.fromAvailableAmount = ''),
+        (this.query.search = '')
+      this.init()
+      this.resetQuery()
+      EventBus.$emit('selectTabBalance')
+    }
+
+    resetQuery(): void {
+      this.query = {
+        ...this.query,
+        page: 1,
+        limit: 10,
+        search: '',
+        orderBy: '1'
+      }
+    }
+
+    handlePageChange(page: number): void {
+      this.query.page = page
+      this.init()
+    }
+
+    handleSizeChange(limit: number): void {
+      this.query.limit = limit
+      this.init()
+    }
+
+    handleRowClick(row: Record<string, any>): void {
+      this.detailRow = row
+      this.setOpenPopup({
+        popupName: 'popup-balance-detail',
+        isOpen: true
+      })
+    }
+
+    handleFilter(filter: Record<string, any>): void {
+      this.query = {
+        ...this.query,
+        ...filter
+      }
+      this.debounceInit()
+    }
+
+    debounceInit = debounce(() => {
+      this.init()
+    }, 300)
+  }
+</script>
+
+<style scoped lang='scss'>
+  .container {
+    text-align: justify;
+    -ms-text-justify: distribute-all-lines;
+    text-justify: distribute-all-lines;
+    width: 100%;
+  }
+
+  .bo-kyc .wallet-header__above-tabs .tab-item {
+    color: var(--bc-text-discript);
+  }
+
+  ::v-deep .container > div {
+    width: 100px;
+    height: 100px;
+    vertical-align: top;
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    background: #efefef;
+  }
+
+  .sack-banlance {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 6px;
+    padding: 0 18px;
+  }
+
+  .col-width {
+    width: 20% !important;
+    height: 112px !important;
+    border-radius: 8px !important;
+    border: 1px solid #dbdbdb !important;
+    box-sizing: border-box !important;
+  }
+
+  .text1 {
+    // margin-top: 16px;
+    // margin-left: 18px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--bc-text-discript);
+  }
+
+  .number2 {
+    margin-top: 8px;
+    margin-left: 18px;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 32px;
+    color: #0a0b0d;
+  }
+
+  .text3 {
+    margin-top: 6px;
+    margin-left: 18px;
+    margin-bottom: 16px;
+    color: var(--bc-text-discript);
+  }
+
+  .col-margin {
+    margin: 24px 24px;
+    background: #fff !important;
+  }
+
+  .container > div {
+    width: 100px;
+    height: 100px;
+    vertical-align: top;
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    background: red;
+  }
+
+  span {
+    width: 100%;
+    display: inline-block;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .bo-kyc {
+    box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
+    border-radius: 4px;
+
+    .wallet-header {
+      &__above {
+        border-bottom: 1px solid var(--bc-border-primary);
+
+        &-tabs {
+          .tab-item {
+            padding: 16px 12px;
+            position: relative;
+
+            &:hover {
+              color: var(--bc-tab-active);
+            }
+          }
+
+          .tab-active {
+            color: var(--bc-tab-active);
+            font-weight: 600;
+
+            &::after {
+              content: '';
+              position: absolute;
+              width: 100%;
+              height: 2px;
+              bottom: 0;
+              left: 0;
+              background-color: var(--bc-tab-active);
+            }
+          }
+        }
+      }
+
+      &__below {
+        padding: 24px;
+
+        &-amount {
+          .amount-wallet,
+          .amount-lock {
+            flex: 1;
+
+            .title {
+              margin-left: 16px;
+
+              .title-coin {
+                color: #201f1e;
+              }
+            }
+
+            .amount {
+              margin-top: 10px;
+
+              .amount-btc {
+                color: var(--bc-amount-btc);
+              }
+
+              .amount-lyn {
+                color: var(--bc-amount-lin);
+              }
+
+              .amount-lock {
+                color: var(--bc-amount-lock);
+              }
+            }
+          }
+
+          .amount-wallet {
+            border-right: 1px solid var(--bc-border-primary);
+          }
+        }
+      }
+    }
+  }
+</style>
