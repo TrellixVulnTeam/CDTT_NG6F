@@ -379,6 +379,12 @@
     "phoneveri":{
       "verified":"Verified",
       "not-verified":"Not verified"
+    },
+    "statistics": {
+      "balance": "Balance",
+      "total-deposit": "Total Deposit",
+      "total-withdraw": "Total Withdraw",
+      "total-trade": "Total Trade"
     }
   },
   "transaction": {

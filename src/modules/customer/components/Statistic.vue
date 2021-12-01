@@ -15,13 +15,17 @@
     <div class="table" v-loading="isLoading" :class="isLoading ? 'list-loading' : null">
       <base-table :data="listStatistics" :showPagination="false" class="base-table table-wallet">
         <el-table-column label="#" :index="getIndex" type="index" width="40" />
-        <el-table-column :label="$t('customer.table.type')" prop="transactionType" align="left">
+        <el-table-column :label="$t('customer.table.type')" width="150" prop="transactionType" align="left">
           <template slot-scope="scope">
             <span>{{ scope.row.transactionType | formatType }}</span>
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('customer.table.num-of-trans')" prop="numOfTransaction" align="center"></el-table-column>
+        <el-table-column :label="$t('customer.table.num-of-trans')" prop="numOfTransaction" width="144" align="center">
+          <template slot-scope="scope">
+            <span class="text-base">{{ scope.row.numOfTransaction | digitNumber }} </span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('customer.table.total-amount')" prop="totalAmount" align="right">
           <template slot-scope="scope">
             <span class="text-base">${{ scope.row.totalAmount | convertAmountDecimal("USD") }} </span>
@@ -67,27 +71,27 @@
     dataStatisticCard: Array<Record<string, any>> = [
       {
         id: 0,
-        label: 'Balance',
+        label:this.$i18n.t('customer.statistics.balance'),
         icon: 'icon-wallet',
-        value: this.summary.totalBalance ? this.summary.totalBalance : 0
+        value: this.summary.totalBalance ? this.summary.totalBalance<0?this.summary.totalBalance*(-1):this.summary.totalBalance : 0
       },
       {
         id: 1,
-        label: 'Total Deposit',
+        label: this.$i18n.t('customer.statistics.total-deposit'),
         icon: 'icon-download',
-        value: this.summary.totalDeposit ? this.summary.totalDeposit : 0
+        value: this.summary.totalDeposit ? this.summary.totalDeposit<0?this.summary.totalDeposit*(-1):this.summary.totalDeposit : 0
       },
       {
         id: 2,
-        label: 'Total Withdraw',
+        label:this.$i18n.t('customer.statistics.total-withdraw'),
         icon: 'icon-upload',
-        value: this.summary.totalWithdraw ? this.summary.totalWithdraw : 0
+        value: this.summary.totalWithdraw ? this.summary.totalWithdraw<0?this.summary.totalWithdraw*(-1):this.summary.totalWithdraw : 0
       },
       {
         id: 3,
-        label: 'Total Trade',
+        label: this.$i18n.t('customer.statistics.total-trade'),
         icon: 'icon-swap',
-        value: this.summary.totalTrade ? this.summary.totalTrade : 0
+        value: this.summary.totalTrade ? this.summary.totalTrade<0?this.summary.totalTrade*(-1):this.summary.totalTrade: 0
       }
     ]
 
