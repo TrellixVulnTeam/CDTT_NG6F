@@ -17,7 +17,7 @@
         <el-table-column label="#" :index="getIndex" type="index" width="40" />
         <el-table-column :label="$t('customer.table.type')" width="150" prop="transactionType" align="left">
           <template slot-scope="scope">
-            <span>{{ scope.row.transactionType | formatType }}</span>
+            <span>{{formatTypeStatistics(scope.row.transactionType) }}</span>
           </template>
         </el-table-column>
 
@@ -111,9 +111,21 @@
     ]
 
     created(): void {
-      this.handleGetListReferral()
     }
-
+    formatTypeStatistics(type:string){
+      switch (type) {
+        case 'BONUS':
+          return this.$i18n.t('customer.statistics.bonus')
+        case 'CROWDSALE':
+          return this.$i18n.t('customer.statistics.crowdsale')
+        case 'DEPOSIT':
+          return this.$i18n.t('customer.statistics.deposit')
+        case 'TRANSFER':
+          return this.$i18n.t('customer.statistics.transfer')
+        case 'WITHDRAW':
+          return this.$i18n.t('customer.statistics.withdraw')
+      }
+    }
     get getIndex(): number {
       return this.query.limit * (this.query.page - 1) + 1
     }
@@ -122,37 +134,19 @@
       return this.$t('paging.investor')
     }
 
-    async handleGetListReferral(): Promise<void> {
-      // try {
-      //   this.isLoading = true
-      //   const params = {
-      //     ...this.query,
-      //     total: null,
-      //     userId: this.userId
-      //   }
-      //   const result = await apiCustomer.getlistReferral(params)
-      //   this.listReferral = result.content
-      //   this.query.total = result.totalElements
-      //   this.isLoading = false
-      // } catch (error) {
-      //   this.isLoading = false
-      //   console.log(error)
-      // }
-    }
 
     handleSizeChange(value: number): void {
       this.query.limit = value
-      this.handleGetListReferral()
     }
 
     handleCurrentChange(value: number): void {
       this.query.page = value
-      this.handleGetListReferral()
+
     }
 
     handleFilter(filter: Record<string, any>): void {
       this.query = { ...this.query, ...filter }
-      this.handleGetListReferral()
+
     }
 
     handleShowPopper(): void {
