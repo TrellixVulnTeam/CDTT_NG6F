@@ -26,7 +26,7 @@
         <el-table-column :label="$t('balance.popup.credit')" align="right" prop="creditAmountDisplay">
           <template slot-scope="scope">
             <span v-if="scope.row.creditAmount === 0" style="color: #129961; font-size: 16px"> {{ scope.row.creditAmountDisplay }}</span>
-            <span v-else style="color: #129961; font-size: 16px">+ {{ scope.row.creditAmountDisplay }}</span>
+            <span v-else style="color: #129961; font-size: 16px">+{{ scope.row.creditAmountDisplay }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('balance.popup.debit')" align="right" prop="debitAmountDisplay">
@@ -49,7 +49,7 @@
       <p class='credit' v-if="summary.totalCreditAmount === '0'">0</p>
       <p class='credit' v-else>+ {{ summary.totalCreditAmount | numberWithCommas }}</p>
       <p v-if="summary.totalDebitAmount === '0'">0</p>
-      <p v-else>- {{ summary.totalDebitAmount | numberWithCommas }}</p>
+      <p v-else>-{{ summary.totalDebitAmount | numberWithCommas }}</p>
     </div>
     <div class="ending-balance be-flex jc-space-between">
       <p>{{ $t('balance.popup.ending-balance') }}</p>
