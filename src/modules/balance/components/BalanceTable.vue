@@ -24,8 +24,8 @@
         <el-table-column :label="$t('balance.available')" align="right">
           <template slot-scope="scope">
             <div class="box-paid">
-              <p class="text-paid fw-400 fs-16">{{ scope.row.availableBalance | convertAmountDecimal(scope.row.availableBalanceUSD) }} {{ scope.row.currency }}</p>
-              <p class="avi fw-400 fs-14" style="color: #5b616e">~ ${{ scope.row.availableBalanceUSD | convertAmountDecimal(scope.row.currency) }}</p>
+              <p class="text-paid fw-400 fs-16">{{ scope.row.availableBalance | convertAmountDecimal(scope.row.currency) }} {{ scope.row.currency }}</p>
+              <p class="avi fw-400 fs-14" style="color: #5b616e">~ ${{ scope.row.availableBalanceUSD | convertAmountDecimal('USD') }}</p>
             </div>
           </template>
         </el-table-column>
@@ -34,7 +34,7 @@
           <template slot-scope="scope">
             <div class="box-paid">
               <p class="text-paid fw-400 fs-16">{{ scope.row.totalLockedAmount | convertAmountDecimal(scope.row.currency) }} {{ scope.row.currency }}</p>
-              <p class="avi fw-400 fs-14" style="color: #5b616e">~ ${{ scope.row.totalLockedAmountUSD | convertAmountDecimal(scope.row.currency) }}</p>
+              <p class="avi fw-400 fs-14" style="color: #5b616e">~ ${{ scope.row.totalLockedAmountUSD | convertAmountDecimal('USD') }}</p>
             </div>
           </template>
         </el-table-column>
@@ -42,8 +42,8 @@
         <el-table-column :label="$t('balance.balance')" align="right">
           <template slot-scope="scope">
             <div class="box-paid">
-              <p class="text-paid fw-400 fs-16">{{ scope.row.balance | convertAmountDecimal(scope.row.availableBalanceUSD) }} {{ scope.row.currency }}</p>
-              <p class="avi fw-400 fs-14" style="color: #5b616e">~ ${{ scope.row.balanceUSD | convertAmountDecimal(scope.row.currency) }}</p>
+              <p class="text-paid fw-400 fs-16">{{ scope.row.balance | convertAmountDecimal(scope.row.currency) }} {{ scope.row.currency }}</p>
+              <p class="avi fw-400 fs-14" style="color: #5b616e">~ ${{ scope.row.balanceUSD | convertAmountDecimal('USD') }}</p>
             </div>
           </template>
         </el-table-column>
@@ -59,7 +59,7 @@
   export default class KycTable extends Vue {
     @Prop({ required: true, type: Object, default: {} }) query!: Record<string, any>
     @Prop({ required: true, type: Array, default: [] }) data!: Array<Record<string, any>>
-
+    @Prop() propTabActive!: string
     get getPaginationInfo(): any {
       return this.$t('paging.investor')
     }
@@ -69,6 +69,11 @@
     }
     getDataSelectTab(): void {
       console.log('1')
+    }
+    created(): void {
+      // EventBus.$on('pushAvatar', url => {
+      //   this.image = url
+      // })
     }
     checkStatus(status: string): any {
       switch (status) {

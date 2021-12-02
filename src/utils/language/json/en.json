@@ -19,8 +19,8 @@
   },
   "verify": {
     "title-phone": "Enter the 6-digit code we texted to your",
-    "title-email": "Enter the 6-digit code we sent to your email",
-    "title-app": "Enter the 6-digit code from your authenticator app",
+    "title-email": "Enter the 6-digit code we sent to your",
+    "title-app": "Enter the 6-digit code from your",
     "label": "Enter 2-step authentication code:",
     "submit": "Submit",
     "question": "Didn’t receive any verification code?",
@@ -225,7 +225,8 @@
     "specialCharacter": "At least 1 special character",
     "password-correct": "Password confirmation doesn't match Password",
     "country": "Please enter your country",
-    "phone-number": "Please enter your phone"
+    "phone-number": "Please enter your phone",
+    "wrong-country": "Please enter your country"
   },
   "notify": {
     "500": "Internal Server Error",
@@ -363,7 +364,7 @@
       "send-code-fail":"Send code verification failed!",
       "lock-user-success":"Locked user successfully!",
       "lock-user-fail":"Locked user failed!",
-      "unlock-user-success":"Unlocked user successfully!",
+      "unlock-user-success":"Unlocked successfully!",
       "unlock-user-fail":"Unlocked user failed!",
       "send-mail-success":"Send mail and verification code to customer successfully!",
       "send-reset-default":"Send mail to customer successfully!",
@@ -374,13 +375,24 @@
       "user-unverified":"Unverified"
     },
     "authen":{
-      "phone":"Phone",
+      "phone":"Phone number",
       "app":"Authenticator app",
       "email":"Email"
     },
     "phoneveri":{
       "verified":"Verified",
       "not-verified":"Not verified"
+    },
+    "statistics": {
+      "balance": "Balance",
+      "total-deposit": "Total Deposit",
+      "total-withdraw": "Total Withdraw",
+      "total-trade": "Total Trade",
+      "bonus": "Bonus",
+      "crowdsale": "Crowdsale",
+      "deposit":"Deposit",
+      "transfer": "Transfer",
+      "withdraw": "Withdraw"
     }
   },
   "transaction": {
@@ -445,6 +457,12 @@
     "setting": "Settings",
     "Transactions": "Transactions",
     "Round": "Round",
+    "LYNK": "LYNK",
+    "BTC": "BTC",
+    "ETH": "ETH",
+    "BNB": "BNB",
+    "USDT": "USDT",
+    "USDC": "USDC"
     "lynk": "LYNK",
     "btc": "BTC",
     "eth": "ETH",
@@ -524,7 +542,7 @@
     "investor":"Investor",
     "total-available":"Total Available",
     "total-locked":"Total Locked",
-    "of-total":"Of total",
+    "of-total":"of total",
     "balance-wallet":"Balance",
     "popup": {
       "title": "BALANCE DETAIL",

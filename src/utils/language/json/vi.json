@@ -253,7 +253,8 @@
   "customer": {
     "verified": "Đã xác thực",
     "popup": {
-      "title": "CHI TIẾT KHÁCH HÀNG"
+      "title": "CHI TIẾT KHÁCH HÀNG",
+      "transaction-statistics": "Thống kê giao dịch"
     },
     "sort": {
       "price": "Giá bán",
@@ -287,10 +288,10 @@
       "amount": "số lượng",
       "paid": "Đã thanh toán",
       "pending": "Pending",
-      "num-of-trans": "NUM OF TRANS",
-      "total-amount": "TOTAL AMOUNT",
-      "avg-trans-amount": "AVG TRANS AMOUNT",
-      "last-transaction": "LAST TRANSACTION"
+      "num-of-trans": "SỐ GIAO DỊCH",
+      "total-amount": "TỔNG SỐ",
+      "avg-trans-amount": "SỐ TIỀN TRUNG BÌNH ",
+      "last-transaction": "GIAO DỊCH CUỐI CÙNG"
     },
     "select": {
       "accepted": "Xác nhận",
@@ -328,6 +329,17 @@
     "phoneveri":{
       "verified":"Đã xác minh",
       "not-verified":"Chưa xác minh"
+    },
+    "statistics": {
+      "balance": "Số dư",
+      "total-deposit": "Tổng số tiền đã nạp",
+      "total-withdraw": "Tổng số tiền đã rút",
+      "total-trade": "Tổng số tiền đã bán",
+      "bonus": "Thưởng",
+      "crowdsale": "Crowdsale",
+      "deposit":"Nạp",
+      "transfer": "Chuyển",
+      "withdraw": "Rút"
     }
   },
   "transaction": {
@@ -388,12 +400,12 @@
     "setting": "Cài đặt",
     "Transactions": "Giao dịch",
     "Round": "Vòng",
-    "lynk": "LYNK",
-    "btc": "BTC",
-    "eth":"ETH",
-    "bnb":"BNB",
-    "usdt":"USDT",
-    "usdc":"USDC"
+    "LYNK": "LYNK",
+    "BTC": "BTC",
+    "ETH": "ETH",
+    "BNB": "BNB",
+    "USDT": "USDT",
+    "USDC": "USDC"
   },
   "status": {
     "pending": "Đang chờ",
