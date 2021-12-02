@@ -37,7 +37,7 @@
         v-loading="loadingTable"
         class="base-table table-crowdsale"
       >
-        <el-table-column label="#" :index="indexMethod" type="index" align="center" width="50" />
+        <el-table-column label="#" :index="indexMethod" type="index" align="center" width="80" />
         <el-table-column label="Email" prop="email" align="left">
           <template slot-scope="scope">
             <div class="box-email-tabel">
