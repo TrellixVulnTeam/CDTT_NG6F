@@ -1,22 +1,22 @@
 <template>
   <div class='list-balance'>
-    <div class='statistics-card be-flex'>
+    <div v-loading='isLoading'  class='statistics-card be-flex'>
       <div class='item-statistics' v-for='(value, index) in dataStatisticCard' :key='index'>
         <div class='be-flex jc-space-between'>
           <p>{{ value.label }}</p>
           <base-icon :icon='value.icon' size='20' style='display: inline-flex' />
         </div>
-        <p class="value-statistics">${{ value.value | convertAmountDecimal('USD') }}</p>
+        <p class='value-statistics'>${{ value.value | convertAmountDecimal('USD') }}</p>
       </div>
     </div>
     <div class='title-list-statistics'>
       <p>{{ $t('customer.popup.transaction-statistics') }}</p>
     </div>
-    <div class="table" v-loading="isLoading" :class="isLoading ? 'list-loading' : null">
-      <base-table :data="listStatistics" :showPagination="false" class="base-table table-wallet">
-        <el-table-column label="#" :index="getIndex" type="index" width="40" />
-        <el-table-column :label="$t('customer.table.type')" width="150" prop="transactionType" align="left">
-          <template slot-scope="scope">
+    <div class='table' v-loading='isLoading' :class="isLoading ? 'list-loading' : null">
+      <base-table :data='listStatistics' :showPagination='false' class='base-table table-wallet'>
+        <el-table-column label='#' :index='getIndex' type='index' width='40' />
+        <el-table-column :label="$t('customer.table.type')" width='150' prop='transactionType' align='left'>
+          <template slot-scope='scope'>
             <span>{{ formatTypeStatistics(scope.row.transactionType) }}</span>
           </template>
         </el-table-column>
@@ -26,13 +26,13 @@
             <span class='text-base'>{{ scope.row.numOfTransaction | digitNumber }} </span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('customer.table.total-amount')" prop="totalAmount" align="right">
-          <template slot-scope="scope">
-            <span class="text-base">${{ scope.row.totalAmount | convertAmountDecimal('USD') }} </span>
+        <el-table-column :label="$t('customer.table.total-amount')" prop='totalAmount' align='right'>
+          <template slot-scope='scope'>
+            <span class='text-base'>${{ scope.row.totalAmount | convertAmountDecimal('USD') }} </span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('customer.table.avg-trans-amount')" align="right" prop="avgAmount" width="210">
-          <template slot-scope="scope">
+        <el-table-column :label="$t('customer.table.avg-trans-amount')" align='right' prop='avgAmount' width='210'>
+          <template slot-scope='scope'>
             <span>${{ scope.row.avgAmount | convertAmountDecimal('USD') }}</span>
           </template>
         </el-table-column>
@@ -51,43 +51,32 @@
   import { Component, Prop, Vue } from 'vue-property-decorator'
   import BaseIcon from '@/components/base/icon/BaseIcon.vue'
   import { IStatistics, ISummary } from '@/modules/customer/components/popup/CustomerDetail.vue'
+  import { CustomerRepository } from '@/services/repositories/customer'
+  import getRepository from '@/services'
   //const apiCustomer: CustomerRepository = getRepository('customer')
-
+  const apiCustomer: CustomerRepository = getRepository('customer')
   @Component({ components: { BaseIcon } })
   export default class Statistic extends Vue {
-    @Prop() listStatistics!: Array<Record<string, any>>
-    @Prop() summary!: Record<string, any>
-    @Prop() isLoading!: boolean
+    // @Prop({
+    //   required: true, type: Array, default: () => {
+    //     return []
+    //   }
+    // }) listStatistics!: IStatistics[]
+    // @Prop({
+    //   required: true, type: Object, default: () => {
+    //     return {}
+    //   }
+    // }) summary!: ISummary
+    @Prop({ required: true, type: Number, default: 0 }) userId!: number
+    isLoading =false
     query: Record<string, any> = {
       page: 1,
       limit: 10,
       total: 0
     }
+    listStatistics:Array<Record<string, any>> = []
+    summary:Record<string, any> = {} 
     dataStatisticCard: Array<Record<string, any>> = [
-      {
-        id: 0,
-        label: this.$i18n.t('customer.statistics.balance'),
-        icon: 'icon-wallet',
-        value: this.summary.totalBalance ? (this.summary.totalBalance < 0 ? this.summary.totalBalance * -1 : this.summary.totalBalance) : 0
-      },
-      {
-        id: 1,
-        label: this.$i18n.t('customer.statistics.total-deposit'),
-        icon: 'icon-download',
-        value: this.summary.totalDeposit ? (this.summary.totalDeposit < 0 ? this.summary.totalDeposit * -1 : this.summary.totalDeposit) : 0
-      },
-      {
-        id: 2,
-        label: this.$i18n.t('customer.statistics.total-withdraw'),
-        icon: 'icon-upload',
-        value: this.summary.totalWithdraw ? (this.summary.totalWithdraw < 0 ? this.summary.totalWithdraw * -1 : this.summary.totalWithdraw) : 0
-      },
-      {
-        id: 3,
-        label: this.$i18n.t('customer.statistics.total-trade'),
-        icon: 'icon-swap',
-        value: this.summary.totalTrade ? (this.summary.totalTrade < 0 ? this.summary.totalTrade * -1 : this.summary.totalTrade) : 0
-      }
     ]
 
     isVisible = false
@@ -105,7 +94,49 @@
       }
     ]
 
-    // created(): void {}
+    mounted(): void {
+      this.initStatistics()
+    }
+
+    async initStatistics(): Promise<any> {
+      this.isLoading = true
+      try {
+        const result = await apiCustomer.getStatistics(this.userId)
+        this.listStatistics = result.statistics
+        this.summary = result.summary
+        console.log(this.summary)
+        this.dataStatisticCard=[
+          {
+            id: 0,
+            label: this.$i18n.t('customer.statistics.balance'),
+            icon: 'icon-wallet',
+            value: this.summary.totalBalance  ? (this.summary.totalBalance < 0 ? this.summary.totalBalance * -1 : this.summary.totalBalance) : 0
+          },
+          {
+            id: 1,
+            label: this.$i18n.t('customer.statistics.total-deposit'),
+            icon: 'icon-download',
+            value: this.summary.totalDeposit  ? (this.summary.totalDeposit < 0 ? this.summary.totalDeposit * -1 : this.summary.totalDeposit) : 0
+          },
+          {
+            id: 2,
+            label: this.$i18n.t('customer.statistics.total-withdraw'),
+            icon: 'icon-upload',
+            value: this.summary.totalWithdraw  ? (this.summary.totalWithdraw < 0 ? this.summary.totalWithdraw * -1 : this.summary.totalWithdraw) : 0
+          },
+          {
+            id: 3,
+            label: this.$i18n.t('customer.statistics.total-trade'),
+            icon: 'icon-swap',
+            value: this.summary.totalTrade ? (this.summary.totalTrade < 0 ? this.summary.totalTrade * -1 : this.summary.totalTrade) : 0
+          }
+        ]
+        this.isLoading = false
+      } catch (e) {
+        console.log(e)
+      }
+    }
+
     formatTypeStatistics(type: string) {
       switch (type) {
         case 'BONUS':
@@ -168,6 +199,7 @@
           color: #0a0b0d;
           line-height: 48px;
         }
+
         p {
           color: #5b616e;
           font-size: 16px;
