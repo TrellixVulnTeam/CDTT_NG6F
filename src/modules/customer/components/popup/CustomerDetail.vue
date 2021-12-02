@@ -67,8 +67,9 @@
           <customer-transaction v-if='tabActive === 4' :userId='detailRow.userId' />
           <customer-referral v-if='tabActive === 5' :userId='detailRow.userId' />
           <customer-bonus v-if='tabActive === 6' :userId='detailRow.userId' />
-          <statistic v-if='tabActive === 7'  :summary='summaryStatistic' :list-statistics='listStatistics' :is-loading='isLoading'/>
-          <setting v-if='tabActive === 8' :userId='detailRow.userId' :dataDetail='detailRow'  />
+          <statistic v-if='tabActive === 7' :summary='summaryStatistic' :list-statistics='listStatistics'
+                     :is-loading='isLoading' />
+          <setting v-if='tabActive === 8' :userId='detailRow.userId' :dataDetail='detailRow' />
         </div>
       </div>
     </div>
@@ -93,18 +94,18 @@
   const apiCustomer: CustomerRepository = getRepository('customer')
 
   export interface IStatistics {
-    transactionType: string|null
-    numOfTransaction: number|null
-    lastTransaction: string|null
-    totalAmount: number|null
-    avgAmount: number|null
+    transactionType: string | null
+    numOfTransaction: number | null
+    lastTransaction: string | null
+    totalAmount: number | null
+    avgAmount: number | null
   }
 
   export interface ISummary {
-    totalWithdraw: number|null
-    totalTrade: number|null
-    totalBalance: number|null
-    totalDeposit: number|null
+    totalWithdraw: number | null
+    totalTrade: number | null
+    totalBalance: number | null
+    totalDeposit: number | null
   }
 
   @Component({
@@ -125,8 +126,8 @@
 
     detail: Record<string, any> = {}
     isLoading = false
-    listStatistics!: IStatistics[]
-    summaryStatistic!: ISummary
+    listStatistics!: Array<Record<string,any>>
+    summaryStatistic!: Record<string, any>
     tabs: Record<string, any>[] = [
       {
         id: 0,
@@ -220,19 +221,19 @@
     }
 
     async initStatistics(): Promise<any> {
-      this.isLoading=true;
+      this.isLoading = true
       try {
         const result = await apiCustomer.getStatistics(this.detailRow.userId)
-        this.listStatistics = result.statistics;
-        this.summaryStatistic = result.summary;
-        this.isLoading=false;
+        this.listStatistics = result.statistics
+        this.summaryStatistic = result.summary
+        this.isLoading = false
       } catch (e) {
         console.log(e)
       }
     }
 
     handleChangeTab(tab: Record<string, any>): void {
-      if (tab.id===7){
+      if (tab.id === 7) {
         this.initStatistics()
       }
       this.tabActive = tab.id
