@@ -373,7 +373,7 @@
       "user-unverified":"Unverified"
     },
     "authen":{
-      "phone":"Phone",
+      "phone":"Phone number",
       "app":"Authenticator app",
       "email":"Email"
     },
