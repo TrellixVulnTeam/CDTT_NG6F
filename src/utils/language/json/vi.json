@@ -18,9 +18,9 @@
     }
   },
   "verify": {
-    "title-phone": "Nhập mã gồm 6 chữ số mà chúng tôi đã nhắn tin đến số điện thoại của bạn",
-    "title-email": "Nhập mã gồm 6 chữ số mà chúng tôi đã gửi đến email của bạn",
-    "title-app": "Nhập mã gồm 6 chữ số từ ứng dụng xác thực của bạn",
+    "title-phone": "Nhập mã gồm 6 chữ số mà chúng tôi đã gửi đến ",
+    "title-email": "Nhập mã gồm 6 chữ số mà chúng tôi đã gửi đến ",
+    "title-app": "Nhập mã gồm 6 chữ số nhận được từ ",
     "label": "Nhập mã xác thực 2 bước:",
     "submit": "Xác nhận",
     "question": "Bạn chưa nhận được mã xác thực?",
@@ -28,7 +28,9 @@
     "wrong-code": "Vui lòng nhập mã xác thực",
     "placeholder": "Nhập mã xác thực",
     "phone-title": "Xác minh số điện thoại",
-    "continue": "Xác nhận"
+    "continue": "Xác nhận",
+    "phone-number": "điện thoại",
+    "authen-app":"ứng dụng xác thực"
   },
   "signup": {
     "title-form": "Đăng Ký",
@@ -164,7 +166,10 @@
     "trans-type": "Loại giao dịch",
     "date": "Thời gian",
     "enter-verify-code":"Nhập mã xác thực",
-    "verify-code":"Mã xác thực"
+    "verify-code":"Mã xác thực",
+    "available-amount": "Số tiền hiện có",
+    "locked-amount": "Số tiền đã khóa",
+    "balance": "Số dư ví"
   },
   "validate": {
     "length": " Độ dài tối thiểu 8 ký tự",

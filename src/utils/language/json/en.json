@@ -28,7 +28,9 @@
     "wrong-code": "Please enter your verification code",
     "placeholder": "Verification code",
     "phone-title": "Verify your phone number",
-    "continue": "Continue"
+    "continue": "Continue",
+    "phone-number": "phone number",
+    "authen-app":"authenticator app"
   },
   "signup": {
     "title-form": "Sign Up",

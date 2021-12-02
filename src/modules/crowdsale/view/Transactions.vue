@@ -2,7 +2,7 @@
   <div class="bo-crowdsale-transaction">
     <div class="box-filter be-flex align-center">
       <div class="box-search">
-        <el-input class="input-search" :placeholder="$t('placeholder.search')" v-model="querry.search" clearable>
+        <el-input class="input-search" :placeholder="$t('placeholder.search')" v-model="query.search" clearable>
           <div slot="prefix" class="prefix-search">
             <base-icon icon="icon-search" size="16" />
           </div>
@@ -37,7 +37,7 @@
         v-loading="loadingTable"
         class="base-table table-crowdsale"
       >
-        <el-table-column label="#" type="index" align="center" width="50" />
+        <el-table-column label="#" :index="indexMethod" type="index" align="center" width="80" />
         <el-table-column label="Email" prop="email" align="left">
           <template slot-scope="scope">
             <div class="box-email-tabel">
@@ -100,17 +100,14 @@
   const api: CrowdsaleRepository = getRepository('crowdsale')
   @Component({ components: { PopupFilterCrowdsale } })
   export default class BOCrowdsaleTransaction extends Mixins(PopupMixin) {
-    querry: any = {
+    query: any = {
       search: '',
       limit: 10,
       page: 1,
-      orderBy: 1
+      orderBy: 1,
+      total: 0
     }
-    query: any = {
-      page: 1,
-      limit: 10,
-      total: 10
-    }
+
     dataProp: any = {}
     loadingTable = true
     orderBy = 'TRANSACTION_DATE'
@@ -118,14 +115,16 @@
     get getPaginationInfo(): any {
       return this.$t('paging.crowdsale')
     }
+    indexMethod(index: number): number {
+      return (this.query.page - 1) * this.query.limit + index + 1
+    }
     handleSizeChange(value: number): void {
-      this.querry.limit = value
       this.query.limit = value
+      this.query.page = 1
       this.loadingTable = true
       this.getDataTable()
     }
     handleCurrentChange(value: number): void {
-      this.querry.page = value
       this.query.page = value
       this.loadingTable = true
       this.getDataTable()
@@ -154,9 +153,9 @@
     handleSort(command: string): void {
       this.sortActive = command
       if (command == 'TRANSACTION_DATE') {
-        this.querry.orderBy = 1
+        this.query.orderBy = 1
       } else {
-        this.querry.orderBy = 2
+        this.query.orderBy = 2
       }
       this.loadingTable = true
       this.getDataTable()
@@ -167,7 +166,7 @@
       this.getDataTable()
     }
     getDataTable(): void {
-      let params: any = { ...this.querry }
+      let params: any = { ...this.query }
       if (this.dataProp.roundId) {
         params.roundId = this.dataProp.roundId
       }
@@ -199,7 +198,7 @@
         this.query.total = res.totalElements
       })
     }
-    @Watch('querry.search')
+    @Watch('query.search')
     handleSearch(search: any): void {
       this.loadingTable = true
       this.getDataTable()
