@@ -9,7 +9,7 @@
         <el-form class="form-item" :model="form" :rules="rules" ref="form-phone">
           <el-form-item prop="country">
             <div class="be-flex label" slot="label">{{ $t('label.country') }}</div>
-            <el-select v-model="form.country" class="w-100" filterable reserve-keyword remote :remote-method="remoteCountry"  clearable @change="handleSelectCountry">
+            <el-select v-model="form.country" class="w-100" filterable reserve-keyword remote :remote-method="remoteCountry" clearable @change="handleSelectCountry">
               <el-option v-for="(country, index) in listCountry" :key="index" :label="country.name" :value="country.name" />
             </el-select>
           </el-form-item>
@@ -272,7 +272,7 @@
   import { CustomerRepository } from '@/services/repositories/customer'
   import countryJson from '@/utils/country/index.json'
   import { AuthRepository } from '@/services/repositories/auth'
-  import { filter,trim } from 'lodash'
+  import { filter, trim } from 'lodash'
   import { Watch } from 'vue-property-decorator'
   const apiCustomer: CustomerRepository = getRepository('customer')
   const apiAuth: AuthRepository = getRepository('auth')

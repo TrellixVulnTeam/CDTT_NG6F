@@ -400,12 +400,12 @@
     "setting": "Cài đặt",
     "Transactions": "Giao dịch",
     "Round": "Vòng",
-    "lynk": "LYNK",
-    "btc": "BTC",
-    "eth":"ETH",
-    "bnb":"BNB",
-    "usdt":"USDT",
-    "usdc":"USDC"
+    "LYNK": "LYNK",
+    "BTC": "BTC",
+    "ETH": "ETH",
+    "BNB": "BNB",
+    "USDT": "USDT",
+    "USDC": "USDC"
   },
   "status": {
     "pending": "Đang chờ",
