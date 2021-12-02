@@ -166,7 +166,10 @@
     "trans-type": "Loại giao dịch",
     "date": "Thời gian",
     "enter-verify-code":"Nhập mã xác thực",
-    "verify-code":"Mã xác thực"
+    "verify-code":"Mã xác thực",
+    "available-amount": "Số tiền hiện có",
+    "locked-amount": "Số tiền đã khóa",
+    "balance": "Số dư ví"
   },
   "validate": {
     "length": " Độ dài tối thiểu 8 ký tự",
