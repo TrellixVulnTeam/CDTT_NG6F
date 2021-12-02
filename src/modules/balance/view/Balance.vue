@@ -237,7 +237,7 @@
       this.init()
       this.resetQuery()
       EventBus.$emit('selectTabBalance')
-      EventBus.$emit('changeTab',this.tabActive)
+      EventBus.$emit('changeTab', this.tabActive)
     }
     destroyed(): void {
       EventBus.$off('selectTabBalance')

@@ -1,5 +1,5 @@
 <template>
-  <div  class="w-100 bg-white wallet-table-balance">
+  <div class="w-100 bg-white wallet-table-balance">
     <div class="title-popup" slot="title">
       <span style="font-weight: 600">{{ $t('balance.popup.account-statement') }}</span>
     </div>
@@ -7,7 +7,7 @@
       <p>{{ $t('balance.popup.opening-balance') }}</p>
       <p>{{ summary.openBalance }}</p>
     </div>
-    <div v-loading='isLoading' class="wallet-table-balance__below">
+    <div v-loading="isLoading" class="wallet-table-balance__below">
       <base-table
         :data="data"
         :table="query"
@@ -46,8 +46,8 @@
     </div>
     <div class="total be-flex">
       <div class="total-title">{{ $t('balance.popup.total') }}</div>
-      <p class='credit' v-if="summary.totalCreditAmount === '0'">0</p>
-      <p class='credit' v-else>+ {{ summary.totalCreditAmount | numberWithCommas }}</p>
+      <p class="credit" v-if="summary.totalCreditAmount === '0'">0</p>
+      <p class="credit" v-else>+ {{ summary.totalCreditAmount | numberWithCommas }}</p>
       <p v-if="summary.totalDebitAmount === '0'">0</p>
       <p v-else>-{{ summary.totalDebitAmount | numberWithCommas }}</p>
     </div>
@@ -68,7 +68,7 @@
     @Prop({ required: true, type: Array, default: [] }) data!: Array<Record<string, any>>
     @Prop({ required: true }) summary!: Record<string, any>
     @Prop({ required: true, type: Object, default: {} }) query!: Record<string, any>
-    @Prop({  }) isLoading!: boolean
+    @Prop({}) isLoading!: boolean
     get getPaginationInfo(): any {
       return this.$t('paging.transaction')
     }
@@ -216,8 +216,8 @@
         font-weight: 600;
         text-align: right;
       }
-      .credit{
-        width: 186px!important;
+      .credit {
+        width: 186px !important;
       }
       p:last-of-type {
         margin-right: 144px;
