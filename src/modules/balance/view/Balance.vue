@@ -150,7 +150,6 @@
     propdataTable: Record<string, any>[] = []
     async init(): Promise<void> {
       try {
-        console.log('query', this.query)
         this.isLoading = true
         const params = {
           ...this.query,
@@ -176,7 +175,6 @@
           }
         }
 
-        console.log('propdataTable', this.propdataTable)
 
         this.numOfInvestor = result.numOfInvestor
         this.numOfUser = result.numOfUser
