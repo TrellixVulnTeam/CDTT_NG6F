@@ -16,7 +16,7 @@
         </div>
       </div>
       <balance-detail-card :data-card="detailRow" :tab-active-filter="tabActiveFilter" />
-      <account-statement-card :data="dataTable" :summary="dataSummary" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" />
+      <account-statement-card :is-loading='isLoading'  :data="dataTable" :summary="dataSummary" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" />
     </div>
   </base-popup>
 </template>
@@ -110,6 +110,7 @@
 
     async init(): Promise<void> {
       try {
+        this.isLoading = true
         const params = {
           ...this.query,
           currency: this.tabActiveFilter.toUpperCase(),
