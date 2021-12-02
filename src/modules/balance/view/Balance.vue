@@ -148,6 +148,7 @@
       console.log('1')
     }
     created(): void {
+      this.tabActive ='LYNK'
       // apiKyc.getListApprove({ page: 1, limit: 20 }).then(res => {
       //   this.listApproveBy = res.content || []
       // })
