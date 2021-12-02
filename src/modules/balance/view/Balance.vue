@@ -160,7 +160,6 @@
       this.data = []
       this.propdataTable = []
       try {
-        console.log('query', this.query)
         this.isLoading = true
         const params = {
           ...this.query,
