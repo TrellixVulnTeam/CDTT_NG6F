@@ -477,6 +477,10 @@
             popupName: 'popup-reset-default',
             isOpen: false
           })
+          this.setOpenPopup({
+            popupName: 'popup-change-phone',
+            isOpen: false
+          })
           this.sendEmailcustomer()
         })
         .catch(() => {
@@ -491,6 +495,10 @@
           this.$message.success(message)
           this.setOpenPopup({
             popupName: 'popup-verify',
+            isOpen: false
+          })
+          this.setOpenPopup({
+            popupName: 'popup-change-phone',
             isOpen: false
           })
         })
@@ -523,7 +531,7 @@
       await apiCustomer
         .sendCode()
         .then(() => {
-          if (this.typeAdminFa != 'APP') {
+          if (this.typeAdminFa !== 'APP') {
             let message: any = this.$t('customer.setting.send-code')
             this.$message.success(message)
           }
@@ -535,8 +543,10 @@
           // this.form.phone = ''
         })
         .catch(() => {
-          let message: any = this.$t('customer.setting.send-code-fail')
-          this.$message.error(message)
+          if (this.typeAdminFa !== 'APP') {
+            let message: any = this.$t('customer.setting.send-code-fail')
+            this.$message.error(message)
+          }
         })
     }
     handleSubmitLockUser(): void {
@@ -590,8 +600,10 @@
       apiCustomer
         .sendCodeLockUser(this.userId)
         .then(() => {
-          let message: any = this.$t('customer.setting.send-code')
-          this.$message.success(message)
+          if (this.typeAdminFa !== 'APP') {
+            let message: any = this.$t('customer.setting.send-code')
+            this.$message.success(message)
+          }
         })
         .catch(() => {
           let message: any = this.$t('customer.setting.send-code-fail')
@@ -609,8 +621,10 @@
             isOpen: true
           })
           setTimeout(() => {
-            let message: any = this.$t('customer.setting.send-code')
-            this.$message.success(message)
+            if (this.typeAdminFa !== 'APP') {
+              let message: any = this.$t('customer.setting.send-code')
+              this.$message.success(message)
+            }
           }, 300)
         })
         .catch(() => {
@@ -628,8 +642,10 @@
             isOpen: true
           })
           setTimeout(() => {
-            let message: any = this.$t('customer.setting.send-code')
-            this.$message.success(message)
+            if (this.typeAdminFa !== 'APP') {
+              let message: any = this.$t('customer.setting.send-code')
+              this.$message.success(message)
+            }
           }, 300)
         })
         .catch(() => {
