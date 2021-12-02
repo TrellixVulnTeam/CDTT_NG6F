@@ -25,13 +25,13 @@
         </el-table-column>
         <el-table-column :label="$t('balance.popup.credit')" align="right" prop="creditAmountDisplay">
           <template slot-scope="scope">
-            <span v-if="scope.row.creditAmount === 0" style="color: #129961; font-size: 16px"> {{ scope.row.creditAmountDisplay }}</span>
+            <span v-if="scope.row.creditAmount === 0" style="color: #129961; font-size: 16px"> </span>
             <span v-else style="color: #129961; font-size: 16px">+{{ scope.row.creditAmountDisplay }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('balance.popup.debit')" align="right" prop="debitAmountDisplay">
           <template slot-scope="scope">
-            <span v-if="scope.row.debitAmount === 0" style="color: #cf202f; font-size: 16px">{{ scope.row.debitAmountDisplay }}</span>
+            <span v-if="scope.row.debitAmount === 0" style="color: #cf202f; font-size: 16px"></span>
             <span v-else style="color: #cf202f; font-size: 16px">{{ scope.row.debitAmountDisplay }}</span>
           </template>
         </el-table-column>

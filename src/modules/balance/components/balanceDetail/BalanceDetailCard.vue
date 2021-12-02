@@ -4,11 +4,11 @@
       <div class="title be-flex align-center">
         <base-icon :icon="checkTypeIcon(tabActiveFilter.toLowerCase())" size="40" />
         <div class="content-card">
-          <p>{{ checkCoin(tabActiveFilter) }}</p>
+          <p>{{ checkCoin(tabActiveFilter.toLowerCase()) }}</p>
           <p>{{ $t('balance.balance') }}</p>
         </div>
       </div>
-      <div class="value-card" :class="checkType(tabActiveFilter)">
+      <div class="value-card" :class="checkType(tabActiveFilter.toLowerCase())">
         <p class="current">{{ dataCard.balance | convertAmountDecimal(this.tabActiveFilter.toUpperCase()) }} {{ this.tabActiveFilter.toUpperCase() }}</p>
         <p class="last">-${{ dataCard.balanceUSD | convertAmountDecimal('USD') }}</p>
       </div>
