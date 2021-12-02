@@ -105,9 +105,9 @@
       limit: 10,
       page: 1,
       orderBy: 1,
-      total:0
+      total: 0
     }
-   
+
     dataProp: any = {}
     loadingTable = true
     orderBy = 'TRANSACTION_DATE'
@@ -115,7 +115,7 @@
     get getPaginationInfo(): any {
       return this.$t('paging.crowdsale')
     }
-     indexMethod(index: number): number {
+    indexMethod(index: number): number {
       return (this.query.page - 1) * this.query.limit + index + 1
     }
     handleSizeChange(value: number): void {

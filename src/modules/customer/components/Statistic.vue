@@ -1,44 +1,43 @@
 <template>
-  <div class='list-balance'>
-    <div v-loading='isLoading'  class='statistics-card be-flex'>
-      <div class='item-statistics' v-for='(value, index) in dataStatisticCard' :key='index'>
-        <div class='be-flex jc-space-between'>
+  <div class="list-balance">
+    <div v-loading="isLoading" class="statistics-card be-flex">
+      <div class="item-statistics" v-for="(value, index) in dataStatisticCard" :key="index">
+        <div class="be-flex jc-space-between">
           <p>{{ value.label }}</p>
-          <base-icon :icon='value.icon' size='20' style='display: inline-flex' />
+          <base-icon :icon="value.icon" size="20" style="display: inline-flex" />
         </div>
-        <p class='value-statistics'>${{ value.value | convertAmountDecimal('USD') }}</p>
+        <p class="value-statistics">${{ value.value | convertAmountDecimal('USD') }}</p>
       </div>
     </div>
-    <div class='title-list-statistics'>
+    <div class="title-list-statistics">
       <p>{{ $t('customer.popup.transaction-statistics') }}</p>
     </div>
-    <div class='table' v-loading='isLoading' :class="isLoading ? 'list-loading' : null">
-      <base-table :data='listStatistics' :showPagination='false' class='base-table table-wallet'>
-        <el-table-column label='#' :index='getIndex' type='index' width='40' />
-        <el-table-column :label="$t('customer.table.type')" width='150' prop='transactionType' align='left'>
-          <template slot-scope='scope'>
+    <div class="table" v-loading="isLoading" :class="isLoading ? 'list-loading' : null">
+      <base-table :data="listStatistics" :showPagination="false" class="base-table table-wallet">
+        <el-table-column label="#" :index="getIndex" type="index" width="40" />
+        <el-table-column :label="$t('customer.table.type')" width="150" prop="transactionType" align="left">
+          <template slot-scope="scope">
             <span>{{ formatTypeStatistics(scope.row.transactionType) }}</span>
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('customer.table.num-of-trans')" prop='numOfTransaction' width='144' align='center'>
-          <template slot-scope='scope'>
-            <span class='text-base'>{{ scope.row.numOfTransaction | digitNumber }} </span>
+        <el-table-column :label="$t('customer.table.num-of-trans')" prop="numOfTransaction" width="144" align="center">
+          <template slot-scope="scope">
+            <span class="text-base">{{ scope.row.numOfTransaction | digitNumber }} </span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('customer.table.total-amount')" prop='totalAmount' align='right'>
-          <template slot-scope='scope'>
-            <span class='text-base'>${{ scope.row.totalAmount | convertAmountDecimal('USD') }} </span>
+        <el-table-column :label="$t('customer.table.total-amount')" prop="totalAmount" align="right">
+          <template slot-scope="scope">
+            <span class="text-base">${{ scope.row.totalAmount | convertAmountDecimal('USD') }} </span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('customer.table.avg-trans-amount')" align='right' prop='avgAmount' width='210'>
-          <template slot-scope='scope'>
+        <el-table-column :label="$t('customer.table.avg-trans-amount')" align="right" prop="avgAmount" width="210">
+          <template slot-scope="scope">
             <span>${{ scope.row.avgAmount | convertAmountDecimal('USD') }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('customer.table.last-transaction')" prop='lastTransaction' width='210'
-                         align='center'>
-          <template slot-scope='scope'>
+        <el-table-column :label="$t('customer.table.last-transaction')" prop="lastTransaction" width="210" align="center">
+          <template slot-scope="scope">
             <span>{{ scope.row.lastTransaction | formatDateHourMs }}</span>
           </template>
         </el-table-column>
@@ -47,7 +46,7 @@
   </div>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
   import { Component, Prop, Vue } from 'vue-property-decorator'
   import BaseIcon from '@/components/base/icon/BaseIcon.vue'
   import { IStatistics, ISummary } from '@/modules/customer/components/popup/CustomerDetail.vue'
@@ -68,16 +67,15 @@
     //   }
     // }) summary!: ISummary
     @Prop({ required: true, type: Number, default: 0 }) userId!: number
-    isLoading =false
+    isLoading = false
     query: Record<string, any> = {
       page: 1,
       limit: 10,
       total: 0
     }
-    listStatistics:Array<Record<string, any>> = []
-    summary:Record<string, any> = {} 
-    dataStatisticCard: Array<Record<string, any>> = [
-    ]
+    listStatistics: Array<Record<string, any>> = []
+    summary: Record<string, any> = {}
+    dataStatisticCard: Array<Record<string, any>> = []
 
     isVisible = false
 
@@ -105,24 +103,24 @@
         this.listStatistics = result.statistics
         this.summary = result.summary
         console.log(this.summary)
-        this.dataStatisticCard=[
+        this.dataStatisticCard = [
           {
             id: 0,
             label: this.$i18n.t('customer.statistics.balance'),
             icon: 'icon-wallet',
-            value: this.summary.totalBalance  ? (this.summary.totalBalance < 0 ? this.summary.totalBalance * -1 : this.summary.totalBalance) : 0
+            value: this.summary.totalBalance ? (this.summary.totalBalance < 0 ? this.summary.totalBalance * -1 : this.summary.totalBalance) : 0
           },
           {
             id: 1,
             label: this.$i18n.t('customer.statistics.total-deposit'),
             icon: 'icon-download',
-            value: this.summary.totalDeposit  ? (this.summary.totalDeposit < 0 ? this.summary.totalDeposit * -1 : this.summary.totalDeposit) : 0
+            value: this.summary.totalDeposit ? (this.summary.totalDeposit < 0 ? this.summary.totalDeposit * -1 : this.summary.totalDeposit) : 0
           },
           {
             id: 2,
             label: this.$i18n.t('customer.statistics.total-withdraw'),
             icon: 'icon-upload',
-            value: this.summary.totalWithdraw  ? (this.summary.totalWithdraw < 0 ? this.summary.totalWithdraw * -1 : this.summary.totalWithdraw) : 0
+            value: this.summary.totalWithdraw ? (this.summary.totalWithdraw < 0 ? this.summary.totalWithdraw * -1 : this.summary.totalWithdraw) : 0
           },
           {
             id: 3,
@@ -174,7 +172,7 @@
   }
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
   .list-balance {
     padding-bottom: 24px;
 
