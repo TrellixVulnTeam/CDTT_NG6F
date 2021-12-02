@@ -8,9 +8,9 @@
           <p>{{ $t('balance.balance') }}</p>
         </div>
       </div>
-      <div class='value-card' :class='checkType(tabActiveFilter)'>
-        <p class='current'>{{ dataCard.balance | convertAmountDecimal(this.tabActiveFilter.toUpperCase()) }} {{ this.tabActiveFilter.toUpperCase() }}</p>
-        <p class='last'>-${{ dataCard.balanceUSD | convertAmountDecimal("USD") }}</p>
+      <div class="value-card" :class="checkType(tabActiveFilter)">
+        <p class="current">{{ dataCard.balance | convertAmountDecimal(this.tabActiveFilter.toUpperCase()) }} {{ this.tabActiveFilter.toUpperCase() }}</p>
+        <p class="last">-${{ dataCard.balanceUSD | convertAmountDecimal('USD') }}</p>
       </div>
     </div>
     <div class="card-item">
@@ -21,9 +21,9 @@
           <p>{{ $t('balance.popup.available-amount') }}</p>
         </div>
       </div>
-      <div class='value-card' :class='checkType(tabActiveFilter)'>
-        <p class='current'>{{ dataCard.availableBalance | convertAmountDecimal(this.tabActiveFilter.toUpperCase()) }} {{ this.tabActiveFilter.toUpperCase() }}</p>
-        <p class='last'>-${{ dataCard.availableBalanceUSD | convertAmountDecimal("USD") }}</p>
+      <div class="value-card" :class="checkType(tabActiveFilter)">
+        <p class="current">{{ dataCard.availableBalance | convertAmountDecimal(this.tabActiveFilter.toUpperCase()) }} {{ this.tabActiveFilter.toUpperCase() }}</p>
+        <p class="last">-${{ dataCard.availableBalanceUSD | convertAmountDecimal('USD') }}</p>
       </div>
     </div>
     <div class="card-item">
@@ -34,9 +34,9 @@
           <p>{{ $t('balance.popup.withdrawal-request') }}</p>
         </div>
       </div>
-      <div class='value-card amount-locker'>
-        <p class='current'>{{ dataCard.totalLockedAmount | convertAmountDecimal(this.tabActiveFilter.toUpperCase()) }} {{ this.tabActiveFilter.toUpperCase() }}</p>
-        <p class='last'>~${{ dataCard.totalLockedAmountUSD | convertAmountDecimal("USD") }}</p>
+      <div class="value-card amount-locker">
+        <p class="current">{{ dataCard.totalLockedAmount | convertAmountDecimal(this.tabActiveFilter.toUpperCase()) }} {{ this.tabActiveFilter.toUpperCase() }}</p>
+        <p class="last">~${{ dataCard.totalLockedAmountUSD | convertAmountDecimal('USD') }}</p>
       </div>
     </div>
   </div>

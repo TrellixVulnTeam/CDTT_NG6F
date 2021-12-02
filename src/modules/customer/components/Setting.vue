@@ -46,7 +46,10 @@
         <span>{{ $t('customer.setting.verify') }}</span>
       </div>
       <div class="bc-verify">
-        <h3 class="text-3xl text-center text-semibold title-form" style="justify-content: center">{{ $t('verify.title-phone') }} {{ typeVerified }}</h3>
+        <h3 class="text-3xl text-center text-semibold title-form" style="justify-content: center">
+          {{ this.typeAdminFa == 'APP' ? $t('verify.title-app') : $t('verify.title-phone') }} {{ typeVerified }}
+        </h3>
+        <!-- <h3 v-else class="text-3xl text-center text-semibold title-form" style="justify-content: center">{{ $t('verify.title-phone') }} {{ typeVerified }}</h3> -->
         <div class="be-flex verify-code" style="margin-right: 8px">
           <base-icon :icon="getIcon" size="80" />
           <div class="ml-1 w-100 input-code">
@@ -71,7 +74,7 @@
           @click="handleSubmit"
           >{{ $t('verify.submit') }}
         </el-button>
-        <div v-if="this.data.faType !== 'SMS'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
+        <div v-if="this.typeAdminFa !== 'APP'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
           {{ $t('verify.question') }} &nbsp;<span class="text-hyperlink text-semibold cursor" @click="handleResendCodeLockUser"> {{ $t('verify.re-send') }} </span>
         </div>
         <div v-else class="text-base be-flex jc-space-center mt-24 text-grey-130"></div>
@@ -87,7 +90,10 @@
         <span>{{ $t('customer.setting.verify') }}</span>
       </div>
       <div class="bc-verify">
-        <h3 class="text-3xl text-center text-semibold title-form" style="justify-content: center">{{ $t('verify.title-phone') }} {{ typeVerified }}</h3>
+        <h3 class="text-3xl text-center text-semibold title-form" style="justify-content: center">
+          {{ this.typeAdminFa == 'APP' ? $t('verify.title-app') : $t('verify.title-phone') }} {{ typeVerified }}
+        </h3>
+        <!-- <h3 v-else class="text-3xl text-center text-semibold title-form" style="justify-content: center">{{ $t('verify.title-phone') }} {{ typeVerified }}</h3> -->
         <div class="be-flex verify-code">
           <base-icon :icon="getIcon" size="80" />
           <div class="ml-1 w-100 input-code">
@@ -115,7 +121,7 @@
           @click="handleSubmitResetDefault"
           >{{ $t('verify.submit') }}
         </el-button>
-        <div v-if="this.data.faType !== 'SMS'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
+        <div v-if="this.typeAdminFa !== 'APP'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
           {{ $t('verify.question') }} &nbsp;<span class="text-hyperlink text-semibold cursor" @click="handleResendCodeLockUser"> {{ $t('verify.re-send') }} </span>
         </div>
         <div v-else class="text-base be-flex jc-space-center mt-24 text-grey-130"></div>
@@ -131,7 +137,10 @@
         <span>{{ $t('customer.setting.verify') }}</span>
       </div>
       <div class="bc-verify">
-        <h3 class="text-3xl text-center text-semibold title-form" style="justify-content: center">{{ $t('verify.title-phone') }} {{ typeVerified }}</h3>
+        <h3 class="text-3xl text-center text-semibold title-form" style="justify-content: center">
+          {{ this.typeAdminFa == 'APP' ? $t('verify.title-app') : $t('verify.title-phone') }} {{ typeVerified }}
+        </h3>
+        <!-- <h3 v-else class="text-3xl text-center text-semibold title-form" style="justify-content: center">{{ $t('verify.title-phone') }} {{ typeVerified }}</h3> -->
         <div class="be-flex verify-code">
           <base-icon :icon="getIcon" size="80" />
           <div class="ml-1 w-100 input-code">
@@ -159,7 +168,7 @@
           @click="handleSubmitLockUser"
           >{{ $t('verify.submit') }}
         </el-button>
-        <div v-if="this.data.faType !== 'SMS'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
+        <div v-if="this.typeAdminFa !== 'APP'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
           {{ $t('verify.question') }} &nbsp;<span class="text-hyperlink text-semibold cursor" @click="handleResendCodeLockUser"> {{ $t('verify.re-send') }} </span>
         </div>
         <div v-else class="text-base be-flex jc-space-center mt-24 text-grey-130"></div>
@@ -179,7 +188,11 @@
             <span v-else style="color: blue; margin-left: 4px; font-size: 14px; line-height: 20px; color: #129961">{{ phoneVerified }}</span>
           </div>
           <div style="width: 170px">
-            <div class="button" style="float: right; transform: translateY(-9px)" v-if="this.userStatus !== 'Unverified'">
+            <div
+              class="button"
+              style="float: right; transform: translateY(-9px)"
+              v-if="this.data.userStatus !== 'UNVERIFIED' && this.data.userStatus !== 'LOCKED' && this.data.userStatus !== 'BLOCKED' && this.data.userStatus !== 'SUSPECTED'"
+            >
               <el-button type="button" class="style-button" style="width: 130px" @click="clickChangePhoneNumber">{{ $t('customer.setting.change') }}</el-button>
             </div>
           </div>
@@ -198,7 +211,17 @@
           </div>
           <!-- <div class="status">verified</div> -->
           <div style="width: 170px">
-            <div class="button" style="float: right" v-if="this.dataDetail.faType !== 'EMAIL' && this.userStatus !== 'Unverified'">
+            <div
+              class="button"
+              style="float: right"
+              v-if="
+                this.data.faType !== 'EMAIL' &&
+                this.data.userStatus !== 'UNVERIFIED' &&
+                this.data.userStatus !== 'LOCKED' &&
+                this.data.userStatus !== 'BLOCKED' &&
+                this.data.userStatus !== 'SUSPECTED'
+              "
+            >
               <el-button type="button" class="style-button" style="width: 130px" @click="handleResetDefault">{{ $t('customer.setting.reset') }}</el-button>
             </div>
           </div>
@@ -313,9 +336,19 @@
     }
     get getIconUser(): string {
       const name = this.data.faType
-      console.log('typeaa', this.data.faType)
+      console.log('fatype', this.dataDetail.faType)
 
-      if (name == 'PHONE') {
+      if (name == 'SMS') {
+        return 'verify-phone'
+      }
+      if (name === 'EMAIL') {
+        return 'verify-email'
+      }
+      return 'verify-app'
+    }
+    get getIcon(): string {
+      const name = this.typeAdminFa
+      if (name == 'SMS') {
         return 'verify-phone'
       }
       if (name === 'EMAIL') {
@@ -465,8 +498,11 @@
       await apiCustomer
         .sendCode()
         .then(() => {
-          let message: any = this.$t('customer.setting.send-code')
-          this.$message.success(message)
+          if (this.typeAdminFa != 'APP') {
+            let message: any = this.$t('customer.setting.send-code')
+            this.$message.success(message)
+          }
+
           // this.setOpenPopup({
           //   popupName: 'popup-change-phone',
           //   isOpen: false
@@ -508,6 +544,8 @@
         apiCustomer
           .updateUnlockUser(paramsUnlock)
           .then(() => {
+            let message: any = this.$t('customer.setting.unlock-user-success')
+            this.$message.success(message)
             this.setOpenPopup({
               popupName: 'popup-verify-lock',
               isOpen: false
@@ -608,7 +646,7 @@
       } else {
         this.userStatus = 'Locked'
       }
-      console.log('data', this.data.faType)
+      console.log('data', this.data.userStatus)
 
       //check faType
       if (this.data.faType == 'EMAIL') {
@@ -637,15 +675,22 @@
       const currentCountry = filter(this.listCountry, country => country.isoCode === 'VN')[0]
       this.form.country = currentCountry.name
       this.get2Fa()
+      console.log('status', this.data.userStatus)
     }
+    typeAdminFa = ''
     async get2Fa(): Promise<void> {
       const params = {
         email: this.user.email
       }
       await apiAuth.get2FA(params).then((res: any) => {
+        console.log('res', res)
+        this.typeAdminFa = res
         this.typeVerified = res.toLowerCase()
         if (this.typeVerified == 'sms') {
           this.typeVerified = 'phone number'
+        }
+        if (this.typeVerified == 'app') {
+          this.typeVerified = 'authenticator app'
         }
         console.log('typeverified', res)
       })

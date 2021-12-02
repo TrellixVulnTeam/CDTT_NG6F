@@ -6,7 +6,7 @@
           <p>{{ value.label }}</p>
           <base-icon :icon="value.icon" size="20" style="display: inline-flex" />
         </div>
-        <p class="value-statistics">${{ value.value | convertAmountDecimal("USD")}}</p>
+        <p class="value-statistics">${{ value.value | convertAmountDecimal('USD') }}</p>
       </div>
     </div>
     <div class="title-list-statistics">
@@ -17,7 +17,7 @@
         <el-table-column label="#" :index="getIndex" type="index" width="40" />
         <el-table-column :label="$t('customer.table.type')" width="150" prop="transactionType" align="left">
           <template slot-scope="scope">
-            <span>{{formatTypeStatistics(scope.row.transactionType) }}</span>
+            <span>{{ formatTypeStatistics(scope.row.transactionType) }}</span>
           </template>
         </el-table-column>
 
@@ -28,12 +28,12 @@
         </el-table-column>
         <el-table-column :label="$t('customer.table.total-amount')" prop="totalAmount" align="right">
           <template slot-scope="scope">
-            <span class="text-base">${{ scope.row.totalAmount | convertAmountDecimal("USD") }} </span>
+            <span class="text-base">${{ scope.row.totalAmount | convertAmountDecimal('USD') }} </span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('customer.table.avg-trans-amount')" align="right" prop="avgAmount" width="210">
           <template slot-scope="scope">
-            <span>${{ scope.row.avgAmount | convertAmountDecimal("USD") }}</span>
+            <span>${{ scope.row.avgAmount | convertAmountDecimal('USD') }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('customer.table.last-transaction')" prop="lastTransaction" width="210" align="center">
@@ -71,27 +71,27 @@
     dataStatisticCard: Array<Record<string, any>> = [
       {
         id: 0,
-        label:this.$i18n.t('customer.statistics.balance'),
+        label: this.$i18n.t('customer.statistics.balance'),
         icon: 'icon-wallet',
-        value: this.summary.totalBalance ? this.summary.totalBalance<0?this.summary.totalBalance*(-1):this.summary.totalBalance : 0
+        value: this.summary.totalBalance ? (this.summary.totalBalance < 0 ? this.summary.totalBalance * -1 : this.summary.totalBalance) : 0
       },
       {
         id: 1,
         label: this.$i18n.t('customer.statistics.total-deposit'),
         icon: 'icon-download',
-        value: this.summary.totalDeposit ? this.summary.totalDeposit<0?this.summary.totalDeposit*(-1):this.summary.totalDeposit : 0
+        value: this.summary.totalDeposit ? (this.summary.totalDeposit < 0 ? this.summary.totalDeposit * -1 : this.summary.totalDeposit) : 0
       },
       {
         id: 2,
-        label:this.$i18n.t('customer.statistics.total-withdraw'),
+        label: this.$i18n.t('customer.statistics.total-withdraw'),
         icon: 'icon-upload',
-        value: this.summary.totalWithdraw ? this.summary.totalWithdraw<0?this.summary.totalWithdraw*(-1):this.summary.totalWithdraw : 0
+        value: this.summary.totalWithdraw ? (this.summary.totalWithdraw < 0 ? this.summary.totalWithdraw * -1 : this.summary.totalWithdraw) : 0
       },
       {
         id: 3,
         label: this.$i18n.t('customer.statistics.total-trade'),
         icon: 'icon-swap',
-        value: this.summary.totalTrade ? this.summary.totalTrade<0?this.summary.totalTrade*(-1):this.summary.totalTrade: 0
+        value: this.summary.totalTrade ? (this.summary.totalTrade < 0 ? this.summary.totalTrade * -1 : this.summary.totalTrade) : 0
       }
     ]
 
@@ -110,9 +110,8 @@
       }
     ]
 
-    created(): void {
-    }
-    formatTypeStatistics(type:string){
+    // created(): void {}
+    formatTypeStatistics(type: string) {
       switch (type) {
         case 'BONUS':
           return this.$i18n.t('customer.statistics.bonus')
@@ -134,19 +133,16 @@
       return this.$t('paging.investor')
     }
 
-
     handleSizeChange(value: number): void {
       this.query.limit = value
     }
 
     handleCurrentChange(value: number): void {
       this.query.page = value
-
     }
 
     handleFilter(filter: Record<string, any>): void {
       this.query = { ...this.query, ...filter }
-
     }
 
     handleShowPopper(): void {
@@ -194,8 +190,8 @@
           color: #0a0b0d;
           line-height: 48px;
         }
-        p{
-          color: #5B616E;
+        p {
+          color: #5b616e;
           font-size: 16px;
           line-height: 24px;
         }
