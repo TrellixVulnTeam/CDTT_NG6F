@@ -27,6 +27,18 @@ export function roundingNumber(value: number): number | string {
   return value.toFixed(2)
 }
 
+export function digitNumber(value: number | null): string {
+  let numberStr!: string
+  if (value) {
+    if (value < 10) {
+      numberStr = '0' + value
+    } else {
+      numberStr = value + ''
+    }
+  }
+  return numberStr
+}
+
 export function convertCurrency(value: number | string): string {
   if (!value) return '0'
   value = value.toString()
@@ -58,7 +70,7 @@ export function convertAmount8digit(amount: string | number): string {
 }
 
 export function convertAmountDecimal(amount: string | number, currency: string): string {
-  if (!amount) return '0'
+  if (!amount) return '0.00'
   const objConvert = {
     LYNK: 2,
     CLM: 2,
@@ -111,6 +123,7 @@ export function formatDateTime(value: string | number): any {
   const date = new Date(+value)
   return (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + '.' + (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '.' + date.getFullYear()
 }
+
 export function formatDDMMYY(value: string | number): any {
   if (!value) {
     return ''
@@ -240,6 +253,7 @@ export function formatEmail(email: string | null): string {
     return str
   } else return ''
 }
+
 export function formatNumberPhone(numberPhone: string | null): string {
   if (numberPhone) {
     const c = 5

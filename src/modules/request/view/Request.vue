@@ -20,8 +20,15 @@
 </template>
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator'
+  import { MODULE_WITH_ROUTENAME } from '@/configs/role'
+  import { namespace } from 'vuex-class'
+
+  const bcAuth = namespace('beAuth')
+
   @Component
   export default class BORequest extends Vue {
+    @bcAuth.Getter('listModuleCanView') listModuleCanView!: Array<Record<string, any>>
+
     tabs: Array<Record<string, any>> = [
       {
         id: 1,
@@ -34,6 +41,15 @@
       //   routeName: 'RequestTransfer'
       // }
     ]
+
+    created(): void {
+      if (!this.checkPemission('crowd-sale', ['view'])) {
+        const routeName = MODULE_WITH_ROUTENAME[this.listModuleCanView[0].module]
+        this.$router.push({ name: routeName })
+        return
+      }
+    }
+
     handleChangeTab(tab: Record<string, any>): void {
       this.$router.push({ name: tab.routeName })
     }

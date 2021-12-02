@@ -136,7 +136,9 @@
         this.isLoading = true
         this.detail = await apiKyc.getDetailKyc(this.detailRow.userId)
         this.handleGetListRejectOfUser()
-        this.isLoading = false
+        setTimeout(() => {
+          this.isLoading = false
+        }, 500)
       } catch (error) {
         this.isLoading = false
         console.log(error)

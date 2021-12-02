@@ -38,9 +38,9 @@
       </div>
     </router-link> -->
 
-    <router-link :to="{ name: 'Request' }" class="router_center">
+    <router-link :to="{ name: 'Request' }" v-if="checkPemission('request', ['view'])" class="router_center">
       <div class="sack_avatar">
-        <base-icon icon="menu-request-active" class="menu-active" size="32" />
+        <base-icon :icon="coinMain === 'LYNK' ? 'menu-request-active' : 'menu-request-clm'" class="menu-active" size="32" />
         <base-icon icon="menu-request" class="menu" size="32" />
         <p>{{ $t('leftMenu.request') }}</p>
       </div>
