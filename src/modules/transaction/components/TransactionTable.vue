@@ -11,39 +11,28 @@
         class="base-table table-wallet"
       >
         <el-table-column label="#" type="index" :index="indexMethod" align="center" width="60" />
-        <!-- <el-table-column :label="$t('kyc.table.fullName')" min-width="200">
-          <template slot-scope="scope">
-            <div class="be-flex align-center">
-              <span class="d-ib mr-2">{{ scope.row.fullName + '&nbsp;' + scope.row.lastName }}</span>
-            </div>
-          </template>
-        </el-table-column> -->
-        <el-table-column :label="$t('kyc.table.fullName')" prop="fullName"> </el-table-column>
-        <el-table-column :label="$t('kyc.table.email')" prop="email"> </el-table-column>
+        <el-table-column :label="$t('transaction.table.trans-id')" prop="transactionCode"> </el-table-column>
+        <el-table-column :label="$t('transaction.table.DATE')" prop="transactionMillisecond"> </el-table-column>
 
-        <el-table-column :label="$t('balance.available')" align="right">
+        <el-table-column :label="$t('transaction.table.customer')" align="right">
           <template slot-scope="scope">
             <div class="box-paid">
-              <p class="text-paid fw-400 fs-16">{{ scope.row.availableBalance | convertAmountDecimal(scope.row.availableBalanceUSD) }} {{ scope.row.currency }}</p>
-              <p class="avi fw-400 fs-14" style="color: #5b616e">~ ${{ scope.row.availableBalanceUSD | convertAmountDecimal(scope.row.currency) }}</p>
+
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('transaction.table.status')" align="right">
+          <template slot-scope="scope">
+            <div class="box-paid">
+
             </div>
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('balance.lockedAmount')" align="right">
+        <el-table-column :label="$t('transaction.table.amount')" align="right">
           <template slot-scope="scope">
             <div class="box-paid">
-              <p class="text-paid fw-400 fs-16">{{ scope.row.totalLockedAmount | convertAmountDecimal(scope.row.currency) }} {{ scope.row.currency }}</p>
-              <p class="avi fw-400 fs-14" style="color: #5b616e">~ ${{ scope.row.totalLockedAmountUSD | convertAmountDecimal(scope.row.currency) }}</p>
-            </div>
-          </template>
-        </el-table-column>
 
-        <el-table-column :label="$t('balance.balance')" align="right">
-          <template slot-scope="scope">
-            <div class="box-paid">
-              <p class="text-paid fw-400 fs-16">{{ scope.row.balance | convertAmountDecimal(scope.row.availableBalanceUSD) }} {{ scope.row.currency }}</p>
-              <p class="avi fw-400 fs-14" style="color: #5b616e">~ ${{ scope.row.balanceUSD | convertAmountDecimal(scope.row.currency) }}</p>
             </div>
           </template>
         </el-table-column>

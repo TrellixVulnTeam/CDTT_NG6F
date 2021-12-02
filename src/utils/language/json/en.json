@@ -421,7 +421,12 @@
       "bonus-first-trans": "Bonus first transaction",
       "bonus-affiliate": "Bonus affiliate",
       "bonus-big-backer": "Bonus big backer",
-      "bonus-early-backer": "Bonus early backer"
+      "bonus-early-backer": "Bonus early backer",
+      "DATE": "DATE",
+      "CUSTOMER": "CUSTOMER",
+      "STATUS": "STATUS",
+      "AMOUNT": "AMOUNT",
+      "transactions": "transactions"
     },
     "popup": {
       "title-filter": "Filter"
@@ -462,13 +467,7 @@
     "ETH": "ETH",
     "BNB": "BNB",
     "USDT": "USDT",
-    "USDC": "USDC"
-    "lynk": "LYNK",
-    "btc": "BTC",
-    "eth": "ETH",
-    "bnb": "BNB",
-    "usdt": "USDT",
-    "usdc": "USDC",
+    "USDC": "USDC",
     "deposit": "Deposit",
     "withdraw": "Withdraw",
     "transfer": "Transfer"

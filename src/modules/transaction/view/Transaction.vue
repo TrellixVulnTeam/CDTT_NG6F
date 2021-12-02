@@ -1,67 +1,76 @@
 <template>
-  <div class='w-100 bo-kyc'>
-    <div class='bg-white wallet-header'>
-      <div class='be-flex align-center jc-space-between wallet-header__above'>
-        <div class='wallet-header__above-tabs be-flex'>
-          <div class='tab-item cursor' v-for='tab in tabs' :key='tab.id'
-               :class="$route.name === tab.routeName ? 'tab-active' : null" @click='handleChangeTab(tab)'>
-            <span class='text-base'>{{ $t(`menu.${tab.title}`) }}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class='container bg-white wallet-header' style='width: 100%'>
-      <div style='' class='col-width col-margin'>
-        <div class='sack-banlance'>
+  <div class='w-100 transaction'>
+    <div class='container wallet-header be-flex' style='width: 100%'>
+      <div v-for='(value,i) in dataHeaderCard' :key='i' class='items-card'>
+        <div class='be-flex top'>
           <span class='text1'>
-            {{ $t(`transaction.table.total-deposit`) }}
+            {{ renderTitleCard(value.transactionType) }}
           </span>
           <div>
-            <base-icon icon='icon-people' size='19' />
+            <base-icon :icon='renderIconCard(value.transactionType)' size='19' />
           </div>
         </div>
-        <span class='number2'> {{ numOfInvestor }}</span>
+        <p class='number2'>${{ value.totalAmount |convertAmountDecimal("USD") }}</p>
         <div>
-          <span class='text3'> {{ $t(`balance.of-total`) }} {{ numOfUser | formatNumber }}</span>
+          <span class='text3'>{{ value.numOfTransaction | formatNumber }} {{ $t(`transaction.table.transactions`)
+            }}</span>
         </div>
       </div>
 
-      <div class='col-width col-margin'>
-        <div class='sack-banlance'>
-          <span class='text1'>{{ $t(`transaction.table.total-withdraw`) }}</span>
-          <div>
-            <base-icon icon='icon-swap' size='19' />
-          </div>
-        </div>
-        <span class='number2'> {{ totalAvailable | formatNumber }}</span>
-        <span class='text3'> ~ ${{ totalAvailableUSD | convertAmountDecimal('USD') }}</span>
-      </div>
-      <div class='col-width col-margin'>
-        <div class='sack-banlance'>
-          <span class='text1'>{{ $t(`transaction.table.total-transfer`) }}</span>
-          <div>
-            <base-icon icon='icon-lock-balance' size='19' />
-          </div>
-        </div>
-        <span class='number2'> {{ totalLocked | formatNumber }}</span>
-        <span class='text3'>~ ${{ totalLockedUSD | convertAmountDecimal('USD') }}</span>
-      </div>
-      <div class='col-width col-margin'>
-        <div class='sack-banlance'>
-          <span class='text1'> {{ $t(`transaction.table.total-bonus`) }}</span>
-          <div>
-            <base-icon icon='icon-wallet' size='19' />
-          </div>
-        </div>
-        <span class='number2'> {{ totalBalance | formatNumber }}</span>
-        <span class='text3'> ~ ${{ totalBalanceUSD | convertAmountDecimal('USD') }}</span>
-      </div>
+      <!--      <div class='col-width col-margin'>-->
+      <!--        <div class='sack-banlance'>-->
+      <!--          <span class='text1'>{{ $t(`transaction.table.total-withdraw`) }}</span>-->
+      <!--          <div>-->
+      <!--            <base-icon icon='icon-swap' size='19' />-->
+      <!--          </div>-->
+      <!--        </div>-->
+      <!--        <span class='number2'> {{ totalAvailable | formatNumber }}</span>-->
+      <!--        <span class='text3'> ~ ${{ totalAvailableUSD | convertAmountDecimal('USD') }}</span>-->
+      <!--      </div>-->
+      <!--      <div class='col-width col-margin'>-->
+      <!--        <div class='sack-banlance'>-->
+      <!--          <span class='text1'>{{ $t(`transaction.table.total-transfer`) }}</span>-->
+      <!--          <div>-->
+      <!--            <base-icon icon='icon-lock-balance' size='19' />-->
+      <!--          </div>-->
+      <!--        </div>-->
+      <!--        <span class='number2'> {{ totalLocked | formatNumber }}</span>-->
+      <!--        <span class='text3'>~ ${{ totalLockedUSD | convertAmountDecimal('USD') }}</span>-->
+      <!--      </div>-->
+      <!--      <div class='col-width col-margin'>-->
+      <!--        <div class='sack-banlance'>-->
+      <!--          <span class='text1'> {{ $t(`transaction.table.total-bonus`) }}</span>-->
+      <!--          <div>-->
+      <!--            <base-icon icon='icon-wallet' size='19' />-->
+      <!--          </div>-->
+      <!--        </div>-->
+      <!--        <span class='number2'> {{ totalBalance | formatNumber }}</span>-->
+      <!--        <span class='text3'> ~ ${{ totalBalanceUSD | convertAmountDecimal('USD') }}</span>-->
+      <!--      </div>-->
     </div>
-    <transaction-filter @filterBalance='handleFilter' :listApproveBy='listApproveBy' />
-    <transaction-table v-loading='isLoading' @rowClick='handleRowClick' @sizeChange='handleSizeChange'
-                   @pageChange='handlePageChange' :query='query' :data='propdataTable' />
-    <!-- <kyc-detail :detailRow="detailRow" @init="init" /> -->
-    <balance-detail :detailRow='detailRow' :data='dataDetail' :tab-active-filter='tabActive' />
+    <div class='w-100 bo-kyc'>
+      <div class='bg-white wallet-header'>
+        <div class='be-flex align-center jc-space-between wallet-header__above'>
+          <div class='wallet-header__above-tabs be-flex'>
+            <div class='tab-item cursor' v-for='tab in tabs' :key='tab.id'
+                 :class="$route.name === tab.routeName ? 'tab-active' : null" @click='handleChangeTab(tab)'>
+              <span class='text-base'>{{ $t(`menu.${tab.title}`) }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--    <transaction-filter @filterBalance='handleFilter' :listApproveBy='listApproveBy' />-->
+      <filter-transaction @filter='handleFilter' :type='"transaction"' />
+      <!--    <transaction-table v-loading='isLoading' @rowClick='handleRowClick' @sizeChange='handleSizeChange'-->
+      <!--                   @pageChange='handlePageChange' :query='query' :data='propdataTable' />-->
+      <!-- <kyc-detail :detailRow="detailRow" @init="init" /> -->
+      <!--    <transaction-detail :detailRow='detailRow' :data='dataDetail' :tab-active-filter='tabActive' />-->
+      <div class='table-transaction'>
+        <table-transaction :listTransaction='propDataTable' :query='query' @sizeChange='handleSizeChange'
+                           @pageChange='handlePageChange' :type='"transaction"' />
+      </div>
+      <popup-filter-transaction @filter='handleFilter' />
+    </div>
   </div>
 </template>
 
@@ -72,26 +81,22 @@
   import TransactionFilter from '../components/filter/TransactionFilter.vue'
   import PopupMixin from '@/mixins/popup'
   import getRepository from '@/services'
-  import { BalanceRepository } from '@/services/repositories/balance'
   import EventBus from '@/utils/eventBus'
   import { debounce } from 'lodash'
+  import { TransactionRepository } from '@/services/repositories/transaction'
+  import TableTransaction from '@/components/table/TableTransaction.vue'
+  import FilterTransaction from '@/components/filter/FilterTransaction.vue'
+  import PopupFilterTransaction from '@/components/popup/PopupFilterTransaction.vue'
 
-  import BalanceDetail from '@/modules/balance/components/balanceDetail/BalanceDetail.vue'
-
-  const api: BalanceRepository = getRepository('balance')
+  const api: TransactionRepository = getRepository('transaction')
 
   interface IDataCard {
-   totalDeposit:number,
-    totalDepositTransaction:number,
-    totalWithdraw:number,
-    totalWithdrawTransaction:number,
-    totalTransfer:number,
-    totalTransferTransaction:number,
-    totalBonus:number,
-    totalBonusTransaction:number,
+    numOfTransaction: number | null,
+    totalAmount: number | null,
+    transactionType: string | null,
   }
 
-  @Component({ components: { TransactionTable, TransactionFilter, BalanceDetail } })
+  @Component({ components: { PopupFilterTransaction, TableTransaction, FilterTransaction } })
   export default class Transaction extends Mixins(PopupMixin) {
     tabs: Array<Record<string, any>> = [
       {
@@ -115,35 +120,28 @@
         routeName: 'TransactionBonus'
       }
     ]
-    titlePending = ''
     tabActive = 'Deposit'
     isLoading = false
 
-    data: Array<Record<string, any>> = []
+    dataHeaderCard: IDataCard[] = []
 
     detailRow = {}
-    dataDetail = {}
     query: any = {
-      search: '',
+      userId: null,
+      keywordString: '',
+      currency: [],
+      transactionType: '',
+      fromDate: '',
+      toDate: '',
+      fromAmount: '',
+      toAmount: '',
       orderBy: 1,
       page: 1,
       limit: 10,
       total: 10
     }
-    numOfInvestor = ''
-    numOfUser = ''
-    totalAvailable = ''
-    totalBalance = ''
-    totalElement = ''
-    totalLocked = ''
-    totalAvailableUSD = ''
-    totalLockedUSD = ''
-    totalBalanceUSD = ''
     listApproveBy: Record<string, any>[] = []
 
-    getListBalance(): void {
-      console.log('1')
-    }
 
     created(): void {
       // apiKyc.getListApprove({ page: 1, limit: 20 }).then(res => {
@@ -151,53 +149,58 @@
       // })
       // const name = this.$route.name
       // this.query.kycStatus = name === 'KycPending' ? 'PENDING' : name === 'KycVerified' ? 'VERIFIED' : 'REJECTED'
-      // this.init()
+      this.init()
     }
 
-    propdataTable: Record<string, any>[] = []
+    propDataTable: Record<string, any>[] = []
 
     async init(): Promise<void> {
       try {
-        console.log('query', this.query)
         this.isLoading = true
         const params = {
           ...this.query,
-          search: this.query.search,
+          userId: this.query.userId,
           orderBy: this.query.orderBy,
           limit: this.query.limit,
           page: this.query.page,
           total: null
         }
-        const result = await api.getlistBalance(this.tabActive, params)
-        this.data = result.balances || []
-        this.query.total = result.totalElement
+        const result = await api.getListTransaction('search', params)
+        console.log(result)
+        this.propDataTable = result.transactions.content
+        this.dataHeaderCard = result.summary
+        this.dataHeaderCard = this.dataHeaderCard.filter((item) => {
+          return item.transactionType !== 'CROWDSALE'
+        })
         this.isLoading = false
-        if (this.data.length > 0) {
-          for (let i = 0; i < this.data.length; i++) {
-            let str = this.data[i].email
-            const newEmail = str.substring(0, 6) + '...' + str.substring(str.length - 10, str.length)
-            const dataItem = {
-              ...this.data[i],
-              email: newEmail
-            }
-            this.propdataTable.push(dataItem)
-          }
-        }
-
-        console.log('propdataTable', this.propdataTable)
-
-        this.numOfInvestor = result.numOfInvestor
-        this.numOfUser = result.numOfUser
-        this.totalAvailable = result.totalAvailable
-        this.totalBalance = result.totalBalance
-        this.totalLocked = result.totalLocked
-        this.totalBalance = result.totalBalance
-        this.totalAvailableUSD = result.totalAvailableUSD
-        this.totalLockedUSD = result.totalLockedUSD
-        this.totalBalanceUSD = result.totalBalanceUSD
       } catch (error) {
         this.isLoading = false
         console.log(error)
+      }
+    }
+
+    renderTitleCard(type: 'BONUS' | 'DEPOSIT' | 'TRANSFER' | 'WITHDRAW'): string {
+      switch (type) {
+        case 'BONUS':
+          return this.$i18n.t(`transaction.table.total-bonus`) as string
+        case 'DEPOSIT':
+          return this.$i18n.t(`transaction.table.total-deposit`) as string
+        case 'TRANSFER':
+          return this.$i18n.t(`transaction.table.total-transfer`) as string
+        case 'WITHDRAW':
+          return this.$i18n.t(`transaction.table.total-withdraw`) as string
+      }
+    }
+    renderIconCard(type: 'BONUS' | 'DEPOSIT' | 'TRANSFER' | 'WITHDRAW'): string {
+      switch (type) {
+        case 'BONUS':
+          return "icon-gift"
+        case 'DEPOSIT':
+          return "icon-download"
+        case 'TRANSFER':
+          return "icon-swap"
+        case 'WITHDRAW':
+          return "icon-upload"
       }
     }
 
@@ -286,89 +289,67 @@
     width: 100%;
   }
 
-  .bo-kyc .wallet-header__above-tabs .tab-item {
-    color: var(--bc-text-discript);
-  }
+  .transaction {
+    //box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
+    //border-radius: 4px;
+    .kyc-filter {
+      background-color: #ffffff !important;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
+    .items-card{
+      width: 270px;
+      background-color: #ffffff;
+      box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
+      border-radius: 8px;
+      margin-right: 24px;
+      margin-bottom: 24px;
+      padding: 16px;
+      &:last-of-type{
+        margin-right: 0;
+      }
+      .top{
+        justify-content: space-between;
+        align-items: center;
+      }
+      .number2{
+          font-family: Open Sans;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 36px;
+          line-height: 52px;
+          color: #0A0B0D;
+        max-width: 250px;
+        word-wrap: break-word;
+      }
+      .text3{
+        font-family: Open Sans;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 24px;
+        color: #5B616E;
 
-  ::v-deep .container > div {
-    width: 100px;
-    height: 100px;
-    vertical-align: top;
-    display: inline-block;
-    *display: inline;
-    zoom: 1;
-    background: #efefef;
-  }
+      }
+      .text1{
+        font-family: Open Sans;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 24px;
+        color: #5B616E;
 
-  .sack-banlance {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 6px;
-    padding: 0 18px;
-  }
+      }
+    }
+    .table-transaction {
+      padding: 0 24px;
+      background-color: #ffffff;
 
-  .col-width {
-    width: 20% !important;
-    height: 112px !important;
-    border-radius: 8px !important;
-    border: 1px solid #dbdbdb !important;
-    box-sizing: border-box !important;
-  }
-
-  .text1 {
-    // margin-top: 16px;
-    // margin-left: 18px;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 24px;
-    color: var(--bc-text-discript);
-  }
-
-  .number2 {
-    margin-top: 8px;
-    margin-left: 18px;
-    font-weight: 500;
-    font-size: 24px;
-    line-height: 32px;
-    color: #0a0b0d;
-  }
-
-  .text3 {
-    margin-top: 6px;
-    margin-left: 18px;
-    margin-bottom: 16px;
-    color: var(--bc-text-discript);
-  }
-
-  .col-margin {
-    margin: 24px 24px;
-    background: #fff !important;
-  }
-
-  .container > div {
-    width: 100px;
-    height: 100px;
-    vertical-align: top;
-    display: inline-block;
-    *display: inline;
-    zoom: 1;
-    background: red;
-  }
-
-  span {
-    width: 100%;
-    display: inline-block;
-    font-size: 16px;
-    line-height: 24px;
-  }
-
-  .bo-kyc {
-    box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
-    border-radius: 4px;
+    }
 
     .wallet-header {
       &__above {
-        border-bottom: 1px solid var(--bc-border-primary);
+        //border-bottom: 1px solid var(--bc-border-primary);
 
         &-tabs {
           .tab-item {

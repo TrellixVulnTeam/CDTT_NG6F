@@ -20,22 +20,28 @@
         </div>
       </template>
     </el-table-column>
-    <el-table-column :label="$t('transaction.table.type')" prop="transactionType" width="154">
+    <el-table-column v-if='type==="customer"' :label="$t('transaction.table.type')" prop="transactionType" width="154">
       <template slot-scope="scope">
         <span>{{ checkTransactionType(scope.row.transactionType) }}</span>
       </template>
     </el-table-column>
-    <el-table-column :label="$t('transaction.table.date')" prop="transactionDate" width="200">
+    <el-table-column :label="$t('transaction.table.date')" prop="transactionDate" :width="type!=='customer'?220:200">
       <template slot-scope="scope">
         <span>{{ scope.row.transactionMillisecond | formatMMDDYY }}</span>
       </template>
     </el-table-column>
-    <el-table-column :label="$t('transaction.table.status')" prop="status" width="120">
+    <el-table-column v-if='type!=="customer"' :label="$t('transaction.table.CUSTOMER')" prop="transactionDate" width="260">
+      <template slot-scope="scope">
+        <p>{{ scope.row.fullName }}</p>
+        <p>{{ scope.row.email }}</p>
+      </template>
+    </el-table-column>
+    <el-table-column :label="$t('transaction.table.status')" prop="status" :width="type!=='customer'?144:120">
       <template slot-scope="scope">
         <span class="text-xs" :class="checkType(scope.row.status)">{{ checkTransactionStatus(scope.row.status) }}</span>
       </template>
     </el-table-column>
-    <el-table-column :label="$t('transaction.table.amount')" align="right" width="190">
+    <el-table-column :label="$t('transaction.table.amount')" align="right" :width="type!=='customer'?200:190">
       <template slot-scope="scope">
         <div v-if="scope.row.creditAmount" class="amount-increase">
           <span>+{{ scope.row.creditAmount | convertAmountDecimal(scope.row.creditCurrency) }} {{ scope.row.creditCurrency }}</span>
@@ -57,6 +63,8 @@
   export default class TableTransaction extends Vue {
     @Prop({ required: true, type: Array, default: [] }) listTransaction!: Record<string, any>[]
     @Prop({ required: true, type: Object, default: {} }) query!: Record<string, any>
+    @Prop({ required: true, type: String, default: "customer" }) type!: string
+
 
     get getPaginationInfo(): any {
       return this.$t('paging.transaction')
