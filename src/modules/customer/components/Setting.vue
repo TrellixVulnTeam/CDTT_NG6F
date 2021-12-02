@@ -9,10 +9,16 @@
         <el-form class="form-item" :model="form" :rules="rules" ref="form-phone">
           <el-form-item prop="country">
             <div class="be-flex label" slot="label">{{ $t('label.country') }}</div>
-            <el-select v-model="form.country" class="w-100" clearable @change="handleSelectCountry">
+            <el-select v-model="form.country" class="w-100" filterable reserve-keyword remote :remote-method="remoteCountry"  clearable @change="handleSelectCountry">
               <el-option v-for="(country, index) in listCountry" :key="index" :label="country.name" :value="country.name" />
             </el-select>
           </el-form-item>
+
+          <!-- <el-form-item prop="country">
+          <el-select v-model="form.country" filterable reserve-keyword remote :remote-method="remoteCountry" clearable @change="handleSelectCountry">
+            <el-option v-for="(country, index) in listCountry" :key="index" :label="country.name" :value="country.name" />
+          </el-select>
+        </el-form-item> -->
 
           <el-form-item prop="phone">
             <div class="be-flex label" slot="label">{{ $t('label.phone-number') }}</div>
@@ -266,7 +272,7 @@
   import { CustomerRepository } from '@/services/repositories/customer'
   import countryJson from '@/utils/country/index.json'
   import { AuthRepository } from '@/services/repositories/auth'
-  import { filter } from 'lodash'
+  import { filter,trim } from 'lodash'
   import { Watch } from 'vue-property-decorator'
   const apiCustomer: CustomerRepository = getRepository('customer')
   const apiAuth: AuthRepository = getRepository('auth')
@@ -333,6 +339,25 @@
     }
     @Watch('form.resendCode') watchSubmit(value: string): void {
       this.disableSubmit = value.length > 0 ? false : true
+    }
+    @Watch('form.country')
+    clearCountry(value: any) {
+      if (!value) {
+        this.listCountry = countryJson
+      }
+    }
+    remoteCountry(query: string): void {
+      if (query) {
+        const currentCountry = filter(
+          this.listCountry,
+          country => trim(country.isoCode).toUpperCase().includes(query.toUpperCase()) || trim(country.name).toUpperCase().includes(query.toUpperCase())
+        )
+        if (currentCountry.length > 0) {
+          this.listCountry = currentCountry
+        }
+      } else if (!query) {
+        this.listCountry = countryJson
+      }
     }
     get getIconUser(): string {
       const name = this.data.faType
