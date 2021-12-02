@@ -10,43 +10,12 @@
             <base-icon :icon='renderIconCard(value.transactionType)' size='19' />
           </div>
         </div>
-        <p class='number2'>${{ value.totalAmount |convertAmountDecimal("USD") }}</p>
+        <p class='number2'>${{ value.totalAmount |convertAmountDecimal('USD') }}</p>
         <div>
           <span class='text3'>{{ value.numOfTransaction | formatNumber }} {{ $t(`transaction.table.transactions`)
             }}</span>
         </div>
       </div>
-
-      <!--      <div class='col-width col-margin'>-->
-      <!--        <div class='sack-banlance'>-->
-      <!--          <span class='text1'>{{ $t(`transaction.table.total-withdraw`) }}</span>-->
-      <!--          <div>-->
-      <!--            <base-icon icon='icon-swap' size='19' />-->
-      <!--          </div>-->
-      <!--        </div>-->
-      <!--        <span class='number2'> {{ totalAvailable | formatNumber }}</span>-->
-      <!--        <span class='text3'> ~ ${{ totalAvailableUSD | convertAmountDecimal('USD') }}</span>-->
-      <!--      </div>-->
-      <!--      <div class='col-width col-margin'>-->
-      <!--        <div class='sack-banlance'>-->
-      <!--          <span class='text1'>{{ $t(`transaction.table.total-transfer`) }}</span>-->
-      <!--          <div>-->
-      <!--            <base-icon icon='icon-lock-balance' size='19' />-->
-      <!--          </div>-->
-      <!--        </div>-->
-      <!--        <span class='number2'> {{ totalLocked | formatNumber }}</span>-->
-      <!--        <span class='text3'>~ ${{ totalLockedUSD | convertAmountDecimal('USD') }}</span>-->
-      <!--      </div>-->
-      <!--      <div class='col-width col-margin'>-->
-      <!--        <div class='sack-banlance'>-->
-      <!--          <span class='text1'> {{ $t(`transaction.table.total-bonus`) }}</span>-->
-      <!--          <div>-->
-      <!--            <base-icon icon='icon-wallet' size='19' />-->
-      <!--          </div>-->
-      <!--        </div>-->
-      <!--        <span class='number2'> {{ totalBalance | formatNumber }}</span>-->
-      <!--        <span class='text3'> ~ ${{ totalBalanceUSD | convertAmountDecimal('USD') }}</span>-->
-      <!--      </div>-->
     </div>
     <div class='w-100 bo-kyc'>
       <div class='bg-white wallet-header'>
@@ -59,12 +28,7 @@
           </div>
         </div>
       </div>
-      <!--    <transaction-filter @filterBalance='handleFilter' :listApproveBy='listApproveBy' />-->
       <filter-transaction @filter='handleFilter' :type='"transaction"' />
-      <!--    <transaction-table v-loading='isLoading' @rowClick='handleRowClick' @sizeChange='handleSizeChange'-->
-      <!--                   @pageChange='handlePageChange' :query='query' :data='propdataTable' />-->
-      <!-- <kyc-detail :detailRow="detailRow" @init="init" /> -->
-      <!--    <transaction-detail :detailRow='detailRow' :data='dataDetail' :tab-active-filter='tabActive' />-->
       <div class='table-transaction'>
         <table-transaction :listTransaction='propDataTable' :query='query' @sizeChange='handleSizeChange'
                            @pageChange='handlePageChange' :type='"transaction"' />
@@ -127,15 +91,15 @@
 
     detailRow = {}
     query: any = {
-      userId: null,
-      keywordString: '',
-      currency: [],
-      transactionType: '',
-      fromDate: '',
-      toDate: '',
-      fromAmount: '',
-      toAmount: '',
-      orderBy: 1,
+      // userId: null,
+      // keywordString: '',
+      // currency: [],
+      // transactionType: '',
+      // fromDate: '',
+      // toDate: '',
+      // fromAmount: '',
+      // toAmount: '',
+      // orderBy: 1,
       page: 1,
       limit: 10,
       total: 10
@@ -159,11 +123,12 @@
         this.isLoading = true
         const params = {
           ...this.query,
-          userId: this.query.userId,
+          // userId: this.query.userId,
+          transactionType: this.tabActive.toUpperCase(),
           orderBy: this.query.orderBy,
           limit: this.query.limit,
           page: this.query.page,
-          total: null
+          total: this.query.total
         }
         const result = await api.getListTransaction('search', params)
         console.log(result)
@@ -191,16 +156,17 @@
           return this.$i18n.t(`transaction.table.total-withdraw`) as string
       }
     }
+
     renderIconCard(type: 'BONUS' | 'DEPOSIT' | 'TRANSFER' | 'WITHDRAW'): string {
       switch (type) {
         case 'BONUS':
-          return "icon-gift"
+          return 'icon-gift'
         case 'DEPOSIT':
-          return "icon-download"
+          return 'icon-download'
         case 'TRANSFER':
-          return "icon-swap"
+          return 'icon-swap'
         case 'WITHDRAW':
-          return "icon-upload"
+          return 'icon-upload'
       }
     }
 
@@ -227,16 +193,11 @@
       this.query.page = 1
       this.query.limit = 10
       this.query.orderBy = 1
-      this.query.toBalanceAmount = ''
-      ;(this.query.fromBalanceAmount = ''),
-        (this.query.toLockedAmount = ''),
-        (this.query.fromLockedAmount = ''),
-        (this.query.toAvailableAmount = ''),
-        (this.query.fromAvailableAmount = ''),
-        (this.query.search = '')
+      console.log(tab.title)
+      this.query.transactionType = tab.title.toUpperCase()
       this.init()
       this.resetQuery()
-      EventBus.$emit('selectTabBalance')
+      // EventBus.$emit('selectTabBalance')
     }
 
     resetQuery(): void {
@@ -297,7 +258,8 @@
       padding-top: 24px;
       padding-bottom: 24px;
     }
-    .items-card{
+
+    .items-card {
       width: 270px;
       background-color: #ffffff;
       box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
@@ -305,24 +267,28 @@
       margin-right: 24px;
       margin-bottom: 24px;
       padding: 16px;
-      &:last-of-type{
+
+      &:last-of-type {
         margin-right: 0;
       }
-      .top{
+
+      .top {
         justify-content: space-between;
         align-items: center;
       }
-      .number2{
-          font-family: Open Sans;
-          font-style: normal;
-          font-weight: normal;
-          font-size: 36px;
-          line-height: 52px;
-          color: #0A0B0D;
+
+      .number2 {
+        font-family: Open Sans;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 36px;
+        line-height: 52px;
+        color: #0A0B0D;
         max-width: 250px;
         word-wrap: break-word;
       }
-      .text3{
+
+      .text3 {
         font-family: Open Sans;
         font-style: normal;
         font-weight: normal;
@@ -331,7 +297,8 @@
         color: #5B616E;
 
       }
-      .text1{
+
+      .text1 {
         font-family: Open Sans;
         font-style: normal;
         font-weight: normal;
@@ -341,9 +308,32 @@
 
       }
     }
+
     .table-transaction {
       padding: 0 24px;
       background-color: #ffffff;
+
+      .cell {
+        .customer {
+          p:first-of-type {
+            font-family: Open Sans;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 16px;
+            line-height: 24px;
+            color: #0A0B0D;
+          }
+
+          p:last-of-type {
+            font-family: Open Sans;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 20px;
+            color: #5B616E;
+          }
+        }
+      }
 
     }
 
