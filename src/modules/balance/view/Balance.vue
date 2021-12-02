@@ -300,6 +300,7 @@
     *display: inline;
     zoom: 1;
     background: #efefef;
+    margin-right: -2px !important;
   }
   .sack-banlance {
     display: flex;

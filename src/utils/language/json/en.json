@@ -223,7 +223,8 @@
     "specialCharacter": "At least 1 special character",
     "password-correct": "Password confirmation doesn't match Password",
     "country": "Please enter your country",
-    "phone-number": "Please enter your phone"
+    "phone-number": "Please enter your phone",
+    "wrong-country": "Please enter your country"
   },
   "notify": {
     "500": "Internal Server Error",
