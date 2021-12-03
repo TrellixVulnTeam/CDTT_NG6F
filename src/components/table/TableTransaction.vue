@@ -11,12 +11,14 @@
   >
     <el-table-column label="#" :index="getIndex" type="index" align="center" width="60" />
     <el-table-column :label="$t('transaction.table.trans-id')">
-      <template slot-scope="scope">
-        <div class="be-flex align-center">
-          <span v-if="type === 'customer'" class="d-ib mr-2">{{ scope.row.transactionCode | formatTransactionCode(6) }}</span>
-          <span v-else class="d-ib mr-2">{{ scope.row.transactionCode | formatTransactionCode(10) }}</span>
-          <span v-if="scope.row.transactionCode" class="icon-copy" @click="handleCopyTransaction(scope.row)">
-            <base-icon icon="icon-copy" size="24" />
+      <template slot-scope='scope'>
+        <div class='be-flex align-center'>
+          <span v-if='type==="customer"' class='d-ib mr-2'>{{ scope.row.transactionCode | formatTransactionCode(6)
+            }}</span>
+          <span v-else class='transaction-code d-ib mr-2'>{{ scope.row.transactionCode | formatTransactionCode(10)
+            }}</span>
+          <span v-if='scope.row.transactionCode' class='icon-copy' @click='handleCopyTransaction(scope.row)'>
+            <base-icon icon='icon-copy' size='24' />
           </span>
         </div>
       </template>
@@ -44,22 +46,30 @@
         <span class="text-xs" :class="checkType(scope.row.status)">{{ checkTransactionStatus(scope.row.status) }}</span>
       </template>
     </el-table-column>
-    <el-table-column :label="$t('transaction.table.amount')" align="right" :width="type !== 'customer' ? 200 : 190">
-      <template slot-scope="scope">
-        <div v-if="type === 'customer'">
-          <div v-if="scope.row.creditAmount" class="amount-increase">
-            <span>+{{ scope.row.creditAmount | convertAmountDecimal(scope.row.creditCurrency) }} {{ scope.row.creditCurrency }}</span>
-            <span class="d-block amount-exchange-small">~${{ (scope.row.creditAmount * scope.row.creditUsdExchangeRate) | convertAmountDecimal('USD') }}</span>
+    <el-table-column :label="$t('transaction.table.amount')" align='right' :width="type!=='customer'?200:190">
+      <template slot-scope='scope'>
+        <div v-if='type==="customer"'>
+          <div v-if='scope.row.creditAmount' class='amount-increase'>
+          <span>+{{ scope.row.creditAmount | convertAmountDecimal(scope.row.creditCurrency)
+            }} {{ scope.row.creditCurrency }}</span>
+            <span
+              class='d-block amount-exchange-small'>~${{ (scope.row.creditAmount * scope.row.creditUsdExchangeRate) | convertAmountDecimal('USD')
+              }}</span>
           </div>
-          <div v-else class="amount-decrease">
-            <span>-{{ scope.row.debitAmount | convertAmountDecimal(scope.row.debitCurrency) }} {{ scope.row.debitCurrency }}</span>
-            <span class="d-block amount-exchange-small">~${{ (scope.row.debitAmount * scope.row.debitUsdExchangeRate) | convertAmountDecimal('USD') }}</span>
+          <div v-else class='amount-decrease'>
+          <span>-{{ scope.row.debitAmount | convertAmountDecimal(scope.row.debitCurrency) }} {{ scope.row.debitCurrency
+            }}</span>
+            <span
+              class='d-block amount-exchange-small'>~${{ (scope.row.debitAmount * scope.row.debitUsdExchangeRate) | convertAmountDecimal('USD')
+              }}</span>
           </div>
         </div>
         <div v-else>
-          <div class="amount-increase">
-            <span>+{{ scope.row.amountDisplay }}</span>
-            <span class="d-block amount-exchange-small">~${{ scope.row.amountToUsd | convertAmountDecimal('USD') }}</span>
+          <div class='amount-increase'>
+            <span :class='checkValueAmountDisplay(scope.row.amountDisplay)'>{{ scope.row.amountDisplay }}</span>
+            <span
+              class='d-block amount-exchange-small'>~${{ (scope.row.amountToUsd) | convertAmountDecimal('USD')
+              }}</span>
           </div>
         </div>
       </template>
@@ -154,6 +164,16 @@
       this.$message.success(message)
     }
 
+    checkValueAmountDisplay(value: string | null): string {
+      if (value) {
+        if (value.indexOf('+') !== -1) {
+          return 'add'
+        } else {
+          return 'sub'
+        }
+      } else return ''
+    }
+
     handleSizeChange(value: number): void {
       this.$emit('sizeChange', value)
     }
@@ -173,6 +193,15 @@
     // padding: 4px 7px;
     border-radius: 4px;
   }
+
+  .add {
+    color: #129961;
+  }
+
+  .sub {
+    color: #CF202F;
+  }
+
   .customer {
     p:first-of-type {
       font-family: Open Sans;
@@ -191,5 +220,9 @@
       line-height: 20px;
       color: #5b616e;
     }
+  }
+
+  .transaction-code {
+    min-width: 200px;
   }
 </style>
