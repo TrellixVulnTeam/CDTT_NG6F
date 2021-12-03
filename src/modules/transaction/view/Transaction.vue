@@ -30,10 +30,11 @@
       </div>
       <filter-transaction @filter='handleFilter' :type='"transaction"' />
       <div class='table-transaction'>
-        <table-transaction :listTransaction='propDataTable' :query='query' @sizeChange='handleSizeChange'
-                           @pageChange='handlePageChange' :type='"transaction"' />
+        <table-transaction v-loading='isLoading' :listTransaction='propDataTable' :query='query' @sizeChange='handleSizeChange'
+                           @pageChange='handlePageChange' :type='"transaction"' @rowClick='handleRowClick'/>
       </div>
       <popup-filter-transaction @filter='handleFilter' />
+      <transaction-detail :detail-row='detailRow' :tab-active-filter='tabActive'/>
     </div>
   </div>
 </template>
@@ -51,6 +52,7 @@
   import TableTransaction from '@/components/table/TableTransaction.vue'
   import FilterTransaction from '@/components/filter/FilterTransaction.vue'
   import PopupFilterTransaction from '@/components/popup/PopupFilterTransaction.vue'
+  import TransactionDetail from '@/modules/transaction/components/transactionDetail/TransactionDetail.vue'
 
   const api: TransactionRepository = getRepository('transaction')
 
@@ -60,7 +62,7 @@
     transactionType: string | null,
   }
 
-  @Component({ components: { PopupFilterTransaction, TableTransaction, FilterTransaction } })
+  @Component({ components: { PopupFilterTransaction, TableTransaction, FilterTransaction,TransactionDetail } })
   export default class Transaction extends Mixins(PopupMixin) {
     tabs: Array<Record<string, any>> = [
       {
@@ -94,7 +96,7 @@
       // userId: null,
       // keywordString: '',
       // currency: [],
-      // transactionType: '',
+      transactionType: '',
       // fromDate: '',
       // toDate: '',
       // fromAmount: '',
@@ -107,13 +109,17 @@
     listApproveBy: Record<string, any>[] = []
 
 
-    created(): void {
+    async created(): Promise<void> {
       // apiKyc.getListApprove({ page: 1, limit: 20 }).then(res => {
       //   this.listApproveBy = res.content || []
       // })
-      // const name = this.$route.name
-      // this.query.kycStatus = name === 'KycPending' ? 'PENDING' : name === 'KycVerified' ? 'VERIFIED' : 'REJECTED'
-      this.init()
+      const name = this.$route.name
+      this.tabs.map((value,i)=>{
+        if (value.routeName===name){
+          this.query.transactionType=value.title.toUpperCase();
+        }
+      })
+      this.init().then()
     }
 
     propDataTable: Record<string, any>[] = []
@@ -124,19 +130,18 @@
         const params = {
           ...this.query,
           // userId: this.query.userId,
-          transactionType: this.tabActive.toUpperCase(),
           orderBy: this.query.orderBy,
           limit: this.query.limit,
           page: this.query.page,
-          total: this.query.total
+          total: null
         }
         const result = await api.getListTransaction('search', params)
-        console.log(result)
         this.propDataTable = result.transactions.content
         this.dataHeaderCard = result.summary
         this.dataHeaderCard = this.dataHeaderCard.filter((item) => {
           return item.transactionType !== 'CROWDSALE'
         })
+        this.query.total=result.transactions.totalPages;
         this.isLoading = false
       } catch (error) {
         this.isLoading = false
@@ -170,22 +175,6 @@
       }
     }
 
-    async handleGetBalanceDetail(userId: number) {
-      try {
-        const params = {
-          ...this.query,
-          search: this.query.search,
-          orderBy: this.query.orderBy,
-          limit: this.query.limit,
-          page: this.query.page,
-          total: null
-        }
-      } catch (error) {
-        this.isLoading = false
-        console.log(error)
-      }
-    }
-
     handleChangeTab(tab: Record<string, any>): void {
       this.$router.push({ name: tab.routeName })
       // this.query.tabBalance = this.kycStatus[tab.title]
@@ -193,7 +182,6 @@
       this.query.page = 1
       this.query.limit = 10
       this.query.orderBy = 1
-      console.log(tab.title)
       this.query.transactionType = tab.title.toUpperCase()
       this.init()
       this.resetQuery()
@@ -223,12 +211,13 @@
     handleRowClick(row: Record<string, any>): void {
       this.detailRow = row
       this.setOpenPopup({
-        popupName: 'popup-balance-detail',
+        popupName: 'popup-transaction-detail',
         isOpen: true
       })
     }
 
     handleFilter(filter: Record<string, any>): void {
+      let data={...filter}
       this.query = {
         ...this.query,
         ...filter

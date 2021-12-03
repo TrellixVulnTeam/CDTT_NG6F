@@ -1,238 +1,238 @@
 <template>
-  <base-popup name="popup-balance-detail" class="popup-balance-detail" width="1040px" :isShowFooter="false" :open="handleOpen" :close="handleClose">
-    <div class="title-popup" slot="title">
-      <span>{{ $t('balance.popup.title') }}</span>
+  <base-popup name='popup-transaction-detail' class='popup-transaction-detail' width='480px' :isShowFooter='false'
+              :open='handleOpen' :close='handleClose'>
+    <div class='title-popup' slot='title'>
+      <span>{{ detailRow.transactionType }} {{ detailRow.currency }}</span>
     </div>
-    <div class="content">
-      <div class="be-flex mb-24 content__header">
-        <div class="avatar">
-          <img v-if="detailRow.avatar" :src="detailRow.avatar" altdetailRow.avatar />
-          <base-icon v-else icon="default-avatar" size="48" style="display: inline-flex" />
+    <div class='w-100 fluctuating '>
+      <div class='text-center'>
+        <div class='icon'>
+          <base-icon :icon='checkTypeIcon(detailRow.status)' size='64' />
         </div>
-        <div class="ml-24 w-100 info">
-          <div class="full-name text-l text-bold">{{ detailRow.fullName }}</div>
-          <span v-if="detailRow.phone === ''">{{ detailRow.email | formatEmail }}</span>
-          <span v-else> {{ detailRow.email | formatEmail }}| {{ detailRow.phone | formatNumberPhone }}</span>
+        <p class='add'>{{ detailRow.amountDisplay }}</p>
+        <p class='usd'>~${{ detailRow.amountToUsd | convertAmountDecimal('USD') }}</p>
+      </div>
+    </div>
+    <div class='transaction-detail'>
+      <p class='title'>{{ $t('transaction.popup.transaction-detail') }}</p>
+      <div class='item be-flex'>
+        <p>Transaction ID</p>
+        <div class='be-flex align-center'>
+          <p>{{ detailRow.transactionCode   | formatTransactionCode(10) }}</p>
+          <span v-if='detailRow.transactionCode' style='margin-left: 8px' class='icon-copy'
+                @click='handleCopyTransaction(detailRow.transactionCode)'>
+            <base-icon icon='icon-copy' size='24' />
+          </span>
         </div>
       </div>
-      <balance-detail-card :data-card="detailRow" :tab-active-filter="tabActiveFilter" />
-      <account-statement-card :data="dataTable" :summary="dataSummary" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" />
+      <div class='item be-flex'>
+        <p>Date</p>
+        <p>{{ detailRow.transactionMillisecond | formatMMDDYY }}</p>
+      </div>
+      <div class='item be-flex'>
+        <p>From</p>
+        <div class='be-flex align-center'>
+          <p>{{ detailRow.fromAddress | formatTransactionCode(10) }}</p>
+          <span v-if='detailRow.fromAddress' style='margin-left: 8px' class='icon-copy'
+                @click='handleCopyTransaction(detailRow.fromAddress)'>
+            <base-icon icon='icon-copy' size='24' />
+          </span>
+        </div>
+      </div>
+      <div class='item be-flex'>
+        <p>To</p>
+        <div class='be-flex align-center'>
+          <p>{{ detailRow.toAddress | formatTransactionCode(10) }}</p>
+          <span v-if='detailRow.toAddress' style='margin-left: 8px' class='icon-copy'
+                @click='handleCopyTransaction(detailRow.toAddress)'>
+            <base-icon icon='icon-copy' size='24' />
+          </span>
+        </div>
+      </div>
+      <div class='item be-flex'>
+        <p>Fees</p>
+        <p>{{ detailRow.transactionFee }}</p>
+      </div>
+      <div class='item be-flex'>
+        <p>Status</p>
+        <p :class='checkType(detailRow.status)'>{{ checkTransactionStatus(detailRow.status) }}</p>
+      </div>
     </div>
+    <div class='customer-info'>
+      <p class='title'>Customer Info</p>
+      <div class='item be-flex'>
+        <p>Full name</p>
+        <p>{{ detailRow.fullName }}</p>
+      </div>
+      <div class='item be-flex'>
+        <p>Phone number</p>
+        <p>{{ detailRow.phoneNumber }}</p>
+      </div>
+      <div class='item be-flex'>
+        <p>Email</p>
+        <p>{{ detailRow.email }}B</p>
+      </div>
+    </div>
+
   </base-popup>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
   import { Component, Mixins, Prop } from 'vue-property-decorator'
-
   import PopupMixin from '@/mixins/popup'
 
-  import BalanceDetailCard from '@/modules/balance/components/balanceDetail/BalanceDetailCard.vue'
-  import AccountStatementCard from '@/modules/balance/components/balanceDetail/AccountStatementCard.vue'
-  import getRepository from '@/services'
-  import { TransactionRepository } from '@/services/repositories/transaction'
-  interface IContent {
-    balance: number
-    balanceDisplay: string
-    createdAt: string
-    createdBy: number
-    creditAddress: string
-    creditAmount: number
-    creditAmountDisplay: string
-    creditAmountToUsd: number
-    creditCurrency: string
-    creditFee: number
-    creditNetwork: string
-    creditUsdExchangeRate: number
-    debitAddress: string
-    debitAmount: number
-    debitAmountDisplay: string
-    debitAmountToUsd: number
-    debitCurrency: string
-    debitFee: number
-    debitNetwork: string
-    debitUsdExchangeRate: number
-    description: string
-    id: number
-    locked: number
-    lockedDisplay: string
-    refTransactionCode: string
-    status: string
-    transactionCode: string
-    transactionDate: string
-    transactionDay: string
-    transactionMillisecond: number
-    transactionType: string
-    updatedAt: string
-    updatedBy: number
-    userId: number
-  }
-
-  interface ISummary {
-    summary: {
-      openBalance: string
-      closeBalance: string
-      totalCreditAmount: string
-      totalDebitAmount: string
-    }
-  }
-
-  interface IQuery {
-    currency?: string
-    transactionType?: string
-    userId?: number
-    page?: number
-    limit?: number
-    search?: string
-    orderBy: string | number
-    total: number
-    type?: string | null | undefined
-  }
-
-  const api: TransactionRepository = getRepository('transaction')
-  @Component({ components: { BalanceDetailCard, AccountStatementCard } })
-  export default class BalanceDetail extends Mixins(PopupMixin) {
+  @Component({ components: {} })
+  export default class TransactionDetail extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Object, default: {} }) detailRow!: Record<string, any>
     @Prop({ required: true }) tabActiveFilter!: string
-    detail: Record<string, any> = {}
     isLoading = false
-    query: IQuery = {
-      currency: '',
-      transactionType: '',
-      orderBy: 1,
-      page: 1,
-      limit: 10,
-      total: 10,
-      userId: 0
-    }
-    dataTable: IContent[] = [] as IContent[]
-    dataSummary: ISummary = {} as ISummary
     tabActive = 0
 
-    async init(): Promise<void> {
-      try {
-        const params = {
-          ...this.query,
-          currency: this.tabActiveFilter.toUpperCase(),
-          userId: this.detailRow.id
-        }
-        const result = await api.getlistBalanceDetail('request/transactions', params)
-        this.dataTable = result.transactions.content
-        this.dataSummary = result.summary
-        this.query.total = result.transactions.totalElements
-        this.isLoading = false
-      } catch (error) {
-        this.isLoading = false
-        console.log(error)
-      }
-    }
-
     async handleOpen(): Promise<void> {
-      this.init().then()
+      console.log('open')
     }
 
     handleClose(): void {
       this.tabActive = 0
       this.setOpenPopup({
-        popupName: 'popup-balance-detail',
+        popupName: 'popup-transaction-detail',
         isOpen: false
       })
     }
 
-    handleChangeTab(tab: Record<string, any>): void {
-      this.tabActive = tab.id
+    checkTransactionStatus(status: string): any {
+      switch (status) {
+        case 'SUCCESS':
+          return this.$i18n.t('transaction.table.succsess')
+        case 'PENDING':
+          return this.$i18n.t('transaction.table.pending')
+        case 'PROCESSING':
+          return this.$i18n.t('transaction.table.processing')
+        case 'REJECTED':
+          return this.$i18n.t('transaction.table.rejected')
+
+        default:
+          return this.$i18n.t('transaction.table.failed')
+      }
     }
 
-    handlePageChange(page: number): void {
-      this.query.page = page
-      this.init()
+    checkType(type: string): string {
+      return type === 'PENDING'
+        ? 'status status-pending'
+        : type === 'FAILED'
+          ? 'status status-error'
+          : type === 'PROCESSING'
+            ? 'status status-warning'
+            : type === 'REJECTED'
+              ? 'status status-rejected'
+              : 'status status-success'
     }
 
-    handleSizeChange(limit: number): void {
-      this.query.limit = limit
-      this.init()
+    checkTypeIcon(type: string): string {
+      return type === 'PENDING'
+        ? 'status status-pending'
+        : type === 'FAILED'
+          ? 'status status-error'
+          : type === 'PROCESSING'
+            ? 'status status-warning'
+            : type === 'REJECTED'
+              ? 'status status-rejected'
+              : 'icon-light-upload'
+    }
+
+    handleCopyTransaction(row: any): void {
+      let message: any = ''
+      const el = document.createElement('input')
+      el.value = row
+      document.body.appendChild(el)
+      el.select()
+      document.execCommand('copy')
+      document.body.removeChild(el)
+      message = this.$t('notify.copy')
+      this.$message.success(message)
     }
   }
 </script>
 
-<style scoped lang="scss">
-  .popup-balance-detail {
-    color: var(--bc-text-primary);
+<style scoped lang='scss'>
+  .popup-transaction-detail {
 
-    .title-popup {
-      span {
-        color: #0a0b0d;
+    .fluctuating {
+      display: inline-flex;
+      justify-content: center;
+      padding: 24px 0 16px 0;
+      background-color: #ffffff;
+      margin-bottom: 8px;
+
+      p {
+        font-family: Open Sans;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 24px;
+      }
+
+      .add {
+        color: #129961;
+      }
+
+      .sub {
+        color: #CF202F;
+      }
+      .usd{
+        font-family: Open Sans;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 20px;
+        color: #5B616E;
+      }
+      .icon{
+        margin-bottom: 12px;
       }
     }
 
-    ::v-deep .popup-content {
-      background-color: #f6f8fc;
+    .transaction-detail, .customer-info {
+      background-color: #ffffff;
+      margin-bottom: 8px;
+      padding: 24px;
 
-      .content {
-        padding-bottom: 24px;
+      .title {
+        font-family: Open Sans;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 24px;
+        color: #0A0B0D;
+        //margin-bottom: 14px;
+      }
 
-        &__header {
-          .avatar {
-            img {
-              width: 48px;
-              height: 48px;
-              border-radius: 100px;
-              object-fit: cover;
-            }
-          }
-          .info {
-            .full-name {
-              font-size: 18px;
-              color: #0a0b0d;
-              font-family: Open Sans;
-              margin-bottom: 8px;
-            }
-            span {
-              font-size: 12px;
-              color: #5b616e;
-              font-family: 'Open Sans';
-            }
-          }
+      .item {
+        justify-content: space-between;
+        border-bottom: 1px solid #dbdbdb;
+        padding-bottom: 14px;
+        padding-top: 14px;
+        //margin-bottom: 14px;
+        align-items: center;
+
+        p:first-of-type {
+          font-family: Open Sans;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 14px;
+          line-height: 20px;
+          color: #5B616E;
         }
 
-        &__bottom {
-          background-color: #fff;
-          box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
-          border-radius: 4px;
-
-          .tabs {
-            border-bottom: 1px solid #d2d0ce;
-
-            .tab-item {
-              padding: 16px 12px;
-              position: relative;
-              color: #5b616e;
-
-              &:hover {
-                color: var(--bc-tab-active);
-              }
-            }
-
-            .tab-active {
-              color: var(--bc-tab-active);
-              font-weight: 600;
-
-              &::after {
-                content: '';
-                position: absolute;
-                width: 100%;
-                height: 2px;
-                bottom: 0;
-                left: 0;
-                background-color: var(--bc-tab-active);
-              }
-            }
-          }
-
-          .main-content-loading {
-            min-height: 200px;
-          }
+        &:last-of-type {
+          border-bottom: none;
+          margin-bottom: 0;
         }
       }
+    }
+
+    .customer-info {
+      margin-bottom: 0;
     }
   }
 </style>

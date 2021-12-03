@@ -49,19 +49,29 @@
     </el-table-column>
     <el-table-column :label="$t('transaction.table.amount')" align='right' :width="type!=='customer'?200:190">
       <template slot-scope='scope'>
-        <div v-if='scope.row.creditAmount' class='amount-increase'>
+     <div v-if='type==="customer"'>
+       <div v-if='scope.row.creditAmount' class='amount-increase'>
           <span>+{{ scope.row.creditAmount | convertAmountDecimal(scope.row.creditCurrency)
             }} {{ scope.row.creditCurrency }}</span>
-          <span
-            class='d-block amount-exchange-small'>~${{ (scope.row.creditAmount * scope.row.creditUsdExchangeRate) | convertAmountDecimal('USD')
-            }}</span>
-        </div>
-        <div v-else class='amount-decrease'>
+         <span
+           class='d-block amount-exchange-small'>~${{ (scope.row.creditAmount * scope.row.creditUsdExchangeRate) | convertAmountDecimal('USD')
+           }}</span>
+       </div>
+       <div v-else class='amount-decrease'>
           <span>-{{ scope.row.debitAmount | convertAmountDecimal(scope.row.debitCurrency) }} {{ scope.row.debitCurrency
             }}</span>
-          <span
-            class='d-block amount-exchange-small'>~${{ (scope.row.debitAmount * scope.row.debitUsdExchangeRate) | convertAmountDecimal('USD')
-            }}</span>
+         <span
+           class='d-block amount-exchange-small'>~${{ (scope.row.debitAmount * scope.row.debitUsdExchangeRate) | convertAmountDecimal('USD')
+           }}</span>
+       </div>
+     </div>
+        <div v-else>
+          <div class='amount-increase'>
+          <span>+{{ scope.row.amountDisplay }}</span>
+            <span
+              class='d-block amount-exchange-small'>~${{ (scope.row.amountToUsd) | convertAmountDecimal('USD')
+              }}</span>
+          </div>
         </div>
       </template>
     </el-table-column>
@@ -164,8 +174,8 @@
       this.$emit('pageChange', value)
     }
 
-    handleRowClick(): void {
-      console.log('1')
+    handleRowClick(row: Record<string, any>): void {
+      this.$emit('rowClick', row.row)
     }
   }
 </script>

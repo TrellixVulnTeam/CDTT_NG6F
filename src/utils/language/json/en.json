@@ -429,7 +429,8 @@
       "transactions": "transactions"
     },
     "popup": {
-      "title-filter": "Filter"
+      "title-filter": "Filter",
+      "transaction-detail": "Transaction Details"
     }
   },
   "params": {
