@@ -60,12 +60,24 @@
     }
 
     searchText = debounce((value: string) => {
-      this.$emit('filter', {
-        ...this.filter,
-        page: 1,
-        limit: 10,
-        search: trim(value)
-      })
+      console.log(this.type)
+      if (this.type==="customer"){
+        this.$emit('filter', {
+          ...this.filter,
+          page: 1,
+          limit: 10,
+          search: trim(value),
+        })
+      }else {
+        this.$emit('filter', {
+          ...this.filter,
+          page: 1,
+          limit: 10,
+          search:null,
+          searchString:trim(value)
+        })
+      }
+
     }, 500)
 
     handleSort(command: number): void {

@@ -8,7 +8,7 @@
       <div class='text-center'>
         <div class='icon' :class='checkTypeStatusIcon(detailRow.status)'>
           <base-icon :className='"icon-pending"'
-                     :icon='checkTypeIcon(detailRow.transactionType.toUpperCase(),detailRow.status.toUpperCase())'
+                     :icon='checkTypeIcon(detailRow.transactionType,detailRow.status)'
                      size='64' />
         </div>
         <p :class='checkValueAmountDisplay(detailRow.amountDisplay)'>{{ detailRow.amountDisplay }}</p>
@@ -134,7 +134,10 @@
               : 'status status-success'
     }
 
-    checkTypeIcon(type: string, status: string): string {
+    checkTypeIcon(type: string|undefined, status: string|undefined): string {
+    if (type&&status){
+      type.toUpperCase();
+      status.toUpperCase()
       if (status === 'PENDING' || status === 'PROCESSING') {
         if (type.indexOf('BONUS') !== -1) {
           return `icon-bonus-pending`
@@ -143,6 +146,8 @@
       } else if (type.indexOf('BONUS') !== -1) {
         return `icon-bonus-success`
       } else return `icon-${type.toLowerCase()}-success`
+    }else return ""
+
 
     }
 
@@ -179,8 +184,11 @@
       message = this.$t('notify.copy')
       this.$message.success(message)
     }
-    handleRenderTitleDetail(type:string):string{
-      return  type.replaceAll("_"," ")
+    handleRenderTitleDetail(type:string|null|undefined):string{
+      if (type){
+        return  type.replaceAll("_"," ")
+      }else return ""
+
     }
   }
 </script>

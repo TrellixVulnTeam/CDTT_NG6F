@@ -87,7 +87,8 @@
     "customer": "Khách hàng",
     "crowdsale": "Crowdsale",
     "request": "Yêu cầu",
-    "balance": "Số dư"
+    "balance": "Số dư",
+    "transaction": "Giao dịch"
   },
   "footer": {
     "terms": "Các điều khoản và điều kiện"
