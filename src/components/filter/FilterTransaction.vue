@@ -60,7 +60,6 @@
     }
 
     searchText = debounce((value: string) => {
-      console.log(this.type)
       if (this.type==="customer"){
         this.$emit('filter', {
           ...this.filter,
@@ -79,7 +78,9 @@
       }
 
     }, 500)
-
+    public handleReset(){
+      this.filter={}
+    }
     handleSort(command: number): void {
       this.sortActive = command
       this.$emit('filter', { orderBy: this.sortActive })

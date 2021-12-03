@@ -28,7 +28,7 @@
           </div>
         </div>
       </div>
-      <filter-transaction @filter="handleFilter" :type="'transaction'" />
+      <filter-transaction @filter="handleFilter" :type="'transaction'" ref="filter"/>
       <div class="table-transaction">
         <table-transaction
           v-loading="isLoading"
@@ -204,6 +204,10 @@
       this.resetQuery()
       let refs: any = this.$refs['popup-filter']
       if (refs) {
+        refs.handleReset()
+      }
+      let refs2: any = this.$refs['filter']
+      if (refs2) {
         refs.handleReset()
       }
       // EventBus.$emit('selectTabBalance')
