@@ -63,7 +63,7 @@
               <el-form-item prop="phone">
                 <div class="be-flex label text-semibold" slot="label" style="color: #5b616e">{{ $t('label.enter-verify-code') }}</div>
 
-                <el-input type="text" maxlength="6" :placeholder="$t('label.verify-code')" v-model.trim="form.resendCode">
+                <el-input type="number" maxlength="6" :placeholder="$t('label.verify-code')" v-model.trim="form.resendCode">
                   <!-- <template style="cursor: pointer" slot="prepend"
                     ><span style="color: #5b616e">{{ phoneDefault }}</span></template
                   > -->
@@ -110,7 +110,7 @@
               <el-form-item prop="phone">
                 <div class="be-flex label" slot="label">{{ $t('label.enter-verify-code') }}</div>
 
-                <el-input type="number" maxlength="6" :placeholder="$t('label.verify-code')" v-model="form.resendCode">
+                <el-input type="number" maxlength="6" :placeholder="$t('label.verify-code')" v-model.trim="form.resendCode">
                   <!-- <template style="cursor: pointer" slot="prepend"
                     ><span style="color: #5b616e">{{ phoneDefault }}</span></template
                   > -->
@@ -157,7 +157,7 @@
               <el-form-item prop="phone">
                 <div class="be-flex label" slot="label">{{ $t('label.enter-verify-code') }}</div>
 
-                <el-input type="number" maxlength="6" :placeholder="$t('label.verify-code')" v-model="form.resendCode">
+                <el-input type="number" maxlength="6" :placeholder="$t('label.verify-code')" v-model.trim="form.resendCode">
                   <!-- <template style="cursor: pointer" slot="prepend"
                     ><span style="color: #5b616e">{{ phoneDefault }}</span></template
                   > -->
@@ -338,7 +338,9 @@
       this.disabledContinue = value.length > 0 ? false : true
     }
     @Watch('form.resendCode') watchSubmit(value: string): void {
-      this.disableSubmit = value.length > 0 ? false : true
+      console.log('value', value)
+      this.disableSubmit = value.length == 6 ? false : true
+      this.form.resendCode = this.form.resendCode.substring(0,6)
     }
     @Watch('form.country')
     clearCountry(value: any) {
@@ -728,11 +730,17 @@
         this.typeAdminFa = res
         this.typeVerified = res.toLowerCase()
         if (this.typeVerified == 'sms') {
-          this.typeVerified = 'phone number'
+          let message: any = ''
+          message = this.$t('verify.phone-number')
+          this.typeVerified = message
+        } else if (this.typeVerified == 'app') {
+          let message: any = ''
+          message = this.$t('verify.authen-app')
+          this.typeVerified = message
         }
-        if (this.typeVerified == 'app') {
-          this.typeVerified = 'authenticator app'
-        }
+        // else  {
+        //   this.typeVerified = 'authenticator app'
+        // }
         console.log('typeverified', res)
       })
     }

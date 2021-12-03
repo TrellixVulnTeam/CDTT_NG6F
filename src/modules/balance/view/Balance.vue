@@ -120,7 +120,7 @@
       }
     ]
     titlePending = ''
-    tabActive = 'LYNK'
+    tabActive = ''
     isLoading = false
 
     data: Array<Record<string, any>> = []
@@ -148,6 +148,8 @@
       console.log('1')
     }
     created(): void {
+      console.log('route', this.$route.path.split('/')[2])
+      this.tabActive = this.$route.path.split('/')[2]
       // apiKyc.getListApprove({ page: 1, limit: 20 }).then(res => {
       //   this.listApproveBy = res.content || []
       // })
@@ -157,10 +159,10 @@
     }
     propdataTable: Record<string, any>[] = []
     async init(): Promise<void> {
+      console.log("tabactive", this.tabActive)
       this.data = []
       this.propdataTable = []
       try {
-        console.log('query', this.query)
         this.isLoading = true
         const params = {
           ...this.query,

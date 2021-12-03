@@ -59,6 +59,7 @@
   @Component({ components: { VueRecaptcha, HeaderLogin, VerifyPage, Language } })
   export default class LoginPage extends Vue {
     @bcAuth.Action('login') login!: (data: Record<string, any>) => Promise<void>
+    @bcAuth.Action('logout') logout!: () => Promise<void>
     @beBase.State('siteKey') siteKey!: string
 
     showPass = false
@@ -195,8 +196,9 @@
                 console.log('listRoles', listRoles)
 
                 if ((listRoles.length == 1 && listRoles.includes('INVESTOR')) || listRoles.length == 0) {
-                  message = this.$t('notify.invalid-username')
+                  message = this.$t('notify.notify.no-permisson')
                   this.$message.error({ message, duration: 5000 })
+                  await this.logout()
                 } else {
                   this.$router.push({ name: 'Crowdsale' })
                   message = this.$t('notify.login-success')

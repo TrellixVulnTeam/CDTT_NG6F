@@ -70,7 +70,15 @@ export function convertAmount8digit(amount: string | number): string {
 }
 
 export function convertAmountDecimal(amount: string | number, currency: string): string {
-  if (!amount) return '0.00'
+  // if (!amount) return '0.000000'
+  // if ((amount == 0 && currency == 'LYNK') || currency == 'CLM' || currency == 'USD' || currency == 'USDC' || currency == 'USDT') {
+  //   return '0.00'
+  // } else if (amount == 0 && currency == 'BNB') {
+  //   return '0.00000'
+  // } else if ((amount == 0 && currency == 'ETH') || currency == 'BTC') {
+  //   return '0.00000000'
+  // }
+
   const objConvert = {
     LYNK: 2,
     CLM: 2,
