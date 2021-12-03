@@ -116,7 +116,6 @@
         if (value.routeName === name) {
           this.query.transactionType = value.title.toUpperCase()
           this.tabActive=value.title
-          console.log(this.tabActive)
         }
       })
       this.init().then()
@@ -141,7 +140,7 @@
         this.dataHeaderCard = this.dataHeaderCard.filter(item => {
           return item.transactionType !== 'CROWDSALE'
         })
-        this.query.total = result.transactions.totalPages
+        this.query.total = result.transactions.totalElements
         this.isLoading = false
       } catch (error) {
         this.isLoading = false
