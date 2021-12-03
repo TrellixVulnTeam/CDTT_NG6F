@@ -7,7 +7,7 @@
             {{ renderTitleCard(value.transactionType) }}
           </span>
           <div>
-            <base-icon :icon="renderIconCard(value.transactionType)" size="20" />
+            <base-icon :icon="renderIconCard(value.transactionType)" size="24" />
           </div>
         </div>
         <div class="item">
@@ -186,7 +186,7 @@
         case 'DEPOSIT':
           return 'icon-download'
         case 'TRANSFER':
-          return 'icon-swap'
+          return 'icon-swap-2'
         case 'WITHDRAW':
           return 'icon-upload'
       }
