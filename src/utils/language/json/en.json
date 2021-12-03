@@ -140,7 +140,9 @@
     "from-amount": " From amount",
     "to-amount": "To amount",
     "select-type": "Select type",
-    "status": "Select status"
+    "status": "Select status",
+    "from":"From",
+    "to":"To"
   },
   "button": {
     "reset": "Reset",

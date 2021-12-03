@@ -11,28 +11,44 @@
           <el-form>
             <div class="be-flex jc-space-between row">
               <el-form-item class="be-flex-item mr-40" :label="$t('label.available-amount')">
-                <!-- <el-input :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateStart')" clearable></el-input> -->
                 <el-row class="flex_line">
                   <el-col :span="11">
-                    <el-input v-model="filterBalance.fromAvailableAmount" @keyup.native="numberFormat($event)" type="text" placeholder="From"></el-input>
+                    <el-input v-model="filterBalance.fromAvailableAmount" @keyup.native="numberFormat($event)" type="text" :placeholder="$t('placeholder.from')"
+                      ><div class="prefix" slot="prefix">$</div></el-input
+                    >
                   </el-col>
-                  <!-- <span class="dash"><i class="el-icon-minus icon-dash"></i></span> -->
                   <el-col :span="11" style="float: right">
-                    <el-input v-model="filterBalance.toAvailableAmount" @keyup.native="numberFormat($event)" type="text" placeholder="To"></el-input>
+                    <el-input v-model="filterBalance.toAvailableAmount" @keyup.native="numberFormat($event)" type="text" :placeholder="$t('placeholder.to')"
+                      ><div class="prefix" slot="prefix">$</div></el-input
+                    >
                   </el-col>
                 </el-row>
               </el-form-item>
+              <!-- <el-form-item class="be-flex-item mr-40 form-item-line" :label="$t('label.trans-amount')">
+            <el-input
+              v-model="filter.fromAmount"
+              :placeholder="$t('placeholder.from-amount')"
+              @keypress.native="onlyNumber($event, 'fromAmount')"
+              @keyup.native="numberFormat($event)"
+            >
+              <div class="prefix" slot="prefix">$</div>
+            </el-input>
+          </el-form-item> -->
             </div>
             <div class="be-flex jc-space-between row">
               <el-form-item class="be-flex-item mr-40" :label="$t('label.locked-amount')">
                 <!-- <el-input :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateStart')" clearable></el-input> -->
                 <el-row class="flex_line">
                   <el-col :span="11">
-                    <el-input v-model="filterBalance.fromLockedAmount" @keyup.native="numberFormat($event)" type="text" placeholder="From"></el-input>
+                    <el-input v-model="filterBalance.fromLockedAmount" @keyup.native="numberFormat($event)" type="text" :placeholder="$t('placeholder.from')"
+                      ><div class="prefix" slot="prefix">$</div></el-input
+                    >
                   </el-col>
                   <!-- <span class="dash"><i class="el-icon-minus icon-dash"></i></span> -->
                   <el-col :span="11" style="float: right">
-                    <el-input v-model="filterBalance.toLockedAmount" @keyup.native="numberFormat($event)" type="text" placeholder="To"></el-input>
+                    <el-input v-model="filterBalance.toLockedAmount" @keyup.native="numberFormat($event)" type="text" :placeholder="$t('placeholder.to')"
+                      ><div class="prefix" slot="prefix">$</div></el-input
+                    >
                   </el-col>
                 </el-row>
               </el-form-item>
@@ -42,11 +58,15 @@
                 <!-- <el-input :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateStart')" clearable></el-input> -->
                 <el-row class="flex_line">
                   <el-col :span="11">
-                    <el-input v-model="filterBalance.fromBalanceAmount" @keyup.native="numberFormat($event)" type="text" placeholder="From"></el-input>
+                    <el-input v-model="filterBalance.fromBalanceAmount" @keyup.native="numberFormat($event)" type="text" :placeholder="$t('placeholder.from')"
+                      ><div class="prefix" slot="prefix">$</div></el-input
+                    >
                   </el-col>
                   <!-- <span class="dash"><i class="el-icon-minus icon-dash"></i></span> -->
                   <el-col :span="11" style="float: right">
-                    <el-input v-model="filterBalance.toBalanceAmount" @keyup.native="numberFormat($event)" type="text" placeholder="To"></el-input>
+                    <el-input v-model="filterBalance.toBalanceAmount" @keyup.native="numberFormat($event)" type="text" :placeholder="$t('placeholder.to')"
+                      ><div class="prefix" slot="prefix">$</div></el-input
+                    >
                   </el-col>
                 </el-row>
               </el-form-item>
@@ -185,8 +205,12 @@
     @Watch('filterBalance.search') handleSearch(value: string): void {
       this.searchText(value)
     }
-
+    @Watch('filterBalance.fromAvailableAmount') availabelAmount(value: string): void {
+      console.log('value', '$ ' + value)
+      // this.filterBalance.fromAvailableAmount = "$ " + value
+    }
     searchText = debounce((value: string) => {
+      console.log('thanh', this.filterBalance)
       this.$emit('filterBalance', {
         ...this.filterBalance,
         search: trim(value)
@@ -215,7 +239,8 @@
         this.$forceUpdate()
       })
       EventBus.$on('selectTabBalance', this.handleChangeTab)
-      this.$emit('filterBalance', this.filterBalance)
+      // this.$emit('filterBalance', this.filterBalance)
+      console.log('filter', this.filterBalance)
     }
     destroyed(): void {
       EventBus.$off('changeLang')
@@ -262,10 +287,15 @@
     }
 
     handleChangeTab(): void {
-      this.filterBalance.search = ''
-      const params = {
-        search: this.filterBalance.search
-      }
+      ;(this.filterBalance.search = ''),
+        (this.filterBalance.toBalanceAmount = ''),
+        (this.filterBalance.fromBalanceAmount = ''),
+        (this.filterBalance.toLockedAmount = ''),
+        (this.filterBalance.fromLockedAmount = ''),
+        (this.filterBalance.toAvailableAmount = ''),
+        (this.filterBalance.fromAvailableAmount = ''),
+        (this.filterBalance.orderBy = '')
+      this.sortActive = '1'
       // this.$emit('filterBalance', params);
     }
 
@@ -317,6 +347,14 @@
 <style scoped lang="scss">
   .dash {
     text-align: center;
+  }
+  .prefix {
+    height: 100%;
+    font-size: 16px;
+    color: #0a0b0d;
+    position: absolute;
+    left: 8px;
+    top: 4px;
   }
   .kyc-filter {
     background-color: #fff;

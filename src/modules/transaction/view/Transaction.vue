@@ -1,29 +1,27 @@
 <template>
-  <div class='w-100 transaction'>
-    <div class='container wallet-header be-flex' style='width: 100%'>
-      <div v-for='(value,i) in dataHeaderCard' :key='i' class='items-card'>
-        <div class='be-flex top'>
-          <span class='text1'>
+  <div class="w-100 transaction">
+    <div class="container wallet-header be-flex" style="width: 100%">
+      <div v-for="(value, i) in dataHeaderCard" :key="i" class="items-card">
+        <div class="be-flex top">
+          <span class="text1">
             {{ renderTitleCard(value.transactionType) }}
           </span>
           <div>
-            <base-icon :icon='renderIconCard(value.transactionType)' size='19' />
+            <base-icon :icon="renderIconCard(value.transactionType)" size="19" />
           </div>
         </div>
-        <p class='number2'>${{ value.totalAmount |convertAmountDecimal('USD') }}</p>
+        <p class="number2">${{ value.totalAmount | convertAmountDecimal('USD') }}</p>
         <div>
-          <span class='text3'>{{ value.numOfTransaction | formatNumber }} {{ $t(`transaction.table.transactions`)
-            }}</span>
+          <span class="text3">{{ value.numOfTransaction | formatNumber }} {{ $t(`transaction.table.transactions`) }}</span>
         </div>
       </div>
     </div>
-    <div class='w-100 bo-kyc'>
-      <div class='bg-white wallet-header'>
-        <div class='be-flex align-center jc-space-between wallet-header__above'>
-          <div class='wallet-header__above-tabs be-flex'>
-            <div class='tab-item cursor' v-for='tab in tabs' :key='tab.id'
-                 :class="$route.name === tab.routeName ? 'tab-active' : null" @click='handleChangeTab(tab)'>
-              <span class='text-base'>{{ $t(`menu.${tab.title}`) }}</span>
+    <div class="w-100 bo-kyc">
+      <div class="bg-white wallet-header">
+        <div class="be-flex align-center jc-space-between wallet-header__above">
+          <div class="wallet-header__above-tabs be-flex">
+            <div class="tab-item cursor" v-for="tab in tabs" :key="tab.id" :class="$route.name === tab.routeName ? 'tab-active' : null" @click="handleChangeTab(tab)">
+              <span class="text-base">{{ $t(`menu.${tab.title}`) }}</span>
             </div>
           </div>
         </div>
@@ -40,7 +38,7 @@
   </div>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
   import { Component, Mixins, Watch } from 'vue-property-decorator'
   //@ts-ignore
   import TransactionTable from '../components/TransactionTable.vue'
@@ -58,9 +56,9 @@
   const api: TransactionRepository = getRepository('transaction')
 
   interface IDataCard {
-    numOfTransaction: number | null,
-    totalAmount: number | null,
-    transactionType: string | null,
+    numOfTransaction: number | null
+    totalAmount: number | null
+    transactionType: string | null
   }
 
   @Component({ components: { PopupFilterTransaction, TableTransaction, FilterTransaction, TransactionDetail } })
@@ -109,7 +107,6 @@
     }
     listApproveBy: Record<string, any>[] = []
 
-
     async created(): Promise<void> {
       // apiKyc.getListApprove({ page: 1, limit: 20 }).then(res => {
       //   this.listApproveBy = res.content || []
@@ -141,7 +138,7 @@
         const result = await api.getListTransaction('search', params)
         this.propDataTable = result.transactions.content
         this.dataHeaderCard = result.summary
-        this.dataHeaderCard = this.dataHeaderCard.filter((item) => {
+        this.dataHeaderCard = this.dataHeaderCard.filter(item => {
           return item.transactionType !== 'CROWDSALE'
         })
         this.query.total = result.transactions.totalPages
@@ -234,7 +231,7 @@
   }
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
   .container {
     text-align: justify;
     -ms-text-justify: distribute-all-lines;
@@ -287,8 +284,7 @@
         font-weight: normal;
         font-size: 16px;
         line-height: 24px;
-        color: #5B616E;
-
+        color: #5b616e;
       }
 
       .text1 {
@@ -297,8 +293,7 @@
         font-weight: normal;
         font-size: 16px;
         line-height: 24px;
-        color: #5B616E;
-
+        color: #5b616e;
       }
     }
 
@@ -314,7 +309,7 @@
             font-weight: normal;
             font-size: 16px;
             line-height: 24px;
-            color: #0A0B0D;
+            color: #0a0b0d;
           }
 
           p:last-of-type {
@@ -323,7 +318,7 @@
             font-weight: normal;
             font-size: 14px;
             line-height: 20px;
-            color: #5B616E;
+            color: #5b616e;
           }
         }
       }

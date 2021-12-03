@@ -52,8 +52,14 @@
         <span>{{ $t('customer.setting.verify') }}</span>
       </div>
       <div class="bc-verify">
-        <h3 class="text-3xl text-center text-semibold title-form" style="justify-content: center">
-          {{ this.typeAdminFa == 'APP' ? $t('verify.title-app') : $t('verify.title-phone') }} {{ typeVerified }}
+        <h3 v-if="this.typeAdminFa == 'APP'" class="text-3xl text-center text-semibold title-form" style="justify-content: center">
+          {{ $t('verify.title-app') }}
+        </h3>
+        <h3 v-else-if="this.typeAdminFa == 'SMS'" class="text-3xl text-center text-semibold title-form" style="justify-content: center">
+          {{ $t('verify.title-phone') }}
+        </h3>
+        <h3 v-else-if="this.typeAdminFa == 'EMAIL'" class="text-3xl text-center text-semibold title-form" style="justify-content: center">
+          {{ $t('verify.title-email') }}
         </h3>
         <!-- <h3 v-else class="text-3xl text-center text-semibold title-form" style="justify-content: center">{{ $t('verify.title-phone') }} {{ typeVerified }}</h3> -->
         <div class="be-flex verify-code" style="margin-right: 8px">
@@ -96,8 +102,14 @@
         <span>{{ $t('customer.setting.verify') }}</span>
       </div>
       <div class="bc-verify">
-        <h3 class="text-3xl text-center text-semibold title-form" style="justify-content: center">
-          {{ this.typeAdminFa == 'APP' ? $t('verify.title-app') : $t('verify.title-phone') }} {{ typeVerified }}
+        <h3 v-if="this.typeAdminFa == 'APP'" class="text-3xl text-center text-semibold title-form" style="justify-content: center">
+          {{ $t('verify.title-app') }}
+        </h3>
+        <h3 v-else-if="this.typeAdminFa == 'SMS'" class="text-3xl text-center text-semibold title-form" style="justify-content: center">
+          {{ $t('verify.title-phone') }}
+        </h3>
+        <h3 v-else-if="this.typeAdminFa == 'EMAIL'" class="text-3xl text-center text-semibold title-form" style="justify-content: center">
+          {{ $t('verify.title-email') }}
         </h3>
         <!-- <h3 v-else class="text-3xl text-center text-semibold title-form" style="justify-content: center">{{ $t('verify.title-phone') }} {{ typeVerified }}</h3> -->
         <div class="be-flex verify-code">
@@ -143,8 +155,14 @@
         <span>{{ $t('customer.setting.verify') }}</span>
       </div>
       <div class="bc-verify">
-        <h3 class="text-3xl text-center text-semibold title-form" style="justify-content: center">
-          {{ this.typeAdminFa == 'APP' ? $t('verify.title-app') : $t('verify.title-phone') }} {{ typeVerified }}
+        <h3 v-if="this.typeAdminFa == 'APP'" class="text-3xl text-center text-semibold title-form" style="justify-content: center">
+          {{ $t('verify.title-app') }}
+        </h3>
+        <h3 v-else-if="this.typeAdminFa == 'SMS'" class="text-3xl text-center text-semibold title-form" style="justify-content: center">
+          {{ $t('verify.title-phone') }}
+        </h3>
+        <h3 v-else-if="this.typeAdminFa == 'EMAIL'" class="text-3xl text-center text-semibold title-form" style="justify-content: center">
+          {{ $t('verify.title-email') }}
         </h3>
         <!-- <h3 v-else class="text-3xl text-center text-semibold title-form" style="justify-content: center">{{ $t('verify.title-phone') }} {{ typeVerified }}</h3> -->
         <div class="be-flex verify-code">
@@ -340,7 +358,7 @@
     @Watch('form.resendCode') watchSubmit(value: string): void {
       console.log('value', value)
       this.disableSubmit = value.length == 6 ? false : true
-      this.form.resendCode = this.form.resendCode.substring(0,6)
+      this.form.resendCode = this.form.resendCode.substring(0, 6)
     }
     @Watch('form.country')
     clearCountry(value: any) {
@@ -559,7 +577,8 @@
         }
         apiCustomer
           .updateLockedUser(params)
-          .then(() => {
+          .then((res: any) => {
+            console.log('res', res)
             let message: any = this.$t('customer.setting.lock-user-success')
             this.$message.success(message)
             this.setOpenPopup({
@@ -580,9 +599,18 @@
         }
         apiCustomer
           .updateUnlockUser(paramsUnlock)
-          .then(() => {
-            let message: any = this.$t('customer.setting.unlock-user-success')
-            this.$message.success(message)
+          .then((res: any) => {
+            // get message thì sửa ở api Customer
+            console.log('res', res)
+
+            if (res.message == 'Unlocked successfully') {
+              let message: any = this.$t('customer.setting.unlock-user-success')
+              this.$message.success(message)
+            } else {
+              let message: any = this.$t('customer.setting.send-email-avtive')
+              this.$message.success(message)
+            }
+
             this.setOpenPopup({
               popupName: 'popup-verify-lock',
               isOpen: false

@@ -106,7 +106,9 @@
     "from-amount": " Từ",
     "to-amount": "Đến",
     "select-type": "Chọn trạng thái",
-    "status": "Chọn trạng thái"
+    "status": "Chọn trạng thái",
+    "from":"Từ",
+    "to":"Tới"
   },
   "button": {
     "reset": "Làm lại",
@@ -321,6 +323,7 @@
       "lock-user-success": "Khóa tài khoản thành công!",
       "lock-user-fail": "Khóa tài khoản thất bại!",
       "unlock-user-success": "Mở khóa tài khoản thành công!",
+      "send-email-avtive": "Gửi email kích hoạt cho khách hàng thành công!",
       "unlock-user-fail": "Mở khóa tài khoản thất bại!",
       "user-active": "Kích hoạt",
       "user-locked": "Đã khóa",
@@ -339,9 +342,9 @@
     },
     "statistics": {
       "balance": "Số dư",
-      "total-deposit": "Tổng số tiền đã nạp",
-      "total-withdraw": "Tổng số tiền đã rút",
-      "total-trade": "Tổng số tiền đã bán",
+      "total-deposit": "Tổng tiền nạp",
+      "total-withdraw": "Tổng tiền rút",
+      "total-trade": "Tổng tiền bán",
       "bonus": "Thưởng",
       "crowdsale": "Crowdsale",
       "deposit": "Nạp",

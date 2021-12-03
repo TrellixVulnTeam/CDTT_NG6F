@@ -1,5 +1,5 @@
 <template>
-  <div class="be-flex align-center kyc-filter filter" :class='type==="customer"?"mb-24":""'>
+  <div class="be-flex align-center kyc-filter filter" :class="type === 'customer' ? 'mb-24' : ''">
     <el-input v-model="filter.search" class="input-search" :placeholder="$t('placeholder.search')">
       <span slot="prefix" class="prefix-search">
         <base-icon icon="icon-search" size="24" />
@@ -37,7 +37,7 @@
 
   @Component
   export default class FilterTransaction extends Mixins(PopupMixin) {
-    @Prop({ required: true, type: String, default: "customer" }) type!: string
+    @Prop({ required: true, type: String, default: 'customer' }) type!: string
     filter: Record<string, any> = {}
     sorts: Array<Record<string, any>> = [
       {

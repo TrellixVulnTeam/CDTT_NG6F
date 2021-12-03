@@ -15,43 +15,40 @@
         <p class='usd'>~${{ detailRow.amountToUsd | convertAmountDecimal('USD') }}</p>
       </div>
     </div>
-    <div class='transaction-detail'>
-      <p class='title'>{{ $t('transaction.popup.transaction-detail') }}</p>
-      <div class='item be-flex'>
+    <div class="transaction-detail">
+      <p class="title">{{ $t('transaction.popup.transaction-detail') }}</p>
+      <div class="item be-flex">
         <p>Transaction ID</p>
-        <div class='be-flex align-center'>
-          <p>{{ detailRow.transactionCode   | formatTransactionCode(10) }}</p>
-          <span v-if='detailRow.transactionCode' style='margin-left: 8px' class='icon-copy'
-                @click='handleCopyTransaction(detailRow.transactionCode)'>
-            <base-icon icon='icon-copy' size='24' />
+        <div class="be-flex align-center">
+          <p>{{ detailRow.transactionCode | formatTransactionCode(10) }}</p>
+          <span v-if="detailRow.transactionCode" style="margin-left: 8px" class="icon-copy" @click="handleCopyTransaction(detailRow.transactionCode)">
+            <base-icon icon="icon-copy" size="24" />
           </span>
         </div>
       </div>
-      <div class='item be-flex'>
+      <div class="item be-flex">
         <p>Date</p>
         <p>{{ detailRow.transactionMillisecond | formatMMDDYY }}</p>
       </div>
       <div v-if='detailRow.fromAddress' class='item be-flex'>
         <p>From</p>
-        <div class='be-flex align-center'>
+        <div class="be-flex align-center">
           <p>{{ detailRow.fromAddress | formatTransactionCode(10) }}</p>
-          <span v-if='detailRow.fromAddress' style='margin-left: 8px' class='icon-copy'
-                @click='handleCopyTransaction(detailRow.fromAddress)'>
-            <base-icon icon='icon-copy' size='24' />
+          <span v-if="detailRow.fromAddress" style="margin-left: 8px" class="icon-copy" @click="handleCopyTransaction(detailRow.fromAddress)">
+            <base-icon icon="icon-copy" size="24" />
           </span>
         </div>
       </div>
-      <div class='item be-flex'>
+      <div class="item be-flex">
         <p>To</p>
-        <div class='be-flex align-center'>
+        <div class="be-flex align-center">
           <p>{{ detailRow.toAddress | formatTransactionCode(10) }}</p>
-          <span v-if='detailRow.toAddress' style='margin-left: 8px' class='icon-copy'
-                @click='handleCopyTransaction(detailRow.toAddress)'>
-            <base-icon icon='icon-copy' size='24' />
+          <span v-if="detailRow.toAddress" style="margin-left: 8px" class="icon-copy" @click="handleCopyTransaction(detailRow.toAddress)">
+            <base-icon icon="icon-copy" size="24" />
           </span>
         </div>
       </div>
-      <div class='item be-flex'>
+      <div class="item be-flex">
         <p>Fees</p>
        <div class='be-flex'>
          <p v-if=' detailRow.transactionFee>0' class='add'>{{ detailRow.transactionFee }} {{ detailRow.currency }}</p>
@@ -59,9 +56,9 @@
          <p class='convert' style='margin-left: 4px'>(~${{detailRow.transactionFeeToUsd | convertAmountDecimal('USD')}})</p>
        </div>
       </div>
-      <div class='item be-flex'>
+      <div class="item be-flex">
         <p>Status</p>
-        <p :class='checkType(detailRow.status)'>{{ checkTransactionStatus(detailRow.status) }}</p>
+        <p :class="checkType(detailRow.status)">{{ checkTransactionStatus(detailRow.status) }}</p>
       </div>
     </div>
     <div class='customer-info'>
@@ -70,20 +67,19 @@
         <p>Full name</p>
         <p>{{ detailRow.fullName }}</p>
       </div>
-      <div class='item be-flex'>
+      <div class="item be-flex">
         <p>Phone number</p>
         <p>{{ detailRow.phone }}</p>
       </div>
-      <div class='item be-flex'>
+      <div class="item be-flex">
         <p>Email</p>
         <p>{{ detailRow.email }}</p>
       </div>
     </div>
-
   </base-popup>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
   import { Component, Mixins, Prop } from 'vue-property-decorator'
   import PopupMixin from '@/mixins/popup'
 
@@ -126,12 +122,12 @@
       return type === 'PENDING'
         ? 'status status-pending'
         : type === 'FAILED'
-          ? 'status status-error'
-          : type === 'PROCESSING'
-            ? 'status status-warning'
-            : type === 'REJECTED'
-              ? 'status status-rejected'
-              : 'status status-success'
+        ? 'status status-error'
+        : type === 'PROCESSING'
+        ? 'status status-warning'
+        : type === 'REJECTED'
+        ? 'status status-rejected'
+        : 'status status-success'
     }
 
     checkTypeIcon(type: string|undefined, status: string|undefined): string {
@@ -193,7 +189,7 @@
   }
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
   .popup-transaction-detail {
     .add {
       color: #129961!important;
@@ -222,7 +218,7 @@
         font-weight: normal;
         font-size: 14px;
         line-height: 20px;
-        color: #5B616E;
+        color: #5b616e;
       }
 
       .icon {
@@ -253,7 +249,7 @@
         font-weight: 600;
         font-size: 16px;
         line-height: 24px;
-        color: #0A0B0D;
+        color: #0a0b0d;
         //margin-bottom: 14px;
       }
 
@@ -271,7 +267,7 @@
           font-weight: normal;
           font-size: 14px;
           line-height: 20px;
-          color: #5B616E;
+          color: #5b616e;
         }
 
         &:last-of-type {
