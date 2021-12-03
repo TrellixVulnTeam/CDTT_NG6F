@@ -332,9 +332,9 @@
     },
     "statistics": {
       "balance": "Số dư",
-      "total-deposit": "Tổng số tiền đã nạp",
-      "total-withdraw": "Tổng số tiền đã rút",
-      "total-trade": "Tổng số tiền đã bán",
+      "total-deposit": "Tổng tiền nạp",
+      "total-withdraw": "Tổng tiền rút",
+      "total-trade": "Tổng tiền bán",
       "bonus": "Thưởng",
       "crowdsale": "Crowdsale",
       "deposit":"Nạp",
