@@ -601,12 +601,14 @@
           .updateUnlockUser(paramsUnlock)
           .then((res: any) => {
             // get message thì sửa ở api Customer
-            console.log('res', res)
+            console.log('res', res.message)
 
             if (res.message == 'Unlocked successfully') {
+              console.log('unlock success')
               let message: any = this.$t('customer.setting.unlock-user-success')
               this.$message.success(message)
             } else {
+              console.log(' sen email')
               let message: any = this.$t('customer.setting.send-email-avtive')
               this.$message.success(message)
             }
