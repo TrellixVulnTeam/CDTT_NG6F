@@ -1,83 +1,78 @@
 <template>
-  <base-popup name='popup-transaction-detail' class='popup-transaction-detail' width='480px' :isShowFooter='false'
-              :open='handleOpen' :close='handleClose'>
-    <div class='title-popup' slot='title'>
+  <base-popup name="popup-transaction-detail" class="popup-transaction-detail" width="480px" :isShowFooter="false" :open="handleOpen" :close="handleClose">
+    <div class="title-popup" slot="title">
       <span>{{ detailRow.transactionType }} {{ detailRow.currency }}</span>
     </div>
-    <div class='w-100 fluctuating '>
-      <div class='text-center'>
-        <div class='icon'>
-          <base-icon :icon='checkTypeIcon(detailRow.status)' size='64' />
+    <div class="w-100 fluctuating">
+      <div class="text-center">
+        <div class="icon">
+          <base-icon :icon="checkTypeIcon(detailRow.status)" size="64" />
         </div>
-        <p class='add'>{{ detailRow.amountDisplay }}</p>
-        <p class='usd'>~${{ detailRow.amountToUsd | convertAmountDecimal('USD') }}</p>
+        <p class="add">{{ detailRow.amountDisplay }}</p>
+        <p class="usd">~${{ detailRow.amountToUsd | convertAmountDecimal('USD') }}</p>
       </div>
     </div>
-    <div class='transaction-detail'>
-      <p class='title'>{{ $t('transaction.popup.transaction-detail') }}</p>
-      <div class='item be-flex'>
+    <div class="transaction-detail">
+      <p class="title">{{ $t('transaction.popup.transaction-detail') }}</p>
+      <div class="item be-flex">
         <p>Transaction ID</p>
-        <div class='be-flex align-center'>
-          <p>{{ detailRow.transactionCode   | formatTransactionCode(10) }}</p>
-          <span v-if='detailRow.transactionCode' style='margin-left: 8px' class='icon-copy'
-                @click='handleCopyTransaction(detailRow.transactionCode)'>
-            <base-icon icon='icon-copy' size='24' />
+        <div class="be-flex align-center">
+          <p>{{ detailRow.transactionCode | formatTransactionCode(10) }}</p>
+          <span v-if="detailRow.transactionCode" style="margin-left: 8px" class="icon-copy" @click="handleCopyTransaction(detailRow.transactionCode)">
+            <base-icon icon="icon-copy" size="24" />
           </span>
         </div>
       </div>
-      <div class='item be-flex'>
+      <div class="item be-flex">
         <p>Date</p>
         <p>{{ detailRow.transactionMillisecond | formatMMDDYY }}</p>
       </div>
-      <div class='item be-flex'>
+      <div class="item be-flex">
         <p>From</p>
-        <div class='be-flex align-center'>
+        <div class="be-flex align-center">
           <p>{{ detailRow.fromAddress | formatTransactionCode(10) }}</p>
-          <span v-if='detailRow.fromAddress' style='margin-left: 8px' class='icon-copy'
-                @click='handleCopyTransaction(detailRow.fromAddress)'>
-            <base-icon icon='icon-copy' size='24' />
+          <span v-if="detailRow.fromAddress" style="margin-left: 8px" class="icon-copy" @click="handleCopyTransaction(detailRow.fromAddress)">
+            <base-icon icon="icon-copy" size="24" />
           </span>
         </div>
       </div>
-      <div class='item be-flex'>
+      <div class="item be-flex">
         <p>To</p>
-        <div class='be-flex align-center'>
+        <div class="be-flex align-center">
           <p>{{ detailRow.toAddress | formatTransactionCode(10) }}</p>
-          <span v-if='detailRow.toAddress' style='margin-left: 8px' class='icon-copy'
-                @click='handleCopyTransaction(detailRow.toAddress)'>
-            <base-icon icon='icon-copy' size='24' />
+          <span v-if="detailRow.toAddress" style="margin-left: 8px" class="icon-copy" @click="handleCopyTransaction(detailRow.toAddress)">
+            <base-icon icon="icon-copy" size="24" />
           </span>
         </div>
       </div>
-      <div class='item be-flex'>
+      <div class="item be-flex">
         <p>Fees</p>
         <p>{{ detailRow.transactionFee }}</p>
       </div>
-      <div class='item be-flex'>
+      <div class="item be-flex">
         <p>Status</p>
-        <p :class='checkType(detailRow.status)'>{{ checkTransactionStatus(detailRow.status) }}</p>
+        <p :class="checkType(detailRow.status)">{{ checkTransactionStatus(detailRow.status) }}</p>
       </div>
     </div>
-    <div class='customer-info'>
-      <p class='title'>Customer Info</p>
-      <div class='item be-flex'>
+    <div class="customer-info">
+      <p class="title">Customer Info</p>
+      <div class="item be-flex">
         <p>Full name</p>
         <p>{{ detailRow.fullName }}</p>
       </div>
-      <div class='item be-flex'>
+      <div class="item be-flex">
         <p>Phone number</p>
         <p>{{ detailRow.phoneNumber }}</p>
       </div>
-      <div class='item be-flex'>
+      <div class="item be-flex">
         <p>Email</p>
         <p>{{ detailRow.email }}B</p>
       </div>
     </div>
-
   </base-popup>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
   import { Component, Mixins, Prop } from 'vue-property-decorator'
   import PopupMixin from '@/mixins/popup'
 
@@ -120,24 +115,24 @@
       return type === 'PENDING'
         ? 'status status-pending'
         : type === 'FAILED'
-          ? 'status status-error'
-          : type === 'PROCESSING'
-            ? 'status status-warning'
-            : type === 'REJECTED'
-              ? 'status status-rejected'
-              : 'status status-success'
+        ? 'status status-error'
+        : type === 'PROCESSING'
+        ? 'status status-warning'
+        : type === 'REJECTED'
+        ? 'status status-rejected'
+        : 'status status-success'
     }
 
     checkTypeIcon(type: string): string {
       return type === 'PENDING'
         ? 'status status-pending'
         : type === 'FAILED'
-          ? 'status status-error'
-          : type === 'PROCESSING'
-            ? 'status status-warning'
-            : type === 'REJECTED'
-              ? 'status status-rejected'
-              : 'icon-light-upload'
+        ? 'status status-error'
+        : type === 'PROCESSING'
+        ? 'status status-warning'
+        : type === 'REJECTED'
+        ? 'status status-rejected'
+        : 'icon-light-upload'
     }
 
     handleCopyTransaction(row: any): void {
@@ -154,9 +149,8 @@
   }
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
   .popup-transaction-detail {
-
     .fluctuating {
       display: inline-flex;
       justify-content: center;
@@ -177,22 +171,23 @@
       }
 
       .sub {
-        color: #CF202F;
+        color: #cf202f;
       }
-      .usd{
+      .usd {
         font-family: Open Sans;
         font-style: normal;
         font-weight: normal;
         font-size: 14px;
         line-height: 20px;
-        color: #5B616E;
+        color: #5b616e;
       }
-      .icon{
+      .icon {
         margin-bottom: 12px;
       }
     }
 
-    .transaction-detail, .customer-info {
+    .transaction-detail,
+    .customer-info {
       background-color: #ffffff;
       margin-bottom: 8px;
       padding: 24px;
@@ -203,7 +198,7 @@
         font-weight: 600;
         font-size: 16px;
         line-height: 24px;
-        color: #0A0B0D;
+        color: #0a0b0d;
         //margin-bottom: 14px;
       }
 
@@ -221,7 +216,7 @@
           font-weight: normal;
           font-size: 14px;
           line-height: 20px;
-          color: #5B616E;
+          color: #5b616e;
         }
 
         &:last-of-type {

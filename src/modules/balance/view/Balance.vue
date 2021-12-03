@@ -32,7 +32,9 @@
             <base-icon icon="icon-swap" size="19" />
           </div>
         </div>
-        <span class="number2"> {{ totalAvailable | convertAmountDecimal(tabActive) }} {{ tabActive }}</span>
+        <span class="number2">
+          {{ totalAvailable | convertAmountDecimal(tabActive) }} <a class="tabActive">{{ tabActive }}</a>
+        </span>
         <span class="text3"> ~ ${{ totalAvailableUSD | convertAmountDecimal('USD') }}</span>
       </div>
       <div class="col-width col-margin">
@@ -42,7 +44,9 @@
             <base-icon icon="icon-lock-balance" size="19" />
           </div>
         </div>
-        <span class="number2"> {{ totalLocked | convertAmountDecimal(tabActive) }} {{ tabActive }}</span>
+        <span class="number2">
+          {{ totalLocked | convertAmountDecimal(tabActive) }} <a class="tabActive">{{ tabActive }}</a></span
+        >
         <span class="text3">~ ${{ totalLockedUSD | convertAmountDecimal('USD') }}</span>
       </div>
       <div class="col-width col-margin">
@@ -52,7 +56,9 @@
             <base-icon icon="icon-wallet" size="19" />
           </div>
         </div>
-        <span class="number2"> {{ totalBalance | convertAmountDecimal(tabActive) }} {{ tabActive }}</span>
+        <span class="number2">
+          {{ totalBalance | convertAmountDecimal(tabActive) }} <a class="tabActive">{{ tabActive }}</a></span
+        >
         <span class="text3"> ~ ${{ totalBalanceUSD | convertAmountDecimal('USD') }}</span>
       </div>
     </div>
@@ -182,8 +188,6 @@
           for (let i = 0; i < this.data.length; i++) {
             let str = this.data[i].email
             const email = str.split('@')
-            console.log('email', email)
-
             if (email[0].length > 6) {
               const newEmail = email[0].substring(0, 6) + '...@' + email[1].substring(0, 10)
               const dataItem = {
@@ -191,7 +195,7 @@
                 email: newEmail
               }
               this.propdataTable.push(dataItem)
-            }else{
+            } else {
               const newEmail = email[0] + '...@' + email[1].substring(0, 10)
               const dataItem = {
                 ...this.data[i],
@@ -329,6 +333,11 @@
     border: 1px solid #dbdbdb !important;
     box-sizing: border-box !important;
   }
+  .tabActive {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+  }
   .text1 {
     // margin-top: 16px;
     // margin-left: 18px;
@@ -340,12 +349,15 @@
   .number2 {
     margin-top: 8px;
     margin-left: 18px;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 24px;
-    line-height: 32px;
+    line-height: 24px;
     color: #0a0b0d;
   }
   .text3 {
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
     margin-top: 6px;
     margin-left: 18px;
     margin-bottom: 16px;
