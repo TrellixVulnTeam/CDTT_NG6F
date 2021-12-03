@@ -30,11 +30,12 @@
       </div>
       <filter-transaction @filter='handleFilter' :type='"transaction"' />
       <div class='table-transaction'>
-        <table-transaction v-loading='isLoading' :listTransaction='propDataTable' :query='query' @sizeChange='handleSizeChange'
-                           @pageChange='handlePageChange' :type='"transaction"' @rowClick='handleRowClick'/>
+        <table-transaction v-loading='isLoading' :listTransaction='propDataTable' :query='query'
+                           @sizeChange='handleSizeChange'
+                           @pageChange='handlePageChange' :type='"transaction"' @rowClick='handleRowClick' />
       </div>
       <popup-filter-transaction @filter='handleFilter' />
-      <transaction-detail :detail-row='detailRow' :tab-active-filter='tabActive'/>
+      <transaction-detail :detail-row='detailRow' :tab-active-filter='tabActive' />
     </div>
   </div>
 </template>
@@ -62,7 +63,7 @@
     transactionType: string | null,
   }
 
-  @Component({ components: { PopupFilterTransaction, TableTransaction, FilterTransaction,TransactionDetail } })
+  @Component({ components: { PopupFilterTransaction, TableTransaction, FilterTransaction, TransactionDetail } })
   export default class Transaction extends Mixins(PopupMixin) {
     tabs: Array<Record<string, any>> = [
       {
@@ -114,9 +115,9 @@
       //   this.listApproveBy = res.content || []
       // })
       const name = this.$route.name
-      this.tabs.map((value,i)=>{
-        if (value.routeName===name){
-          this.query.transactionType=value.title.toUpperCase();
+      this.tabs.map((value, i) => {
+        if (value.routeName === name) {
+          this.query.transactionType = value.title.toUpperCase()
         }
       })
       this.init().then()
@@ -141,7 +142,7 @@
         this.dataHeaderCard = this.dataHeaderCard.filter((item) => {
           return item.transactionType !== 'CROWDSALE'
         })
-        this.query.total=result.transactions.totalPages;
+        this.query.total = result.transactions.totalPages
         this.isLoading = false
       } catch (error) {
         this.isLoading = false
@@ -217,7 +218,7 @@
     }
 
     handleFilter(filter: Record<string, any>): void {
-      let data={...filter}
+      let data = { ...filter }
       this.query = {
         ...this.query,
         ...filter
@@ -323,6 +324,7 @@
           }
         }
       }
+
 
     }
 

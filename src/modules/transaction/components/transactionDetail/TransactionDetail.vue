@@ -6,10 +6,10 @@
     </div>
     <div class='w-100 fluctuating '>
       <div class='text-center'>
-        <div class='icon'>
-          <base-icon :icon='checkTypeIcon(detailRow.status)' size='64' />
+        <div class='icon' :class='checkTypeStatusIcon(detailRow.status)'>
+          <base-icon :className='"icon-pending"' :icon='checkTypeIcon(detailRow.transactionType.toUpperCase())' size='64' />
         </div>
-        <p class='add'>{{ detailRow.amountDisplay }}</p>
+        <p :class='checkValueAmountDisplay(detailRow.amountDisplay)'>{{ detailRow.amountDisplay }}</p>
         <p class='usd'>~${{ detailRow.amountToUsd | convertAmountDecimal('USD') }}</p>
       </div>
     </div>
@@ -66,7 +66,7 @@
       </div>
       <div class='item be-flex'>
         <p>Phone number</p>
-        <p>{{ detailRow.phoneNumber }}</p>
+        <p>{{ detailRow.phone }}</p>
       </div>
       <div class='item be-flex'>
         <p>Email</p>
@@ -129,15 +129,30 @@
     }
 
     checkTypeIcon(type: string): string {
+      if (type==="PENDING"||type==="PROCESSING"){
+        return `icon-${type.toLowerCase()}-pending`
+      }else  return `icon-${type.toLowerCase()}-success`
+
+    }
+    checkTypeStatusIcon(type: string): string{
       return type === 'PENDING'
-        ? 'status status-pending'
+        ? 'icon-pending'
         : type === 'FAILED'
-          ? 'status status-error'
+          ? 'icon-failed'
           : type === 'PROCESSING'
-            ? 'status status-warning'
+            ? 'icon-pending'
             : type === 'REJECTED'
-              ? 'status status-rejected'
-              : 'icon-light-upload'
+              ? 'icon-failed'
+              : 'icon-success'
+    }
+    checkValueAmountDisplay(value: string | null): string {
+      if (value) {
+        if (value.indexOf('+') !== -1) {
+          return 'add'
+        } else {
+          return 'sub'
+        }
+      } else return ''
     }
 
     handleCopyTransaction(row: any): void {
@@ -191,7 +206,15 @@
         margin-bottom: 12px;
       }
     }
-
+    .icon-success{
+      color: #129961;
+    }
+    .icon-failed{
+      color: #CF202F;
+    }
+    .icon-pending{
+        color: #F3F2F1;
+    }
     .transaction-detail, .customer-info {
       background-color: #ffffff;
       margin-bottom: 8px;
