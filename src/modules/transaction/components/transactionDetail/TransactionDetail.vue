@@ -15,80 +15,84 @@
         <p class='usd'>~${{ detailRow.amountToUsd | convertAmountDecimal('USD') }}</p>
       </div>
     </div>
-    <div class="transaction-detail">
-      <p class="title">{{ $t('transaction.popup.transaction-detail') }}</p>
-      <div class="item be-flex">
-        <p>Transaction ID</p>
-        <div class="be-flex align-center">
-          <p>{{ detailRow.transactionCode | formatTransactionCode(10) }}</p>
-          <span v-if="detailRow.transactionCode" style="margin-left: 8px" class="icon-copy" @click="handleCopyTransaction(detailRow.transactionCode)">
-            <base-icon icon="icon-copy" size="24" />
+    <div class='transaction-detail'>
+      <p class='title'>{{ $t('transaction.popup.transaction-detail') }}</p>
+      <div class='item be-flex'>
+        <p>{{ $t('transaction.detail.transaction-id') }}</p>
+        <div class='be-flex align-center'>
+          <p class='text-detail-2'>{{ detailRow.transactionCode | formatTransactionCode(10) }}</p>
+          <span v-if='detailRow.transactionCode' style='margin-left: 8px' class='icon-copy'
+                @click='handleCopyTransaction(detailRow.transactionCode)'>
+            <base-icon icon='icon-copy' size='24' />
           </span>
         </div>
       </div>
-      <div class="item be-flex">
-        <p>Date</p>
-        <p>{{ detailRow.transactionMillisecond | formatMMDDYY }}</p>
+      <div class='item be-flex'>
+        <p>{{ $t('transaction.detail.date') }}</p>
+        <p class='text-detail-2'>{{ detailRow.transactionMillisecond | formatMMDDYY }}</p>
       </div>
-      <div v-if='detailRow.fromAddress' class='item be-flex'>
-        <p>From</p>
-        <div class="be-flex align-center">
-          <base-icon :icon="renderIconCurrency(detailRow.currency.toLowerCase())" size="20" />
-          <p style='margin-left: 8px'>{{ detailRow.fromAddress | formatTransactionCode(10) }}</p>
-          <span v-if="detailRow.fromAddress" style="margin-left: 8px" class="icon-copy" @click="handleCopyTransaction(detailRow.fromAddress)">
-            <base-icon icon="icon-copy" size="24" />
+      <div v-if='checkFeeType(detailRow.transactionType)' class='item be-flex'>
+        <p>{{ $t('transaction.detail.from') }}</p>
+        <div class='be-flex align-center'>
+          <base-icon :icon='renderIconCurrency(detailRow.currency.toLowerCase())' size='20' />
+          <p class='text-detail-2' style='margin-left: 8px'>{{ detailRow.fromAddress | formatTransactionCode(10) }}</p>
+          <span v-if='detailRow.fromAddress' style='margin-left: 8px' class='icon-copy'
+                @click='handleCopyTransaction(detailRow.fromAddress)'>
+            <base-icon icon='icon-copy' size='24' />
           </span>
         </div>
       </div>
-      <div class="item be-flex">
-        <p>To</p>
-        <div class="be-flex align-center">
-          <base-icon :icon="renderIconCurrency(detailRow.currency.toLowerCase())" size="20" />
-          <p style='margin-left: 8px'>{{ detailRow.toAddress | formatTransactionCode(10) }}</p>
-          <span v-if="detailRow.toAddress" style="margin-left: 8px" class="icon-copy" @click="handleCopyTransaction(detailRow.toAddress)">
-            <base-icon icon="icon-copy" size="24" />
+      <div class='item be-flex'>
+        <p>{{ $t('transaction.detail.to') }}</p>
+        <div class='be-flex align-center'>
+          <base-icon :icon='renderIconCurrency(detailRow.currency.toLowerCase())' size='20' />
+          <p class='text-detail-2' style='margin-left: 8px'>{{ detailRow.toAddress | formatTransactionCode(10) }}</p>
+          <span v-if='detailRow.toAddress' style='margin-left: 8px' class='icon-copy'
+                @click='handleCopyTransaction(detailRow.toAddress)'>
+            <base-icon icon='icon-copy' size='24' />
           </span>
         </div>
       </div>
-      <div class="item be-flex">
-        <p>Fees</p>
-       <div class='be-flex'>
-         <p v-if=' detailRow.transactionFee>0' class='add'>{{ detailRow.transactionFee }} {{ detailRow.currency }}</p>
-         <p v-if=' detailRow.transactionFee<0' class='sub'>{{ detailRow.transactionFee }} {{ detailRow.currency }}</p>
-         <p class='convert' style='margin-left: 4px'>(~${{detailRow.transactionFeeToUsd | convertAmountDecimal('USD')}})</p>
-       </div>
+      <div v-if='checkFeeType(detailRow.transactionType)' class='item be-flex'>
+        <p>{{ $t('transaction.detail.fees') }}</p>
+        <div class='be-flex'>
+          <p v-if=' detailRow.transactionFee>0' class='add'>{{ detailRow.transactionFee }} {{ detailRow.currency }}</p>
+          <p v-if=' detailRow.transactionFee<0' class='sub'>{{ detailRow.transactionFee }} {{ detailRow.currency }}</p>
+          <p class='convert' style='margin-left: 4px'>
+            (~${{ detailRow.transactionFeeToUsd | convertAmountDecimal('USD') }})</p>
+        </div>
       </div>
-      <div class="item be-flex">
-        <p>Status</p>
-        <p :class="checkType(detailRow.status)">{{ checkTransactionStatus(detailRow.status) }}</p>
+      <div class='item be-flex'>
+        <p>{{ $t('transaction.detail.status') }}</p>
+        <p :class='checkType(detailRow.status)'>{{ checkTransactionStatus(detailRow.status) }}</p>
       </div>
     </div>
     <div class='customer-info'>
       <p class='title'>{{ $t('transaction.popup.customer-info') }}</p>
       <div class='item be-flex'>
-        <p>Full name</p>
-        <p>{{ detailRow.fullName }}</p>
+        <p>{{ $t('transaction.detail.full-name') }}</p>
+        <p class='text-detail-2'>{{ detailRow.fullName }}</p>
       </div>
-      <div class="item be-flex">
-        <p>Phone number</p>
-        <p>({{detailRow.phoneCode}}) {{ detailRow.phone }}</p>
+      <div class='item be-flex'>
+        <p>{{ $t('transaction.detail.phone-number') }}</p>
+        <p v-if='detailRow.phone' class='text-detail-2'>({{ detailRow.phoneCode }}) {{ detailRow.phone }}</p>
       </div>
-      <div class="item be-flex">
-        <p>Email</p>
-        <p>{{ detailRow.email }}</p>
+      <div class='item be-flex'>
+        <p>{{ $t('transaction.detail.email') }}</p>
+        <p class='text-detail-2'>{{ detailRow.email }}</p>
       </div>
     </div>
   </base-popup>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
   import { Component, Mixins, Prop } from 'vue-property-decorator'
   import PopupMixin from '@/mixins/popup'
 
   @Component({ components: {} })
   export default class TransactionDetail extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Object, default: {} }) detailRow!: Record<string, any>
-    @Prop({ required: true, type:String ,default: ""}) tabActiveFilter!: string
+    @Prop({ required: true, type: String, default: '' }) tabActiveFilter!: string
     isLoading = false
     tabActive = 0
 
@@ -124,30 +128,37 @@
       return type === 'PENDING'
         ? 'status status-pending'
         : type === 'FAILED'
-        ? 'status status-error'
-        : type === 'PROCESSING'
-        ? 'status status-warning'
-        : type === 'REJECTED'
-        ? 'status status-rejected'
-        : 'status status-success'
+          ? 'status status-error'
+          : type === 'PROCESSING'
+            ? 'status status-warning'
+            : type === 'REJECTED'
+              ? 'status status-rejected'
+              : 'status status-success'
     }
 
-    checkTypeIcon(type: string|undefined, status: string|undefined): string {
-    if (type&&status){
-      type.toUpperCase();
-      status.toUpperCase()
-      if (status === 'PENDING' || status === 'PROCESSING') {
-        if (type.indexOf('BONUS') !== -1) {
-          return `icon-bonus-pending`
-        } else
-          return `icon-${type.toLowerCase()}-pending`
-      } else if (type.indexOf('BONUS') !== -1) {
-        return `icon-bonus-success`
-      } else return `icon-${type.toLowerCase()}-success`
-    }else return ""
+    checkFeeType(type:string):boolean{
+      return !(type.indexOf("BONUS") !== -1 || type === "DEPOSIT");
+    }
+    checkFromType(type:string):boolean{
+      return !(type.indexOf("BONUS") !== -1 || type === "DEPOSIT");
     }
 
-    renderIconCurrency(type:string):string{
+    checkTypeIcon(type: string | undefined, status: string | undefined): string {
+      if (type && status) {
+        type.toUpperCase()
+        status.toUpperCase()
+        if (status === 'PENDING' || status === 'PROCESSING') {
+          if (type.indexOf('BONUS') !== -1) {
+            return `icon-bonus-pending`
+          } else
+            return `icon-${type.toLowerCase()}-pending`
+        } else if (type.indexOf('BONUS') !== -1) {
+          return `icon-bonus-success`
+        } else return `icon-${type.toLowerCase()}-success`
+      } else return ''
+    }
+
+    renderIconCurrency(type: string): string {
       return type === 'lynk'
         ? 'icon-lynk'
         : type === 'btc'
@@ -196,24 +207,26 @@
       message = this.$t('notify.copy')
       this.$message.success(message)
     }
-    handleRenderTitleDetail(type:string|null|undefined):string{
-      if (type){
-        return  type.replaceAll("_"," ")
-      }else return ""
+
+    handleRenderTitleDetail(type: string | null | undefined): string {
+      if (type) {
+        return type.replaceAll('_', ' ')
+      } else return ''
 
     }
   }
 </script>
 
-<style scoped lang="scss">
+<style scoped lang='scss'>
   .popup-transaction-detail {
     .add {
-      color: #129961!important;
+      color: #129961 !important;
     }
 
     .sub {
-      color: #CF202F!important;
+      color: #CF202F !important;
     }
+
     .fluctuating {
       display: inline-flex;
       justify-content: center;
@@ -228,6 +241,7 @@
         font-size: 20px;
         line-height: 24px;
       }
+
       .usd {
         font-family: Open Sans;
         font-style: normal;
@@ -277,13 +291,19 @@
         //margin-bottom: 14px;
         align-items: center;
 
-        p:first-of-type,.convert {
+        p:first-of-type, .convert {
           font-family: Open Sans;
           font-style: normal;
           font-weight: normal;
           font-size: 14px;
           line-height: 20px;
           color: #5b616e;
+        }
+
+        .text-detail-2 {
+          font-size: 16px!important;
+          line-height: 24px!important;
+          color: #0A0B0D!important;
         }
 
         &:last-of-type {

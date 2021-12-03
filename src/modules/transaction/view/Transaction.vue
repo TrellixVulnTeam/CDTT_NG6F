@@ -350,8 +350,8 @@
           }
 
           .tab-active {
-            color: var(--bc-tab-active);
-            font-weight: 600;
+            color: var(--bc-tab-active) !important;
+            font-weight: 600!important;
 
             &::after {
               content: '';
@@ -362,6 +362,14 @@
               left: 0;
               background-color: var(--bc-tab-active);
             }
+          }
+          .tab-item{
+            font-family: Open Sans;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 16px;
+            line-height: 24px;
+            color: #5B616E;
           }
         }
       }

@@ -390,6 +390,17 @@
       "title-filter": "Bộ lọc",
       "transaction-detail": "Chi tiết chuyển",
       "customer-info": "Chi tiết người dùng"
+    },
+    "detail": {
+      "transaction-id": "ID Giao dịch",
+      "date": "Ngày",
+      "from": "Từ",
+      "to": "Đến",
+      "fees": "Phí giao dịch",
+      "status": "Trạng thái",
+      "full-name": "Tên đầy đủ",
+      "phone-number": "Số điện thoại",
+      "email": "Email"
     }
   },
   "params": {

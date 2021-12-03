@@ -74,7 +74,7 @@
           page: 1,
           limit: 10,
           search:null,
-          searchString:trim(value)
+          keywordString:trim(value)
         })
       }
 
