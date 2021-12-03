@@ -559,7 +559,8 @@
         }
         apiCustomer
           .updateLockedUser(params)
-          .then(() => {
+          .then((res: any) => {
+            console.log('res', res)
             let message: any = this.$t('customer.setting.lock-user-success')
             this.$message.success(message)
             this.setOpenPopup({
@@ -580,9 +581,18 @@
         }
         apiCustomer
           .updateUnlockUser(paramsUnlock)
-          .then(() => {
-            let message: any = this.$t('customer.setting.unlock-user-success')
+          .then((res: any) => {
+            // get message thì sửa ở api Customer
+            console.log('res', res)
+
+            if(res.message=='Unlocked successfully'){
+              let message: any = this.$t('customer.setting.unlock-user-success')
             this.$message.success(message)
+            }else{
+               let message: any = this.$t('customer.setting.send-email-avtive')
+            this.$message.success(message)
+            }
+            
             this.setOpenPopup({
               popupName: 'popup-verify-lock',
               isOpen: false

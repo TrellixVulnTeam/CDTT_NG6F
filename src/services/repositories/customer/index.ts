@@ -52,7 +52,7 @@ export class CustomerRepository extends BaseRepository {
       const rs = await request.post(`/api/v1/user/settings/unlock`, {
         ...params
       })
-      return Promise.resolve(rs.data.data)
+      return Promise.resolve(rs.data)
     } catch (error) {
       console.log(error)
       return Promise.reject(error)

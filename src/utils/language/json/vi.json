@@ -321,6 +321,7 @@
       "lock-user-success": "Khóa tài khoản thành công!",
       "lock-user-fail": "Khóa tài khoản thất bại!",
       "unlock-user-success": "Mở khóa tài khoản thành công!",
+      "send-email-avtive": "Gửi email kích hoạt cho khách hàng thành công!",
       "unlock-user-fail": "Mở khóa tài khoản thất bại!",
       "user-active": "Kích hoạt",
       "user-locked": "Đã khóa",

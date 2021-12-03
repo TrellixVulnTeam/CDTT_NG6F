@@ -369,6 +369,7 @@
       "lock-user-success": "Locked user successfully!",
       "lock-user-fail": "Locked user failed!",
       "unlock-user-success": "Unlocked successfully!",
+      "send-email-avtive": "Activation email sent to customer successfully!",
       "unlock-user-fail": "Unlocked user failed!",
       "send-mail-success": "Send mail and verification code to customer successfully!",
       "send-reset-default": "Send mail to customer successfully!",
