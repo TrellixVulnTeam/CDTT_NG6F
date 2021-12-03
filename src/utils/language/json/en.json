@@ -18,9 +18,9 @@
     }
   },
   "verify": {
-    "title-phone": "Enter the 6-digit code we texted to your",
-    "title-email": "Enter the 6-digit code we sent to your",
-    "title-app": "Enter the 6-digit code from your",
+    "title-phone": "Enter the 6-digit code we texted to your phone number",
+    "title-email": "Enter the 6-digit code we sent to your email",
+    "title-app": "Enter the 6-digit code from your authenticator app",
     "label": "Enter 2-step authentication code:",
     "submit": "Submit",
     "question": "Didn’t receive any verification code?",
