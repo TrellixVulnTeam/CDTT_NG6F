@@ -116,7 +116,6 @@
         if (value.routeName === name) {
           this.query.transactionType = value.title.toUpperCase()
           this.tabActive=value.title
-          console.log(this.tabActive)
         }
       })
       this.init().then()

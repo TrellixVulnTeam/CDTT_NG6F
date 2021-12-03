@@ -69,7 +69,7 @@
       </div>
       <div class="item be-flex">
         <p>Phone number</p>
-        <p>{{ detailRow.phone }}</p>
+        <p>({{detailRow.phoneCode}}) {{ detailRow.phone }}</p>
       </div>
       <div class="item be-flex">
         <p>Email</p>
