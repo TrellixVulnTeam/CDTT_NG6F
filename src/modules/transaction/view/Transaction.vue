@@ -10,10 +10,10 @@
             <base-icon :icon="renderIconCard(value.transactionType)" size="20" />
           </div>
         </div>
-        <div class='item'>
+        <div class="item">
           <p class="number2">${{ value.totalAmount | convertAmountDecimal('USD') }}</p>
         </div>
-        <div class='item1'>
+        <div class="item-bottom">
           <span class="text3">{{ value.numOfTransaction | formatNumber }} {{ $t(`transaction.table.transactions`) }}</span>
         </div>
       </div>
@@ -28,26 +28,30 @@
           </div>
         </div>
       </div>
-      <filter-transaction @filter='handleFilter' :type='"transaction"' />
-      <div class='table-transaction'>
-        <table-transaction v-loading='isLoading' :listTransaction='propDataTable' :query='query'
-                           @sizeChange='handleSizeChange'
-                           @pageChange='handlePageChange' :type='"transaction"' @rowClick='handleRowClick' />
+      <filter-transaction @filter="handleFilter" :type="'transaction'" />
+      <div class="table-transaction">
+        <table-transaction
+          v-loading="isLoading"
+          :listTransaction="propDataTable"
+          :query="query"
+          @sizeChange="handleSizeChange"
+          @pageChange="handlePageChange"
+          :type="'transaction'"
+          @rowClick="handleRowClick"
+        />
       </div>
-      <popup-filter-transaction @filter='handleFilter' :tab-active-filter='tabActive' :type='"transaction"' ref='popup-filter'/>
-      <transaction-detail :detail-row='detailRow' :tab-active-filter='tabActive' />
+      <popup-filter-transaction @filter="handleFilter" :tab-active-filter="tabActive" :type="'transaction'" ref="popup-filter" />
+      <transaction-detail :detail-row="detailRow" :tab-active-filter="tabActive" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-  import { Component, Mixins, Watch } from 'vue-property-decorator'
+  import { Component, Mixins } from 'vue-property-decorator'
   //@ts-ignore
-  import TransactionTable from '../components/TransactionTable.vue'
-  import TransactionFilter from '../components/filter/TransactionFilter.vue'
+
   import PopupMixin from '@/mixins/popup'
   import getRepository from '@/services'
-  import EventBus from '@/utils/eventBus'
   import { debounce } from 'lodash'
   import { TransactionRepository } from '@/services/repositories/transaction'
   import TableTransaction from '@/components/table/TableTransaction.vue'
@@ -117,7 +121,7 @@
       this.tabs.map((value, i) => {
         if (value.routeName === name) {
           this.query.transactionType = value.title.toUpperCase()
-          this.tabActive=value.title
+          this.tabActive = value.title
         }
       })
       this.init().then()
@@ -138,10 +142,22 @@
         }
         const result = await api.getListTransaction('search', params)
         this.propDataTable = result.transactions.content
-        this.dataHeaderCard = result.summary
-        this.dataHeaderCard = this.dataHeaderCard.filter(item => {
-          return item.transactionType !== 'CROWDSALE'
+
+        const deposit = result.summary.filter(item => {
+          return item.transactionType === 'DEPOSIT'
         })
+        const withdraw = result.summary.filter(item => {
+          return item.transactionType === 'WITHDRAW'
+        })
+        const transfer = result.summary.filter(item => {
+          return item.transactionType === 'TRANSFER'
+        })
+        const bonus = result.summary.filter(item => {
+          return item.transactionType === 'BONUS'
+        })
+
+        this.dataHeaderCard = [...deposit, ...withdraw, ...transfer, ...bonus]
+
         this.query.total = result.transactions.totalElements
         this.isLoading = false
       } catch (error) {
@@ -186,9 +202,9 @@
       this.query.transactionType = tab.title.toUpperCase()
       this.init()
       this.resetQuery()
-      let refs:any= this.$refs['popup-filter']
-      if (refs){
-        refs.handleReset();
+      let refs: any = this.$refs['popup-filter']
+      if (refs) {
+        refs.handleReset()
       }
       // EventBus.$emit('selectTabBalance')
     }
@@ -242,6 +258,7 @@
     -ms-text-justify: distribute-all-lines;
     text-justify: distribute-all-lines;
     width: 100%;
+    justify-content: space-between;
   }
 
   .transaction {
@@ -254,18 +271,18 @@
     }
 
     .items-card {
-      width: 25%;
+      width: calc(100% / 4 - 50px);
       background-color: #ffffff;
       box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
       border-radius: 8px;
-      margin-right: 24px;
+      // margin-right: 24px;
       margin-bottom: 24px;
       padding: 16px;
       display: flex;
       flex-direction: column;
-      flex: 1;
-      .item{
-        flex: 1;
+      // flex: 1;
+      .item-bottom {
+        margin-top: auto;
       }
       &:last-of-type {
         margin-right: 0;
@@ -282,8 +299,8 @@
         font-weight: 600;
         font-size: 24px;
         line-height: 24px;
-        color: #0A0B0D;
-        word-wrap: break-word;
+        color: #0a0b0d;
+        word-break: break-all;
         margin: 8px 0;
       }
 
@@ -331,8 +348,6 @@
           }
         }
       }
-
-
     }
 
     .wallet-header {
