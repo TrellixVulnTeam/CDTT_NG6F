@@ -60,26 +60,25 @@
     }
 
     searchText = debounce((value: string) => {
-      if (this.type==="customer"){
+      if (this.type === 'customer') {
         this.$emit('filter', {
           ...this.filter,
           page: 1,
           limit: 10,
-          search: trim(value),
+          search: trim(value)
         })
-      }else {
+      } else {
         this.$emit('filter', {
           ...this.filter,
           page: 1,
           limit: 10,
-          search:null,
-          keywordString:trim(value)
+          search: null,
+          keywordString: trim(value)
         })
       }
-
     }, 500)
-    public handleReset(){
-      this.filter={}
+    public handleReset() {
+      this.filter = {}
     }
     handleSort(command: number): void {
       this.sortActive = command
