@@ -105,7 +105,9 @@
     "from-amount": " Từ",
     "to-amount": "Đến",
     "select-type": "Chọn trạng thái",
-    "status": "Chọn trạng thái"
+    "status": "Chọn trạng thái",
+    "from":"Từ",
+    "to":"Tới"
   },
   "button": {
     "reset": "Làm lại",
