@@ -213,7 +213,8 @@
     "locked-amount": "Locked amount",
     "balance": "Balance",
     "enter-verify-code": "Enter verification code",
-    "verify-code": "Verification code"
+    "verify-code": "Verification code",
+    "bonus-type": "Bonus Type"
   },
   "buy-lyn": {
     "title": "BUY LYN"
@@ -432,7 +433,8 @@
     },
     "popup": {
       "title-filter": "Filter",
-      "transaction-detail": "Transaction Details"
+      "transaction-detail": "Transaction Details",
+      "customer-info": "Customer Info"
     }
   },
   "params": {

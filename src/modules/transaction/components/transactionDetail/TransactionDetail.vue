@@ -2,12 +2,14 @@
   <base-popup name='popup-transaction-detail' class='popup-transaction-detail' width='480px' :isShowFooter='false'
               :open='handleOpen' :close='handleClose'>
     <div class='title-popup' slot='title'>
-      <span>{{ detailRow.transactionType }} {{ detailRow.currency }}</span>
+      <span>{{ handleRenderTitleDetail(detailRow.transactionType) }} {{ detailRow.currency }}</span>
     </div>
     <div class='w-100 fluctuating '>
       <div class='text-center'>
         <div class='icon' :class='checkTypeStatusIcon(detailRow.status)'>
-          <base-icon :className='"icon-pending"' :icon='checkTypeIcon(detailRow.transactionType.toUpperCase())' size='64' />
+          <base-icon :className='"icon-pending"'
+                     :icon='checkTypeIcon(detailRow.transactionType.toUpperCase(),detailRow.status.toUpperCase())'
+                     size='64' />
         </div>
         <p :class='checkValueAmountDisplay(detailRow.amountDisplay)'>{{ detailRow.amountDisplay }}</p>
         <p class='usd'>~${{ detailRow.amountToUsd | convertAmountDecimal('USD') }}</p>
@@ -29,7 +31,7 @@
         <p>Date</p>
         <p>{{ detailRow.transactionMillisecond | formatMMDDYY }}</p>
       </div>
-      <div class='item be-flex'>
+      <div v-if='detailRow.fromAddress' class='item be-flex'>
         <p>From</p>
         <div class='be-flex align-center'>
           <p>{{ detailRow.fromAddress | formatTransactionCode(10) }}</p>
@@ -51,7 +53,11 @@
       </div>
       <div class='item be-flex'>
         <p>Fees</p>
-        <p>{{ detailRow.transactionFee }}</p>
+       <div class='be-flex'>
+         <p v-if=' detailRow.transactionFee>0' class='add'>{{ detailRow.transactionFee }} {{ detailRow.currency }}</p>
+         <p v-if=' detailRow.transactionFee<0' class='sub'>{{ detailRow.transactionFee }} {{ detailRow.currency }}</p>
+         <p class='convert' style='margin-left: 4px'>(~${{detailRow.transactionFeeToUsd | convertAmountDecimal('USD')}})</p>
+       </div>
       </div>
       <div class='item be-flex'>
         <p>Status</p>
@@ -59,7 +65,7 @@
       </div>
     </div>
     <div class='customer-info'>
-      <p class='title'>Customer Info</p>
+      <p class='title'>{{ $t('transaction.popup.customer-info') }}</p>
       <div class='item be-flex'>
         <p>Full name</p>
         <p>{{ detailRow.fullName }}</p>
@@ -70,7 +76,7 @@
       </div>
       <div class='item be-flex'>
         <p>Email</p>
-        <p>{{ detailRow.email }}B</p>
+        <p>{{ detailRow.email }}</p>
       </div>
     </div>
 
@@ -84,7 +90,7 @@
   @Component({ components: {} })
   export default class TransactionDetail extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Object, default: {} }) detailRow!: Record<string, any>
-    @Prop({ required: true }) tabActiveFilter!: string
+    @Prop({ required: true, type:String ,default: ""}) tabActiveFilter!: string
     isLoading = false
     tabActive = 0
 
@@ -128,13 +134,19 @@
               : 'status status-success'
     }
 
-    checkTypeIcon(type: string): string {
-      if (type==="PENDING"||type==="PROCESSING"){
-        return `icon-${type.toLowerCase()}-pending`
-      }else  return `icon-${type.toLowerCase()}-success`
+    checkTypeIcon(type: string, status: string): string {
+      if (status === 'PENDING' || status === 'PROCESSING') {
+        if (type.indexOf('BONUS') !== -1) {
+          return `icon-bonus-pending`
+        } else
+          return `icon-${type.toLowerCase()}-pending`
+      } else if (type.indexOf('BONUS') !== -1) {
+        return `icon-bonus-success`
+      } else return `icon-${type.toLowerCase()}-success`
 
     }
-    checkTypeStatusIcon(type: string): string{
+
+    checkTypeStatusIcon(type: string): string {
       return type === 'PENDING'
         ? 'icon-pending'
         : type === 'FAILED'
@@ -145,6 +157,7 @@
               ? 'icon-failed'
               : 'icon-success'
     }
+
     checkValueAmountDisplay(value: string | null): string {
       if (value) {
         if (value.indexOf('+') !== -1) {
@@ -166,12 +179,21 @@
       message = this.$t('notify.copy')
       this.$message.success(message)
     }
+    handleRenderTitleDetail(type:string):string{
+      return  type.replaceAll("_"," ")
+    }
   }
 </script>
 
 <style scoped lang='scss'>
   .popup-transaction-detail {
+    .add {
+      color: #129961!important;
+    }
 
+    .sub {
+      color: #CF202F!important;
+    }
     .fluctuating {
       display: inline-flex;
       justify-content: center;
@@ -186,15 +208,7 @@
         font-size: 20px;
         line-height: 24px;
       }
-
-      .add {
-        color: #129961;
-      }
-
-      .sub {
-        color: #CF202F;
-      }
-      .usd{
+      .usd {
         font-family: Open Sans;
         font-style: normal;
         font-weight: normal;
@@ -202,19 +216,24 @@
         line-height: 20px;
         color: #5B616E;
       }
-      .icon{
+
+      .icon {
         margin-bottom: 12px;
       }
     }
-    .icon-success{
+
+    .icon-success {
       color: #129961;
     }
-    .icon-failed{
+
+    .icon-failed {
       color: #CF202F;
     }
-    .icon-pending{
-        color: #F3F2F1;
+
+    .icon-pending {
+      color: #F3F2F1;
     }
+
     .transaction-detail, .customer-info {
       background-color: #ffffff;
       margin-bottom: 8px;
@@ -238,7 +257,7 @@
         //margin-bottom: 14px;
         align-items: center;
 
-        p:first-of-type {
+        p:first-of-type,.convert {
           font-family: Open Sans;
           font-style: normal;
           font-weight: normal;
