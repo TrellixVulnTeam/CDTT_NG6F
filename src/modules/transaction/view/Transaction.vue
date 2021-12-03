@@ -40,7 +40,7 @@
           @rowClick="handleRowClick"
         />
       </div>
-      <popup-filter-transaction @filter="handleFilter" :tab-active-filter="tabActive" :type="'transaction'" />
+      <popup-filter-transaction @filter="handleFilter" :tab-active-filter="tabActive" :type="'transaction'" ref="popup-filter" />
       <transaction-detail :detail-row="detailRow" :tab-active-filter="tabActive" />
     </div>
   </div>
@@ -202,6 +202,10 @@
       this.query.transactionType = tab.title.toUpperCase()
       this.init()
       this.resetQuery()
+      let refs: any = this.$refs['popup-filter']
+      if (refs) {
+        refs.handleReset()
+      }
       // EventBus.$emit('selectTabBalance')
     }
 

@@ -169,16 +169,16 @@
         label: 'Success',
         value: 'SUCCESS'
       },
-      {
-        id: 3,
-        label: 'Failed',
-        value: 'FAILED'
-      },
-      {
-        id: 4,
-        label: 'Rejected',
-        value: 'REJECTED'
-      }
+      // {
+      //   id: 3,
+      //   label: 'Failed',
+      //   value: 'FAILED'
+      // },
+      // {
+      //   id: 4,
+      //   label: 'Rejected',
+      //   value: 'REJECTED'
+      // }
     ]
 
     listBonusType: Array<Record<string, any>> = [
@@ -214,7 +214,7 @@
       }
     ]
 
-    handleReset(): void {
+    public handleReset(): void {
       this.filter = {
         currency: '',
         fromDate: '',
