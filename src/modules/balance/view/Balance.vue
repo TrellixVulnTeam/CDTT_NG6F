@@ -259,6 +259,7 @@
     }
     destroyed(): void {
       EventBus.$off('selectTabBalance')
+      EventBus.$off('changeTab')
     }
     resetQuery(): void {
       this.query = {

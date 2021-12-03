@@ -210,6 +210,7 @@
       // this.filterBalance.fromAvailableAmount = "$ " + value
     }
     searchText = debounce((value: string) => {
+      console.log('thanh', this.filterBalance)
       this.$emit('filterBalance', {
         ...this.filterBalance,
         search: trim(value)
@@ -238,7 +239,8 @@
         this.$forceUpdate()
       })
       EventBus.$on('selectTabBalance', this.handleChangeTab)
-      this.$emit('filterBalance', this.filterBalance)
+      // this.$emit('filterBalance', this.filterBalance)
+      console.log('filter', this.filterBalance)
     }
     destroyed(): void {
       EventBus.$off('changeLang')
@@ -285,16 +287,14 @@
     }
 
     handleChangeTab(): void {
-      this.filterBalance = {
-        search: '',
-        toBalanceAmount: '',
-        fromBalanceAmount: '',
-        toLockedAmount: '',
-        fromLockedAmount: '',
-        toAvailableAmount: '',
-        fromAvailableAmount: '',
-        orderBy: ''
-      }
+      ;(this.filterBalance.search = ''),
+        (this.filterBalance.toBalanceAmount = ''),
+        (this.filterBalance.fromBalanceAmount = ''),
+        (this.filterBalance.toLockedAmount = ''),
+        (this.filterBalance.fromLockedAmount = ''),
+        (this.filterBalance.toAvailableAmount = ''),
+        (this.filterBalance.fromAvailableAmount = ''),
+        (this.filterBalance.orderBy = '')
       this.sortActive = '1'
       // this.$emit('filterBalance', params);
     }
