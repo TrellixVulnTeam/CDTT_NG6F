@@ -7,7 +7,7 @@
       <el-form>
         <el-form-item :label="$t('label.buy-token')">
           <el-select v-model="filter.currency" multiple clearable class="w-100">
-            <el-option v-for="wallet in listWallet" :key="wallet.id" :value="wallet.symbol" :label="wallet.name">
+            <el-option v-for="wallet in getListWallet" :key="wallet.id" :value="wallet.symbol" :label="wallet.name">
               <template>
                 <div class="be-flex wallet-item">
                   <base-icon :icon="wallet.icon" size="24" />
@@ -93,11 +93,17 @@
   import { Component, Mixins, Prop } from 'vue-property-decorator'
   import includes from 'lodash/includes'
   import PopupMixin from '@/mixins/popup'
+  import { namespace } from 'vuex-class'
+
+  const beBase = namespace('beBase')
 
   @Component
   export default class PopupFilterTransaction extends Mixins(PopupMixin) {
     @Prop({ required: true, type: String, default: '' }) tabActiveFilter!: string
     @Prop({ required: true, type: String, default: 'customer' }) type!: string
+
+    @beBase.State('coinMain') coinMain!: string
+
     filter: Record<string, any> = {
       currency: '',
       fromDate: '',
@@ -108,12 +114,6 @@
       bonusType: ''
     }
     listWallet: Array<Record<string, any>> = [
-      {
-        id: 5,
-        name: 'Lynkey',
-        symbol: 'lynk',
-        icon: 'icon-lin'
-      },
       {
         id: 0,
         name: 'Bitcoin',
@@ -209,6 +209,29 @@
         value: 'BONUS_EARLY_BACKER'
       }
     ]
+
+    get getListWallet(): Array<Record<string, any>> {
+      if (this.coinMain === 'LYNK') {
+        return [
+          {
+            id: 5,
+            name: 'Lynkey',
+            symbol: 'lynk',
+            icon: 'icon-lin'
+          },
+          ...this.listWallet
+        ]
+      }
+      return [
+        {
+          id: 5,
+          name: 'CLM',
+          symbol: 'clm',
+          icon: 'icon-clm'
+        },
+        ...this.listWallet
+      ]
+    }
 
     public handleReset(): void {
       this.filter = {

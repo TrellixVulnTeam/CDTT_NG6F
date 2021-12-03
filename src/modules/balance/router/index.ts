@@ -16,34 +16,46 @@ const balanceRouters: RouteConfig[] = [
         },
         children: [
           {
-            path: 'LYNK',
-            name: 'BalanceLynk',
-            component: () => import('../view/Balance.vue')
-          },
-          {
-            path: 'BTC',
-            name: 'BalanceBtc',
-            component: () => import('../view/Balance.vue')
-          },
-          {
-            path: 'ETH',
-            name: 'BalanceEth',
-            component: () => import('../view/Balance.vue')
-          },
-          {
-            path: 'BNB',
-            name: 'BalanceBnb',
-            component: () => import('../view/Balance.vue')
-          },
-          {
-            path: 'USDT',
-            name: 'BalanceUsdt',
-            component: () => import('../view/Balance.vue')
-          },
-          {
-            path: 'USDC',
-            name: 'BalanceUsdc',
-            component: () => import('../view/Balance.vue')
+            path: '/',
+            name: 'MainBalance',
+            component: () => import('../view/MainView.vue'),
+            children: [
+              {
+                path: 'LYNK',
+                name: 'BalanceLynk',
+                component: () => import('../view/Balance.vue')
+              },
+              {
+                path: 'CLM',
+                name: 'BalanceClm',
+                component: () => import('../view/Balance.vue')
+              },
+              {
+                path: 'BTC',
+                name: 'BalanceBtc',
+                component: () => import('../view/Balance.vue')
+              },
+              {
+                path: 'ETH',
+                name: 'BalanceEth',
+                component: () => import('../view/Balance.vue')
+              },
+              {
+                path: 'BNB',
+                name: 'BalanceBnb',
+                component: () => import('../view/Balance.vue')
+              },
+              {
+                path: 'USDT',
+                name: 'BalanceUsdt',
+                component: () => import('../view/Balance.vue')
+              },
+              {
+                path: 'USDC',
+                name: 'BalanceUsdc',
+                component: () => import('../view/Balance.vue')
+              }
+            ]
           }
         ]
       },

@@ -83,6 +83,8 @@
     checkTypeIcon(type: string): string {
       return type === 'lynk'
         ? 'icon-lynk'
+        : type === 'clm'
+        ? 'icon-clm'
         : type === 'btc'
         ? 'icon-btc'
         : type === 'eth'

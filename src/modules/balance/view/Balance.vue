@@ -3,7 +3,7 @@
     <div class="bg-white wallet-header">
       <div class="be-flex align-center jc-space-between wallet-header__above">
         <div class="wallet-header__above-tabs be-flex">
-          <div class="tab-item cursor" v-for="tab in tabs" :key="tab.id" :class="$route.name === tab.routeName ? 'tab-active' : null" @click="handleChangeTab(tab)">
+          <div class="tab-item cursor" v-for="tab in getTab" :key="tab.id" :class="$route.name === tab.routeName ? 'tab-active' : null" @click="handleChangeTab(tab)">
             <span class="text-base">{{ $t(`menu.${tab.title}`) }}</span>
           </div>
         </div>
@@ -91,14 +91,15 @@
   import BalanceDetail from '@/modules/balance/components/balanceDetail/BalanceDetail.vue'
   const api: BalanceRepository = getRepository('balance')
 
+  import { namespace } from 'vuex-class'
+
+  const beBase = namespace('beBase')
+
   @Component({ components: { BalanceTable, BalanceFilter, BalanceDetail } })
   export default class BOKyc extends Mixins(PopupMixin) {
+    @beBase.State('coinMain') coinMain!: string
+
     tabs: Array<Record<string, any>> = [
-      {
-        id: 1,
-        title: 'LYNK',
-        routeName: 'BalanceLynk'
-      },
       {
         id: 2,
         title: 'BTC',
@@ -150,6 +151,28 @@
     totalLockedUSD = ''
     totalBalanceUSD = ''
     listApproveBy: Record<string, any>[] = []
+
+    get getTab(): Array<Record<string, any>> {
+      if (this.coinMain === 'LYNK') {
+        return [
+          {
+            id: 1,
+            title: 'LYNK',
+            routeName: 'BalanceLynk'
+          },
+          ...this.tabs
+        ]
+      }
+      return [
+        {
+          id: 1,
+          title: 'CLM',
+          routeName: 'BalanceClm'
+        },
+        ...this.tabs
+      ]
+    }
+
     getListBalance(): void {
       console.log('1')
     }

@@ -108,8 +108,8 @@
     "to-amount": "Đến",
     "select-type": "Chọn trạng thái",
     "status": "Chọn trạng thái",
-    "from":"Từ",
-    "to":"Tới"
+    "from": "Từ",
+    "to": "Tới"
   },
   "button": {
     "reset": "Làm lại",
@@ -434,6 +434,7 @@
     "Transactions": "Giao dịch",
     "Round": "Vòng",
     "LYNK": "LYNK",
+    "CLM": "CLM",
     "BTC": "BTC",
     "ETH": "ETH",
     "BNB": "BNB",
