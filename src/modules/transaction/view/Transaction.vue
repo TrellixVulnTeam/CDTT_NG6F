@@ -2,16 +2,18 @@
   <div class="w-100 transaction">
     <div class="container wallet-header be-flex" style="width: 100%">
       <div v-for="(value, i) in dataHeaderCard" :key="i" class="items-card">
-        <div class="be-flex top">
+        <div class="item be-flex top">
           <span class="text1">
             {{ renderTitleCard(value.transactionType) }}
           </span>
           <div>
-            <base-icon :icon="renderIconCard(value.transactionType)" size="19" />
+            <base-icon :icon="renderIconCard(value.transactionType)" size="20" />
           </div>
         </div>
-        <p class="number2">${{ value.totalAmount | convertAmountDecimal('USD') }}</p>
-        <div>
+        <div class='item'>
+          <p class="number2">${{ value.totalAmount | convertAmountDecimal('USD') }}</p>
+        </div>
+        <div class='item1'>
           <span class="text3">{{ value.numOfTransaction | formatNumber }} {{ $t(`transaction.table.transactions`) }}</span>
         </div>
       </div>
@@ -248,14 +250,19 @@
     }
 
     .items-card {
-      width: 270px;
+      width: 25%;
       background-color: #ffffff;
       box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
       border-radius: 8px;
       margin-right: 24px;
       margin-bottom: 24px;
       padding: 16px;
-
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      .item{
+        flex: 1;
+      }
       &:last-of-type {
         margin-right: 0;
       }
@@ -272,7 +279,6 @@
         font-size: 24px;
         line-height: 24px;
         color: #0A0B0D;
-        max-width: 250px;
         word-wrap: break-word;
         margin: 8px 0;
       }
@@ -281,8 +287,8 @@
         font-family: Open Sans;
         font-style: normal;
         font-weight: normal;
-        font-size: 16px;
-        line-height: 24px;
+        font-size: 14px;
+        line-height: 20px;
         color: #5b616e;
       }
 
