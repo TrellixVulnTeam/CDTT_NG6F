@@ -28,7 +28,7 @@
           </div>
         </div>
       </div>
-      <filter-transaction @filter="handleFilter" :type="'transaction'" />
+      <filter-transaction @filter="handleFilter" :type="'transaction'" ref="filter"/>
       <div class="table-transaction">
         <table-transaction
           v-loading="isLoading"
@@ -206,6 +206,10 @@
       if (refs) {
         refs.handleReset()
       }
+      let refs2: any = this.$refs['filter']
+      if (refs2) {
+        refs.handleReset()
+      }
       // EventBus.$emit('selectTabBalance')
     }
 
@@ -365,8 +369,8 @@
           }
 
           .tab-active {
-            color: var(--bc-tab-active);
-            font-weight: 600;
+            color: var(--bc-tab-active) !important;
+            font-weight: 600!important;
 
             &::after {
               content: '';
@@ -377,6 +381,14 @@
               left: 0;
               background-color: var(--bc-tab-active);
             }
+          }
+          .tab-item{
+            font-family: Open Sans;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 16px;
+            line-height: 24px;
+            color: #5B616E;
           }
         }
       }

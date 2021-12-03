@@ -438,6 +438,17 @@
       "title-filter": "Filter",
       "transaction-detail": "Transaction Details",
       "customer-info": "Customer Info"
+    },
+    "detail": {
+      "transaction-id": "Transaction ID",
+      "date": "Date",
+      "from": "From",
+      "to": "To",
+      "fees": "Fees",
+      "status": "Status",
+      "full-name": "Full name",
+      "phone-number": "Phone number",
+      "email": "Email"
     }
   },
   "params": {
