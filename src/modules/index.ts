@@ -5,13 +5,15 @@ import customerModule from './customer'
 import crowdsaleModule from './crowdsale'
 import balanceModule from './balance'
 import requestModule from './request'
+import transactionModule from '@/modules/transaction'
 const listModules: Record<string, ModuleInterface> = {
   homeModule,
   authModule,
   customerModule,
   crowdsaleModule,
   balanceModule,
-  requestModule
+  requestModule,
+  transactionModule
 }
 
 export default listModules

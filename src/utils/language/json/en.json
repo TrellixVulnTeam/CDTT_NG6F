@@ -103,14 +103,16 @@
     "setting": "Setting",
     "crowdsale": "Crowdsale",
     "balance": "Balance",
-    "request": "Request"
+    "request": "Request",
+    "transaction": "Transaction"
   },
   "header": {
     "kyc": "KYC",
     "customer": "Customer",
     "crowdsale": "Crowdsale",
     "request": "Request",
-    "balance": "Balance"
+    "balance":"Balance",
+    "transaction": "Transaction"
   },
   "footer": {
     "terms": "Terms and Conditions"
@@ -403,8 +405,12 @@
       "status": "status",
       "amount": "amount",
       "deposit": "Deposit",
+      "total-deposit": "Total Deposit",
       "withdraw": "Withdraw",
+      "total-withdraw": "Total Withdraw",
       "transfer": "Transfer",
+      "total-transfer": "Total Transfer",
+      "total-bonus": "Total Bonus",
       "crowdsale": "Crowdsale",
       "succsess": "Success",
       "pending": "Pending",
@@ -417,10 +423,16 @@
       "bonus-first-trans": "Bonus first transaction",
       "bonus-affiliate": "Bonus affiliate",
       "bonus-big-backer": "Bonus big backer",
-      "bonus-early-backer": "Bonus early backer"
+      "bonus-early-backer": "Bonus early backer",
+      "DATE": "DATE",
+      "CUSTOMER": "CUSTOMER",
+      "STATUS": "STATUS",
+      "AMOUNT": "AMOUNT",
+      "transactions": "transactions"
     },
     "popup": {
-      "title-filter": "Filter"
+      "title-filter": "Filter",
+      "transaction-detail": "Transaction Details"
     }
   },
   "params": {
@@ -458,7 +470,10 @@
     "ETH": "ETH",
     "BNB": "BNB",
     "USDT": "USDT",
-    "USDC": "USDC"
+    "USDC": "USDC",
+    "deposit": "Deposit",
+    "withdraw": "Withdraw",
+    "transfer": "Transfer"
   },
   "status": {
     "pending": "Pending",

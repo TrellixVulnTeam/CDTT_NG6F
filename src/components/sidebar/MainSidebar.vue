@@ -1,47 +1,59 @@
 <template>
-  <div class="main-side-bar be-flex-column align-center">
-    <router-link :to="{ name: 'Crowdsale' }" class="style_router_home router_center router-home" exact>
-      <div class="sack_avatar logo-home">
+  <div class='main-side-bar be-flex-column align-center'>
+    <router-link :to="{ name: 'Crowdsale' }" class='style_router_home router_center router-home' exact>
+      <div class='sack_avatar logo-home'>
         <!-- <base-icon icon="logo-lienviet" style="font-size: 40px; display: block; height: 40px" class="style_avatar_home" /> -->
         <!-- <base-icon icon="logo-login" size="32" /> -->
-        <base-icon v-if="coinMain === 'LYNK'" icon="logo-login" size="32" />
-        <base-icon v-else icon="icon-clm" size="32" />
+        <base-icon v-if="coinMain === 'LYNK'" icon='logo-login' size='32' />
+        <base-icon v-else icon='icon-clm' size='32' />
         <p>{{ $t('leftMenu.home') }}</p>
       </div>
     </router-link>
-    <router-link :to="{ name: 'Crowdsale' }" v-if="checkPemission('crowd-sale', ['view'])" class="router_center">
-      <div class="sack_avatar">
-        <base-icon :icon="coinMain === 'LYNK' ? 'menu-crowdsale-active' : 'menu-crowdsale-clm'" class="menu-active" size="32" />
-        <base-icon icon="menu-crowdsale" class="menu" size="32" />
+    <router-link :to="{ name: 'Crowdsale' }" v-if="checkPemission('crowd-sale', ['view'])" class='router_center'>
+      <div class='sack_avatar'>
+        <base-icon :icon="coinMain === 'LYNK' ? 'menu-crowdsale-active' : 'menu-crowdsale-clm'" class='menu-active'
+                   size='32' />
+        <base-icon icon='menu-crowdsale' class='menu' size='32' />
         <p>{{ $t('leftMenu.crowdsale') }}</p>
       </div>
     </router-link>
-    <router-link :to="{ name: 'Kyc' }" v-if="checkPemission('kyc', ['view'])" class="router_center">
-      <div class="sack_avatar">
-        <base-icon :icon="coinMain === 'LYNK' ? 'menu-kyc-active' : 'menu-kyc-clm'" class="menu-active" size="32" />
-        <base-icon icon="menu-kyc" class="menu" size="32" />
+    <router-link :to="{ name: 'Kyc' }" v-if="checkPemission('kyc', ['view'])" class='router_center'>
+      <div class='sack_avatar'>
+        <base-icon :icon="coinMain === 'LYNK' ? 'menu-kyc-active' : 'menu-kyc-clm'" class='menu-active' size='32' />
+        <base-icon icon='menu-kyc' class='menu' size='32' />
         <p>{{ $t('leftMenu.kyc') }}</p>
       </div>
     </router-link>
-    <router-link :to="{ name: 'CustomerMain' }" v-if="checkPemission('customer', ['view'])" class="router_center">
-      <div class="sack_avatar">
-        <base-icon :icon="coinMain === 'LYNK' ? 'menu-customer-active' : 'menu-customer-clm'" class="menu-active" size="32" />
-        <base-icon icon="menu-customer" class="menu" size="32" />
+    <router-link :to="{ name: 'CustomerMain' }" v-if="checkPemission('customer', ['view'])" class='router_center'>
+      <div class='sack_avatar'>
+        <base-icon :icon="coinMain === 'LYNK' ? 'menu-customer-active' : 'menu-customer-clm'" class='menu-active'
+                   size='32' />
+        <base-icon icon='menu-customer' class='menu' size='32' />
         <p>{{ $t('leftMenu.customer') }}</p>
       </div>
     </router-link>
-    <router-link :to="{ name: 'Balance' }" class="router_center">
-      <div class="sack_avatar">
-        <base-icon :icon="coinMain === 'LYNK' ? 'icon-wallet-bo-active' : 'icon-wallet-bo-active-clm'" class="menu-active" size="32" />
-        <base-icon icon="icon-wallet-bo" class="menu" size="32" />
+    <router-link :to="{ name: 'Balance' }" class='router_center'>
+      <div class='sack_avatar'>
+        <base-icon :icon="coinMain === 'LYNK' ? 'icon-wallet-bo-active' : 'icon-wallet-bo-active-clm'"
+                   class='menu-active' size='32' />
+        <base-icon icon='icon-wallet-bo' class='menu' size='32' />
         <p>{{ $t('leftMenu.balance') }}</p>
       </div>
     </router-link>
+    <router-link :to="{ name: 'Transaction' }" class='router_center'>
+      <div class='sack_avatar'>
+        <base-icon :icon="coinMain === 'LYNK' ? 'menu-swap-active' : 'menu-swap-active-clm'" class='menu-active'
+                   size='32' />
+        <base-icon icon='menu-swap-active-clm' class='menu' size='32' />
+        <p>{{ $t('leftMenu.transaction') }}</p>
+      </div>
+    </router-link>
 
-    <router-link :to="{ name: 'Request' }" v-if="checkPemission('request', ['view'])" class="router_center">
-      <div class="sack_avatar">
-        <base-icon :icon="coinMain === 'LYNK' ? 'menu-request-active' : 'menu-request-clm'" class="menu-active" size="32" />
-        <base-icon icon="menu-request" class="menu" size="32" />
+    <router-link :to="{ name: 'Request' }" v-if="checkPemission('request', ['view'])" class='router_center'>
+      <div class='sack_avatar'>
+        <base-icon :icon="coinMain === 'LYNK' ? 'menu-request-active' : 'menu-request-clm'" class='menu-active'
+                   size='32' />
+        <base-icon icon='menu-request' class='menu' size='32' />
         <p>{{ $t('leftMenu.request') }}</p>
       </div>
     </router-link>
@@ -66,9 +78,10 @@
     </router-link> -->
   </div>
 </template>
-<script lang="ts">
+<script lang='ts'>
   import { Component, Vue } from 'vue-property-decorator'
   import { namespace } from 'vuex-class'
+
   const beBase = namespace('beBase')
   @Component({ components: {} })
   export default class MainSidebar extends Vue {
@@ -139,7 +152,7 @@
     ]
   }
 </script>
-<style lang="scss" scoped>
+<style lang='scss' scoped>
   .main-side-bar {
     position: relative;
     background: #ffffff;
@@ -148,11 +161,13 @@
 
     .style_router_home {
       margin: 0px 10px 10px 10px;
+
       .style_avatar_home {
         color: #ef7524;
         text-align: center;
       }
     }
+
     .setting {
       position: absolute;
       bottom: 0;
@@ -167,13 +182,16 @@
       line-height: 1;
       font-size: 32px;
     }
+
     .router_center {
       text-align: center;
       width: 100%;
       height: 80px;
       color: #6b6b6b;
+
       .sack_avatar {
         padding: 12px 0;
+
         p {
           font-size: 10px;
           margin-top: 3px;
@@ -181,108 +199,135 @@
           font-weight: 400;
           line-height: 12px;
         }
+
         &:hover {
           background: var(--bc-color-grey20);
           color: var(--bc-theme-primary);
+
           p {
             color: var(--bc-theme-primary) !important;
           }
+
           .span-icon {
             color: var(--bc-theme-primary) !important;
           }
         }
       }
+
       &:hover {
         .menu-active {
           display: block;
         }
+
         .menu {
           display: none;
         }
       }
     }
+
     .router_setting {
       position: absolute;
       bottom: 0;
       // margin-top: calc(100vh - 600px);
     }
+
     .filter_avatar {
       opacity: 0.65;
     }
   }
+
   a {
     text-decoration: none;
   }
+
   .router-link-exact-active,
   .router-link-active {
     background: #e9e9e9;
     width: 80px;
+
     .sack_avatar {
       color: var(--bc-theme-primary);
+
       p {
         color: var(--bc-theme-primary) !important;
         font-weight: 600 !important;
       }
+
       .menu {
         display: none;
       }
+
       .menu-active {
         display: block;
       }
     }
+
     .child-item {
       color: #f07525;
       background: #e9e9e9;
     }
   }
+
   .router-home {
     margin-bottom: 0 !important;
+
     .logo-home {
       height: 100%;
-      padding-top: 0 !important ;
+      padding-top: 0 !important;
+
       .style_avatar_hom {
         font-size: 40px;
         display: block;
       }
+
       p {
         margin-top: 6px !important;
       }
     }
   }
+
   .style_special {
     margin-left: 11px;
   }
+
   .button-add {
     background: #f3f3f3;
+
     &:hover {
       background: #e9e9e9;
       color: #f07525;
     }
+
     &:focus {
       border: none;
       color: #6b6b6b !important;
     }
   }
+
   .module {
     list-style-type: none;
     padding: 10px;
     display: flex;
     flex-wrap: wrap;
+
     &-item {
       color: #65676b;
       text-align: center;
       height: 68px;
       cursor: pointer;
       flex-basis: 32%;
+
       &:hover {
         color: #0078d4;
         background: #e9e9e9;
       }
+
       &.menu-active {
         color: #0078d4;
         background: #e9e9e9;
       }
     }
+
     .child-item {
       height: 100%;
     }
@@ -291,6 +336,7 @@
   .module-item {
     margin: 1px;
   }
+
   .menu-active {
     display: none;
   }
