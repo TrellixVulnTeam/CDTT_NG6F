@@ -340,7 +340,7 @@
     @Watch('form.resendCode') watchSubmit(value: string): void {
       console.log('value', value)
       this.disableSubmit = value.length == 6 ? false : true
-      this.form.resendCode = this.form.resendCode.substring(0,6)
+      this.form.resendCode = this.form.resendCode.substring(0, 6)
     }
     @Watch('form.country')
     clearCountry(value: any) {

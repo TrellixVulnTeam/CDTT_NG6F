@@ -159,7 +159,7 @@
     }
     propdataTable: Record<string, any>[] = []
     async init(): Promise<void> {
-      console.log("tabactive", this.tabActive)
+      console.log('tabactive', this.tabActive)
       this.data = []
       this.propdataTable = []
       try {
@@ -181,12 +181,24 @@
         if (this.data.length > 0) {
           for (let i = 0; i < this.data.length; i++) {
             let str = this.data[i].email
-            const newEmail = str.substring(0, 6) + '...' + str.substring(str.length - 10, str.length)
-            const dataItem = {
-              ...this.data[i],
-              email: newEmail
+            const email = str.split('@')
+            console.log('email', email)
+
+            if (email[0].length > 6) {
+              const newEmail = email[0].substring(0, 6) + '...@' + email[1].substring(0, 10)
+              const dataItem = {
+                ...this.data[i],
+                email: newEmail
+              }
+              this.propdataTable.push(dataItem)
+            }else{
+              const newEmail = email[0] + '...@' + email[1].substring(0, 10)
+              const dataItem = {
+                ...this.data[i],
+                email: newEmail
+              }
+              this.propdataTable.push(dataItem)
             }
-            this.propdataTable.push(dataItem)
           }
         }
 
