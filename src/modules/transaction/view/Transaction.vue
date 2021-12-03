@@ -26,20 +26,14 @@
           </div>
         </div>
       </div>
-      <filter-transaction @filter="handleFilter" :type="'transaction'" />
-      <div class="table-transaction">
-        <table-transaction
-          v-loading="isLoading"
-          :listTransaction="propDataTable"
-          :query="query"
-          @sizeChange="handleSizeChange"
-          @pageChange="handlePageChange"
-          :type="'transaction'"
-          @rowClick="handleRowClick"
-        />
+      <filter-transaction @filter='handleFilter' :type='"transaction"' />
+      <div class='table-transaction'>
+        <table-transaction v-loading='isLoading' :listTransaction='propDataTable' :query='query'
+                           @sizeChange='handleSizeChange'
+                           @pageChange='handlePageChange' :type='"transaction"' @rowClick='handleRowClick' />
       </div>
-      <popup-filter-transaction @filter="handleFilter" />
-      <transaction-detail :detail-row="detailRow" :tab-active-filter="tabActive" />
+      <popup-filter-transaction @filter='handleFilter' :tab-active-filter='tabActive' :type='"transaction"'/>
+      <transaction-detail :detail-row='detailRow' :tab-active-filter='tabActive' />
     </div>
   </div>
 </template>
@@ -91,7 +85,7 @@
         routeName: 'TransactionBonus'
       }
     ]
-    tabActive = 'Deposit'
+    tabActive = 'deposit'
     isLoading = false
 
     dataHeaderCard: IDataCard[] = []
@@ -121,6 +115,8 @@
       this.tabs.map((value, i) => {
         if (value.routeName === name) {
           this.query.transactionType = value.title.toUpperCase()
+          this.tabActive=value.title
+          console.log(this.tabActive)
         }
       })
       this.init().then()
@@ -273,12 +269,13 @@
       .number2 {
         font-family: Open Sans;
         font-style: normal;
-        font-weight: normal;
-        font-size: 36px;
-        line-height: 52px;
-        color: #0a0b0d;
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 24px;
+        color: #0A0B0D;
         max-width: 250px;
         word-wrap: break-word;
+        margin: 8px 0;
       }
 
       .text3 {
@@ -325,11 +322,13 @@
           }
         }
       }
+
+
     }
 
     .wallet-header {
       &__above {
-        //border-bottom: 1px solid var(--bc-border-primary);
+        border-bottom: 1px solid var(--bc-border-primary);
 
         &-tabs {
           .tab-item {
