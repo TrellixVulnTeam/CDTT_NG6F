@@ -285,10 +285,17 @@
     }
 
     handleChangeTab(): void {
-      this.filterBalance.search = ''
-      const params = {
-        search: this.filterBalance.search
+      this.filterBalance = {
+        search: '',
+        toBalanceAmount: '',
+        fromBalanceAmount: '',
+        toLockedAmount: '',
+        fromLockedAmount: '',
+        toAvailableAmount: '',
+        fromAvailableAmount: '',
+        orderBy: ''
       }
+      this.sortActive = '1'
       // this.$emit('filterBalance', params);
     }
 
