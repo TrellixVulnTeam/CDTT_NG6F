@@ -30,7 +30,7 @@
     "phone-title": "Xác minh số điện thoại",
     "continue": "Xác nhận",
     "phone-number": "điện thoại",
-    "authen-app":"ứng dụng xác thực"
+    "authen-app": "ứng dụng xác thực"
   },
   "signup": {
     "title-form": "Đăng Ký",
@@ -87,7 +87,7 @@
     "customer": "Khách hàng",
     "crowdsale": "Crowdsale",
     "request": "Yêu cầu",
-    "balance":"Số dư"
+    "balance": "Số dư"
   },
   "footer": {
     "terms": "Các điều khoản và điều kiện"
@@ -165,8 +165,8 @@
     "status": "Trạng thái",
     "trans-type": "Loại giao dịch",
     "date": "Thời gian",
-    "enter-verify-code":"Nhập mã xác thực",
-    "verify-code":"Mã xác thực",
+    "enter-verify-code": "Nhập mã xác thực",
+    "verify-code": "Mã xác thực",
     "available-amount": "Số tiền hiện có",
     "locked-amount": "Số tiền đã khóa",
     "balance": "Số dư ví"
@@ -203,9 +203,10 @@
     "no-data": "Không có dữ liệu",
     "no-data-kyc": "Không có dữ liệu",
     "copy": "Sao chép thành công",
-    "captcha-invalid":"Captcha không hợp lệ!",
-    "invalid-username":"Tên đăng nhập hoặc mật khẩu không chính xác!",
-    "account-exits":"Số điện thoại đã được sử dụng!"
+    "captcha-invalid": "Captcha không hợp lệ!",
+    "invalid-username": "Tên đăng nhập hoặc mật khẩu không chính xác!",
+    "account-exits": "Số điện thoại đã được sử dụng!",
+    "no-permisson": "Bạn không có quyền truy cập"
   },
   "logout": {
     "title": "Đăng xuất"
@@ -302,38 +303,37 @@
       "accepted": "Xác nhận",
       "invited": "Đã mời"
     },
-    "setting":{
-      "new-phone":"Số điện thoại mới",
-      "verify":"Xác minh",
-      "phone":"Số điện thoại",
-      "2factor":"Xác minh 2 bước",
-      "status":"Trạng thái",
-      "change":"Thay đổi",
-      "lock":"Khóa",
-      "unlock":"Mở khóa",
-      "reset":"Khôi phục",
-      "enter-code":"Nhập mã g",
-      "send-code":"Gửi mã xác minh thành công!",
-      "send-code-fail":"Gửi mã xác minh thất bại!",
-      "lock-user-success":"Khóa tài khoản thành công!",
-      "lock-user-fail":"Khóa tài khoản thất bại!",
-      "unlock-user-success":"Mở khóa tài khoản thành công!",
-      "unlock-user-fail":"Mở khóa tài khoản thất bại!",
-      "user-active":"Kích hoạt",
-      "user-locked":"Đã khóa",
-      "user-unverified":"Chưa xác thực",
-      "send-reset-default":"Gửi email cho khách hàng thành công!",
-      "send-reset-default-fail":"Gửi email cho khách hàng thất bại!"
-      
+    "setting": {
+      "new-phone": "Số điện thoại mới",
+      "verify": "Xác minh",
+      "phone": "Số điện thoại",
+      "2factor": "Xác minh 2 bước",
+      "status": "Trạng thái",
+      "change": "Thay đổi",
+      "lock": "Khóa",
+      "unlock": "Mở khóa",
+      "reset": "Khôi phục",
+      "enter-code": "Nhập mã g",
+      "send-code": "Gửi mã xác minh thành công!",
+      "send-code-fail": "Gửi mã xác minh thất bại!",
+      "lock-user-success": "Khóa tài khoản thành công!",
+      "lock-user-fail": "Khóa tài khoản thất bại!",
+      "unlock-user-success": "Mở khóa tài khoản thành công!",
+      "unlock-user-fail": "Mở khóa tài khoản thất bại!",
+      "user-active": "Kích hoạt",
+      "user-locked": "Đã khóa",
+      "user-unverified": "Chưa xác thực",
+      "send-reset-default": "Gửi email cho khách hàng thành công!",
+      "send-reset-default-fail": "Gửi email cho khách hàng thất bại!"
     },
-    "authen":{
-      "phone":"Xác thực SMS",
-      "app":"Xác thực ứng dụng",
-      "email":"Xác thực email"
+    "authen": {
+      "phone": "Xác thực SMS",
+      "app": "Xác thực ứng dụng",
+      "email": "Xác thực email"
     },
-    "phoneveri":{
-      "verified":"Đã xác minh",
-      "not-verified":"Chưa xác minh"
+    "phoneveri": {
+      "verified": "Đã xác minh",
+      "not-verified": "Chưa xác minh"
     },
     "statistics": {
       "balance": "Số dư",
@@ -342,7 +342,7 @@
       "total-trade": "Tổng số tiền đã bán",
       "bonus": "Thưởng",
       "crowdsale": "Crowdsale",
-      "deposit":"Nạp",
+      "deposit": "Nạp",
       "transfer": "Chuyển",
       "withdraw": "Rút"
     }
@@ -566,37 +566,37 @@
         "wrong-reason": "Vui lòng nhập lý do"
       }
     },
-    "transactiontype":{
-      "sign-up":"Thưởng đăng ký",
-      "crowd-sale":"Thưởng crowdsale",
-      "first-trans":"Thưởng giao dịch đầu",
-      "affiliate":"Thưởng giới thiệu",
-      "bigbacker":"Thưởng nhà đầu tư lớn",
-      "earlybacker":"Thưởng nhà đầu tư sớm",
-      "tranfer":"Chuyển",
-      "widthdraw":"Rút",
-      "deposit":"Nạp",
-      "crowdsale":"Crowdsale"
+    "transactiontype": {
+      "sign-up": "Thưởng đăng ký",
+      "crowd-sale": "Thưởng crowdsale",
+      "first-trans": "Thưởng giao dịch đầu",
+      "affiliate": "Thưởng giới thiệu",
+      "bigbacker": "Thưởng nhà đầu tư lớn",
+      "earlybacker": "Thưởng nhà đầu tư sớm",
+      "tranfer": "Chuyển",
+      "widthdraw": "Rút",
+      "deposit": "Nạp",
+      "crowdsale": "Crowdsale"
     },
-    "warning":{
-      "notmatched":"Số dư Hiện tại và Số dư Cuối kỳ không khớp với nhau.",
-      "exceeded1":"Số dư Hiện tại và Số dư Cuối kỳ không khớp với nhau.",
-      "exceeded2":"Yêu cầu đã vượt quá giới hạn cho phép.",
-      "allow":"Yêu cầu đã vượt quá giới hạn cho phép."
+    "warning": {
+      "notmatched": "Số dư Hiện tại và Số dư Cuối kỳ không khớp với nhau.",
+      "exceeded1": "Số dư Hiện tại và Số dư Cuối kỳ không khớp với nhau.",
+      "exceeded2": "Yêu cầu đã vượt quá giới hạn cho phép.",
+      "allow": "Yêu cầu đã vượt quá giới hạn cho phép."
     }
   },
-  "balance":{
+  "balance": {
     "available": "Có sẵn",
     "lockedAmount": "Số tiền đã khóa",
-    "lastChange":"Mới đổi",
+    "lastChange": "Mới đổi",
     "availableAmout": "Số lượng có sẵn",
     "name": "Tên",
-    "investor":"Nhà đầu tư",
-    "total-available":"Tổng số tiền hiện có",
-    "total-locked":"Tổng số tiền đã khóa",
-    "of-total":"trên tổng số",
-    "balance-wallet":"Số dư ví",
-    "balance":"Số dư",
+    "investor": "Nhà đầu tư",
+    "total-available": "Tổng số tiền hiện có",
+    "total-locked": "Tổng số tiền đã khóa",
+    "of-total": "trên tổng số",
+    "balance-wallet": "Số dư ví",
+    "balance": "Số dư",
     "popup": {
       "title": "CHI TIẾT SỐ DƯ",
       "available-amount": "Số lượng hiện có",
