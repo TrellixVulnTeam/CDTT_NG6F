@@ -28,7 +28,7 @@
           </div>
         </div>
       </div>
-      <filter-transaction @filter="handleFilter" :type="'transaction'" ref="filter"/>
+      <filter-transaction @filter="handleFilter" :type="'transaction'" ref="filter" />
       <div class="table-transaction">
         <table-transaction
           v-loading="isLoading"
@@ -370,7 +370,7 @@
 
           .tab-active {
             color: var(--bc-tab-active) !important;
-            font-weight: 600!important;
+            font-weight: 600 !important;
 
             &::after {
               content: '';
@@ -382,13 +382,13 @@
               background-color: var(--bc-tab-active);
             }
           }
-          .tab-item{
+          .tab-item {
             font-family: Open Sans;
             font-style: normal;
             font-weight: normal;
             font-size: 16px;
             line-height: 24px;
-            color: #5B616E;
+            color: #5b616e;
           }
         }
       }

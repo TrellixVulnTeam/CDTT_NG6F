@@ -1,69 +1,66 @@
 <template>
-  <base-popup name='popup-filter-transaction' class='popup-filter-transaction' width='600px'>
-    <div class='title-popup' slot='title'>
+  <base-popup name="popup-filter-transaction" class="popup-filter-transaction" width="600px">
+    <div class="title-popup" slot="title">
       <span>{{ $t('transaction.popup.title-filter') }}</span>
     </div>
-    <div class='content'>
+    <div class="content">
       <el-form>
         <el-form-item :label="$t('label.buy-token')">
-          <el-select v-model='filter.currency' multiple clearable class='w-100'>
-            <el-option v-for='wallet in listWallet' :key='wallet.id' :value='wallet.symbol' :label='wallet.name'>
+          <el-select v-model="filter.currency" multiple clearable class="w-100">
+            <el-option v-for="wallet in listWallet" :key="wallet.id" :value="wallet.symbol" :label="wallet.name">
               <template>
-                <div class='be-flex wallet-item'>
-                  <base-icon :icon='wallet.icon' size='24' />
-                  <span class='d-ib' style='margin-left: 10px'>{{ wallet.name }}</span>
+                <div class="be-flex wallet-item">
+                  <base-icon :icon="wallet.icon" size="24" />
+                  <span class="d-ib" style="margin-left: 10px">{{ wallet.name }}</span>
                 </div>
               </template>
             </el-option>
           </el-select>
         </el-form-item>
-        <div class='be-flex jc-space-between row'>
-          <el-form-item class='be-flex-item mr-40 form-item-line' :label="$t('label.trans-date')">
-            <el-date-picker class='w-100 date-picker' format='MM/dd/yyyy' value-format='yyyy-MM-dd'
-                            :placeholder="$t('label.from-date')" v-model='filter.fromDate' type='date'>
+        <div class="be-flex jc-space-between row">
+          <el-form-item class="be-flex-item mr-40 form-item-line" :label="$t('label.trans-date')">
+            <el-date-picker class="w-100 date-picker" format="MM/dd/yyyy" value-format="yyyy-MM-dd" :placeholder="$t('label.from-date')" v-model="filter.fromDate" type="date">
             </el-date-picker>
           </el-form-item>
 
-          <el-form-item class='be-flex-item hide-label' label='1'>
-            <el-date-picker class='w-100 date-picker' format='MM/dd/yyyy' :placeholder="$t('label.to-date')"
-                            value-format='yyyy-MM-dd' v-model='filter.toDate' type='date'>
+          <el-form-item class="be-flex-item hide-label" label="1">
+            <el-date-picker class="w-100 date-picker" format="MM/dd/yyyy" :placeholder="$t('label.to-date')" value-format="yyyy-MM-dd" v-model="filter.toDate" type="date">
             </el-date-picker>
           </el-form-item>
         </div>
-        <div class='be-flex jc-space-between row'>
-          <el-form-item class='be-flex-item mr-40 form-item-line' :label="$t('label.trans-amount')">
+        <div class="be-flex jc-space-between row">
+          <el-form-item class="be-flex-item mr-40 form-item-line" :label="$t('label.trans-amount')">
             <el-input
-              v-model='filter.fromAmount'
+              v-model="filter.fromAmount"
               :placeholder="$t('placeholder.from-amount')"
               @keypress.native="onlyNumber($event, 'fromAmount')"
-              @keyup.native='numberFormat($event)'
+              @keyup.native="numberFormat($event)"
             >
-              <div class='prefix' slot='prefix'>$</div>
+              <div class="prefix" slot="prefix">$</div>
             </el-input>
           </el-form-item>
 
-          <el-form-item class='be-flex-item hide-label' label='1'>
-            <el-input v-model='filter.toAmount' :placeholder="$t('placeholder.to-amount')"
-                      @keypress.native="onlyNumber($event, 'toAmount')" @keyup.native='numberFormat($event)'>
-              <div class='prefix' slot='prefix'>$</div>
+          <el-form-item class="be-flex-item hide-label" label="1">
+            <el-input v-model="filter.toAmount" :placeholder="$t('placeholder.to-amount')" @keypress.native="onlyNumber($event, 'toAmount')" @keyup.native="numberFormat($event)">
+              <div class="prefix" slot="prefix">$</div>
             </el-input>
           </el-form-item>
         </div>
-        <div v-if='tabActiveFilter==="bonus"' class='be-flex jc-space-between'>
-          <el-form-item :label="$t('label.status')" class='be-flex-item  mr-40'>
-            <el-select v-model='filter.status' clearable class='w-100'>
-              <el-option v-for='status in listStatus' :key='status.id' :value='status.value' :label='status.label'>
+        <div v-if="tabActiveFilter === 'bonus'" class="be-flex jc-space-between">
+          <el-form-item :label="$t('label.status')" class="be-flex-item mr-40">
+            <el-select v-model="filter.status" clearable class="w-100">
+              <el-option v-for="status in listStatus" :key="status.id" :value="status.value" :label="status.label">
                 <template>
-                  <span class='d-ib'>{{ status.label }}</span>
+                  <span class="d-ib">{{ status.label }}</span>
                 </template>
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item :label="$t('label.bonus-type')" class='be-flex-item'>
-            <el-select v-model='filter.bonusType' clearable class='w-100'>
-              <el-option v-for='status in listBonusType' :key='status.id' :value='status.value' :label='status.label'>
+          <el-form-item :label="$t('label.bonus-type')" class="be-flex-item">
+            <el-select v-model="filter.bonusType" clearable class="w-100">
+              <el-option v-for="status in listBonusType" :key="status.id" :value="status.value" :label="status.label">
                 <template>
-                  <span class='d-ib'>{{ status.label }}</span>
+                  <span class="d-ib">{{ status.label }}</span>
                 </template>
               </el-option>
             </el-select>
@@ -71,29 +68,28 @@
         </div>
         <div v-else>
           <el-form-item :label="$t('label.status')">
-            <el-select v-model='filter.status' clearable class='w-100'>
-              <el-option v-for='status in listStatus' :key='status.id' :value='status.value' :label='status.label'>
+            <el-select v-model="filter.status" clearable class="w-100">
+              <el-option v-for="status in listStatus" :key="status.id" :value="status.value" :label="status.label">
                 <template>
-                  <span class='d-ib'>{{ status.label }}</span>
+                  <span class="d-ib">{{ status.label }}</span>
                 </template>
               </el-option>
             </el-select>
           </el-form-item>
         </div>
-
       </el-form>
     </div>
-    <div slot='footer' class='footer'>
-      <button class='btn-default mr-15 text-regular btn-h40' @click='handleReset'>{{ $t('button.reset') }}</button>
+    <div slot="footer" class="footer">
+      <button class="btn-default mr-15 text-regular btn-h40" @click="handleReset">{{ $t('button.reset') }}</button>
       <!-- <button class="btn-default-bg text-regular btn-h40"  disabled  @click="handleConfirm">{{ $t('button.continue') }}</button> -->
-      <button class='btn-default-bg text-regular btn-h40' @click='handleApply'>
+      <button class="btn-default-bg text-regular btn-h40" @click="handleApply">
         {{ $t('button.continue') }}
       </button>
     </div>
   </base-popup>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
   import { Component, Mixins, Prop } from 'vue-property-decorator'
   import includes from 'lodash/includes'
   import PopupMixin from '@/mixins/popup'
@@ -168,7 +164,7 @@
         id: 2,
         label: 'Success',
         value: 'SUCCESS'
-      },
+      }
       // {
       //   id: 3,
       //   label: 'Failed',
@@ -236,18 +232,18 @@
         isOpen: false
       })
       let _currency = ''
-      let _fromAmount=''
-      let _toAmount=''
+      let _fromAmount = ''
+      let _toAmount = ''
       if (this.filter.currency) {
         _currency = this.filter.currency.join(',')
       }
       if (this.filter.fromAmount) {
-        _fromAmount = this.filter.fromAmount.replaceAll(',','')
+        _fromAmount = this.filter.fromAmount.replaceAll(',', '')
       }
       if (this.filter.toAmount) {
-        _toAmount = this.filter.toAmount.replaceAll(',','')
+        _toAmount = this.filter.toAmount.replaceAll(',', '')
       }
-      this.$emit('filter', { ...this.filter,fromAmount:_fromAmount,toAmount:_toAmount, currency: _currency })
+      this.$emit('filter', { ...this.filter, fromAmount: _fromAmount, toAmount: _toAmount, currency: _currency })
     }
 
     onlyNumber(event: KeyboardEvent, type: string): void {
@@ -274,7 +270,7 @@
   }
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
   .prefix {
     height: 100%;
     font-size: 16px;
