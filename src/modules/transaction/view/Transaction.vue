@@ -141,7 +141,7 @@
         this.dataHeaderCard = this.dataHeaderCard.filter(item => {
           return item.transactionType !== 'CROWDSALE'
         })
-        this.query.total = result.transactions.totalPages
+        this.query.total = result.transactions.totalElements
         this.isLoading = false
       } catch (error) {
         this.isLoading = false
