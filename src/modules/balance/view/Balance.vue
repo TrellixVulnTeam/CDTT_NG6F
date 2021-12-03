@@ -9,8 +9,8 @@
         </div>
       </div>
     </div>
-    <div class="container bg-white wallet-header" style="width: 100%">
-      <div style="" class="col-width col-margin">
+    <div class="container bg-white wallet-header-task" style=" width: calc(100% - 48px);">
+      <div  class="col-width col-margin">
         <div class="sack-banlance">
           <span class="text1">
             {{ $t(`balance.investor`) }}
@@ -25,7 +25,7 @@
         </div>
       </div>
 
-      <div class="col-width col-margin">
+      <div  class="col-width col-margin">
         <div class="sack-banlance">
           <span class="text1">{{ $t(`balance.total-available`) }} </span>
           <div>
@@ -37,7 +37,7 @@
         </span>
         <span class="text3"> ~ ${{ totalAvailableUSD | convertAmountDecimal('USD') }}</span>
       </div>
-      <div class="col-width col-margin">
+      <div  class="col-width col-margin">
         <div class="sack-banlance">
           <span class="text1">{{ $t(`balance.total-locked`) }}</span>
           <div>
@@ -49,7 +49,7 @@
         >
         <span class="text3">~ ${{ totalLockedUSD | convertAmountDecimal('USD') }}</span>
       </div>
-      <div class="col-width col-margin">
+      <div  class="col-width col-margin">
         <div class="sack-banlance">
           <span class="text1"> {{ $t(`balance.balance-wallet`) }}</span>
           <div>
@@ -364,8 +364,8 @@
     color: var(--bc-text-discript);
   }
   .col-margin {
-    margin: 24px 24px;
     background: #fff !important;
+    flex-basis: calc((100% - 24px - 48px) / 4) !important;
   }
   .container > div {
     width: 100px;
@@ -444,5 +444,10 @@
         }
       }
     }
+  }
+  .wallet-header-task{
+     display: flex;
+    justify-content: space-between;
+    padding: 24px; 
   }
 </style>
