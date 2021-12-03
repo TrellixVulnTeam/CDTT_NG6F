@@ -33,7 +33,8 @@
       <div v-if='detailRow.fromAddress' class='item be-flex'>
         <p>From</p>
         <div class="be-flex align-center">
-          <p>{{ detailRow.fromAddress | formatTransactionCode(10) }}</p>
+          <base-icon :icon="renderIconCurrency(detailRow.currency.toLowerCase())" size="20" />
+          <p style='margin-left: 8px'>{{ detailRow.fromAddress | formatTransactionCode(10) }}</p>
           <span v-if="detailRow.fromAddress" style="margin-left: 8px" class="icon-copy" @click="handleCopyTransaction(detailRow.fromAddress)">
             <base-icon icon="icon-copy" size="24" />
           </span>
@@ -42,7 +43,8 @@
       <div class="item be-flex">
         <p>To</p>
         <div class="be-flex align-center">
-          <p>{{ detailRow.toAddress | formatTransactionCode(10) }}</p>
+          <base-icon :icon="renderIconCurrency(detailRow.currency.toLowerCase())" size="20" />
+          <p style='margin-left: 8px'>{{ detailRow.toAddress | formatTransactionCode(10) }}</p>
           <span v-if="detailRow.toAddress" style="margin-left: 8px" class="icon-copy" @click="handleCopyTransaction(detailRow.toAddress)">
             <base-icon icon="icon-copy" size="24" />
           </span>
@@ -143,8 +145,22 @@
         return `icon-bonus-success`
       } else return `icon-${type.toLowerCase()}-success`
     }else return ""
+    }
 
-
+    renderIconCurrency(type:string):string{
+      return type === 'lynk'
+        ? 'icon-lynk'
+        : type === 'btc'
+          ? 'icon-btc'
+          : type === 'eth'
+            ? 'icon-eth'
+            : type === 'usdt'
+              ? 'icon-usdt'
+              : type === 'bnb'
+                ? 'icon-bnb'
+                : type === 'usdc'
+                  ? 'icon-usdc'
+                  : 'icon-lynk'
     }
 
     checkTypeStatusIcon(type: string): string {

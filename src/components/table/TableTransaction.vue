@@ -68,7 +68,7 @@
           <div class='amount-increase'>
             <span :class='checkValueAmountDisplay(scope.row.amountDisplay)'>{{ scope.row.amountDisplay }}</span>
             <span
-              class='d-block amount-exchange-small'>~${{ (scope.row.amountToUsd) | convertAmountDecimal('USD')
+              class='d-block amount-exchange-small'>~ ${{ (scope.row.amountToUsd) | convertAmountDecimal('USD')
               }}</span>
           </div>
         </div>
