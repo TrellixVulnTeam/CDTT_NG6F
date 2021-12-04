@@ -915,6 +915,13 @@
   }
   .style-button {
     border: 1px solid #89909e;
+    background-color: #fff;
+    color: var(--bc-text-primary);
+  }
+  .style-button:hover {
+    border: 1px solid var(--bc-theme-primary);
+    background-color: #fff;
+    color: var(--bc-theme-primary);
   }
   .list-bonus {
     .input-search {
