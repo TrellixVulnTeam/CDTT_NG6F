@@ -27,10 +27,10 @@
         <p>{{ $t('transaction.detail.date') }}</p>
         <p class="text-detail-2">{{ detailRow.transactionMillisecond | formatMMDDYY }}</p>
       </div>
-      <div v-if="checkFeeType(detailRow.transactionType)" class="item be-flex">
+      <div v-if="checkFromType(detailRow.transactionType)" class="item be-flex">
         <p>{{ $t('transaction.detail.from') }}</p>
         <div class="be-flex align-center">
-          <base-icon :icon="renderIconCurrency(detailRow.currency.toLowerCase())" size="20" />
+          <base-icon :icon="renderIconCurrency(detailRow.currency)" size="20" />
           <p class="text-detail-2" style="margin-left: 8px">{{ detailRow.fromAddress | formatTransactionCode(10) }}</p>
           <span v-if="detailRow.fromAddress" style="margin-left: 8px" class="icon-copy" @click="handleCopyTransaction(detailRow.fromAddress)">
             <base-icon icon="icon-copy" size="24" />
@@ -40,7 +40,7 @@
       <div class="item be-flex">
         <p>{{ $t('transaction.detail.to') }}</p>
         <div class="be-flex align-center">
-          <base-icon :icon="renderIconCurrency(detailRow.currency.toLowerCase())" size="20" />
+          <base-icon :icon="renderIconCurrency(detailRow.currency)" size="20" />
           <p class="text-detail-2" style="margin-left: 8px">{{ detailRow.toAddress | formatTransactionCode(10) }}</p>
           <span v-if="detailRow.toAddress" style="margin-left: 8px" class="icon-copy" @click="handleCopyTransaction(detailRow.toAddress)">
             <base-icon icon="icon-copy" size="24" />
@@ -129,11 +129,16 @@
         : 'status status-success'
     }
 
-    checkFeeType(type: string): boolean {
-      return !(type.indexOf('BONUS') !== -1 || type === 'DEPOSIT')
+    checkFeeType(type: string|undefined): boolean {
+      if (type){
+        return !(type.indexOf('BONUS') !== -1 || type === 'DEPOSIT')
+      }else return false
+
     }
-    checkFromType(type: string): boolean {
-      return !(type.indexOf('BONUS') !== -1 || type === 'DEPOSIT')
+    checkFromType(type: string|undefined): boolean {
+      if (type) {
+        return !(type.indexOf('BONUS') !== -1 || type === 'DEPOSIT')
+      }else return false
     }
 
     checkTypeIcon(type: string | undefined, status: string | undefined): string {
@@ -150,7 +155,8 @@
       } else return ''
     }
 
-    renderIconCurrency(type: string): string {
+    renderIconCurrency(type: string|undefined|null): string {
+      type=type?.toLowerCase()
       return type === 'lynk'
         ? 'icon-lynk'
         : type === 'clm'
