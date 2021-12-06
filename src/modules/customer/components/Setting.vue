@@ -79,6 +79,7 @@
           </div>
         </div>
         <el-button
+          class="none-focus"
           :loading="isLoading"
           :class="disableSubmit ? 'btn w-100 is-none-border btn-h-40 cursor backgroundDisable' : 'btn w-100 is-none-border btn-h-40 cursor'"
           :disabled="disableSubmit"
@@ -132,6 +133,7 @@
           </div>
         </div>
         <el-button
+          class="none-focus"
           :loading="isLoading"
           :class="disableSubmit ? 'btn w-100 is-none-border btn-h-40 cursor backgroundDisable' : 'btn w-100 is-none-border btn-h-40 cursor'"
           :disabled="disableSubmit"
@@ -185,6 +187,7 @@
           </div>
         </div>
         <el-button
+          class="none-focus"
           :loading="isLoading"
           :class="disableSubmit ? 'btn w-100 is-none-border btn-h-40 cursor backgroundDisable' : 'btn w-100 is-none-border btn-h-40 cursor'"
           :disabled="disableSubmit"
@@ -943,5 +946,9 @@
         color: #5b616e;
       }
     }
+  }
+  .none-focus:focus {
+    color: var(--bc-color-white);
+    background-color: var(--bc-theme-primary);
   }
 </style>
