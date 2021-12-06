@@ -81,7 +81,7 @@
     .el-checkbox.is-checked {
         .el-checkbox__input {
             .el-checkbox__inner {
-                border-color: transparent;
+                border-color: transparent !important;
                 background-color: var(--bc-cb-bg-checked);
             }
         }

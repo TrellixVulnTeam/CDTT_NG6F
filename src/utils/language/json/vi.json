@@ -81,7 +81,8 @@
     "crowdsale": "Crowdsale",
     "request": "Yêu cầu",
     "balance": "Số dư",
-    "transaction": "Giao dịch"
+    "transaction": "Giao dịch",
+    "member": "Thành viên"
   },
   "header": {
     "kyc": "KYC",
@@ -109,7 +110,10 @@
     "select-type": "Chọn trạng thái",
     "status": "Chọn trạng thái",
     "from": "Từ",
-    "to": "Tới"
+    "to": "Tới",
+    "email": "Email",
+    "f-name": "Tên",
+    "l-name": "Họ"
   },
   "button": {
     "reset": "Làm lại",
@@ -119,7 +123,8 @@
     "close": "Đóng",
     "approve": "Xác nhận",
     "reject": "Từ chối",
-    "apply": "Xác nhận"
+    "apply": "Xác nhận",
+    "add-member": "Thêm thành viên"
   },
   "scan": {
     "qrcode": "QUÉT QR CODE"
@@ -156,6 +161,7 @@
     "last-login": "Lần đăng nhập cuối",
     "f-name": "Tên",
     "l-name": "Họ",
+    "password": "Mật khẩu",
     "birth-day": "Ngày sinh",
     "address": "Địa chỉ",
     "city": "Thành phố",
@@ -174,7 +180,8 @@
     "available-amount": "Số tiền hiện có",
     "locked-amount": "Số tiền đã khóa",
     "balance": "Số dư ví",
-    "bonus-type": "Bonus Type"
+    "bonus-type": "Bonus Type",
+    "role": "Quyền"
   },
   "validate": {
     "length": " Độ dài tối thiểu 8 ký tự",
@@ -442,7 +449,9 @@
     "USDC": "USDC",
     "deposit": "Nạp",
     "withdraw": "Rút",
-    "transfer": "Chuyển"
+    "transfer": "Chuyển",
+    "member-active": "Hoạt động",
+    "member-inactive": "Không hoạt động"
   },
   "status": {
     "pending": "Đang chờ",
@@ -663,6 +672,13 @@
         "bonus-crowdsale": "Thưởng mua crowdsale",
         "bonus-sign-up": "Thưởng đăng ký"
       }
+    }
+  },
+  "member": {
+    "popup": {
+      "title-add": "THÊM THÀNH VIÊN",
+      "title-edit": "SỬA THÀNH VIÊN",
+      "status-active": "Trạng thái kích hoạt"
     }
   }
 }
