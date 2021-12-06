@@ -1,5 +1,5 @@
 <template>
-  <base-popup name="popup-transaction-detail" class="popup-transaction-detail" width="480px" :isShowFooter="false" :open="handleOpen" :close="handleClose">
+  <base-popup name="popup-exception-detail" class="popup-exception-detail" width="480px" :isShowFooter="false" :open="handleOpen" :close="handleClose">
     <div class="title-popup" slot="title">
       <span>{{ handleRenderTitleDetail(detailRow.transactionType) }} {{ detailRow.currency }}</span>
     </div>
@@ -90,13 +90,13 @@
     tabActive = 0
 
     async handleOpen(): Promise<void> {
-      console.log('open')
+      console.log('open',this.detailRow)
     }
 
     handleClose(): void {
       this.tabActive = 0
       this.setOpenPopup({
-        popupName: 'popup-transaction-detail',
+        popupName: 'popup-exception-detail',
         isOpen: false
       })
     }
@@ -195,6 +195,7 @@
     }
 
     handleRenderTitleDetail(type: string | null | undefined): string {
+      console.log('type',type)
       if (type) {
         return type.replaceAll('_', ' ')
       } else return ''
@@ -203,7 +204,7 @@
 </script>
 
 <style scoped lang="scss">
-  .popup-transaction-detail {
+  .popup-exception-detail {
     .add {
       color: #129961 !important;
     }

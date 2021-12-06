@@ -3,6 +3,7 @@ import LayoutSecond from '@/components/layout/LayoutSecond.vue'
 import { RouteConfig } from 'vue-router'
 
 const exceptionRouters: RouteConfig[] = [
+
   {
     path: '/exception',
     name: 'Exception',
@@ -16,27 +17,20 @@ const exceptionRouters: RouteConfig[] = [
         },
         children: [
           {
-            path: '/',
-            name: 'MainException',
-            component: () => import('../view/MainView.vue'),
-            children: [
-              {
-                path: 'deposit',
-                name: 'ExceptionDeposit',
-                component: () => import('../view/Exception.vue')
-              },
-              {
-                path: 'withdraw',
-                name: 'ExceptionWithdraw',
-                component: () => import('../view/Exception.vue')
-              },
-              {
-                path: 'crowdsale',
-                name: 'ExceptionCrowdsale',
-                component: () => import('../view/Exception.vue')
-              }
-            ]
-          }
+            path: 'deposit',
+            name: 'ExceptionDeposit',
+            component: () => import('../view/Exception.vue')
+          },
+          {
+            path: 'withdraw',
+            name: 'ExceptionWithdraw',
+            component: () => import('../view/Exception.vue')
+          },
+          {
+             path: 'crowdsale',
+            name: 'ExceptionCrowdsale',
+            component: () => import('../view/Exception.vue')
+            }
         ]
       },
       {

@@ -33,8 +33,8 @@ export default function getRepository(name: RepositoryName): any {
       return new RequestRepository()
     case 'transaction':
       return new TransactionRepository()
-      case 'exception':
-        return new ExceptionRepository()
+    case 'exception':
+      return new ExceptionRepository()
     default:
       return null
   }

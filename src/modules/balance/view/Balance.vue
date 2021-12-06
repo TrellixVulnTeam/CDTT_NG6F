@@ -59,7 +59,7 @@
         <span class="number2">
           {{ totalBalance | convertAmountDecimal(tabActive) }} <a class="tabActive">{{ tabActive }}</a></span
         >
-        <span class="text3"> ~${{ totalBalanceUSD | convertAmountDecimal('USD') }}</span>
+        <span class="text3"> ~ ${{ totalBalanceUSD | convertAmountDecimal('USD') }}</span>
       </div>
     </div>
     <balance-filter @filterBalance="handleFilter" :listApproveBy="listApproveBy" />

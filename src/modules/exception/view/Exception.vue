@@ -13,7 +13,7 @@
     <balance-filter @filterBalance="handleFilter" :listApproveBy="listApproveBy" />
     <div class="ending-balance be-flex jc-space-between">
       <p>{{ $t('exception.total') }}</p>
-      <p>0</p>
+      <p>${{totalAmount}}</p>
       <!-- <p v-else>{{ summary.closeBalance | numberWithCommas }}</p> -->
     </div>
     <exception-table
@@ -26,9 +26,7 @@
       :data="propdataTable"
     />
 
-    <!-- <kyc-detail :detailRow="detailRow" @init="init" /> -->
-    <!-- <exception-detail :detail-row="detailRow" :tab-active-filter="tabActive" /> -->
-    <exception-detail :tab-active-filter="tabActive"></exception-detail>
+    <exception-detail :detail-row="detailRow" :tab-active-filter="tabActive"></exception-detail>
   </div>
 </template>
 
@@ -49,6 +47,9 @@
   import { namespace } from 'vuex-class'
 
   const beBase = namespace('beBase')
+
+  // /main/api/v1/withdraw/list/fail?currency=&search=&fromAmount&toAmount=&formDate&toDate&sort&page=1&limit=10
+  // https://test-blockchain-api.beedu.vn/main/api/v1/widthdraw/list/fail?search=&orderBy=1&page=1&limit=10
 
   @Component({ components: { ExceptionTable, BalanceFilter, ExceptionDetail } })
   export default class BOKyc extends Mixins(PopupMixin) {
@@ -72,12 +73,12 @@
       }
     ]
     titlePending = ''
-    tabActive = ''
+    tabActive = 'deposit'
     isLoading = false
 
     data: Array<Record<string, any>> = []
 
-    detailRow = {}
+    detailRow: any = {}
     dataDetail = {}
     query: any = {
       search: '',
@@ -86,29 +87,20 @@
       limit: 10,
       total: 10
     }
-    numOfInvestor = ''
-    numOfUser = ''
-    totalAvailable = ''
-    totalBalance = ''
-    totalElement = ''
-    totalLocked = ''
-    totalAvailableUSD = ''
-    totalLockedUSD = ''
-    totalBalanceUSD = ''
+    totalAmount = ''
     listApproveBy: Record<string, any>[] = []
 
-    getListBalance(): void {
-      console.log('1')
-    }
     created(): void {
-      console.log('route', this.$route)
-      this.getDataException()
+      this.$router.push({ name: 'ExceptionDeposit' })
+      // this.$router.push({ name: routeName })
+      // console.log('route', this.$route?.name?.fullPath.split(''))
+      // this.getDataException()
       // apiKyc.getListApprove({ page: 1, limit: 20 }).then(res => {
       //   this.listApproveBy = res.content || []
       // })
       // const name = this.$route.name
       // this.query.kycStatus = name === 'KycPending' ? 'PENDING' : name === 'KycVerified' ? 'VERIFIED' : 'REJECTED'
-      // this.init()
+      this.init()
     }
     propdataTable: Record<string, any>[] = []
     getDataException(): void {
@@ -123,7 +115,7 @@
       }
       console.log('params', params)
       api
-        .getListException('widthdraw', params)
+        .getListException('withdraw', params)
         .then(res => {
           console.log('res', res)
         })
@@ -132,6 +124,7 @@
         })
     }
     async init(): Promise<void> {
+      console.log('tabActove', this.tabActive)
       this.data = []
       this.propdataTable = []
       try {
@@ -144,12 +137,13 @@
           page: this.query.page,
           total: null
         }
-        console.log('params', params)
-        const result = await api.getListException('widthdraw', params)
-        this.data = result || []
-        console.log('result', result)
-
+        const result = await api.getListException(this.tabActive, params)
+        console.log('total', result.totalAmount)
+        this.totalAmount = result.totalAmount
+        this.data = result.withdrawPage.content || []
+        this.propdataTable = result.withdrawPage.content || []
         this.query.total = result.totalElement
+        console.log('data', this.propdataTable)
         this.isLoading = false
       } catch (error) {
         this.isLoading = false
@@ -174,7 +168,7 @@
     }
 
     handleChangeTab(tab: Record<string, any>): void {
-      console.log('tab', tab)
+      console.log('tab', tab.routeName)
       this.$router.push({ name: tab.routeName })
       // this.query.tabBalance = this.kycStatus[tab.title]
       this.tabActive = tab.title
@@ -218,9 +212,10 @@
     }
 
     handleRowClick(row: Record<string, any>): void {
-      this.detailRow = row
+      console.log('hasagi', row.row)
+      this.detailRow = row.row
       this.setOpenPopup({
-        popupName: 'popup-balance-detail',
+        popupName: 'popup-exception-detail',
         isOpen: true
       })
     }
