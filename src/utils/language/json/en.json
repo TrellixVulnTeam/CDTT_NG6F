@@ -105,7 +105,8 @@
     "balance": "Balance",
     "request": "Request",
     "transaction": "Transaction",
-    "member": "Members"
+    "member": "Members",
+    "exception": "Exception"
   },
   "header": {
     "kyc": "KYC",
@@ -113,7 +114,8 @@
     "crowdsale": "Crowdsale",
     "request": "Request",
     "balance": "Balance",
-    "transaction": "Transaction"
+    "transaction": "Transaction",
+    "exception": "Exception"
   },
   "footer": {
     "terms": "Terms and Conditions"
@@ -265,7 +267,8 @@
     "captcha-invalid": "Invalid captcha",
     "invalid-username": "Username or password is incorrect!",
     "account-exits": "An account already exists with this phone number!",
-    "no-permisson": "You don’t have permission to access"
+    "no-permisson": "You don’t have permission to access",
+    "experied-verify": "Expired verification code"
   },
   "logout": {
     "title": "Sign out"
@@ -501,7 +504,8 @@
     "withdraw": "Withdraw",
     "transfer": "Transfer",
     "member-active": "Active",
-    "member-inactive": "Inactive"
+    "member-inactive": "Inactive",
+    "crowdsale": "Crowdsale"
   },
   "status": {
     "pending": "Pending",
@@ -731,5 +735,8 @@
       "title-edit": "EDIT MEMBER",
       "status-active": "Active status"
     }
+  },
+  "exception": {
+    "total": "TOTAL"
   }
 }
