@@ -13,7 +13,7 @@
     <balance-filter @filterBalance="handleFilter" :listApproveBy="listApproveBy" />
     <div class="ending-balance be-flex jc-space-between">
       <p>{{ $t('exception.total') }}</p>
-      <p >0</p>
+      <p>0</p>
       <!-- <p v-else>{{ summary.closeBalance | numberWithCommas }}</p> -->
     </div>
     <exception-table
@@ -251,20 +251,20 @@
 </script>
 
 <style scoped lang="scss">
-.ending-balance {
-      margin: 8px 24px 0 24px;
-      border-radius: 4px;
-      background-color: #0151fc;
-      padding: 12px 16px;
-      p {
-        font-size: 16px;
-        color: #ffffff;
-        font-weight: 600;
-      }
-      p:last-of-type {
-        margin-right: 144px;
-      }
+  .ending-balance {
+    margin: 8px 24px 0 24px;
+    border-radius: 4px;
+    background-color: #0151fc;
+    padding: 12px 16px;
+    p {
+      font-size: 16px;
+      color: #ffffff;
+      font-weight: 600;
     }
+    p:last-of-type {
+      margin-right: 144px;
+    }
+  }
   .container {
     text-align: justify;
     -ms-text-justify: distribute-all-lines;
