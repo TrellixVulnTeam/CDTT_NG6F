@@ -588,8 +588,8 @@
             this.form.resendCode = ''
           })
           .catch(() => {
-            let message: any = this.$t('customer.setting.lock-user-fail')
-            this.$message.error(message)
+            // let message: any = this.$t('customer.setting.lock-user-fail')
+            // this.$message.error(message)
           })
       } else {
         const paramsUnlock = {
