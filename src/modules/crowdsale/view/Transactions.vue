@@ -35,10 +35,10 @@
         @sizeChange="handleSizeChange"
         @currentChange="handleCurrentChange"
         v-loading="loadingTable"
-        class="base-table table-crowdsale"
+        class="base-table table-crowdsale table-trans"
       >
         <el-table-column label="#" :index="indexMethod" type="index" align="center" width="80" />
-        <el-table-column label="Email" prop="email" align="left">
+        <el-table-column label="Email" prop="email" align="left" class-name="col-email">
           <template slot-scope="scope">
             <div class="box-email-tabel">
               <p class="fs-16 fw-400">{{ scope.row.fullName }}</p>
