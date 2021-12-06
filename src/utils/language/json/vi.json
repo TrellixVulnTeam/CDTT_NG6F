@@ -89,7 +89,8 @@
     "crowdsale": "Crowdsale",
     "request": "Yêu cầu",
     "balance": "Số dư",
-    "transaction": "Giao dịch"
+    "transaction": "Giao dịch",
+    "exception": "Ngoại lệ"
   },
   "footer": {
     "terms": "Các điều khoản và điều kiện"
@@ -211,7 +212,8 @@
     "captcha-invalid": "Captcha không hợp lệ!",
     "invalid-username": "Tên đăng nhập hoặc mật khẩu không chính xác!",
     "account-exits": "Số điện thoại đã được sử dụng!",
-    "no-permisson": "Bạn không có quyền truy cập"
+    "no-permisson": "Bạn không có quyền truy cập",
+    "experied-verify":"Mã xác minh đã hết hạn"
   },
   "logout": {
     "title": "Đăng xuất"
@@ -442,7 +444,8 @@
     "USDC": "USDC",
     "deposit": "Nạp",
     "withdraw": "Rút",
-    "transfer": "Chuyển"
+    "transfer": "Chuyển",
+    "crowdsale":"Crowdsale"
   },
   "status": {
     "pending": "Đang chờ",

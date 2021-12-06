@@ -106,7 +106,7 @@
       // toDate: '',
       // fromAmount: '',
       // toAmount: '',
-      orderBy: "1",
+      orderBy: '1',
       page: 1,
       limit: 10,
       total: 10
@@ -220,7 +220,7 @@
         limit: 10,
         search: '',
         orderBy: '1',
-        keywordString:'',
+        keywordString: ''
       }
     }
 

@@ -3,67 +3,20 @@
     <div class="bg-white wallet-header">
       <div class="be-flex align-center jc-space-between wallet-header__above">
         <div class="wallet-header__above-tabs be-flex">
-          <div class="tab-item cursor" v-for="tab in getTab" :key="tab.id" :class="$route.name === tab.routeName ? 'tab-active' : null" @click="handleChangeTab(tab)">
+          <div class="tab-item cursor" v-for="tab in tabs" :key="tab.id" :class="$route.name === tab.routeName ? 'tab-active' : null" @click="handleChangeTab(tab)">
             <span class="text-base">{{ $t(`menu.${tab.title}`) }}</span>
           </div>
         </div>
       </div>
     </div>
-    <div class="container bg-white wallet-header-task" style="width: calc(100% - 48px)">
-      <div class="col-width col-margin">
-        <div class="sack-banlance">
-          <span class="text1">
-            {{ $t(`balance.investor`) }}
-          </span>
-          <div>
-            <base-icon icon="icon-people" size="19" />
-          </div>
-        </div>
-        <span class="number2"> {{ numOfInvestor }}</span>
-        <div>
-          <span class="text3"> {{ $t(`balance.of-total`) }} {{ numOfUser | formatNumber }}</span>
-        </div>
-      </div>
 
-      <div class="col-width col-margin">
-        <div class="sack-banlance">
-          <span class="text1">{{ $t(`balance.total-available`) }} </span>
-          <div>
-            <base-icon icon="icon-swap" size="19" />
-          </div>
-        </div>
-        <span class="number2">
-          {{ totalAvailable | convertAmountDecimal(tabActive) }} <a class="tabActive">{{ tabActive }}</a>
-        </span>
-        <span class="text3"> ~${{ totalAvailableUSD | convertAmountDecimal('USD') }}</span>
-      </div>
-      <div class="col-width col-margin">
-        <div class="sack-banlance">
-          <span class="text1">{{ $t(`balance.total-locked`) }}</span>
-          <div>
-            <base-icon icon="icon-lock-balance" size="19" />
-          </div>
-        </div>
-        <span class="number2">
-          {{ totalLocked | convertAmountDecimal(tabActive) }} <a class="tabActive">{{ tabActive }}</a></span
-        >
-        <span class="text3">~${{ totalLockedUSD | convertAmountDecimal('USD') }}</span>
-      </div>
-      <div class="col-width col-margin">
-        <div class="sack-banlance">
-          <span class="text1"> {{ $t(`balance.balance-wallet`) }}</span>
-          <div>
-            <base-icon icon="icon-wallet" size="19" />
-          </div>
-        </div>
-        <span class="number2">
-          {{ totalBalance | convertAmountDecimal(tabActive) }} <a class="tabActive">{{ tabActive }}</a></span
-        >
-        <span class="text3"> ~ ${{ totalBalanceUSD | convertAmountDecimal('USD') }}</span>
-      </div>
-    </div>
     <balance-filter @filterBalance="handleFilter" :listApproveBy="listApproveBy" />
-    <balance-table
+    <div class="ending-balance be-flex jc-space-between">
+      <p>{{ $t('exception.total') }}</p>
+      <p>${{totalAmount}}</p>
+      <!-- <p v-else>{{ summary.closeBalance | numberWithCommas }}</p> -->
+    </div>
+    <exception-table
       v-loading="isLoading"
       @rowClick="handleRowClick"
       @sizeChange="handleSizeChange"
@@ -72,67 +25,60 @@
       :propTabActive="tabActive"
       :data="propdataTable"
     />
-    <!-- <kyc-detail :detailRow="detailRow" @init="init" /> -->
-    <balance-detail :detailRow="detailRow" :data="dataDetail" :tab-active-filter="tabActive" />
+
+    <exception-detail :detail-row="detailRow" :tab-active-filter="tabActive"></exception-detail>
   </div>
 </template>
 
 <script lang="ts">
   import { Component, Mixins, Watch } from 'vue-property-decorator'
   //@ts-ignore
-  import BalanceTable from '../components/BalanceTable.vue'
+  import ExceptionTable from '../components/ExceptionTable.vue'
   import BalanceFilter from '../components/filter/BalanceFilter.vue'
   import PopupMixin from '@/mixins/popup'
   import getRepository from '@/services'
-  import { BalanceRepository } from '@/services/repositories/balance'
+  import { ExceptionRepository } from '@/services/repositories/exception'
   import EventBus from '@/utils/eventBus'
   import { debounce } from 'lodash'
 
-  import BalanceDetail from '@/modules/balance/components/balanceDetail/BalanceDetail.vue'
-  const api: BalanceRepository = getRepository('balance')
+  import ExceptionDetail from '../components/exceptionDetail/ExceptionDetail.vue'
+  const api: ExceptionRepository = getRepository('exception')
 
   import { namespace } from 'vuex-class'
 
   const beBase = namespace('beBase')
 
-  @Component({ components: { BalanceTable, BalanceFilter, BalanceDetail } })
+  // /main/api/v1/withdraw/list/fail?currency=&search=&fromAmount&toAmount=&formDate&toDate&sort&page=1&limit=10
+  // https://test-blockchain-api.beedu.vn/main/api/v1/widthdraw/list/fail?search=&orderBy=1&page=1&limit=10
+
+  @Component({ components: { ExceptionTable, BalanceFilter, ExceptionDetail } })
   export default class BOKyc extends Mixins(PopupMixin) {
     @beBase.State('coinMain') coinMain!: string
 
     tabs: Array<Record<string, any>> = [
       {
+        id: 1,
+        title: 'deposit',
+        routeName: 'ExceptionDeposit'
+      },
+      {
         id: 2,
-        title: 'BTC',
-        routeName: 'BalanceBtc'
+        title: 'withdraw',
+        routeName: 'ExceptionWithdraw'
       },
       {
         id: 3,
-        title: 'ETH',
-        routeName: 'BalanceEth'
-      },
-      {
-        id: 4,
-        title: 'BNB',
-        routeName: 'BalanceBnb'
-      },
-      {
-        id: 5,
-        title: 'USDT',
-        routeName: 'BalanceUsdt'
-      },
-      {
-        id: 6,
-        title: 'USDC',
-        routeName: 'BalanceUsdc'
+        title: 'crowdsale',
+        routeName: 'ExceptionCrowdsale'
       }
     ]
     titlePending = ''
-    tabActive = ''
+    tabActive = 'deposit'
     isLoading = false
 
     data: Array<Record<string, any>> = []
 
-    detailRow = {}
+    detailRow: any = {}
     dataDetail = {}
     query: any = {
       search: '',
@@ -141,44 +87,14 @@
       limit: 10,
       total: 10
     }
-    numOfInvestor = ''
-    numOfUser = ''
-    totalAvailable = ''
-    totalBalance = ''
-    totalElement = ''
-    totalLocked = ''
-    totalAvailableUSD = ''
-    totalLockedUSD = ''
-    totalBalanceUSD = ''
+    totalAmount = ''
     listApproveBy: Record<string, any>[] = []
 
-    get getTab(): Array<Record<string, any>> {
-      if (this.coinMain === 'LYNK') {
-        return [
-          {
-            id: 1,
-            title: 'LYNK',
-            routeName: 'BalanceLynk'
-          },
-          ...this.tabs
-        ]
-      }
-      return [
-        {
-          id: 1,
-          title: 'CLM',
-          routeName: 'BalanceClm'
-        },
-        ...this.tabs
-      ]
-    }
-
-    getListBalance(): void {
-      console.log('1')
-    }
     created(): void {
-      console.log('route', this.$route.path.split('/')[2])
-      this.tabActive = this.$route.path.split('/')[2]
+      this.$router.push({ name: 'ExceptionDeposit' })
+      // this.$router.push({ name: routeName })
+      // console.log('route', this.$route?.name?.fullPath.split(''))
+      // this.getDataException()
       // apiKyc.getListApprove({ page: 1, limit: 20 }).then(res => {
       //   this.listApproveBy = res.content || []
       // })
@@ -187,8 +103,28 @@
       this.init()
     }
     propdataTable: Record<string, any>[] = []
+    getDataException(): void {
+      this.isLoading = true
+      const params = {
+        ...this.query,
+        search: this.query.search,
+        orderBy: this.query.orderBy,
+        limit: this.query.limit,
+        page: this.query.page,
+        total: null
+      }
+      console.log('params', params)
+      api
+        .getListException('withdraw', params)
+        .then(res => {
+          console.log('res', res)
+        })
+        .catch(err => {
+          console.log('err', err)
+        })
+    }
     async init(): Promise<void> {
-      console.log('tabactive', this.tabActive)
+      console.log('tabActove', this.tabActive)
       this.data = []
       this.propdataTable = []
       try {
@@ -201,43 +137,14 @@
           page: this.query.page,
           total: null
         }
-        const result = await api.getlistBalance(this.tabActive, params)
-        this.data = result.balances || []
-        console.log('this.data', this.data)
-
+        const result = await api.getListException(this.tabActive, params)
+        console.log('total', result.totalAmount)
+        this.totalAmount = result.totalAmount
+        this.data = result.withdrawPage.content || []
+        this.propdataTable = result.withdrawPage.content || []
         this.query.total = result.totalElement
+        console.log('data', this.propdataTable)
         this.isLoading = false
-        if (this.data.length > 0) {
-          for (let i = 0; i < this.data.length; i++) {
-            let str = this.data[i].email
-            const email = str.split('@')
-            if (email[0].length > 6) {
-              const newEmail = email[0].substring(0, 6) + '...@' + email[1].substring(0, 10)
-              const dataItem = {
-                ...this.data[i],
-                email: newEmail
-              }
-              this.propdataTable.push(dataItem)
-            } else {
-              const newEmail = email[0] + '...@' + email[1].substring(0, 10)
-              const dataItem = {
-                ...this.data[i],
-                email: newEmail
-              }
-              this.propdataTable.push(dataItem)
-            }
-          }
-        }
-
-        this.numOfInvestor = result.numOfInvestor
-        this.numOfUser = result.numOfUser
-        this.totalAvailable = result.totalAvailable
-        this.totalBalance = result.totalBalance
-        this.totalLocked = result.totalLocked
-        this.totalBalance = result.totalBalance
-        this.totalAvailableUSD = result.totalAvailableUSD
-        this.totalLockedUSD = result.totalLockedUSD
-        this.totalBalanceUSD = result.totalBalanceUSD
       } catch (error) {
         this.isLoading = false
         console.log(error)
@@ -261,7 +168,7 @@
     }
 
     handleChangeTab(tab: Record<string, any>): void {
-      // console.log('tab', tab.title)
+      console.log('tab', tab.routeName)
       this.$router.push({ name: tab.routeName })
       // this.query.tabBalance = this.kycStatus[tab.title]
       this.tabActive = tab.title
@@ -275,6 +182,7 @@
         (this.query.toAvailableAmount = ''),
         (this.query.fromAvailableAmount = ''),
         (this.query.search = '')
+
       this.init()
       this.resetQuery()
       EventBus.$emit('selectTabBalance')
@@ -304,9 +212,10 @@
     }
 
     handleRowClick(row: Record<string, any>): void {
-      this.detailRow = row
+      console.log('hasagi', row.row)
+      this.detailRow = row.row
       this.setOpenPopup({
-        popupName: 'popup-balance-detail',
+        popupName: 'popup-exception-detail',
         isOpen: true
       })
     }
@@ -327,6 +236,20 @@
 </script>
 
 <style scoped lang="scss">
+  .ending-balance {
+    margin: 8px 24px 0 24px;
+    border-radius: 4px;
+    background-color: #0151fc;
+    padding: 12px 16px;
+    p {
+      font-size: 16px;
+      color: #ffffff;
+      font-weight: 600;
+    }
+    p:last-of-type {
+      margin-right: 144px;
+    }
+  }
   .container {
     text-align: justify;
     -ms-text-justify: distribute-all-lines;

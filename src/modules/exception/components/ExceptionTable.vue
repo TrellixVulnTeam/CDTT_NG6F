@@ -18,34 +18,52 @@
             </div>
           </template>
         </el-table-column> -->
-        <el-table-column :label="$t('kyc.table.fullName')" prop="fullName"> </el-table-column>
-        <el-table-column :label="$t('kyc.table.email')" prop="email"> </el-table-column>
-
-        <el-table-column :label="$t('balance.available')" align="right">
+        <el-table-column :label="$t('transaction.table.trans-id')">
           <template slot-scope="scope">
-            <div class="box-paid">
-              <p class="text-paid fw-400 fs-16">{{ scope.row.availableBalance | convertAmountDecimal(scope.row.currency) }} {{ scope.row.currency }}</p>
-              <p class="avi fw-400 fs-14" style="color: #5b616e">~${{ scope.row.availableBalanceUSD | convertAmountDecimal('USD') }}</p>
+            <div class="be-flex align-center">
+              <span v-if="type === 'customer'" class="d-ib mr-2">{{ scope.row.transactionCode | formatTransactionCode(6) }}</span>
+              <span v-else class="transaction-code d-ib mr-2">{{ scope.row.transactionCode | formatTransactionCode(10) }}</span>
+              <span v-if="scope.row.transactionCode" class="icon-copy" @click="handleCopyTransaction(scope.row)">
+                <base-icon icon="icon-copy" size="24" />
+              </span>
             </div>
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('balance.lockedAmount')" align="right">
+        <el-table-column :label="$t('transaction.table.date')" prop="transactionDate" :width="type !== 'customer' ? 220 : 200">
           <template slot-scope="scope">
-            <div class="box-paid">
-              <p class="text-paid fw-400 fs-16">{{ scope.row.totalLockedAmount | convertAmountDecimal(scope.row.currency) }} {{ scope.row.currency }}</p>
-              <p class="avi fw-400 fs-14" style="color: #5b616e">~${{ scope.row.totalLockedAmountUSD | convertAmountDecimal('USD') }}</p>
+            <span>{{ scope.row.transactionMillisecond | formatMMDDYY }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column :label="$t('transaction.table.CUSTOMER')" prop="transactionDate" width="260">
+          <template slot-scope="scope">
+            <div class="customer">
+              <p>{{ scope.row.fullName }}</p>
+              <p>{{ scope.row.email }}</p>
             </div>
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('balance.balance')" align="right">
-          <template slot-scope="scope">
-            <div class="box-paid">
-              <p class="text-paid fw-400 fs-16">{{ scope.row.balance | convertAmountDecimal(scope.row.currency) }} {{ scope.row.currency }}</p>
-              <p class="avi fw-400 fs-14" style="color: #5b616e">~${{ scope.row.balanceUSD | convertAmountDecimal('USD') }}</p>
+        <el-table-column :label="$t('transaction.table.amount')" align="right">
+          <!-- <template slot-scope="scope">
+            <div v-if="type === 'customer'">
+              <div v-if="scope.row.creditAmount" class="amount-increase">
+                <span>+{{ scope.row.creditAmount | convertAmountDecimal(scope.row.creditCurrency) }} {{ scope.row.creditCurrency }}</span>
+                <span class="d-block amount-exchange-small">~${{ (scope.row.creditAmount * scope.row.creditUsdExchangeRate) | convertAmountDecimal('USD') }}</span>
+              </div>
+              <div v-else class="amount-decrease">
+                <span>-{{ scope.row.debitAmount | convertAmountDecimal(scope.row.debitCurrency) }} {{ scope.row.debitCurrency }}</span>
+                <span class="d-block amount-exchange-small">~${{ (scope.row.debitAmount * scope.row.debitUsdExchangeRate) | convertAmountDecimal('USD') }}</span>
+              </div>
             </div>
-          </template>
+            <div v-else>
+              <div class="amount-increase">
+                <span :class="checkValueAmountDisplay(scope.row.amountDisplay)">{{ scope.row.amountDisplay }}</span>
+                <span class="d-block amount-exchange-small">~${{ scope.row.amountToUsd | convertAmountDecimal('USD') }}</span>
+              </div>
+            </div>
+          </template> -->
         </el-table-column>
       </base-table>
     </div>
@@ -97,7 +115,18 @@
     }
 
     handleRowClick(row: Record<string, any>): void {
-      this.$emit('rowClick', row.row)
+      this.$emit('rowClick', row)
+    }
+    handleCopyTransaction(row: Record<string, any>): void {
+      let message: any = ''
+      const el = document.createElement('input')
+      el.value = row.transactionCode
+      document.body.appendChild(el)
+      el.select()
+      document.execCommand('copy')
+      document.body.removeChild(el)
+      message = this.$t('notify.copy')
+      this.$message.success(message)
     }
   }
 </script>

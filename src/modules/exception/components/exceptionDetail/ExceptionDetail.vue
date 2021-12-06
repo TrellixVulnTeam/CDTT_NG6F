@@ -1,5 +1,5 @@
 <template>
-  <base-popup name="popup-transaction-detail" class="popup-transaction-detail" width="480px" :isShowFooter="false" :open="handleOpen" :close="handleClose">
+  <base-popup name="popup-exception-detail" class="popup-exception-detail" width="480px" :isShowFooter="false" :open="handleOpen" :close="handleClose">
     <div class="title-popup" slot="title">
       <span>{{ handleRenderTitleDetail(detailRow.transactionType) }} {{ detailRow.currency }}</span>
     </div>
@@ -27,10 +27,10 @@
         <p>{{ $t('transaction.detail.date') }}</p>
         <p class="text-detail-2">{{ detailRow.transactionMillisecond | formatMMDDYY }}</p>
       </div>
-      <div v-if="checkFromType(detailRow.transactionType)" class="item be-flex">
+      <div v-if="checkFeeType(detailRow.transactionType)" class="item be-flex">
         <p>{{ $t('transaction.detail.from') }}</p>
         <div class="be-flex align-center">
-          <base-icon :icon="renderIconCurrency(detailRow.currency)" size="20" />
+          <base-icon :icon="renderIconCurrency(detailRow.currency.toLowerCase())" size="20" />
           <p class="text-detail-2" style="margin-left: 8px">{{ detailRow.fromAddress | formatTransactionCode(10) }}</p>
           <span v-if="detailRow.fromAddress" style="margin-left: 8px" class="icon-copy" @click="handleCopyTransaction(detailRow.fromAddress)">
             <base-icon icon="icon-copy" size="24" />
@@ -40,7 +40,7 @@
       <div class="item be-flex">
         <p>{{ $t('transaction.detail.to') }}</p>
         <div class="be-flex align-center">
-          <base-icon :icon="renderIconCurrency(detailRow.currency)" size="20" />
+          <base-icon :icon="renderIconCurrency(detailRow.currency.toLowerCase())" size="20" />
           <p class="text-detail-2" style="margin-left: 8px">{{ detailRow.toAddress | formatTransactionCode(10) }}</p>
           <span v-if="detailRow.toAddress" style="margin-left: 8px" class="icon-copy" @click="handleCopyTransaction(detailRow.toAddress)">
             <base-icon icon="icon-copy" size="24" />
@@ -90,13 +90,13 @@
     tabActive = 0
 
     async handleOpen(): Promise<void> {
-      console.log('open')
+      console.log('open',this.detailRow)
     }
 
     handleClose(): void {
       this.tabActive = 0
       this.setOpenPopup({
-        popupName: 'popup-transaction-detail',
+        popupName: 'popup-exception-detail',
         isOpen: false
       })
     }
@@ -129,15 +129,11 @@
         : 'status status-success'
     }
 
-    checkFeeType(type: string | undefined): boolean {
-      if (type) {
-        return !(type.indexOf('BONUS') !== -1 || type === 'DEPOSIT')
-      } else return false
+    checkFeeType(type: string): boolean {
+      return !(type.indexOf('BONUS') !== -1 || type === 'DEPOSIT')
     }
-    checkFromType(type: string | undefined): boolean {
-      if (type) {
-        return !(type.indexOf('BONUS') !== -1 || type === 'DEPOSIT')
-      } else return false
+    checkFromType(type: string): boolean {
+      return !(type.indexOf('BONUS') !== -1 || type === 'DEPOSIT')
     }
 
     checkTypeIcon(type: string | undefined, status: string | undefined): string {
@@ -154,8 +150,7 @@
       } else return ''
     }
 
-    renderIconCurrency(type: string | undefined | null): string {
-      type = type?.toLowerCase()
+    renderIconCurrency(type: string): string {
       return type === 'lynk'
         ? 'icon-lynk'
         : type === 'clm'
@@ -200,6 +195,7 @@
     }
 
     handleRenderTitleDetail(type: string | null | undefined): string {
+      console.log('type',type)
       if (type) {
         return type.replaceAll('_', ' ')
       } else return ''
@@ -208,7 +204,7 @@
 </script>
 
 <style scoped lang="scss">
-  .popup-transaction-detail {
+  .popup-exception-detail {
     .add {
       color: #129961 !important;
     }
