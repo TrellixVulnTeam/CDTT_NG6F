@@ -3,67 +3,20 @@
     <div class="bg-white wallet-header">
       <div class="be-flex align-center jc-space-between wallet-header__above">
         <div class="wallet-header__above-tabs be-flex">
-          <div class="tab-item cursor" v-for="tab in getTab" :key="tab.id" :class="$route.name === tab.routeName ? 'tab-active' : null" @click="handleChangeTab(tab)">
+          <div class="tab-item cursor" v-for="tab in tabs" :key="tab.id" :class="$route.name === tab.routeName ? 'tab-active' : null" @click="handleChangeTab(tab)">
             <span class="text-base">{{ $t(`menu.${tab.title}`) }}</span>
           </div>
         </div>
       </div>
     </div>
-    <div class="container bg-white wallet-header-task" style="width: calc(100% - 48px)">
-      <div class="col-width col-margin">
-        <div class="sack-banlance">
-          <span class="text1">
-            {{ $t(`balance.investor`) }}
-          </span>
-          <div>
-            <base-icon icon="icon-people" size="19" />
-          </div>
-        </div>
-        <span class="number2"> {{ numOfInvestor }}</span>
-        <div>
-          <span class="text3"> {{ $t(`balance.of-total`) }} {{ numOfUser | formatNumber }}</span>
-        </div>
-      </div>
 
-      <div class="col-width col-margin">
-        <div class="sack-banlance">
-          <span class="text1">{{ $t(`balance.total-available`) }} </span>
-          <div>
-            <base-icon icon="icon-swap" size="19" />
-          </div>
-        </div>
-        <span class="number2">
-          {{ totalAvailable | convertAmountDecimal(tabActive) }} <a class="tabActive">{{ tabActive }}</a>
-        </span>
-        <span class="text3"> ~${{ totalAvailableUSD | convertAmountDecimal('USD') }}</span>
-      </div>
-      <div class="col-width col-margin">
-        <div class="sack-banlance">
-          <span class="text1">{{ $t(`balance.total-locked`) }}</span>
-          <div>
-            <base-icon icon="icon-lock-balance" size="19" />
-          </div>
-        </div>
-        <span class="number2">
-          {{ totalLocked | convertAmountDecimal(tabActive) }} <a class="tabActive">{{ tabActive }}</a></span
-        >
-        <span class="text3">~${{ totalLockedUSD | convertAmountDecimal('USD') }}</span>
-      </div>
-      <div class="col-width col-margin">
-        <div class="sack-banlance">
-          <span class="text1"> {{ $t(`balance.balance-wallet`) }}</span>
-          <div>
-            <base-icon icon="icon-wallet" size="19" />
-          </div>
-        </div>
-        <span class="number2">
-          {{ totalBalance | convertAmountDecimal(tabActive) }} <a class="tabActive">{{ tabActive }}</a></span
-        >
-        <span class="text3"> ~${{ totalBalanceUSD | convertAmountDecimal('USD') }}</span>
-      </div>
-    </div>
     <balance-filter @filterBalance="handleFilter" :listApproveBy="listApproveBy" />
-    <balance-table
+    <div class="ending-balance be-flex jc-space-between">
+      <p>{{ $t('exception.total') }}</p>
+      <p >0</p>
+      <!-- <p v-else>{{ summary.closeBalance | numberWithCommas }}</p> -->
+    </div>
+    <exception-table
       v-loading="isLoading"
       @rowClick="handleRowClick"
       @sizeChange="handleSizeChange"
@@ -72,15 +25,17 @@
       :propTabActive="tabActive"
       :data="propdataTable"
     />
+
     <!-- <kyc-detail :detailRow="detailRow" @init="init" /> -->
-    <balance-detail :detailRow="detailRow" :data="dataDetail" :tab-active-filter="tabActive" />
+    <!-- <exception-detail :detail-row="detailRow" :tab-active-filter="tabActive" /> -->
+    <exception-detail :detail-row="detailRow" :tab-active-filter="tabActive"></exception-detail>
   </div>
 </template>
 
 <script lang="ts">
   import { Component, Mixins, Watch } from 'vue-property-decorator'
   //@ts-ignore
-  import BalanceTable from '../components/BalanceTable.vue'
+  import ExceptionTable from '../components/ExceptionTable.vue'
   import BalanceFilter from '../components/filter/BalanceFilter.vue'
   import PopupMixin from '@/mixins/popup'
   import getRepository from '@/services'
@@ -88,42 +43,32 @@
   import EventBus from '@/utils/eventBus'
   import { debounce } from 'lodash'
 
-  import BalanceDetail from '@/modules/balance/components/balanceDetail/BalanceDetail.vue'
+  import ExceptionDetail from '../components/exceptionDetail/ExceptionDetail.vue'
   const api: BalanceRepository = getRepository('balance')
 
   import { namespace } from 'vuex-class'
 
   const beBase = namespace('beBase')
 
-  @Component({ components: { BalanceTable, BalanceFilter, BalanceDetail } })
+  @Component({ components: { ExceptionTable, BalanceFilter, ExceptionDetail } })
   export default class BOKyc extends Mixins(PopupMixin) {
     @beBase.State('coinMain') coinMain!: string
 
     tabs: Array<Record<string, any>> = [
       {
+        id: 1,
+        title: 'deposit',
+        routeName: 'ExceptionDeposit'
+      },
+      {
         id: 2,
-        title: 'BTC',
-        routeName: 'BalanceBtc'
+        title: 'withdraw',
+        routeName: 'ExceptionWithdraw'
       },
       {
         id: 3,
-        title: 'ETH',
-        routeName: 'BalanceEth'
-      },
-      {
-        id: 4,
-        title: 'BNB',
-        routeName: 'BalanceBnb'
-      },
-      {
-        id: 5,
-        title: 'USDT',
-        routeName: 'BalanceUsdt'
-      },
-      {
-        id: 6,
-        title: 'USDC',
-        routeName: 'BalanceUsdc'
+        title: 'crowdsale',
+        routeName: 'ExceptionCrowdsale'
       }
     ]
     titlePending = ''
@@ -151,27 +96,6 @@
     totalLockedUSD = ''
     totalBalanceUSD = ''
     listApproveBy: Record<string, any>[] = []
-
-    get getTab(): Array<Record<string, any>> {
-      if (this.coinMain === 'LYNK') {
-        return [
-          {
-            id: 1,
-            title: 'LYNK',
-            routeName: 'BalanceLynk'
-          },
-          ...this.tabs
-        ]
-      }
-      return [
-        {
-          id: 1,
-          title: 'CLM',
-          routeName: 'BalanceClm'
-        },
-        ...this.tabs
-      ]
-    }
 
     getListBalance(): void {
       console.log('1')
@@ -327,6 +251,20 @@
 </script>
 
 <style scoped lang="scss">
+.ending-balance {
+      margin: 8px 24px 0 24px;
+      border-radius: 4px;
+      background-color: #0151fc;
+      padding: 12px 16px;
+      p {
+        font-size: 16px;
+        color: #ffffff;
+        font-weight: 600;
+      }
+      p:last-of-type {
+        margin-right: 144px;
+      }
+    }
   .container {
     text-align: justify;
     -ms-text-justify: distribute-all-lines;

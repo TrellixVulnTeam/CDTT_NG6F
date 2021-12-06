@@ -126,7 +126,7 @@
           <template slot-scope="scope">
             <div class="box-paid">
               <p class="text-paid fw-400 fs-16">{{ scope.row.amountDisplay }}</p>
-              <p class="avi fw-400 fs-14">~ ${{ scope.row.amountToUsd | convertAmountDecimal('USD') }}</p>
+              <p class="avi fw-400 fs-14">~${{ scope.row.amountToUsd | convertAmountDecimal('USD') }}</p>
             </div>
           </template>
         </el-table-column>
