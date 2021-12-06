@@ -106,7 +106,7 @@
       // toDate: '',
       // fromAmount: '',
       // toAmount: '',
-      // orderBy: 1,
+      orderBy: "1",
       page: 1,
       limit: 10,
       total: 10
@@ -208,7 +208,7 @@
       }
       let refs2: any = this.$refs['filter']
       if (refs2) {
-        refs.handleReset()
+        refs2.handleReset()
       }
       // EventBus.$emit('selectTabBalance')
     }
@@ -219,7 +219,8 @@
         page: 1,
         limit: 10,
         search: '',
-        orderBy: '1'
+        orderBy: '1',
+        keywordString:'',
       }
     }
 

@@ -12,6 +12,7 @@
                 <div class="be-flex wallet-item">
                   <base-icon :icon="wallet.icon" size="24" />
                   <span class="d-ib" style="margin-left: 10px">{{ wallet.name }}</span>
+                  <span class="d-ib" style="margin-left: 4px">({{ wallet.symbol.toUpperCase() }})</span>
                 </div>
               </template>
             </el-option>
