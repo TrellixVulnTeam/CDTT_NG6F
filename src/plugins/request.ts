@@ -104,6 +104,9 @@ request.interceptors.response.use(
       if (data.status === 'INVALID_VERIFICATION') {
         message = i18n.tc('notify.verify-fail')
       }
+      if (data.status === 'EXPIRED_VERIFICATION') {
+        message = i18n.tc('notify.experied-verify')
+      }
       if (data.status === 'Invalid verification code') {
         message = i18n.tc('notify.verify-fail')
       }

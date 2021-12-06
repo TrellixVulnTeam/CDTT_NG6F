@@ -259,7 +259,8 @@
     "captcha-invalid": "Invalid captcha",
     "invalid-username": "Username or password is incorrect!",
     "account-exits": "An account already exists with this phone number!",
-    "no-permisson": "You don’t have permission to access"
+    "no-permisson": "You don’t have permission to access",
+    "experied-verify":"Expired verification code"
   },
   "logout": {
     "title": "Sign out"

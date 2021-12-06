@@ -28,7 +28,7 @@
 
     <!-- <kyc-detail :detailRow="detailRow" @init="init" /> -->
     <!-- <exception-detail :detail-row="detailRow" :tab-active-filter="tabActive" /> -->
-    <exception-detail :detail-row="detailRow" :tab-active-filter="tabActive"></exception-detail>
+    <exception-detail :tab-active-filter="tabActive"></exception-detail>
   </div>
 </template>
 
@@ -39,12 +39,12 @@
   import BalanceFilter from '../components/filter/BalanceFilter.vue'
   import PopupMixin from '@/mixins/popup'
   import getRepository from '@/services'
-  import { BalanceRepository } from '@/services/repositories/balance'
+  import { ExceptionRepository } from '@/services/repositories/exception'
   import EventBus from '@/utils/eventBus'
   import { debounce } from 'lodash'
 
   import ExceptionDetail from '../components/exceptionDetail/ExceptionDetail.vue'
-  const api: BalanceRepository = getRepository('balance')
+  const api: ExceptionRepository = getRepository('exception')
 
   import { namespace } from 'vuex-class'
 
@@ -101,18 +101,37 @@
       console.log('1')
     }
     created(): void {
-      console.log('route', this.$route.path.split('/')[2])
-      this.tabActive = this.$route.path.split('/')[2]
+      console.log('route', this.$route)
+      this.getDataException()
       // apiKyc.getListApprove({ page: 1, limit: 20 }).then(res => {
       //   this.listApproveBy = res.content || []
       // })
       // const name = this.$route.name
       // this.query.kycStatus = name === 'KycPending' ? 'PENDING' : name === 'KycVerified' ? 'VERIFIED' : 'REJECTED'
-      this.init()
+      // this.init()
     }
     propdataTable: Record<string, any>[] = []
+    getDataException(): void {
+      this.isLoading = true
+      const params = {
+        ...this.query,
+        search: this.query.search,
+        orderBy: this.query.orderBy,
+        limit: this.query.limit,
+        page: this.query.page,
+        total: null
+      }
+      console.log('params', params)
+      api
+        .getListException('widthdraw', params)
+        .then(res => {
+          console.log('res', res)
+        })
+        .catch(err => {
+          console.log('err', err)
+        })
+    }
     async init(): Promise<void> {
-      console.log('tabactive', this.tabActive)
       this.data = []
       this.propdataTable = []
       try {
@@ -125,43 +144,13 @@
           page: this.query.page,
           total: null
         }
-        const result = await api.getlistBalance(this.tabActive, params)
-        this.data = result.balances || []
-        console.log('this.data', this.data)
+        console.log('params', params)
+        const result = await api.getListException('widthdraw', params)
+        this.data = result || []
+        console.log('result', result)
 
         this.query.total = result.totalElement
         this.isLoading = false
-        if (this.data.length > 0) {
-          for (let i = 0; i < this.data.length; i++) {
-            let str = this.data[i].email
-            const email = str.split('@')
-            if (email[0].length > 6) {
-              const newEmail = email[0].substring(0, 6) + '...@' + email[1].substring(0, 10)
-              const dataItem = {
-                ...this.data[i],
-                email: newEmail
-              }
-              this.propdataTable.push(dataItem)
-            } else {
-              const newEmail = email[0] + '...@' + email[1].substring(0, 10)
-              const dataItem = {
-                ...this.data[i],
-                email: newEmail
-              }
-              this.propdataTable.push(dataItem)
-            }
-          }
-        }
-
-        this.numOfInvestor = result.numOfInvestor
-        this.numOfUser = result.numOfUser
-        this.totalAvailable = result.totalAvailable
-        this.totalBalance = result.totalBalance
-        this.totalLocked = result.totalLocked
-        this.totalBalance = result.totalBalance
-        this.totalAvailableUSD = result.totalAvailableUSD
-        this.totalLockedUSD = result.totalLockedUSD
-        this.totalBalanceUSD = result.totalBalanceUSD
       } catch (error) {
         this.isLoading = false
         console.log(error)
@@ -185,7 +174,7 @@
     }
 
     handleChangeTab(tab: Record<string, any>): void {
-      // console.log('tab', tab.title)
+      console.log('tab', tab)
       this.$router.push({ name: tab.routeName })
       // this.query.tabBalance = this.kycStatus[tab.title]
       this.tabActive = tab.title
@@ -199,6 +188,7 @@
         (this.query.toAvailableAmount = ''),
         (this.query.fromAvailableAmount = ''),
         (this.query.search = '')
+
       this.init()
       this.resetQuery()
       EventBus.$emit('selectTabBalance')

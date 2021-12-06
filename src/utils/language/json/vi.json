@@ -212,7 +212,8 @@
     "captcha-invalid": "Captcha không hợp lệ!",
     "invalid-username": "Tên đăng nhập hoặc mật khẩu không chính xác!",
     "account-exits": "Số điện thoại đã được sử dụng!",
-    "no-permisson": "Bạn không có quyền truy cập"
+    "no-permisson": "Bạn không có quyền truy cập",
+    "experied-verify":"Mã xác minh đã hết hạn"
   },
   "logout": {
     "title": "Đăng xuất"
