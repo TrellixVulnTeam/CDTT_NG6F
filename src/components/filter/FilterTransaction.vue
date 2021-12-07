@@ -39,9 +39,9 @@
   export default class FilterTransaction extends Mixins(PopupMixin) {
     @Prop({ required: true, type: String, default: 'customer' }) type!: string
     filter: Record<string, any> = {
-      search:'',
-      keywordString:'',
-      orderBy:0
+      search: '',
+      keywordString: '',
+      orderBy: 0
     }
     sorts: Array<Record<string, any>> = [
       {
@@ -85,7 +85,7 @@
       this.filter.search = ''
       this.filter.keywordString = ''
       this.filter.orderBy = 1
-      this.sortActive=0
+      this.sortActive = 0
     }
     handleSort(command: number): void {
       this.sortActive = command

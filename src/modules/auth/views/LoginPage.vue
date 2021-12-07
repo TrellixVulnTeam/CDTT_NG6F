@@ -196,7 +196,7 @@
                 console.log('listRoles', listRoles)
 
                 if ((listRoles.length == 1 && listRoles.includes('INVESTOR')) || listRoles.length == 0) {
-                  message = this.$t('notify.notify.no-permisson')
+                  message = this.$t('notify.no-permisson')
                   this.$message.error({ message, duration: 5000 })
                   await this.logout()
                 } else {

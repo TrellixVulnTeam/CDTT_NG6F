@@ -129,16 +129,15 @@
         : 'status status-success'
     }
 
-    checkFeeType(type: string|undefined): boolean {
-      if (type){
-        return !(type.indexOf('BONUS') !== -1 || type === 'DEPOSIT')
-      }else return false
-
-    }
-    checkFromType(type: string|undefined): boolean {
+    checkFeeType(type: string | undefined): boolean {
       if (type) {
         return !(type.indexOf('BONUS') !== -1 || type === 'DEPOSIT')
-      }else return false
+      } else return false
+    }
+    checkFromType(type: string | undefined): boolean {
+      if (type) {
+        return !(type.indexOf('BONUS') !== -1 || type === 'DEPOSIT')
+      } else return false
     }
 
     checkTypeIcon(type: string | undefined, status: string | undefined): string {
@@ -155,8 +154,8 @@
       } else return ''
     }
 
-    renderIconCurrency(type: string|undefined|null): string {
-      type=type?.toLowerCase()
+    renderIconCurrency(type: string | undefined | null): string {
+      type = type?.toLowerCase()
       return type === 'lynk'
         ? 'icon-lynk'
         : type === 'clm'

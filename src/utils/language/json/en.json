@@ -104,15 +104,18 @@
     "crowdsale": "Crowdsale",
     "balance": "Balance",
     "request": "Request",
-    "transaction": "Transaction"
+    "transaction": "Transaction",
+    "member": "Members",
+    "exception": "Exception"
   },
   "header": {
     "kyc": "KYC",
     "customer": "Customer",
     "crowdsale": "Crowdsale",
     "request": "Request",
-    "balance":"Balance",
-    "transaction": "Transaction"
+    "balance": "Balance",
+    "transaction": "Transaction",
+    "exception": "Exception"
   },
   "footer": {
     "terms": "Terms and Conditions"
@@ -141,8 +144,11 @@
     "to-amount": "To amount",
     "select-type": "Select type",
     "status": "Select status",
-    "from":"From",
-    "to":"To"
+    "from": "From",
+    "to": "To",
+    "email": "Email",
+    "f-name": "First name",
+    "l-name": "Last name"
   },
   "button": {
     "reset": "Reset",
@@ -152,7 +158,9 @@
     "close": "Close",
     "approve": "Approve",
     "reject": "Reject",
-    "apply": "Apply"
+    "apply": "Apply",
+    "add-member": "Add member",
+    "add-member-1": "Add Member"
   },
   "deposit": {
     "lynkey": "DEPOSIT LYNKEY",
@@ -197,6 +205,7 @@
     "create-date": "Created date",
     "last-login": "Last login",
     "f-name": "First name",
+    "password": "Password",
     "l-name": "Last name",
     "birth-day": "Date of birth",
     "address": "Address",
@@ -216,7 +225,8 @@
     "balance": "Balance",
     "enter-verify-code": "Enter verification code",
     "verify-code": "Verification code",
-    "bonus-type": "Bonus Type"
+    "bonus-type": "Bonus Type",
+    "role": "Role"
   },
   "buy-lyn": {
     "title": "BUY LYN"
@@ -258,6 +268,7 @@
     "invalid-username": "Username or password is incorrect!",
     "account-exits": "An account already exists with this phone number!",
     "no-permisson": "You don’t have permission to access",
+    "experied-verify": "Expired verification code"
     "date-invalid": "From date is less than to date",
     "amount-invalid": "From amount is less than to amount"
   },
@@ -270,6 +281,7 @@
     "other-reason": "Other reason: ",
     "table": {
       "fullName": "full name",
+      "role": "role",
       "email": "email",
       "national": "NATIONALITY",
       "date": "CREATED DATE",
@@ -372,7 +384,7 @@
       "lock-user-success": "Locked user successfully!",
       "lock-user-fail": "Locked user failed!",
       "unlock-user-success": "Unlocked successfully!",
-      "send-email-avtive":"Activation email sent to customer successfully!",
+      "send-email-avtive": "Activation email sent to customer successfully!",
       "unlock-user-fail": "Unlocked user failed!",
       "send-mail-success": "Send mail and verification code to customer successfully!",
       "send-reset-default": "Send mail to customer successfully!",
@@ -492,7 +504,10 @@
     "USDC": "USDC",
     "deposit": "Deposit",
     "withdraw": "Withdraw",
-    "transfer": "Transfer"
+    "transfer": "Transfer",
+    "member-active": "Active",
+    "member-inactive": "Inactive",
+    "crowdsale": "Crowdsale"
   },
   "status": {
     "pending": "Pending",
@@ -715,5 +730,15 @@
       "exceeded2": " The request has exceeded the allowable limit.",
       "allow": "The request has exceeded the allowable limit."
     }
+  },
+  "member": {
+    "popup": {
+      "title-add": "ADD MEMBER",
+      "title-edit": "EDIT MEMBER",
+      "status-active": "Active status"
+    }
+  },
+  "exception": {
+    "total": "TOTAL"
   }
 }

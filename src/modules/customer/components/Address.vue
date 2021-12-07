@@ -144,7 +144,7 @@
         case 'CLM':
           return 'Clm'
         case 'USDC':
-          return 'Usdc'
+          return 'USDC'
         case 'USDT':
           return 'Tether'
 

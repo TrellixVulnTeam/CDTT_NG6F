@@ -68,6 +68,8 @@
           return this.$t('header.balance')
         case '/transaction':
           return this.$t('header.transaction')
+        case '/exception':
+          return this.$t('header.exception')
         default:
           return this.$t('header.kyc')
       }

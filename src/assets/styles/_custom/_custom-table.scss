@@ -22,15 +22,25 @@
         }
     }
 }
-.wallet-table-balance{
-    .el-table{
-        th>.cell{
-            color: #0A0B0D;
+.wallet-table-balance {
+    .el-table {
+        th > .cell {
+            color: #0a0b0d;
             font-size: 16px;
         }
-        &__row{
-            td>.cell{
-                color: #0A0B0D;
+        &__row {
+            td > .cell {
+                color: #0a0b0d;
+            }
+        }
+    }
+}
+
+.table-trans {
+    .el-table__body-wrapper {
+        .col-email {
+            .cell {
+                height: 46px;
             }
         }
     }

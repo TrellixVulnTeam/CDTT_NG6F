@@ -35,7 +35,7 @@
         <span class="number2">
           {{ totalAvailable | convertAmountDecimal(tabActive) }} <a class="tabActive">{{ tabActive }}</a>
         </span>
-        <span class="text3"> ~ ${{ totalAvailableUSD | convertAmountDecimal('USD') }}</span>
+        <span class="text3"> ~${{ totalAvailableUSD | convertAmountDecimal('USD') }}</span>
       </div>
       <div class="col-width col-margin">
         <div class="sack-banlance">
@@ -47,7 +47,7 @@
         <span class="number2">
           {{ totalLocked | convertAmountDecimal(tabActive) }} <a class="tabActive">{{ tabActive }}</a></span
         >
-        <span class="text3">~ ${{ totalLockedUSD | convertAmountDecimal('USD') }}</span>
+        <span class="text3">~${{ totalLockedUSD | convertAmountDecimal('USD') }}</span>
       </div>
       <div class="col-width col-margin">
         <div class="sack-banlance">

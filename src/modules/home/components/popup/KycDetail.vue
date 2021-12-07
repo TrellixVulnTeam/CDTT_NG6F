@@ -6,6 +6,7 @@
     width="960px"
     :isShowFooter="getShowFooter"
     :open="handleOpen"
+    :close="handleClose"
   >
     <div class="title-popup" slot="title">
       <span>{{ $t('kyc.popup.title') }}</span>
@@ -51,7 +52,7 @@
       </div>
       <div class="detail-right">
         <span class="text-l text-bold mb-24 d-ib">{{ $t('kyc.popup.title-photo') }}</span>
-        <div class="be-flex w-100 slider">
+        <div class="be-flex w-100 slider" v-if="listImage.length">
           <el-carousel indicator-position="none" arrow="always" :autoplay="false">
             <el-carousel-item v-for="(item, index) in listImage" :key="index">
               <!-- <img :src="item" class="img-fluid" :alt="item" /> -->
@@ -105,6 +106,7 @@
     selfiePhoto: string
     pinEnabled: string | null
     kycRejectReasonIds: string
+    userId: number
   }
   @Component({ components: { PopupReject } })
   export default class KycDetail extends Mixins(PopupMixin) {
@@ -116,7 +118,11 @@
     listReasonReject: Array<Record<string, any>> = []
 
     get listImage(): string[] {
-      return [this.detail.idPhoto1, this.detail.idPhoto2, this.detail.selfiePhoto]
+      if (this.detail.userId) {
+        return [this.detail.idPhoto1, this.detail.idPhoto2, this.detail.selfiePhoto]
+      } else {
+        return []
+      }
     }
     get getShowFooter(): boolean {
       return this.$route.name === 'KycPending'
@@ -177,6 +183,7 @@
     }
 
     handleClose(): void {
+      this.detail = {} as IDetail
       this.setOpenPopup({
         popupName: 'popup-kyc-detail',
         isOpen: false

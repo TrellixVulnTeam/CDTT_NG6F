@@ -25,7 +25,7 @@
           <template slot-scope="scope">
             <div class="box-paid">
               <p class="text-paid fw-400 fs-16">{{ scope.row.availableBalance | convertAmountDecimal(scope.row.currency) }} {{ scope.row.currency }}</p>
-              <p class="avi fw-400 fs-14" style="color: #5b616e">~ ${{ scope.row.availableBalanceUSD | convertAmountDecimal('USD') }}</p>
+              <p class="avi fw-400 fs-14" style="color: #5b616e">~${{ scope.row.availableBalanceUSD | convertAmountDecimal('USD') }}</p>
             </div>
           </template>
         </el-table-column>
@@ -34,7 +34,7 @@
           <template slot-scope="scope">
             <div class="box-paid">
               <p class="text-paid fw-400 fs-16">{{ scope.row.totalLockedAmount | convertAmountDecimal(scope.row.currency) }} {{ scope.row.currency }}</p>
-              <p class="avi fw-400 fs-14" style="color: #5b616e">~ ${{ scope.row.totalLockedAmountUSD | convertAmountDecimal('USD') }}</p>
+              <p class="avi fw-400 fs-14" style="color: #5b616e">~${{ scope.row.totalLockedAmountUSD | convertAmountDecimal('USD') }}</p>
             </div>
           </template>
         </el-table-column>
@@ -43,7 +43,7 @@
           <template slot-scope="scope">
             <div class="box-paid">
               <p class="text-paid fw-400 fs-16">{{ scope.row.balance | convertAmountDecimal(scope.row.currency) }} {{ scope.row.currency }}</p>
-              <p class="avi fw-400 fs-14" style="color: #5b616e">~ ${{ scope.row.balanceUSD | convertAmountDecimal('USD') }}</p>
+              <p class="avi fw-400 fs-14" style="color: #5b616e">~${{ scope.row.balanceUSD | convertAmountDecimal('USD') }}</p>
             </div>
           </template>
         </el-table-column>

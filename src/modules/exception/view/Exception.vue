@@ -1,0 +1,402 @@
+<template>
+  <div class="w-100 bo-kyc">
+    <div class="bg-white wallet-header">
+      <div class="be-flex align-center jc-space-between wallet-header__above">
+        <div class="wallet-header__above-tabs be-flex">
+          <div class="tab-item cursor" v-for="tab in tabs" :key="tab.id" :class="$route.name === tab.routeName ? 'tab-active' : null" @click="handleChangeTab(tab)">
+            <span class="text-base">{{ $t(`menu.${tab.title}`) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <balance-filter @filterBalance="handleFilter" :listApproveBy="listApproveBy" />
+    <div class="ending-balance be-flex jc-space-between">
+      <p>{{ $t('exception.total') }}</p>
+      <p>${{totalAmount}}</p>
+      <!-- <p v-else>{{ summary.closeBalance | numberWithCommas }}</p> -->
+    </div>
+    <exception-table
+      v-loading="isLoading"
+      @rowClick="handleRowClick"
+      @sizeChange="handleSizeChange"
+      @pageChange="handlePageChange"
+      :query="query"
+      :propTabActive="tabActive"
+      :data="propdataTable"
+    />
+
+    <exception-detail :detail-row="detailRow" :tab-active-filter="tabActive"></exception-detail>
+  </div>
+</template>
+
+<script lang="ts">
+  import { Component, Mixins, Watch } from 'vue-property-decorator'
+  //@ts-ignore
+  import ExceptionTable from '../components/ExceptionTable.vue'
+  import BalanceFilter from '../components/filter/BalanceFilter.vue'
+  import PopupMixin from '@/mixins/popup'
+  import getRepository from '@/services'
+  import { ExceptionRepository } from '@/services/repositories/exception'
+  import EventBus from '@/utils/eventBus'
+  import { debounce } from 'lodash'
+
+  import ExceptionDetail from '../components/exceptionDetail/ExceptionDetail.vue'
+  const api: ExceptionRepository = getRepository('exception')
+
+  import { namespace } from 'vuex-class'
+
+  const beBase = namespace('beBase')
+
+  // /main/api/v1/withdraw/list/fail?currency=&search=&fromAmount&toAmount=&formDate&toDate&sort&page=1&limit=10
+  // https://test-blockchain-api.beedu.vn/main/api/v1/widthdraw/list/fail?search=&orderBy=1&page=1&limit=10
+
+  @Component({ components: { ExceptionTable, BalanceFilter, ExceptionDetail } })
+  export default class BOKyc extends Mixins(PopupMixin) {
+    @beBase.State('coinMain') coinMain!: string
+
+    tabs: Array<Record<string, any>> = [
+      {
+        id: 1,
+        title: 'deposit',
+        routeName: 'ExceptionDeposit'
+      },
+      {
+        id: 2,
+        title: 'withdraw',
+        routeName: 'ExceptionWithdraw'
+      },
+      {
+        id: 3,
+        title: 'crowdsale',
+        routeName: 'ExceptionCrowdsale'
+      }
+    ]
+    titlePending = ''
+    tabActive = 'deposit'
+    isLoading = false
+
+    data: Array<Record<string, any>> = []
+
+    detailRow: any = {}
+    dataDetail = {}
+    query: any = {
+      search: '',
+      orderBy: 1,
+      page: 1,
+      limit: 10,
+      total: 10
+    }
+    totalAmount = ''
+    listApproveBy: Record<string, any>[] = []
+
+    created(): void {
+      this.$router.push({ name: 'ExceptionDeposit' })
+      // this.$router.push({ name: routeName })
+      // console.log('route', this.$route?.name?.fullPath.split(''))
+      // this.getDataException()
+      // apiKyc.getListApprove({ page: 1, limit: 20 }).then(res => {
+      //   this.listApproveBy = res.content || []
+      // })
+      // const name = this.$route.name
+      // this.query.kycStatus = name === 'KycPending' ? 'PENDING' : name === 'KycVerified' ? 'VERIFIED' : 'REJECTED'
+      this.init()
+    }
+    propdataTable: Record<string, any>[] = []
+    getDataException(): void {
+      this.isLoading = true
+      const params = {
+        ...this.query,
+        search: this.query.search,
+        orderBy: this.query.orderBy,
+        limit: this.query.limit,
+        page: this.query.page,
+        total: null
+      }
+      console.log('params', params)
+      api
+        .getListException('withdraw', params)
+        .then(res => {
+          console.log('res', res)
+        })
+        .catch(err => {
+          console.log('err', err)
+        })
+    }
+    async init(): Promise<void> {
+      console.log('tabActove', this.tabActive)
+      this.data = []
+      this.propdataTable = []
+      try {
+        this.isLoading = true
+        const params = {
+          ...this.query,
+          search: this.query.search,
+          orderBy: this.query.orderBy,
+          limit: this.query.limit,
+          page: this.query.page,
+          total: null
+        }
+        const result = await api.getListException(this.tabActive, params)
+        console.log('total', result.totalAmount)
+        this.totalAmount = result.totalAmount
+        this.data = result.withdrawPage.content || []
+        this.propdataTable = result.withdrawPage.content || []
+        this.query.total = result.totalElement
+        console.log('data', this.propdataTable)
+        this.isLoading = false
+      } catch (error) {
+        this.isLoading = false
+        console.log(error)
+      }
+    }
+
+    async handleGetBalanceDetail(userId: number) {
+      try {
+        const params = {
+          ...this.query,
+          search: this.query.search,
+          orderBy: this.query.orderBy,
+          limit: this.query.limit,
+          page: this.query.page,
+          total: null
+        }
+      } catch (error) {
+        this.isLoading = false
+        console.log(error)
+      }
+    }
+
+    handleChangeTab(tab: Record<string, any>): void {
+      console.log('tab', tab.routeName)
+      this.$router.push({ name: tab.routeName })
+      // this.query.tabBalance = this.kycStatus[tab.title]
+      this.tabActive = tab.title
+      this.query.page = 1
+      this.query.limit = 10
+      this.query.orderBy = 1
+      this.query.toBalanceAmount = ''
+      ;(this.query.fromBalanceAmount = ''),
+        (this.query.toLockedAmount = ''),
+        (this.query.fromLockedAmount = ''),
+        (this.query.toAvailableAmount = ''),
+        (this.query.fromAvailableAmount = ''),
+        (this.query.search = '')
+
+      this.init()
+      this.resetQuery()
+      EventBus.$emit('selectTabBalance')
+      EventBus.$emit('changeTab', this.tabActive)
+    }
+    destroyed(): void {
+      EventBus.$off('selectTabBalance')
+      EventBus.$off('changeTab')
+    }
+    resetQuery(): void {
+      this.query = {
+        ...this.query,
+        page: 1,
+        limit: 10,
+        search: '',
+        orderBy: '1'
+      }
+    }
+
+    handlePageChange(page: number): void {
+      this.query.page = page
+      this.init()
+    }
+    handleSizeChange(limit: number): void {
+      this.query.limit = limit
+      this.init()
+    }
+
+    handleRowClick(row: Record<string, any>): void {
+      console.log('hasagi', row.row)
+      this.detailRow = row.row
+      this.setOpenPopup({
+        popupName: 'popup-exception-detail',
+        isOpen: true
+      })
+    }
+
+    handleFilter(filter: Record<string, any>): void {
+      this.query = {
+        ...this.query,
+        ...filter,
+        page: 1,
+        limit: 10
+      }
+      this.debounceInit()
+    }
+    debounceInit = debounce(() => {
+      this.init()
+    }, 300)
+  }
+</script>
+
+<style scoped lang="scss">
+  .ending-balance {
+    margin: 8px 24px 0 24px;
+    border-radius: 4px;
+    background-color: #0151fc;
+    padding: 12px 16px;
+    p {
+      font-size: 16px;
+      color: #ffffff;
+      font-weight: 600;
+    }
+    p:last-of-type {
+      margin-right: 144px;
+    }
+  }
+  .container {
+    text-align: justify;
+    -ms-text-justify: distribute-all-lines;
+    text-justify: distribute-all-lines;
+    width: 100%;
+  }
+  .bo-kyc .wallet-header__above-tabs .tab-item {
+    color: var(--bc-text-discript);
+  }
+  ::v-deep .container > div {
+    width: 100px;
+    height: 100px;
+    vertical-align: top;
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    background: #efefef;
+    margin-right: -2px !important;
+  }
+  .sack-banlance {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 6px;
+    padding: 0 18px;
+  }
+  .col-width {
+    width: 20% !important;
+    height: 112px !important;
+    border-radius: 8px !important;
+    border: 1px solid #dbdbdb !important;
+    box-sizing: border-box !important;
+  }
+  .tabActive {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+  }
+  .text1 {
+    // margin-top: 16px;
+    // margin-left: 18px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--bc-text-discript);
+  }
+  .number2 {
+    margin-top: 8px;
+    margin-left: 18px;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 24px;
+    color: #0a0b0d;
+  }
+  .text3 {
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    margin-top: 6px;
+    margin-left: 18px;
+    margin-bottom: 16px;
+    color: var(--bc-text-discript);
+  }
+  .col-margin {
+    background: #fff !important;
+    flex-basis: calc((100% - 24px - 48px) / 4) !important;
+  }
+  .container > div {
+    width: 100px;
+    height: 100px;
+    vertical-align: top;
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    background: red;
+  }
+  span {
+    width: 100%;
+    display: inline-block;
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .bo-kyc {
+    box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
+    border-radius: 4px;
+    .wallet-header {
+      &__above {
+        border-bottom: 1px solid var(--bc-border-primary);
+        &-tabs {
+          .tab-item {
+            padding: 16px 12px;
+            position: relative;
+            &:hover {
+              color: var(--bc-tab-active);
+            }
+          }
+          .tab-active {
+            color: var(--bc-tab-active);
+            font-weight: 600;
+            &::after {
+              content: '';
+              position: absolute;
+              width: 100%;
+              height: 2px;
+              bottom: 0;
+              left: 0;
+              background-color: var(--bc-tab-active);
+            }
+          }
+        }
+      }
+
+      &__below {
+        padding: 24px;
+        &-amount {
+          .amount-wallet,
+          .amount-lock {
+            flex: 1;
+            .title {
+              margin-left: 16px;
+              .title-coin {
+                color: #201f1e;
+              }
+            }
+            .amount {
+              margin-top: 10px;
+
+              .amount-btc {
+                color: var(--bc-amount-btc);
+              }
+              .amount-lyn {
+                color: var(--bc-amount-lin);
+              }
+              .amount-lock {
+                color: var(--bc-amount-lock);
+              }
+            }
+          }
+          .amount-wallet {
+            border-right: 1px solid var(--bc-border-primary);
+          }
+        }
+      }
+    }
+  }
+  .wallet-header-task {
+    display: flex;
+    justify-content: space-between;
+    padding: 24px;
+  }
+</style>
