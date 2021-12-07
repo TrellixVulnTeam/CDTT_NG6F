@@ -17,8 +17,8 @@
       <div class="item be-flex">
         <p>{{ $t('transaction.detail.transaction-id') }}</p>
         <div class="be-flex align-center">
-          <p class="text-detail-2">{{ detailRow.transactionCode | formatTransactionCode(10) }}</p>
-          <span v-if="detailRow.transactionCode" style="margin-left: 8px" class="icon-copy" @click="handleCopyTransaction(detailRow.transactionCode)">
+          <p class="text-detail-2">{{ detailRow.transactionHash | formatTransactionCode(10) }}</p>
+          <span v-if="detailRow.transactionHash" style="margin-left: 8px" class="icon-copy" @click="handleCopyTransaction(detailRow.transactionHash)">
             <base-icon icon="icon-copy" size="24" />
           </span>
         </div>
@@ -50,9 +50,8 @@
       <div v-if="checkFeeType(detailRow.transactionType)" class="item be-flex">
         <p>{{ $t('transaction.detail.fees') }}</p>
         <div class="be-flex">
-          <p v-if="detailRow.transactionFee > 0" class="add">{{ detailRow.transactionFee }} {{ detailRow.currency }}</p>
-          <p v-if="detailRow.transactionFee < 0" class="sub">{{ detailRow.transactionFee }} {{ detailRow.currency }}</p>
-          <p class="convert" style="margin-left: 4px">(~${{ detailRow.transactionFeeToUsd | convertAmountDecimal('USD') }})</p>
+          <p class="sub">-{{ detailRow.transactionFeeDisplay }} {{ detailRow.currency }}</p>
+          <p class="convert" style="margin-left: 4px">(~${{ detailRow.transactionFeeToUsdDisplay | convertAmountDecimal('USD') }})</p>
         </div>
       </div>
       <div class="item be-flex">
@@ -68,7 +67,7 @@
       </div>
       <div class="item be-flex">
         <p>{{ $t('transaction.detail.phone-number') }}</p>
-        <p v-if="detailRow.phone" class="text-detail-2">({{ detailRow.phoneCode }}) {{ detailRow.phone }}</p>
+        <p v-if="detailRow.countryCode" class="text-detail-2">({{ detailRow.countryCode }}) {{ detailRow.phone }}</p>
       </div>
       <div class="item be-flex">
         <p>{{ $t('transaction.detail.email') }}</p>
@@ -90,7 +89,7 @@
     tabActive = 0
 
     async handleOpen(): Promise<void> {
-      console.log('open',this.detailRow)
+      console.log('open', this.detailRow)
     }
 
     handleClose(): void {
@@ -195,7 +194,7 @@
     }
 
     handleRenderTitleDetail(type: string | null | undefined): string {
-      console.log('type',type)
+      console.log('type', type)
       if (type) {
         return type.replaceAll('_', ' ')
       } else return ''
