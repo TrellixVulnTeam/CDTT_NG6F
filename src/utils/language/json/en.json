@@ -505,7 +505,7 @@
     "transfer": "Transfer",
     "member-active": "Active",
     "member-inactive": "Inactive",
-    "crowdsale": "Crowdsale"
+    "crowdsales": "Crowdsale"
   },
   "status": {
     "pending": "Pending",

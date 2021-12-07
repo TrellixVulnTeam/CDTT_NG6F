@@ -9,68 +9,64 @@
       <el-popover :value="isVisible" placement="bottom-start" width="518" trigger="click" popper-class="popper-filter" @show="handleShowPopper">
         <div class="content">
           <el-form>
+            <el-form-item :label="$t('label.buy-token')">
+              <el-select v-model="filter.currency" multiple clearable class="w-100">
+                <el-option v-for="wallet in getListWallet" :key="wallet.id" :value="wallet.symbol" :label="wallet.name">
+                  <template>
+                    <div class="be-flex wallet-item">
+                      <base-icon :icon="wallet.icon" size="24" />
+                      <span class="d-ib" style="margin-left: 10px">{{ wallet.name }}</span>
+                      <span class="d-ib" style="margin-left: 4px">({{ wallet.symbol.toUpperCase() }})</span>
+                    </div>
+                  </template>
+                </el-option>
+              </el-select>
+            </el-form-item>
+
             <div class="be-flex jc-space-between row">
-              <el-form-item class="be-flex-item mr-40" :label="$t('label.available-amount')">
-                <el-row class="flex_line">
-                  <el-col :span="11">
-                    <el-input v-model="filterBalance.fromAvailableAmount" @keyup.native="numberFormat($event)" type="text" :placeholder="$t('placeholder.from')"
-                      ><div class="prefix" slot="prefix">$</div></el-input
-                    >
-                  </el-col>
-                  <el-col :span="11" style="float: right">
-                    <el-input v-model="filterBalance.toAvailableAmount" @keyup.native="numberFormat($event)" type="text" :placeholder="$t('placeholder.to')"
-                      ><div class="prefix" slot="prefix">$</div></el-input
-                    >
-                  </el-col>
-                </el-row>
+              <el-form-item class="be-flex-item mr-40 form-item-line" :label="$t('label.trans-date')">
+                <el-date-picker class="w-100 date-picker" format="MM/dd/yyyy" value-format="yyyy-MM-dd" :placeholder="$t('label.from-date')" v-model="filter.fromDate" type="date">
+                </el-date-picker>
               </el-form-item>
-              <!-- <el-form-item class="be-flex-item mr-40 form-item-line" :label="$t('label.trans-amount')">
-            <el-input
-              v-model="filter.fromAmount"
-              :placeholder="$t('placeholder.from-amount')"
-              @keypress.native="onlyNumber($event, 'fromAmount')"
-              @keyup.native="numberFormat($event)"
-            >
-              <div class="prefix" slot="prefix">$</div>
-            </el-input>
-          </el-form-item> -->
-            </div>
-            <div class="be-flex jc-space-between row">
-              <el-form-item class="be-flex-item mr-40" :label="$t('label.locked-amount')">
-                <!-- <el-input :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateStart')" clearable></el-input> -->
-                <el-row class="flex_line">
-                  <el-col :span="11">
-                    <el-input v-model="filterBalance.fromLockedAmount" @keyup.native="numberFormat($event)" type="text" :placeholder="$t('placeholder.from')"
-                      ><div class="prefix" slot="prefix">$</div></el-input
-                    >
-                  </el-col>
-                  <!-- <span class="dash"><i class="el-icon-minus icon-dash"></i></span> -->
-                  <el-col :span="11" style="float: right">
-                    <el-input v-model="filterBalance.toLockedAmount" @keyup.native="numberFormat($event)" type="text" :placeholder="$t('placeholder.to')"
-                      ><div class="prefix" slot="prefix">$</div></el-input
-                    >
-                  </el-col>
-                </el-row>
+
+              <el-form-item class="be-flex-item hide-label" label="1">
+                <el-date-picker class="w-100 date-picker" format="MM/dd/yyyy" :placeholder="$t('label.to-date')" value-format="yyyy-MM-dd" v-model="filter.toDate" type="date">
+                </el-date-picker>
               </el-form-item>
             </div>
             <div class="be-flex jc-space-between row">
-              <el-form-item class="be-flex-item mr-40" :label="$t('label.balance')">
-                <!-- <el-input :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateStart')" clearable></el-input> -->
-                <el-row class="flex_line">
-                  <el-col :span="11">
-                    <el-input v-model="filterBalance.fromBalanceAmount" @keyup.native="numberFormat($event)" type="text" :placeholder="$t('placeholder.from')"
-                      ><div class="prefix" slot="prefix">$</div></el-input
-                    >
-                  </el-col>
-                  <!-- <span class="dash"><i class="el-icon-minus icon-dash"></i></span> -->
-                  <el-col :span="11" style="float: right">
-                    <el-input v-model="filterBalance.toBalanceAmount" @keyup.native="numberFormat($event)" type="text" :placeholder="$t('placeholder.to')"
-                      ><div class="prefix" slot="prefix">$</div></el-input
-                    >
-                  </el-col>
-                </el-row>
+              <el-form-item class="be-flex-item mr-40 form-item-line" :label="$t('label.trans-amount')">
+                <el-input
+                  v-model="filter.fromAmount"
+                  :placeholder="$t('placeholder.from-amount')"
+                  @keypress.native="onlyNumber($event, 'fromAmount')"
+                  @keyup.native="numberFormat($event)"
+                >
+                  <div class="prefix" slot="prefix">$</div>
+                </el-input>
+              </el-form-item>
+
+              <el-form-item class="be-flex-item hide-label" label="1">
+                <el-input
+                  v-model="filter.toAmount"
+                  :placeholder="$t('placeholder.to-amount')"
+                  @keypress.native="onlyNumber($event, 'toAmount')"
+                  @keyup.native="numberFormat($event)"
+                >
+                  <div class="prefix" slot="prefix">$</div>
+                </el-input>
               </el-form-item>
             </div>
+              <!-- <el-form-item :label="$t('label.status')" class="be-flex-item mr-40">
+                <el-select v-model="filter.status" clearable class="w-100">
+                  <el-option v-for="status in listStatus" :key="status.id" :value="status.value" :label="status.label">
+                    <template>
+                      <span class="d-ib">{{ status.label }}</span>
+                    </template>
+                  </el-option>
+                </el-select>
+              </el-form-item> -->
+            
           </el-form>
         </div>
         <div class="be-flex jc-flex-end footer">
@@ -113,8 +109,9 @@
   import { forEach, trim, debounce } from 'lodash'
   import getRepository from '@/services'
   import { KycRepository } from '@/services/repositories/kyc'
+  import { namespace } from 'vuex-class'
   const apiKyc: KycRepository = getRepository('kyc')
-
+  const beBase = namespace('beBase')
   import countryJson from '@/utils/country/index.json'
   interface IListCountry {
     name: string
@@ -124,6 +121,7 @@
   }
   @Component
   export default class KycFilter extends Vue {
+    @beBase.State('coinMain') coinMain!: string
     @Prop({ required: true, type: Array, default: [] }) listApproveBy!: Array<Record<string, any>>
     filterBalance = {
       search: '',
@@ -134,6 +132,134 @@
       toAvailableAmount: '',
       fromAvailableAmount: '',
       orderBy: ''
+    }
+    filter: Record<string, any> = {
+      currency: '',
+      fromDate: '',
+      toDate: '',
+      fromAmount: '',
+      toAmount: '',
+      status: '',
+      bonusType: ''
+    }
+    listWallet: Array<Record<string, any>> = [
+      {
+        id: 0,
+        name: 'Bitcoin',
+        symbol: 'btc',
+        icon: 'icon-btc'
+      },
+      {
+        id: 1,
+        name: 'Ethereum',
+        symbol: 'eth',
+        icon: 'icon-eth'
+      },
+      {
+        id: 2,
+        name: 'Tether',
+        symbol: 'usdt',
+        icon: 'icon-usdt',
+        disabled: true
+      },
+      {
+        id: 3,
+        name: 'USDC',
+        symbol: 'usdc',
+        icon: 'icon-usdc',
+        disabled: true
+      },
+      {
+        id: 4,
+        name: 'BNB',
+        symbol: 'bnb',
+        icon: 'icon-bnb',
+        disabled: true
+      }
+    ]
+
+    listStatus: Array<Record<string, any>> = [
+      {
+        id: 0,
+        label: 'Pending',
+        value: 'PENDING'
+      },
+      {
+        id: 1,
+        label: 'Processing',
+        value: 'PROCESSING'
+      },
+      {
+        id: 2,
+        label: 'Success',
+        value: 'SUCCESS'
+      }
+      // {
+      //   id: 3,
+      //   label: 'Failed',
+      //   value: 'FAILED'
+      // },
+      // {
+      //   id: 4,
+      //   label: 'Rejected',
+      //   value: 'REJECTED'
+      // }
+    ]
+
+    listBonusType: Array<Record<string, any>> = [
+      {
+        id: 0,
+        label: 'Sign Up',
+        value: 'BONUS_SIGN_UP'
+      },
+      {
+        id: 1,
+        label: 'Crowdsale',
+        value: 'BONUS_CROWDSALE'
+      },
+      {
+        id: 2,
+        label: 'First Transaction',
+        value: 'BONUS_FIRST_TRANS'
+      },
+      {
+        id: 3,
+        label: 'Affiliate',
+        value: 'BONUS_AFFILIATE'
+      },
+      {
+        id: 4,
+        label: 'Big Backers',
+        value: 'BONUS_BIG_BACKER'
+      },
+      {
+        id: 5,
+        label: 'Early Backers',
+        value: 'BONUS_EARLY_BACKER'
+      }
+    ]
+
+    get getListWallet(): Array<Record<string, any>> {
+      if (this.coinMain === 'LYNK') {
+        return [
+          {
+            id: 5,
+            name: 'Lynkey',
+            symbol: 'lynk',
+            icon: 'icon-lin'
+          },
+          ...this.listWallet
+        ]
+      }
+      return [
+        {
+          id: 5,
+          name: 'CLM',
+          symbol: 'clm',
+          icon: 'icon-clm'
+        },
+        ...this.listWallet
+      ]
     }
     loading = false
     listApprove: Array<Record<string, any>> = []
