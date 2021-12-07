@@ -54,13 +54,13 @@
       </div>
     </router-link>
 
-    <!-- <router-link :to="{ name: 'MemberMain' }" class="router_center">
+    <router-link :to="{ name: 'MemberMain' }" v-if="checkPemission('member', ['view'])" class="router_center">
       <div class="sack_avatar">
         <base-icon :icon="coinMain === 'LYNK' ? 'menu-member-active' : 'menu-member-clm'" class="menu-active" size="32" />
         <base-icon icon="menu-member" class="menu" size="32" />
         <p>{{ $t('leftMenu.member') }}</p>
       </div>
-    </router-link> -->
+    </router-link>
 
     <router-link :to="{ name: 'Exception' }" class="router_center">
       <div class="sack_avatar">

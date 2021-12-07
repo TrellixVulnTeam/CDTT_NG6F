@@ -125,7 +125,9 @@
     "approve": "Xác nhận",
     "reject": "Từ chối",
     "apply": "Xác nhận",
-    "add-member": "Thêm thành viên"
+    "add-member": "Thêm thành viên",
+    "delete-user": "Xóa tài khoản",
+    "save": "Lưu"
   },
   "scan": {
     "qrcode": "QUÉT QR CODE"
@@ -220,7 +222,13 @@
     "invalid-username": "Tên đăng nhập hoặc mật khẩu không chính xác!",
     "account-exits": "Số điện thoại đã được sử dụng!",
     "no-permisson": "Bạn không có quyền truy cập",
-    "experied-verify": "Mã xác minh đã hết hạn"
+    "experied-verify": "Mã xác minh đã hết hạn",
+    "date-invalid": "From date is less than to date",
+    "amount-invalid": "From amount is less than to amount",
+    "account-exist": "Tài khoản đã tồn tại",
+    "add-user-succsess": "Thêm thành viên thành công",
+    "update-user-succsess": "Sửa thành viên thành công",
+    "delete-user-success": "Xóa thành công"
   },
   "logout": {
     "title": "Đăng xuất"
@@ -681,7 +689,20 @@
     "popup": {
       "title-add": "THÊM THÀNH VIÊN",
       "title-edit": "SỬA THÀNH VIÊN",
-      "status-active": "Trạng thái kích hoạt"
+      "status-active": "Trạng thái kích hoạt",
+      "title-confirm": "Xác nhận xóa",
+      "content-confirm": "Bạn có chắc chắn muốn xóa thành viên này không ?",
+      "title-detail": "chi tiết thành viên",
+      "edit": "Sửa",
+      "email": "Email",
+      "create-date": "Ngày tạo",
+      "last-login": "Lần đăng nhập cuối",
+      "active-status": "Trạng thái kích hoạt"
+    },
+    "sort": {
+      "full-name": "Họ tên",
+      "email": "Email",
+      "create-date": "Ngày tạo"
     }
   }
 }

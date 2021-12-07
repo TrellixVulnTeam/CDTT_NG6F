@@ -6,23 +6,27 @@
     <div class="content">
       <el-form class="form-item">
         <div class="be-flex jc-space-between">
-          <el-form-item :label="$t('label.f-name')" class="be-flex-item mr-16" prop="firstName">
-            <el-input v-model="form.firstName" :placeholder="$t('placeholder.f-name')" />
+          <el-form-item :label="$t('label.f-name')" class="be-flex-item mr-16 is-required" prop="firstName">
+            <el-input v-model="form.firstName" :placeholder="$t('placeholder.f-name')" clearable />
           </el-form-item>
-          <el-form-item :label="$t('label.l-name')" class="be-flex-item" prop="lastName">
-            <el-input v-model="form.lastName" :placeholder="$t('placeholder.l-name')" />
+
+          <el-form-item :label="$t('label.l-name')" class="be-flex-item is-required" prop="lastName">
+            <el-input v-model="form.lastName" :placeholder="$t('placeholder.l-name')" clearable />
           </el-form-item>
         </div>
-        <el-form-item :label="$t('label.email')" prop="email">
-          <el-input v-model="form.email" :placeholder="$t('placeholder.email')" />
+
+        <el-form-item :label="$t('label.email')" class="is-required" prop="email">
+          <el-input v-model="form.email" :placeholder="$t('placeholder.email')" clearable />
         </el-form-item>
-        <el-form-item v-if="type === 'add'" :label="$t('label.password')" prop="password" class="input-password">
+
+        <el-form-item v-if="type === 'add'" :label="$t('label.password')" prop="password" class="input-password is-required">
           <el-input class="input-password" :type="showPass == true ? 'text' : 'password'" :placeholder="$t('login.placeholder.password')" v-model="form.password" />
           <span class="icon-show-password" @click="showPass = !showPass">
             <base-icon :icon="showPass == true ? 'icon-eye-off' : 'icon-eye'" size="22" />
           </span>
         </el-form-item>
-        <el-form-item :label="$t('label.role')" prop="role">
+
+        <el-form-item :label="$t('label.role')" class="is-required" prop="role">
           <el-checkbox-group v-model="form.roles" class="list-role">
             <el-checkbox label="MARKETING">Marketing</el-checkbox>
             <el-checkbox label="ACCOUNTANT">Accountant</el-checkbox>
@@ -30,23 +34,29 @@
             <el-checkbox label="ADMIN">Admin</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
-        <div class="bg-line"></div>
-        <div class="be-flex align-center jc-space-between status-active">
+
+        <div class="bg-line" v-if="type === 'edit'"></div>
+        <div class="be-flex align-center jc-space-between status-active" v-if="type === 'edit'">
           <span>{{ $t('member.popup.status-active') }}</span>
-          <el-switch v-model="form.status" active-color="#129961" class="switch-status"> </el-switch>
+          <el-switch v-model="form.status" active-color="#129961" active-value="ACTIVE" inactive-value="INACTIVE" class="switch-status"> </el-switch>
         </div>
       </el-form>
     </div>
     <div class="footer" slot="footer">
-      <div class="be-flex wrap-button">
+      <div class="be-flex wrap-button" :class="type === 'edit' ? 'jc-space-between' : null">
+        <div class="btn-left" v-if="type === 'edit'">
+          <el-button class="btn-default btn-close btn-h-40 mr-16" @click="handleDelete">{{ $t('button.delete-user') }}</el-button>
+        </div>
         <div class="btn-right">
-          <el-button class="btn-default btn-close btn-h-40 mr-16" @click="handleReset">{{ $t('button.close') }}</el-button>
+          <el-button class="btn-default btn-close btn-h-40 mr-16" @click="handleReset">{{ $t('button.reset') }}</el-button>
           <button type="button" class="btn-default-bg text-sm ml-auto add-member" @click="handleAddMember">
-            <span>{{ $t('button.add-member-1') }}</span>
+            <span v-if="type === 'add'">{{ $t('button.add-member-1') }}</span>
+            <span v-else>{{ $t('button.save') }}</span>
           </button>
         </div>
       </div>
     </div>
+    <popup-confirm @delete="handleSubmitDelete" />
   </base-popup>
 </template>
 
@@ -54,11 +64,11 @@
   import { Component, Mixins, Prop } from 'vue-property-decorator'
 
   import PopupMixin from '@/mixins/popup'
-
-  import { CustomerRepository } from '@/services/repositories/customer'
+  import PopupConfirm from './PopupConfirm.vue'
+  import { MemberRepository } from '@/services/repositories/member'
   import getRepository from '@/services'
 
-  const apiCustomer: CustomerRepository = getRepository('customer')
+  const apiMember: MemberRepository = getRepository('member')
 
   export interface IForm {
     firstName: string
@@ -67,12 +77,13 @@
     password?: string
     roles?: string[]
     status?: boolean
+    [x: string]: any
   }
 
   @Component({
-    components: {}
+    components: { PopupConfirm }
   })
-  export default class CustomerDetail extends Mixins(PopupMixin) {
+  export default class MemberDetail extends Mixins(PopupMixin) {
     @Prop({ required: false, type: Object, default: () => ({}) }) detailRow!: Record<string, any>
     @Prop({ required: true, type: String, default: 'add' }) type!: string
     detail: Record<string, any> = {}
@@ -98,13 +109,12 @@
 
     handleOpen(): void {
       this.lang = window.localStorage.getItem('bc-lang')!
+      if (this.type === 'edit') {
+        this.form = { ...this.detailRow } as IForm
+      }
     }
 
     handleClose(): void {
-      this.tabActive = 0
-    }
-
-    handleReset(): void {
       this.form = {
         firstName: '',
         lastName: '',
@@ -113,8 +123,61 @@
       }
     }
 
+    handleReset(): void {
+      if (this.type === 'add') {
+        this.form = {
+          firstName: '',
+          lastName: '',
+          email: '',
+          roles: []
+        }
+      } else {
+        this.form = { ...this.detailRow } as IForm
+      }
+    }
+
+    handleDelete(): void {
+      this.setOpenPopup({
+        popupName: 'popup-confirm',
+        isOpen: true
+      })
+    }
+
     handleAddMember(): void {
-      console.log('a')
+      if (this.type === 'add') {
+        const password = this.$options.filters?.encryptPassword(this.form.password)
+        apiMember.createMember({ ...this.form, password }).then(() => {
+          let message: any = this.$t('notify.add-user-succsess')
+          this.$message.success({ message, duration: 5000 })
+          this.setOpenPopup({
+            popupName: 'popup-member',
+            isOpen: false
+          })
+          this.$emit('reload')
+        })
+      } else {
+        apiMember.updateMember(this.detailRow.userId, this.form).then(() => {
+          let message: any = this.$t('notify.update-user-succsess')
+          this.$message.success({ message, duration: 5000 })
+          this.setOpenPopup({
+            popupName: 'popup-member',
+            isOpen: false
+          })
+          this.$emit('reload')
+        })
+      }
+    }
+
+    handleSubmitDelete(): void {
+      apiMember.deleteMember(this.detailRow.userId).then(() => {
+        let message: any = this.$t('notify.delete-user-success')
+        this.$message.success({ message, duration: 5000 })
+        this.setOpenPopup({
+          popupName: 'popup-member',
+          isOpen: false
+        })
+        this.$emit('reload')
+      })
     }
   }
 </script>
@@ -154,6 +217,8 @@
           }
           ::v-deep .el-checkbox__label {
             color: #0a0b0d;
+            font-size: 16px;
+            font-weight: 400;
           }
           ::v-deep .el-checkbox__input {
             .el-checkbox__inner {
@@ -213,6 +278,19 @@
             border: 1px solid transparent;
           }
         }
+      }
+      .jc-space-between {
+        justify-content: space-between;
+      }
+      .btn-left {
+        .btn-close {
+          padding: 0;
+          height: 40px;
+        }
+      }
+      .btn-close:focus {
+        color: var(--bc-btn-text);
+        background-color: var(--bc-bg-white);
       }
     }
   }
