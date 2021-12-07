@@ -27,7 +27,7 @@
   @Component({
     components: {}
   })
-  export default class CustomerDetail extends Mixins(PopupMixin) {
+  export default class PopupConfirm extends Mixins(PopupMixin) {
     handleCancel(): void {
       this.setOpenPopup({
         popupName: 'popup-confirm',

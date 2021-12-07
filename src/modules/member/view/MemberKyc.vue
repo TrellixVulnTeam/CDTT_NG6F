@@ -11,9 +11,18 @@
     </div>
 
     <member-filter @filter="handleFilter" :is-change-tab="isChangeTab" @addMember="handleAddMember" />
-    <member-table v-loading="isLoading" @rowClick="handleRowClick" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="data" />
+    <member-table
+      v-loading="isLoading"
+      @rowClick="handleRowClick"
+      @edit="handleClickEdit"
+      @sizeChange="handleSizeChange"
+      @pageChange="handlePageChange"
+      :query="query"
+      :data="data"
+    />
 
     <popup-member :type="type" :detailRow="detailRow" @reload="init" />
+    <popup-detail-member :detailRow="detailRow" @openEdit="handleClickEdit" />
   </div>
 </template>
 
@@ -23,6 +32,7 @@
   import MemberTable from '../components/MemberTable.vue'
   import MemberFilter from '../components/filter/MemberFilter.vue'
   import PopupMember from '../components/popup/PopupMember.vue'
+  import PopupDetailMember from '../components/popup/PopupDetailMember.vue'
   import PopupMixin from '@/mixins/popup'
   import getRepository from '@/services'
   import { MemberRepository } from '@/services/repositories/member'
@@ -44,7 +54,7 @@
     status?: string | null | undefined
   }
 
-  @Component({ components: { MemberTable, MemberFilter, PopupMember } })
+  @Component({ components: { MemberTable, MemberFilter, PopupMember, PopupDetailMember } })
   export default class BOCustomer extends Mixins(PopupMixin) {
     @bcKyc.Action('getListReason') getListReason!: () => void
     @bcAuth.Getter('listModuleCanView') listModuleCanView!: Array<Record<string, any>>
@@ -65,6 +75,7 @@
     tabActive = 'Pending'
     isLoading = false
     isChangeTab = false
+    isConflickClick = false
 
     type = 'add'
 
@@ -139,6 +150,13 @@
     }
 
     handleRowClick(row: Record<string, any>): void {
+      this.detailRow = row
+      this.setOpenPopup({
+        popupName: 'popup-detail-member',
+        isOpen: true
+      })
+    }
+    handleClickEdit(row: Record<string, any>): void {
       this.type = 'edit'
       this.detailRow = row
       this.setOpenPopup({

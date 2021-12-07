@@ -31,8 +31,8 @@
           </template>
         </el-table-column>
         <el-table-column prop="kycStatus" align="center" width="80">
-          <template>
-            <span>
+          <template slot-scope="scope">
+            <span @click="handleEdit(scope.row)">
               <base-icon icon="icon-edit" size="24" />
             </span>
           </template>
@@ -43,12 +43,15 @@
 </template>
 
 <script lang="ts">
+  import { forEach } from 'lodash'
   import { Component, Prop, Vue } from 'vue-property-decorator'
 
   @Component
   export default class MemberTable extends Vue {
     @Prop({ required: true, type: Object, default: {} }) query!: Record<string, any>
     @Prop({ required: true, type: Array, default: [] }) data!: Array<Record<string, any>>
+
+    isConflickClick = false
 
     get getPaginationInfo(): any {
       return this.$t('paging.customers')
@@ -66,14 +69,39 @@
     }
 
     handleRowClick(row: Record<string, any>): void {
+      if (this.isConflickClick) {
+        this.isConflickClick = false
+      }
       this.$emit('rowClick', row.row)
+    }
+
+    handleEdit(row: Record<string, any>): void {
+      this.isConflickClick = true
+      this.$emit('edit', row)
     }
 
     getRole(roles: string[]): string {
       if (roles.length) {
-        return roles.join('; ')
+        let roleArr: string[] = []
+        forEach(roles, (role: string) => {
+          roleArr.push(this.switchRole(role))
+        })
+        return roleArr.join('; ')
       }
       return ''
+    }
+
+    switchRole(role: string): string {
+      switch (role) {
+        case 'ADMIN':
+          return 'Admin'
+        case 'SUPPORT':
+          return 'Support'
+        case 'MARKETING':
+          return 'Marketing'
+        default:
+          return 'Accountant'
+      }
     }
   }
 </script>

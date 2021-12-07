@@ -691,7 +691,13 @@
       "title-edit": "SỬA THÀNH VIÊN",
       "status-active": "Trạng thái kích hoạt",
       "title-confirm": "Xác nhận xóa",
-      "content-confirm": "Bạn có chắc chắn muốn xóa thành viên này không ?"
+      "content-confirm": "Bạn có chắc chắn muốn xóa thành viên này không ?",
+      "title-detail": "chi tiết thành viên",
+      "edit": "Sửa",
+      "email": "Email",
+      "create-date": "Ngày tạo",
+      "last-login": "Lần đăng nhập cuối",
+      "active-status": "Trạng thái kích hoạt"
     },
     "sort": {
       "full-name": "Họ tên",
