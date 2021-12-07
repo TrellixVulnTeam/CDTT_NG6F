@@ -106,7 +106,7 @@
       toDate: '',
       fromAmount: '',
       toAmount: '',
-      orderBy: "1",
+      orderBy: '1',
       page: 1,
       limit: 10,
       total: 10
@@ -138,8 +138,8 @@
           orderBy: this.query.orderBy,
           limit: this.query.limit,
           page: this.query.page,
-          currency:this.query.currency,
-          fromDate:this.query.fromDate,
+          currency: this.query.currency,
+          fromDate: this.query.fromDate,
           toDate: this.query.toDate,
           fromAmount: this.query.fromAmount,
           toAmount: this.query.toAmount,
@@ -226,8 +226,8 @@
         limit: 10,
         search: '',
         orderBy: '1',
-        keywordString:'',
-        currency:''
+        keywordString: '',
+        currency: ''
       }
     }
 

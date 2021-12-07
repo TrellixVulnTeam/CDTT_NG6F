@@ -181,7 +181,7 @@
         i18n: 'balance.name'
       }
     ]
-    sortActive = '1'
+    sortActive = '3'
     listCountry: IListCountry[] = countryJson
     identificationType: Array<Record<string, any>> = [
       {
