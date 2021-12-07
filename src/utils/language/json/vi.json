@@ -211,7 +211,9 @@
     "captcha-invalid": "Captcha không hợp lệ!",
     "invalid-username": "Tên đăng nhập hoặc mật khẩu không chính xác!",
     "account-exits": "Số điện thoại đã được sử dụng!",
-    "no-permisson": "Bạn không có quyền truy cập"
+    "no-permisson": "Bạn không có quyền truy cập",
+    "date-invalid": "From date is less than to date",
+    "amount-invalid": "From amount is less than to amount"
   },
   "logout": {
     "title": "Đăng xuất"
