@@ -275,6 +275,7 @@
         (this.query.toAvailableAmount = ''),
         (this.query.fromAvailableAmount = ''),
         (this.query.search = '')
+      this.query.orderBy = '3'
       this.init()
       this.resetQuery()
       EventBus.$emit('selectTabBalance')
