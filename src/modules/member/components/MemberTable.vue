@@ -19,7 +19,7 @@
           </template>
         </el-table-column>
         <el-table-column :label="$t('kyc.table.email')" prop="email" width="330"> </el-table-column>
-        <el-table-column :label="$t('kyc.table.role')" prop="roles" width="180">
+        <el-table-column :label="$t('kyc.table.role')" prop="roles" width="230">
           <template slot-scope="scope">
             <span>{{ getRole(scope.row.roles) }}</span>
           </template>
@@ -71,6 +71,7 @@
     handleRowClick(row: Record<string, any>): void {
       if (this.isConflickClick) {
         this.isConflickClick = false
+        return
       }
       this.$emit('rowClick', row.row)
     }

@@ -5,53 +5,7 @@
         <base-icon icon="icon-search" size="24" />
       </span>
     </el-input>
-    <div class="filter-item">
-      <!-- <el-popover :value="isVisible" placement="bottom-start" width="518" trigger="click" popper-class="popper-filter" @show="handleShowPopper">
-        <div class="content">
-          <el-form>
-            <div class="be-flex jc-space-between row">
-              <el-form-item class="be-flex-item mr-40" :label="$t('label.nationality')">
-                <el-select v-model="filter.nationality" filterable :placeholder="$t('label.placehoderNationality')" class="w-100" clearable>
-                  <el-option v-for="(country, index) in listCountry" :key="index" :label="country.name" :value="country.name" />
-                </el-select>
-              </el-form-item>
-              <el-form-item class="be-flex-item" :label="$t('label.kyc-status')">
-                <el-select v-model="filter.type" id-type :placeholder="$t('label.placehoder-kyc-status')" class="w-100" clearable :disabled="isChangeTab">
-                  <el-option v-for="(type, index) in identificationType" :key="index" :label="type.type" :value="type.value" />
-                </el-select>
-              </el-form-item>
-            </div>
-            <div class="be-flex jc-space-between row">
-              <el-form-item class="be-flex-item mr-40" :label="$t('label.create-date')">
-                <el-date-picker class="w-100" format="yyyy/MM/dd" value-format="yyyy-MM-dd" :placeholder="$t('label.from-date')" v-model="filter.fromCreatedAt" type="date">
-                </el-date-picker>
-              </el-form-item>
-
-              <el-form-item class="be-flex-item hide-label" label="1">
-                <el-date-picker class="w-100" format="yyyy/MM/dd" :placeholder="$t('label.to-date')" value-format="yyyy-MM-dd" v-model="filter.toCreatedAt" type="date">
-                </el-date-picker>
-              </el-form-item>
-            </div>
-          </el-form>
-        </div>
-        <div class="be-flex jc-flex-end footer">
-          <el-button class="btn-default btn-400 btn-h-40 btn-close text-regular" @click="handleReset">
-            {{ $t('button.reset') }}
-          </el-button>
-          <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border h-40 text-regular" @click="handleApply">
-            {{ $t('button.apply') }}
-          </el-button>
-        </div>
-        <div slot="reference" class="cursor text-filter" style="font-size: 16px">
-          <span class="abicon"> <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="18" /> </span>
-          {{ $t('kyc.filter.filter') }}
-        </div>
-      </el-popover> -->
-      <!-- <div class="cursor text-filter" style="font-size: 16px">
-        <span class="abicon"> <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="18" /> </span>
-        {{ $t('kyc.filter.filter') }}
-      </div> -->
-    </div>
+    <div class="filter-item"></div>
     <div>
       <el-dropdown class="sort" trigger="click" @command="handleSort">
         <span class="abicon sort-title" style="font-size: 16px">

@@ -6,27 +6,27 @@
     <div class="content">
       <el-form class="form-item">
         <div class="be-flex jc-space-between">
-          <el-form-item :label="$t('label.f-name')" :class="type === 'add' ? 'is-required' : null" class="be-flex-item mr-16" prop="firstName">
+          <el-form-item :label="$t('label.f-name')" class="be-flex-item mr-16 is-required" prop="firstName">
             <el-input v-model="form.firstName" :placeholder="$t('placeholder.f-name')" clearable />
           </el-form-item>
 
-          <el-form-item :label="$t('label.l-name')" :class="type === 'add' ? 'is-required' : null" class="be-flex-item" prop="lastName">
+          <el-form-item :label="$t('label.l-name')" class="be-flex-item is-required" prop="lastName">
             <el-input v-model="form.lastName" :placeholder="$t('placeholder.l-name')" clearable />
           </el-form-item>
         </div>
 
-        <el-form-item :label="$t('label.email')" :class="type === 'add' ? 'is-required' : null" prop="email">
+        <el-form-item :label="$t('label.email')" class="is-required" prop="email">
           <el-input v-model="form.email" :placeholder="$t('placeholder.email')" clearable />
         </el-form-item>
 
-        <el-form-item v-if="type === 'add'" :label="$t('label.password')" :class="type === 'add' ? 'is-required' : null" prop="password" class="input-password">
+        <el-form-item v-if="type === 'add'" :label="$t('label.password')" prop="password" class="input-password is-required">
           <el-input class="input-password" :type="showPass == true ? 'text' : 'password'" :placeholder="$t('login.placeholder.password')" v-model="form.password" />
           <span class="icon-show-password" @click="showPass = !showPass">
             <base-icon :icon="showPass == true ? 'icon-eye-off' : 'icon-eye'" size="22" />
           </span>
         </el-form-item>
 
-        <el-form-item :label="$t('label.role')" :class="type === 'add' ? 'is-required' : null" prop="role">
+        <el-form-item :label="$t('label.role')" class="is-required" prop="role">
           <el-checkbox-group v-model="form.roles" class="list-role">
             <el-checkbox label="MARKETING">Marketing</el-checkbox>
             <el-checkbox label="ACCOUNTANT">Accountant</el-checkbox>
@@ -38,7 +38,7 @@
         <div class="bg-line" v-if="type === 'edit'"></div>
         <div class="be-flex align-center jc-space-between status-active" v-if="type === 'edit'">
           <span>{{ $t('member.popup.status-active') }}</span>
-          <el-switch v-model="form.status" active-color="#129961" class="switch-status"> </el-switch>
+          <el-switch v-model="form.status" active-color="#129961" active-value="ACTIVE" inactive-value="INACTIVE" class="switch-status"> </el-switch>
         </div>
       </el-form>
     </div>
@@ -217,6 +217,8 @@
           }
           ::v-deep .el-checkbox__label {
             color: #0a0b0d;
+            font-size: 16px;
+            font-weight: 400;
           }
           ::v-deep .el-checkbox__input {
             .el-checkbox__inner {
