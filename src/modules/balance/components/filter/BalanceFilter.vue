@@ -294,8 +294,8 @@
         (this.filterBalance.fromLockedAmount = ''),
         (this.filterBalance.toAvailableAmount = ''),
         (this.filterBalance.fromAvailableAmount = ''),
-        (this.filterBalance.orderBy = '')
-      this.sortActive = '1'
+        (this.filterBalance.orderBy = '3')
+      this.sortActive = '3'
       // this.$emit('filterBalance', params);
     }
 
