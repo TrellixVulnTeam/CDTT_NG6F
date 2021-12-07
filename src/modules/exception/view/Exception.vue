@@ -13,7 +13,7 @@
     <balance-filter @filterBalance="handleFilter" :listApproveBy="listApproveBy" />
     <div class="ending-balance be-flex jc-space-between">
       <p>{{ $t('exception.total') }}</p>
-      <p>${{totalAmount}}</p>
+      <p>${{ totalAmount }}</p>
       <!-- <p v-else>{{ summary.closeBalance | numberWithCommas }}</p> -->
     </div>
     <exception-table
@@ -142,8 +142,8 @@
         this.totalAmount = result.totalAmount
         this.data = result.withdrawPage.content || []
         this.propdataTable = result.withdrawPage.content || []
-        this.query.total = result.totalElement
-        console.log('data', this.propdataTable)
+        this.query.total = result.withdrawPage.totalElements
+        console.log('data', result.withdrawPage.totalElements)
         this.isLoading = false
       } catch (error) {
         this.isLoading = false

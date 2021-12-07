@@ -45,6 +45,12 @@
           </template>
         </el-table-column>
 
+        <el-table-column :label="$t('transaction.table.status')" prop="status"  align="center">
+          <template slot-scope="scope">
+            <span class="text-xs" :class="checkType(scope.row.status)">{{ checkTransactionStatus(scope.row.status) }}</span>
+          </template>
+        </el-table-column>
+
         <el-table-column :label="$t('transaction.table.amount')" align="right">
           <!-- <template slot-scope="scope">
             <div v-if="type === 'customer'">
@@ -101,6 +107,21 @@
           return this.$t('status.verified')
         default:
           return this.$t('status.rejected')
+      }
+    }
+    checkTransactionStatus(status: string): any {
+      switch (status) {
+        case 'SUCCESS':
+          return this.$i18n.t('transaction.table.succsess')
+        case 'PENDING':
+          return this.$i18n.t('transaction.table.pending')
+        case 'PROCESSING':
+          return this.$i18n.t('transaction.table.processing')
+        case 'REJECTED':
+          return this.$i18n.t('transaction.table.rejected')
+
+        default:
+          return this.$i18n.t('transaction.table.failed')
       }
     }
     indexMethod(index: number): number {

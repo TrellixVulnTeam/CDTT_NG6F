@@ -62,13 +62,13 @@
       </div>
     </router-link> -->
 
-    <!-- <router-link :to="{ name: 'Exception' }" class="router_center">
+    <router-link :to="{ name: 'Exception' }" class="router_center">
       <div class="sack_avatar">
-        <base-icon :icon="coinMain === 'LYNK' ? 'icon-wallet-bo-active' : 'icon-wallet-bo-active-clm'" class="menu-active" size="32" />
-        <base-icon icon="icon-wallet-bo" class="menu" size="32" />
+        <base-icon :icon="coinMain === 'LYNK' ? 'icon-exception-bo-active' : 'icon-exception-bo-active-clm'" class="menu-active" size="32" />
+        <base-icon icon="icon-exception-bo" class="menu" size="32" />
         <p>{{ $t('leftMenu.exception') }}</p>
       </div>
-    </router-link> -->
+    </router-link>
 
     <!-- <router-link :to="{ name: 'Wallet' }" class="router_center" exact>
       <div class="sack_avatar">

@@ -90,7 +90,7 @@
     tabActive = 0
 
     async handleOpen(): Promise<void> {
-      console.log('open',this.detailRow)
+      console.log('open', this.detailRow)
     }
 
     handleClose(): void {
@@ -195,7 +195,7 @@
     }
 
     handleRenderTitleDetail(type: string | null | undefined): string {
-      console.log('type',type)
+      console.log('type', type)
       if (type) {
         return type.replaceAll('_', ' ')
       } else return ''
