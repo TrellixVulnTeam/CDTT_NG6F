@@ -100,13 +100,13 @@
     query: any = {
       // userId: null,
       // keywordString: '',
-      // currency: [],
+      currency: '',
       transactionType: '',
-      // fromDate: '',
-      // toDate: '',
-      // fromAmount: '',
-      // toAmount: '',
-      orderBy: '1',
+      fromDate: '',
+      toDate: '',
+      fromAmount: '',
+      toAmount: '',
+      orderBy: "1",
       page: 1,
       limit: 10,
       total: 10
@@ -138,6 +138,11 @@
           orderBy: this.query.orderBy,
           limit: this.query.limit,
           page: this.query.page,
+          currency:this.query.currency,
+          fromDate:this.query.fromDate,
+          toDate: this.query.toDate,
+          fromAmount: this.query.fromAmount,
+          toAmount: this.query.toAmount,
           total: null
         }
         const result = await api.getListTransaction('search', params)
@@ -193,6 +198,7 @@
     }
 
     handleChangeTab(tab: Record<string, any>): void {
+      this.resetQuery()
       this.$router.push({ name: tab.routeName })
       // this.query.tabBalance = this.kycStatus[tab.title]
       this.tabActive = tab.title
@@ -200,8 +206,6 @@
       this.query.limit = 10
       this.query.orderBy = 1
       this.query.transactionType = tab.title.toUpperCase()
-      this.init()
-      this.resetQuery()
       let refs: any = this.$refs['popup-filter']
       if (refs) {
         refs.handleReset()
@@ -210,6 +214,8 @@
       if (refs2) {
         refs2.handleReset()
       }
+      this.init()
+
       // EventBus.$emit('selectTabBalance')
     }
 
@@ -220,7 +226,8 @@
         limit: 10,
         search: '',
         orderBy: '1',
-        keywordString: ''
+        keywordString:'',
+        currency:''
       }
     }
 

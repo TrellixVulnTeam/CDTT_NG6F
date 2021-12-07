@@ -268,7 +268,9 @@
     "invalid-username": "Username or password is incorrect!",
     "account-exits": "An account already exists with this phone number!",
     "no-permisson": "You don’t have permission to access",
-    "experied-verify": "Expired verification code"
+    "experied-verify": "Expired verification code",
+    "date-invalid": "From date is less than to date",
+    "amount-invalid": "From amount is less than to amount"
   },
   "logout": {
     "title": "Sign out"
