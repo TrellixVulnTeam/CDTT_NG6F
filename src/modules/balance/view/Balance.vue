@@ -136,7 +136,7 @@
     dataDetail = {}
     query: any = {
       search: '',
-      orderBy: 1,
+      orderBy: 3,
       page: 1,
       limit: 10,
       total: 10

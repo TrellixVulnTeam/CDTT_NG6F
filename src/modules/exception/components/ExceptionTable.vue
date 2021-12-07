@@ -20,10 +20,12 @@
         </el-table-column> -->
         <el-table-column :label="$t('transaction.table.trans-id')">
           <template slot-scope="scope">
+            <!-- transactionCode -->
             <div class="be-flex align-center">
-              <span v-if="type === 'customer'" class="d-ib mr-2">{{ scope.row.transactionCode | formatTransactionCode(6) }}</span>
-              <span v-else class="transaction-code d-ib mr-2">{{ scope.row.transactionCode | formatTransactionCode(10) }}</span>
-              <span v-if="scope.row.transactionCode" class="icon-copy" @click="handleCopyTransaction(scope.row)">
+              <span v-if="scope.row.transactionType === 'CROWDSALE'" class="transaction-code d-ib mr-2">{{ scope.row.transactionCode }}</span>
+              <span v-else class="transaction-code d-ib mr-2">{{ scope.row.transactionHash }}</span>
+
+              <span class="icon-copy" @click="handleCopyTransaction(scope.row)">
                 <base-icon icon="icon-copy" size="24" />
               </span>
             </div>
@@ -36,34 +38,43 @@
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('transaction.table.CUSTOMER')" prop="transactionDate" width="260">
+        <el-table-column :label="$t('transaction.table.CUSTOMER')" width="260">
+          <!-- paidAddress -->
           <template slot-scope="scope">
-            <div class="customer">
+            <div v-if="scope.row.transactionType === 'CROWDSALE'" class="customer">
+              <p>{{ scope.row.paidAddress | formatTransactionCode(10) }}</p>
+            </div>
+            <div v-else class="customer">
               <p>{{ scope.row.fullName }}</p>
               <p>{{ scope.row.email }}</p>
             </div>
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('transaction.table.amount')" align="right">
-          <!-- <template slot-scope="scope">
-            <div v-if="type === 'customer'">
-              <div v-if="scope.row.creditAmount" class="amount-increase">
-                <span>+{{ scope.row.creditAmount | convertAmountDecimal(scope.row.creditCurrency) }} {{ scope.row.creditCurrency }}</span>
-                <span class="d-block amount-exchange-small">~${{ (scope.row.creditAmount * scope.row.creditUsdExchangeRate) | convertAmountDecimal('USD') }}</span>
-              </div>
-              <div v-else class="amount-decrease">
-                <span>-{{ scope.row.debitAmount | convertAmountDecimal(scope.row.debitCurrency) }} {{ scope.row.debitCurrency }}</span>
-                <span class="d-block amount-exchange-small">~${{ (scope.row.debitAmount * scope.row.debitUsdExchangeRate) | convertAmountDecimal('USD') }}</span>
+        <el-table-column :label="$t('transaction.table.status')" prop="status" width="160" align="center">
+          <template slot-scope="scope">
+            <span class="text-xs" :class="checkType(scope.row.status)">{{ checkTransactionStatus(scope.row.status) }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column :label="$t('transaction.table.amount')" width="220" align="right">
+          <!-- paidAmountDisplay -->
+          <!-- paidAmountToUsd -->
+          <template slot-scope="scope">
+            <div v-if="scope.row.transactionType === 'CROWDSALE'">
+              <div class="amount-increase">
+                <span>+{{ scope.row.paidAmountDisplay }} {{ scope.row.tokenCurrency }}</span>
+                <span class="d-block amount-exchange-small">~${{ scope.row.paidAmountToUsd }}</span>
               </div>
             </div>
+
             <div v-else>
               <div class="amount-increase">
-                <span :class="checkValueAmountDisplay(scope.row.amountDisplay)">{{ scope.row.amountDisplay }}</span>
-                <span class="d-block amount-exchange-small">~${{ scope.row.amountToUsd | convertAmountDecimal('USD') }}</span>
+                <span>+{{ scope.row.amountDisplay }} {{ scope.row.currency }}</span>
+                <span class="d-block amount-exchange-small">~${{ scope.row.amountToUsdDisplay }}</span>
               </div>
             </div>
-          </template> -->
+          </template>
         </el-table-column>
       </base-table>
     </div>
@@ -72,27 +83,24 @@
 
 <script lang="ts">
   import { Component, Prop, Vue } from 'vue-property-decorator'
-
   @Component
   export default class KycTable extends Vue {
     @Prop({ required: true, type: Object, default: {} }) query!: Record<string, any>
     @Prop({ required: true, type: Array, default: [] }) data!: Array<Record<string, any>>
-    @Prop() propTabActive!: string
     get getPaginationInfo(): any {
       return this.$t('paging.investor')
     }
-
+    checkTabActive = ''
     checkType(type: string): string {
       return type === 'Not verified' ? 'status-not-verified' : type === 'PENDING' ? 'status-pending' : type === 'VERIFIED' ? 'status-verified' : 'status-rejected'
     }
     getDataSelectTab(): void {
       console.log('1')
     }
-    created(): void {
-      // EventBus.$on('pushAvatar', url => {
-      //   this.image = url
-      // })
-    }
+    // created(): void {
+    //   console.log("route", this.$route.name)
+    // }
+
     checkStatus(status: string): any {
       switch (status) {
         case 'PENDING':
@@ -101,6 +109,21 @@
           return this.$t('status.verified')
         default:
           return this.$t('status.rejected')
+      }
+    }
+    checkTransactionStatus(status: string): any {
+      switch (status) {
+        case 'SUCCESS':
+          return this.$i18n.t('transaction.table.succsess')
+        case 'PENDING':
+          return this.$i18n.t('transaction.table.pending')
+        case 'PROCESSING':
+          return this.$i18n.t('transaction.table.processing')
+        case 'REJECTED':
+          return this.$i18n.t('transaction.table.rejected')
+
+        default:
+          return this.$i18n.t('transaction.table.failed')
       }
     }
     indexMethod(index: number): number {
