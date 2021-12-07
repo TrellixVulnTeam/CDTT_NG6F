@@ -14,16 +14,20 @@
         <el-table-column :label="$t('kyc.table.fullName')" min-width="200">
           <template slot-scope="scope">
             <div class="be-flex align-center">
-              <span class="d-ib mr-2">{{ scope.row.firstName + '&nbsp;' + scope.row.lastName }}</span>
+              <span class="d-ib mr-2">{{ scope.row.fullName }}</span>
             </div>
           </template>
         </el-table-column>
         <el-table-column :label="$t('kyc.table.email')" prop="email" width="330"> </el-table-column>
-        <el-table-column :label="$t('kyc.table.role')" prop="nationality" width="140"> </el-table-column>
+        <el-table-column :label="$t('kyc.table.role')" prop="roles" width="180">
+          <template slot-scope="scope">
+            <span>{{ getRole(scope.row.roles) }}</span>
+          </template>
+        </el-table-column>
 
         <el-table-column :label="$t('kyc.table.date')" prop="createdDate" width="200">
           <template slot-scope="scope">
-            <span>{{ scope.row.createdDate | formatDateHourMs }}</span>
+            <span>{{ scope.row.createdAt | formatDateHourMs }}</span>
           </template>
         </el-table-column>
         <el-table-column prop="kycStatus" align="center" width="80">
@@ -63,6 +67,13 @@
 
     handleRowClick(row: Record<string, any>): void {
       this.$emit('rowClick', row.row)
+    }
+
+    getRole(roles: string[]): string {
+      if (roles.length) {
+        return roles.join('; ')
+      }
+      return ''
     }
   }
 </script>

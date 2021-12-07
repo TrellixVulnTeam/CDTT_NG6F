@@ -160,7 +160,9 @@
     "reject": "Reject",
     "apply": "Apply",
     "add-member": "Add member",
-    "add-member-1": "Add Member"
+    "add-member-1": "Add Member",
+    "delete-user": "Delete User",
+    "save": "Save"
   },
   "deposit": {
     "lynkey": "DEPOSIT LYNKEY",
@@ -270,7 +272,11 @@
     "no-permisson": "You don’t have permission to access",
     "experied-verify": "Expired verification code",
     "date-invalid": "From date is less than to date",
-    "amount-invalid": "From amount is less than to amount"
+    "amount-invalid": "From amount is less than to amount",
+    "account-exist": "Account already exists",
+    "add-user-succsess": "Add member successfully",
+    "update-user-succsess": "Update member successfully",
+    "delete-user-success": "Delete successfully"
   },
   "logout": {
     "title": "Sign out"
@@ -735,7 +741,14 @@
     "popup": {
       "title-add": "ADD MEMBER",
       "title-edit": "EDIT MEMBER",
-      "status-active": "Active status"
+      "status-active": "Active status",
+      "title-confirm": "Confirm delete",
+      "content-confirm": "Are you sure you want to delete this member ?"
+    },
+    "sort": {
+      "full-name": "Full name",
+      "email": "Email",
+      "create-date": "Created date"
     }
   },
   "exception": {
