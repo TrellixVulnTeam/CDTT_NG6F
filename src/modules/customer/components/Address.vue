@@ -1,6 +1,7 @@
 <template>
   <div class="list-address">
-    <filter-main :sorts="sorts" @filter="handleFilter" :isShowSort="false" />
+<!--    <filter-main :sorts="sorts" @filter="handleFilter" :isShowSort="true" />-->
+    <filter-transaction @filter="handleFilter" :type='"addresses"'/>
     <div class="table" v-loading="isLoading" :class="isLoading ? 'list-loading' : null">
       <base-table :data="listAddress" :showPagination="false" class="base-table table-wallet">
         <el-table-column label="#" type="index" align="center" width="40" />
@@ -8,7 +9,7 @@
           <template slot-scope="scope">
             <div class="be-flex align-center">
               <base-icon :icon="getIcon(scope.row.currency)" size="24" />
-              <span style="padding-left: 8px" class="d-ib">{{ getAssetTitle(scope.row.currency) }}</span>
+              <span style="padding-left: 8px" class="d-ib">{{ getAssetTitle(scope.row.currencyName) }}</span>
             </div>
           </template>
         </el-table-column>
@@ -40,6 +41,7 @@
         </el-table-column>
       </base-table>
     </div>
+    <popup-filter-addresses @filter="handleFilter"/>
   </div>
 </template>
 
@@ -50,8 +52,9 @@
   import getRepository from '@/services'
   import { CustomerRepository } from '@/services/repositories/customer'
   const apiCustomer: CustomerRepository = getRepository('customer')
-
-  @Component({ components: { FilterMain } })
+  import FilterTransaction from '@/components/filter/FilterTransaction.vue'
+  import PopupFilterAddresses from '@/components/popup/PopupFilterAddresses.vue'
+  @Component({ components: { FilterMain,FilterTransaction,PopupFilterAddresses } })
   export default class CustomerAddress extends Vue {
     @Prop({ required: true, type: Number, default: 0 }) userId!: number
 
