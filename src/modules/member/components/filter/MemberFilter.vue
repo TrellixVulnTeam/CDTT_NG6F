@@ -5,8 +5,12 @@
         <base-icon icon="icon-search" size="24" />
       </span>
     </el-input>
-    <div class="filter-item"></div>
-    <div>
+    <div class="be-flex align-center">
+      <div class="filter-role">
+        <el-select v-model="filter.filter" @change="handleSelectRole">
+          <el-option v-for="item in listRole" :key="item.value" :label="item.label" :value="item.value"> </el-option>
+        </el-select>
+      </div>
       <el-dropdown class="sort" trigger="click" @command="handleSort">
         <span class="abicon sort-title" style="font-size: 16px">
           <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}</span
@@ -33,25 +37,13 @@
   import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
   import EventBus from '@/utils/eventBus'
   import { forEach, trim, debounce } from 'lodash'
-  import getRepository from '@/services'
-  import { KycRepository } from '@/services/repositories/kyc'
-
-  const apiKyc: KycRepository = getRepository('kyc')
-
-  import countryJson from '@/utils/country/index.json'
-
-  interface IListCountry {
-    name: string
-    dialCode: string
-    isoCode: string
-    flag: string
-  }
 
   @Component
   export default class KycFilter extends Vue {
     @Prop({ required: true }) isChangeTab!: boolean
     filter = {
       search: '',
+      filter: 'ALL',
       orderBy: 3
     }
     loading = false
@@ -60,6 +52,29 @@
       limit: 20,
       search: ''
     }
+
+    listRole: Record<string, any>[] = [
+      {
+        value: 'ALL',
+        label: this.$i18n.t('member.sort.all-role')
+      },
+      {
+        value: 'ADMIN',
+        label: this.$i18n.t('member.sort.admin')
+      },
+      {
+        value: 'SUPPORT',
+        label: this.$i18n.t('member.sort.support')
+      },
+      {
+        value: 'MARKETING',
+        label: this.$i18n.t('member.sort.mkt')
+      },
+      {
+        value: 'ACCOUNTANT',
+        label: this.$i18n.t('member.sort.accountant')
+      }
+    ]
 
     sorts: Array<Record<string, any>> = [
       {
@@ -88,35 +103,6 @@
       // }
     ]
     sortActive = 3
-    listCountry: IListCountry[] = countryJson
-    identificationType: Array<Record<string, any>> = [
-      {
-        id: 0,
-        type: this.$i18n.t('kyc.filter.all-status'),
-        value: ''
-      },
-      {
-        id: 1,
-        type: this.$i18n.t('kyc.filter.kyc-processing'),
-        value: 'KYC'
-      },
-      {
-        id: 2,
-        type: this.$i18n.t('kyc.filter.not-verified'),
-        value: 'NOT_VERIFIED'
-      },
-      {
-        id: 3,
-        type: this.$i18n.t('kyc.filter.verified'),
-        value: 'VERIFIED'
-      },
-      {
-        id: 4,
-        type: this.$i18n.t('kyc.filter.locked'),
-        value: 'LOCKED'
-      }
-    ]
-    isVisible = false
 
     @Watch('filter.search') handleSearch(value: string): void {
       this.searchText(value)
@@ -145,25 +131,17 @@
       EventBus.$off('changeTab')
     }
 
-    handleShowPopper(): void {
-      this.isVisible = true
-    }
-
     resetFilter(): void {
       this.filter = {
         search: '',
+        filter: 'ALL',
         orderBy: 3
       }
     }
 
     handleChangeTab(): void {
       this.sortActive = 3
-      this.queryApprove = {
-        page: 1,
-        limit: 20,
-        search: ''
-      }
-
+      this.filter.filter = 'ALL'
       if (this.filter.search) {
         this.resetFilter()
       } else {
@@ -178,6 +156,10 @@
       }
     }
 
+    handleSelectRole(): void {
+      this.$emit('filter', this.filter)
+    }
+
     handleSort(command: number): void {
       this.sortActive = command
       this.filter.orderBy = command
@@ -186,7 +168,6 @@
 
     handleApply(): void {
       this.$emit('filter', this.filter)
-      this.isVisible = false
     }
 
     handleReset(): void {
@@ -194,7 +175,6 @@
         ...this.filter
       }
       this.$emit('filter', this.filter)
-      this.isVisible = false
     }
 
     handleAddMember(): void {
@@ -214,20 +194,9 @@
     }
 
     .sort {
-      // margin-left: 30px;
+      margin-left: 30px;
       cursor: pointer;
       color: #0a0b0d;
-    }
-
-    ::v-deep .filter-item {
-      &:hover {
-        .text-filter {
-          color: var(--bc-theme-primary);
-          .span-icon {
-            color: var(--bc-theme-primary) !important;
-          }
-        }
-      }
     }
 
     ::v-deep .sort {
@@ -246,6 +215,16 @@
           .span-icon {
             color: var(--bc-theme-primary) !important;
           }
+        }
+      }
+    }
+
+    ::v-deep .filter-role {
+      .el-select {
+        .el-input__inner {
+          height: 48px;
+          width: 140px;
+          font-size: 16px;
         }
       }
     }

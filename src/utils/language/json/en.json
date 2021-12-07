@@ -115,7 +115,8 @@
     "request": "Request",
     "balance": "Balance",
     "transaction": "Transaction",
-    "exception": "Exception"
+    "exception": "Exception",
+    "member": "Members"
   },
   "footer": {
     "terms": "Terms and Conditions"
@@ -182,7 +183,8 @@
     "crowdsale": "transactions",
     "investor": "investors",
     "request": "requests",
-    "balance": "balance"
+    "balance": "balance",
+    "member": "members"
   },
   "label": {
     "buy-from": "Buy from",
@@ -754,7 +756,12 @@
     "sort": {
       "full-name": "Full name",
       "email": "Email",
-      "create-date": "Created date"
+      "create-date": "Created date",
+      "all-role": "All roles",
+      "admin": "Admin",
+      "support": "Support",
+      "mkt": "Marketing",
+      "accountant": "Accountant"
     }
   },
   "exception": {

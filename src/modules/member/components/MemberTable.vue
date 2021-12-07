@@ -54,7 +54,7 @@
     isConflickClick = false
 
     get getPaginationInfo(): any {
-      return this.$t('paging.customers')
+      return this.$t('paging.member')
     }
 
     indexMethod(index: number): number {

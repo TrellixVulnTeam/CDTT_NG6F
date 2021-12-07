@@ -91,7 +91,8 @@
     "request": "Yêu cầu",
     "balance": "Số dư",
     "transaction": "Giao dịch",
-    "exception": "Ngoại lệ"
+    "exception": "Ngoại lệ",
+    "member": "Nhân sự"
   },
   "footer": {
     "terms": "Các điều khoản và điều kiện"
@@ -138,7 +139,8 @@
     "transaction": "giao dịch",
     "crowdsale": "giao dịch",
     "investor": "nhà đầu tư",
-    "request": "yêu cầu"
+    "request": "yêu cầu",
+    "member": "Nhân viên"
   },
   "label": {
     "buy-from": "Chọn ví",
@@ -242,7 +244,8 @@
       "email": "email",
       "national": "quốc gia",
       "date": "ngày tạo",
-      "status": "trạng thái"
+      "status": "trạng thái",
+      "role": "Quyền"
     },
     "popup": {
       "title": "CHI TIẾT KYC",
@@ -702,7 +705,12 @@
     "sort": {
       "full-name": "Họ tên",
       "email": "Email",
-      "create-date": "Ngày tạo"
+      "create-date": "Ngày tạo",
+      "all-role": "Tất cả",
+      "admin": "Admin",
+      "support": "Hỗ trợ",
+      "mkt": "Marketing",
+      "accountant": "Kế toán"
     }
   }
 }

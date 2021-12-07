@@ -52,6 +52,7 @@
     orderBy: string | number
     total: number
     status?: string | null | undefined
+    filter?: string
   }
 
   @Component({ components: { MemberTable, MemberFilter, PopupMember, PopupDetailMember } })
@@ -172,6 +173,7 @@
       this.query = {
         ...this.query,
         ...filter,
+        filter: filter.filter === 'ALL' ? null : filter.filter,
         page: 1,
         limit: 10
       }
