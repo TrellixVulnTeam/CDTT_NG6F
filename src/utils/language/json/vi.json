@@ -325,7 +325,7 @@
       "num-of-trans": "SỐ GIAO DỊCH",
       "total-amount": "TỔNG SỐ",
       "avg-trans-amount": "SỐ TIỀN TRUNG BÌNH ",
-      "last-transaction": "GIAO DỊCH CUỐI CÙNG"
+      "last-transaction": "GIAO DỊCH MỚI NHẤT"
     },
     "select": {
       "accepted": "Xác nhận",
