@@ -1,7 +1,7 @@
 <template>
   <div class="list-address">
-<!--    <filter-main :sorts="sorts" @filter="handleFilter" :isShowSort="true" />-->
-    <filter-transaction @filter="handleFilter" :type='"addresses"'/>
+    <!--    <filter-main :sorts="sorts" @filter="handleFilter" :isShowSort="true" />-->
+    <filter-transaction @filter="handleFilter" :type="'addresses'" />
     <div class="table" v-loading="isLoading" :class="isLoading ? 'list-loading' : null">
       <base-table :data="listAddress" :showPagination="false" class="base-table table-wallet">
         <el-table-column label="#" type="index" align="center" width="40" />
@@ -41,7 +41,7 @@
         </el-table-column>
       </base-table>
     </div>
-    <popup-filter-addresses @filter="handleFilter"/>
+    <popup-filter-addresses @filter="handleFilter" />
   </div>
 </template>
 
@@ -54,7 +54,7 @@
   const apiCustomer: CustomerRepository = getRepository('customer')
   import FilterTransaction from '@/components/filter/FilterTransaction.vue'
   import PopupFilterAddresses from '@/components/popup/PopupFilterAddresses.vue'
-  @Component({ components: { FilterMain,FilterTransaction,PopupFilterAddresses } })
+  @Component({ components: { FilterMain, FilterTransaction, PopupFilterAddresses } })
   export default class CustomerAddress extends Vue {
     @Prop({ required: true, type: Number, default: 0 }) userId!: number
 

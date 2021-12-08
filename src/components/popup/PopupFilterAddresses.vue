@@ -1,42 +1,40 @@
 <template>
-  <base-popup name='popup-filter-addresses' class='popup-filter-transaction' width='600px'>
-    <div class='title-popup' slot='title'>
+  <base-popup name="popup-filter-addresses" class="popup-filter-transaction" width="600px">
+    <div class="title-popup" slot="title">
       <span>{{ $t('transaction.popup.title-filter') }}</span>
     </div>
-    <div class='content'>
+    <div class="content">
       <el-form>
         <el-form-item :label="$t('label.asset')">
-          <el-select v-model='filter.currency' multiple clearable class='w-100'>
-            <el-option v-for='wallet in getListWallet' :key='wallet.id' :value='wallet.symbol' :label='wallet.name'>
+          <el-select v-model="filter.currency" multiple clearable class="w-100">
+            <el-option v-for="wallet in getListWallet" :key="wallet.id" :value="wallet.symbol" :label="wallet.name">
               <template>
-                <div class='be-flex wallet-item'>
-                  <base-icon :icon='wallet.icon' size='24' />
-                  <span class='d-ib' style='margin-left: 10px'>{{ wallet.name }}</span>
-                  <span class='d-ib' style='margin-left: 4px'>({{ wallet.symbol.toUpperCase() }})</span>
+                <div class="be-flex wallet-item">
+                  <base-icon :icon="wallet.icon" size="24" />
+                  <span class="d-ib" style="margin-left: 10px">{{ wallet.name }}</span>
+                  <span class="d-ib" style="margin-left: 4px">({{ wallet.symbol.toUpperCase() }})</span>
                 </div>
               </template>
             </el-option>
           </el-select>
         </el-form-item>
-        <div class='be-flex jc-space-between row'>
-          <el-form-item class='be-flex-item mr-40 form-item-line' :label="$t('label.created-date')">
-            <el-date-picker class='w-100 date-picker' format='MM/dd/yyyy' value-format='yyyy-MM-dd'
-                            :placeholder="$t('label.from-date')" v-model='filter.fromCreatedAt' type='date'>
+        <div class="be-flex jc-space-between row">
+          <el-form-item class="be-flex-item mr-40 form-item-line" :label="$t('label.created-date')">
+            <el-date-picker class="w-100 date-picker" format="MM/dd/yyyy" value-format="yyyy-MM-dd" :placeholder="$t('label.from-date')" v-model="filter.fromCreatedAt" type="date">
             </el-date-picker>
           </el-form-item>
 
-          <el-form-item class='be-flex-item hide-label' label='1'>
-            <el-date-picker class='w-100 date-picker' format='MM/dd/yyyy' :placeholder="$t('label.to-date')"
-                            value-format='yyyy-MM-dd' v-model='filter.toCreatedAt' type='date'>
+          <el-form-item class="be-flex-item hide-label" label="1">
+            <el-date-picker class="w-100 date-picker" format="MM/dd/yyyy" :placeholder="$t('label.to-date')" value-format="yyyy-MM-dd" v-model="filter.toCreatedAt" type="date">
             </el-date-picker>
           </el-form-item>
         </div>
         <div>
           <el-form-item :label="$t('label.network')">
-            <el-select v-model='filter.network' clearable class='w-100'>
-              <el-option v-for='status in listStatus' :key='status.id' :value='status.value' :label='status.label'>
+            <el-select v-model="filter.network" clearable class="w-100">
+              <el-option v-for="status in listStatus" :key="status.id" :value="status.value" :label="status.label">
                 <template>
-                  <span class='d-ib'>{{ status.label }}</span>
+                  <span class="d-ib">{{ status.label }}</span>
                 </template>
               </el-option>
             </el-select>
@@ -44,17 +42,17 @@
         </div>
       </el-form>
     </div>
-    <div slot='footer' class='footer'>
-      <button class='btn-default mr-15 text-regular btn-h40' @click='handleReset'>{{ $t('button.reset') }}</button>
+    <div slot="footer" class="footer">
+      <button class="btn-default mr-15 text-regular btn-h40" @click="handleReset">{{ $t('button.reset') }}</button>
       <!-- <button class="btn-default-bg text-regular btn-h40"  disabled  @click="handleConfirm">{{ $t('button.continue') }}</button> -->
-      <button class='btn-default-bg text-regular btn-h40' @click='handleApply'>
+      <button class="btn-default-bg text-regular btn-h40" @click="handleApply">
         {{ $t('button.continue') }}
       </button>
     </div>
   </base-popup>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
   import { Component, Mixins, Prop } from 'vue-property-decorator'
   import includes from 'lodash/includes'
   import PopupMixin from '@/mixins/popup'
@@ -178,15 +176,15 @@
     }
 
     handleApply(): void {
-        this.setOpenPopup({
-          popupName: 'popup-filter-addresses',
-          isOpen: false
-        })
-        let _currency = ''
-        if (this.filter.currency) {
-          _currency = this.filter.currency.join(',')
-        }
-        this.$emit('filter', { ...this.filter, currency: _currency })
+      this.setOpenPopup({
+        popupName: 'popup-filter-addresses',
+        isOpen: false
+      })
+      let _currency = ''
+      if (this.filter.currency) {
+        _currency = this.filter.currency.join(',')
+      }
+      this.$emit('filter', { ...this.filter, currency: _currency })
     }
 
     onlyNumber(event: KeyboardEvent, type: string): void {
@@ -213,7 +211,7 @@
   }
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
   .prefix {
     height: 100%;
     font-size: 16px;

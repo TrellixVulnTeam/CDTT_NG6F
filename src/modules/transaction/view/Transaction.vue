@@ -226,13 +226,13 @@
         limit: 10,
         search: '',
         orderBy: '1',
-        keywordString:'',
-        currency:'',
-        status:'',
-        fromDate:'',
-        toDate:'',
-        fromAmount:'',
-        toAmount:''
+        keywordString: '',
+        currency: '',
+        status: '',
+        fromDate: '',
+        toDate: '',
+        fromAmount: '',
+        toAmount: ''
       }
     }
 
