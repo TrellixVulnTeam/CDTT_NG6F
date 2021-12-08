@@ -168,44 +168,44 @@
       lastName: [
         {
           required: true,
-          message: this.$t('signup.lastname'),
+          message: this.$t('member.validate.lastname'),
           trigger: 'blur'
         },
         {
           pattern: /^.{2,}$/,
-          message: this.$t('signup.lastnameLength'),
+          message: this.$t('member.validate.lastnameLength'),
           trigger: 'blur'
         }
       ],
       firstName: [
         {
           required: true,
-          message: this.$t('signup.firstname'),
+          message: this.$t('member.validate.firstname'),
           trigger: 'blur'
         },
         {
           pattern: /^.{2,}$/,
-          message: this.$t('signup.firstnameLength'),
+          message: this.$t('member.validate.firstnameLength'),
           trigger: 'blur'
         }
       ],
       email: [
         {
           required: true,
-          message: this.$t('login.wrong-email'),
+          message: this.$t('member.validate.wrong-email'),
           trigger: 'blur'
         },
-        { type: 'email', message: this.$t('login.wrong-email-type'), trigger: 'blur' }
+        { type: 'email', message: this.$t('member.validate.wrong-email-type'), trigger: 'blur' }
       ],
       password: [
         {
           required: true,
-          message: this.$t('login.wrong-password'),
+          message: this.$t('member.validate.wrong-password'),
           trigger: 'blur'
         },
         {
           pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-          message: this.$t('login.checkpass'),
+          message: this.$t('member.validate.checkpass'),
           trigger: 'blur'
         }
       ]

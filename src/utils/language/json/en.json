@@ -768,6 +768,16 @@
       "support": "Support",
       "mkt": "Marketing",
       "accountant": "Accountant"
+    },
+    "validate": {
+      "wrong-email": "Please enter email",
+      "wrong-email-type": "Please enter a correct email address",
+      "wrong-password": "Please enter password",
+      "checkpass": "Please enter a valid password",
+      "firstname": "Please enter first name",
+      "lastname": "Please enter last name",
+      "lastnameLength": "Minimum 2 characters",
+      "firstnameLength": "Minimum 2 characters"
     }
   },
   "exception": {
