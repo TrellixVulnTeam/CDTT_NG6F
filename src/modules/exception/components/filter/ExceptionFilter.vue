@@ -1,6 +1,6 @@
 <template>
   <div class="pb-24 pt-24 be-flex align-center kyc-filter">
-    <el-input v-model="filterBalance.search" class="input-search" :placeholder="$t('placeholder.search')">
+    <el-input v-model="filterException.search" class="input-search" :placeholder="$t('placeholder.search')">
       <span slot="prefix" class="prefix-search">
         <base-icon icon="icon-search" size="24" />
       </span>
@@ -10,7 +10,7 @@
         <div class="content">
           <el-form>
             <el-form-item :label="$t('label.buy-token')">
-              <el-select v-model="filter.currency" multiple clearable class="w-100">
+              <el-select v-model="filterException.currency" multiple clearable class="w-100">
                 <el-option v-for="wallet in getListWallet" :key="wallet.id" :value="wallet.symbol" :label="wallet.name">
                   <template>
                     <div class="be-flex wallet-item">
@@ -25,19 +25,34 @@
 
             <div class="be-flex jc-space-between row">
               <el-form-item class="be-flex-item mr-40 form-item-line" :label="$t('label.trans-date')">
-                <el-date-picker class="w-100 date-picker" format="MM/dd/yyyy" value-format="yyyy-MM-dd" :placeholder="$t('label.from-date')" v-model="filter.fromDate" type="date">
+                <el-date-picker
+                  class="w-100 date-picker"
+                  format="MM/dd/yyyy"
+                  value-format="yyyy-MM-dd"
+                  :placeholder="$t('label.from-date')"
+                  v-model="filterException.fromDate"
+                  type="date"
+                >
                 </el-date-picker>
               </el-form-item>
 
               <el-form-item class="be-flex-item hide-label" label="1">
-                <el-date-picker class="w-100 date-picker" format="MM/dd/yyyy" :placeholder="$t('label.to-date')" value-format="yyyy-MM-dd" v-model="filter.toDate" type="date">
+                <el-date-picker
+                  class="w-100 date-picker"
+                  format="MM/dd/yyyy"
+                  :picker-options="pickerOption"
+                  :placeholder="$t('label.to-date')"
+                  value-format="yyyy-MM-dd"
+                  v-model="filterException.toDate"
+                  type="date"
+                >
                 </el-date-picker>
               </el-form-item>
             </div>
             <div class="be-flex jc-space-between row">
               <el-form-item class="be-flex-item mr-40 form-item-line" :label="$t('label.trans-amount')">
                 <el-input
-                  v-model="filter.fromAmount"
+                  v-model="filterException.fromAmount"
                   :placeholder="$t('placeholder.from-amount')"
                   @keypress.native="onlyNumber($event, 'fromAmount')"
                   @keyup.native="numberFormat($event)"
@@ -48,7 +63,7 @@
 
               <el-form-item class="be-flex-item hide-label" label="1">
                 <el-input
-                  v-model="filter.toAmount"
+                  v-model="filterException.toAmount"
                   :placeholder="$t('placeholder.to-amount')"
                   @keypress.native="onlyNumber($event, 'toAmount')"
                   @keyup.native="numberFormat($event)"
@@ -57,15 +72,15 @@
                 </el-input>
               </el-form-item>
             </div>
-            <!-- <el-form-item :label="$t('label.status')" class="be-flex-item mr-40">
-                <el-select v-model="filter.status" clearable class="w-100">
-                  <el-option v-for="status in listStatus" :key="status.id" :value="status.value" :label="status.label">
-                    <template>
-                      <span class="d-ib">{{ status.label }}</span>
-                    </template>
-                  </el-option>
-                </el-select>
-              </el-form-item> -->
+            <el-form-item :label="$t('label.status')" class="be-flex-item mr-40">
+              <el-select v-model="filterException.status" clearable class="w-100">
+                <el-option v-for="status in listStatus" :key="status.id" :value="status.value" :label="status.label">
+                  <template>
+                    <span class="d-ib">{{ status.label }}</span>
+                  </template>
+                </el-option>
+              </el-select>
+            </el-form-item>
           </el-form>
         </div>
         <div class="be-flex jc-flex-end footer">
@@ -122,25 +137,17 @@
   export default class KycFilter extends Vue {
     @beBase.State('coinMain') coinMain!: string
     @Prop({ required: true, type: Array, default: [] }) listApproveBy!: Array<Record<string, any>>
-    filterBalance = {
+    filterException: Record<string, any> = {
       search: '',
-      toBalanceAmount: '',
-      fromBalanceAmount: '',
-      toLockedAmount: '',
-      fromLockedAmount: '',
-      toAvailableAmount: '',
-      fromAvailableAmount: '',
-      orderBy: ''
-    }
-    filter: Record<string, any> = {
       currency: '',
       fromDate: '',
       toDate: '',
       fromAmount: '',
       toAmount: '',
       status: '',
-      bonusType: ''
+      orderBy: '1'
     }
+
     listWallet: Array<Record<string, any>> = [
       {
         id: 0,
@@ -327,17 +334,17 @@
     ]
     isVisible = false
 
-    @Watch('filterBalance.search') handleSearch(value: string): void {
+    @Watch('filterException.search') handleSearch(value: string): void {
       this.searchText(value)
     }
-    @Watch('filterBalance.fromAvailableAmount') availabelAmount(value: string): void {
+    @Watch('filterException.fromAvailableAmount') availabelAmount(value: string): void {
       console.log('value', '$ ' + value)
-      // this.filterBalance.fromAvailableAmount = "$ " + value
+      // this.filterException.fromAvailableAmount = "$ " + value
     }
     searchText = debounce((value: string) => {
-      console.log('thanh', this.filterBalance)
-      this.$emit('filterBalance', {
-        ...this.filterBalance,
+      console.log('thanh', this.filterException)
+      this.$emit('filterException', {
+        ...this.filterException,
         search: trim(value)
       })
     }, 500)
@@ -355,6 +362,7 @@
         }
       }
     }
+
     created(): void {
       EventBus.$on('changeLang', () => {
         console.log('a', window.localStorage.getItem('bc-lang'))
@@ -363,9 +371,9 @@
         })
         this.$forceUpdate()
       })
-      EventBus.$on('selectTabBalance', this.handleChangeTab)
-      // this.$emit('filterBalance', this.filterBalance)
-      console.log('filter', this.filterBalance)
+      EventBus.$on('changeTabException', this.handleChangeTab)
+      // this.$emit('filterException', this.filterException)
+      console.log('filter', this.filterException)
     }
     destroyed(): void {
       EventBus.$off('changeLang')
@@ -399,71 +407,54 @@
     }
 
     resetFilter(): void {
-      this.filterBalance = {
-        search: '',
-        toBalanceAmount: '',
-        fromBalanceAmount: '',
-        toLockedAmount: '',
-        fromLockedAmount: '',
-        toAvailableAmount: '',
-        fromAvailableAmount: '',
-        orderBy: ''
-      }
+      console.log('k')
     }
 
     handleChangeTab(): void {
-      ;(this.filterBalance.search = ''),
-        (this.filterBalance.toBalanceAmount = ''),
-        (this.filterBalance.fromBalanceAmount = ''),
-        (this.filterBalance.toLockedAmount = ''),
-        (this.filterBalance.fromLockedAmount = ''),
-        (this.filterBalance.toAvailableAmount = ''),
-        (this.filterBalance.fromAvailableAmount = ''),
-        (this.filterBalance.orderBy = '')
+      this.resetFilters()
       this.sortActive = '1'
-      // this.$emit('filterBalance', params);
     }
 
     handleSort(command: string): void {
       this.sortActive = command
-      this.filterBalance.orderBy = command
-      this.$emit('filterBalance', this.filterBalance)
+      this.filterException.orderBy = command
+      this.$emit('filterException', this.filterException)
       console.log('1')
     }
 
     handleApply(): void {
       this.isVisible = false
+      let _currency = ''
+      if (this.filterException.currency) {
+        _currency = this.filterException.currency.join(',')
+      }
       const filters = {
-        ...this.filterBalance,
-        // toBalanceAmount: this.filterBalance.replace(',')
-        // fromBalanceAmount: '',
-        // toLockedAmount: '',
-        // fromLockedAmount: '',
-        // toAvailableAmount: '',
-        // fromAvailableAmount: '',
-        fromAvailableAmount: this.filterBalance.fromAvailableAmount.replaceAll(',', ''),
-        fromBalanceAmount: this.filterBalance.fromBalanceAmount.replaceAll(',', ''),
-        fromLockedAmount: this.filterBalance.fromLockedAmount.replaceAll(',', ''),
-        toAvailableAmount: this.filterBalance.toAvailableAmount.replaceAll(',', ''),
-        toBalanceAmount: this.filterBalance.toBalanceAmount.replaceAll(',', ''),
-        toLockedAmount: this.filterBalance.toLockedAmount.replaceAll(',', '')
+        ...this.filterException,
+        currency: _currency
       }
       console.log('data', filters)
-      this.$emit('filterBalance', filters)
+      this.$emit('filterException', filters)
     }
-
+    resetFilters(): void{
+      ;(this.filterException.search = ''),
+        (this.filterException.currency = ''),
+        (this.filterException.fromDate = ''),
+        (this.filterException.toDate = ''),
+        (this.filterException.fromAmount = ''),
+        (this.filterException.toAmount = ''),
+        (this.filterException.status = ''),
+        (this.filterException.orderBy = '1')
+    }
     handleReset(): void {
-      this.filterBalance = {
-        search: '',
-        orderBy: '',
-        toBalanceAmount: '',
-        fromBalanceAmount: '',
-        toLockedAmount: '',
-        fromLockedAmount: '',
-        toAvailableAmount: '',
-        fromAvailableAmount: ''
-      }
-      this.$emit('filterBalance', this.filterBalance)
+      ;(this.filterException.search = ''),
+        (this.filterException.currency = ''),
+        (this.filterException.fromDate = ''),
+        (this.filterException.toDate = ''),
+        (this.filterException.fromAmount = ''),
+        (this.filterException.toAmount = ''),
+        (this.filterException.status = ''),
+        (this.filterException.orderBy = '1')
+      this.$emit('filterException', this.filterException)
       this.isVisible = false
     }
   }

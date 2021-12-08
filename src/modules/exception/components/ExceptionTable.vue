@@ -138,6 +138,7 @@
     }
 
     handleRowClick(row: Record<string, any>): void {
+      console.log('row',row)
       this.$emit('rowClick', row)
     }
     handleCopyTransaction(row: Record<string, any>): void {

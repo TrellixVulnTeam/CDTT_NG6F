@@ -11,7 +11,7 @@
     </div>
 
     <!-- <balance-filter @filterBalance="handleFilter" :listApproveBy="listApproveBy" /> -->
-    <exception-filter />
+    <exception-filter @filterException="handleFilter"  />
     <div class="ending-balance be-flex jc-space-between">
       <p>{{ $t('exception.total') }}</p>
       <p>${{ totalAmount }}</p>
@@ -31,7 +31,7 @@
   import getRepository from '@/services'
   import { ExceptionRepository } from '@/services/repositories/exception'
   import { debounce } from 'lodash'
-
+  import EventBus from '@/utils/eventBus'
   import ExceptionDetail from '../components/exceptionDetail/ExceptionDetail.vue'
   const api: ExceptionRepository = getRepository('exception')
 
@@ -134,7 +134,7 @@
 
       this.init()
       this.resetQuery()
-      // EventBus.$emit('changeTabException', this.tabActive)
+      EventBus.$emit('changeTabException')
     }
 
     resetQuery(): void {
@@ -157,7 +157,6 @@
     }
 
     handleRowClick(row: Record<string, any>): void {
-      console.log('hasagi', row.row)
       this.detailRow = row.row
       this.setOpenPopup({
         popupName: 'popup-exception-detail',
