@@ -26,23 +26,6 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <div v-else>
-      <el-dropdown class="sort" trigger="click" @command="handleSort">
-        <span class="abicon sort-title" style="font-size: 16px">
-          <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 4px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}</span
-        >
-        <el-dropdown-menu class="header-downloadapp dropdown-sort" style="width: 230px" slot="dropdown">
-          <el-dropdown-item v-for="(value, index) in sortsAddresses" :key="index" :class="sortActive === value.command ? 'active' : null" :command="value.command" :divided="value.divided">
-            <span class="be-flex">
-              <span class="be-flex-item">
-                {{ value.label }}
-              </span>
-              <base-icon v-if="sortActive === value.command" icon="icon-tick-dropdown" size="16" />
-            </span>
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-    </div>
   </div>
 </template>
 
@@ -73,21 +56,6 @@
         command: 3,
         label: this.$i18n.t('customer.sort.status')
       }
-    ]
-
-    sortsAddresses: Array<Record<string, any>> = [
-      {
-        command: 1,
-        label: this.$i18n.t('customer.sort.created-date')
-      },
-      // {
-      //   command: 2,
-      //   label: this.$i18n.t('customer.sort.trans-amount')
-      // },
-      // {
-      //   command: 3,
-      //   label: this.$i18n.t('customer.sort.status')
-      // }
     ]
     sortActive = 0
 

@@ -6,13 +6,13 @@
     <div class='content'>
       <el-form>
         <el-form-item :label="$t('label.asset')">
-          <el-select v-model='filter.currency' multiple clearable class='w-100'>
-            <el-option v-for='wallet in getListWallet' :key='wallet.id' :value='wallet.symbol' :label='wallet.name'>
+          <el-select v-model='filter.currency'  clearable class='w-100'>
+            <el-option v-for='wallet in listAssetNetwork' :key='wallet.id' :value='wallet.currency' :label='wallet.currencyName'>
               <template>
                 <div class='be-flex wallet-item'>
-                  <base-icon :icon='wallet.icon' size='24' />
-                  <span class='d-ib' style='margin-left: 10px'>{{ wallet.name }}</span>
-                  <span class='d-ib' style='margin-left: 4px'>({{ wallet.symbol.toUpperCase() }})</span>
+                  <base-icon :icon='renderIconAsset(wallet.currency)' size='24' />
+                  <span class='d-ib' style='margin-left: 10px'>{{ wallet.currencyName }}</span>
+                  <span class='d-ib' style='margin-left: 4px'>({{ wallet.currency.toUpperCase() }})</span>
                 </div>
               </template>
             </el-option>
@@ -64,16 +64,16 @@
 
   @Component
   export default class PopupFilterAddresses extends Mixins(PopupMixin) {
-    @Prop({ required: true, type: String, default: '' }) tabActiveFilter!: string
-    @Prop({ required: true, type: String, default: 'customer' }) type!: string
-
+    @Prop({ required: true, type: Array, default: ()=>{
+      return []
+      } }) listAssetNetwork!: Array<Record<string, any>>
     @beBase.State('coinMain') coinMain!: string
 
     filter: Record<string, any> = {
-      currency: '',
-      fromCreatedAt: '',
-      toCreatedAt: '',
-      network: ''
+      currency: null,
+      fromCreatedAt: null,
+      toCreatedAt: null,
+      network: null
     }
     listWallet: Array<Record<string, any>> = [
       {
@@ -114,22 +114,40 @@
     listStatus: Array<Record<string, any>> = [
       {
         id: 0,
-        label: 'Mainnet',
-        value: 'MAINNET'
+        label: 'Ethereum ',
+        value: 'ERC20'
       },
       {
         id: 1,
-        label: 'Testnet',
-        value: 'TESTNET'
+        label: 'Binance Smart Chain',
+        value: 'BEP20'
       },
       {
         id: 2,
-        label: 'Rinkeby',
-        value: 'RINKEBY'
+        label: 'Testnet ',
+        value: 'TESTNET'
       }
     ]
     errorType = ''
+    renderIconAsset(currency:string):string{
+      switch (currency) {
+        case 'BNB':
+          return 'icon-bnb'
+        case 'BTC':
+          return 'icon-btc'
+        case 'ETH':
+          return 'icon-eth'
+        case 'CLM':
+          return 'icon-clm'
+        case 'USDC':
+          return 'icon-usdc'
+        case 'USDT':
+          return 'icon-usdt'
 
+        default:
+          return 'icon-lin'
+      }
+    }
     get getListWallet(): Array<Record<string, any>> {
       if (this.coinMain === 'LYNK') {
         return [
@@ -155,10 +173,10 @@
 
     public handleReset(): void {
       this.filter = {
-        currency: '',
-        fromCreatedAt: '',
-        toCreatedAt: '',
-        network: ''
+        currency: null,
+        fromCreatedAt: null,
+        toCreatedAt: null,
+        network: null
       }
       // this.setOpenPopup({
       //   popupName: 'popup-filter-transaction',
@@ -182,11 +200,20 @@
           popupName: 'popup-filter-addresses',
           isOpen: false
         })
-        let _currency = ''
-        if (this.filter.currency) {
-          _currency = this.filter.currency.join(',')
-        }
-        this.$emit('filter', { ...this.filter, currency: _currency })
+
+      if (this.filter.currency===''){
+        this.filter.currency=null
+      }
+      if (this.filter.fromCreatedAt===''){
+        this.filter.fromCreatedAt=null
+      }
+      if (this.filter.toCreatedAt===''){
+        this.filter.toCreatedAt=null
+      }
+      if (this.filter.network===''){
+        this.filter.network=null
+      }
+        this.$emit('filter', { ...this.filter })
     }
 
     onlyNumber(event: KeyboardEvent, type: string): void {
