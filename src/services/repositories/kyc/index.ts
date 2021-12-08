@@ -52,4 +52,14 @@ export class KycRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+
+  async updateKyc(data: Record<string, any>): Promise<any> {
+    try {
+      const rs = await request.put(`${this.prefix}/settings/kyc-requests/update`, data)
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      console.log(error)
+      return Promise.reject(error)
+    }
+  }
 }
