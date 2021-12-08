@@ -5,8 +5,8 @@
         <span>{{ $t('customer.setting.new-phone') }}</span>
       </div>
 
-      <div class="form">
-        <el-form class="form-item" :model="form" :rules="rules" ref="form-phone">
+      <div class="form"  >
+        <el-form class="form-item" :model="form" :rules="rules" ref="form-phone" @submit.prevent.native="handleContinue">
           <el-form-item prop="country">
             <div class="be-flex label" slot="label">{{ $t('label.country') }}</div>
             <el-select v-model="form.country" class="w-100" filterable reserve-keyword remote :remote-method="remoteCountry" clearable @change="handleSelectCountry">
@@ -20,7 +20,7 @@
           </el-select>
         </el-form-item> -->
 
-          <el-form-item prop="phone">
+          <el-form-item prop="phone" >
             <div class="be-flex label" slot="label">{{ $t('label.phone-number') }}</div>
 
             <el-input type="number" :placeholder="$t('placeholder.phone-number')" v-model="form.phone">
@@ -65,7 +65,7 @@
         <div class="be-flex verify-code" style="margin-right: 8px">
           <base-icon :icon="getIcon" size="80" />
           <div class="ml-1 w-100 input-code">
-            <el-form>
+            <el-form @submit.prevent.native="handleSubmit">
               <el-form-item prop="phone">
                 <div class="be-flex label text-semibold" slot="label" style="color: #5b616e">{{ $t('label.enter-verify-code') }}</div>
 
@@ -85,6 +85,9 @@
           :disabled="disableSubmit"
           style="height: 40px"
           @click="handleSubmit"
+          type="button"
+          @keyup.enter.native="handleSubmit"
+          @keydown="handleKeydown"
           >{{ $t('verify.submit') }}
         </el-button>
         <div v-if="this.typeAdminFa !== 'APP'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
@@ -116,7 +119,7 @@
         <div class="be-flex verify-code">
           <base-icon :icon="getIcon" size="80" />
           <div class="ml-1 w-100 input-code">
-            <el-form>
+            <el-form @submit.prevent.native="handleSubmitResetDefault">
               <!-- <el-form-item prop="code" :label="`${$t('verify.label')}`" class="no-require-label">
                 <el-input type="text" v-model.trim="twoFaCode" maxlength="6" :placeholder="`${$t('verify.placeholder')}`" />
               </el-form-item> -->
@@ -133,12 +136,14 @@
           </div>
         </div>
         <el-button
+          type="button"
           class="none-focus"
           :loading="isLoading"
           :class="disableSubmit ? 'btn w-100 is-none-border btn-h-40 cursor backgroundDisable' : 'btn w-100 is-none-border btn-h-40 cursor'"
           :disabled="disableSubmit"
           style="height: 40px"
           @click="handleSubmitResetDefault"
+          @keyup.enter.native="handleSubmitResetDefault"
           >{{ $t('verify.submit') }}
         </el-button>
         <div v-if="this.typeAdminFa !== 'APP'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
@@ -170,7 +175,7 @@
         <div class="be-flex verify-code">
           <base-icon :icon="getIcon" size="80" />
           <div class="ml-1 w-100 input-code">
-            <el-form>
+            <el-form @submit.prevent.native="handleSubmitLockUser">
               <!-- <el-form-item prop="code" :label="`${$t('verify.label')}`" class="no-require-label">
                 <el-input type="text" v-model.trim="twoFaCode" maxlength="6" :placeholder="`${$t('verify.placeholder')}`" />
               </el-form-item> -->
@@ -193,6 +198,8 @@
           :disabled="disableSubmit"
           style="height: 40px"
           @click="handleSubmitLockUser"
+          type="button"
+          @keyup.enter.native="handleSubmitLockUser"
           >{{ $t('verify.submit') }}
         </el-button>
         <div v-if="this.typeAdminFa !== 'APP'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
@@ -821,7 +828,17 @@
     //     event.preventDefault()
     //   }
     // }
+    handleKeydown(event) {
+      const keyCode = event.keyCode;
+      // Enter
+      if (keyCode === 13) {
+        console.log('enter');
+        
+        event.stopPropagation();
+        return;
+      }
 
+    }
     numberFormat(event: FocusEvent): void {
       const _event: any = event
       let fnumber = _event.target.value

@@ -8,10 +8,12 @@
         <div class="icon" :class="checkTypeStatusIcon(detailRow.status)">
           <base-icon :className="'icon-pending'" :icon="checkTypeIcon(detailRow.transactionType, detailRow.status)" size="64" />
         </div>
-        <p v-if="detailRow.transactionType === 'WITHDRAW'" :class="checkValueAmountDisplay(detailRow.amountDisplay)">{{ detailRow.amountDisplay }}</p>
-        <p v-else :class="checkValueAmountDisplay(detailRow.paidAmountDisplay)">{{ detailRow.paidAmountDisplay }}</p>
+        <p v-if="detailRow.transactionType === 'WITHDRAW'" :class="checkValueAmountDisplay(detailRow.amountWithoutFeeDisplay)">
+          -{{ detailRow.amountWithoutFeeDisplay }} {{ detailRow.currency }}
+        </p>
+        <p v-else :class="checkValueAmountDisplay(detailRow.paidAmountDisplay)">{{ detailRow.paidAmountDisplay }} {{ detailRow.currency }}</p>
 
-        <p v-if="detailRow.transactionType === 'WITHDRAW'" class="usd">~${{ detailRow.amountToUsdDisplay | convertAmountDecimal('USD') }}</p>
+        <p v-if="detailRow.transactionType === 'WITHDRAW'" class="usd">~${{ detailRow.amountWithoutFeeToUsdDisplay | convertAmountDecimal('USD') }}</p>
         <p v-else class="usd">~${{ detailRow.paidAmountToUsd | convertAmountDecimal('USD') }}</p>
       </div>
     </div>
@@ -313,6 +315,10 @@
 
     .customer-info {
       margin-bottom: 0;
+    }
+    ::v-deep.popup-content {
+      background-color: #f6f8fc;
+      padding: 0;
     }
   }
 </style>
