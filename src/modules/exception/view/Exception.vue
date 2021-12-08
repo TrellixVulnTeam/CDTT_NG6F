@@ -10,22 +10,14 @@
       </div>
     </div>
 
-    <balance-filter @filterBalance="handleFilter" :listApproveBy="listApproveBy" />
+    <!-- <balance-filter @filterBalance="handleFilter" :listApproveBy="listApproveBy" /> -->
+    <exception-filter />
     <div class="ending-balance be-flex jc-space-between">
       <p>{{ $t('exception.total') }}</p>
-      <p>${{totalAmount}}</p>
+      <p>${{ totalAmount }}</p>
       <!-- <p v-else>{{ summary.closeBalance | numberWithCommas }}</p> -->
     </div>
-    <exception-table
-      v-loading="isLoading"
-      @rowClick="handleRowClick"
-      @sizeChange="handleSizeChange"
-      @pageChange="handlePageChange"
-      :query="query"
-      :propTabActive="tabActive"
-      :data="propdataTable"
-    />
-
+    <exception-table v-loading="isLoading" @rowClick="handleRowClick" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="propdataTable" />
     <exception-detail :detail-row="detailRow" :tab-active-filter="tabActive"></exception-detail>
   </div>
 </template>
@@ -34,11 +26,10 @@
   import { Component, Mixins, Watch } from 'vue-property-decorator'
   //@ts-ignore
   import ExceptionTable from '../components/ExceptionTable.vue'
-  import BalanceFilter from '../components/filter/BalanceFilter.vue'
+  import ExceptionFilter from '../components/filter/ExceptionFilter.vue'
   import PopupMixin from '@/mixins/popup'
   import getRepository from '@/services'
   import { ExceptionRepository } from '@/services/repositories/exception'
-  import EventBus from '@/utils/eventBus'
   import { debounce } from 'lodash'
 
   import ExceptionDetail from '../components/exceptionDetail/ExceptionDetail.vue'
@@ -48,19 +39,16 @@
 
   const beBase = namespace('beBase')
 
-  // /main/api/v1/withdraw/list/fail?currency=&search=&fromAmount&toAmount=&formDate&toDate&sort&page=1&limit=10
-  // https://test-blockchain-api.beedu.vn/main/api/v1/widthdraw/list/fail?search=&orderBy=1&page=1&limit=10
-
-  @Component({ components: { ExceptionTable, BalanceFilter, ExceptionDetail } })
+  @Component({ components: { ExceptionTable, ExceptionDetail, ExceptionFilter } })
   export default class BOKyc extends Mixins(PopupMixin) {
     @beBase.State('coinMain') coinMain!: string
 
     tabs: Array<Record<string, any>> = [
-      {
-        id: 1,
-        title: 'deposit',
-        routeName: 'ExceptionDeposit'
-      },
+      // {
+      //   id: 1,
+      //   title: 'deposit',
+      //   routeName: 'ExceptionDeposit'
+      // },
       {
         id: 2,
         title: 'withdraw',
@@ -68,12 +56,12 @@
       },
       {
         id: 3,
-        title: 'crowdsale',
+        title: 'crowdsales',
         routeName: 'ExceptionCrowdsale'
       }
     ]
     titlePending = ''
-    tabActive = 'deposit'
+    tabActive = 'withdraw'
     isLoading = false
 
     data: Array<Record<string, any>> = []
@@ -87,44 +75,17 @@
       limit: 10,
       total: 10
     }
+    proptabActive = ''
     totalAmount = ''
     listApproveBy: Record<string, any>[] = []
 
     created(): void {
-      this.$router.push({ name: 'ExceptionDeposit' })
-      // this.$router.push({ name: routeName })
-      // console.log('route', this.$route?.name?.fullPath.split(''))
-      // this.getDataException()
-      // apiKyc.getListApprove({ page: 1, limit: 20 }).then(res => {
-      //   this.listApproveBy = res.content || []
-      // })
-      // const name = this.$route.name
-      // this.query.kycStatus = name === 'KycPending' ? 'PENDING' : name === 'KycVerified' ? 'VERIFIED' : 'REJECTED'
+      this.$router.push({ name: 'ExceptionWithdraw' })
       this.init()
     }
     propdataTable: Record<string, any>[] = []
-    getDataException(): void {
-      this.isLoading = true
-      const params = {
-        ...this.query,
-        search: this.query.search,
-        orderBy: this.query.orderBy,
-        limit: this.query.limit,
-        page: this.query.page,
-        total: null
-      }
-      console.log('params', params)
-      api
-        .getListException('withdraw', params)
-        .then(res => {
-          console.log('res', res)
-        })
-        .catch(err => {
-          console.log('err', err)
-        })
-    }
+
     async init(): Promise<void> {
-      console.log('tabActove', this.tabActive)
       this.data = []
       this.propdataTable = []
       try {
@@ -138,29 +99,18 @@
           total: null
         }
         const result = await api.getListException(this.tabActive, params)
-        console.log('total', result.totalAmount)
-        this.totalAmount = result.totalAmount
-        this.data = result.withdrawPage.content || []
-        this.propdataTable = result.withdrawPage.content || []
-        this.query.total = result.totalElement
-        console.log('data', this.propdataTable)
-        this.isLoading = false
-      } catch (error) {
-        this.isLoading = false
-        console.log(error)
-      }
-    }
-
-    async handleGetBalanceDetail(userId: number) {
-      try {
-        const params = {
-          ...this.query,
-          search: this.query.search,
-          orderBy: this.query.orderBy,
-          limit: this.query.limit,
-          page: this.query.page,
-          total: null
+        if (this.$route.name === 'ExceptionWithdraw') {
+          this.totalAmount = result.totalAmount
+          this.data = result.withdrawPage.content || []
+          this.propdataTable = result.withdrawPage.content || []
+          this.query.total = result.withdrawPage.totalElements
+        } else if (this.$route.name === 'ExceptionCrowdsale') {
+          this.totalAmount = result.totalTokenAmount
+          this.data = result.crowdsales.content || []
+          this.propdataTable = result.crowdsales.content || []
+          this.query.total = result.crowdsales.totalElements
         }
+        this.isLoading = false
       } catch (error) {
         this.isLoading = false
         console.log(error)
@@ -168,7 +118,6 @@
     }
 
     handleChangeTab(tab: Record<string, any>): void {
-      console.log('tab', tab.routeName)
       this.$router.push({ name: tab.routeName })
       // this.query.tabBalance = this.kycStatus[tab.title]
       this.tabActive = tab.title
@@ -185,13 +134,9 @@
 
       this.init()
       this.resetQuery()
-      EventBus.$emit('selectTabBalance')
-      EventBus.$emit('changeTab', this.tabActive)
+      // EventBus.$emit('changeTabException', this.tabActive)
     }
-    destroyed(): void {
-      EventBus.$off('selectTabBalance')
-      EventBus.$off('changeTab')
-    }
+
     resetQuery(): void {
       this.query = {
         ...this.query,

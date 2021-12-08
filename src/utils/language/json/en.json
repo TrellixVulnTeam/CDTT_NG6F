@@ -115,7 +115,8 @@
     "request": "Request",
     "balance": "Balance",
     "transaction": "Transaction",
-    "exception": "Exception"
+    "exception": "Exception",
+    "member": "Members"
   },
   "footer": {
     "terms": "Terms and Conditions"
@@ -160,7 +161,9 @@
     "reject": "Reject",
     "apply": "Apply",
     "add-member": "Add member",
-    "add-member-1": "Add Member"
+    "add-member-1": "Add Member",
+    "delete-user": "Delete User",
+    "save": "Save"
   },
   "deposit": {
     "lynkey": "DEPOSIT LYNKEY",
@@ -180,7 +183,8 @@
     "crowdsale": "transactions",
     "investor": "investors",
     "request": "requests",
-    "balance": "balance"
+    "balance": "balance",
+    "member": "members"
   },
   "label": {
     "buy-from": "Buy from",
@@ -270,7 +274,11 @@
     "no-permisson": "You don’t have permission to access",
     "experied-verify": "Expired verification code",
     "date-invalid": "From date is less than to date",
-    "amount-invalid": "From amount is less than to amount"
+    "amount-invalid": "From amount is less than to amount",
+    "account-exist": "Account already exists",
+    "add-user-succsess": "Add member successfully",
+    "update-user-succsess": "Update member successfully",
+    "delete-user-success": "Delete successfully"
   },
   "logout": {
     "title": "Sign out"
@@ -507,7 +515,7 @@
     "transfer": "Transfer",
     "member-active": "Active",
     "member-inactive": "Inactive",
-    "crowdsale": "Crowdsale"
+    "crowdsales": "Crowdsale"
   },
   "status": {
     "pending": "Pending",
@@ -735,7 +743,25 @@
     "popup": {
       "title-add": "ADD MEMBER",
       "title-edit": "EDIT MEMBER",
-      "status-active": "Active status"
+      "status-active": "Active status",
+      "title-confirm": "Confirm delete",
+      "content-confirm": "Are you sure you want to delete this member ?",
+      "title-detail": "MEMBER DETAIL",
+      "edit": "Edit",
+      "email": "Email",
+      "create-date": "Created date",
+      "last-login": "Last login",
+      "active-status": "Active status"
+    },
+    "sort": {
+      "full-name": "Full name",
+      "email": "Email",
+      "create-date": "Created date",
+      "all-role": "All roles",
+      "admin": "Admin",
+      "support": "Support",
+      "mkt": "Marketing",
+      "accountant": "Accountant"
     }
   },
   "exception": {

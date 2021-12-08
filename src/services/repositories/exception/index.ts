@@ -8,7 +8,7 @@ export class ExceptionRepository extends BaseRepository {
 
   async getListException(tab: string, params: Record<string, any>): Promise<any> {
     try {
-      const rs = await request.get(`${this.prefix}/${tab}/list/fail`, { params })
+      const rs = await request.get(`${this.prefix}/${tab}/exception`, { params })
       return Promise.resolve(rs.data.data)
     } catch (error) {
       console.log(error)

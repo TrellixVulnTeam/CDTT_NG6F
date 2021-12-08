@@ -14,21 +14,25 @@
         <el-table-column :label="$t('kyc.table.fullName')" min-width="200">
           <template slot-scope="scope">
             <div class="be-flex align-center">
-              <span class="d-ib mr-2">{{ scope.row.firstName + '&nbsp;' + scope.row.lastName }}</span>
+              <span class="d-ib mr-2">{{ scope.row.fullName }}</span>
             </div>
           </template>
         </el-table-column>
         <el-table-column :label="$t('kyc.table.email')" prop="email" width="330"> </el-table-column>
-        <el-table-column :label="$t('kyc.table.role')" prop="nationality" width="140"> </el-table-column>
+        <el-table-column :label="$t('kyc.table.role')" prop="roles" width="230">
+          <template slot-scope="scope">
+            <span>{{ getRole(scope.row.roles) }}</span>
+          </template>
+        </el-table-column>
 
         <el-table-column :label="$t('kyc.table.date')" prop="createdDate" width="200">
           <template slot-scope="scope">
-            <span>{{ scope.row.createdDate | formatDateHourMs }}</span>
+            <span>{{ scope.row.createdAt | formatDateHourMs }}</span>
           </template>
         </el-table-column>
         <el-table-column prop="kycStatus" align="center" width="80">
-          <template>
-            <span>
+          <template slot-scope="scope">
+            <span @click="handleEdit(scope.row)">
               <base-icon icon="icon-edit" size="24" />
             </span>
           </template>
@@ -39,6 +43,7 @@
 </template>
 
 <script lang="ts">
+  import { forEach } from 'lodash'
   import { Component, Prop, Vue } from 'vue-property-decorator'
 
   @Component
@@ -46,8 +51,10 @@
     @Prop({ required: true, type: Object, default: {} }) query!: Record<string, any>
     @Prop({ required: true, type: Array, default: [] }) data!: Array<Record<string, any>>
 
+    isConflickClick = false
+
     get getPaginationInfo(): any {
-      return this.$t('paging.customers')
+      return this.$t('paging.member')
     }
 
     indexMethod(index: number): number {
@@ -62,7 +69,40 @@
     }
 
     handleRowClick(row: Record<string, any>): void {
+      if (this.isConflickClick) {
+        this.isConflickClick = false
+        return
+      }
       this.$emit('rowClick', row.row)
+    }
+
+    handleEdit(row: Record<string, any>): void {
+      this.isConflickClick = true
+      this.$emit('edit', row)
+    }
+
+    getRole(roles: string[]): string {
+      if (roles.length) {
+        let roleArr: string[] = []
+        forEach(roles, (role: string) => {
+          roleArr.push(this.switchRole(role))
+        })
+        return roleArr.join('; ')
+      }
+      return ''
+    }
+
+    switchRole(role: string): string {
+      switch (role) {
+        case 'ADMIN':
+          return 'Admin'
+        case 'SUPPORT':
+          return 'Support'
+        case 'MARKETING':
+          return 'Marketing'
+        default:
+          return 'Accountant'
+      }
     }
   }
 </script>
