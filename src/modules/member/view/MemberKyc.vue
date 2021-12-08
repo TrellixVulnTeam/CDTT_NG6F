@@ -11,9 +11,18 @@
     </div>
 
     <member-filter @filter="handleFilter" :is-change-tab="isChangeTab" @addMember="handleAddMember" />
-    <member-table v-loading="isLoading" @rowClick="handleRowClick" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="data" />
+    <member-table
+      v-loading="isLoading"
+      @rowClick="handleRowClick"
+      @edit="handleClickEdit"
+      @sizeChange="handleSizeChange"
+      @pageChange="handlePageChange"
+      :query="query"
+      :data="data"
+    />
 
-    <popup-member :type="type" />
+    <popup-member :type="type" :detailRow="detailRow" @reload="init" />
+    <popup-detail-member :detailRow="detailRow" @openEdit="handleClickEdit" />
   </div>
 </template>
 
@@ -23,9 +32,10 @@
   import MemberTable from '../components/MemberTable.vue'
   import MemberFilter from '../components/filter/MemberFilter.vue'
   import PopupMember from '../components/popup/PopupMember.vue'
+  import PopupDetailMember from '../components/popup/PopupDetailMember.vue'
   import PopupMixin from '@/mixins/popup'
   import getRepository from '@/services'
-  import { CustomerRepository } from '@/services/repositories/customer'
+  import { MemberRepository } from '@/services/repositories/member'
   import EventBus from '@/utils/eventBus'
   import { debounce } from 'lodash'
   import { MODULE_WITH_ROUTENAME } from '@/configs/role'
@@ -34,17 +44,18 @@
   const bcKyc = namespace('bcKyc')
   const bcAuth = namespace('beAuth')
 
-  const apiCustomer: CustomerRepository = getRepository('customer')
+  const apiMember: MemberRepository = getRepository('member')
   interface IQuery {
     page?: number
     limit?: number
     search?: string
     orderBy: string | number
     total: number
-    type?: string | null | undefined
+    status?: string | null | undefined
+    filter?: string
   }
 
-  @Component({ components: { MemberTable, MemberFilter, PopupMember } })
+  @Component({ components: { MemberTable, MemberFilter, PopupMember, PopupDetailMember } })
   export default class BOCustomer extends Mixins(PopupMixin) {
     @bcKyc.Action('getListReason') getListReason!: () => void
     @bcAuth.Getter('listModuleCanView') listModuleCanView!: Array<Record<string, any>>
@@ -65,6 +76,7 @@
     tabActive = 'Pending'
     isLoading = false
     isChangeTab = false
+    isConflickClick = false
 
     type = 'add'
 
@@ -73,19 +85,16 @@
     detailRow = {}
 
     query: IQuery = {
-      orderBy: 1,
+      orderBy: 3,
       page: 1,
       limit: 10,
       total: 10,
-      type: null
+      status: null
     }
 
     objType: Record<string, any> = {
-      CustomerAll: null,
-      CustomerVerified: 'VERIFIED',
-      CustomerProcessing: 'KYC',
-      CustomerNotVerified: 'NOT_VERIFIED',
-      CustomerLocked: 'LOCKED'
+      MemberActive: 'ACTIVE',
+      MemberInactive: 'INACTIVE'
     }
 
     created(): void {
@@ -96,19 +105,17 @@
       // }
 
       const name = this.$route.name!
-      this.query.type = this.objType[name]
+      this.query.status = this.objType[name]
     }
 
     async init(): Promise<void> {
       try {
         this.isLoading = true
-        if (!this.query.type) {
-          const routeName = this.$route.name!
-          this.query.type = this.objType[routeName]
-        }
-        const result = await apiCustomer.getListCustomer({ ...this.query, total: null })
-        this.data = result.content || []
-        this.query.total = result.totalElements
+        const routeName = this.$route.name!
+        this.query.status = this.objType[routeName]
+        const result = await apiMember.getListMember({ ...this.query, total: null })
+        this.data = result.members || []
+        this.query.total = result.totalElement
         this.isLoading = false
       } catch (error) {
         this.isLoading = false
@@ -120,7 +127,7 @@
       this.isChangeTab = tab.id !== 1
       this.$router.push({ name: tab.routeName }).then(() => {
         this.resetQuery()
-        EventBus.$emit('changeTabCustomer')
+        EventBus.$emit('changeTabMember')
       })
     }
 
@@ -130,7 +137,7 @@
         page: 1,
         limit: 10,
         search: '',
-        orderBy: 'CREATED_AT'
+        orderBy: 3
       }
     }
 
@@ -144,24 +151,34 @@
     }
 
     handleRowClick(row: Record<string, any>): void {
-      if (this.checkPemission('customer', ['view-detail-customer'])) {
-        this.detailRow = row
-        this.setOpenPopup({
-          popupName: 'popup-customer-detail',
-          isOpen: true
-        })
-      }
+      this.detailRow = row
+      this.setOpenPopup({
+        popupName: 'popup-detail-member',
+        isOpen: true
+      })
+    }
+    handleClickEdit(row: Record<string, any>): void {
+      this.type = 'edit'
+      this.detailRow = row
+      this.setOpenPopup({
+        popupName: 'popup-member',
+        isOpen: true
+      })
     }
 
     handleFilter(filter: Record<string, any>): void {
+      if (this.isLoading) {
+        return
+      }
       this.query = {
         ...this.query,
         ...filter,
+        filter: filter.filter === 'ALL' ? null : filter.filter,
         page: 1,
         limit: 10
       }
-
-      this.debounceInit()
+      this.init()
+      // this.debounceInit()
     }
     debounceInit = debounce(() => {
       this.init()

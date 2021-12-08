@@ -136,7 +136,7 @@
     dataDetail = {}
     query: any = {
       search: '',
-      orderBy: 1,
+      orderBy: 3,
       page: 1,
       limit: 10,
       total: 10
@@ -275,6 +275,7 @@
         (this.query.toAvailableAmount = ''),
         (this.query.fromAvailableAmount = ''),
         (this.query.search = '')
+      this.query.orderBy = '3'
       this.init()
       this.resetQuery()
       EventBus.$emit('selectTabBalance')

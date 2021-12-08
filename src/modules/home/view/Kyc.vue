@@ -154,11 +154,10 @@
     }
 
     handleFilter(filter: Record<string, any>): void {
-      console.log('tab')
-
       this.query = {
         ...this.query,
-        ...filter
+        ...filter,
+        page: 1
       }
       this.debounceInit()
     }

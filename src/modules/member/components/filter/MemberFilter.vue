@@ -5,57 +5,12 @@
         <base-icon icon="icon-search" size="24" />
       </span>
     </el-input>
-    <div class="filter-item">
-      <el-popover :value="isVisible" placement="bottom-start" width="518" trigger="click" popper-class="popper-filter" @show="handleShowPopper">
-        <div class="content">
-          <el-form>
-            <div class="be-flex jc-space-between row">
-              <!-- <el-form-item class="be-flex-item mr-40" :label="$t('label.keyword')">
-                <el-input :placeholder="$t('label.placehoderkeyword')" v-model="filter.keyword" clearable />
-              </el-form-item> -->
-              <el-form-item class="be-flex-item mr-40" :label="$t('label.nationality')">
-                <el-select v-model="filter.nationality" filterable :placeholder="$t('label.placehoderNationality')" class="w-100" clearable>
-                  <el-option v-for="(country, index) in listCountry" :key="index" :label="country.name" :value="country.name" />
-                </el-select>
-              </el-form-item>
-              <el-form-item class="be-flex-item" :label="$t('label.kyc-status')">
-                <el-select v-model="filter.type" id-type :placeholder="$t('label.placehoder-kyc-status')" class="w-100" clearable :disabled="isChangeTab">
-                  <el-option v-for="(type, index) in identificationType" :key="index" :label="type.type" :value="type.value" />
-                </el-select>
-              </el-form-item>
-            </div>
-            <div class="be-flex jc-space-between row">
-              <el-form-item class="be-flex-item mr-40" :label="$t('label.create-date')">
-                <el-date-picker class="w-100" format="yyyy/MM/dd" value-format="yyyy-MM-dd" :placeholder="$t('label.from-date')" v-model="filter.fromCreatedAt" type="date">
-                </el-date-picker>
-              </el-form-item>
-
-              <el-form-item class="be-flex-item hide-label" label="1">
-                <el-date-picker class="w-100" format="yyyy/MM/dd" :placeholder="$t('label.to-date')" value-format="yyyy-MM-dd" v-model="filter.toCreatedAt" type="date">
-                </el-date-picker>
-              </el-form-item>
-            </div>
-          </el-form>
-        </div>
-        <div class="be-flex jc-flex-end footer">
-          <el-button class="btn-default btn-400 btn-h-40 btn-close text-regular" @click="handleReset">
-            {{ $t('button.reset') }}
-          </el-button>
-          <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border h-40 text-regular" @click="handleApply">
-            {{ $t('button.apply') }}
-          </el-button>
-        </div>
-        <div slot="reference" class="cursor text-filter" style="font-size: 16px">
-          <span class="abicon"> <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="18" /> </span>
-          {{ $t('kyc.filter.filter') }}
-        </div>
-      </el-popover>
-      <!-- <div class="cursor text-filter" style="font-size: 16px">
-        <span class="abicon"> <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="18" /> </span>
-        {{ $t('kyc.filter.filter') }}
-      </div> -->
-    </div>
-    <div>
+    <div class="be-flex align-center">
+      <div class="filter-role">
+        <el-select v-model="filter.filter" @change="handleSelectRole">
+          <el-option v-for="item in listRole" :key="item.value" :label="item.label" :value="item.value"> </el-option>
+        </el-select>
+      </div>
       <el-dropdown class="sort" trigger="click" @command="handleSort">
         <span class="abicon sort-title" style="font-size: 16px">
           <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}</span
@@ -72,7 +27,7 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <button type="button" class="btn-default-bg text-sm ml-auto add-member" @click="handleAddMember">
+    <button type="button" :class="lang === 'vi' ? 'w-auto' : null" class="btn-default-bg text-sm ml-auto add-member" @click="handleAddMember">
       <span>{{ $t('button.add-member') }}</span>
     </button>
   </div>
@@ -82,32 +37,16 @@
   import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
   import EventBus from '@/utils/eventBus'
   import { forEach, trim, debounce } from 'lodash'
-  import getRepository from '@/services'
-  import { KycRepository } from '@/services/repositories/kyc'
-
-  const apiKyc: KycRepository = getRepository('kyc')
-
-  import countryJson from '@/utils/country/index.json'
-
-  interface IListCountry {
-    name: string
-    dialCode: string
-    isoCode: string
-    flag: string
-  }
 
   @Component
   export default class KycFilter extends Vue {
     @Prop({ required: true }) isChangeTab!: boolean
     filter = {
       search: '',
-      orderBy: 1,
-      fromCreatedAt: '',
-      toCreatedAt: '',
-      nationality: '',
-      type: '',
-      approvedBy: ''
+      filter: 'ALL',
+      orderBy: 3
     }
+    lang = 'en'
     loading = false
     queryApprove = {
       page: 1,
@@ -115,25 +54,48 @@
       search: ''
     }
 
+    listRole: Record<string, any>[] = [
+      {
+        value: 'ALL',
+        label: this.$i18n.t('member.sort.all-role')
+      },
+      {
+        value: 'ADMIN',
+        label: this.$i18n.t('member.sort.admin')
+      },
+      {
+        value: 'SUPPORT',
+        label: this.$i18n.t('member.sort.support')
+      },
+      {
+        value: 'MARKETING',
+        label: this.$i18n.t('member.sort.mkt')
+      },
+      {
+        value: 'ACCOUNTANT',
+        label: this.$i18n.t('member.sort.accountant')
+      }
+    ]
+
     sorts: Array<Record<string, any>> = [
       {
         command: 1,
-        label: this.$i18n.t('kyc.sort.date'),
+        label: this.$i18n.t('member.sort.full-name'),
         divided: false,
-        i18n: 'kyc.sort.date'
+        i18n: 'member.sort.full-name'
       },
       {
         command: 2,
-        label: this.$i18n.t('kyc.sort.country'),
+        label: this.$i18n.t('member.sort.email'),
         divided: false,
-        i18n: 'kyc.sort.country'
+        i18n: 'member.sort.email'
+      },
+      {
+        command: 3,
+        label: this.$i18n.t('member.sort.create-date'),
+        divided: false,
+        i18n: 'member.sort.create-date'
       }
-      // {
-      //   command: 3,
-      //   label: this.$i18n.t('kyc.sort.full-name'),
-      //   divided: false,
-      //   i18n: 'kyc.sort.full-name'
-      // },
       // {
       //   command: 4,
       //   label: this.$i18n.t('kyc.sort.transaction'),
@@ -141,36 +103,7 @@
       //   i18n: 'kyc.sort.transaction'
       // }
     ]
-    sortActive = 1
-    listCountry: IListCountry[] = countryJson
-    identificationType: Array<Record<string, any>> = [
-      {
-        id: 0,
-        type: this.$i18n.t('kyc.filter.all-status'),
-        value: ''
-      },
-      {
-        id: 1,
-        type: this.$i18n.t('kyc.filter.kyc-processing'),
-        value: 'KYC'
-      },
-      {
-        id: 2,
-        type: this.$i18n.t('kyc.filter.not-verified'),
-        value: 'NOT_VERIFIED'
-      },
-      {
-        id: 3,
-        type: this.$i18n.t('kyc.filter.verified'),
-        value: 'VERIFIED'
-      },
-      {
-        id: 4,
-        type: this.$i18n.t('kyc.filter.locked'),
-        value: 'LOCKED'
-      }
-    ]
-    isVisible = false
+    sortActive = 3
 
     @Watch('filter.search') handleSearch(value: string): void {
       this.searchText(value)
@@ -184,13 +117,8 @@
     }, 500)
 
     created(): void {
-      EventBus.$on('changeLang', () => {
-        forEach(this.sorts, elm => {
-          elm.label = this.$i18n.t(elm.i18n)
-        })
-        this.$forceUpdate()
-      })
-      EventBus.$on('changeTabCustomer', this.handleChangeTab)
+      this.lang = window.localStorage.getItem('bc-lang')!
+      EventBus.$on('changeTabMember', this.handleChangeTab)
       this.$emit('filter', this.filter)
     }
 
@@ -199,66 +127,33 @@
       EventBus.$off('changeTab')
     }
 
-    handleShowPopper(): void {
-      switch (this.$route.name) {
-        case 'CustomerVerified':
-          this.filter.type = this.$i18n.t('kyc.filter.verified') as string
-          break
-        case 'CustomerLocked':
-          this.filter.type = this.$i18n.t('kyc.filter.locked') as string
-          break
-        case 'CustomerNotVerified':
-          this.filter.type = this.$i18n.t('kyc.filter.not-verified') as string
-          break
-        case 'CustomerProcessing':
-          this.filter.type = this.$i18n.t('kyc.filter.kyc-processing') as string
-          break
-      }
-      this.isVisible = true
-    }
-
     resetFilter(): void {
       this.filter = {
         search: '',
-        orderBy: 1,
-        fromCreatedAt: '',
-        toCreatedAt: '',
-        nationality: '',
-        type: '',
-        approvedBy: ''
+        filter: 'ALL',
+        orderBy: 3
       }
     }
 
     handleChangeTab(): void {
-      this.sortActive = 1
-      this.queryApprove = {
-        page: 1,
-        limit: 20,
-        search: ''
-      }
-
+      this.sortActive = 3
+      this.filter.filter = 'ALL'
       if (this.filter.search) {
         this.resetFilter()
       } else {
         this.$emit('filter', {
           ...this.filter,
-          orderBy: 1,
-          fromCreatedAt: '',
-          toCreatedAt: '',
-          nationality: '',
-          type: '',
-          approvedBy: ''
+          orderBy: 3
         })
         this.filter = {
           ...this.filter,
-          orderBy: 1,
-          fromCreatedAt: '',
-          toCreatedAt: '',
-          nationality: '',
-          type: '',
-          approvedBy: ''
+          orderBy: 3
         }
       }
+    }
+
+    handleSelectRole(): void {
+      this.$emit('filter', this.filter)
     }
 
     handleSort(command: number): void {
@@ -269,20 +164,13 @@
 
     handleApply(): void {
       this.$emit('filter', this.filter)
-      this.isVisible = false
     }
 
     handleReset(): void {
       this.filter = {
-        ...this.filter,
-        fromCreatedAt: '',
-        toCreatedAt: '',
-        nationality: '',
-        type: '',
-        approvedBy: ''
+        ...this.filter
       }
       this.$emit('filter', this.filter)
-      this.isVisible = false
     }
 
     handleAddMember(): void {
@@ -307,17 +195,6 @@
       color: #0a0b0d;
     }
 
-    ::v-deep .filter-item {
-      &:hover {
-        .text-filter {
-          color: var(--bc-theme-primary);
-          .span-icon {
-            color: var(--bc-theme-primary) !important;
-          }
-        }
-      }
-    }
-
     ::v-deep .sort {
       &:hover {
         .el-dropdown-selfdefine {
@@ -334,6 +211,16 @@
           .span-icon {
             color: var(--bc-theme-primary) !important;
           }
+        }
+      }
+    }
+
+    ::v-deep .filter-role {
+      .el-select {
+        .el-input__inner {
+          height: 48px;
+          width: 140px;
+          font-size: 16px;
         }
       }
     }

@@ -14,7 +14,7 @@ const actions: ActionTree<IAuth, unknown> = {
       const result = await authRes.login(data)
       commit('SET_USER_INFO', result)
       request.defaults.headers.common['Authorization'] = `Bearer ${result.accessToken}`
-      Cookies.set('access_token', result.accessToken)
+      Cookies.set('access_token', result.accessToken, { expires: 1 })
       Cookies.set('refresh_token', result.refreshToken)
       return Promise.resolve()
     } catch (error) {

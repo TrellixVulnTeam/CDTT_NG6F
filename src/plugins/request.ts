@@ -1,12 +1,12 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
 import Cookies from 'js-cookie'
-import store from '../store'
+// import store from '../store'
 import i18n from '@/utils/language'
 import { includes } from 'lodash'
 
-const isAlreadyFetchingAccessToken = false
-let subscribers: any[] = []
+// const isAlreadyFetchingAccessToken = false
+// const subscribers: any[] = []
 const API_URL: string = process.env.VUE_APP_BASE_API
 
 const request = axios.create({
@@ -21,13 +21,13 @@ request.interceptors.request.use(request => {
   return request
 })
 
-function onAccessTokenFetched(access_token: string) {
-  subscribers = subscribers.filter((callback: any) => callback(access_token))
-}
+// function onAccessTokenFetched(access_token: string) {
+//   subscribers = subscribers.filter((callback: any) => callback(access_token))
+// }
 
-function addSubscriber(callback: any) {
-  subscribers.push(callback)
-}
+// function addSubscriber(callback: any) {
+//   subscribers.push(callback)
+// }
 
 request.interceptors.response.use(
   response => {
@@ -38,7 +38,7 @@ request.interceptors.response.use(
     const { config, data, status } = error.response
     console.log(data)
 
-    const originalRequest = config
+    // const originalRequest = config
     if (data.httpStatus === 401 || status === 401) {
       Cookies.remove('access_token')
       Cookies.remove('refresh_token')
@@ -74,6 +74,9 @@ request.interceptors.response.use(
       if (data.message === 'User not exits') {
         message = i18n.tc('notify.user-exits')
       }
+      if (data.status === 'USER_NOT_EXISTS') {
+        message = i18n.tc('notify.user-not-exits')
+      }
       if (data.status === 'BAD_REQUEST' && includes(config.url, 'user/settings/kyc-requests')) {
         return Promise.reject(error)
       }
@@ -106,6 +109,9 @@ request.interceptors.response.use(
       }
       if (data.status === 'EXPIRED_VERIFICATION') {
         message = i18n.tc('notify.experied-verify')
+      }
+      if (data.status === 'ACCOUNT_ALREADY_EXISTS') {
+        message = i18n.tc('notify.account-exist')
       }
       if (data.status === 'Invalid verification code') {
         message = i18n.tc('notify.verify-fail')
