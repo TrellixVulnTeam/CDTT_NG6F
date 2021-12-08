@@ -274,6 +274,8 @@
     "reject-success": "Rejected successfully",
     "no-select-reject": "Must choose at least 1 reason",
     "no-data": "There are no data",
+    "no-data-round": "No specific users are listed.",
+    "no-data-round-1": "Everyone can buy in this round.",
     "no-data-kyc": "No data",
     "copy": "Copied",
     "invalid-code": "Invalid verification code",

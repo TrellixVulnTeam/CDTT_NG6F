@@ -140,4 +140,12 @@ export class AuthRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+
+  async createLogLogin(data: Record<string, any>): Promise<void> {
+    try {
+      return request.post('log/api/v1/activity', data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
 }

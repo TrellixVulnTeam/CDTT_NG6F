@@ -47,6 +47,7 @@
         :data="dataTable"
         :table="query"
         :paginationInfo="getPaginationInfo"
+        :emptyDefault="false"
         @sizeChange="handleSizeChange"
         @currentChange="handleCurrentChange"
         v-loading="isLoading"
@@ -60,9 +61,9 @@
             <span>{{ scope.row.createdAt | formatDateHourMs }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="this.$t('crowdsale.add-by')" prop="createdBy" width="200">
+        <el-table-column :label="this.$t('crowdsale.add-by')" prop="createdByFullName " width="200">
           <template slot-scope="scope">
-            <span>{{ scope.row.createdBy }}</span>
+            <span>{{ scope.row.createdByFullName }}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" width="80">
