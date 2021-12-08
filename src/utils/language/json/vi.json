@@ -735,6 +735,7 @@
     }
   },
   "exception": {
-    "total": "Tổng số"
+    "total": "Tổng số",
+    "amount":"Số lượng"
   }
 }

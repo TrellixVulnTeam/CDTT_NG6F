@@ -284,33 +284,9 @@
       },
       {
         command: '2',
-        label: this.$i18n.t('balance.lastChange'),
+        label: this.$i18n.t('exception.amount'),
         divided: false,
-        i18n: 'balance.lastChange'
-      },
-      {
-        command: '3',
-        label: this.$i18n.t('balance.balance'),
-        divided: false,
-        i18n: 'balance.balance'
-      },
-      {
-        command: '4',
-        label: this.$i18n.t('balance.lockedAmount'),
-        divided: false,
-        i18n: 'balance.lockedAmount'
-      },
-      {
-        command: '5',
-        label: this.$i18n.t('balance.availableAmout'),
-        divided: false,
-        i18n: 'balance.availableAmout'
-      },
-      {
-        command: '6',
-        label: this.$i18n.t('balance.name'),
-        divided: false,
-        i18n: 'balance.name'
+        i18n: 'exception.amount'
       }
     ]
     sortActive = '1'
