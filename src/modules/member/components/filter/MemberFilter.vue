@@ -27,7 +27,7 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <button type="button" class="btn-default-bg text-sm ml-auto add-member" @click="handleAddMember">
+    <button type="button" :class="lang === 'vi' ? 'w-auto' : null" class="btn-default-bg text-sm ml-auto add-member" @click="handleAddMember">
       <span>{{ $t('button.add-member') }}</span>
     </button>
   </div>
@@ -46,6 +46,7 @@
       filter: 'ALL',
       orderBy: 3
     }
+    lang = 'en'
     loading = false
     queryApprove = {
       page: 1,
@@ -116,12 +117,7 @@
     }, 500)
 
     created(): void {
-      EventBus.$on('changeLang', () => {
-        forEach(this.sorts, elm => {
-          elm.label = this.$i18n.t(elm.i18n)
-        })
-        this.$forceUpdate()
-      })
+      this.lang = window.localStorage.getItem('bc-lang')!
       EventBus.$on('changeTabMember', this.handleChangeTab)
       this.$emit('filter', this.filter)
     }

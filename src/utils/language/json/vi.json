@@ -82,7 +82,7 @@
     "request": "Yêu cầu",
     "balance": "Số dư",
     "transaction": "Giao dịch",
-    "member": "Thành viên"
+    "member": "Nhân viên"
   },
   "header": {
     "kyc": "KYC",
@@ -114,8 +114,8 @@
     "from": "Từ",
     "to": "Tới",
     "email": "Email",
-    "f-name": "Tên",
-    "l-name": "Họ"
+    "f-name": "Họ",
+    "l-name": "Tên"
   },
   "button": {
     "reset": "Làm lại",
@@ -126,8 +126,9 @@
     "approve": "Xác nhận",
     "reject": "Từ chối",
     "apply": "Xác nhận",
-    "add-member": "Thêm thành viên",
-    "delete-user": "Xóa tài khoản",
+    "add-member": "Thêm nhân viên",
+    "add-member-1": "Thêm nhân viên",
+    "delete-user": "Xóa nhân viên",
     "save": "Lưu"
   },
   "scan": {
@@ -140,7 +141,7 @@
     "crowdsale": "giao dịch",
     "investor": "nhà đầu tư",
     "request": "yêu cầu",
-    "member": "Nhân viên"
+    "member": "nhân viên"
   },
   "label": {
     "buy-from": "Chọn ví",
@@ -164,8 +165,8 @@
     "level": "Cấp độ",
     "create-date": "Ngày tạo",
     "last-login": "Lần đăng nhập cuối",
-    "f-name": "Tên",
-    "l-name": "Họ",
+    "f-name": "Họ",
+    "l-name": "Tên",
     "password": "Mật khẩu",
     "birth-day": "Ngày sinh",
     "address": "Địa chỉ",
@@ -228,8 +229,8 @@
     "date-invalid": "From date is less than to date",
     "amount-invalid": "From amount is less than to amount",
     "account-exist": "Tài khoản đã tồn tại",
-    "add-user-succsess": "Thêm thành viên thành công",
-    "update-user-succsess": "Sửa thành viên thành công",
+    "add-user-succsess": "Thêm nhân viên thành công",
+    "update-user-succsess": "Sửa nhân viên thành công",
     "delete-user-success": "Xóa thành công"
   },
   "logout": {
@@ -257,8 +258,8 @@
       "cb4": "Không sử dụng tài liệu gốc",
       "reason": "Lý do:",
       "personal-detail": "Chi tiết",
-      "f-name": "Tên",
-      "l-name": "Họ",
+      "f-name": "Họ",
+      "l-name": "Tên",
       "national": "Quốc tịch",
       "id-verification": "ID xác minh",
       "id-type": "loại ID",
@@ -690,12 +691,12 @@
   },
   "member": {
     "popup": {
-      "title-add": "THÊM THÀNH VIÊN",
-      "title-edit": "SỬA THÀNH VIÊN",
+      "title-add": "THÊM NHÂN VIÊN",
+      "title-edit": "SỬA NHÂN VIÊN",
       "status-active": "Trạng thái kích hoạt",
       "title-confirm": "Xác nhận xóa",
-      "content-confirm": "Bạn có chắc chắn muốn xóa thành viên này không ?",
-      "title-detail": "chi tiết thành viên",
+      "content-confirm": "Bạn có chắc chắn muốn xóa nhân viên này không ?",
+      "title-detail": "chi tiết nhân viên",
       "edit": "Sửa",
       "email": "Email",
       "create-date": "Ngày tạo",

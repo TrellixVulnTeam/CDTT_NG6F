@@ -104,3 +104,8 @@
 .btn-h40 {
     height: 40px;
 }
+
+.btn-delete {
+    border: 1px solid var(--bc-btn-bg-reject);
+    color: var(--bc-status-error);
+}

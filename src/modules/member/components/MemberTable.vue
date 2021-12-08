@@ -95,13 +95,13 @@
     switchRole(role: string): string {
       switch (role) {
         case 'ADMIN':
-          return 'Admin'
+          return this.$t('member.sort.admin') as string
         case 'SUPPORT':
-          return 'Support'
+          return this.$t('member.sort.support') as string
         case 'MARKETING':
-          return 'Marketing'
+          return this.$t('member.sort.mkt') as string
         default:
-          return 'Accountant'
+          return this.$t('member.sort.accountant') as string
       }
     }
   }
