@@ -13,6 +13,7 @@
     "wrong-email": "Please enter your email",
     "wrong-email-type": "Please enter a correct email address",
     "wrong-password": "Please enter your password",
+    "checkpass": "Please enter a valid password",
     "placeholder": {
       "password": "Password"
     }
@@ -252,6 +253,7 @@
   "notify": {
     "500": "Internal Server Error",
     "user-exits": "Invalid email or password",
+    "user-not-exits": "Your account is inactive or deleted",
     "pass-invalid": "Invalid email or password",
     "user-locked": "Account has been locked",
     "user-expired": "Account has been locked",
@@ -766,6 +768,16 @@
       "support": "Support",
       "mkt": "Marketing",
       "accountant": "Accountant"
+    },
+    "validate": {
+      "wrong-email": "Please enter email",
+      "wrong-email-type": "Please enter a correct email address",
+      "wrong-password": "Please enter password",
+      "checkpass": "Please enter a valid password",
+      "firstname": "Please enter first name",
+      "lastname": "Please enter last name",
+      "lastnameLength": "Minimum 2 characters",
+      "firstnameLength": "Minimum 2 characters"
     }
   },
   "exception": {

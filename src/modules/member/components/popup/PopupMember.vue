@@ -4,7 +4,7 @@
       <span>{{ getTitle }}</span>
     </div>
     <div class="content">
-      <el-form class="form-item" :model="form" :rules="rules">
+      <el-form class="form-item" :model="form" :rules="rules" ref="member" autocomplete="off">
         <div class="be-flex jc-space-between">
           <el-form-item :label="$t('label.f-name')" class="be-flex-item mr-16 is-required" prop="firstName">
             <el-input v-model="form.firstName" :placeholder="$t('placeholder.f-name')" clearable />
@@ -16,11 +16,60 @@
         </div>
 
         <el-form-item :label="$t('label.email')" class="is-required" prop="email">
-          <el-input v-model="form.email" :placeholder="$t('placeholder.email')" clearable />
+          <el-input v-model="form.email" autocomplete="new-password" :readonly="false" :placeholder="$t('placeholder.email')" clearable />
         </el-form-item>
 
         <el-form-item v-if="type === 'add'" :label="$t('label.password')" prop="password" class="input-password is-required">
-          <el-input class="input-password" :type="showPass == true ? 'text' : 'password'" :placeholder="$t('login.placeholder.password')" v-model="form.password" />
+          <!-- <el-input
+            class="input-password"
+            autocomplete="new-password"
+            :type="showPass == true ? 'text' : 'password'"
+            :placeholder="$t('login.placeholder.password')"
+            v-model="form.password"
+          />
+          <span class="icon-show-password" @click="showPass = !showPass">
+            <base-icon :icon="showPass == true ? 'icon-eye-off' : 'icon-eye'" size="22" />
+          </span> -->
+          <el-popover placement="right" width="auto" trigger="manual" v-model="visible" popper-class="popper-validate-password">
+            <template>
+              <div class="check-password">
+                <div class="be-flex align-center check-item">
+                  <base-icon v-if="validate.length" icon="icon-tick" size="16" />
+                  <base-icon v-else icon="icon-x" size="16" />
+                  <span class="text-xs" style="padding-left: 8px; color: #5b616e">{{ $t('validate.length') }}</span>
+                </div>
+                <div class="be-flex align-center check-item">
+                  <base-icon v-if="validate.lowercase" icon="icon-tick" size="16" />
+                  <base-icon v-else icon="icon-x" size="16" />
+                  <span class="text-xs" style="padding-left: 8px; color: #5b616e">{{ $t('validate.lowercase') }}</span>
+                </div>
+                <div class="be-flex align-center check-item">
+                  <base-icon v-if="validate.uppercase" icon="icon-tick" size="16" />
+                  <base-icon v-else icon="icon-x" size="16" />
+                  <span class="text-xs" style="padding-left: 8px; color: #5b616e">{{ $t('validate.uppercase') }}</span>
+                </div>
+                <div class="be-flex align-center check-item">
+                  <base-icon v-if="validate.number" icon="icon-tick" size="16" />
+                  <base-icon v-else icon="icon-x" size="16" />
+                  <span class="text-xs" style="padding-left: 8px; color: #5b616e">{{ $t('validate.number') }}</span>
+                </div>
+                <div class="be-flex align-center check-item">
+                  <base-icon v-if="validate.specialCharacter" icon="icon-tick" size="16" />
+                  <base-icon v-else icon="icon-x" size="16" />
+                  <span class="text-xs" style="padding-left: 8px; color: #5b616e">{{ $t('validate.specialCharacter') }}</span>
+                </div>
+              </div>
+            </template>
+            <el-input
+              :type="showPass == true ? 'text' : 'password'"
+              slot="reference"
+              autocomplete="new-password"
+              :placeholder="$t('signup.password')"
+              v-model="form.password"
+              @focus="visible = true"
+              @blur="visible = false"
+            />
+          </el-popover>
           <span class="icon-show-password" @click="showPass = !showPass">
             <base-icon :icon="showPass == true ? 'icon-eye-off' : 'icon-eye'" size="22" />
           </span>
@@ -63,7 +112,7 @@
 </template>
 
 <script lang="ts">
-  import { Component, Mixins, Prop } from 'vue-property-decorator'
+  import { Component, Mixins, Prop, Watch } from 'vue-property-decorator'
 
   import PopupMixin from '@/mixins/popup'
   import PopupConfirm from './PopupConfirm.vue'
@@ -91,7 +140,7 @@
     detail: Record<string, any> = {}
     isLoading = false
     showPass = false
-
+    visible = false
     tabActive = 0
     lang = 'en'
 
@@ -102,43 +151,76 @@
       roles: []
     }
 
+    validate: Record<string, boolean> = {
+      length: false,
+      number: false,
+      uppercase: false,
+      lowercase: false,
+      specialCharacter: false
+    }
+
+    regLow = /(?=.*[a-z])/g
+    regUp = /(?=.*[A-Z])/g
+    regNumber = /(?=.*[0-9])/g
+    regSpecial = /(?=.*[!@#$%^&*()_=+{}:;"'/?><.,-])/g
+
     rules: Record<string, any> = {
       lastName: [
         {
           required: true,
-          message: this.$t('signup.lastname'),
+          message: this.$t('member.validate.lastname'),
           trigger: 'blur'
         },
         {
           pattern: /^.{2,}$/,
-          message: this.$t('signup.lastnameLength'),
+          message: this.$t('member.validate.lastnameLength'),
           trigger: 'blur'
         }
       ],
       firstName: [
         {
           required: true,
-          message: this.$t('signup.firstname'),
+          message: this.$t('member.validate.firstname'),
           trigger: 'blur'
         },
         {
           pattern: /^.{2,}$/,
-          message: this.$t('signup.firstnameLength'),
+          message: this.$t('member.validate.firstnameLength'),
           trigger: 'blur'
         }
       ],
       email: [
         {
           required: true,
-          message: this.$t('login.wrong-email'),
+          message: this.$t('member.validate.wrong-email'),
           trigger: 'blur'
         },
-        { type: 'email', message: this.$t('login.wrong-email-type'), trigger: 'blur' }
+        { type: 'email', message: this.$t('member.validate.wrong-email-type'), trigger: 'blur' }
+      ],
+      password: [
+        {
+          required: true,
+          message: this.$t('member.validate.wrong-password'),
+          trigger: 'blur'
+        },
+        {
+          pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+          message: this.$t('member.validate.checkpass'),
+          trigger: 'blur'
+        }
       ]
     }
 
     get getTitle(): any {
       return this.type === 'add' ? this.$t('member.popup.title-add') : this.$t('member.popup.title-edit')
+    }
+
+    @Watch('form.password') watchPassword(pass: string): void {
+      this.validate.length = pass.length >= 8
+      this.validate.number = this.regNumber.test(pass)
+      this.validate.uppercase = this.regUp.test(pass)
+      this.validate.lowercase = this.regLow.test(pass)
+      this.validate.specialCharacter = this.regSpecial.test(pass)
     }
 
     handleOpen(): void {
@@ -149,6 +231,9 @@
     }
 
     handleClose(): void {
+      this.showPass = false
+      //@ts-ignore
+      this.$refs.member.clearValidate()
       this.form = {
         firstName: '',
         lastName: '',
@@ -158,6 +243,9 @@
     }
 
     handleReset(): void {
+      this.showPass = false
+      //@ts-ignore
+      this.$refs.member.clearValidate()
       if (this.type === 'add') {
         this.form = {
           firstName: '',
@@ -178,28 +266,33 @@
     }
 
     handleAddMember(): void {
-      if (this.type === 'add') {
-        const password = this.$options.filters?.encryptPassword(this.form.password)
-        apiMember.createMember({ ...this.form, password }).then(() => {
-          let message: any = this.$t('notify.add-user-succsess')
-          this.$message.success({ message, duration: 5000 })
-          this.setOpenPopup({
-            popupName: 'popup-member',
-            isOpen: false
-          })
-          this.$emit('reload')
-        })
-      } else {
-        apiMember.updateMember(this.detailRow.userId, this.form).then(() => {
-          let message: any = this.$t('notify.update-user-succsess')
-          this.$message.success({ message, duration: 5000 })
-          this.setOpenPopup({
-            popupName: 'popup-member',
-            isOpen: false
-          })
-          this.$emit('reload')
-        })
-      }
+      //@ts-ignore
+      this.$refs['member']?.validate(valid => {
+        if (valid) {
+          if (this.type === 'add') {
+            const password = this.$options.filters?.encryptPassword(this.form.password)
+            apiMember.createMember({ ...this.form, password }).then(() => {
+              let message: any = this.$t('notify.add-user-succsess')
+              this.$message.success({ message, duration: 5000 })
+              this.setOpenPopup({
+                popupName: 'popup-member',
+                isOpen: false
+              })
+              this.$emit('reload')
+            })
+          } else {
+            apiMember.updateMember(this.detailRow.userId, this.form).then(() => {
+              let message: any = this.$t('notify.update-user-succsess')
+              this.$message.success({ message, duration: 5000 })
+              this.setOpenPopup({
+                popupName: 'popup-member',
+                isOpen: false
+              })
+              this.$emit('reload')
+            })
+          }
+        }
+      })
     }
 
     handleSubmitDelete(): void {

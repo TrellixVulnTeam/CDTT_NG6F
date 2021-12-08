@@ -13,6 +13,7 @@
     "wrong-email": "Vui lòng nhập email",
     "wrong-email-type": "Vui lòng nhập email hợp lệ",
     "wrong-password": "Vui lòng nhập mật khẩu",
+    "checkpass": "Vui lòng nhập mật khẩu hợp lệ",
     "placeholder": {
       "password": "Mật khẩu"
     }
@@ -202,6 +203,7 @@
   "notify": {
     "500": "Không thể kết nối đến máy chủ",
     "user-exits": "Tài khoản hoặc mật khẩu không chính xác",
+    "user-not-exits": "Tài khoản không hoạt động hoặc đã bị xóa",
     "pass-invalid": "Tài khoản hoặc mật khẩu không chính xác",
     "user-locked": "Tài khoản đã bị khóa",
     "user-expired": "Tài khoản đã bị khóa",
@@ -712,6 +714,16 @@
       "support": "Hỗ trợ",
       "mkt": "Marketing",
       "accountant": "Kế toán"
+    },
+    "validate": {
+      "wrong-email": "Vui lòng nhập email",
+      "wrong-email-type": "Vui lòng nhập email hợp lệ",
+      "wrong-password": "Vui lòng nhập mật khẩu",
+      "checkpass": "Vui lòng nhập mật khẩu hợp lệ",
+      "firstname": "Vui lòng nhập họ",
+      "lastname": "Vui lòng nhập tên",
+      "lastnameLength": "Nhập tối thiểu 2 ký tự",
+      "firstnameLength": "Nhập tối thiểu 2 ký tự"
     }
   }
 }
