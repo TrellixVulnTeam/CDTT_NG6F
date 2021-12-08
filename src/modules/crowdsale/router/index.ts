@@ -28,6 +28,11 @@ const crowdsaleRoute: RouteConfig[] = [
                 path: 'round',
                 name: 'CrowdsaleRound',
                 component: () => import('../view/Round.vue')
+              },
+              {
+                path: 'setting',
+                name: 'CrowdsaleSetting',
+                component: () => import('../view/SettingRound.vue')
               }
             ]
           }

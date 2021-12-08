@@ -131,6 +131,7 @@
     "apply": "Xác nhận",
     "add-member": "Thêm nhân viên",
     "add-member-1": "Thêm nhân viên",
+    "add-buyer": "Thêm người mua",
     "delete-user": "Xóa nhân viên",
     "save": "Lưu"
   },
@@ -144,7 +145,8 @@
     "crowdsale": "giao dịch",
     "investor": "nhà đầu tư",
     "request": "yêu cầu",
-    "member": "nhân viên"
+    "member": "nhân viên",
+    "buyer": "người mua"
   },
   "label": {
     "buy-from": "Chọn ví",
@@ -514,6 +516,10 @@
     "opening": "Mở",
     "finish": "Kết thúc",
     "upcoming": "Sắp diễn ra",
+    "setting": "Cài đặt",
+    "full-name": "Họ tên",
+    "add-date": "Ngày thêm",
+    "add-by": "Thêm bởi",
     "popup-filter": {
       "title": "bộ lọc",
       "round": "Vòng",
