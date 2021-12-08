@@ -1,9 +1,9 @@
 <template>
-  <base-popup name='popup-filter-addresses' class='popup-filter-transaction' width='600px'>
-    <div class='title-popup' slot='title'>
+  <base-popup name="popup-filter-addresses" class="popup-filter-transaction" width="600px">
+    <div class="title-popup" slot="title">
       <span>{{ $t('transaction.popup.title-filter') }}</span>
     </div>
-    <div class='content'>
+    <div class="content">
       <el-form>
         <el-form-item :label="$t('label.asset')">
           <el-select v-model='filter.currency'  clearable class='w-100'>
@@ -33,10 +33,10 @@
         </div>
         <div>
           <el-form-item :label="$t('label.network')">
-            <el-select v-model='filter.network' clearable class='w-100'>
-              <el-option v-for='status in listStatus' :key='status.id' :value='status.value' :label='status.label'>
+            <el-select v-model="filter.network" clearable class="w-100">
+              <el-option v-for="status in listStatus" :key="status.id" :value="status.value" :label="status.label">
                 <template>
-                  <span class='d-ib'>{{ status.label }}</span>
+                  <span class="d-ib">{{ status.label }}</span>
                 </template>
               </el-option>
             </el-select>
@@ -44,17 +44,17 @@
         </div>
       </el-form>
     </div>
-    <div slot='footer' class='footer'>
-      <button class='btn-default mr-15 text-regular btn-h40' @click='handleReset'>{{ $t('button.reset') }}</button>
+    <div slot="footer" class="footer">
+      <button class="btn-default mr-15 text-regular btn-h40" @click="handleReset">{{ $t('button.reset') }}</button>
       <!-- <button class="btn-default-bg text-regular btn-h40"  disabled  @click="handleConfirm">{{ $t('button.continue') }}</button> -->
-      <button class='btn-default-bg text-regular btn-h40' @click='handleApply'>
+      <button class="btn-default-bg text-regular btn-h40" @click="handleApply">
         {{ $t('button.continue') }}
       </button>
     </div>
   </base-popup>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
   import { Component, Mixins, Prop } from 'vue-property-decorator'
   import includes from 'lodash/includes'
   import PopupMixin from '@/mixins/popup'
@@ -271,7 +271,7 @@
   }
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
   .prefix {
     height: 100%;
     font-size: 16px;
