@@ -227,7 +227,12 @@
         search: '',
         orderBy: '1',
         keywordString:'',
-        currency:''
+        currency:'',
+        status:'',
+        fromDate:'',
+        toDate:'',
+        fromAmount:'',
+        toAmount:''
       }
     }
 
