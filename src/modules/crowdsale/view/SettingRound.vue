@@ -50,7 +50,7 @@
         @sizeChange="handleSizeChange"
         @currentChange="handleCurrentChange"
         v-loading="isLoading"
-        class="base-table table-crowdsale table-trans"
+        class="base-table table-crowdsale"
       >
         <el-table-column label="#" :index="indexMethod" type="index" align="center" width="60" />
         <el-table-column :label="$t('crowdsale.full-name')" prop="fullName" />
