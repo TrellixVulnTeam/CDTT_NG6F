@@ -16,6 +16,7 @@ const actions: ActionTree<IAuth, unknown> = {
       request.defaults.headers.common['Authorization'] = `Bearer ${result.accessToken}`
       Cookies.set('access_token', result.accessToken, { expires: 1 })
       Cookies.set('refresh_token', result.refreshToken)
+      authRes.createLogLogin({ sourceType: 'WEB' })
       return Promise.resolve()
     } catch (error) {
       return Promise.reject(error)

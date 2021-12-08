@@ -9,7 +9,7 @@
       <span class="abicon"> <base-icon style="color: #5b616e; margin-right: 4px" icon="icon-filter" size="18" /> </span>
       {{ $t('kyc.filter.filter') }}
     </div>
-    <div>
+    <div v-if="type !== 'addresses'">
       <el-dropdown class="sort" trigger="click" @command="handleSort">
         <span class="abicon sort-title" style="font-size: 16px">
           <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 4px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}</span
@@ -64,12 +64,13 @@
     }
 
     searchText = debounce((value: string) => {
-      if (this.type === 'customer') {
+      if (this.type === 'customer' || this.type === 'addresses') {
         this.$emit('filter', {
           ...this.filter,
           page: 1,
           limit: 10,
-          search: trim(value)
+          search: trim(value),
+          keywordString: null
         })
       } else {
         this.$emit('filter', {
@@ -93,10 +94,17 @@
     }
 
     handleOpenPopupFilter(): void {
-      this.setOpenPopup({
-        popupName: 'popup-filter-transaction',
-        isOpen: true
-      })
+      if (this.type === 'addresses') {
+        this.setOpenPopup({
+          popupName: 'popup-filter-addresses',
+          isOpen: true
+        })
+      } else {
+        this.setOpenPopup({
+          popupName: 'popup-filter-transaction',
+          isOpen: true
+        })
+      }
     }
   }
 </script>

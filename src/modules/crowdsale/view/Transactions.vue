@@ -1,11 +1,11 @@
 <template>
   <div class="bo-crowdsale-transaction">
-    <div class="box-filter be-flex align-center">
+    <div class="box-filter be-flex align-center kyc-filter pl-0">
       <div class="box-search">
-        <el-input class="input-search" :placeholder="$t('placeholder.search')" v-model="query.search" clearable>
-          <div slot="prefix" class="prefix-search">
-            <base-icon icon="icon-search" size="16" />
-          </div>
+        <el-input v-model="query.search" class="input-search" :placeholder="$t('placeholder.search')">
+          <span slot="prefix" class="prefix-search">
+            <base-icon icon="icon-search" size="24" />
+          </span>
         </el-input>
       </div>
       <div class="btn-filter be-flex align-center cursor" @click="handleOpenPopupFilter">

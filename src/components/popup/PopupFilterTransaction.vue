@@ -26,15 +26,15 @@
             </el-date-picker>
           </el-form-item>
 
-          <el-form-item class='be-flex-item hide-label' label='1'>
+          <el-form-item class="be-flex-item hide-label" label="1">
             <el-date-picker
-              class='w-100 date-picker'
-              format='MM/dd/yyyy'
+              class="w-100 date-picker"
+              format="MM/dd/yyyy"
               :placeholder="$t('label.to-date')"
-              value-format='yyyy-MM-dd'
-              v-model='filter.toDate'
-              type='date'
-              :picker-options='pickerOption'
+              value-format="yyyy-MM-dd"
+              v-model="filter.toDate"
+              type="date"
+              :picker-options="pickerOption"
             >
             </el-date-picker>
           </el-form-item>
@@ -43,13 +43,13 @@
           <div class='be-flex jc-space-between row'>
             <el-form-item class='be-flex-item mr-40 form-item-line' :class='errorType==="amount"&&"error-amount-border-popup-transaction"' :label="$t('label.trans-amount')">
               <el-input
-                v-model='filter.fromAmount'
+                v-model="filter.fromAmount"
                 :placeholder="$t('placeholder.from-amount')"
                 @keypress.native="onlyNumber($event, 'fromAmount')"
                 @keyup.native='numberFormat($event)'
                 @blur='clickOutSide'
               >
-                <div class='prefix' slot='prefix'>$</div>
+                <div class="prefix" slot="prefix">$</div>
               </el-input>
             </el-form-item>
 
@@ -60,12 +60,10 @@
                 <div class='prefix' slot='prefix'>$</div>
               </el-input>
             </el-form-item>
-
           </div>
-          <div v-if='errorType==="amount"' class='error-amount'>
+          <div v-if="errorType === 'amount'" class="error-amount">
             <p>{{ $t('notify.amount-invalid') }}</p>
           </div>
-
         </div>
         <div v-if="tabActiveFilter === 'bonus'" class='be-flex jc-space-between'>
           <el-form-item :label="$t('label.status')" class='be-flex-item mr-40'>
@@ -393,7 +391,7 @@
         font-weight: normal;
         font-size: 14px;
         line-height: 20px;
-        color: #CF202F;
+        color: #cf202f;
       }
 
     }
