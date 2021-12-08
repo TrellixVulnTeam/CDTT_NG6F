@@ -281,7 +281,7 @@
     "no-permisson": "You don’t have permission to access",
     "experied-verify": "Expired verification code",
     "date-invalid": "From date is less than to date",
-    "amount-invalid": "From amount is less than to amount",
+    "amount-invalid": "From amount is less than To amount",
     "account-exist": "Account already exists",
     "add-user-succsess": "Add member successfully",
     "update-user-succsess": "Update member successfully",

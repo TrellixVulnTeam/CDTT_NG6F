@@ -83,6 +83,7 @@
 
 <script lang="ts">
   import { Component, Prop, Vue } from 'vue-property-decorator'
+  import EventBus from '@/utils/eventBus'
   @Component
   export default class KycTable extends Vue {
     @Prop({ required: true, type: Object, default: {} }) query!: Record<string, any>
@@ -129,7 +130,12 @@
     indexMethod(index: number): number {
       return (this.query.page - 1) * this.query.limit + index + 1
     }
-
+    created(): void {
+      EventBus.$on('checkRowClick', this.handlecheckRowClick)
+    }
+    handlecheckRowClick(): void {
+      this.coppy = 0
+    }
     handleSizeChange(value: number): void {
       this.$emit('sizeChange', value)
     }
@@ -138,8 +144,12 @@
     }
 
     handleRowClick(row: Record<string, any>): void {
+      console.log('coppi', this.coppy)
+      console.log('row', row)
+      this.$emit('coppy', this.coppy)
       this.$emit('rowClick', row)
     }
+    coppy = 0
     handleCopyTransaction(row: Record<string, any>): void {
       let message: any = ''
       const el = document.createElement('input')
@@ -150,6 +160,8 @@
       document.body.removeChild(el)
       message = this.$t('notify.copy')
       this.$message.success(message)
+      this.coppy++
+      this.$emit('coppy', this.coppy)
     }
   }
 </script>
