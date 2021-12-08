@@ -2,28 +2,28 @@
   <div class="balance-card-detail be-flex">
     <div class="card-item">
       <div class="title be-flex align-center">
-        <base-icon :icon="checkTypeIcon(tabActiveFilter)" size="40" />
+        <base-icon :icon="checkTypeIcon(tabActiveFilter.toLowerCase())" size="40" />
         <div class="content-card">
-          <p>{{ checkCoin(tabActiveFilter) }}</p>
+          <p>{{ checkCoin(tabActiveFilter.toLowerCase()) }}</p>
           <p>{{ $t('balance.balance') }}</p>
         </div>
       </div>
-      <div class="value-card" :class="checkType(tabActiveFilter)">
+      <div class="value-card" :class="checkType(tabActiveFilter.toLowerCase())">
         <p class="current">{{ dataCard.balance | convertAmountDecimal(this.tabActiveFilter.toUpperCase()) }} {{ this.tabActiveFilter.toUpperCase() }}</p>
-        <p class="last">-${{ dataCard.balanceUSD | convertAmountDecimal('USD') }}</p>
+        <p class="last">~${{ dataCard.balanceUSD | convertAmountDecimal('USD') }}</p>
       </div>
     </div>
     <div class="card-item">
       <div class="title be-flex align-center">
-        <base-icon :icon="checkTypeIcon(tabActiveFilter)" size="40" />
+        <base-icon :icon="checkTypeIcon(tabActiveFilter.toLowerCase())" size="40" />
         <div class="content-card">
           <p>{{ $t('balance.popup.available-amount') }}</p>
           <p>{{ $t('balance.popup.available-amount') }}</p>
         </div>
       </div>
-      <div class="value-card" :class="checkType(tabActiveFilter)">
+      <div class="value-card" :class="checkType(tabActiveFilter.toLowerCase())">
         <p class="current">{{ dataCard.availableBalance | convertAmountDecimal(this.tabActiveFilter.toUpperCase()) }} {{ this.tabActiveFilter.toUpperCase() }}</p>
-        <p class="last">-${{ dataCard.availableBalanceUSD | convertAmountDecimal('USD') }}</p>
+        <p class="last">~${{ dataCard.availableBalanceUSD | convertAmountDecimal('USD') }}</p>
       </div>
     </div>
     <div class="card-item">
@@ -83,6 +83,8 @@
     checkTypeIcon(type: string): string {
       return type === 'lynk'
         ? 'icon-lynk'
+        : type === 'clm'
+        ? 'icon-clm'
         : type === 'btc'
         ? 'icon-btc'
         : type === 'eth'

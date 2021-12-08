@@ -7,11 +7,12 @@
       <el-form>
         <el-form-item :label="$t('label.buy-token')">
           <el-select v-model="filter.currency" multiple clearable class="w-100">
-            <el-option v-for="wallet in listWallet" :key="wallet.id" :value="wallet.symbol" :label="wallet.name">
+            <el-option v-for="wallet in getListWallet" :key="wallet.id" :value="wallet.symbol" :label="wallet.name">
               <template>
                 <div class="be-flex wallet-item">
                   <base-icon :icon="wallet.icon" size="24" />
                   <span class="d-ib" style="margin-left: 10px">{{ wallet.name }}</span>
+                  <span class="d-ib" style="margin-left: 4px">({{ wallet.symbol.toUpperCase() }})</span>
                 </div>
               </template>
             </el-option>
@@ -23,38 +24,77 @@
             </el-date-picker>
           </el-form-item>
 
-          <el-form-item class="be-flex-item hide-label" label="1">
-            <el-date-picker class="w-100 date-picker" format="MM/dd/yyyy" :placeholder="$t('label.to-date')" value-format="yyyy-MM-dd" v-model="filter.toDate" type="date">
+          <el-form-item class='be-flex-item hide-label' label='1'>
+            <el-date-picker
+              class='w-100 date-picker'
+              format='MM/dd/yyyy'
+              :placeholder="$t('label.to-date')"
+              value-format='yyyy-MM-dd'
+              v-model='filter.toDate'
+              type='date'
+              :picker-options='pickerOption'
+            >
             </el-date-picker>
           </el-form-item>
         </div>
-        <div class="be-flex jc-space-between row">
-          <el-form-item class="be-flex-item mr-40 form-item-line" :label="$t('label.trans-amount')">
-            <el-input
-              v-model="filter.fromAmount"
-              :placeholder="$t('placeholder.from-amount')"
-              @keypress.native="onlyNumber($event, 'fromAmount')"
-              @keyup.native="numberFormat($event)"
-            >
-              <div class="prefix" slot="prefix">$</div>
-            </el-input>
-          </el-form-item>
+        <div class='transaction-amount-form'>
+          <div class='be-flex jc-space-between row'>
+            <el-form-item class='be-flex-item mr-40 form-item-line' :label="$t('label.trans-amount')">
+              <el-input
+                v-model='filter.fromAmount'
+                :placeholder="$t('placeholder.from-amount')"
+                @keypress.native="onlyNumber($event, 'fromAmount')"
+                @keyup.native='numberFormat($event)'
+              >
+                <div class='prefix' slot='prefix'>$</div>
+              </el-input>
+            </el-form-item>
 
-          <el-form-item class="be-flex-item hide-label" label="1">
-            <el-input v-model="filter.toAmount" :placeholder="$t('placeholder.to-amount')" @keypress.native="onlyNumber($event, 'toAmount')" @keyup.native="numberFormat($event)">
-              <div class="prefix" slot="prefix">$</div>
-            </el-input>
+            <el-form-item class='be-flex-item hide-label' label='1'>
+              <el-input v-model='filter.toAmount' :placeholder="$t('placeholder.to-amount')"
+                        @keypress.native="onlyNumber($event, 'toAmount')" @keyup.native='numberFormat($event)'
+                        @blur='clickOutSide'>
+                <div class='prefix' slot='prefix'>$</div>
+              </el-input>
+            </el-form-item>
+
+          </div>
+          <div v-if='errorType==="amount"' class='error-amount'>
+            <p>{{ $t('notify.amount-invalid') }}</p>
+          </div>
+
+        </div>
+        <div v-if="tabActiveFilter === 'bonus'" class="be-flex jc-space-between">
+          <el-form-item :label="$t('label.status')" class="be-flex-item mr-40">
+            <el-select v-model="filter.status" clearable class="w-100">
+              <el-option v-for="status in listStatus" :key="status.id" :value="status.value" :label="status.label">
+                <template>
+                  <span class="d-ib">{{ status.label }}</span>
+                </template>
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item :label="$t('label.bonus-type')" class="be-flex-item">
+            <el-select v-model="filter.bonusType" clearable class="w-100">
+              <el-option v-for="status in listBonusType" :key="status.id" :value="status.value" :label="status.label">
+                <template>
+                  <span class="d-ib">{{ status.label }}</span>
+                </template>
+              </el-option>
+            </el-select>
           </el-form-item>
         </div>
-        <el-form-item :label="$t('label.status')">
-          <el-select v-model="filter.status" clearable class="w-100">
-            <el-option v-for="status in listStatus" :key="status.id" :value="status.value" :label="status.label">
-              <template>
-                <span class="d-ib">{{ status.label }}</span>
-              </template>
-            </el-option>
-          </el-select>
-        </el-form-item>
+        <div v-else>
+          <el-form-item :label="$t('label.status')">
+            <el-select v-model="filter.status" clearable class="w-100">
+              <el-option v-for="status in listStatus" :key="status.id" :value="status.value" :label="status.label">
+                <template>
+                  <span class="d-ib">{{ status.label }}</span>
+                </template>
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </div>
       </el-form>
     </div>
     <div slot="footer" class="footer">
@@ -68,27 +108,51 @@
 </template>
 
 <script lang="ts">
-  import { Component, Mixins } from 'vue-property-decorator'
+  import { Component, Mixins, Prop } from 'vue-property-decorator'
   import includes from 'lodash/includes'
   import PopupMixin from '@/mixins/popup'
+  import { namespace } from 'vuex-class'
+
+  const beBase = namespace('beBase')
 
   @Component
   export default class PopupFilterTransaction extends Mixins(PopupMixin) {
+    @Prop({ required: true, type: String, default: '' }) tabActiveFilter!: string
+    @Prop({ required: true, type: String, default: 'customer' }) type!: string
+
+    @beBase.State('coinMain') coinMain!: string
+
     filter: Record<string, any> = {
       currency: '',
       fromDate: '',
       toDate: '',
       fromAmount: '',
       toAmount: '',
-      status: ''
+      status: '',
+      bonusType: ''
     }
+
+    get pickerOption(): any {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const _this = this
+      return {
+        disabledDate(time: Date) {
+          return _this.disableTime(time)
+        }
+      }
+    }
+
+    disableTime(time: Date): any {
+      if (this.filter.fromDate) {
+        return time.getTime() < new Date(this.filter.fromDate).getTime()
+      }
+    }
+
+    clickOutSide() {
+      this.checkValid()
+    }
+
     listWallet: Array<Record<string, any>> = [
-      {
-        id: 5,
-        name: 'Lynkey',
-        symbol: 'lynk',
-        icon: 'icon-lin'
-      },
       {
         id: 0,
         name: 'Bitcoin',
@@ -139,27 +203,84 @@
         id: 2,
         label: 'Success',
         value: 'SUCCESS'
+      }
+      // {
+      //   id: 3,
+      //   label: 'Failed',
+      //   value: 'FAILED'
+      // },
+      // {
+      //   id: 4,
+      //   label: 'Rejected',
+      //   value: 'REJECTED'
+      // }
+    ]
+
+    listBonusType: Array<Record<string, any>> = [
+      {
+        id: 0,
+        label: 'Sign Up',
+        value: 'BONUS_SIGN_UP'
+      },
+      {
+        id: 1,
+        label: 'Crowdsale',
+        value: 'BONUS_CROWDSALE'
+      },
+      {
+        id: 2,
+        label: 'First Transaction',
+        value: 'BONUS_FIRST_TRANS'
       },
       {
         id: 3,
-        label: 'Failed',
-        value: 'FAILED'
+        label: 'Affiliate',
+        value: 'BONUS_AFFILIATE'
       },
       {
         id: 4,
-        label: 'Rejected',
-        value: 'REJECTED'
+        label: 'Big Backers',
+        value: 'BONUS_BIG_BACKER'
+      },
+      {
+        id: 5,
+        label: 'Early Backers',
+        value: 'BONUS_EARLY_BACKER'
       }
     ]
+    errorType = ''
 
-    handleReset(): void {
+    get getListWallet(): Array<Record<string, any>> {
+      if (this.coinMain === 'LYNK') {
+        return [
+          {
+            id: 5,
+            name: 'Lynkey',
+            symbol: 'lynk',
+            icon: 'icon-lin'
+          },
+          ...this.listWallet
+        ]
+      }
+      return [
+        {
+          id: 5,
+          name: 'CLM',
+          symbol: 'clm',
+          icon: 'icon-clm'
+        },
+        ...this.listWallet
+      ]
+    }
+
+    public handleReset(): void {
       this.filter = {
         currency: '',
         fromDate: '',
         toDate: '',
         fromAmount: '',
         toAmount: '',
-        status: ''
+        status: null
       }
       // this.setOpenPopup({
       //   popupName: 'popup-filter-transaction',
@@ -168,16 +289,34 @@
       // this.$emit('filter', this.filter)
     }
 
+    checkValid(): boolean {
+      let toAmount = parseInt(this.filter.toAmount.replaceAll(',', ''))
+      let fromAmount = parseInt(this.filter.fromAmount.replaceAll(',', ''))
+      if (fromAmount > toAmount) {
+        this.errorType = 'amount'
+        return false
+      }
+      return true
+    }
+
     handleApply(): void {
       this.setOpenPopup({
         popupName: 'popup-filter-transaction',
         isOpen: false
       })
       let _currency = ''
+      let _fromAmount = ''
+      let _toAmount = ''
       if (this.filter.currency) {
         _currency = this.filter.currency.join(',')
       }
-      this.$emit('filter', { ...this.filter, currency: _currency })
+      if (this.filter.fromAmount) {
+        _fromAmount = this.filter.fromAmount.replaceAll(',', '')
+      }
+      if (this.filter.toAmount) {
+        _toAmount = this.filter.toAmount.replaceAll(',', '')
+      }
+      this.$emit('filter', { ...this.filter, fromAmount: _fromAmount, toAmount: _toAmount, currency: _currency })
     }
 
     onlyNumber(event: KeyboardEvent, type: string): void {
@@ -213,8 +352,29 @@
     left: 8px;
     top: 4px;
   }
+
+  .transaction-amount-form {
+    position: relative;
+
+    .error-amount {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+
+      p {
+        font-family: Open Sans;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 20px;
+        color: #CF202F;
+      }
+    }
+  }
+
   .form-item-line {
     position: relative;
+
     &::after {
       content: '';
       position: absolute;

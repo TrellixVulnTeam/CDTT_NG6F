@@ -13,14 +13,15 @@
     "wrong-email": "Vui lòng nhập email",
     "wrong-email-type": "Vui lòng nhập email hợp lệ",
     "wrong-password": "Vui lòng nhập mật khẩu",
+    "checkpass": "Vui lòng nhập mật khẩu hợp lệ",
     "placeholder": {
       "password": "Mật khẩu"
     }
   },
   "verify": {
-    "title-phone": "Nhập mã gồm 6 chữ số mà chúng tôi đã nhắn tin đến số điện thoại của bạn",
+    "title-phone": "Nhập mã gồm 6 chữ số mà chúng tôi đã gửi đến số điện thoại của bạn",
     "title-email": "Nhập mã gồm 6 chữ số mà chúng tôi đã gửi đến email của bạn",
-    "title-app": "Nhập mã gồm 6 chữ số từ ứng dụng xác thực của bạn",
+    "title-app": "Nhập mã gồm 6 chữ số nhận được từ ứng dụng xác thực của bạn",
     "label": "Nhập mã xác thực 2 bước:",
     "submit": "Xác nhận",
     "question": "Bạn chưa nhận được mã xác thực?",
@@ -28,7 +29,9 @@
     "wrong-code": "Vui lòng nhập mã xác thực",
     "placeholder": "Nhập mã xác thực",
     "phone-title": "Xác minh số điện thoại",
-    "continue": "Xác nhận"
+    "continue": "Xác nhận",
+    "phone-number": "điện thoại",
+    "authen-app": "ứng dụng xác thực"
   },
   "signup": {
     "title-form": "Đăng Ký",
@@ -78,14 +81,19 @@
     "setting": "Cài đặt",
     "crowdsale": "Crowdsale",
     "request": "Yêu cầu",
-    "balance": "Số dư"
+    "balance": "Số dư",
+    "transaction": "Giao dịch",
+    "member": "Nhân viên"
   },
   "header": {
     "kyc": "KYC",
     "customer": "Khách hàng",
     "crowdsale": "Crowdsale",
     "request": "Yêu cầu",
-    "balance":"Số dư"
+    "balance": "Số dư",
+    "transaction": "Giao dịch",
+    "exception": "Ngoại lệ",
+    "member": "Nhân sự"
   },
   "footer": {
     "terms": "Các điều khoản và điều kiện"
@@ -103,7 +111,12 @@
     "from-amount": " Từ",
     "to-amount": "Đến",
     "select-type": "Chọn trạng thái",
-    "status": "Chọn trạng thái"
+    "status": "Chọn trạng thái",
+    "from": "Từ",
+    "to": "Tới",
+    "email": "Email",
+    "f-name": "Họ",
+    "l-name": "Tên"
   },
   "button": {
     "reset": "Làm lại",
@@ -113,7 +126,11 @@
     "close": "Đóng",
     "approve": "Xác nhận",
     "reject": "Từ chối",
-    "apply": "Xác nhận"
+    "apply": "Xác nhận",
+    "add-member": "Thêm nhân viên",
+    "add-member-1": "Thêm nhân viên",
+    "delete-user": "Xóa nhân viên",
+    "save": "Lưu"
   },
   "scan": {
     "qrcode": "QUÉT QR CODE"
@@ -124,7 +141,8 @@
     "transaction": "giao dịch",
     "crowdsale": "giao dịch",
     "investor": "nhà đầu tư",
-    "request": "yêu cầu"
+    "request": "yêu cầu",
+    "member": "nhân viên"
   },
   "label": {
     "buy-from": "Chọn ví",
@@ -148,8 +166,9 @@
     "level": "Cấp độ",
     "create-date": "Ngày tạo",
     "last-login": "Lần đăng nhập cuối",
-    "f-name": "Tên",
-    "l-name": "Họ",
+    "f-name": "Họ",
+    "l-name": "Tên",
+    "password": "Mật khẩu",
     "birth-day": "Ngày sinh",
     "address": "Địa chỉ",
     "city": "Thành phố",
@@ -163,8 +182,13 @@
     "status": "Trạng thái",
     "trans-type": "Loại giao dịch",
     "date": "Thời gian",
-    "enter-verify-code":"Nhập mã xác thực",
-    "verify-code":"Mã xác thực"
+    "enter-verify-code": "Nhập mã xác thực",
+    "verify-code": "Mã xác thực",
+    "available-amount": "Số tiền hiện có",
+    "locked-amount": "Số tiền đã khóa",
+    "balance": "Số dư ví",
+    "bonus-type": "Bonus Type",
+    "role": "Quyền"
   },
   "validate": {
     "length": " Độ dài tối thiểu 8 ký tự",
@@ -179,6 +203,7 @@
   "notify": {
     "500": "Không thể kết nối đến máy chủ",
     "user-exits": "Tài khoản hoặc mật khẩu không chính xác",
+    "user-not-exits": "Tài khoản không hoạt động hoặc đã bị xóa",
     "pass-invalid": "Tài khoản hoặc mật khẩu không chính xác",
     "user-locked": "Tài khoản đã bị khóa",
     "user-expired": "Tài khoản đã bị khóa",
@@ -198,9 +223,17 @@
     "no-data": "Không có dữ liệu",
     "no-data-kyc": "Không có dữ liệu",
     "copy": "Sao chép thành công",
-    "captcha-invalid":"Captcha không hợp lệ!",
-    "invalid-username":"Tên đăng nhập hoặc mật khẩu không chính xác!",
-    "account-exits":"Số điện thoại đã được sử dụng!"
+    "captcha-invalid": "Captcha không hợp lệ!",
+    "invalid-username": "Tên đăng nhập hoặc mật khẩu không chính xác!",
+    "account-exits": "Số điện thoại đã được sử dụng!",
+    "no-permisson": "Bạn không có quyền truy cập",
+    "experied-verify": "Mã xác minh đã hết hạn",
+    "date-invalid": "From date is less than to date",
+    "amount-invalid": "From amount is less than to amount",
+    "account-exist": "Tài khoản đã tồn tại",
+    "add-user-succsess": "Thêm nhân viên thành công",
+    "update-user-succsess": "Sửa nhân viên thành công",
+    "delete-user-success": "Xóa thành công"
   },
   "logout": {
     "title": "Đăng xuất"
@@ -214,7 +247,8 @@
       "email": "email",
       "national": "quốc gia",
       "date": "ngày tạo",
-      "status": "trạng thái"
+      "status": "trạng thái",
+      "role": "Quyền"
     },
     "popup": {
       "title": "CHI TIẾT KYC",
@@ -226,8 +260,8 @@
       "cb4": "Không sử dụng tài liệu gốc",
       "reason": "Lý do:",
       "personal-detail": "Chi tiết",
-      "f-name": "Tên",
-      "l-name": "Họ",
+      "f-name": "Họ",
+      "l-name": "Tên",
       "national": "Quốc tịch",
       "id-verification": "ID xác minh",
       "id-type": "loại ID",
@@ -297,38 +331,38 @@
       "accepted": "Xác nhận",
       "invited": "Đã mời"
     },
-    "setting":{
-      "new-phone":"Số điện thoại mới",
-      "verify":"Xác minh",
-      "phone":"Số điện thoại",
-      "2factor":"Xác minh 2 bước",
-      "status":"Trạng thái",
-      "change":"Thay đổi",
-      "lock":"Khóa",
-      "unlock":"Mở khóa",
-      "reset":"Khôi phục",
-      "enter-code":"Nhập mã g",
-      "send-code":"Gửi mã xác minh thành công!",
-      "send-code-fail":"Gửi mã xác minh thất bại!",
-      "lock-user-success":"Khóa tài khoản thành công!",
-      "lock-user-fail":"Khóa tài khoản thất bại!",
-      "unlock-user-success":"Mở khóa tài khoản thành công!",
-      "unlock-user-fail":"Mở khóa tài khoản thất bại!",
-      "user-active":"Kích hoạt",
-      "user-locked":"Đã khóa",
-      "user-unverified":"Chưa xác thực",
-      "send-reset-default":"Gửi email cho khách hàng thành công!",
-      "send-reset-default-fail":"Gửi email cho khách hàng thất bại!"
-      
+    "setting": {
+      "new-phone": "Số điện thoại mới",
+      "verify": "Xác minh",
+      "phone": "Số điện thoại",
+      "2factor": "Xác minh 2 bước",
+      "status": "Trạng thái",
+      "change": "Thay đổi",
+      "lock": "Khóa",
+      "unlock": "Mở khóa",
+      "reset": "Khôi phục",
+      "enter-code": "Nhập mã g",
+      "send-code": "Gửi mã xác minh thành công!",
+      "send-code-fail": "Gửi mã xác minh thất bại!",
+      "lock-user-success": "Khóa tài khoản thành công!",
+      "lock-user-fail": "Khóa tài khoản thất bại!",
+      "unlock-user-success": "Mở khóa tài khoản thành công!",
+      "send-email-avtive": "Gửi email kích hoạt cho khách hàng thành công!",
+      "unlock-user-fail": "Mở khóa tài khoản thất bại!",
+      "user-active": "Kích hoạt",
+      "user-locked": "Đã khóa",
+      "user-unverified": "Chưa xác thực",
+      "send-reset-default": "Gửi email cho khách hàng thành công!",
+      "send-reset-default-fail": "Gửi email cho khách hàng thất bại!"
     },
-    "authen":{
-      "phone":"Xác thực SMS",
-      "app":"Xác thực ứng dụng",
-      "email":"Xác thực email"
+    "authen": {
+      "phone": "Xác thực SMS",
+      "app": "Xác thực ứng dụng",
+      "email": "Xác thực email"
     },
-    "phoneveri":{
-      "verified":"Đã xác minh",
-      "not-verified":"Chưa xác minh"
+    "phoneveri": {
+      "verified": "Đã xác minh",
+      "not-verified": "Chưa xác minh"
     },
     "statistics": {
       "balance": "Số dư",
@@ -337,7 +371,7 @@
       "total-trade": "Tổng tiền bán",
       "bonus": "Thưởng",
       "crowdsale": "Crowdsale",
-      "deposit":"Nạp",
+      "deposit": "Nạp",
       "transfer": "Chuyển",
       "withdraw": "Rút"
     }
@@ -364,10 +398,32 @@
       "bonus-first-trans": "Thưởng giao dịch lần đầu",
       "bonus-affiliate": "Thưởng giới thiệu",
       "bonus-big-backer": "Thưởng nhà đầu tư lớn",
-      "bonus-early-backer": "Thưởng nhà đầu tư sớm"
+      "bonus-early-backer": "Thưởng nhà đầu tư sớm",
+      "DATE": "DATE",
+      "CUSTOMER": "KHÁCH HÀNG",
+      "STATUS": "STATUS",
+      "AMOUNT": "AMOUNT",
+      "transactions": "giao dịch",
+      "total-deposit": "Tổng tiền nạp",
+      "total-transfer": "Tổng tiền chuyển",
+      "total-bonus": "Tổng tiền thưởng",
+      "total-withdraw": "Tổng tiền rút"
     },
     "popup": {
-      "title-filter": "Bộ lọc"
+      "title-filter": "Bộ lọc",
+      "transaction-detail": "Chi tiết chuyển",
+      "customer-info": "Chi tiết người dùng"
+    },
+    "detail": {
+      "transaction-id": "ID Giao dịch",
+      "date": "Ngày",
+      "from": "Từ",
+      "to": "Đến",
+      "fees": "Phí giao dịch",
+      "status": "Trạng thái",
+      "full-name": "Tên đầy đủ",
+      "phone-number": "Số điện thoại",
+      "email": "Email"
     }
   },
   "params": {
@@ -400,12 +456,19 @@
     "setting": "Cài đặt",
     "Transactions": "Giao dịch",
     "Round": "Vòng",
-    "lynk": "LYNK",
-    "btc": "BTC",
-    "eth":"ETH",
-    "bnb":"BNB",
-    "usdt":"USDT",
-    "usdc":"USDC"
+    "LYNK": "LYNK",
+    "CLM": "CLM",
+    "BTC": "BTC",
+    "ETH": "ETH",
+    "BNB": "BNB",
+    "USDT": "USDT",
+    "USDC": "USDC",
+    "deposit": "Nạp",
+    "withdraw": "Rút",
+    "transfer": "Chuyển",
+    "member-active": "Hoạt động",
+    "member-inactive": "Không hoạt động",
+    "crowdsale": "Crowdsale"
   },
   "status": {
     "pending": "Đang chờ",
@@ -561,37 +624,37 @@
         "wrong-reason": "Vui lòng nhập lý do"
       }
     },
-    "transactiontype":{
-      "sign-up":"Thưởng đăng ký",
-      "crowd-sale":"Thưởng crowdsale",
-      "first-trans":"Thưởng giao dịch đầu",
-      "affiliate":"Thưởng giới thiệu",
-      "bigbacker":"Thưởng nhà đầu tư lớn",
-      "earlybacker":"Thưởng nhà đầu tư sớm",
-      "tranfer":"Chuyển",
-      "widthdraw":"Rút",
-      "deposit":"Nạp",
-      "crowdsale":"Crowdsale"
+    "transactiontype": {
+      "sign-up": "Thưởng đăng ký",
+      "crowd-sale": "Thưởng crowdsale",
+      "first-trans": "Thưởng giao dịch đầu",
+      "affiliate": "Thưởng giới thiệu",
+      "bigbacker": "Thưởng nhà đầu tư lớn",
+      "earlybacker": "Thưởng nhà đầu tư sớm",
+      "tranfer": "Chuyển",
+      "widthdraw": "Rút",
+      "deposit": "Nạp",
+      "crowdsale": "Crowdsale"
     },
-    "warning":{
-      "notmatched":"Số dư Hiện tại và Số dư Cuối kỳ không khớp với nhau.",
-      "exceeded1":"Số dư Hiện tại và Số dư Cuối kỳ không khớp với nhau.",
-      "exceeded2":"Yêu cầu đã vượt quá giới hạn cho phép.",
-      "allow":"Yêu cầu đã vượt quá giới hạn cho phép."
+    "warning": {
+      "notmatched": "Số dư Hiện tại và Số dư Cuối kỳ không khớp với nhau.",
+      "exceeded1": "Số dư Hiện tại và Số dư Cuối kỳ không khớp với nhau.",
+      "exceeded2": "Yêu cầu đã vượt quá giới hạn cho phép.",
+      "allow": "Yêu cầu đã vượt quá giới hạn cho phép."
     }
   },
-  "balance":{
+  "balance": {
     "available": "Có sẵn",
     "lockedAmount": "Số tiền đã khóa",
-    "lastChange":"Mới đổi",
+    "lastChange": "Mới đổi",
     "availableAmout": "Số lượng có sẵn",
     "name": "Tên",
-    "investor":"Nhà đầu tư",
-    "total-available":"Tổng số tiền hiện có",
-    "total-locked":"Tổng số tiền đã khóa",
-    "of-total":"trên tổng số",
-    "balance-wallet":"Số dư ví",
-    "balance":"Số dư",
+    "investor": "Nhà đầu tư",
+    "total-available": "Tổng số tiền hiện có",
+    "total-locked": "Tổng số tiền đã khóa",
+    "of-total": "trên tổng số",
+    "balance-wallet": "Số dư ví",
+    "balance": "Số dư",
     "popup": {
       "title": "CHI TIẾT SỐ DƯ",
       "available-amount": "Số lượng hiện có",
@@ -626,6 +689,41 @@
         "bonus-crowdsale": "Thưởng mua crowdsale",
         "bonus-sign-up": "Thưởng đăng ký"
       }
+    }
+  },
+  "member": {
+    "popup": {
+      "title-add": "THÊM NHÂN VIÊN",
+      "title-edit": "SỬA NHÂN VIÊN",
+      "status-active": "Trạng thái kích hoạt",
+      "title-confirm": "Xác nhận xóa",
+      "content-confirm": "Bạn có chắc chắn muốn xóa nhân viên này không ?",
+      "title-detail": "chi tiết nhân viên",
+      "edit": "Sửa",
+      "email": "Email",
+      "create-date": "Ngày tạo",
+      "last-login": "Lần đăng nhập cuối",
+      "active-status": "Trạng thái kích hoạt"
+    },
+    "sort": {
+      "full-name": "Họ tên",
+      "email": "Email",
+      "create-date": "Ngày tạo",
+      "all-role": "Tất cả",
+      "admin": "Admin",
+      "support": "Hỗ trợ",
+      "mkt": "Marketing",
+      "accountant": "Kế toán"
+    },
+    "validate": {
+      "wrong-email": "Vui lòng nhập email",
+      "wrong-email-type": "Vui lòng nhập email hợp lệ",
+      "wrong-password": "Vui lòng nhập mật khẩu",
+      "checkpass": "Vui lòng nhập mật khẩu hợp lệ",
+      "firstname": "Vui lòng nhập họ",
+      "lastname": "Vui lòng nhập tên",
+      "lastnameLength": "Nhập tối thiểu 2 ký tự",
+      "firstnameLength": "Nhập tối thiểu 2 ký tự"
     }
   }
 }
