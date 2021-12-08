@@ -1,8 +1,8 @@
 <template>
   <div class="list-address">
-<!--    <filter-main :sorts="sorts" @filter="handleFilter" :isShowSort="true" />-->
-    <filter-transaction @filter="handleFilter" :type='"addresses"'/>
-    <div class="table" v-loading="isLoading" :class="isLoading ? 'list-loading' : null" style='margin-top: 24px'>
+    <!--    <filter-main :sorts="sorts" @filter="handleFilter" :isShowSort="true" />-->
+    <filter-transaction @filter="handleFilter" :type="'addresses'" />
+    <div class="table" v-loading="isLoading" :class="isLoading ? 'list-loading' : null" style="margin-top: 24px">
       <base-table :data="listAddress" :showPagination="false" class="base-table table-wallet">
         <el-table-column label="#" type="index" align="center" width="40" />
         <el-table-column :label="$t('customer.table.asset')" width="144">
@@ -41,7 +41,7 @@
         </el-table-column>
       </base-table>
     </div>
-    <popup-filter-addresses @filter="handleFilter" :listAssetNetwork='listAssetNetwork'/>
+    <popup-filter-addresses @filter="handleFilter" :listAssetNetwork="listAssetNetwork" />
   </div>
 </template>
 
@@ -56,7 +56,7 @@
   import PopupFilterAddresses from '@/components/popup/PopupFilterAddresses.vue'
   import { namespace } from 'vuex-class'
   const beBase = namespace('beBase')
-  @Component({ components: { FilterMain,FilterTransaction,PopupFilterAddresses } })
+  @Component({ components: { FilterMain, FilterTransaction, PopupFilterAddresses } })
   export default class CustomerAddress extends Vue {
     @Prop({ required: true, type: Number, default: 0 }) userId!: number
     @beBase.State('coinMain') coinMain!: string
@@ -67,11 +67,11 @@
       search: null,
       page: 1,
       limit: 10,
-      network:null,
+      network: null,
       total: null,
-      currency:null,
-      toCreatedAt:null,
-      fromCreatedAt:null
+      currency: null,
+      toCreatedAt: null,
+      fromCreatedAt: null
     }
     sorts: Array<Record<string, any>> = [
       {
@@ -94,7 +94,7 @@
           // userId: this.query.userId,
           limit: this.query.limit,
           page: this.query.page,
-          fromCreatedAt:this.query.fromCreatedAt,
+          fromCreatedAt: this.query.fromCreatedAt,
           toCreatedAt: this.query.toCreatedAt,
           total: null
         }
@@ -112,13 +112,13 @@
       try {
         const result = await apiCustomer.getlistAssetNetwork()
         this.listAssetNetwork = result
-        if (this.coinMain==="LYNK"){
-          this.listAssetNetwork=this.listAssetNetwork.filter((items)=>{
-            return items.currency!=="CLM"
+        if (this.coinMain === 'LYNK') {
+          this.listAssetNetwork = this.listAssetNetwork.filter(items => {
+            return items.currency !== 'CLM'
           })
-        }else {
-          this.listAssetNetwork=this.listAssetNetwork.filter((items)=>{
-            return items.currency!=="LYNK"
+        } else {
+          this.listAssetNetwork = this.listAssetNetwork.filter(items => {
+            return items.currency !== 'LYNK'
           })
         }
       } catch (error) {

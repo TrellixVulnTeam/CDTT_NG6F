@@ -210,8 +210,8 @@
         <div class="text1" style="transform: translateY(-9px)">{{ $t('customer.setting.phone') }}</div>
         <div class="be-flex">
           <div class="phone">
-            <span class="style-phone">{{ phoneNumber }}</span>
-            <span v-if="this.dataDetail.phoneVerified == '0'" style="color: blue; margin-left: 4px; font-size: 14px; line-height: 20px; color: #5b616e">{{ phoneVerified }}</span>
+            <span v-if="this.data.phoneVerified == '1'" class="style-phone">{{ phoneNumber }}</span>
+            <span v-if="this.data.phoneVerified == '0'" style="color: blue; margin-left: 4px; font-size: 14px; line-height: 20px; color: #5b616e">{{ phoneVerified }}</span>
             <span v-else style="color: blue; margin-left: 4px; font-size: 14px; line-height: 20px; color: #129961">{{ phoneVerified }}</span>
           </div>
           <div style="width: 170px">
@@ -359,7 +359,6 @@
       this.disabledContinue = value.length > 0 ? false : true
     }
     @Watch('form.resendCode') watchSubmit(value: string): void {
-      console.log('value', value)
       this.disableSubmit = value.length == 6 ? false : true
       this.form.resendCode = this.form.resendCode.substring(0, 6)
     }
@@ -384,7 +383,6 @@
     }
     get getIconUser(): string {
       const name = this.data.faType
-      console.log('fatype', this.dataDetail.faType)
 
       if (name == 'SMS') {
         return 'verify-phone'
@@ -604,14 +602,10 @@
           .updateUnlockUser(paramsUnlock)
           .then((res: any) => {
             // get message thì sửa ở api Customer
-            console.log('res', res.message)
-
             if (res.message == 'Unlocked successfully') {
-              console.log('unlock success')
               let message: any = this.$t('customer.setting.unlock-user-success')
               this.$message.success(message)
             } else {
-              console.log(' sen email')
               let message: any = this.$t('customer.setting.send-email-avtive')
               this.$message.success(message)
             }
@@ -713,7 +707,9 @@
       }
       const result: any = await apiCustomer.getListCustomer(params)
       this.data = result.content[0]
-      this.phoneNumber = '(' + this.data.countryCode + ') ' + this.data.phone
+      if (this.data.countryCode && this.data.phone) {
+        this.phoneNumber = '(' + this.data.countryCode + ') ' + this.data.phone
+      }
       // this.userStatus ? result.userStatus =='ACTIVE' :
       if (this.data.userStatus == 'ACTIVE') {
         this.userStatus = 'Active'
@@ -722,7 +718,6 @@
       } else {
         this.userStatus = 'Locked'
       }
-      console.log('data', this.data.userStatus)
 
       //check faType
       if (this.data.faType == 'EMAIL') {
@@ -751,7 +746,6 @@
       const currentCountry = filter(this.listCountry, country => country.isoCode === 'VN')[0]
       this.form.country = currentCountry.name
       this.get2Fa()
-      console.log('status', this.data.userStatus)
     }
     typeAdminFa = ''
     async get2Fa(): Promise<void> {
@@ -759,7 +753,6 @@
         email: this.user.email
       }
       await apiAuth.get2FA(params).then((res: any) => {
-        console.log('res', res)
         this.typeAdminFa = res
         this.typeVerified = res.toLowerCase()
         if (this.typeVerified == 'sms') {
@@ -774,7 +767,6 @@
         // else  {
         //   this.typeVerified = 'authenticator app'
         // }
-        console.log('typeverified', res)
       })
     }
     handleSelectCountry(country: string): void {
