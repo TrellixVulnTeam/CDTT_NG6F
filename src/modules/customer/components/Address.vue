@@ -9,7 +9,7 @@
           <template slot-scope="scope">
             <div class="be-flex align-center">
               <base-icon :icon="getIcon(scope.row.currency)" size="24" />
-              <span style="padding-left: 8px" class="d-ib">{{ getAssetTitle(scope.row.currencyName) }}</span>
+              <span style="padding-left: 8px" class="d-ib">{{ scope.row.currencyName }}</span>
             </div>
           </template>
         </el-table-column>
