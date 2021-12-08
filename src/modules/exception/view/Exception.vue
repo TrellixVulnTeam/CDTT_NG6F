@@ -11,13 +11,21 @@
     </div>
 
     <!-- <balance-filter @filterBalance="handleFilter" :listApproveBy="listApproveBy" /> -->
-    <exception-filter @filterException="handleFilter"  />
+    <exception-filter @filterException="handleFilter" />
     <div class="ending-balance be-flex jc-space-between">
       <p>{{ $t('exception.total') }}</p>
       <p>${{ totalAmount }}</p>
       <!-- <p v-else>{{ summary.closeBalance | numberWithCommas }}</p> -->
     </div>
-    <exception-table v-loading="isLoading" @rowClick="handleRowClick" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="propdataTable" />
+    <exception-table
+      v-loading="isLoading"
+      @coppy="handleCoppy"
+      @rowClick="handleRowClick"
+      @sizeChange="handleSizeChange"
+      @pageChange="handlePageChange"
+      :query="query"
+      :data="propdataTable"
+    />
     <exception-detail :detail-row="detailRow" :tab-active-filter="tabActive"></exception-detail>
   </div>
 </template>
@@ -155,13 +163,25 @@
       this.query.limit = limit
       this.init()
     }
-
+    checkCoppy = ''
+    handleCoppy(value: string | number): void {
+      console.log('value', value)
+      this.checkCoppy = value.toString()
+    }
     handleRowClick(row: Record<string, any>): void {
       this.detailRow = row.row
-      this.setOpenPopup({
-        popupName: 'popup-exception-detail',
-        isOpen: true
-      })
+      if (this.checkCoppy == '1') {
+        this.setOpenPopup({
+          popupName: 'popup-exception-detail',
+          isOpen: false
+        })
+      } else {
+        this.setOpenPopup({
+          popupName: 'popup-exception-detail',
+          isOpen: true
+        })
+      }
+      EventBus.$emit('checkRowClick')
     }
 
     handleFilter(filter: Record<string, any>): void {

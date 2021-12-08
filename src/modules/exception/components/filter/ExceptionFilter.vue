@@ -435,7 +435,7 @@
       console.log('data', filters)
       this.$emit('filterException', filters)
     }
-    resetFilters(): void{
+    resetFilters(): void {
       ;(this.filterException.search = ''),
         (this.filterException.currency = ''),
         (this.filterException.fromDate = ''),

@@ -57,7 +57,7 @@
           </span>
         </div>
       </div> -->
-      <div v-if="checkFeeType(detailRow.transactionType) && detailRow.transactionType === 'WITHDRAW'" class="item be-flex" >
+      <div v-if="checkFeeType(detailRow.transactionType) && detailRow.transactionType === 'WITHDRAW'" class="item be-flex">
         <p>{{ $t('transaction.detail.fees') }}</p>
         <div class="be-flex">
           <p class="sub">-{{ detailRow.transactionFeeDisplay }} {{ detailRow.currency }}</p>
@@ -69,7 +69,7 @@
         <p :class="checkType(detailRow.status)">{{ checkTransactionStatus(detailRow.status) }}</p>
       </div>
     </div>
-    <div class="customer-info" v-if="detailRow.transactionType === 'WITHDRAW'" >
+    <div class="customer-info" v-if="detailRow.transactionType === 'WITHDRAW'">
       <p class="title">{{ $t('transaction.popup.customer-info') }}</p>
       <div class="item be-flex">
         <p>{{ $t('transaction.detail.full-name') }}</p>
