@@ -330,7 +330,7 @@
           padding: 4px 8px;
           position: absolute;
           bottom: 8px;
-          left: 50%;
+          left: 45%;
           background: rgba(0, 0, 0, 0.4);
           font-family: Open Sans;
           font-style: normal;
