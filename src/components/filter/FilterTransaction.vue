@@ -9,7 +9,7 @@
       <span class="abicon"> <base-icon style="color: #5b616e; margin-right: 4px" icon="icon-filter" size="18" /> </span>
       {{ $t('kyc.filter.filter') }}
     </div>
-    <div v-if='type!=="addresses"'>
+    <div v-if="type !== 'addresses'">
       <el-dropdown class="sort" trigger="click" @command="handleSort">
         <span class="abicon sort-title" style="font-size: 16px">
           <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 4px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}</span
@@ -32,7 +32,13 @@
           <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 4px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}</span
         >
         <el-dropdown-menu class="header-downloadapp dropdown-sort" style="width: 230px" slot="dropdown">
-          <el-dropdown-item v-for="(value, index) in sortsAddresses" :key="index" :class="sortActive === value.command ? 'active' : null" :command="value.command" :divided="value.divided">
+          <el-dropdown-item
+            v-for="(value, index) in sortsAddresses"
+            :key="index"
+            :class="sortActive === value.command ? 'active' : null"
+            :command="value.command"
+            :divided="value.divided"
+          >
             <span class="be-flex">
               <span class="be-flex-item">
                 {{ value.label }}
@@ -79,7 +85,7 @@
       {
         command: 1,
         label: this.$i18n.t('customer.sort.created-date')
-      },
+      }
       // {
       //   command: 2,
       //   label: this.$i18n.t('customer.sort.trans-amount')
@@ -96,7 +102,7 @@
     }
 
     searchText = debounce((value: string) => {
-      if (this.type === 'customer'||this.type==="addresses") {
+      if (this.type === 'customer' || this.type === 'addresses') {
         this.$emit('filter', {
           ...this.filter,
           page: 1,
@@ -126,12 +132,12 @@
     }
 
     handleOpenPopupFilter(): void {
-      if (this.type==="addresses"){
+      if (this.type === 'addresses') {
         this.setOpenPopup({
           popupName: 'popup-filter-addresses',
           isOpen: true
         })
-      }else {
+      } else {
         this.setOpenPopup({
           popupName: 'popup-filter-transaction',
           isOpen: true

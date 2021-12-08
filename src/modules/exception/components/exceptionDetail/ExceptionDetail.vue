@@ -8,17 +8,27 @@
         <div class="icon" :class="checkTypeStatusIcon(detailRow.status)">
           <base-icon :className="'icon-pending'" :icon="checkTypeIcon(detailRow.transactionType, detailRow.status)" size="64" />
         </div>
-        <p :class="checkValueAmountDisplay(detailRow.amountDisplay)">{{ detailRow.amountDisplay }}</p>
-        <p class="usd">~${{ detailRow.amountToUsd | convertAmountDecimal('USD') }}</p>
+        <p v-if="detailRow.transactionType === 'WITHDRAW'" :class="checkValueAmountDisplay(detailRow.amountDisplay)">{{ detailRow.amountDisplay }}</p>
+        <p v-else :class="checkValueAmountDisplay(detailRow.paidAmountDisplay)">{{ detailRow.paidAmountDisplay }}</p>
+
+        <p v-if="detailRow.transactionType === 'WITHDRAW'" class="usd">~${{ detailRow.amountToUsdDisplay | convertAmountDecimal('USD') }}</p>
+        <p v-else class="usd">~${{ detailRow.paidAmountToUsd | convertAmountDecimal('USD') }}</p>
       </div>
     </div>
     <div class="transaction-detail">
       <p class="title">{{ $t('transaction.popup.transaction-detail') }}</p>
       <div class="item be-flex">
         <p>{{ $t('transaction.detail.transaction-id') }}</p>
-        <div class="be-flex align-center">
+        <div class="be-flex align-center" v-if="detailRow.transactionType === 'WITHDRAW'">
           <p class="text-detail-2">{{ detailRow.transactionHash | formatTransactionCode(10) }}</p>
           <span v-if="detailRow.transactionHash" style="margin-left: 8px" class="icon-copy" @click="handleCopyTransaction(detailRow.transactionHash)">
+            <base-icon icon="icon-copy" size="24" />
+          </span>
+        </div>
+
+        <div class="be-flex align-center" v-else>
+          <p class="text-detail-2">{{ detailRow.transactionCode | formatTransactionCode(10) }}</p>
+          <span v-if="detailRow.transactionCode" style="margin-left: 8px" class="icon-copy" @click="handleCopyTransaction(detailRow.transactionCode)">
             <base-icon icon="icon-copy" size="24" />
           </span>
         </div>
@@ -27,7 +37,7 @@
         <p>{{ $t('transaction.detail.date') }}</p>
         <p class="text-detail-2">{{ detailRow.transactionMillisecond | formatMMDDYY }}</p>
       </div>
-      <div v-if="checkFeeType(detailRow.transactionType)" class="item be-flex">
+      <!-- <div v-if="checkFeeType(detailRow.transactionType)" class="item be-flex">
         <p>{{ $t('transaction.detail.from') }}</p>
         <div class="be-flex align-center">
           <base-icon :icon="renderIconCurrency(detailRow.currency.toLowerCase())" size="20" />
@@ -46,8 +56,8 @@
             <base-icon icon="icon-copy" size="24" />
           </span>
         </div>
-      </div>
-      <div v-if="checkFeeType(detailRow.transactionType)" class="item be-flex">
+      </div> -->
+      <div v-if="checkFeeType(detailRow.transactionType) && detailRow.transactionType === 'WITHDRAW'" class="item be-flex">
         <p>{{ $t('transaction.detail.fees') }}</p>
         <div class="be-flex">
           <p class="sub">-{{ detailRow.transactionFeeDisplay }} {{ detailRow.currency }}</p>
@@ -59,7 +69,7 @@
         <p :class="checkType(detailRow.status)">{{ checkTransactionStatus(detailRow.status) }}</p>
       </div>
     </div>
-    <div class="customer-info">
+    <div class="customer-info" v-if="detailRow.transactionType === 'WITHDRAW'">
       <p class="title">{{ $t('transaction.popup.customer-info') }}</p>
       <div class="item be-flex">
         <p>{{ $t('transaction.detail.full-name') }}</p>
@@ -94,6 +104,7 @@
 
     handleClose(): void {
       this.tabActive = 0
+      this.detailRow = {}
       this.setOpenPopup({
         popupName: 'popup-exception-detail',
         isOpen: false
