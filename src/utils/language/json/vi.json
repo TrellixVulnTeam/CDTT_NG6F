@@ -104,6 +104,7 @@
     "fee": "Phí giao dịch...",
     "pin-code": "Nhập mã code...",
     "password": "Nhập mật khẩu mới",
+    "new-password": "Nhập mật khẩu mới",
     "repassword": "Nhập lại mật khẩu mới",
     "phone-number": "Số điện thoại",
     "reason": "Lý do...",
@@ -120,6 +121,7 @@
   },
   "button": {
     "reset": "Làm lại",
+    "reset-pass": "Đặt lại mật khẩu",
     "continue": "Tiếp tục",
     "cancel": "Hủy",
     "submit": "Xác nhận",
@@ -188,7 +190,8 @@
     "locked-amount": "Số tiền đã khóa",
     "balance": "Số dư ví",
     "bonus-type": "Bonus Type",
-    "role": "Quyền"
+    "role": "Quyền",
+    "new-password": "Mật khẩu mới"
   },
   "validate": {
     "length": " Độ dài tối thiểu 8 ký tự",
@@ -233,7 +236,8 @@
     "account-exist": "Tài khoản đã tồn tại",
     "add-user-succsess": "Thêm nhân viên thành công",
     "update-user-succsess": "Sửa nhân viên thành công",
-    "delete-user-success": "Xóa thành công"
+    "delete-user-success": "Xóa thành công",
+    "reset-pass-succsess": "Đặt lại mật khẩu thành công"
   },
   "logout": {
     "title": "Đăng xuất"
@@ -695,6 +699,7 @@
     "popup": {
       "title-add": "THÊM NHÂN VIÊN",
       "title-edit": "SỬA NHÂN VIÊN",
+      "title-reset": "ĐẶT LẠI MẬT KHẨU",
       "status-active": "Trạng thái kích hoạt",
       "title-confirm": "Xác nhận xóa",
       "content-confirm": "Bạn có chắc chắn muốn xóa nhân viên này không ?",
@@ -703,7 +708,8 @@
       "email": "Email",
       "create-date": "Ngày tạo",
       "last-login": "Lần đăng nhập cuối",
-      "active-status": "Trạng thái kích hoạt"
+      "active-status": "Trạng thái kích hoạt",
+      "reset-password": "Đặt lại mật khẩu"
     },
     "sort": {
       "full-name": "Họ tên",
