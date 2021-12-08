@@ -89,6 +89,13 @@
           <span>{{ $t('member.popup.status-active') }}</span>
           <el-switch v-model="form.status" active-color="#129961" active-value="ACTIVE" inactive-value="INACTIVE" class="switch-status"> </el-switch>
         </div>
+        <div class="bg-line" v-if="type === 'edit'"></div>
+        <div class="be-flex align-center jc-space-between status-active" v-if="type === 'edit'">
+          <span>{{ $t('member.popup.reset-password') }}</span>
+          <el-button class="btn-default btn-close btn-h-40 btn-rs-pass" :class="lang === 'vi' ? 'btn-vi' : null" @click="handleOpenResetPass">{{
+            $t('button.reset-pass')
+          }}</el-button>
+        </div>
       </el-form>
     </div>
     <div class="footer" slot="footer">
@@ -108,6 +115,7 @@
       </div>
     </div>
     <popup-confirm @delete="handleSubmitDelete" />
+    <popup-reset-pass :detailRow="detailRow" />
   </base-popup>
 </template>
 
@@ -116,6 +124,7 @@
 
   import PopupMixin from '@/mixins/popup'
   import PopupConfirm from './PopupConfirm.vue'
+  import PopupResetPass from './PopupResetPass.vue'
   import { MemberRepository } from '@/services/repositories/member'
   import getRepository from '@/services'
 
@@ -132,7 +141,7 @@
   }
 
   @Component({
-    components: { PopupConfirm }
+    components: { PopupConfirm, PopupResetPass }
   })
   export default class MemberDetail extends Mixins(PopupMixin) {
     @Prop({ required: false, type: Object, default: () => ({}) }) detailRow!: Record<string, any>
@@ -261,6 +270,13 @@
     handleDelete(): void {
       this.setOpenPopup({
         popupName: 'popup-confirm',
+        isOpen: true
+      })
+    }
+
+    handleOpenResetPass(): void {
+      this.setOpenPopup({
+        popupName: 'popup-reset-pass',
         isOpen: true
       })
     }
@@ -414,10 +430,7 @@
           padding: 0;
           height: 40px;
         }
-        .btn-vi {
-          width: auto !important;
-          padding: 0 10px;
-        }
+
         .btn-delete:hover {
           border: 1px solid var(--bc-btn-bg-reject);
           color: var(--bc-status-error);
@@ -427,6 +440,18 @@
         color: var(--bc-btn-text);
         background-color: var(--bc-bg-white);
       }
+    }
+    .btn-rs-pass {
+      border: 1px solid #89909e;
+      height: 40px;
+      &:hover {
+        color: var(--bc-btn-default-text-hover);
+        border-color: var(--bc-btn-default-border-hover);
+      }
+    }
+    .btn-vi {
+      width: auto !important;
+      padding: 0 10px !important;
     }
   }
 </style>
