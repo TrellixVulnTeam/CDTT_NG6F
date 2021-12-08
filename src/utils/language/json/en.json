@@ -13,6 +13,7 @@
     "wrong-email": "Please enter your email",
     "wrong-email-type": "Please enter a correct email address",
     "wrong-password": "Please enter your password",
+    "checkpass": "Please enter a valid password",
     "placeholder": {
       "password": "Password"
     }

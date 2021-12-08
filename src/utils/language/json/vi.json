@@ -13,6 +13,7 @@
     "wrong-email": "Vui lòng nhập email",
     "wrong-email-type": "Vui lòng nhập email hợp lệ",
     "wrong-password": "Vui lòng nhập mật khẩu",
+    "checkpass": "Vui lòng nhập mật khẩu hợp lệ",
     "placeholder": {
       "password": "Mật khẩu"
     }
