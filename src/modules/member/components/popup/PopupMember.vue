@@ -4,7 +4,7 @@
       <span>{{ getTitle }}</span>
     </div>
     <div class="content">
-      <el-form class="form-item">
+      <el-form class="form-item" :model="form" :rules="rules">
         <div class="be-flex jc-space-between">
           <el-form-item :label="$t('label.f-name')" class="be-flex-item mr-16 is-required" prop="firstName">
             <el-input v-model="form.firstName" :placeholder="$t('placeholder.f-name')" clearable />
@@ -28,10 +28,10 @@
 
         <el-form-item :label="$t('label.role')" class="is-required" prop="role">
           <el-checkbox-group v-model="form.roles" class="list-role">
-            <el-checkbox label="MARKETING">Marketing</el-checkbox>
-            <el-checkbox label="ACCOUNTANT">Accountant</el-checkbox>
-            <el-checkbox label="SUPPORT">Support</el-checkbox>
-            <el-checkbox label="ADMIN">Admin</el-checkbox>
+            <el-checkbox label="MARKETING">{{ $t('member.sort.mkt') }}</el-checkbox>
+            <el-checkbox label="ACCOUNTANT">{{ $t('member.sort.accountant') }}</el-checkbox>
+            <el-checkbox label="SUPPORT">{{ $t('member.sort.support') }}</el-checkbox>
+            <el-checkbox label="ADMIN">{{ $t('member.sort.admin') }}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
 
@@ -45,11 +45,13 @@
     <div class="footer" slot="footer">
       <div class="be-flex wrap-button" :class="type === 'edit' ? 'jc-space-between' : null">
         <div class="btn-left" v-if="type === 'edit'">
-          <el-button class="btn-default btn-close btn-h-40 mr-16" @click="handleDelete">{{ $t('button.delete-user') }}</el-button>
+          <el-button :class="lang === 'vi' ? 'btn-vi' : null" class="btn-default btn-close btn-h-40 mr-16 btn-delete" @click="handleDelete">{{
+            $t('button.delete-user')
+          }}</el-button>
         </div>
         <div class="btn-right">
           <el-button class="btn-default btn-close btn-h-40 mr-16" @click="handleReset">{{ $t('button.reset') }}</el-button>
-          <button type="button" class="btn-default-bg text-sm ml-auto add-member" @click="handleAddMember">
+          <button type="button" :class="lang === 'vi' && type === 'add' ? 'w-auto' : null" class="btn-default-bg text-sm ml-auto add-member" @click="handleAddMember">
             <span v-if="type === 'add'">{{ $t('button.add-member-1') }}</span>
             <span v-else>{{ $t('button.save') }}</span>
           </button>
@@ -100,8 +102,40 @@
       roles: []
     }
 
-    //balance
-    listBlance: Record<string, any>[] = []
+    rules: Record<string, any> = {
+      lastName: [
+        {
+          required: true,
+          message: this.$t('signup.lastname'),
+          trigger: 'blur'
+        },
+        {
+          pattern: /^.{2,}$/,
+          message: this.$t('signup.lastnameLength'),
+          trigger: 'blur'
+        }
+      ],
+      firstName: [
+        {
+          required: true,
+          message: this.$t('signup.firstname'),
+          trigger: 'blur'
+        },
+        {
+          pattern: /^.{2,}$/,
+          message: this.$t('signup.firstnameLength'),
+          trigger: 'blur'
+        }
+      ],
+      email: [
+        {
+          required: true,
+          message: this.$t('login.wrong-email'),
+          trigger: 'blur'
+        },
+        { type: 'email', message: this.$t('login.wrong-email-type'), trigger: 'blur' }
+      ]
+    }
 
     get getTitle(): any {
       return this.type === 'add' ? this.$t('member.popup.title-add') : this.$t('member.popup.title-edit')
@@ -286,6 +320,14 @@
         .btn-close {
           padding: 0;
           height: 40px;
+        }
+        .btn-vi {
+          width: auto !important;
+          padding: 0 10px;
+        }
+        .btn-delete:hover {
+          border: 1px solid var(--bc-btn-bg-reject);
+          color: var(--bc-status-error);
         }
       }
       .btn-close:focus {

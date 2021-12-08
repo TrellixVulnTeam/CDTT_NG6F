@@ -230,7 +230,10 @@
     "enter-verify-code": "Enter verification code",
     "verify-code": "Verification code",
     "bonus-type": "Bonus Type",
-    "role": "Role"
+    "role": "Role",
+    "asset": "Asset",
+    "network": "Network",
+    "created-date": "Created date"
   },
   "buy-lyn": {
     "title": "BUY LYN"
@@ -345,7 +348,8 @@
       "trans-amount": "Transaction amount",
       "trans-date": "Transaction date",
       "status": "Status",
-      "referral-name": "Referral name"
+      "referral-name": "Referral name",
+      "created-date": "Created date"
     },
     "table": {
       "asset": "asset",
