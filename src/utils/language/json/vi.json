@@ -193,7 +193,8 @@
     "balance": "Số dư ví",
     "bonus-type": "Bonus Type",
     "role": "Quyền",
-    "new-password": "Mật khẩu mới"
+    "new-password": "Mật khẩu mới",
+    "round": "Vòng"
   },
   "validate": {
     "length": " Độ dài tối thiểu 8 ký tự",
@@ -539,6 +540,10 @@
       "planceOderCountry": "Chọn quốc gia",
       "planceOderTransactionDateStart": "Từ",
       "planceOderTransactionDateEnd": "Đến"
+    },
+    "popup": {
+      "title-member": "thêm người mua",
+      "title-member-edit": "sửa người mua"
     }
   },
   "request": {

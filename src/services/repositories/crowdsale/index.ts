@@ -38,4 +38,12 @@ export class CrowdsaleRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+  async getDetailRoundUser(id: number): Promise<any> {
+    try {
+      const rs = await request.get(`${this.prefix}/crowdsales-users/${id}/rounds`)
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
 }

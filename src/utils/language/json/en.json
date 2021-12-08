@@ -238,7 +238,8 @@
     "asset": "Asset",
     "network": "Network",
     "created-date": "Created date",
-    "new-password": "New password"
+    "new-password": "New password",
+    "round": "Round"
   },
   "buy-lyn": {
     "title": "BUY LYN"
@@ -591,6 +592,10 @@
       "planceOderCountry": "Select country",
       "planceOderTransactionDateStart": "From",
       "planceOderTransactionDateEnd": "To"
+    },
+    "popup": {
+      "title-member": "ADD BUYER",
+      "title-member-edit": "EDIT BUYER"
     }
   },
   "balance": {
