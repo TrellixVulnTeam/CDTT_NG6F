@@ -70,8 +70,8 @@
 
             <div v-else>
               <div class="amount-increase">
-                <span>+{{ scope.row.amountDisplay }} {{ scope.row.currency }}</span>
-                <span class="d-block amount-exchange-small">~${{ scope.row.amountToUsdDisplay }}</span>
+                <span>+{{ scope.row.amountWithoutFeeDisplay }} {{ scope.row.currency }}</span>
+                <span class="d-block amount-exchange-small">~${{ scope.row.amountWithoutFeeToUsdDisplay }}</span>
               </div>
             </div>
           </template>

@@ -72,7 +72,7 @@
                 </el-input>
               </el-form-item>
             </div>
-            <el-form-item :label="$t('label.status')" class="be-flex-item mr-40">
+            <!-- <el-form-item :label="$t('label.status')" class="be-flex-item mr-40">
               <el-select v-model="filterException.status" clearable class="w-100">
                 <el-option v-for="status in listStatus" :key="status.id" :value="status.value" :label="status.label">
                   <template>
@@ -80,7 +80,7 @@
                   </template>
                 </el-option>
               </el-select>
-            </el-form-item>
+            </el-form-item> -->
           </el-form>
         </div>
         <div class="be-flex jc-flex-end footer">

@@ -85,6 +85,8 @@
           :disabled="disableSubmit"
           style="height: 40px"
           @click="handleSubmit"
+          type="button"
+          @keyup.enter.native="handleSubmit"
           >{{ $t('verify.submit') }}
         </el-button>
         <div v-if="this.typeAdminFa !== 'APP'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
@@ -133,12 +135,14 @@
           </div>
         </div>
         <el-button
+        type="button"
           class="none-focus"
           :loading="isLoading"
           :class="disableSubmit ? 'btn w-100 is-none-border btn-h-40 cursor backgroundDisable' : 'btn w-100 is-none-border btn-h-40 cursor'"
           :disabled="disableSubmit"
           style="height: 40px"
           @click="handleSubmitResetDefault"
+          @keyup.enter.native="handleSubmitResetDefault"
           >{{ $t('verify.submit') }}
         </el-button>
         <div v-if="this.typeAdminFa !== 'APP'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
@@ -193,6 +197,8 @@
           :disabled="disableSubmit"
           style="height: 40px"
           @click="handleSubmitLockUser"
+          type="button"
+          @keyup.enter.native="handleSubmitLockUser"
           >{{ $t('verify.submit') }}
         </el-button>
         <div v-if="this.typeAdminFa !== 'APP'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
