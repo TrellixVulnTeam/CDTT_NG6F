@@ -39,28 +39,25 @@
             </el-date-picker>
           </el-form-item>
         </div>
-        <div class="transaction-amount-form">
-          <div class="be-flex jc-space-between row">
-            <el-form-item class="be-flex-item mr-40 form-item-line" :label="$t('label.trans-amount')">
+        <div class='transaction-amount-form'>
+          <div class='be-flex jc-space-between row'>
+            <el-form-item class='be-flex-item mr-40 form-item-line' :class='errorType==="amount"&&"error-amount-border-popup-transaction"' :label="$t('label.trans-amount')">
               <el-input
                 v-model="filter.fromAmount"
                 :placeholder="$t('placeholder.from-amount')"
                 @keypress.native="onlyNumber($event, 'fromAmount')"
-                @keyup.native="numberFormat($event)"
+                @keyup.native='numberFormat($event)'
+                @blur='clickOutSide'
               >
                 <div class="prefix" slot="prefix">$</div>
               </el-input>
             </el-form-item>
 
-            <el-form-item class="be-flex-item hide-label" label="1">
-              <el-input
-                v-model="filter.toAmount"
-                :placeholder="$t('placeholder.to-amount')"
-                @keypress.native="onlyNumber($event, 'toAmount')"
-                @keyup.native="numberFormat($event)"
-                @blur="clickOutSide"
-              >
-                <div class="prefix" slot="prefix">$</div>
+            <el-form-item class='be-flex-item hide-label' label='1' :class='errorType==="amount"&&"error-amount-border-popup-transaction"'>
+              <el-input v-model='filter.toAmount' :placeholder="$t('placeholder.to-amount')"
+                        @keypress.native="onlyNumber($event, 'toAmount')" @keyup.native='numberFormat($event)'
+                        @blur='clickOutSide'>
+                <div class='prefix' slot='prefix'>$</div>
               </el-input>
             </el-form-item>
           </div>
@@ -163,7 +160,7 @@
         }
       } else {
         if (this.filter.toDate) {
-          return time.getTime() > new Date(this.filter.toDate).getTime()
+          return time.getTime() >= new Date(this.filter.toDate).getTime()
         }
       }
 
@@ -314,8 +311,6 @@
     checkValid(): boolean {
       let toAmount = parseInt(this.filter.toAmount.replaceAll(',', ''))
       let fromAmount = parseInt(this.filter.fromAmount.replaceAll(',', ''))
-      console.log(fromAmount)
-      console.log(toAmount)
       if (fromAmount > toAmount) {
         this.errorType = 'amount'
         return false
@@ -398,7 +393,9 @@
         line-height: 20px;
         color: #cf202f;
       }
+
     }
+
   }
 
   .form-item-line {
