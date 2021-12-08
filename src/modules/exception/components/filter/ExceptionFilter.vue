@@ -340,6 +340,7 @@
     }
 
     created(): void {
+      console.log('route', this.$route.name)
       EventBus.$on('changeLang', () => {
         console.log('a', window.localStorage.getItem('bc-lang'))
         forEach(this.sorts, elm => {

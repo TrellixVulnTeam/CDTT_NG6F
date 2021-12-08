@@ -11,7 +11,7 @@
     </div>
 
     <!-- <balance-filter @filterBalance="handleFilter" :listApproveBy="listApproveBy" /> -->
-    <exception-filter @filterException="handleFilter" />
+    <exception-filter  @filterException="handleFilter" />
     <div class="ending-balance be-flex jc-space-between">
       <p>{{ $t('exception.total') }}</p>
       <p>${{ totalAmount }}</p>

@@ -6,12 +6,12 @@
     <div class="w-100 fluctuating">
       <div class="text-center">
         <div class="icon" :class="checkTypeStatusIcon(detailRow.status)">
-          <base-icon :className="'icon-pending'" :icon="checkTypeIcon(detailRow.transactionType, detailRow.status)" size="64" />
+          <base-icon :className="'icon-pending'" :icon="getIcon" size="64" />
         </div>
         <p v-if="detailRow.transactionType === 'WITHDRAW'" :class="checkValueAmountDisplay(detailRow.amountWithoutFeeDisplay)">
           -{{ detailRow.amountWithoutFeeDisplay }} {{ detailRow.currency }}
         </p>
-        <p v-else :class="checkValueAmountDisplay(detailRow.paidAmountDisplay)">{{ detailRow.paidAmountDisplay }} {{ detailRow.currency }}</p>
+        <p v-else class="add">+{{ detailRow.paidAmountDisplay }} {{ detailRow.currency }}</p>
 
         <p v-if="detailRow.transactionType === 'WITHDRAW'" class="usd">~${{ detailRow.amountWithoutFeeToUsdDisplay | convertAmountDecimal('USD') }}</p>
         <p v-else class="usd">~${{ detailRow.paidAmountToUsd | convertAmountDecimal('USD') }}</p>
@@ -140,7 +140,16 @@
         ? 'status status-rejected'
         : 'status status-success'
     }
-
+    get getIcon(): string {
+      const name = this.detailRow.transactionType
+      if (name === 'WITHDRAW') {
+        return 'icon-withdraw-exception'
+      }
+      if (name === 'CROWDSALE') {
+        return 'menu-crowdsale'
+      }
+      return 'icon-withdraw-exception'
+    }
     checkFeeType(type: string): boolean {
       return !(type.indexOf('BONUS') !== -1 || type === 'DEPOSIT')
     }

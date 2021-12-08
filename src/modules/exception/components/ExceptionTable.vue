@@ -22,8 +22,8 @@
           <template slot-scope="scope">
             <!-- transactionCode -->
             <div class="be-flex align-center">
-              <span v-if="scope.row.transactionType === 'CROWDSALE'" class="transaction-code d-ib mr-2">{{ scope.row.transactionCode }}</span>
-              <span v-else class="transaction-code d-ib mr-2">{{ scope.row.transactionHash }}</span>
+              <span v-if="scope.row.transactionType === 'CROWDSALE'" class="transaction-code d-ib mr-2">{{ scope.row.transactionCode | formatTransactionCode(10) }}</span>
+              <span v-else class="transaction-code d-ib mr-2">{{ scope.row.transactionHash | formatTransactionCode(10) }}</span>
 
               <span class="icon-copy" @click="handleCopyTransaction(scope.row)">
                 <base-icon icon="icon-copy" size="24" />

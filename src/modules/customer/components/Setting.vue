@@ -5,7 +5,7 @@
         <span>{{ $t('customer.setting.new-phone') }}</span>
       </div>
 
-      <div class="form"  >
+      <div class="form">
         <el-form class="form-item" :model="form" :rules="rules" ref="form-phone" @submit.prevent.native="handleContinue">
           <el-form-item prop="country">
             <div class="be-flex label" slot="label">{{ $t('label.country') }}</div>
@@ -20,7 +20,7 @@
           </el-select>
         </el-form-item> -->
 
-          <el-form-item prop="phone" >
+          <el-form-item prop="phone">
             <div class="be-flex label" slot="label">{{ $t('label.phone-number') }}</div>
 
             <el-input type="number" :placeholder="$t('placeholder.phone-number')" v-model="form.phone">
@@ -829,15 +829,14 @@
     //   }
     // }
     handleKeydown(event) {
-      const keyCode = event.keyCode;
+      const keyCode = event.keyCode
       // Enter
       if (keyCode === 13) {
-        console.log('enter');
-        
-        event.stopPropagation();
-        return;
-      }
+        console.log('enter')
 
+        event.stopPropagation()
+        return
+      }
     }
     numberFormat(event: FocusEvent): void {
       const _event: any = event
