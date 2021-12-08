@@ -87,6 +87,7 @@
 
   const bcAuth = namespace('beAuth')
   const beBase = namespace('beBase')
+  const crowdsaleBo = namespace('crowdsaleBo')
   @Component
   export default class BOCrowdsale extends Vue {
     @bcAuth.Getter('listModuleCanView') listModuleCanView!: Array<Record<string, any>>
@@ -102,6 +103,11 @@
         id: 2,
         title: 'round',
         routeName: 'CrowdsaleRound'
+      },
+      {
+        id: 3,
+        title: 'setting',
+        routeName: 'CrowdsaleSetting'
       }
     ]
     listener: any = null

@@ -164,6 +164,7 @@
     "apply": "Apply",
     "add-member": "Add member",
     "add-member-1": "Add Member",
+    "add-buyer": "Add Buyer",
     "delete-user": "Delete User",
     "save": "Save"
   },
@@ -186,7 +187,8 @@
     "investor": "investors",
     "request": "requests",
     "balance": "balance",
-    "member": "members"
+    "member": "members",
+    "buyer": "buyer"
   },
   "label": {
     "buy-from": "Buy from",
@@ -566,6 +568,10 @@
     "opening": "Opening",
     "finish": "Finish",
     "upcoming": "Upcoming",
+    "setting": "Settings",
+    "full-name": "Full name",
+    "add-date": "added date",
+    "add-by": "added by",
     "popup-filter": {
       "title": "filter",
       "round": "Round",

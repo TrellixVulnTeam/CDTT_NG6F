@@ -1,5 +1,17 @@
 <template>
   <div class="bo-crowdsale-transaction">
+    <div class="be-flex mb-24 round-tab">
+      <div
+        v-for="(round, index) in listRound"
+        :key="round.id"
+        :class="index === tabActive ? 'round-active text-bold' : null"
+        class="text-base cursor round-item"
+        @click="handleChangeTab(index)"
+      >
+        <span>{{ round.name }}</span>
+      </div>
+    </div>
+
     <div class="box-filter be-flex align-center kyc-filter pl-0">
       <div class="box-search">
         <el-input v-model="query.search" class="input-search" :placeholder="$t('placeholder.search')">
@@ -26,6 +38,9 @@
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
+      <button type="button" :class="lang === 'vi' ? 'w-auto' : null" class="btn-default-bg text-sm ml-auto add-member" @click="handleAddMember">
+        <span>{{ $t('button.add-buyer') }}</span>
+      </button>
     </div>
     <div class="table">
       <base-table
@@ -34,55 +49,27 @@
         :paginationInfo="getPaginationInfo"
         @sizeChange="handleSizeChange"
         @currentChange="handleCurrentChange"
-        v-loading="loadingTable"
-        class="base-table table-crowdsale table-trans"
+        v-loading="isLoading"
+        class="base-table table-crowdsale"
       >
-        <el-table-column label="#" :index="indexMethod" type="index" align="center" width="80" />
-        <el-table-column label="Email" prop="email" align="left" class-name="col-email">
+        <el-table-column label="#" :index="indexMethod" type="index" align="center" width="60" />
+        <el-table-column :label="$t('crowdsale.full-name')" prop="fullName" />
+        <el-table-column label="Email" prop="userEmail" width="300" class-name="col-email"> </el-table-column>
+        <el-table-column :label="this.$t('crowdsale.add-date')" prop="createdAt" align="left" width="200">
           <template slot-scope="scope">
-            <div class="box-email-tabel">
-              <p class="fs-16 fw-400">{{ scope.row.fullName }}</p>
-              <p class="fs-14 fw-400" style="color: #5b616e">{{ scope.row.email }}</p>
-            </div>
+            <span>{{ scope.row.createdAt | formatDateHourMs }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="this.$t('crowdsale.date')" prop="transactionDate" align="left" width="200">
+        <el-table-column :label="this.$t('crowdsale.add-by')" prop="createdBy" width="200">
           <template slot-scope="scope">
-            <span>{{ scope.row.transactionDate | formatDateHourMs }}</span>
+            <span>{{ scope.row.createdBy }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="this.$t('crowdsale.status')" prop="status" align="center" width="120">
-          <template slot-scope="scope">
-            <div v-if="scope.row.status === 'LOCKED'" class="box-status-tabel locked">
-              <span class="fs-12 fw-500">{{ scope.row.status }}</span>
-            </div>
-            <div v-else-if="scope.row.status === 'FAILED'" class="box-status-tabel failed">
-              <span class="fs-12 fw-500">{{ scope.row.status }}</span>
-            </div>
-            <div v-else class="box-status-tabel">
-              <span class="fs-12 fw-500">{{ scope.row.status }}</span>
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column :label="this.$t('crowdsale.price')" prop="price" align="right" width="250">
-          <template slot-scope="scope">
-            <span>{{ scope.row.roundName }}</span> - $<span>{{ scope.row.price | convertAmountDecimal('USD') }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="this.$t('crowdsale.paid')" prop="paid" align="right" width="200">
-          <template slot-scope="scope">
-            <div class="box-paid">
-              <p class="text-paid fw-400 fs-16">-{{ scope.row.paidAmountDisplay | convertAmountDecimal(scope.row.paidCurrency) }} {{ scope.row.paidCurrency }}</p>
-              <p class="avi fw-400 fs-14">~${{ scope.row.paidAmountToUsd | convertAmountDecimal('USD') }}</p>
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column :label="this.$t('crowdsale.amount')" prop="tokenAmount" align="right" width="200">
-          <template slot-scope="scope">
-            <div class="box-paid">
-              <p class="text-amount fw-400 fs-16">+{{ scope.row.tokenAmountDisplay | convertAmountDecimal(scope.row.tokenCurrency) }} {{ scope.row.tokenCurrency }}</p>
-              <p class="avi fw-400 fs-14">~${{ scope.row.tokenAmountToUsd | convertAmountDecimal('USD') }}</p>
-            </div>
+        <el-table-column align="center" width="80">
+          <template>
+            <span>
+              <base-icon icon="icon-delete" size="24" />
+            </span>
           </template>
         </el-table-column>
       </base-table>
@@ -96,38 +83,95 @@
   import PopupFilterCrowdsale from '../components/popup/PopupFilterCrowdsale.vue'
   import getRepository from '@/services'
   import { CrowdsaleRepository } from '@/services/repositories/crowdsale'
+  import firebase from '@/utils/firebase'
+  import { debounce } from 'lodash'
 
-  const api: CrowdsaleRepository = getRepository('crowdsale')
+  const apiCrowdsale: CrowdsaleRepository = getRepository('crowdsale')
   @Component({ components: { PopupFilterCrowdsale } })
-  export default class BOCrowdsaleTransaction extends Mixins(PopupMixin) {
+  export default class SettingRound extends Mixins(PopupMixin) {
+    tabActive = 0
+
+    listRound: Array<Record<string, any>> = []
+
     query: any = {
       search: '',
       limit: 10,
       page: 1,
-      orderBy: 1,
+      //   orderBy: 1,
       total: 0
     }
 
+    listener: any = null
+    lang = 'en'
+
     dataProp: any = {}
-    loadingTable = true
+    isLoading = false
     orderBy = 'TRANSACTION_DATE'
-    dataTable: any = []
+    dataTable: Record<string, any>[] = []
+
     get getPaginationInfo(): any {
-      return this.$t('paging.crowdsale')
+      return this.$t('paging.buyer')
     }
+
+    mounted(): void {
+      this.lang = window.localStorage.getItem('bc-lang')!
+      this.init()
+    }
+
+    @Watch('query.search')
+    handleSearch(): void {
+      this.debounceInit()
+    }
+
+    debounceInit = debounce(() => {
+      this.init()
+    }, 500)
+
+    async init(): Promise<void> {
+      try {
+        this.isLoading = true
+        const leadsRef = firebase.ref('crowd-sales')
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
+        let _this = this
+        if (!this.listRound.length) {
+          this.listener = leadsRef.once('value', async function (snapshot) {
+            _this.listRound = snapshot.val()
+            const roundCurrent = snapshot.val()[_this.tabActive]
+            const result = await apiCrowdsale.getListUserInRound({ ..._this.query, roundId: roundCurrent.id })
+            _this.dataTable = result.content || []
+            _this.query.total = result.totalElements
+          })
+        } else {
+          const roundCurrent = this.listRound[_this.tabActive]
+          const result = await apiCrowdsale.getListUserInRound({ ...this.query, roundId: roundCurrent.id })
+          this.dataTable = result.content || []
+          this.query.total = result.totalElements
+        }
+        this.isLoading = false
+      } catch (error) {
+        console.log(error)
+        this.isLoading = false
+      }
+    }
+
+    handleChangeTab(index: number): void {
+      this.tabActive = index
+      this.init()
+    }
+
     indexMethod(index: number): number {
       return (this.query.page - 1) * this.query.limit + index + 1
     }
     handleSizeChange(value: number): void {
       this.query.limit = value
       this.query.page = 1
-      this.loadingTable = true
-      this.getDataTable()
+
+      this.init()
     }
     handleCurrentChange(value: number): void {
       this.query.page = value
-      this.loadingTable = true
-      this.getDataTable()
+
+      this.init()
     }
     handleOpenPopupFilter(): void {
       this.setOpenPopup({
@@ -157,63 +201,40 @@
       } else {
         this.query.orderBy = 2
       }
-      this.loadingTable = true
-      this.getDataTable()
+      this.isLoading = true
+      this.init()
       this.orderBy = command
     }
     getFilter(form: any): void {
       this.dataProp = form
-      this.getDataTable()
-    }
-    getDataTable(): void {
-      let params: any = { ...this.query }
-      if (this.dataProp.roundId) {
-        params.roundId = this.dataProp.roundId
-      }
-      if (this.dataProp.countryName) {
-        params.countryName = this.dataProp.countryName
-      }
-      if (this.dataProp.paidWallet) {
-        params.paidWallet = this.dataProp.paidWallet
-      }
-      if (this.dataProp.currency) {
-        params.currency = this.dataProp.currency
-      }
-      if (this.dataProp.fromDate) {
-        params.fromDate = this.dataProp.fromDate
-      }
-      if (this.dataProp.toDate) {
-        params.toDate = this.dataProp.toDate
-      }
-      if (this.dataProp.fromAmount) {
-        params.fromAmount = this.dataProp.fromAmount
-      }
-      if (this.dataProp.toAmount) {
-        params.toAmount = this.dataProp.toAmount
-      }
-
-      api.getDataTable(params).then((res: any) => {
-        this.loadingTable = false
-        this.dataTable = res.content
-        this.query.total = res.totalElements
-      })
-    }
-    @Watch('query.search')
-    handleSearch(search: any): void {
-      this.loadingTable = true
-      this.getDataTable()
-    }
-    async init(): Promise<void> {
-      this.loadingTable = true
-      await this.getDataTable()
-    }
-    created(): void {
       this.init()
+    }
+
+    handleAddMember(): void {
+      console.log('a')
     }
   }
 </script>
 <style scoped lang="scss">
   .bo-crowdsale-transaction {
+    .round-tab {
+      width: fit-content;
+      margin: 0 auto;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--bc-theme-primary);
+      .round-item {
+        padding: 8px 24px;
+      }
+      .round-item:not(:last-child) {
+        border-right: 1px solid #dbdbdb;
+      }
+      .round-active {
+        color: #fff;
+        background-color: var(--bc-theme-primary);
+      }
+    }
+
     .box-filter {
       margin-bottom: 24px;
     }
@@ -294,5 +315,17 @@
         color: var(--bc-theme-primary) !important;
       }
     }
+  }
+  .add-member {
+    height: 40px;
+    font-weight: 400;
+    padding: 0 8px;
+    &:hover {
+      border: 1px solid transparent;
+    }
+  }
+  .input-search {
+    width: 400px;
+    margin-right: 30px;
   }
 </style>
