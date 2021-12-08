@@ -203,6 +203,7 @@
   "notify": {
     "500": "Không thể kết nối đến máy chủ",
     "user-exits": "Tài khoản hoặc mật khẩu không chính xác",
+    "user-not-exits": "Tài khoản không hoạt động hoặc đã bị xóa",
     "pass-invalid": "Tài khoản hoặc mật khẩu không chính xác",
     "user-locked": "Tài khoản đã bị khóa",
     "user-expired": "Tài khoản đã bị khóa",

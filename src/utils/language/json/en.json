@@ -253,6 +253,7 @@
   "notify": {
     "500": "Internal Server Error",
     "user-exits": "Invalid email or password",
+    "user-not-exits": "Your account is inactive or deleted",
     "pass-invalid": "Invalid email or password",
     "user-locked": "Account has been locked",
     "user-expired": "Account has been locked",
