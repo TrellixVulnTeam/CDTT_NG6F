@@ -33,7 +33,15 @@ export class MemberRepository extends BaseRepository {
   }
   async deleteMember(id: number): Promise<any> {
     try {
-      const rs = await request.delete(`${this.prefix}/members/${id}`)
+      const rs = await request.delete(`${this.prefix}/members/${id}`) 
+      return Promise.resolve(rs.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+  async resetPassWordMember(data: Record<string, any>): Promise<any> {
+    try {
+      const rs = await request.post(`${this.prefix}/reset-pass`, data)
       return Promise.resolve(rs.data)
     } catch (error) {
       return Promise.reject(error)

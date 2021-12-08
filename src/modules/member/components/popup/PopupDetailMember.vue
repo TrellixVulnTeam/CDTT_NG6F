@@ -56,13 +56,13 @@
     switchRole(role: string): string {
       switch (role) {
         case 'ADMIN':
-          return 'Admin'
+          return this.$t('member.sort.admin') as string
         case 'SUPPORT':
-          return 'Support'
+          return this.$t('member.sort.support') as string
         case 'MARKETING':
-          return 'Marketing'
+          return this.$t('member.sort.mkt') as string
         default:
-          return 'Accountant'
+          return this.$t('member.sort.accountant') as string
       }
     }
     switchStatus(status: string): string {
@@ -155,6 +155,34 @@
         }
         .item:last-child {
           border-bottom: none;
+        }
+        .active {
+          position: relative;
+          &::before {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #129961;
+            top: 50%;
+            left: -16px;
+            transform: translateY(-50%);
+          }
+        }
+        .inactive {
+          position: relative;
+          &::before {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #dbdbdb;
+            top: 50%;
+            left: -16px;
+            transform: translateY(-50%);
+          }
         }
       }
     }
