@@ -29,4 +29,13 @@ export class CrowdsaleRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+
+  async getListUserInRound(params: Record<string, any>): Promise<any> {
+    try {
+      const rs = await request.get(`${this.prefix}/crowdsales-users`, { params })
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
 }

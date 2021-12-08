@@ -164,6 +164,7 @@
     "apply": "Apply",
     "add-member": "Add member",
     "add-member-1": "Add Member",
+    "add-buyer": "Add Buyer",
     "delete-user": "Delete User",
     "save": "Save"
   },
@@ -186,7 +187,8 @@
     "investor": "investors",
     "request": "requests",
     "balance": "balance",
-    "member": "members"
+    "member": "members",
+    "buyer": "buyer"
   },
   "label": {
     "buy-from": "Buy from",
@@ -272,6 +274,8 @@
     "reject-success": "Rejected successfully",
     "no-select-reject": "Must choose at least 1 reason",
     "no-data": "There are no data",
+    "no-data-round": "No specific users are listed.",
+    "no-data-round-1": "Everyone can buy in this round.",
     "no-data-kyc": "No data",
     "copy": "Copied",
     "invalid-code": "Invalid verification code",
@@ -566,6 +570,10 @@
     "opening": "Opening",
     "finish": "Finish",
     "upcoming": "Upcoming",
+    "setting": "Settings",
+    "full-name": "Full name",
+    "add-date": "added date",
+    "add-by": "added by",
     "popup-filter": {
       "title": "filter",
       "round": "Round",

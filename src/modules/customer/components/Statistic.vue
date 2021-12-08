@@ -38,7 +38,7 @@
         </el-table-column>
         <el-table-column :label="$t('customer.table.last-transaction')" prop="lastTransaction" width="210" align="center">
           <template slot-scope="scope">
-            <span>{{ scope.row.lastTransaction | formatDateHourMs }}</span>
+            <span>{{ scope.row.lastTransaction | convertToLocalDate }}</span>
           </template>
         </el-table-column>
       </base-table>
