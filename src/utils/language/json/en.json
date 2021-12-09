@@ -799,6 +799,7 @@
     }
   },
   "exception": {
-    "total": "TOTAL"
+    "total": "TOTAL",
+    "amount":"Amount"
   }
 }
