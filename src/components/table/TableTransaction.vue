@@ -209,6 +209,7 @@
       font-size: 14px;
       line-height: 20px;
       color: #5b616e;
+      border-bottom: 1px solid #dbdbdb;
     }
   }
 

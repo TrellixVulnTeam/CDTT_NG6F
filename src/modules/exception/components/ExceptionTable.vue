@@ -125,7 +125,7 @@
         case 'LOCKED':
           return this.$i18n.t('transaction.table.locked')
         default:
-          return this.$i18n.t('transaction.table.failed')
+          return this.$i18n.t('exception.failed-tranfer')
       }
     }
     indexMethod(index: number): number {

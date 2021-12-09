@@ -458,7 +458,7 @@
     }
 
     handleShowPopper(): void {
-       let toAmount = parseInt(this.filterException.toAmount.replaceAll(',', ''))
+      let toAmount = parseInt(this.filterException.toAmount.replaceAll(',', ''))
       let fromAmount = parseInt(this.filterException.fromAmount.replaceAll(',', ''))
       if (fromAmount > toAmount) {
         this.errorType = 'amount'

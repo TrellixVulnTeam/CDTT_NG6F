@@ -13,7 +13,7 @@
         </p>
         <p v-else class="sub">-{{ detailRow.paidAmountDisplay }} {{ detailRow.currency }}</p>
 
-        <p v-if="detailRow.transactionType === 'WITHDRAW'" class="usd">~${{ detailRow.amountWithoutFeeToUsdDisplay | convertAmountDecimal('USD') }}</p>
+        <p v-if="detailRow.transactionType === 'WITHDRAW'" class="usd">~${{ detailRow.amountWithoutFeeToUsdDisplay }}</p>
         <p v-else class="usd">~${{ detailRow.paidAmountToUsd | convertAmountDecimal('USD') }}</p>
       </div>
     </div>
@@ -319,7 +319,7 @@
         }
 
         &:last-of-type {
-          border-bottom: none;
+          // border-bottom: none;
           margin-bottom: 0;
         }
       }
