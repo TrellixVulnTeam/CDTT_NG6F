@@ -418,7 +418,8 @@
       "total-deposit": "Tổng tiền nạp",
       "total-transfer": "Tổng tiền chuyển",
       "total-bonus": "Tổng tiền thưởng",
-      "total-withdraw": "Tổng tiền rút"
+      "total-withdraw": "Tổng tiền rút",
+      "locked":"Khóa"
     },
     "popup": {
       "title-filter": "Bộ lọc",
