@@ -157,7 +157,7 @@
       search: '',
       limit: 10,
       page: 1,
-      orderBy: 'USER_FULL_NAME',
+      orderBy: 'CREATED_AT',
       total: 0
     }
 
@@ -171,7 +171,7 @@
     emptyDefault = false
 
     dataTable: Record<string, any>[] = []
-    sortActive = 'USER_FULL_NAME'
+    sortActive = 'CREATED_AT'
 
     sorts: Array<Record<string, any>> = [
       {
@@ -274,12 +274,12 @@
 
     handleChangeTab(index: number): void {
       this.tabActive = index
-      this.sortActive = 'USER_FULL_NAME'
+      this.sortActive = 'CREATED_AT'
       this.query = {
         search: this.query.search,
         limit: 10,
         page: 1,
-        orderBy: 'USER_FULL_NAME',
+        orderBy: 'CREATED_AT',
         total: 0
       }
       if (this.query.search) {
