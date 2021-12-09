@@ -84,7 +84,8 @@
     "balance": "Số dư",
     "transaction": "Giao dịch",
     "member": "Nhân viên",
-    "exception": "Ngoại lệ"
+    "exception": "Ngoại lệ",
+    "more":"Thêm"
   },
   "header": {
     "kyc": "KYC",
