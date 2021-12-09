@@ -774,6 +774,7 @@
     "total": "Tổng số",
     "amount": "Số lượng",
     "locked": "Khóa",
-    "failed-tranfer": "Chuyển thất bại"
+    "failed-tranfer": "Chuyển thất bại",
+    "fail-ex":"Thất bại"
   }
 }
