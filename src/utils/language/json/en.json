@@ -607,8 +607,8 @@
       "content-confirm": "Are you sure you want to delete this buyer ?"
     },
     "filter-popper": {
-      "createdBy": "Created by",
-      "pl-createdBy": "Select created by",
+      "added-by": "Added by",
+      "pl-createdBy": "Select added by",
       "added-date": "Added date",
       "pl-fromDate": "from",
       "pl-toDate": "to"

@@ -557,7 +557,7 @@
       "content-confirm": "Bạn có chắc chắn muốn xóa người mua này không ?"
     },
     "filter-popper": {
-      "createdBy": "Tạo bởi",
+      "createdBy": "Thêm bởi",
       "pl-createdBy": "chọn",
       "added-date": "Ngày thêm",
       "pl-fromDate": "từ",
