@@ -38,4 +38,36 @@ export class CrowdsaleRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+  async getDetailRoundUser(id: number): Promise<any> {
+    try {
+      const rs = await request.get(`${this.prefix}/crowdsales-users/${id}/rounds`)
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+  async createBuyer(data: Record<string, any>): Promise<any> {
+    try {
+      const rs = await request.post(`${this.prefix}/crowdsales-users`, data)
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+  async updateBuyer(data: Record<string, any>): Promise<any> {
+    try {
+      const rs = await request.put(`${this.prefix}/crowdsales-users`, data)
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+  async findCustomerByEmail(email: string): Promise<any> {
+    try {
+      const rs = await request.get(`main/api/v1/customer/detail-by-username/${email}`)
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
 }
