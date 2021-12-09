@@ -4,10 +4,12 @@ import mutations from './mutations'
 
 export interface IAuth {
   listRound: Record<string, any>[]
+  roundCurrent: Record<string, any>
 }
 
 const state: IAuth = {
-  listRound: []
+  listRound: [],
+  roundCurrent: {}
 }
 
 const crowdsaleBo: Module<IAuth, unknown> = {
