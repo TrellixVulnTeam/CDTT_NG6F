@@ -7,11 +7,11 @@
       <el-form>
         <el-form-item :label="$t('label.asset')">
           <el-select v-model="filter.currency" clearable class="w-100">
-            <el-option v-for="wallet in listAssetNetwork" :key="wallet.id" :value="wallet.currency" :label="wallet.currencyName + ' (' + wallet.currency + ')'">
+            <el-option v-for="wallet in listAssetNetwork" :key="wallet.id" :value="wallet.currency" :label="showChoseCurrency(wallet.currencyName,wallet.currency)">
               <template>
                 <div class="be-flex wallet-item">
                   <base-icon :icon="renderIconAsset(wallet.currency)" size="24" />
-                  <span class="d-ib" style="margin-left: 10px">{{ wallet.currencyName }}</span>
+                  <span class="d-ib" style="margin-left: 10px">{{ wallet.currencyName |formatType }}</span>
                   <span class="d-ib" style="margin-left: 4px">({{ wallet.currency.toUpperCase() }})</span>
                 </div>
               </template>
@@ -48,7 +48,7 @@
         <div>
           <el-form-item :label="$t('label.network')">
             <el-select v-model="filter.network" clearable class="w-100">
-              <el-option v-for="status in listStatus" :key="status.id" :value="status.value" :label="status.label + ' (' + status.value + ')'">
+              <el-option v-for="status in listStatus" :key="status.id" :value="status.value" :label="status.label + '(' + status.value + ')'">
                 <template>
                   <span class="d-ib">{{ status.label }}</span>
                   <span class="d-ib" style="margin-left: 4px">({{ status.value.toUpperCase() }})</span>
@@ -74,7 +74,7 @@
   import includes from 'lodash/includes'
   import PopupMixin from '@/mixins/popup'
   import { namespace } from 'vuex-class'
-
+  import { formatType } from '@/configs'
   const beBase = namespace('beBase')
 
   @Component
@@ -149,6 +149,9 @@
       }
     ]
     errorType = ''
+    showChoseCurrency(name:string,type:string):string{
+      return formatType(name) + '(' + type + ')'
+    }
     renderIconAsset(currency: string): string {
       switch (currency) {
         case 'BNB':
