@@ -253,4 +253,7 @@
       }
     }
   }
+  .transaction-code {
+    min-width: 200px;
+  }
 </style>

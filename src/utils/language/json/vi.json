@@ -74,7 +74,7 @@
   },
   "leftMenu": {
     "home": "Trang chủ",
-    "kyc": "Kyc",
+    "kyc": "KYC",
     "customer": "Khách hàng",
     "contract": "Hợp đồng",
     "report": "Báo cáo",
@@ -84,7 +84,8 @@
     "balance": "Số dư",
     "transaction": "Giao dịch",
     "member": "Nhân viên",
-    "exception": "Ngoại lệ"
+    "exception": "Ngoại lệ",
+    "more":"Thêm"
   },
   "header": {
     "kyc": "KYC",
@@ -436,7 +437,7 @@
       "customer-info": "Chi tiết người dùng"
     },
     "detail": {
-      "transaction-id": "ID Giao dịch",
+      "transaction-id": "ID giao dịch",
       "date": "Ngày",
       "from": "Từ",
       "to": "Đến",
@@ -771,10 +772,12 @@
     }
   },
   "exception": {
-    "total": "Tổng số",
+    "total": "TỔNG SỐ",
     "amount": "Số lượng",
     "locked": "Khóa",
     "failed-tranfer": "Chuyển thất bại",
-    "fail-ex":"Thất bại"
+    "fail-ex":"Thất bại",
+    "title-widthdraw": "RÚT",
+    "title-crowdasle":"CROWDSALE"
   }
 }
