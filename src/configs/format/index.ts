@@ -282,8 +282,8 @@ export function formatType(type: string | null): string {
   } else return ''
 }
 export function convert_datetime(timestamp: number) {
-  var months_arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-  var date = new Date(timestamp * 1000);
+  const months_arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+  const date = new Date(timestamp * 1000)
   // var year = date.getFullYear();
   // var month = months_arr[date.getMonth()];
   // var day = date.getDate();

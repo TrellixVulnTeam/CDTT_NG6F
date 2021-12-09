@@ -7,36 +7,51 @@
       <el-form>
         <el-form-item :label="$t('label.asset')">
           <el-select v-model='filter.currency'  clearable class='w-100'>
-            <el-option v-for='wallet in listAssetNetwork' :key='wallet.id' :value='wallet.currency' :label='wallet.currencyName'>
+            <el-option v-for='wallet in listAssetNetwork' :key='wallet.id' :value='wallet.currency' :label='wallet.currencyName+" ("+wallet.currency+")"'>
               <template>
-                <div class='be-flex wallet-item'>
-                  <base-icon :icon='renderIconAsset(wallet.currency)' size='24' />
-                  <span class='d-ib' style='margin-left: 10px'>{{ wallet.currencyName }}</span>
-                  <span class='d-ib' style='margin-left: 4px'>({{ wallet.currency.toUpperCase() }})</span>
+                <div class="be-flex wallet-item">
+                  <base-icon :icon="renderIconAsset(wallet.currency)" size="24" />
+                  <span class="d-ib" style="margin-left: 10px">{{ wallet.currencyName }}</span>
+                  <span class="d-ib" style="margin-left: 4px">({{ wallet.currency.toUpperCase() }})</span>
                 </div>
               </template>
             </el-option>
           </el-select>
         </el-form-item>
-        <div class='be-flex jc-space-between row'>
-          <el-form-item class='be-flex-item mr-40 form-item-line' :label="$t('label.created-date')">
-            <el-date-picker class='w-100 date-picker' format='MM/dd/yyyy' value-format='yyyy-MM-dd'
-                            :placeholder="$t('label.from-date')" v-model='filter.fromCreatedAt' type='date' :picker-options='pickerOption2'>
+        <div class="be-flex jc-space-between row">
+          <el-form-item class="be-flex-item mr-40 form-item-line" :label="$t('label.created-date')">
+            <el-date-picker
+              class="w-100 date-picker"
+              format="MM/dd/yyyy"
+              value-format="yyyy-MM-dd"
+              :placeholder="$t('label.from-date')"
+              v-model="filter.fromCreatedAt"
+              type="date"
+              :picker-options="pickerOption2"
+            >
             </el-date-picker>
           </el-form-item>
 
-          <el-form-item class='be-flex-item hide-label' label='1'>
-            <el-date-picker class='w-100 date-picker' format='MM/dd/yyyy' :placeholder="$t('label.to-date')"
-                            value-format='yyyy-MM-dd' v-model='filter.toCreatedAt' type='date' :picker-options='pickerOption'>
+          <el-form-item class="be-flex-item hide-label" label="1">
+            <el-date-picker
+              class="w-100 date-picker"
+              format="MM/dd/yyyy"
+              :placeholder="$t('label.to-date')"
+              value-format="yyyy-MM-dd"
+              v-model="filter.toCreatedAt"
+              type="date"
+              :picker-options="pickerOption"
+            >
             </el-date-picker>
           </el-form-item>
         </div>
         <div>
           <el-form-item :label="$t('label.network')">
             <el-select v-model="filter.network" clearable class="w-100">
-              <el-option v-for="status in listStatus" :key="status.id" :value="status.value" :label="status.label">
+              <el-option v-for="status in listStatus" :key="status.id" :value="status.value" :label='status.label+" ("+status.value+")"'>
                 <template>
                   <span class="d-ib">{{ status.label }}</span>
+                  <span class='d-ib' style='margin-left: 4px'>({{ status.value.toUpperCase() }})</span>
                 </template>
               </el-option>
             </el-select>
@@ -64,9 +79,14 @@
 
   @Component
   export default class PopupFilterAddresses extends Mixins(PopupMixin) {
-    @Prop({ required: true, type: Array, default: ()=>{
-      return []
-      } }) listAssetNetwork!: Array<Record<string, any>>
+    @Prop({
+      required: true,
+      type: Array,
+      default: () => {
+        return []
+      }
+    })
+    listAssetNetwork!: Array<Record<string, any>>
     @beBase.State('coinMain') coinMain!: string
 
     filter: Record<string, any> = {
@@ -129,7 +149,7 @@
       }
     ]
     errorType = ''
-    renderIconAsset(currency:string):string{
+    renderIconAsset(currency: string): string {
       switch (currency) {
         case 'BNB':
           return 'icon-bnb'
@@ -199,7 +219,7 @@
       const _this = this
       return {
         disabledDate(time: Date) {
-          return _this.disableTime(time,"from-to")
+          return _this.disableTime(time, 'from-to')
         }
       }
     }
@@ -208,43 +228,42 @@
       const _this = this
       return {
         disabledDate(time: Date) {
-          return _this.disableTime(time,"to-from")
+          return _this.disableTime(time, 'to-from')
         }
       }
     }
 
-    disableTime(time: Date,type:string): any {
-      if (type==="from-to"){
+    disableTime(time: Date, type: string): any {
+      if (type === 'from-to') {
         if (this.filter.fromCreatedAt) {
           return time.getTime() < new Date(this.filter.fromCreatedAt).getTime()
         }
-      }else {
+      } else {
         if (this.filter.toCreatedAt) {
           return time.getTime() > new Date(this.filter.toCreatedAt).getTime()
         }
       }
-
     }
 
     handleApply(): void {
-        this.setOpenPopup({
-          popupName: 'popup-filter-addresses',
-          isOpen: false
-        })
+      this.setOpenPopup({
+        popupName: 'popup-filter-addresses',
+        isOpen: false
+      })
 
-      if (this.filter.currency===''){
-        this.filter.currency=null
+      if (this.filter.currency === '') {
+        this.filter.currency = null
       }
-      if (this.filter.fromCreatedAt===''){
-        this.filter.fromCreatedAt=null
+      if (this.filter.fromCreatedAt === '') {
+        this.filter.fromCreatedAt = null
       }
-      if (this.filter.toCreatedAt===''){
-        this.filter.toCreatedAt=null
+      if (this.filter.toCreatedAt === '') {
+        this.filter.toCreatedAt = null
       }
-      if (this.filter.network===''){
-        this.filter.network=null
+      if (this.filter.network === '') {
+        this.filter.network = null
       }
-        this.$emit('filter', { ...this.filter })
+      this.$emit('filter', { ...this.filter })
     }
 
     onlyNumber(event: KeyboardEvent, type: string): void {

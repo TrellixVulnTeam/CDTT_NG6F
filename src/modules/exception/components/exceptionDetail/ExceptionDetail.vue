@@ -6,13 +6,15 @@
     <div class="w-100 fluctuating">
       <div class="text-center">
         <div class="icon" :class="checkTypeStatusIcon(detailRow.status)">
-          <base-icon :className="'icon-pending'" :icon="checkTypeIcon(detailRow.transactionType, detailRow.status)" size="64" />
+          <base-icon :className="'icon-pending'" :icon="getIcon" size="64" />
         </div>
-        <p v-if="detailRow.transactionType === 'WITHDRAW'" :class="checkValueAmountDisplay(detailRow.amountDisplay)">{{ detailRow.amountDisplay }}</p>
-        <p v-else :class="checkValueAmountDisplay(detailRow.paidAmountDisplay)">{{ detailRow.paidAmountDisplay }}</p>
+        <p v-if="detailRow.transactionType === 'WITHDRAW'" :class="checkValueAmountDisplay(detailRow.amountWithoutFeeDisplay)">
+          -{{ detailRow.amountWithoutFeeDisplay }} {{ detailRow.currency }}
+        </p>
+        <p v-else class="sub">-{{ detailRow.paidAmountDisplay }} {{ detailRow.currency }}</p>
 
-        <p v-if="detailRow.transactionType === 'WITHDRAW'" class="usd">~${{ detailRow.amountToUsdDisplay | convertAmountDecimal('USD') }}</p>
-        <p v-else class="usd">~${{ detailRow.paidAmountToUsd | convertAmountDecimal('USD') }}</p>
+        <p v-if="detailRow.transactionType === 'WITHDRAW'" class="usd">~${{ detailRow.amountWithoutFeeToUsdDisplay }}</p>
+        <p v-else class="usd">~${{ detailRow.paidAmountToUsd }}</p>
       </div>
     </div>
     <div class="transaction-detail">
@@ -37,7 +39,7 @@
         <p>{{ $t('transaction.detail.date') }}</p>
         <p class="text-detail-2">{{ detailRow.transactionMillisecond | formatMMDDYY }}</p>
       </div>
-      <!-- <div v-if="checkFeeType(detailRow.transactionType)" class="item be-flex">
+      <div v-if="checkFeeType(detailRow.transactionType) && detailRow.transactionType === 'WITHDRAW'" class="item be-flex">
         <p>{{ $t('transaction.detail.from') }}</p>
         <div class="be-flex align-center">
           <base-icon :icon="renderIconCurrency(detailRow.currency.toLowerCase())" size="20" />
@@ -47,7 +49,7 @@
           </span>
         </div>
       </div>
-      <div class="item be-flex">
+      <div class="item be-flex" v-if="detailRow.transactionType === 'WITHDRAW'">
         <p>{{ $t('transaction.detail.to') }}</p>
         <div class="be-flex align-center">
           <base-icon :icon="renderIconCurrency(detailRow.currency.toLowerCase())" size="20" />
@@ -56,17 +58,20 @@
             <base-icon icon="icon-copy" size="24" />
           </span>
         </div>
-      </div> -->
+      </div>
       <div v-if="checkFeeType(detailRow.transactionType) && detailRow.transactionType === 'WITHDRAW'" class="item be-flex">
         <p>{{ $t('transaction.detail.fees') }}</p>
         <div class="be-flex">
           <p class="sub">-{{ detailRow.transactionFeeDisplay }} {{ detailRow.currency }}</p>
-          <p class="convert" style="margin-left: 4px">(~${{ detailRow.transactionFeeToUsdDisplay | convertAmountDecimal('USD') }})</p>
+          <p class="convert" style="margin-left: 4px">(~${{ detailRow.transactionFeeToUsdDisplay }})</p>
         </div>
       </div>
       <div class="item be-flex">
         <p>{{ $t('transaction.detail.status') }}</p>
-        <p :class="checkType(detailRow.status)">{{ checkTransactionStatus(detailRow.status) }}</p>
+        <p v-if="detailRow.transactionType === 'CROWDSALE'" :class="detailRow.status == 'LOCKED' ? 'status-locked' : 'status-fail'">
+          {{ checkTransactionStatusCrowdSale(detailRow.status) }}
+        </p>
+        <p v-else :class="detailRow.status == 'LOCKED' ? 'status-locked' : 'status-fail'">{{ checkTransactionStatus(detailRow.status) }}</p>
       </div>
     </div>
     <div class="customer-info" v-if="detailRow.transactionType === 'WITHDRAW'">
@@ -121,9 +126,28 @@
           return this.$i18n.t('transaction.table.processing')
         case 'REJECTED':
           return this.$i18n.t('transaction.table.rejected')
-
+        case 'LOCKED':
+          return this.$i18n.t('transaction.table.locked')
         default:
           return this.$i18n.t('transaction.table.failed')
+      }
+    }
+    checkTransactionStatusCrowdSale(status: string): any {
+      switch (status) {
+        case 'SUCCESS':
+          return this.$i18n.t('transaction.table.succsess')
+        case 'PENDING':
+          return this.$i18n.t('transaction.table.pending')
+        case 'PROCESSING':
+          return this.$i18n.t('transaction.table.processing')
+        case 'REJECTED':
+          return this.$i18n.t('transaction.table.rejected')
+        case 'LOCKED':
+          return this.$i18n.t('transaction.table.locked')
+        case 'FAILED':
+          return this.$i18n.t('exception.failed-tranfer')
+        default:
+          return this.$i18n.t('exception.failed-tranfer')
       }
     }
 
@@ -136,9 +160,20 @@
         ? 'status status-warning'
         : type === 'REJECTED'
         ? 'status status-rejected'
+        : type === 'LOCKED'
+        ? 'status status-locked'
         : 'status status-success'
     }
-
+    get getIcon(): string {
+      const name = this.detailRow.transactionType
+      if (name === 'WITHDRAW') {
+        return 'icon-withdraw-exception'
+      }
+      if (name === 'CROWDSALE') {
+        return 'menu-crowdsale'
+      }
+      return 'icon-withdraw-exception'
+    }
     checkFeeType(type: string): boolean {
       return !(type.indexOf('BONUS') !== -1 || type === 'DEPOSIT')
     }
@@ -214,6 +249,30 @@
 </script>
 
 <style scoped lang="scss">
+  .status-fail {
+    border-radius: 4px;
+    font-size: 12px;
+    width: 96px;
+    height: 24px;
+    line-height: 24px;
+    vertical-align: middle;
+    display: inline-block;
+    text-align: center;
+    color: var(--bc-status-reject);
+    background-color: var(--bc-bg-reject);
+  }
+  .status-locked {
+    border-radius: 4px;
+    font-size: 12px;
+    width: 96px;
+    height: 24px;
+    line-height: 24px;
+    vertical-align: middle;
+    display: inline-block;
+    text-align: center;
+    color: #5b616e;
+    background-color: #f3f2f1;
+  }
   .popup-exception-detail {
     .add {
       color: #129961 !important;
@@ -305,7 +364,7 @@
         }
 
         &:last-of-type {
-          border-bottom: none;
+          // border-bottom: none;
           margin-bottom: 0;
         }
       }
@@ -313,6 +372,10 @@
 
     .customer-info {
       margin-bottom: 0;
+    }
+    ::v-deep.popup-content {
+      background-color: #f6f8fc;
+      padding: 0;
     }
   }
 </style>

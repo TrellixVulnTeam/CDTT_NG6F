@@ -19,7 +19,7 @@
         <slot name="append" />
       </div>
       <div slot="empty">
-        <empty-block :show="emptyTable" :emptyText="emptyText" />
+        <empty-block :show="emptyTable" :emptyText="emptyText" :emptyDefault="emptyDefault" />
       </div>
       <slot />
     </el-table>
@@ -41,6 +41,7 @@
     @Prop({ required: true, type: Array }) data!: Array<Record<string, any>>
     @Prop({ required: false, type: Boolean, default: true }) showPagination!: boolean
     @Prop({ required: false, type: Boolean, default: false }) showAppend!: boolean
+    @Prop({ required: false, type: Boolean, default: true }) emptyDefault!: boolean
     @Prop({ required: false, type: Boolean, default: false }) isLoading!: boolean
     @Prop({ required: false, type: String, default: '' }) paginationInfo!: string
     @Prop({
