@@ -824,6 +824,8 @@
     "amount": "Amount",
     "locked": "Locked",
     "failed-tranfer": "Failed transfer",
-    "fail-ex":"Failed"
+    "fail-ex":"Failed",
+    "title-widthdraw": "WITHDRAW",
+    "title-crowdasle":"CROWDSALE"
   }
 }

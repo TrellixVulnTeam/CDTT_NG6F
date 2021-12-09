@@ -1,7 +1,8 @@
 <template>
   <base-popup name="popup-exception-detail" class="popup-exception-detail" width="480px" :isShowFooter="false" :open="handleOpen" :close="handleClose">
     <div class="title-popup" slot="title">
-      <span>{{ handleRenderTitleDetail(detailRow.transactionType) }} {{ detailRow.currency }}</span>
+      <span v-if="detailRow.transactionType === 'WITHDRAW'">{{ $t('exception.title-widthdraw') }} {{ detailRow.currency }}</span>
+      <span v-else>{{ $t('exception.title-crowdasle') }} {{ detailRow.currency }}</span>
     </div>
     <div class="w-100 fluctuating">
       <div class="text-center">
@@ -106,7 +107,7 @@
     async handleOpen(): Promise<void> {
       console.log('open', this.detailRow)
     }
-
+    
     handleClose(): void {
       this.tabActive = 0
       this.detailRow = {}
@@ -238,13 +239,8 @@
       message = this.$t('notify.copy')
       this.$message.success(message)
     }
-
-    handleRenderTitleDetail(type: string | null | undefined): string {
-      console.log('type', type)
-      if (type) {
-        return type.replaceAll('_', ' ')
-      } else return ''
-    }
+    titlePopUp = ''
+  
   }
 </script>
 

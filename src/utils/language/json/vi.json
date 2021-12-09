@@ -437,7 +437,7 @@
       "customer-info": "Chi tiết người dùng"
     },
     "detail": {
-      "transaction-id": "ID Giao dịch",
+      "transaction-id": "ID giao dịch",
       "date": "Ngày",
       "from": "Từ",
       "to": "Đến",
@@ -776,6 +776,8 @@
     "amount": "Số lượng",
     "locked": "Khóa",
     "failed-tranfer": "Chuyển thất bại",
-    "fail-ex":"Thất bại"
+    "fail-ex":"Thất bại",
+    "title-widthdraw": "RÚT",
+    "title-crowdasle":"CROWDSALE"
   }
 }
