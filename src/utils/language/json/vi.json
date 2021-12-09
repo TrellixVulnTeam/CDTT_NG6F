@@ -758,6 +758,8 @@
   },
   "exception": {
     "total": "Tổng số",
-    "amount": "Số lượng"
+    "amount":"Số lượng",
+    "locked":"Khóa",
+    "failed-tranfer":"Chuyển thất bại"
   }
 }

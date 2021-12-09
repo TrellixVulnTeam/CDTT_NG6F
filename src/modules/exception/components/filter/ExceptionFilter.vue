@@ -32,6 +32,7 @@
                   :placeholder="$t('label.from-date')"
                   v-model="filterException.fromDate"
                   type="date"
+                  :picker-options="pickerOption2"
                 >
                 </el-date-picker>
               </el-form-item>
@@ -40,11 +41,11 @@
                 <el-date-picker
                   class="w-100 date-picker"
                   format="MM/dd/yyyy"
-                  :picker-options="pickerOption"
                   :placeholder="$t('label.to-date')"
                   value-format="yyyy-MM-dd"
                   v-model="filterException.toDate"
                   type="date"
+                  :picker-options="pickerOption"
                 >
                 </el-date-picker>
               </el-form-item>
@@ -72,7 +73,7 @@
                 </el-input>
               </el-form-item>
             </div>
-            <!-- <el-form-item :label="$t('label.status')" class="be-flex-item mr-40">
+            <el-form-item v-if="this.$route.name === 'ExceptionCrowdsale'" :label="$t('label.status')" class="be-flex-item mr-40">
               <el-select v-model="filterException.status" clearable class="w-100">
                 <el-option v-for="status in listStatus" :key="status.id" :value="status.value" :label="status.label">
                   <template>
@@ -80,7 +81,7 @@
                   </template>
                 </el-option>
               </el-select>
-            </el-form-item> -->
+            </el-form-item>
           </el-form>
         </div>
         <div class="be-flex jc-flex-end footer">
@@ -120,7 +121,7 @@
 <script lang="ts">
   import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
   import EventBus from '@/utils/eventBus'
-  import { forEach, trim, debounce } from 'lodash'
+  import { forEach, trim, debounce, includes } from 'lodash'
   import getRepository from '@/services'
   import { KycRepository } from '@/services/repositories/kyc'
   import { namespace } from 'vuex-class'
@@ -187,19 +188,15 @@
     listStatus: Array<Record<string, any>> = [
       {
         id: 0,
-        label: 'Pending',
-        value: 'PENDING'
+        label: this.$i18n.t('exception.locked'),
+        value: 'LOCKED'
       },
       {
         id: 1,
-        label: 'Processing',
-        value: 'PROCESSING'
-      },
-      {
-        id: 2,
-        label: 'Success',
-        value: 'SUCCESS'
+        label: this.$i18n.t('exception.failed-tranfer'),
+        value: 'FAILED_TRANSFER'
       }
+
       // {
       //   id: 3,
       //   label: 'Failed',
@@ -338,9 +335,50 @@
         }
       }
     }
+    onlyNumber(event: KeyboardEvent, type: string): void {
+      let keyCode = event.keyCode ? event.keyCode : event.which
+      //if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
+      // 46 is dot
+      if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
+        event.preventDefault()
+      }
+      if (keyCode === 46 && includes(this.filterException[type], '.')) {
+        event.preventDefault()
+      }
+    }
+    get pickerOption(): any {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const _this = this
+      return {
+        disabledDate(time: Date) {
+          return _this.disableTime(time, 'from-to')
+        }
+      }
+    }
 
+    get pickerOption2(): any {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const _this = this
+      return {
+        disabledDate(time: Date) {
+          return _this.disableTime(time, 'to-from')
+        }
+      }
+    }
+
+    disableTime(time: Date, type: string): any {
+      if (type === 'from-to') {
+        if (this.filterException.fromDate) {
+          return time.getTime() < new Date(this.filterException.fromDate).getTime()
+        }
+      } else {
+        if (this.filterException.toDate) {
+          return time.getTime() >= new Date(this.filterException.toDate).getTime()
+        }
+      }
+    }
     created(): void {
-      console.log('route', this.$route.name)
+      console.log('rout2121e', this.$route.name)
       EventBus.$on('changeLang', () => {
         console.log('a', window.localStorage.getItem('bc-lang'))
         forEach(this.sorts, elm => {
@@ -386,10 +424,18 @@
     resetFilter(): void {
       console.log('k')
     }
-
-    handleChangeTab(): void {
-      this.resetFilters()
-      this.sortActive = '1'
+    tabActive = ''
+    handleChangeTab(value: string): void {
+      this.tabActive = value
+      console.log('value', value)
+      ;(this.filterException.search = ''),
+        (this.filterException.currency = ''),
+        (this.filterException.fromDate = ''),
+        (this.filterException.toDate = ''),
+        (this.filterException.fromAmount = ''),
+        (this.filterException.toAmount = ''),
+        (this.filterException.status = ''),
+        (this.filterException.orderBy = '1')
     }
 
     handleSort(command: string): void {
@@ -407,6 +453,8 @@
       }
       const filters = {
         ...this.filterException,
+        fromAmount: this.filterException.fromAmount.replaceAll(',', ''),
+        toAmount: this.filterException.toAmount.replaceAll(',', ''),
         currency: _currency
       }
       console.log('data', filters)

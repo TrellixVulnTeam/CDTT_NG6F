@@ -10,6 +10,7 @@
         @rowClick="handleRowClick"
         class="base-table table-wallet"
       >
+      
         <el-table-column label="#" type="index" :index="indexMethod" align="center" width="60" />
         <!-- <el-table-column :label="$t('kyc.table.fullName')" min-width="200">
           <template slot-scope="scope">
@@ -63,7 +64,7 @@
           <template slot-scope="scope">
             <div v-if="scope.row.transactionType === 'CROWDSALE'">
               <div class="amount-increase">
-                <span>{{ scope.row.paidAmountDisplay  }} {{ scope.row.paidCurrency }}</span>
+                <span style="color: #cf202f">-{{ scope.row.paidAmountDisplay }} {{ scope.row.paidCurrency }}</span>
                 <span class="d-block amount-exchange-small">~${{ scope.row.paidAmountToUsd }}</span>
               </div>
             </div>
@@ -113,6 +114,7 @@
       }
     }
     checkTransactionStatus(status: string): any {
+      console.log("ststaus", status)
       switch (status) {
         case 'SUCCESS':
           return this.$i18n.t('transaction.table.succsess')
@@ -122,7 +124,8 @@
           return this.$i18n.t('transaction.table.processing')
         case 'REJECTED':
           return this.$i18n.t('transaction.table.rejected')
-
+        case 'LOCKED':
+          return this.$i18n.t('transaction.table.locked')
         default:
           return this.$i18n.t('transaction.table.failed')
       }
