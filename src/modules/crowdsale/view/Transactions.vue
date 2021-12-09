@@ -1,6 +1,5 @@
 <template>
   <div class="bo-crowdsale-transaction">
-    hádfsàád
     <div class="box-filter be-flex align-center kyc-filter pl-0">
       <div class="box-search">
         <el-input v-model="query.search" class="input-search" :placeholder="$t('placeholder.search')">

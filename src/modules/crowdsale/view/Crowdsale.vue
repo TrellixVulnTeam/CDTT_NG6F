@@ -104,12 +104,12 @@
         id: 2,
         title: 'round',
         routeName: 'CrowdsaleRound'
-      },
-      {
-        id: 3,
-        title: 'setting',
-        routeName: 'CrowdsaleSetting'
       }
+      // {
+      //   id: 3,
+      //   title: 'setting',
+      //   routeName: 'CrowdsaleSetting'
+      // }
     ]
     listener: any = null
     listRound: Record<string, any>[] = []
