@@ -307,7 +307,8 @@
         toDate: '',
         fromAmount: '',
         toAmount: '',
-        status: null
+        status: null,
+        bonusType: null
       }
       this.errorType = ''
       // this.setOpenPopup({

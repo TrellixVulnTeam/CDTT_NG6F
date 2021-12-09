@@ -10,7 +10,6 @@
         @rowClick="handleRowClick"
         class="base-table table-wallet"
       >
-      
         <el-table-column label="#" type="index" :index="indexMethod" align="center" width="60" />
         <!-- <el-table-column :label="$t('kyc.table.fullName')" min-width="200">
           <template slot-scope="scope">
@@ -54,7 +53,10 @@
 
         <el-table-column :label="$t('transaction.table.status')" prop="status" width="160" align="center">
           <template slot-scope="scope">
-            <span class="text-xs" :class="checkType(scope.row.status)">{{ checkTransactionStatus(scope.row.status) }}</span>
+            <span class="text-xs" v-if="scope.row.transactionType === 'CROWDSALE'" :class="scope.row.status == 'LOCKED' ? 'status-locked' : 'status-fail'">{{
+              checkTransactionStatusCrowdSale(scope.row.status)
+            }}</span>
+            <span class="text-xs" v-else :class="scope.row.status == 'LOCKED' ? 'status-locked' : 'status-fail'">{{ checkTransactionStatus(scope.row.status) }}</span>
           </template>
         </el-table-column>
 
@@ -114,7 +116,6 @@
       }
     }
     checkTransactionStatus(status: string): any {
-      console.log("ststaus", status)
       switch (status) {
         case 'SUCCESS':
           return this.$i18n.t('transaction.table.succsess')
@@ -126,8 +127,28 @@
           return this.$i18n.t('transaction.table.rejected')
         case 'LOCKED':
           return this.$i18n.t('transaction.table.locked')
+        case 'FAILED':
+          return this.$i18n.t('exception.fail-ex')
         default:
-          return this.$i18n.t('transaction.table.failed')
+          return this.$i18n.t('exception.failed-tranfer')
+      }
+    }
+    checkTransactionStatusCrowdSale(status: string): any {
+      switch (status) {
+        case 'SUCCESS':
+          return this.$i18n.t('transaction.table.succsess')
+        case 'PENDING':
+          return this.$i18n.t('transaction.table.pending')
+        case 'PROCESSING':
+          return this.$i18n.t('transaction.table.processing')
+        case 'REJECTED':
+          return this.$i18n.t('transaction.table.rejected')
+        case 'LOCKED':
+          return this.$i18n.t('transaction.table.locked')
+        case 'FAILED':
+          return this.$i18n.t('exception.failed-tranfer')
+        default:
+          return this.$i18n.t('exception.failed-tranfer')
       }
     }
     indexMethod(index: number): number {
@@ -170,6 +191,30 @@
 </script>
 
 <style scoped lang="scss">
+  .status-fail {
+    border-radius: 4px;
+    font-size: 12px;
+    width: 96px;
+    height: 24px;
+    line-height: 24px;
+    vertical-align: middle;
+    display: inline-block;
+    text-align: center;
+    color: var(--bc-status-reject);
+    background-color: var(--bc-bg-reject);
+  }
+  .status-locked {
+    border-radius: 4px;
+    font-size: 12px;
+    width: 96px;
+    height: 24px;
+    line-height: 24px;
+    vertical-align: middle;
+    display: inline-block;
+    text-align: center;
+    color: #5b616e;
+    background-color: #f3f2f1;
+  }
   .wallet-table {
     &__above {
       border-bottom: 1px solid var(--bc-border-primary);
@@ -207,5 +252,8 @@
         }
       }
     }
+  }
+  .transaction-code {
+    min-width: 200px;
   }
 </style>

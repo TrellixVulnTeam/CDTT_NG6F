@@ -97,7 +97,7 @@
   },
   "leftMenu": {
     "home": "Home",
-    "kyc": "Kyc",
+    "kyc": "KYC",
     "customer": "Customer",
     "contract": "Contract",
     "report": "Report",
@@ -107,7 +107,8 @@
     "request": "Request",
     "transaction": "Transaction",
     "member": "Members",
-    "exception": "Exception"
+    "exception": "Exception",
+    "more":"More"
   },
   "header": {
     "kyc": "KYC",
@@ -822,6 +823,9 @@
     "total": "TOTAL",
     "amount": "Amount",
     "locked": "Locked",
-    "failed-tranfer": "Failed transfer"
+    "failed-tranfer": "Failed transfer",
+    "fail-ex":"Failed",
+    "title-widthdraw": "WITHDRAW",
+    "title-crowdasle":"CROWDSALE"
   }
 }
