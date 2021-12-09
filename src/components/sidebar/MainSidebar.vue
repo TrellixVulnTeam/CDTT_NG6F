@@ -70,6 +70,36 @@
       </div>
     </router-link>
 
+    <el-popover trigger="hover" v-model="isOpenPopup" placement="right" popper-class="p-0 poper popper-add-menu" style="min-width: 80px">
+      <ul class="module">
+        <li class="module-item" @click="isOpenPopup = false">
+          <router-link :to="{ name: 'Exception' }" class="router_center">
+            <div class="sack_avatar">
+              <base-icon :icon="coinMain === 'LYNK' ? 'icon-exception-bo-active' : 'icon-exception-bo-active-clm'" class="menu-active" size="32" />
+              <base-icon icon="icon-exception-bo" class="menu" size="32" />
+              <p>{{ $t('leftMenu.exception') }}</p>
+            </div>
+          </router-link>
+        </li>
+      </ul>
+
+      <ul class="module">
+        <li class="module-item" @click="isOpenPopup = false">
+          <router-link :to="{ name: 'MemberMain' }" v-if="checkPemission('member', ['view'])" class="router_center">
+            <div class="sack_avatar">
+              <base-icon :icon="coinMain === 'LYNK' ? 'menu-member-active' : 'menu-member-clm'" class="menu-active" size="32" />
+              <base-icon icon="menu-member" class="menu" size="32" />
+              <p>{{ $t('leftMenu.member') }}</p>
+            </div>
+          </router-link>
+        </li>
+      </ul>
+      <el-button slot="reference" class="is-create-color is-white is-none-border icon-btn p-0 m-0 button-add" style="height: 100%; position: relative; width: 100%">
+        <base-icon icon="icon-exception-bo" style="font-size: 27px" />
+        <span style="font-size: 11px; display: block; margin-top: 7px">Thêm</span>
+      </el-button>
+    </el-popover>
+
     <!-- <router-link :to="{ name: 'Wallet' }" class="router_center" exact>
       <div class="sack_avatar">
         <base-icon icon="menu-contract" size="32" />
