@@ -68,7 +68,7 @@
       </div>
       <div class="item be-flex">
         <p>{{ $t('transaction.detail.status') }}</p>
-        <p :class="checkType(detailRow.status)">{{ checkTransactionStatus(detailRow.status) }}</p>
+        <p :class="detailRow.status == 'LOCKED' ? 'status-locked' : 'status-fail'">{{ checkTransactionStatus(detailRow.status) }}</p>
       </div>
     </div>
     <div class="customer-info" v-if="detailRow.transactionType === 'WITHDRAW'">
@@ -228,6 +228,30 @@
 </script>
 
 <style scoped lang="scss">
+  .status-fail {
+    border-radius: 4px;
+    font-size: 12px;
+    width: 96px;
+    height: 24px;
+    line-height: 24px;
+    vertical-align: middle;
+    display: inline-block;
+    text-align: center;
+    color: var(--bc-status-reject);
+    background-color: var(--bc-bg-reject);
+  }
+  .status-locked {
+    border-radius: 4px;
+    font-size: 12px;
+    width: 96px;
+    height: 24px;
+    line-height: 24px;
+    vertical-align: middle;
+    display: inline-block;
+    text-align: center;
+    color: #5b616e;
+    background-color: #f3f2f1;
+  }
   .popup-exception-detail {
     .add {
       color: #129961 !important;
