@@ -555,6 +555,17 @@
       "title-member-edit": "sửa người mua",
       "title-confirm": "Xác nhận xóa",
       "content-confirm": "Bạn có chắc chắn muốn xóa người mua này không ?"
+    },
+    "filter-popper": {
+      "createdBy": "Tạo bởi",
+      "pl-createdBy": "chọn",
+      "added-date": "Ngày thêm",
+      "pl-fromDate": "từ",
+      "pl-toDate": "đến"
+    },
+    "sort": {
+      "full-name": "Họ tên",
+      "create-at": "Ngày tạo"
     }
   },
   "request": {
@@ -758,8 +769,8 @@
   },
   "exception": {
     "total": "Tổng số",
-    "amount":"Số lượng",
-    "locked":"Khóa",
-    "failed-tranfer":"Chuyển thất bại"
+    "amount": "Số lượng",
+    "locked": "Khóa",
+    "failed-tranfer": "Chuyển thất bại"
   }
 }

@@ -70,4 +70,12 @@ export class CrowdsaleRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+  async getListCreatedBy(params: Record<string, any>): Promise<any> {
+    try {
+      const rs = await request.get(`api/v1/user/members`, { params })
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
 }
