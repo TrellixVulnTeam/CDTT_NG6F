@@ -7,7 +7,7 @@
       <el-form>
         <el-form-item :label="$t('label.asset')">
           <el-select v-model='filter.currency'  clearable class='w-100'>
-            <el-option v-for='wallet in listAssetNetwork' :key='wallet.id' :value='wallet.currency' :label='wallet.currencyName'>
+            <el-option v-for='wallet in listAssetNetwork' :key='wallet.id' :value='wallet.currency' :label='wallet.currencyName+" ("+wallet.currency+")"'>
               <template>
                 <div class='be-flex wallet-item'>
                   <base-icon :icon='renderIconAsset(wallet.currency)' size='24' />
@@ -34,9 +34,10 @@
         <div>
           <el-form-item :label="$t('label.network')">
             <el-select v-model="filter.network" clearable class="w-100">
-              <el-option v-for="status in listStatus" :key="status.id" :value="status.value" :label="status.label">
+              <el-option v-for="status in listStatus" :key="status.id" :value="status.value" :label='status.label+" ("+status.value+")"'>
                 <template>
                   <span class="d-ib">{{ status.label }}</span>
+                  <span class='d-ib' style='margin-left: 4px'>({{ status.value.toUpperCase() }})</span>
                 </template>
               </el-option>
             </el-select>
