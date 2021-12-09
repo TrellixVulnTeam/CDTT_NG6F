@@ -63,7 +63,7 @@
         <p>{{ $t('transaction.detail.fees') }}</p>
         <div class="be-flex">
           <p class="sub">-{{ detailRow.transactionFeeDisplay }} {{ detailRow.currency }}</p>
-          <p class="convert" style="margin-left: 4px">(~${{ detailRow.transactionFeeToUsdDisplay | convertAmountDecimal('USD') }})</p>
+          <p class="convert" style="margin-left: 4px">(~${{ detailRow.transactionFeeToUsdDisplay  }})</p>
         </div>
       </div>
       <div class="item be-flex">
