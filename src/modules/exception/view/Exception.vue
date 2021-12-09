@@ -103,7 +103,7 @@
           orderBy: this.query.orderBy,
           limit: this.query.limit,
           page: this.query.page,
-          total: null,
+          total: null
         }
         console.log('params', params)
         const result = await api.getListException(this.tabActive, params)

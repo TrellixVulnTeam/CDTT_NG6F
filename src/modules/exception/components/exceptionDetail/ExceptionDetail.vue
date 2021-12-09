@@ -11,9 +11,9 @@
         <p v-if="detailRow.transactionType === 'WITHDRAW'" :class="checkValueAmountDisplay(detailRow.amountWithoutFeeDisplay)">
           -{{ detailRow.amountWithoutFeeDisplay }} {{ detailRow.currency }}
         </p>
-        <p v-else class="add">+{{ detailRow.paidAmountDisplay }} {{ detailRow.currency }}</p>
+        <p v-else class="sub">-{{ detailRow.paidAmountDisplay }} {{ detailRow.currency }}</p>
 
-        <p v-if="detailRow.transactionType === 'WITHDRAW'" class="usd">~${{ detailRow.amountWithoutFeeToUsdDisplay | convertAmountDecimal('USD') }}</p>
+        <p v-if="detailRow.transactionType === 'WITHDRAW'" class="usd">~${{ detailRow.amountWithoutFeeToUsdDisplay }}</p>
         <p v-else class="usd">~${{ detailRow.paidAmountToUsd | convertAmountDecimal('USD') }}</p>
       </div>
     </div>
@@ -68,7 +68,7 @@
       </div>
       <div class="item be-flex">
         <p>{{ $t('transaction.detail.status') }}</p>
-        <p :class="checkType(detailRow.status)">{{ checkTransactionStatus(detailRow.status) }}</p>
+        <p :class="detailRow.status == 'LOCKED' ? 'status-locked' : 'status-fail'">{{ checkTransactionStatus(detailRow.status) }}</p>
       </div>
     </div>
     <div class="customer-info" v-if="detailRow.transactionType === 'WITHDRAW'">
@@ -228,6 +228,30 @@
 </script>
 
 <style scoped lang="scss">
+  .status-fail {
+    border-radius: 4px;
+    font-size: 12px;
+    width: 96px;
+    height: 24px;
+    line-height: 24px;
+    vertical-align: middle;
+    display: inline-block;
+    text-align: center;
+    color: var(--bc-status-reject);
+    background-color: var(--bc-bg-reject);
+  }
+  .status-locked {
+    border-radius: 4px;
+    font-size: 12px;
+    width: 96px;
+    height: 24px;
+    line-height: 24px;
+    vertical-align: middle;
+    display: inline-block;
+    text-align: center;
+    color: #5b616e;
+    background-color: #f3f2f1;
+  }
   .popup-exception-detail {
     .add {
       color: #129961 !important;
@@ -319,7 +343,7 @@
         }
 
         &:last-of-type {
-          border-bottom: none;
+          // border-bottom: none;
           margin-bottom: 0;
         }
       }
