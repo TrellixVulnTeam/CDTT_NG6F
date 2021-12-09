@@ -12,10 +12,9 @@
 
     <!-- <balance-filter @filterBalance="handleFilter" :listApproveBy="listApproveBy" /> -->
     <exception-filter @filterException="handleFilter" />
-    <div class="ending-balance be-flex jc-space-between">
-      <p>{{ $t('exception.total') }}</p>
-      <p>${{ totalAmount }}</p>
-      <!-- <p v-else>{{ summary.closeBalance | numberWithCommas }}</p> -->
+    <div class="ending-balance be-flex jc-space-between" style="justify-content: end">
+      <p style="width: 160px; text-align: center">{{ $t('exception.total') }}</p>
+      <p style="width: 210px; text-align: right">${{ totalAmount }}</p>
     </div>
     <exception-table
       v-loading="isLoading"
@@ -104,8 +103,9 @@
           orderBy: this.query.orderBy,
           limit: this.query.limit,
           page: this.query.page,
-          total: null
+          total: null,
         }
+        console.log('params', params)
         const result = await api.getListException(this.tabActive, params)
         if (this.$route.name === 'ExceptionWithdraw') {
           this.totalAmount = result.totalAmount
@@ -132,17 +132,18 @@
       this.query.page = 1
       this.query.limit = 10
       this.query.orderBy = 1
-      this.query.toBalanceAmount = ''
-      ;(this.query.fromBalanceAmount = ''),
-        (this.query.toLockedAmount = ''),
-        (this.query.fromLockedAmount = ''),
-        (this.query.toAvailableAmount = ''),
-        (this.query.fromAvailableAmount = ''),
-        (this.query.search = '')
+      ;(this.query.search = ''),
+        (this.query.currency = ''),
+        (this.query.fromDate = ''),
+        (this.query.toDate = ''),
+        (this.query.fromAmount = ''),
+        (this.query.toAmount = ''),
+        (this.query.status = ''),
+        (this.query.orderBy = '1')
 
       this.init()
       this.resetQuery()
-      EventBus.$emit('changeTabException')
+      EventBus.$emit('changeTabException', this.$route.name)
     }
 
     resetQuery(): void {
@@ -204,14 +205,14 @@
     margin: 8px 24px 0 24px;
     border-radius: 4px;
     background-color: #0151fc;
-    padding: 12px 16px;
+    padding: 12px 10px;
     p {
       font-size: 16px;
       color: #ffffff;
       font-weight: 600;
     }
     p:last-of-type {
-      margin-right: 144px;
+      // margin-right: 144px;
     }
   }
   .container {
