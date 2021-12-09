@@ -74,7 +74,7 @@
   },
   "leftMenu": {
     "home": "Trang chủ",
-    "kyc": "Kyc",
+    "kyc": "KYC",
     "customer": "Khách hàng",
     "contract": "Hợp đồng",
     "report": "Báo cáo",
@@ -83,8 +83,9 @@
     "request": "Yêu cầu",
     "balance": "Số dư",
     "transaction": "Giao dịch",
-    "member": "Nhân viên",
-    "exception": "Ngoại lệ"
+    "member": "Nhân sự",
+    "exception": "Ngoại lệ",
+    "more":"Thêm"
   },
   "header": {
     "kyc": "KYC",
@@ -196,7 +197,10 @@
     "bonus-type": "Bonus Type",
     "role": "Quyền",
     "new-password": "Mật khẩu mới",
-    "round": "Vòng"
+    "round": "Vòng",
+    "asset": "Loại ví",
+    "network": "Loại mạng",
+    "created-date": "Ngày tạo"
   },
   "validate": {
     "length": " Độ dài tối thiểu 8 ký tự",
@@ -433,7 +437,7 @@
       "customer-info": "Chi tiết người dùng"
     },
     "detail": {
-      "transaction-id": "ID Giao dịch",
+      "transaction-id": "ID giao dịch",
       "date": "Ngày",
       "from": "Từ",
       "to": "Đến",
@@ -557,7 +561,7 @@
       "content-confirm": "Bạn có chắc chắn muốn xóa người mua này không ?"
     },
     "filter-popper": {
-      "createdBy": "Tạo bởi",
+      "createdBy": "Thêm bởi",
       "pl-createdBy": "chọn",
       "added-date": "Ngày thêm",
       "pl-fromDate": "từ",
@@ -768,9 +772,12 @@
     }
   },
   "exception": {
-    "total": "Tổng số",
+    "total": "TỔNG SỐ",
     "amount": "Số lượng",
     "locked": "Khóa",
-    "failed-tranfer": "Chuyển thất bại"
+    "failed-tranfer": "Chuyển thất bại",
+    "fail-ex":"Thất bại",
+    "title-widthdraw": "RÚT",
+    "title-crowdasle":"CROWDSALE"
   }
 }
