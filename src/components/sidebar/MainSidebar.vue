@@ -98,7 +98,7 @@
       </div>
 
       <el-button slot="reference" class="is-create-color is-white is-none-border icon-btn p-0 m-0 button-add" style="height: 100%; position: relative; width: 100%">
-        <base-icon icon="icon-exception-bo" style="font-size: 27px" />
+        <base-icon icon="icon-more" style="font-size: 27px" />
         <span style="font-size: 11px; display: block; margin-top: 7px">{{ $t('leftMenu.more') }}</span>
       </el-button>
     </el-popover>
