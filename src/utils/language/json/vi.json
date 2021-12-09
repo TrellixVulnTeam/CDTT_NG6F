@@ -83,7 +83,7 @@
     "request": "Yêu cầu",
     "balance": "Số dư",
     "transaction": "Giao dịch",
-    "member": "Nhân viên",
+    "member": "Nhân sự",
     "exception": "Ngoại lệ",
     "more":"Thêm"
   },
@@ -198,8 +198,8 @@
     "role": "Quyền",
     "new-password": "Mật khẩu mới",
     "round": "Vòng",
-    "asset": "Ví",
-    "network": "Mạng",
+    "asset": "Loại ví",
+    "network": "Loại mạng",
     "created-date": "Ngày tạo"
   },
   "validate": {
