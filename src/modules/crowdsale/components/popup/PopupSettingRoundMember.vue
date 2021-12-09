@@ -142,6 +142,7 @@
     }
 
     handleOpen(): void {
+      this.isEmailFailed = false
       if (this.type === 'edit') {
         this.isLoading = true
         apiCrowdsale
