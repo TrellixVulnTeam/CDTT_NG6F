@@ -238,7 +238,8 @@
     "asset": "Asset",
     "network": "Network",
     "created-date": "Created date",
-    "new-password": "New password"
+    "new-password": "New password",
+    "round": "Round"
   },
   "buy-lyn": {
     "title": "BUY LYN"
@@ -285,7 +286,7 @@
     "no-permisson": "You don’t have permission to access",
     "experied-verify": "Expired verification code",
     "date-invalid": "From date is less than to date",
-    "amount-invalid": "From amount is less than To amount",
+    "amount-invalid": "From amount must be less than To amount",
     "account-exist": "Account already exists",
     "add-user-succsess": "Add member successfully",
     "update-user-succsess": "Update member successfully",
@@ -591,6 +592,10 @@
       "planceOderCountry": "Select country",
       "planceOderTransactionDateStart": "From",
       "planceOderTransactionDateEnd": "To"
+    },
+    "popup": {
+      "title-member": "ADD BUYER",
+      "title-member-edit": "EDIT BUYER"
     }
   },
   "balance": {

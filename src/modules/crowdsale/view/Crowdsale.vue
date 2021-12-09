@@ -92,6 +92,7 @@
   export default class BOCrowdsale extends Vue {
     @bcAuth.Getter('listModuleCanView') listModuleCanView!: Array<Record<string, any>>
     @beBase.State('coinMain') coinMain!: string
+    @crowdsaleBo.Action('setRoundCurrent') setRoundCurrent!: (round: Record<string, any>) => void
 
     tabs: Array<Record<string, any>> = [
       {
@@ -218,6 +219,7 @@
       }
     }
     handleGetData(type = 'to'): void {
+      this.setRoundCurrent(this.roundCurrent)
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       let _this = this
       this.countDownDate = type === 'to' ? new Date(this.roundCurrent.toDate.time).getTime() : new Date(this.roundCurrent.fromDate.time).getTime()

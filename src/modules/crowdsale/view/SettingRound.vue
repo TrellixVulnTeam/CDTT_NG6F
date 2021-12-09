@@ -67,7 +67,10 @@
           </template>
         </el-table-column>
         <el-table-column align="center" width="80">
-          <template>
+          <template slot-scope="scope">
+            <span @click="handleEdit(scope.row.userId)">
+              <base-icon icon="icon-edit" size="24" style="margin-right: 5px" />
+            </span>
             <span>
               <base-icon icon="icon-delete" size="24" />
             </span>
@@ -76,22 +79,25 @@
       </base-table>
     </div>
     <popup-filter-crowdsale @apply="getFilter" />
+    <popup-setting-round-member :type="type" :userId="userId" :listRound="listRound" />
   </div>
 </template>
 <script lang="ts">
   import { Mixins, Component, Watch } from 'vue-property-decorator'
   import PopupMixin from '@/mixins/popup'
   import PopupFilterCrowdsale from '../components/popup/PopupFilterCrowdsale.vue'
+  import PopupSettingRoundMember from '../components/popup/PopupSettingRoundMember.vue'
   import getRepository from '@/services'
   import { CrowdsaleRepository } from '@/services/repositories/crowdsale'
   import firebase from '@/utils/firebase'
   import { debounce } from 'lodash'
 
   const apiCrowdsale: CrowdsaleRepository = getRepository('crowdsale')
-  @Component({ components: { PopupFilterCrowdsale } })
+  @Component({ components: { PopupFilterCrowdsale, PopupSettingRoundMember } })
   export default class SettingRound extends Mixins(PopupMixin) {
     tabActive = 0
-
+    type = 'add'
+    userId = 0
     listRound: Array<Record<string, any>> = []
 
     query: any = {
@@ -212,7 +218,20 @@
     }
 
     handleAddMember(): void {
-      console.log('a')
+      this.type = 'add'
+      this.setOpenPopup({
+        popupName: 'popup-setting-round-member',
+        isOpen: true
+      })
+    }
+
+    handleEdit(userId: number): void {
+      this.userId = userId
+      this.type = 'edit'
+      this.setOpenPopup({
+        popupName: 'popup-setting-round-member',
+        isOpen: true
+      })
     }
   }
 </script>

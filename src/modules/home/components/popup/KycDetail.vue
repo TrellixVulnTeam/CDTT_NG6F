@@ -195,32 +195,36 @@
     }
     handleUpdate(): void {
       const data = {
+        ids: [this.detailRow.id]
+      }
+      const data2 = {
         ...this.detail,
-        userId: this.detail.userId,
         rotateSelfiePhoto: `rotate(${this.rotateDeg[2]}deg)`,
         rotatePhoto2: `rotate(${this.rotateDeg[1]}deg)`,
         rotatePhoto1: `rotate(${this.rotateDeg[0]}deg)`
       }
-      apiKyc.updateKyc(data).then(() => {
-        const message: any = this.$i18n.t('notify.approve-success')
-        this.$message.success({ message, duration: 5000 })
+      apiKyc.updateKyc(data2).then(()=>{
+        apiKyc.approveKyc(data).then(() => {
+          const message: any = this.$i18n.t('notify.approve-success')
+          this.$message.success({ message, duration: 5000 })
+          this.handleClose()
+          this.$emit('init')
+        })
       })
     }
     handleApprove(): void {
-      const data = {
-        ids: [this.detailRow.id]
-      }
       this.handleUpdate()
-      apiKyc.approveKyc(data).then(() => {
-        const message: any = this.$i18n.t('notify.approve-success')
-        this.$message.success({ message, duration: 5000 })
-        this.handleClose()
-        this.$emit('init')
-      })
     }
 
     async submitReject(data: Record<string, any>): Promise<void> {
       try {
+        const data2 = {
+          ...this.detail,
+          rotateSelfiePhoto: `rotate(${this.rotateDeg[2]}deg)`,
+          rotatePhoto2: `rotate(${this.rotateDeg[1]}deg)`,
+          rotatePhoto1: `rotate(${this.rotateDeg[0]}deg)`,
+        }
+        await apiKyc.updateKyc(data2)
         await apiKyc.rejectKyc({ ...data, ids: [this.detailRow.id] })
         const message: any = this.$i18n.t('notify.reject-success')
         this.$message.success({ message, duration: 5000 })
