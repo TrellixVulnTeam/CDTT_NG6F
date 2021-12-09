@@ -822,6 +822,7 @@
     "total": "TOTAL",
     "amount": "Amount",
     "locked": "Locked",
-    "failed-tranfer": "Failed transfer"
+    "failed-tranfer": "Failed transfer",
+    "fail-ex":"Failed"
   }
 }
