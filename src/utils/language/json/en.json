@@ -468,7 +468,8 @@
       "CUSTOMER": "CUSTOMER",
       "STATUS": "STATUS",
       "AMOUNT": "AMOUNT",
-      "transactions": "transactions"
+      "transactions": "transactions",
+      "locked":"Locked"
     },
     "popup": {
       "title-filter": "Filter",

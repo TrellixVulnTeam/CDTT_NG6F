@@ -25,7 +25,7 @@
               <span v-if="scope.row.transactionType === 'CROWDSALE'" class="transaction-code d-ib mr-2">{{ scope.row.transactionCode | formatTransactionCode(10) }}</span>
               <span v-else class="transaction-code d-ib mr-2">{{ scope.row.transactionHash | formatTransactionCode(10) }}</span>
 
-              <span class="icon-copy" @click="handleCopyTransaction(scope.row)">
+              <span v-if="scope.row.transactionHash || scope.row.transactionCode" class="icon-copy" @click="handleCopyTransaction(scope.row)">
                 <base-icon icon="icon-copy" size="24" />
               </span>
             </div>
@@ -63,14 +63,14 @@
           <template slot-scope="scope">
             <div v-if="scope.row.transactionType === 'CROWDSALE'">
               <div class="amount-increase">
-                <span>{{ scope.row.paidAmountDisplay | convertAmountDecimal(scope.row.tokenCurrency) }} {{ scope.row.tokenCurrency }}</span>
+                <span>{{ scope.row.paidAmountDisplay  }} {{ scope.row.paidCurrency }}</span>
                 <span class="d-block amount-exchange-small">~${{ scope.row.paidAmountToUsd }}</span>
               </div>
             </div>
 
             <div v-else>
               <div class="amount-increase">
-                <span style="color: #cf202f">-{{ scope.row.amountWithoutFeeDisplay | convertAmountDecimal(scope.row.currency) }} {{ scope.row.currency }}</span>
+                <span style="color: #cf202f">-{{ scope.row.amountWithoutFeeDisplay }} {{ scope.row.currency }}</span>
                 <span class="d-block amount-exchange-small">~${{ scope.row.amountWithoutFeeToUsdDisplay }}</span>
               </div>
             </div>
@@ -89,7 +89,7 @@
     @Prop({ required: true, type: Object, default: {} }) query!: Record<string, any>
     @Prop({ required: true, type: Array, default: [] }) data!: Array<Record<string, any>>
     get getPaginationInfo(): any {
-      return this.$t('paging.transactions')
+      return this.$t('paging.transaction')
     }
     checkTabActive = ''
     checkType(type: string): string {

@@ -45,25 +45,29 @@
             </el-date-picker>
           </el-form-item>
         </div>
-        <div class='transaction-amount-form'>
-          <div class='be-flex jc-space-between row'>
-            <el-form-item class='be-flex-item mr-40 form-item-line' :class='errorType==="amount"&&"error-amount-border-popup-transaction"' :label="$t('label.trans-amount')">
+        <div class="transaction-amount-form">
+          <div class="be-flex jc-space-between row">
+            <el-form-item class="be-flex-item mr-40 form-item-line" :class="errorType === 'amount' && 'error-amount-border-popup-transaction'" :label="$t('label.trans-amount')">
               <el-input
                 v-model="filter.fromAmount"
                 :placeholder="$t('placeholder.from-amount')"
                 @keypress.native="onlyNumber($event, 'fromAmount')"
-                @keyup.native='numberFormat($event)'
-                @blur='clickOutSide'
+                @keyup.native="numberFormat($event)"
+                @blur="clickOutSide"
               >
                 <div class="prefix" slot="prefix">$</div>
               </el-input>
             </el-form-item>
 
-            <el-form-item class='be-flex-item hide-label' label='1' :class='errorType==="amount"&&"error-amount-border-popup-transaction"'>
-              <el-input v-model='filter.toAmount' :placeholder="$t('placeholder.to-amount')"
-                        @keypress.native="onlyNumber($event, 'toAmount')" @keyup.native='numberFormat($event)'
-                        @blur='clickOutSide'>
-                <div class='prefix' slot='prefix'>$</div>
+            <el-form-item class="be-flex-item hide-label" label="1" :class="errorType === 'amount' && 'error-amount-border-popup-transaction'">
+              <el-input
+                v-model="filter.toAmount"
+                :placeholder="$t('placeholder.to-amount')"
+                @keypress.native="onlyNumber($event, 'toAmount')"
+                @keyup.native="numberFormat($event)"
+                @blur="clickOutSide"
+              >
+                <div class="prefix" slot="prefix">$</div>
               </el-input>
             </el-form-item>
           </div>
@@ -397,9 +401,7 @@
         line-height: 20px;
         color: #cf202f;
       }
-
     }
-
   }
 
   .form-item-line {

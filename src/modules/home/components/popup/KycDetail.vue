@@ -203,7 +203,7 @@
         rotatePhoto2: `rotate(${this.rotateDeg[1]}deg)`,
         rotatePhoto1: `rotate(${this.rotateDeg[0]}deg)`
       }
-      apiKyc.updateKyc(data2).then(()=>{
+      apiKyc.updateKyc(data2).then(() => {
         apiKyc.approveKyc(data).then(() => {
           const message: any = this.$i18n.t('notify.approve-success')
           this.$message.success({ message, duration: 5000 })
@@ -222,7 +222,7 @@
           ...this.detail,
           rotateSelfiePhoto: `rotate(${this.rotateDeg[2]}deg)`,
           rotatePhoto2: `rotate(${this.rotateDeg[1]}deg)`,
-          rotatePhoto1: `rotate(${this.rotateDeg[0]}deg)`,
+          rotatePhoto1: `rotate(${this.rotateDeg[0]}deg)`
         }
         await apiKyc.updateKyc(data2)
         await apiKyc.rejectKyc({ ...data, ids: [this.detailRow.id] })

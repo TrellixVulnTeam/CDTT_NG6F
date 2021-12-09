@@ -39,7 +39,7 @@
         <p>{{ $t('transaction.detail.date') }}</p>
         <p class="text-detail-2">{{ detailRow.transactionMillisecond | formatMMDDYY }}</p>
       </div>
-      <!-- <div v-if="checkFeeType(detailRow.transactionType)" class="item be-flex">
+      <div v-if="checkFeeType(detailRow.transactionType) && detailRow.transactionType === 'WITHDRAW'" class="item be-flex">
         <p>{{ $t('transaction.detail.from') }}</p>
         <div class="be-flex align-center">
           <base-icon :icon="renderIconCurrency(detailRow.currency.toLowerCase())" size="20" />
@@ -49,7 +49,7 @@
           </span>
         </div>
       </div>
-      <div class="item be-flex">
+      <div class="item be-flex" v-if="detailRow.transactionType === 'WITHDRAW'">
         <p>{{ $t('transaction.detail.to') }}</p>
         <div class="be-flex align-center">
           <base-icon :icon="renderIconCurrency(detailRow.currency.toLowerCase())" size="20" />
@@ -58,7 +58,7 @@
             <base-icon icon="icon-copy" size="24" />
           </span>
         </div>
-      </div> -->
+      </div>
       <div v-if="checkFeeType(detailRow.transactionType) && detailRow.transactionType === 'WITHDRAW'" class="item be-flex">
         <p>{{ $t('transaction.detail.fees') }}</p>
         <div class="be-flex">
@@ -123,7 +123,8 @@
           return this.$i18n.t('transaction.table.processing')
         case 'REJECTED':
           return this.$i18n.t('transaction.table.rejected')
-
+        case 'LOCKED':
+          return this.$i18n.t('transaction.table.locked')
         default:
           return this.$i18n.t('transaction.table.failed')
       }
@@ -138,6 +139,8 @@
         ? 'status status-warning'
         : type === 'REJECTED'
         ? 'status status-rejected'
+        : type === 'LOCKED'
+        ? 'status status-locked'
         : 'status status-success'
     }
     get getIcon(): string {
