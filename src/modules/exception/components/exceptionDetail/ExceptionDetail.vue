@@ -11,7 +11,7 @@
         <p v-if="detailRow.transactionType === 'WITHDRAW'" :class="checkValueAmountDisplay(detailRow.amountWithoutFeeDisplay)">
           -{{ detailRow.amountWithoutFeeDisplay }} {{ detailRow.currency }}
         </p>
-        <p v-else class="add">+{{ detailRow.paidAmountDisplay }} {{ detailRow.currency }}</p>
+        <p v-else class="sub">-{{ detailRow.paidAmountDisplay }} {{ detailRow.currency }}</p>
 
         <p v-if="detailRow.transactionType === 'WITHDRAW'" class="usd">~${{ detailRow.amountWithoutFeeToUsdDisplay | convertAmountDecimal('USD') }}</p>
         <p v-else class="usd">~${{ detailRow.paidAmountToUsd | convertAmountDecimal('USD') }}</p>

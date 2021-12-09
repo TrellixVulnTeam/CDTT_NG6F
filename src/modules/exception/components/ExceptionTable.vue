@@ -10,7 +10,6 @@
         @rowClick="handleRowClick"
         class="base-table table-wallet"
       >
-      
         <el-table-column label="#" type="index" :index="indexMethod" align="center" width="60" />
         <!-- <el-table-column :label="$t('kyc.table.fullName')" min-width="200">
           <template slot-scope="scope">
@@ -114,7 +113,6 @@
       }
     }
     checkTransactionStatus(status: string): any {
-      console.log("ststaus", status)
       switch (status) {
         case 'SUCCESS':
           return this.$i18n.t('transaction.table.succsess')
