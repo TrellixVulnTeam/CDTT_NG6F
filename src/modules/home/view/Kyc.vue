@@ -26,9 +26,12 @@
   import { KycRepository } from '@/services/repositories/kyc'
   import EventBus from '@/utils/eventBus'
   import { debounce } from 'lodash'
+  import { MODULE_WITH_ROUTENAME } from '@/configs/role'
 
   import { namespace } from 'vuex-class'
   const bcKyc = namespace('bcKyc')
+  const bcAuth = namespace('beAuth')
+
   const apiKyc: KycRepository = getRepository('kyc')
 
   interface IQuery {
@@ -44,6 +47,8 @@
   @Component({ components: { KycTable, KycFilter, KycDetail } })
   export default class BOKyc extends Mixins(PopupMixin) {
     @bcKyc.Action('getListReason') getListReason!: () => void
+    @bcAuth.Getter('listModuleCanView') listModuleCanView!: Array<Record<string, any>>
+
     tabs: Array<Record<string, any>> = [
       {
         id: 1,
@@ -86,6 +91,12 @@
     listApproveBy: Record<string, any>[] = []
 
     created(): void {
+      if (!this.checkPemission('kyc', ['view'])) {
+        const routeName = MODULE_WITH_ROUTENAME[this.listModuleCanView[0].module]
+        this.$router.push({ name: routeName })
+        return
+      }
+
       this.getListReason()
       apiKyc.getListApprove({ page: 1, limit: 20 }).then(res => {
         this.listApproveBy = res.content || []
@@ -108,10 +119,11 @@
     }
 
     handleChangeTab(tab: Record<string, any>): void {
-      this.$router.push({ name: tab.routeName })
-      this.query.kycStatus = this.kycStatus[tab.title]
-      this.resetQuery()
-      EventBus.$emit('changeTab')
+      this.$router.push({ name: tab.routeName }).then(() => {
+        this.query.kycStatus = this.kycStatus[tab.title]
+        this.resetQuery()
+        EventBus.$emit('changeTabKyc')
+      })
     }
 
     resetQuery(): void {
@@ -144,7 +156,8 @@
     handleFilter(filter: Record<string, any>): void {
       this.query = {
         ...this.query,
-        ...filter
+        ...filter,
+        page: 1
       }
       this.debounceInit()
     }

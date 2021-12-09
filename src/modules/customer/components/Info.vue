@@ -15,7 +15,7 @@
       </div>
       <div class="be-flex jc-space-between align-center item">
         <span class="label">{{ $t('label.birth-day') }}</span>
-        <span class="text-base">{{ info.birthday | formatDateTimeBirthday}}</span>
+        <span class="text-base">{{ info.birthday | formatDateTimeBirthday }}</span>
       </div>
       <div class="be-flex jc-space-between align-center item">
         <span class="label">{{ $t('label.nationality') }}</span>
@@ -27,9 +27,9 @@
         <span class="text-base text-bold">{{ $t('label.address') }}</span>
         <base-icon icon="icon-address" size="24" class="icon-personal" />
       </div>
-      <div class="be-flex jc-space-between align-center item">
-        <span class="label">{{ $t('label.address') }}</span>
-        <span class="text-base">{{ info.address }}</span>
+      <div class="be-flex jc-space-between item">
+        <span class="label" style="line-height: 25px">{{ $t('label.address') }}</span>
+        <span class="text-base" style="padding-bottom: 8px">{{ info.address }}</span>
       </div>
       <div class="be-flex jc-space-between align-center item">
         <span class="label">{{ $t('label.city') }}</span>
@@ -70,7 +70,7 @@
       }
       .item {
         // padding-bottom: 12px;
-        height: 40px;
+        min-height: 40px;
         line-height: 40px;
         border-bottom: 1px solid #d2d0ce;
         min-width: 280px;
@@ -79,10 +79,17 @@
           font-size: 12px;
           line-height: 16px;
           color: #5b616e;
+          flex-shrink: 0;
+        }
+        .text-base {
+          margin-left: 24px;
+          word-break: break-word;
+          text-align: right;
         }
       }
       .item:last-child {
         margin-bottom: 24px;
+        text-align: right;
       }
     }
   }

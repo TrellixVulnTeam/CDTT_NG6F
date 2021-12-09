@@ -175,12 +175,12 @@
         })
         this.$forceUpdate()
       })
-      EventBus.$on('changeTab', this.handleChangeTab)
+      EventBus.$on('changeTabKyc', this.handleChangeTab)
       this.$emit('filter', this.filter)
     }
     destroyed(): void {
       EventBus.$off('changeLang')
-      EventBus.$off('changeTab')
+      // EventBus.$off('changeTab')
     }
 
     handleShowPopper(): void {
@@ -222,6 +222,8 @@
     }
 
     handleChangeTab(): void {
+      console.log('change tab')
+
       this.sortActive = 'CREATED_AT'
       this.queryApprove = {
         page: 1,
@@ -288,9 +290,9 @@
     ::v-deep .filter-item {
       &:hover {
         .text-filter {
-          color: #0151fc;
+          color: var(--bc-theme-primary);
           .span-icon {
-            color: #0151fc !important;
+            color: var(--bc-theme-primary) !important;
           }
         }
       }
@@ -298,17 +300,17 @@
     ::v-deep .sort {
       &:hover {
         .el-dropdown-selfdefine {
-          color: #0151fc;
+          color: var(--bc-theme-primary);
           .span-icon {
-            color: #0151fc !important;
+            color: var(--bc-theme-primary) !important;
           }
         }
       }
       .sort-title {
         &:focus {
-          color: #0151fc;
+          color: var(--bc-theme-primary) !important;
           .span-icon {
-            color: #0151fc !important;
+            color: var(--bc-theme-primary) !important;
           }
         }
       }

@@ -15,4 +15,12 @@ export class SettingRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+  async genCode(data?: Record<string, any>): Promise<any> {
+    try {
+      const result = await request.post(`${this.prefix}/settings/gen-code`, data)
+      return Promise.resolve(result.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
 }

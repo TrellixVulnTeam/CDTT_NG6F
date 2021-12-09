@@ -1,6 +1,6 @@
 <template>
   <div class="main-side-bar be-flex-column align-center">
-    <router-link :to="{ name: 'dashboard' }" class="style_router_home router_center router-home" exact>
+    <router-link :to="{ name: 'Crowdsale' }" class="style_router_home router_center router-home" exact>
       <div class="sack_avatar logo-home">
         <!-- <base-icon icon="logo-lienviet" style="font-size: 40px; display: block; height: 40px" class="style_avatar_home" /> -->
         <!-- <base-icon icon="logo-login" size="32" /> -->
@@ -9,20 +9,100 @@
         <p>{{ $t('leftMenu.home') }}</p>
       </div>
     </router-link>
-    <router-link :to="{ name: 'Kyc' }" class="router_center">
+    <router-link :to="{ name: 'Crowdsale' }" v-if="checkPemission('crowd-sale', ['view'])" class="router_center">
       <div class="sack_avatar">
-        <base-icon icon="menu-kyc-active" class="menu-active" size="32" />
+        <base-icon :icon="coinMain === 'LYNK' ? 'menu-crowdsale-active' : 'menu-crowdsale-clm'" class="menu-active" size="32" />
+        <base-icon icon="menu-crowdsale" class="menu" size="32" />
+        <p>{{ $t('leftMenu.crowdsale') }}</p>
+      </div>
+    </router-link>
+    <router-link :to="{ name: 'Kyc' }" v-if="checkPemission('kyc', ['view'])" class="router_center">
+      <div class="sack_avatar">
+        <base-icon :icon="coinMain === 'LYNK' ? 'menu-kyc-active' : 'menu-kyc-clm'" class="menu-active" size="32" />
         <base-icon icon="menu-kyc" class="menu" size="32" />
         <p>{{ $t('leftMenu.kyc') }}</p>
       </div>
     </router-link>
-    <router-link :to="{ name: 'CustomerMain' }" class="router_center">
+    <router-link :to="{ name: 'CustomerMain' }" v-if="checkPemission('customer', ['view'])" class="router_center">
       <div class="sack_avatar">
-        <base-icon icon="menu-customer-active" class="menu-active" size="32" />
+        <base-icon :icon="coinMain === 'LYNK' ? 'menu-customer-active' : 'menu-customer-clm'" class="menu-active" size="32" />
         <base-icon icon="menu-customer" class="menu" size="32" />
         <p>{{ $t('leftMenu.customer') }}</p>
       </div>
     </router-link>
+    <router-link :to="{ name: 'MainBalance' }" v-if="checkPemission('balance', ['view'])" class="router_center">
+      <div class="sack_avatar">
+        <base-icon :icon="coinMain === 'LYNK' ? 'icon-wallet-bo-active' : 'icon-wallet-bo-active-clm'" class="menu-active" size="32" />
+        <base-icon icon="icon-wallet-bo" class="menu" size="32" />
+        <p>{{ $t('leftMenu.balance') }}</p>
+      </div>
+    </router-link>
+
+    <router-link :to="{ name: 'Request' }" v-if="checkPemission('request', ['view'])" class="router_center">
+      <div class="sack_avatar">
+        <base-icon :icon="coinMain === 'LYNK' ? 'menu-request-active' : 'menu-request-clm'" class="menu-active" size="32" />
+        <base-icon icon="menu-request" class="menu" size="32" />
+        <p>{{ $t('leftMenu.request') }}</p>
+      </div>
+    </router-link>
+
+    <router-link :to="{ name: 'Transaction' }" v-if="checkPemission('transaction', ['view'])" class="router_center">
+      <div class="sack_avatar">
+        <base-icon :icon="coinMain === 'LYNK' ? 'menu-swap-active' : 'menu-swap-active-clm'" class="menu-active" size="32" />
+        <base-icon icon="menu-swap-active-clm" class="menu" size="32" />
+        <p>{{ $t('leftMenu.transaction') }}</p>
+      </div>
+    </router-link>
+
+    <!-- <router-link :to="{ name: 'MemberMain' }" v-if="checkPemission('member', ['view'])" class="router_center">
+      <div class="sack_avatar">
+        <base-icon :icon="coinMain === 'LYNK' ? 'menu-member-active' : 'menu-member-clm'" class="menu-active" size="32" />
+        <base-icon icon="menu-member" class="menu" size="32" />
+        <p>{{ $t('leftMenu.member') }}</p>
+      </div>
+    </router-link>
+
+    <router-link :to="{ name: 'Exception' }" class="router_center">
+      <div class="sack_avatar">
+        <base-icon :icon="coinMain === 'LYNK' ? 'icon-exception-bo-active' : 'icon-exception-bo-active-clm'" class="menu-active" size="32" />
+        <base-icon icon="icon-exception-bo" class="menu" size="32" />
+        <p>{{ $t('leftMenu.exception') }}</p>
+      </div>
+    </router-link> -->
+
+    <el-popover trigger="hover" v-model="isOpenPopup" placement="right" popper-class="p-0 poper popper-add-menu" style="min-width: 80px">
+      <div class="popper-add-menu-content">
+        <ul class="module">
+          <li class="module-item" @click="isOpenPopup = false">
+            <router-link :to="{ name: 'Exception' }" class="router_center">
+              <div class="sack_avatar">
+                <base-icon :icon="coinMain === 'LYNK' ? 'icon-exception-bo-active' : 'icon-exception-bo-active-clm'" class="menu-active" size="32" />
+                <base-icon icon="icon-exception-bo" class="menu" size="32" />
+                <p class="color-add-menu" style="font-size: 11px">{{ $t('leftMenu.exception') }}</p>
+              </div>
+            </router-link>
+          </li>
+        </ul>
+
+        <ul class="module">
+          <li class="module-item" @click="isOpenPopup = false">
+            <router-link :to="{ name: 'MemberMain' }" v-if="checkPemission('member', ['view'])" class="router_center">
+              <div class="sack_avatar">
+                <base-icon :icon="coinMain === 'LYNK' ? 'menu-member-active' : 'menu-member-clm'" class="menu-active" size="32" />
+                <base-icon icon="menu-member" class="menu" size="32" />
+                <p class="color-add-menu" style="font-size: 11px">{{ $t('leftMenu.member') }}</p>
+              </div>
+            </router-link>
+          </li>
+        </ul>
+      </div>
+
+      <el-button slot="reference" class="is-create-color is-white is-none-border icon-btn p-0 m-0 button-add" style="height: 100%; position: relative; width: 100%">
+        <base-icon icon="icon-exception-bo" style="font-size: 27px" />
+        <span style="font-size: 11px; display: block; margin-top: 7px">Thêm</span>
+      </el-button>
+    </el-popover>
+
     <!-- <router-link :to="{ name: 'Wallet' }" class="router_center" exact>
       <div class="sack_avatar">
         <base-icon icon="menu-contract" size="32" />
@@ -46,6 +126,7 @@
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
   import { namespace } from 'vuex-class'
+
   const beBase = namespace('beBase')
   @Component({ components: {} })
   export default class MainSidebar extends Vue {
@@ -125,11 +206,13 @@
 
     .style_router_home {
       margin: 0px 10px 10px 10px;
+
       .style_avatar_home {
         color: #ef7524;
         text-align: center;
       }
     }
+
     .setting {
       position: absolute;
       bottom: 0;
@@ -144,13 +227,16 @@
       line-height: 1;
       font-size: 32px;
     }
+
     .router_center {
       text-align: center;
       width: 100%;
       height: 80px;
       color: #6b6b6b;
+
       .sack_avatar {
         padding: 12px 0;
+
         p {
           font-size: 10px;
           margin-top: 3px;
@@ -158,106 +244,135 @@
           font-weight: 400;
           line-height: 12px;
         }
+
         &:hover {
           background: var(--bc-color-grey20);
           color: var(--bc-theme-primary);
+
           p {
             color: var(--bc-theme-primary) !important;
           }
+
           .span-icon {
             color: var(--bc-theme-primary) !important;
           }
         }
       }
+
       &:hover {
         .menu-active {
           display: block;
         }
+
         .menu {
           display: none;
         }
       }
     }
+
     .router_setting {
       position: absolute;
       bottom: 0;
       // margin-top: calc(100vh - 600px);
     }
+
     .filter_avatar {
       opacity: 0.65;
     }
   }
+
   a {
     text-decoration: none;
   }
+
   .router-link-exact-active,
   .router-link-active {
     background: #e9e9e9;
     width: 80px;
+
     .sack_avatar {
-      color: #0078d4;
+      color: var(--bc-theme-primary);
+
       p {
-        color: #0078d4 !important;
+        color: var(--bc-theme-primary) !important;
+        font-weight: 600 !important;
       }
+
       .menu {
         display: none;
       }
+
       .menu-active {
         display: block;
       }
     }
+
     .child-item {
       color: #f07525;
       background: #e9e9e9;
     }
   }
+
   .router-home {
     margin-bottom: 0 !important;
+
     .logo-home {
-      padding-top: 0 !important ;
+      height: 100%;
+      padding-top: 0 !important;
+
       .style_avatar_hom {
         font-size: 40px;
         display: block;
       }
+
       p {
         margin-top: 6px !important;
       }
     }
   }
+
   .style_special {
     margin-left: 11px;
   }
+
   .button-add {
-    background: #f3f3f3;
+    // background: #f3f3f3;
+
     &:hover {
-      background: #e9e9e9;
-      color: #f07525;
+      background: var(--bc-color-grey20);
+      color: var(--bc-theme-primary);
     }
+
     &:focus {
       border: none;
       color: #6b6b6b !important;
     }
   }
+
   .module {
     list-style-type: none;
     padding: 10px;
     display: flex;
     flex-wrap: wrap;
+
     &-item {
       color: #65676b;
       text-align: center;
       height: 68px;
       cursor: pointer;
       flex-basis: 32%;
+
       &:hover {
         color: #0078d4;
         background: #e9e9e9;
       }
+
       &.menu-active {
         color: #0078d4;
         background: #e9e9e9;
       }
     }
+
     .child-item {
       height: 100%;
     }
@@ -266,7 +381,23 @@
   .module-item {
     margin: 1px;
   }
+
   .menu-active {
     display: none;
+  }
+  // ::v-deep .popper-add-menu {
+  //   display: flex !important;
+  // }
+  .popper-add-menu-content {
+    display: flex;
+  }
+  .module {
+    display: unset;
+    flex-wrap: unset;
+    padding: 12px;
+    width: 80px;
+  }
+  .color-add-menu {
+    color: var(--bc-color-grey190);
   }
 </style>

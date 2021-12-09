@@ -35,16 +35,16 @@
 }
 
 .dropdown-sort {
-    width: 180px;
+    min-width: 180px;
     .el-dropdown-menu__item {
         // line-height: 24px;
         font-size: 16px;
         // margin-bottom: 16px;
         &:hover {
-            color: #0151fc !important;
+            color: var(--bc-theme-primary) !important;
         }
     }
     .active {
-        color: #0151fc;
+        color: var(--bc-theme-primary) !important;
     }
 }

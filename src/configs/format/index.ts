@@ -27,6 +27,18 @@ export function roundingNumber(value: number): number | string {
   return value.toFixed(2)
 }
 
+export function digitNumber(value: number | null): string {
+  let numberStr!: string
+  if (value) {
+    if (value < 10) {
+      numberStr = '0' + value
+    } else {
+      numberStr = value + ''
+    }
+  }
+  return numberStr
+}
+
 export function convertCurrency(value: number | string): string {
   if (!value) return '0'
   value = value.toString()
@@ -58,7 +70,14 @@ export function convertAmount8digit(amount: string | number): string {
 }
 
 export function convertAmountDecimal(amount: string | number, currency: string): string {
-  // if (!amount) return '0'
+  if (!amount) return '0.00'
+  // if ((amount == 0 && currency == 'LYNK') || currency == 'CLM' || currency == 'USD' || currency == 'USDC' || currency == 'USDT') {
+  //   return '0.00'
+  // } else if (amount == 0 && currency == 'BNB') {
+  //   return '0.00000'
+  // } else if ((amount == 0 && currency == 'ETH') || currency == 'BTC') {
+  //   return '0.00000000'
+  // }
   const objConvert = {
     LYNK: 2,
     CLM: 2,
@@ -74,8 +93,13 @@ export function convertAmountDecimal(amount: string | number, currency: string):
     const afterDot = amount.substr(amount.indexOf('.'))
     const _afterDotString = Number(afterDot).toFixed(objConvert[currency])
     const _afterDot = _afterDotString.substr(_afterDotString.lastIndexOf('.') + 1)
+    let _beforeDot = 0
     const beforeDot = amount.substring(0, amount.indexOf('.'))
-    const _beforeDot = +beforeDot
+    if (Number(_afterDotString) === 1) {
+      _beforeDot = +beforeDot + 1
+    } else {
+      _beforeDot = +beforeDot
+    }
     const temp = _beforeDot.toLocaleString().replaceAll('.', ',')
     return temp + '.' + _afterDot
   }
@@ -106,6 +130,7 @@ export function formatDateTime(value: string | number): any {
   const date = new Date(+value)
   return (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + '.' + (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '.' + date.getFullYear()
 }
+
 export function formatDDMMYY(value: string | number): any {
   if (!value) {
     return ''
@@ -120,9 +145,9 @@ export function formatDateHourMs(value: string | number): any {
   }
   const date = new Date(value)
   return (
-    (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
-    '/' +
     (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+    '/' +
+    (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
     '/' +
     date.getFullYear() +
     ' ' +
@@ -133,6 +158,7 @@ export function formatDateHourMs(value: string | number): any {
     (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds())
   )
 }
+
 export function formatMMDDYY(value: string | number): any {
   if (!value) {
     return ''
@@ -196,15 +222,90 @@ export function timeAgo(time: string | number): string | undefined {
   }
 }
 
-export function formatTransactionCode(code: string, number = 10): string {
+export function formatTransactionCode(code: string | null, number = 10): string {
+  if (!code) return ''
   const before = code.substring(0, number)
   const after = code.substring(code.length - number)
   return before + '...' + after
 }
 
-export function formatDateTimeBirthday(time:string|null):string{
-  if (time!==null){
-    const timeConvert:string[]=time.split(" ");
-    return timeConvert[0];
-  }else return "";
+export function formatDateTimeBirthday(time: string | null): string {
+  if (time !== null) {
+    const timeConvert: string[] = time.split(' ')
+    return timeConvert[0].replace(/-/g, '/')
+  } else return ''
+}
+
+export function formatIdentificationType(type: string | null): string {
+  if (type !== null) {
+    switch (type) {
+      case 'ID_CARD':
+        return 'ID Card'
+      case 'PASSPORT':
+        return 'Passport'
+      case 'DRIVER_LICENSE':
+        return 'Driver License'
+      default:
+        return ''
+    }
+  } else return ''
+}
+
+export function formatEmail(email: string | null): string {
+  if (email) {
+    const a = email.toString().split('@')
+    const b = a[0] ? a[0] : ''
+    const c = Math.floor(b.length * 0.5)
+    const str: string = b.slice(0, b.length - c) + '*'.repeat(c) + '@' + a[1]
+    return str
+  } else return ''
+}
+
+export function formatNumberPhone(numberPhone: string | null): string {
+  if (numberPhone) {
+    const c = 5
+    const str: string = '(+84)' + '*'.repeat(c) + numberPhone.slice(0, numberPhone.length - c)
+    return str
+  } else return ''
+}
+
+export function formatType(type: string | null): string {
+  if (type) {
+    const arrStr = type.split('_')
+    let strTotal = ''
+    arrStr.map((value, i) => {
+      const str: string = value.substr(0, 1)
+      const str2: string = value.substring(1)
+      strTotal += str.toUpperCase() + str2.toLowerCase() + ' '
+    })
+    return strTotal
+  } else return ''
+}
+export function convert_datetime(timestamp: number) {
+  const months_arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+  const date = new Date(timestamp * 1000)
+  // var year = date.getFullYear();
+  // var month = months_arr[date.getMonth()];
+  // var day = date.getDate();
+  // var hours = date.getHours();
+  // var minutes = "0" + date.getMinutes();
+  // var convdataTime = day + ' thg ' + month + ', ' + year + ' - ' + hours + ':' + minutes.substr(-2)
+  // let convdataTime=Moment.getDate(timestamp,"dd thg mm, yyyy",false)+", "+Moment.getTime(timestamp,"hh:mm",false)
+  return (
+    (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+    '/' +
+    (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
+    '/' +
+    date.getFullYear() +
+    ' ' +
+    (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) +
+    ':' +
+    (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) +
+    ':' +
+    (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds())
+  )
+}
+export function convertToLocalDate(utcTime: any) {
+  const time: number = new Date(utcTime).getTime() / 1000 + 7 * 60 * 60
+  return convert_datetime(time)
 }

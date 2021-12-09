@@ -21,7 +21,8 @@
           <div class="avatar">
             <el-dropdown trigger="click" class="pl-2 login-page-header" @command="handleCommand">
               <span class="el-dropdown-link" style="color: #201f1e">
-                <img src="@/assets/images/avatar.png" alt="" />
+                <base-icon v-if="!user.avatar" icon="default-avatar" size="40" style="display: inline-flex" />
+                <img v-else :src="user.avatar" />
               </span>
 
               <el-dropdown-menu slot="dropdown" class="header-downloadapp">
@@ -49,8 +50,9 @@
   @Component
   export default class MainHeader extends Vue {
     @bcAuth.Action('logout') logout!: () => Promise<any>
+    @bcAuth.State('user') user!: Record<string, any>
 
-    image = './avatar.png'
+    // image = './avatar.png'
 
     get getTitle(): any {
       switch (this.$route.matched[0].path) {
@@ -58,6 +60,18 @@
           return this.$t('header.kyc')
         case '/customer':
           return this.$t('header.customer')
+        case '/crowd-sale':
+          return this.$t('header.crowdsale')
+        case '/request':
+          return this.$t('header.request')
+        case '/balance':
+          return this.$t('header.balance')
+        case '/transaction':
+          return this.$t('header.transaction')
+        case '/exception':
+          return this.$t('header.exception')
+        case '/member':
+          return this.$t('header.member')
         default:
           return this.$t('header.kyc')
       }
@@ -92,7 +106,7 @@
           width: 150px;
           height: 32px;
           font-weight: 600;
-          color: #0A0B0D;
+          color: #0a0b0d;
           line-height: 32px;
         }
       }
@@ -165,6 +179,7 @@
               width: 40px;
               height: 40px;
               border-radius: 50%;
+              object-fit: cover;
             }
           }
         }

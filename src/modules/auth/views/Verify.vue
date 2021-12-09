@@ -39,6 +39,7 @@
   @Component
   export default class VerifyPage extends Vue {
     @bcAuth.Action('login') login!: (data: Record<string, any>) => Promise<void>
+    @bcAuth.Action('logout') logout!: () => Promise<void>
     @bcAuth.Mutation('SET_USER_INFO') setUserInfo!: (data: Record<string, any>) => void
 
     form: Record<string, any> = {
@@ -133,10 +134,22 @@
           if (reason === 'REQUEST_LOGIN') {
             // const encodePass = this.$options.filters?.encryptPassword(password)
             this.login({ ...data })
-              .then(() => {
-                message = this.$t('notify.verify-success')
-                this.$message.success({ message, duration: 5000 })
-                this.$router.push({ name: 'KycPending' })
+              .then(async () => {
+                const result = await apiAuth.getInfo()
+                const listRoles = result.roles
+                console.log(listRoles)
+
+                if ((listRoles.length == 1 && listRoles.includes('INVESTOR')) || listRoles.length == 0) {
+                  message = this.$t('notify.no-permisson')
+                  this.$message.error({ message, duration: 5000 })
+                  await this.logout()
+                  this.$router.push({ name: 'login' })
+                } else {
+                  message = this.$t('notify.verify-success')
+                  this.$message.success({ message, duration: 5000 })
+                  this.$router.push({ name: 'Crowdsale' })
+                }
+
                 this.isLoading = false
               })
               .catch(() => {
@@ -160,7 +173,7 @@
               .verifyCode('CODE', { ...data, type: 'SMS' })
               .then(res => {
                 this.setUserInfo(res)
-                this.$router.push({ name: 'KycPending' })
+                this.$router.push({ name: 'Crowdsale' })
               })
               .catch(error => {
                 console.log(error)

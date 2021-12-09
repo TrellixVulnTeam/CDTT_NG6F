@@ -14,8 +14,9 @@ const actions: ActionTree<IAuth, unknown> = {
       const result = await authRes.login(data)
       commit('SET_USER_INFO', result)
       request.defaults.headers.common['Authorization'] = `Bearer ${result.accessToken}`
-      Cookies.set('access_token', result.accessToken)
+      Cookies.set('access_token', result.accessToken, { expires: 1 })
       Cookies.set('refresh_token', result.refreshToken)
+      authRes.createLogLogin({ sourceType: 'WEB' })
       return Promise.resolve()
     } catch (error) {
       return Promise.reject(error)
@@ -56,10 +57,15 @@ const actions: ActionTree<IAuth, unknown> = {
       return Promise.reject(error)
     }
   },
-  getInfo({ commit }) {
-    authRes.getInfo().then(res => {
-      commit('SET_INFO', res)
-    })
+  async getInfo({ commit }) {
+    try {
+      const result = await authRes.getInfo()
+      console.log(result)
+
+      commit('SET_INFO', result)
+    } catch (error: any) {
+      return Promise.reject(error)
+    }
   }
 }
 

@@ -13,6 +13,7 @@
     "wrong-email": "Please enter your email",
     "wrong-email-type": "Please enter a correct email address",
     "wrong-password": "Please enter your password",
+    "checkpass": "Please enter a valid password",
     "placeholder": {
       "password": "Password"
     }
@@ -28,7 +29,9 @@
     "wrong-code": "Please enter your verification code",
     "placeholder": "Verification code",
     "phone-title": "Verify your phone number",
-    "continue": "Continue"
+    "continue": "Continue",
+    "phone-number": "phone number",
+    "authen-app": "authenticator app"
   },
   "signup": {
     "title-form": "Sign Up",
@@ -98,11 +101,23 @@
     "customer": "Customer",
     "contract": "Contract",
     "report": "Report",
-    "setting": "Setting"
+    "setting": "Setting",
+    "crowdsale": "Crowdsale",
+    "balance": "Balance",
+    "request": "Request",
+    "transaction": "Transaction",
+    "member": "Members",
+    "exception": "Exception"
   },
   "header": {
     "kyc": "KYC",
-    "customer": "Customer"
+    "customer": "Customer",
+    "crowdsale": "Crowdsale",
+    "request": "Request",
+    "balance": "Balance",
+    "transaction": "Transaction",
+    "exception": "Exception",
+    "member": "Members"
   },
   "footer": {
     "terms": "Terms and Conditions"
@@ -126,17 +141,33 @@
     "repassword": "Confirm password",
     "phone-number": "Phone number",
     "reason": "Other reason...",
-    "search": "Search"
+    "search": "Search",
+    "from-amount": "From amount",
+    "to-amount": "To amount",
+    "select-type": "Select type",
+    "status": "Select status",
+    "from": "From",
+    "to": "To",
+    "email": "Email",
+    "f-name": "First name",
+    "l-name": "Last name"
   },
   "button": {
     "reset": "Reset",
+    "reset-pass": "Reset",
     "continue": "Continue",
     "cancel": "Cancel",
     "submit": "Submit",
     "close": "Close",
     "approve": "Approve",
     "reject": "Reject",
-    "apply": "Apply"
+    "apply": "Apply",
+    "add-member": "Add member",
+    "add-member-1": "Add Member",
+    "add-buyer": "Add Buyer",
+    "delete-user": "Delete User",
+    "save": "Save",
+    "delete": "Delete"
   },
   "deposit": {
     "lynkey": "DEPOSIT LYNKEY",
@@ -151,7 +182,14 @@
   },
   "paging": {
     "show": "Show",
-    "customers": "customers"
+    "customers": "customers",
+    "transaction": "transactions",
+    "crowdsale": "transactions",
+    "investor": "investors",
+    "request": "requests",
+    "balance": "balance",
+    "member": "members",
+    "buyer": "buyers"
   },
   "label": {
     "buy-from": "Buy from",
@@ -176,14 +214,33 @@
     "create-date": "Created date",
     "last-login": "Last login",
     "f-name": "First name",
+    "password": "Password",
     "l-name": "Last name",
     "birth-day": "Date of birth",
     "address": "Address",
     "city": "City",
     "state": "State",
     "personal-info": "Personal Information",
-    "kyc-status": "KYC status",
-    "placehoder-kyc-status": "Choose Kyc status"
+    "kyc-status": "Status",
+    "placehoder-kyc-status": "Choose Kyc status",
+    "buy-token": "Token",
+    "trans-date": "Transaction Date",
+    "trans-amount": "Transaction Amount",
+    "status": "Status",
+    "trans-type": "Transaction type",
+    "date": "Date",
+    "available-amount": "Available amount",
+    "locked-amount": "Locked amount",
+    "balance": "Balance",
+    "enter-verify-code": "Enter verification code",
+    "verify-code": "Verification code",
+    "bonus-type": "Bonus Type",
+    "role": "Role",
+    "asset": "Asset",
+    "network": "Network",
+    "created-date": "Created date",
+    "new-password": "New password",
+    "round": "Round"
   },
   "buy-lyn": {
     "title": "BUY LYN"
@@ -196,11 +253,13 @@
     "specialCharacter": "At least 1 special character",
     "password-correct": "Password confirmation doesn't match Password",
     "country": "Please enter your country",
-    "phone-number": "Please enter your phone"
+    "phone-number": "Please enter your phone",
+    "wrong-country": "Please enter your country"
   },
   "notify": {
     "500": "Internal Server Error",
     "user-exits": "Invalid email or password",
+    "user-not-exits": "Your account is inactive or deleted",
     "pass-invalid": "Invalid email or password",
     "user-locked": "Account has been locked",
     "user-expired": "Account has been locked",
@@ -215,7 +274,30 @@
     "send-code-fail": "Verification code sent failed",
     "approve-success": "Approved successfully",
     "reject-success": "Rejected successfully",
-    "no-select-reject": "Must choose at least 1 reason"
+    "no-select-reject": "Must choose at least 1 reason",
+    "no-data": "There are no data",
+    "no-data-round": "No specific users are listed.",
+    "no-data-round-1": "Everyone can buy in this round.",
+    "no-data-kyc": "No data",
+    "copy": "Copied",
+    "invalid-code": "Invalid verification code",
+    "captcha-invalid": "Invalid captcha",
+    "invalid-username": "Username or password is incorrect!",
+    "account-exits": "An account already exists with this phone number!",
+    "no-permisson": "You don’t have permission to access",
+    "experied-verify": "Expired verification code",
+    "date-invalid": "From date is less than to date",
+    "amount-invalid": "From amount must be less than To amount",
+    "account-exist": "Account already exists",
+    "add-user-succsess": "Add member successfully",
+    "update-user-succsess": "Update member successfully",
+    "delete-user-success": "Delete successfully",
+    "reset-pass-succsess": "Reset password success",
+    "not-find-customer": "No accounts registered by this email",
+    "add-buyer": "Added buyer successfully",
+    "update-buyer": "Edited buyer successfully",
+    "buyer-already-listed": "This investor is already listed",
+    "delete-buyer": "Deleted successfully"
   },
   "logout": {
     "title": "Sign out"
@@ -226,6 +308,7 @@
     "other-reason": "Other reason: ",
     "table": {
       "fullName": "full name",
+      "role": "role",
       "email": "email",
       "national": "NATIONALITY",
       "date": "CREATED DATE",
@@ -251,7 +334,12 @@
     },
     "filter": {
       "filter": "Filter",
-      "sort": "Sort by"
+      "sort": "Sort by",
+      "all-status": "All status",
+      "kyc-processing": "KYC processing",
+      "not-verified": "Not verified",
+      "verified": "Verified",
+      "locked": "Locked"
     },
     "sort": {
       "date": "Created date",
@@ -261,21 +349,149 @@
     }
   },
   "customer": {
+    "verified": "Verified",
     "popup": {
-      "title": "CUSTOMER DETAIL"
+      "title": "CUSTOMER DETAIL",
+      "transaction-statistics": "Transaction Statistics"
     },
     "sort": {
       "price": "Price",
       "avail-amount": "Available amount",
       "locked-amount": "Locked amount",
-      "balance-amount": "Balance amount"
+      "balance-amount": "Balance amount",
+      "date": "Created date",
+      "amount": "Amount",
+      "trans-amount": "Transaction amount",
+      "trans-date": "Transaction date",
+      "status": "Status",
+      "referral-name": "Referral name",
+      "created-date": "Created date"
     },
     "table": {
       "asset": "asset",
       "price": "price",
       "available": "Available",
       "lock-amount": "locked amount",
-      "balance": "Balance"
+      "balance": "Balance",
+      "name": "name",
+      "email": "Email",
+      "date": "date",
+      "status": "status",
+      "network": "network",
+      "wallet-address": "wallet address",
+      "create-date": "Created date",
+      "accept": "Accepted",
+      "invited": "Invited",
+      "trans-id": "TRANSACTION ID",
+      "type": "type",
+      "amount": "amount",
+      "paid": "Paid",
+      "pending": "Pending",
+      "num-of-trans": "NUM OF TRANS",
+      "total-amount": "TOTAL AMOUNT",
+      "avg-trans-amount": "AVG TRANS AMOUNT",
+      "last-transaction": "LAST TRANSACTION"
+    },
+    "select": {
+      "accepted": "Accepted",
+      "invited": "Invited"
+    },
+    "setting": {
+      "new-phone": "New phone number",
+      "verify": "VERIFICATION",
+      "phone": "Phone number",
+      "2factor": "2-factor Authentication",
+      "status": "Active status",
+      "change": "Change",
+      "lock": "Lock user",
+      "unlock": "Unlock user",
+      "reset": "Reset Default",
+      "enter-code": "Enter the 6-digit code we texted to your phone number",
+      "send-code": "Send code verification successfully!",
+      "send-code-fail": "Send code verification failed!",
+      "lock-user-success": "Locked user successfully!",
+      "lock-user-fail": "Locked user failed!",
+      "unlock-user-success": "Unlocked successfully!",
+      "send-email-avtive": "Activation email sent to customer successfully!",
+      "unlock-user-fail": "Unlocked user failed!",
+      "send-mail-success": "Send mail and verification code to customer successfully!",
+      "send-reset-default": "Send mail to customer successfully!",
+      "send-reset-default-fail": "Send mail to customer failed!",
+      "send-mail-fail": "Send mail and verification code to customer failed!",
+      "user-active": "Active",
+      "user-locked": "Locked",
+      "user-unverified": "Unverified"
+    },
+    "authen": {
+      "phone": "Phone number",
+      "app": "Authenticator app",
+      "email": "Email"
+    },
+    "phoneveri": {
+      "verified": "Verified",
+      "not-verified": "Not verified"
+    },
+    "statistics": {
+      "balance": "Balance",
+      "total-deposit": "Total Deposit",
+      "total-withdraw": "Total Withdraw",
+      "total-trade": "Total Trade",
+      "bonus": "Bonus",
+      "crowdsale": "Crowdsale",
+      "deposit": "Deposit",
+      "transfer": "Transfer",
+      "withdraw": "Withdraw"
+    }
+  },
+  "transaction": {
+    "table": {
+      "trans-id": "TRANSACTION ID",
+      "date": "date",
+      "type": "type",
+      "status": "status",
+      "amount": "amount",
+      "deposit": "Deposit",
+      "total-deposit": "Total Deposit",
+      "withdraw": "Withdraw",
+      "total-withdraw": "Total Withdraw",
+      "transfer": "Transfer",
+      "total-transfer": "Total Transfer",
+      "total-bonus": "Total Bonus",
+      "crowdsale": "Crowdsale",
+      "succsess": "Success",
+      "pending": "Pending",
+      "processing": "Processing",
+      "failed": "Failed",
+      "rejected": "Rejected",
+      "sell": "Sell",
+      "bonus-sign-up": "Bonus sign up",
+      "bonus-crowdsale": "Bonus crowdsale",
+      "bonus-first-trans": "Bonus first transaction",
+      "bonus-affiliate": "Bonus affiliate",
+      "bonus-big-backer": "Bonus big backer",
+      "bonus-early-backer": "Bonus early backer",
+      "DATE": "DATE",
+      "CUSTOMER": "CUSTOMER",
+      "STATUS": "STATUS",
+      "AMOUNT": "AMOUNT",
+      "transactions": "transactions",
+      "locked": "Locked"
+    },
+    "popup": {
+      "title-filter": "Filter",
+      "transaction-detail": "Transaction Details",
+      "customer-info": "Customer Info"
+    },
+    "detail": {
+      "transaction-id": "Transaction ID",
+      "date": "Date",
+      "from": "From",
+      "to": "To",
+      "fees": "Fees",
+      "status": "Status",
+      "full-name": "Full name",
+      "phone-number": "Phone number",
+      "email": "Email"
     }
   },
   "params": {
@@ -305,13 +521,308 @@
     "referral": "Referral",
     "bonus": "Bonus",
     "statistics": "Statistics",
-    "setting": "Settings"
+    "setting": "Settings",
+    "Transactions": "Transactions",
+    "Round": "Round",
+    "LYNK": "LYNK",
+    "CLM": "CLM",
+    "BTC": "BTC",
+    "ETH": "ETH",
+    "BNB": "BNB",
+    "USDT": "USDT",
+    "USDC": "USDC",
+    "deposit": "Deposit",
+    "withdraw": "Withdraw",
+    "transfer": "Transfer",
+    "member-active": "Active",
+    "member-inactive": "Inactive",
+    "crowdsales": "Crowdsale"
   },
   "status": {
     "pending": "Pending",
     "verified": "Verified",
     "rejected": "Rejected",
     "unverified": "Not verified",
-    "locked": "Locked"
+    "locked": "Locked",
+    "success": "Success",
+    "failed": "Failed"
+  },
+  "crowdsale": {
+    "round": "Round",
+    "progress": "Progress",
+    "progress2": "Progress",
+    "from": "From",
+    "now": "until now",
+    "completed": "COMPLETED",
+    "sold": "sold",
+    "left": "left",
+    "raised": "RAISED",
+    "backers": "BACKERS",
+    "of": "of",
+    "transactions": "Transactions",
+    "filter": "Filter",
+    "sortBy": "Sort by",
+    "search": "Search",
+    "date": "DATE",
+    "status": "STATUS",
+    "price": "PRICE",
+    "paid": "PAID",
+    "amount": "AMOUNT",
+    "pending": "Pending",
+    "success": "Success",
+    "startDate": "start date",
+    "endDate": "end date",
+    "remain": "remain",
+    "transactionDate": "Transaction date",
+    "transactionAmount": "Transaction amount",
+    "opening": "Opening",
+    "finish": "Finish",
+    "upcoming": "Upcoming",
+    "setting": "Settings",
+    "full-name": "Full name",
+    "add-date": "added date",
+    "add-by": "added by",
+    "popup-filter": {
+      "title": "filter",
+      "round": "Round",
+      "country": "Country",
+      "buyWithWallet": "Buy with wallet",
+      "buyWithToken": "Buy with token",
+      "transactionDate": "Transaction Date",
+      "transactionAmount": "Transaction Amount",
+      "reset": "Reset",
+      "apply": "Apply",
+      "required": "Please enter your",
+      "planceOderToken": "Select token",
+      "planceOderWallet": "Select wallet",
+      "planceOderRound": "Select round",
+      "planceOderCountry": "Select country",
+      "planceOderTransactionDateStart": "From",
+      "planceOderTransactionDateEnd": "To"
+    },
+    "popup": {
+      "title-member": "ADD BUYER",
+      "title-member-edit": "EDIT BUYER",
+      "title-confirm": "Confirm delete",
+      "content-confirm": "Are you sure you want to delete this buyer ?"
+    },
+    "filter-popper": {
+      "createdBy": "Created by",
+      "pl-createdBy": "Select created by",
+      "added-date": "Added date",
+      "pl-fromDate": "from",
+      "pl-toDate": "to"
+    },
+    "sort": {
+      "full-name": "Full name",
+      "create-at": "Created at"
+    }
+  },
+  "balance": {
+    "available": "Available",
+    "lockedAmount": "Locked amount",
+    "balance": "Balance",
+    "lastChange": "Last changed",
+    "availableAmout": "Available amount",
+    "name": "Name",
+    "investor": "Investor",
+    "total-available": "Total Available",
+    "total-locked": "Total Locked",
+    "of-total": "of total",
+    "balance-wallet": "Balance",
+    "popup": {
+      "title": "BALANCE DETAIL",
+      "bitcoin-wallet": "Bitcoin Wallet",
+      "available-amount": "Available Amount",
+      "locked-amount": "Locked amount",
+      "opening-balance": "OPENING BALANCE",
+      "type": "TYPE",
+      "credit": "CREDIT",
+      "debit": "DEBIT",
+      "balance": "BALANCE",
+      "status": "STATUS",
+      "ending-balance": "ENDING BALANCE",
+      "total": "TOTAL",
+      "account-statement": "Account Statement",
+      "withdrawal-request": "Withdrawal Request",
+      "wallet": {
+        "bitcoin-wallet": "Bitcoin Wallet",
+        "eth-wallet": "ETH Wallet",
+        "bnb-wallet": "BNB Wallet",
+        "usdt-wallet": "USDT Wallet",
+        "usdc-wallet": "USDC Wallet",
+        "lynk-wallet": "LYNK Wallet"
+      },
+      "crow-type": {
+        "withdraw": "Withdraw",
+        "deposit": "Deposit",
+        "transfer": "Transfer",
+        "crowdsale": "Crowdsale",
+        "bonus-early-backers": "Bonus Early Backers",
+        "bonus-big-backers": "Bonus Big Backers",
+        "bonus-affiliate": "Bonus Affiliate",
+        "bonus-first-trans": "Bonus First Trans",
+        "bonus-crowdsale": "Bonus Crowdsale",
+        "bonus-sign-up": "Bonus Sign Up"
+      }
+    }
+  },
+  "request": {
+    "withdraw": "Withdraw",
+    "transfer": "Transfer",
+    "TransactionDetail": "Transaction detail",
+    "AccountStatement": "Account statement",
+    "table": {
+      "label1": "FULL NAME",
+      "label2": "REQUEST DATE",
+      "label4": "STATUS",
+      "label5": "AMOUNT",
+      "label3": "EMAIL"
+    },
+    "sortBy": {
+      "requestDate": "Request date",
+      "amount": "Amount",
+      "status": "Status",
+      "name": "Name"
+    },
+    "filter": {
+      "label1": "Status",
+      "planceOder1": "Select",
+      "label2": "Request date",
+      "planceOder2": "From",
+      "label3": "Amount",
+      "planceOder3": "To",
+      "pending": "Pending",
+      "rejected": "Rejected"
+    },
+    "popup": {
+      "titlePopup": "WITHDRAW REQUEST",
+      "bigTitle1": "Warning",
+      "label1": "Current Balance and Ending Balance are not matched.",
+      "label2": "Unusual activity alert.",
+      "label3": "Customer’s Email",
+      "label4": "Recipient Address",
+      "label5": "Transaction Date",
+      "bigTitle2": "Transaction detail",
+      "bigTitle3": "Account statement",
+      "btn1": "Close",
+      "btn2": "Reject",
+      "btn3": "Approve",
+      "ApproveMessage": "Approve successfully",
+      "RejectMessage": "Reject successfully",
+      "transaction": {
+        "bigTitle1": "Transaction Detail",
+        "bigTitle2": "Customer Info",
+        "label1": "Request date",
+        "label2": "From",
+        "label3": "To",
+        "label4": "Fees",
+        "label5": "Status",
+        "label6": "Full name",
+        "label7": "Phone number",
+        "label8": "Email",
+        "label9": "Nationality",
+        "label10": "Level",
+        "label11": "Created date",
+        "label12": "Reason"
+      },
+      "account": {
+        "Linkey": "Lynkey Wallet",
+        "Ethereum": "Ethereum Wallet",
+        "Bitcoin": "Bitcoin Wallet",
+        "Bnb": "BNB Wallet",
+        "Usdt": "Tether Wallet",
+        "Usdc": "USDC Wallet",
+        "Cleverme": "CleverMe Wallet",
+        "amount": "Amount",
+        "available": "Available Amount",
+        "locked": "Locked Amount",
+        "bigTitle1": "Account Statement",
+        "bigTitle2": "OPENING BALANCE",
+        "bigTitle3": "TOTAL",
+        "bigTitle4": "ENDING BALANCE",
+        "discription1": "Balance",
+        "discription2": "Available Amount",
+        "discription3": "Withdrawal Request",
+        "label1": "TYPE",
+        "label2": "CREDIT",
+        "label3": "DEBIT",
+        "label4": "BALANCE",
+        "label5": "STATUS",
+        "title1": "OPENING BALANCE",
+        "title2": "TOTAL",
+        "title3": "ENDING BALANCE"
+      },
+      "reason": {
+        "bigTitle": "REJECT REASON",
+        "label": "Enter reject reason:",
+        "planceOder": "Reject reason...",
+        "btn1": "Cancel",
+        "btn2": "Submit",
+        "wrong-reason": "Please enter reason"
+      }
+    },
+    "transactiontype": {
+      "sign-up": "Bonus sign up",
+      "crowd-sale": "Bonus crowdsale",
+      "first-trans": "Bonus first transaction",
+      "affiliate": "Bonus affiliate",
+      "bigbacker": "Bonus big backer",
+      "earlybacker": "Bonus early backer",
+      "tranfer": "Transfer",
+      "widthdraw": "Withdraw",
+      "deposit": "Deposit",
+      "crowdsale": "Crowdsale"
+    },
+    "warning": {
+      "notmatched": "Current Balance and Ending Balance are not matched.",
+      "exceeded1": "Current Balance and Ending Balance are not matched.",
+      "exceeded2": " The request has exceeded the allowable limit.",
+      "allow": "The request has exceeded the allowable limit."
+    }
+  },
+  "member": {
+    "popup": {
+      "title-add": "ADD MEMBER",
+      "title-edit": "EDIT MEMBER",
+      "title-reset": "RESET PASSWORD",
+      "status-active": "Active status",
+      "title-confirm": "Confirm delete",
+      "content-confirm": "Are you sure you want to delete this member ?",
+      "title-detail": "MEMBER DETAIL",
+      "edit": "Edit",
+      "email": "Email",
+      "create-date": "Created date",
+      "last-login": "Last login",
+      "active-status": "Active status",
+      "reset-password": "Reset password"
+    },
+    "sort": {
+      "full-name": "Full name",
+      "email": "Email",
+      "create-date": "Created date",
+      "all-role": "All roles",
+      "admin": "Admin",
+      "support": "Support",
+      "mkt": "Marketing",
+      "accountant": "Accountant"
+    },
+    "validate": {
+      "wrong-email": "Please enter email",
+      "wrong-email-type": "Please enter a correct email address",
+      "wrong-password": "Please enter password",
+      "checkpass": "Please enter a valid password",
+      "firstname": "Please enter first name",
+      "lastname": "Please enter last name",
+      "lastnameLength": "Minimum 2 characters",
+      "firstnameLength": "Minimum 2 characters"
+    }
+  },
+  "exception": {
+    "total": "TOTAL",
+    "amount": "Amount",
+    "locked": "Locked",
+    "failed-tranfer": "Failed transfer",
+    "fail-ex":"Failed"
   }
 }

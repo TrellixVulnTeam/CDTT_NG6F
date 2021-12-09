@@ -9,7 +9,7 @@
         </div>
       </div>
     </div>
-    <customer-filter @filter="handleFilter" />
+    <customer-filter @filter="handleFilter" :is-change-tab="isChangeTab" />
     <customer-table v-loading="isLoading" @rowClick="handleRowClick" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="data" />
     <customer-detail :detailRow="detailRow" @init="init" />
   </div>
@@ -26,10 +26,13 @@
   import { CustomerRepository } from '@/services/repositories/customer'
   import EventBus from '@/utils/eventBus'
   import { debounce } from 'lodash'
+  import { MODULE_WITH_ROUTENAME } from '@/configs/role'
 
   import { namespace } from 'vuex-class'
   import { SettingRepository } from '@/services/repositories/setting'
   const bcKyc = namespace('bcKyc')
+  const bcAuth = namespace('beAuth')
+
   const apiCustomer: CustomerRepository = getRepository('customer')
   interface IQuery {
     page?: number
@@ -43,6 +46,8 @@
   @Component({ components: { CustomerTable, CustomerFilter, CustomerDetail } })
   export default class BOCustomer extends Mixins(PopupMixin) {
     @bcKyc.Action('getListReason') getListReason!: () => void
+    @bcAuth.Getter('listModuleCanView') listModuleCanView!: Array<Record<string, any>>
+
     tabs: Array<Record<string, any>> = [
       {
         id: 1,
@@ -73,6 +78,7 @@
     titlePending = ''
     tabActive = 'Pending'
     isLoading = false
+    isChangeTab = false
 
     data: Array<Record<string, any>> = []
 
@@ -87,14 +93,20 @@
     }
 
     objType: Record<string, any> = {
-      CustomerAll: '',
-      CustomerVerified: 'Verified',
-      CustomerProcessing: 'KYC processing',
-      CustomerNotVerified: 'Not verified',
-      CustomerLocked: 'Locked'
+      CustomerAll: null,
+      CustomerVerified: 'VERIFIED',
+      CustomerProcessing: 'KYC',
+      CustomerNotVerified: 'NOT_VERIFIED',
+      CustomerLocked: 'LOCKED'
     }
 
     created(): void {
+      if (!this.checkPemission('customer', ['view'])) {
+        const routeName = MODULE_WITH_ROUTENAME[this.listModuleCanView[0].module]
+        this.$router.push({ name: routeName })
+        return
+      }
+
       const name = this.$route.name!
       this.query.type = this.objType[name]
     }
@@ -102,6 +114,10 @@
     async init(): Promise<void> {
       try {
         this.isLoading = true
+        if (!this.query.type) {
+          const routeName = this.$route.name!
+          this.query.type = this.objType[routeName]
+        }
         const result = await apiCustomer.getListCustomer({ ...this.query, total: null })
         this.data = result.content || []
         this.query.total = result.totalElements
@@ -113,10 +129,11 @@
     }
 
     handleChangeTab(tab: Record<string, any>): void {
-      this.$router.push({ name: tab.routeName })
-      this.query.type = this.objType[tab.routeName]
-      this.resetQuery()
-      EventBus.$emit('changeTabCustomer')
+      this.isChangeTab = tab.id !== 1
+      this.$router.push({ name: tab.routeName }).then(() => {
+        this.resetQuery()
+        EventBus.$emit('changeTabCustomer')
+      })
     }
 
     resetQuery(): void {
@@ -139,18 +156,23 @@
     }
 
     handleRowClick(row: Record<string, any>): void {
-      this.detailRow = row
-      this.setOpenPopup({
-        popupName: 'popup-customer-detail',
-        isOpen: true
-      })
+      if (this.checkPemission('customer', ['view-detail-customer'])) {
+        this.detailRow = row
+        this.setOpenPopup({
+          popupName: 'popup-customer-detail',
+          isOpen: true
+        })
+      }
     }
 
     handleFilter(filter: Record<string, any>): void {
       this.query = {
         ...this.query,
-        ...filter
+        ...filter,
+        page: 1,
+        limit: 10
       }
+
       this.debounceInit()
     }
     debounceInit = debounce(() => {
@@ -173,9 +195,9 @@
             &:hover {
               color: var(--bc-tab-active);
             }
-            .text-base{
-              color: #5b616e;
-            }
+            // .text-base {
+            //   color: #5b616e;
+            // }
           }
           .tab-active {
             color: var(--bc-tab-active);

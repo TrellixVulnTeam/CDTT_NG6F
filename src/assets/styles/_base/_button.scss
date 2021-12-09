@@ -24,6 +24,7 @@
     border: 1px solid var(--bc-btn-border);
     width: 120px;
     padding: 8px;
+    font-weight: 400;
     &:hover {
         color: var(--bc-btn-default-text-hover);
         border-color: var(--bc-btn-default-border-hover);
@@ -99,4 +100,12 @@
 
 .btn-h-40 {
     padding: 11px 20px;
+}
+.btn-h40 {
+    height: 40px;
+}
+
+.btn-delete {
+    border: 1px solid var(--bc-btn-bg-reject);
+    color: var(--bc-status-error);
 }

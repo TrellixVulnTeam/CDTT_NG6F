@@ -145,7 +145,7 @@ div {
     padding-left: 10px;
 }
 .pl-0 {
-    padding-left: 0;
+    padding-left: 0 !important;
 }
 
 .is-none-border {
@@ -198,6 +198,9 @@ input[type="number"] {
 }
 .mt-2 {
     margin-top: 20px;
+}
+.mt-24 {
+    margin-top: 24px;
 }
 .ml-0 {
     margin-left: 0 !important;
@@ -254,6 +257,9 @@ input[type="number"] {
 .w-100 {
     width: 100% !important;
 }
+.w-auto {
+    width: auto !important;
+}
 .ml-auto {
     margin-left: auto;
 }
@@ -304,27 +310,60 @@ input[type="number"] {
     color: #dd7d00;
     background-color: #fff3e2;
 }
+.status-warning {
+    @include status;
+    color: #dd7d00;
+    background-color: #fff3e2;
+}
 .status-not-verified {
     @include status;
     color: #5b616e;
     background-color: #f3f2f1;
 }
-.status-verified {
+.status-verified,
+.status-success {
     @include status;
-    color: #129961;
+    color: var(--bc-status-success);
     background-color: #e4f9e2;
 }
 .status-rejected {
     @include status;
-    color: #cf202f;
-    background-color: #fbedee;
+    color: var(--bc-status-reject);
+    background-color: var(--bc-bg-reject);
 }
 .status-locked {
     @include status;
-    color: #cf202f;
+    color: var(--bc-status-error);
     background-color: #fbedee;
+}
+.status-error {
+    @include status;
+    color: var(--bc-status-error);
+    background-color: var(--bc-bg-error);
+}
+.status-invited {
+    @include status;
+    color: var(--bc-status-invited);
+    background-color: var(--bc-bg-invited);
+}
+.status-accept {
+    @include status;
+    color: var(--bc-status-accept);
+    background-color: var(--bc-bg-accept);
 }
 
 .h-40 {
     height: 40px;
+}
+
+.amount-decrease {
+    color: var(--bc-status-error);
+}
+.amount-increase {
+    color: var(--bc-status-success);
+}
+.amount-exchange-small {
+    font-size: 14px;
+    line-height: 20px;
+    color: #5b616e;
 }

@@ -1,7 +1,10 @@
+import { RoleActions } from './../src/interface/role'
 import Vue from 'vue'
+type LIST_MODULE = 'crowd-sale' | 'kyc' | 'customer' | 'balance' | 'request' | 'transaction' | 'exception' | 'setting'
+
 declare module 'vue/types/vue' {
   interface Vue {
     districtId: number
-    checkPemission(module: string, roles: Array<'view' | 'edit' | 'remove'>): boolean
+    checkPemission(module: LIST_MODULE, roles: Array<RoleActions>): boolean
   }
 }

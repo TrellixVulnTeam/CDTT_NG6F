@@ -1,36 +1,7 @@
 <template>
   <div class="list-balance">
-    <div class="be-flex mb-24 align-center kyc-filter filter">
-      <el-input v-model="filter.search" class="input-search" :placeholder="$t('placeholder.search')">
-        <span slot="prefix" class="prefix-search">
-          <base-icon icon="icon-search" size="24" />
-        </span>
-      </el-input>
-      <div>
-        <el-dropdown class="sort" trigger="click" @command="handleSort">
-          <span class="abicon sort-title" style="font-size: 16px">
-            <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}</span
-          >
-          <el-dropdown-menu class="header-downloadapp dropdown-sort" style="width: 200px" slot="dropdown">
-            <el-dropdown-item
-              v-for="(value, index) in sorts"
-              :key="index"
-              :class="sortActive === value.command ? 'active' : null"
-              :command="value.command"
-              :divided="value.divided"
-            >
-              <span class="be-flex">
-                <span class="be-flex-item">
-                  {{ value.label }}
-                </span>
-                <base-icon v-if="sortActive === value.command" icon="icon-tick-dropdown" size="16" />
-              </span>
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-      </div>
-    </div>
-    <div class="table">
+    <filter-main :sorts="sorts" @filter="handleFilter" :isShowFilter="false" />
+    <div class="table" v-loading="isLoading" :class="isLoading ? 'list-loading' : null">
       <base-table :data="listBlance" :showPagination="false" class="base-table table-wallet">
         <el-table-column label="#" type="index" align="center" width="40" />
         <el-table-column :label="$t('customer.table.asset')" width="144">
@@ -49,19 +20,19 @@
         </el-table-column>
         <el-table-column :label="$t('customer.table.available')" align="right" width="200">
           <template slot-scope="scope">
-            <span class="text-base">{{ scope.row.available | convertAmountDecimal(getUnit(scope.row.asset)) }} {{ getUnit(scope.row.asset) }}</span>
+            <span class="text-base">{{ scope.row.available | convertAmountDecimal(scope.row.asset) }} {{ scope.row.asset }}</span>
             <span class="d-block small">~${{ scope.row.availableUSD | convertAmountDecimal('USD') }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('customer.table.lock-amount')" align="right" width="200">
           <template slot-scope="scope">
-            <span class="text-base">{{ scope.row.lockedAmount | convertAmountDecimal(getUnit(scope.row.asset)) }} {{ getUnit(scope.row.asset) }}</span>
-            <span class="d-block small">~${{ scope.row.lockedAmountUSD | convertAmountDecimal('USD') }}</span>
+            <span class="text-base">{{ scope.row.totalLockedAmount | convertAmountDecimal(scope.row.asset) }} {{ scope.row.asset }}</span>
+            <span class="d-block small">~${{ scope.row.totalLockedAmountUSD | convertAmountDecimal('USD') }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('customer.table.balance')" align="right">
           <template slot-scope="scope">
-            <span class="text-base">{{ scope.row.totalBalance | convertAmountDecimal(getUnit(scope.row.asset)) }} {{ getUnit(scope.row.asset) }}</span>
+            <span class="text-base">{{ scope.row.totalBalance | convertAmountDecimal(scope.row.asset) }} {{ scope.row.asset }}</span>
             <span class="d-block small">~${{ scope.row.totalBalanceUSD | convertAmountDecimal('USD') }}</span>
           </template>
         </el-table-column>
@@ -72,11 +43,18 @@
 
 <script lang="ts">
   import { Component, Prop, Vue } from 'vue-property-decorator'
+  import FilterMain from '@/components/filter/FilterMain.vue'
 
-  @Component
+  import getRepository from '@/services'
+  import { CustomerRepository } from '@/services/repositories/customer'
+  const apiCustomer: CustomerRepository = getRepository('customer')
+
+  @Component({ components: { FilterMain } })
   export default class CustomerBalance extends Vue {
-    @Prop({ required: true, type: Array, default: [] }) listBlance!: Array<Record<string, any>>
+    @Prop({ required: true, type: Number, default: 0 }) userId!: number
 
+    listBlance: Record<string, any>[] = []
+    isLoading = false
     filter: Record<string, any> = {}
     sorts: Array<Record<string, any>> = [
       {
@@ -104,21 +82,34 @@
         i18n: 'customer.sort.balance-amount'
       }
     ]
-    sortActive = 1
 
-    handleSort(command: number): void {
-      this.sortActive = command
-      // this.filter.orderBy = command
-      // this.$emit('filter', this.filter)
+    created(): void {
+      this.handleGetListBalance()
+    }
+
+    async handleGetListBalance(): Promise<void> {
+      try {
+        this.isLoading = true
+        this.listBlance = await apiCustomer.getlistBalance(this.userId, this.filter)
+        this.isLoading = false
+      } catch (error) {
+        this.isLoading = false
+        console.log(error)
+      }
+    }
+
+    handleFilter(filter: Record<string, any>): void {
+      this.filter = { ...this.filter, ...filter }
+      this.handleGetListBalance()
     }
 
     getIcon(asset: string): string {
       switch (asset) {
-        case 'BINANCE':
+        case 'BNB':
           return 'icon-bnb'
-        case 'BITCOIN':
+        case 'BTC':
           return 'icon-btc'
-        case 'ETHEREUM':
+        case 'ETH':
           return 'icon-eth'
         case 'CLM':
           return 'icon-clm'
@@ -131,37 +122,19 @@
           return 'icon-lin'
       }
     }
-    getUnit(asset: string): string {
+
+    getAssetTitle(asset: string): string {
       switch (asset) {
-        case 'BINANCE':
-          return 'BNB'
-        case 'BITCOIN':
-          return 'BTC'
-        case 'ETHEREUM':
-          return 'ETH'
+        case 'BNB':
+          return 'Binance'
+        case 'BTC':
+          return 'Bitcoin'
+        case 'ETH':
+          return 'Ethereum'
         case 'CLM':
           return 'CLM'
         case 'USDC':
           return 'USDC'
-        case 'USDT':
-          return 'USDT'
-
-        default:
-          return 'LYNK'
-      }
-    }
-    getAssetTitle(asset: string): string {
-      switch (asset) {
-        case 'BINANCE':
-          return 'Binance'
-        case 'BITCOIN':
-          return 'Bitcoin'
-        case 'ETHEREUM':
-          return 'Ethereum'
-        case 'CLM':
-          return 'Clm'
-        case 'USDC':
-          return 'Usdc'
         case 'USDT':
           return 'Tether'
 
@@ -181,6 +154,9 @@
     .sort {
       cursor: pointer;
       color: #0a0b0d;
+    }
+    .list-loading {
+      min-height: 200px;
     }
     .table {
       padding: 0 24px 24px 24px;
