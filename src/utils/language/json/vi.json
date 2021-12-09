@@ -134,7 +134,8 @@
     "add-member-1": "Thêm nhân viên",
     "add-buyer": "Thêm người mua",
     "delete-user": "Xóa nhân viên",
-    "save": "Lưu"
+    "save": "Lưu",
+    "delete": "Xóa"
   },
   "scan": {
     "qrcode": "QUÉT QR CODE"
@@ -243,7 +244,10 @@
     "add-user-succsess": "Thêm nhân viên thành công",
     "update-user-succsess": "Sửa nhân viên thành công",
     "delete-user-success": "Xóa thành công",
-    "reset-pass-succsess": "Đặt lại mật khẩu thành công"
+    "reset-pass-succsess": "Đặt lại mật khẩu thành công",
+    "not-find-customer": "không tìm thấy khách hàng",
+    "add-buyer": "Thêm người mua thành công",
+    "update-buyer": "Sửa người mua thành công"
   },
   "logout": {
     "title": "Đăng xuất"
@@ -546,7 +550,9 @@
     },
     "popup": {
       "title-member": "thêm người mua",
-      "title-member-edit": "sửa người mua"
+      "title-member-edit": "sửa người mua",
+      "title-confirm": "Xác nhận xóa",
+      "content-confirm": "Bạn có chắc chắn muốn xóa người mua này không ?"
     }
   },
   "request": {
