@@ -801,6 +801,8 @@
   },
   "exception": {
     "total": "TOTAL",
-    "amount":"Amount"
+    "amount":"Amount",
+    "locked":"Locked",
+    "failed-tranfer":"Failed transfer"
   }
 }
