@@ -72,7 +72,7 @@
 
     <el-popover trigger="hover" v-model="isOpenPopup" placement="right" popper-class="p-0 poper popper-add-menu" style="min-width: 80px">
       <div class="popper-add-menu-content">
-        <ul class="module">
+        <ul class="module" v-if="checkPemission('exception', ['view'])">
           <li class="module-item" @click="isOpenPopup = false">
             <router-link :to="{ name: 'Exception' }" class="router_center">
               <div class="sack_avatar">

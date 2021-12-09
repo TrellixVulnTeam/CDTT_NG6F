@@ -23,7 +23,7 @@
       <div class="btn-filter be-flex align-center cursor">
         <el-popover :value="isVisible" placement="bottom-start" width="400" trigger="click" popper-class="popper-filter-request-withdraw" @show="handleShowPopper">
           <div class="content">
-            <div class="label">{{ $t('crowdsale.filter-popper.createdBy') }}</div>
+            <div class="label">{{ $t('crowdsale.filter-popper.added-by') }}</div>
             <div class="be-flex jc-space-between row box">
               <el-select v-model="query.createdBy" :placeholder="$t('crowdsale.filter-popper.pl-createdBy')" clearable>
                 <el-option v-for="item in listCreatedBy" :key="item.id" :label="item.fullName" :value="item.userId" />
@@ -44,6 +44,7 @@
               <div class="line" style="margin: 0 5px"></div>
               <el-date-picker
                 v-model="query.toDate"
+                :picker-options="pickerOption"
                 value-format="yyyy-MM-dd"
                 format="MM/dd/yyyy"
                 clearable
@@ -83,7 +84,13 @@
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-      <button type="button" :class="lang === 'vi' ? 'w-auto' : null" class="btn-default-bg text-sm ml-auto add-member" @click="handleAddMember">
+      <button
+        v-if="tabActive >= indexRoundCurrent"
+        type="button"
+        :class="lang === 'vi' ? 'w-auto' : null"
+        class="btn-default-bg text-sm ml-auto add-member"
+        @click="handleAddMember"
+      >
         <span>{{ $t('button.add-buyer') }}</span>
       </button>
     </div>
@@ -157,7 +164,7 @@
       search: '',
       limit: 10,
       page: 1,
-      orderBy: 'USER_FULL_NAME',
+      orderBy: 'CREATED_AT',
       total: 0
     }
 
@@ -171,7 +178,7 @@
     emptyDefault = false
 
     dataTable: Record<string, any>[] = []
-    sortActive = 'USER_FULL_NAME'
+    sortActive = 'CREATED_AT'
 
     sorts: Array<Record<string, any>> = [
       {
@@ -195,6 +202,16 @@
       return 0
     }
 
+    get pickerOption(): any {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const _this = this
+      return {
+        disabledDate(time: Date) {
+          return _this.disableTime(time)
+        }
+      }
+    }
+
     mounted(): void {
       this.lang = window.localStorage.getItem('bc-lang')!
       this.init()
@@ -208,6 +225,12 @@
     debounceInit = debounce(() => {
       this.init()
     }, 500)
+
+    disableTime(time: Date): any {
+      if (this.query.fromDate) {
+        return time.getTime() < new Date(this.query.fromDate).getTime()
+      }
+    }
 
     async init(): Promise<void> {
       try {
@@ -274,12 +297,12 @@
 
     handleChangeTab(index: number): void {
       this.tabActive = index
-      this.sortActive = 'USER_FULL_NAME'
+      this.sortActive = 'CREATED_AT'
       this.query = {
         search: this.query.search,
         limit: 10,
         page: 1,
-        orderBy: 'USER_FULL_NAME',
+        orderBy: 'CREATED_AT',
         total: 0
       }
       if (this.query.search) {
