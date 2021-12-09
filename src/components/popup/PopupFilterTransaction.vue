@@ -365,6 +365,7 @@
     }
 
     numberFormat(event: FocusEvent): void {
+      this.checkValid()
       const _event: any = event
       let fnumber = _event.target.value
       if (fnumber.length > 0) {
