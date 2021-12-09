@@ -83,7 +83,8 @@
     "request": "Yêu cầu",
     "balance": "Số dư",
     "transaction": "Giao dịch",
-    "member": "Nhân viên"
+    "member": "Nhân viên",
+    "exception": "Ngoại lệ"
   },
   "header": {
     "kyc": "KYC",
@@ -362,6 +363,7 @@
       "unlock-user-success": "Mở khóa tài khoản thành công!",
       "send-email-avtive": "Gửi email kích hoạt cho khách hàng thành công!",
       "unlock-user-fail": "Mở khóa tài khoản thất bại!",
+      "send-mail-success": "Gửi thư và mã xác minh cho khách hàng thành công!",
       "user-active": "Kích hoạt",
       "user-locked": "Đã khóa",
       "user-unverified": "Chưa xác thực",
@@ -420,7 +422,8 @@
       "total-deposit": "Tổng tiền nạp",
       "total-transfer": "Tổng tiền chuyển",
       "total-bonus": "Tổng tiền thưởng",
-      "total-withdraw": "Tổng tiền rút"
+      "total-withdraw": "Tổng tiền rút",
+      "locked":"Khóa"
     },
     "popup": {
       "title-filter": "Bộ lọc",
@@ -481,7 +484,7 @@
     "transfer": "Chuyển",
     "member-active": "Hoạt động",
     "member-inactive": "Không hoạt động",
-    "crowdsale": "Crowdsale"
+    "crowdsales": "Crowdsale"
   },
   "status": {
     "pending": "Đang chờ",
@@ -750,5 +753,9 @@
       "lastnameLength": "Nhập tối thiểu 2 ký tự",
       "firstnameLength": "Nhập tối thiểu 2 ký tự"
     }
+  },
+  "exception": {
+    "total": "Tổng số",
+    "amount":"Số lượng"
   }
 }

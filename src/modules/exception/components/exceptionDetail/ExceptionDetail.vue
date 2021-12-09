@@ -6,12 +6,14 @@
     <div class="w-100 fluctuating">
       <div class="text-center">
         <div class="icon" :class="checkTypeStatusIcon(detailRow.status)">
-          <base-icon :className="'icon-pending'" :icon="checkTypeIcon(detailRow.transactionType, detailRow.status)" size="64" />
+          <base-icon :className="'icon-pending'" :icon="getIcon" size="64" />
         </div>
-        <p v-if="detailRow.transactionType === 'WITHDRAW'" :class="checkValueAmountDisplay(detailRow.amountDisplay)">{{ detailRow.amountDisplay }}</p>
-        <p v-else :class="checkValueAmountDisplay(detailRow.paidAmountDisplay)">{{ detailRow.paidAmountDisplay }}</p>
+        <p v-if="detailRow.transactionType === 'WITHDRAW'" :class="checkValueAmountDisplay(detailRow.amountWithoutFeeDisplay)">
+          -{{ detailRow.amountWithoutFeeDisplay }} {{ detailRow.currency }}
+        </p>
+        <p v-else class="add">+{{ detailRow.paidAmountDisplay }} {{ detailRow.currency }}</p>
 
-        <p v-if="detailRow.transactionType === 'WITHDRAW'" class="usd">~${{ detailRow.amountToUsdDisplay | convertAmountDecimal('USD') }}</p>
+        <p v-if="detailRow.transactionType === 'WITHDRAW'" class="usd">~${{ detailRow.amountWithoutFeeToUsdDisplay | convertAmountDecimal('USD') }}</p>
         <p v-else class="usd">~${{ detailRow.paidAmountToUsd | convertAmountDecimal('USD') }}</p>
       </div>
     </div>
@@ -37,7 +39,7 @@
         <p>{{ $t('transaction.detail.date') }}</p>
         <p class="text-detail-2">{{ detailRow.transactionMillisecond | formatMMDDYY }}</p>
       </div>
-      <!-- <div v-if="checkFeeType(detailRow.transactionType)" class="item be-flex">
+      <div v-if="checkFeeType(detailRow.transactionType) && detailRow.transactionType === 'WITHDRAW'" class="item be-flex">
         <p>{{ $t('transaction.detail.from') }}</p>
         <div class="be-flex align-center">
           <base-icon :icon="renderIconCurrency(detailRow.currency.toLowerCase())" size="20" />
@@ -47,7 +49,7 @@
           </span>
         </div>
       </div>
-      <div class="item be-flex">
+      <div class="item be-flex" v-if="detailRow.transactionType === 'WITHDRAW'">
         <p>{{ $t('transaction.detail.to') }}</p>
         <div class="be-flex align-center">
           <base-icon :icon="renderIconCurrency(detailRow.currency.toLowerCase())" size="20" />
@@ -56,7 +58,7 @@
             <base-icon icon="icon-copy" size="24" />
           </span>
         </div>
-      </div> -->
+      </div>
       <div v-if="checkFeeType(detailRow.transactionType) && detailRow.transactionType === 'WITHDRAW'" class="item be-flex">
         <p>{{ $t('transaction.detail.fees') }}</p>
         <div class="be-flex">
@@ -121,7 +123,8 @@
           return this.$i18n.t('transaction.table.processing')
         case 'REJECTED':
           return this.$i18n.t('transaction.table.rejected')
-
+        case 'LOCKED':
+          return this.$i18n.t('transaction.table.locked')
         default:
           return this.$i18n.t('transaction.table.failed')
       }
@@ -136,9 +139,20 @@
         ? 'status status-warning'
         : type === 'REJECTED'
         ? 'status status-rejected'
+        : type === 'LOCKED'
+        ? 'status status-locked'
         : 'status status-success'
     }
-
+    get getIcon(): string {
+      const name = this.detailRow.transactionType
+      if (name === 'WITHDRAW') {
+        return 'icon-withdraw-exception'
+      }
+      if (name === 'CROWDSALE') {
+        return 'menu-crowdsale'
+      }
+      return 'icon-withdraw-exception'
+    }
     checkFeeType(type: string): boolean {
       return !(type.indexOf('BONUS') !== -1 || type === 'DEPOSIT')
     }
@@ -313,6 +327,10 @@
 
     .customer-info {
       margin-bottom: 0;
+    }
+    ::v-deep.popup-content {
+      background-color: #f6f8fc;
+      padding: 0;
     }
   }
 </style>
