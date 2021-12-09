@@ -154,6 +154,7 @@
   },
   "button": {
     "reset": "Reset",
+    "reset-pass": "Reset",
     "continue": "Continue",
     "cancel": "Cancel",
     "submit": "Submit",
@@ -163,8 +164,10 @@
     "apply": "Apply",
     "add-member": "Add member",
     "add-member-1": "Add Member",
+    "add-buyer": "Add Buyer",
     "delete-user": "Delete User",
-    "save": "Save"
+    "save": "Save",
+    "delete": "Delete"
   },
   "deposit": {
     "lynkey": "DEPOSIT LYNKEY",
@@ -185,7 +188,8 @@
     "investor": "investors",
     "request": "requests",
     "balance": "balance",
-    "member": "members"
+    "member": "members",
+    "buyer": "buyers"
   },
   "label": {
     "buy-from": "Buy from",
@@ -234,7 +238,9 @@
     "role": "Role",
     "asset": "Asset",
     "network": "Network",
-    "created-date": "Created date"
+    "created-date": "Created date",
+    "new-password": "New password",
+    "round": "Round"
   },
   "buy-lyn": {
     "title": "BUY LYN"
@@ -270,6 +276,8 @@
     "reject-success": "Rejected successfully",
     "no-select-reject": "Must choose at least 1 reason",
     "no-data": "There are no data",
+    "no-data-round": "No specific users are listed.",
+    "no-data-round-1": "Everyone can buy in this round.",
     "no-data-kyc": "No data",
     "copy": "Copied",
     "invalid-code": "Invalid verification code",
@@ -279,11 +287,15 @@
     "no-permisson": "You don’t have permission to access",
     "experied-verify": "Expired verification code",
     "date-invalid": "From date is less than to date",
-    "amount-invalid": "From amount is less than To amount",
+    "amount-invalid": "From amount must be less than To amount",
     "account-exist": "Account already exists",
     "add-user-succsess": "Add member successfully",
     "update-user-succsess": "Update member successfully",
-    "delete-user-success": "Delete successfully"
+    "delete-user-success": "Delete successfully",
+    "reset-pass-succsess": "Reset password success",
+    "not-find-customer": "No customers found",
+    "add-buyer": "Add buyer success",
+    "update-buyer": "Edit buyer success"
   },
   "logout": {
     "title": "Sign out"
@@ -460,7 +472,8 @@
       "CUSTOMER": "CUSTOMER",
       "STATUS": "STATUS",
       "AMOUNT": "AMOUNT",
-      "transactions": "transactions"
+      "transactions": "transactions",
+      "locked":"Locked"
     },
     "popup": {
       "title-filter": "Filter",
@@ -563,6 +576,10 @@
     "opening": "Opening",
     "finish": "Finish",
     "upcoming": "Upcoming",
+    "setting": "Settings",
+    "full-name": "Full name",
+    "add-date": "added date",
+    "add-by": "added by",
     "popup-filter": {
       "title": "filter",
       "round": "Round",
@@ -580,6 +597,12 @@
       "planceOderCountry": "Select country",
       "planceOderTransactionDateStart": "From",
       "planceOderTransactionDateEnd": "To"
+    },
+    "popup": {
+      "title-member": "ADD BUYER",
+      "title-member-edit": "EDIT BUYER",
+      "title-confirm": "Confirm delete",
+      "content-confirm": "Are you sure you want to delete this buyer ?"
     }
   },
   "balance": {
@@ -749,6 +772,7 @@
     "popup": {
       "title-add": "ADD MEMBER",
       "title-edit": "EDIT MEMBER",
+      "title-reset": "RESET PASSWORD",
       "status-active": "Active status",
       "title-confirm": "Confirm delete",
       "content-confirm": "Are you sure you want to delete this member ?",
@@ -757,7 +781,8 @@
       "email": "Email",
       "create-date": "Created date",
       "last-login": "Last login",
-      "active-status": "Active status"
+      "active-status": "Active status",
+      "reset-password": "Reset password"
     },
     "sort": {
       "full-name": "Full name",
@@ -781,6 +806,7 @@
     }
   },
   "exception": {
-    "total": "TOTAL"
+    "total": "TOTAL",
+    "amount":"Amount"
   }
 }

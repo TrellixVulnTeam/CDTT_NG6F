@@ -83,7 +83,8 @@
     "request": "Yêu cầu",
     "balance": "Số dư",
     "transaction": "Giao dịch",
-    "member": "Nhân viên"
+    "member": "Nhân viên",
+    "exception": "Ngoại lệ"
   },
   "header": {
     "kyc": "KYC",
@@ -104,6 +105,7 @@
     "fee": "Phí giao dịch...",
     "pin-code": "Nhập mã code...",
     "password": "Nhập mật khẩu mới",
+    "new-password": "Nhập mật khẩu mới",
     "repassword": "Nhập lại mật khẩu mới",
     "phone-number": "Số điện thoại",
     "reason": "Lý do...",
@@ -120,6 +122,7 @@
   },
   "button": {
     "reset": "Làm lại",
+    "reset-pass": "Đặt lại mật khẩu",
     "continue": "Tiếp tục",
     "cancel": "Hủy",
     "submit": "Xác nhận",
@@ -129,8 +132,10 @@
     "apply": "Xác nhận",
     "add-member": "Thêm nhân viên",
     "add-member-1": "Thêm nhân viên",
+    "add-buyer": "Thêm người mua",
     "delete-user": "Xóa nhân viên",
-    "save": "Lưu"
+    "save": "Lưu",
+    "delete": "Xóa"
   },
   "scan": {
     "qrcode": "QUÉT QR CODE"
@@ -142,7 +147,8 @@
     "crowdsale": "giao dịch",
     "investor": "nhà đầu tư",
     "request": "yêu cầu",
-    "member": "nhân viên"
+    "member": "nhân viên",
+    "buyer": "người mua"
   },
   "label": {
     "buy-from": "Chọn ví",
@@ -188,7 +194,9 @@
     "locked-amount": "Số tiền đã khóa",
     "balance": "Số dư ví",
     "bonus-type": "Bonus Type",
-    "role": "Quyền"
+    "role": "Quyền",
+    "new-password": "Mật khẩu mới",
+    "round": "Vòng"
   },
   "validate": {
     "length": " Độ dài tối thiểu 8 ký tự",
@@ -221,6 +229,8 @@
     "reject-success": "Từ chối thành công",
     "no-select-reject": "Tối thiểu 1 lý do từ chối",
     "no-data": "Không có dữ liệu",
+    "no-data-round": "Không có người dùng cụ thể nào được liệt kê.",
+    "no-data-round-1": "Mọi người đều có thể mua trong đợt này.",
     "no-data-kyc": "Không có dữ liệu",
     "copy": "Sao chép thành công",
     "captcha-invalid": "Captcha không hợp lệ!",
@@ -233,7 +243,11 @@
     "account-exist": "Tài khoản đã tồn tại",
     "add-user-succsess": "Thêm nhân viên thành công",
     "update-user-succsess": "Sửa nhân viên thành công",
-    "delete-user-success": "Xóa thành công"
+    "delete-user-success": "Xóa thành công",
+    "reset-pass-succsess": "Đặt lại mật khẩu thành công",
+    "not-find-customer": "không tìm thấy khách hàng",
+    "add-buyer": "Thêm người mua thành công",
+    "update-buyer": "Sửa người mua thành công"
   },
   "logout": {
     "title": "Đăng xuất"
@@ -349,6 +363,7 @@
       "unlock-user-success": "Mở khóa tài khoản thành công!",
       "send-email-avtive": "Gửi email kích hoạt cho khách hàng thành công!",
       "unlock-user-fail": "Mở khóa tài khoản thất bại!",
+      "send-mail-success": "Gửi thư và mã xác minh cho khách hàng thành công!",
       "user-active": "Kích hoạt",
       "user-locked": "Đã khóa",
       "user-unverified": "Chưa xác thực",
@@ -407,7 +422,8 @@
       "total-deposit": "Tổng tiền nạp",
       "total-transfer": "Tổng tiền chuyển",
       "total-bonus": "Tổng tiền thưởng",
-      "total-withdraw": "Tổng tiền rút"
+      "total-withdraw": "Tổng tiền rút",
+      "locked":"Khóa"
     },
     "popup": {
       "title-filter": "Bộ lọc",
@@ -468,7 +484,7 @@
     "transfer": "Chuyển",
     "member-active": "Hoạt động",
     "member-inactive": "Không hoạt động",
-    "crowdsale": "Crowdsale"
+    "crowdsales": "Crowdsale"
   },
   "status": {
     "pending": "Đang chờ",
@@ -510,6 +526,10 @@
     "opening": "Mở",
     "finish": "Kết thúc",
     "upcoming": "Sắp diễn ra",
+    "setting": "Cài đặt",
+    "full-name": "Họ tên",
+    "add-date": "Ngày thêm",
+    "add-by": "Thêm bởi",
     "popup-filter": {
       "title": "bộ lọc",
       "round": "Vòng",
@@ -527,6 +547,12 @@
       "planceOderCountry": "Chọn quốc gia",
       "planceOderTransactionDateStart": "Từ",
       "planceOderTransactionDateEnd": "Đến"
+    },
+    "popup": {
+      "title-member": "thêm người mua",
+      "title-member-edit": "sửa người mua",
+      "title-confirm": "Xác nhận xóa",
+      "content-confirm": "Bạn có chắc chắn muốn xóa người mua này không ?"
     }
   },
   "request": {
@@ -695,6 +721,7 @@
     "popup": {
       "title-add": "THÊM NHÂN VIÊN",
       "title-edit": "SỬA NHÂN VIÊN",
+      "title-reset": "ĐẶT LẠI MẬT KHẨU",
       "status-active": "Trạng thái kích hoạt",
       "title-confirm": "Xác nhận xóa",
       "content-confirm": "Bạn có chắc chắn muốn xóa nhân viên này không ?",
@@ -703,7 +730,8 @@
       "email": "Email",
       "create-date": "Ngày tạo",
       "last-login": "Lần đăng nhập cuối",
-      "active-status": "Trạng thái kích hoạt"
+      "active-status": "Trạng thái kích hoạt",
+      "reset-password": "Đặt lại mật khẩu"
     },
     "sort": {
       "full-name": "Họ tên",
@@ -725,5 +753,9 @@
       "lastnameLength": "Nhập tối thiểu 2 ký tự",
       "firstnameLength": "Nhập tối thiểu 2 ký tự"
     }
+  },
+  "exception": {
+    "total": "Tổng số",
+    "amount":"Số lượng"
   }
 }

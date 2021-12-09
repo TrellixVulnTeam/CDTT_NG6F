@@ -2,14 +2,14 @@
   <div class="list-address">
     <!--    <filter-main :sorts="sorts" @filter="handleFilter" :isShowSort="true" />-->
     <filter-transaction @filter="handleFilter" :type="'addresses'" />
-    <div class="table" v-loading="isLoading" :class="isLoading ? 'list-loading' : null">
+    <div class="table" v-loading="isLoading" :class="isLoading ? 'list-loading' : null" style="margin-top: 24px">
       <base-table :data="listAddress" :showPagination="false" class="base-table table-wallet">
         <el-table-column label="#" type="index" align="center" width="40" />
         <el-table-column :label="$t('customer.table.asset')" width="144">
           <template slot-scope="scope">
             <div class="be-flex align-center">
               <base-icon :icon="getIcon(scope.row.currency)" size="24" />
-              <span style="padding-left: 8px" class="d-ib">{{ getAssetTitle(scope.row.currencyName) }}</span>
+              <span style="padding-left: 8px" class="d-ib">{{ scope.row.currencyName }}</span>
             </div>
           </template>
         </el-table-column>
@@ -41,7 +41,7 @@
         </el-table-column>
       </base-table>
     </div>
-    <popup-filter-addresses @filter="handleFilter" />
+    <popup-filter-addresses @filter="handleFilter" :listAssetNetwork="listAssetNetwork" />
   </div>
 </template>
 
@@ -54,15 +54,24 @@
   const apiCustomer: CustomerRepository = getRepository('customer')
   import FilterTransaction from '@/components/filter/FilterTransaction.vue'
   import PopupFilterAddresses from '@/components/popup/PopupFilterAddresses.vue'
+  import { namespace } from 'vuex-class'
+  const beBase = namespace('beBase')
   @Component({ components: { FilterMain, FilterTransaction, PopupFilterAddresses } })
   export default class CustomerAddress extends Vue {
     @Prop({ required: true, type: Number, default: 0 }) userId!: number
-
+    @beBase.State('coinMain') coinMain!: string
     listAddress: Record<string, any>[] = []
     listAssetNetwork: Record<string, any>[] = []
     isLoading = false
     query: Record<string, any> = {
-      search: ''
+      search: null,
+      page: 1,
+      limit: 10,
+      network: null,
+      total: null,
+      currency: null,
+      toCreatedAt: null,
+      fromCreatedAt: null
     }
     sorts: Array<Record<string, any>> = [
       {
@@ -80,8 +89,17 @@
 
     async handleGetListAddress(): Promise<void> {
       try {
+        const params = {
+          ...this.query,
+          // userId: this.query.userId,
+          limit: this.query.limit,
+          page: this.query.page,
+          fromCreatedAt: this.query.fromCreatedAt,
+          toCreatedAt: this.query.toCreatedAt,
+          total: null
+        }
         this.isLoading = true
-        const result = await apiCustomer.getlistAddress(this.userId, this.query)
+        const result = await apiCustomer.getlistAddress(this.userId, params)
         this.listAddress = result.content
         this.query.total = result.totalElements
         this.isLoading = false
@@ -93,7 +111,16 @@
     async handleGetListAssetNetwork(): Promise<void> {
       try {
         const result = await apiCustomer.getlistAssetNetwork()
-        this.listAssetNetwork = result.content
+        this.listAssetNetwork = result
+        if (this.coinMain === 'LYNK') {
+          this.listAssetNetwork = this.listAssetNetwork.filter(items => {
+            return items.currency !== 'CLM'
+          })
+        } else {
+          this.listAssetNetwork = this.listAssetNetwork.filter(items => {
+            return items.currency !== 'LYNK'
+          })
+        }
       } catch (error) {
         console.log(error)
       }
