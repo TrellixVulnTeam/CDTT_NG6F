@@ -47,7 +47,7 @@
         :data="dataTable"
         :table="query"
         :paginationInfo="getPaginationInfo"
-        :emptyDefault="false"
+        :emptyDefault="emptyDefault"
         @sizeChange="handleSizeChange"
         @currentChange="handleCurrentChange"
         v-loading="isLoading"
@@ -66,7 +66,7 @@
             <span>{{ scope.row.createdByFullName }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" width="80">
+        <el-table-column align="center" width="80" v-if="tabActive >= indexRoundCurrent">
           <template slot-scope="scope">
             <span @click="handleEdit(scope.row.userId)">
               <base-icon icon="icon-edit" size="24" style="margin-right: 5px" />
@@ -80,7 +80,7 @@
     </div>
     <popup-filter-crowdsale @apply="getFilter" />
     <popup-setting-round-member :type="type" :userId="userId" :listRound="listRound" @reload="init" />
-    <popup-confirm @delete="confirmDelete" />
+    <popup-confirm @reload="init" :userId="userId" :listRound="listRound" :tabActive="tabActive" />
   </div>
 </template>
 <script lang="ts">
@@ -92,11 +92,16 @@
   import getRepository from '@/services'
   import { CrowdsaleRepository } from '@/services/repositories/crowdsale'
   import firebase from '@/utils/firebase'
-  import { debounce } from 'lodash'
+  import { debounce, findIndex } from 'lodash'
+  import { namespace } from 'vuex-class'
 
+  const crowdsaleBo = namespace('crowdsaleBo')
   const apiCrowdsale: CrowdsaleRepository = getRepository('crowdsale')
+
   @Component({ components: { PopupFilterCrowdsale, PopupSettingRoundMember, PopupConfirm } })
   export default class SettingRound extends Mixins(PopupMixin) {
+    @crowdsaleBo.State('roundCurrent') roundCurrent!: Record<string, any>
+
     tabActive = 0
     type = 'add'
     userId = 0
@@ -115,11 +120,20 @@
 
     dataProp: any = {}
     isLoading = false
+    emptyDefault = false
+
     orderBy = 'TRANSACTION_DATE'
     dataTable: Record<string, any>[] = []
 
     get getPaginationInfo(): any {
       return this.$t('paging.buyer')
+    }
+
+    get indexRoundCurrent(): number {
+      if (this.listRound.length && this.roundCurrent) {
+        return findIndex(this.listRound, round => round.id === this.roundCurrent.id)
+      }
+      return 0
     }
 
     mounted(): void {
@@ -241,6 +255,7 @@
     }
 
     handleDelete(row: Record<string, any>): void {
+      this.userId = row.userId
       this.setOpenPopup({
         popupName: 'popup-confirm-buyer-table',
         isOpen: true

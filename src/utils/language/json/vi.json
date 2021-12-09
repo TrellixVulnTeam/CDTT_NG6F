@@ -245,9 +245,11 @@
     "update-user-succsess": "Sửa nhân viên thành công",
     "delete-user-success": "Xóa thành công",
     "reset-pass-succsess": "Đặt lại mật khẩu thành công",
-    "not-find-customer": "không tìm thấy khách hàng",
+    "not-find-customer": "Không có tài khoản nào được đăng ký bởi email này",
     "add-buyer": "Thêm người mua thành công",
-    "update-buyer": "Sửa người mua thành công"
+    "update-buyer": "Chỉnh sửa thông tin người mua thành công",
+    "buyer-already-listed": "Nhà đầu tư đã có trong danh sách",
+    "delete-buyer": "Xóa thành công"
   },
   "logout": {
     "title": "Đăng xuất"
@@ -423,7 +425,7 @@
       "total-transfer": "Tổng tiền chuyển",
       "total-bonus": "Tổng tiền thưởng",
       "total-withdraw": "Tổng tiền rút",
-      "locked":"Khóa"
+      "locked": "Khóa"
     },
     "popup": {
       "title-filter": "Bộ lọc",
@@ -756,6 +758,6 @@
   },
   "exception": {
     "total": "Tổng số",
-    "amount":"Số lượng"
+    "amount": "Số lượng"
   }
 }

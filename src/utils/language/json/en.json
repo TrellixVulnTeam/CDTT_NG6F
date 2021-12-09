@@ -293,9 +293,11 @@
     "update-user-succsess": "Update member successfully",
     "delete-user-success": "Delete successfully",
     "reset-pass-succsess": "Reset password success",
-    "not-find-customer": "No customers found",
-    "add-buyer": "Add buyer success",
-    "update-buyer": "Edit buyer success"
+    "not-find-customer": "No accounts registered by this email",
+    "add-buyer": "Added buyer successfully",
+    "update-buyer": "Edited buyer successfully",
+    "buyer-already-listed": "This investor is already listed",
+    "delete-buyer": "Deleted successfully"
   },
   "logout": {
     "title": "Sign out"
@@ -473,7 +475,7 @@
       "STATUS": "STATUS",
       "AMOUNT": "AMOUNT",
       "transactions": "transactions",
-      "locked":"Locked"
+      "locked": "Locked"
     },
     "popup": {
       "title-filter": "Filter",
@@ -807,6 +809,6 @@
   },
   "exception": {
     "total": "TOTAL",
-    "amount":"Amount"
+    "amount": "Amount"
   }
 }
