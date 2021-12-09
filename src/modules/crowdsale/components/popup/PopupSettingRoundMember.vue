@@ -5,7 +5,7 @@
     </div>
     <div class="content" v-loading="isLoading">
       <el-form class="form-item" :model="form" :rules="rules" ref="setting-round-member" autocomplete="off">
-        <el-form-item :label="$t('label.email')" prop="userEmail">
+        <el-form-item :label="$t('label.email')" :class="isEmailFailed ? 'is-error' : null" prop="userEmail">
           <el-input
             v-model="form.userEmail"
             autocomplete="new-password"
@@ -15,6 +15,7 @@
             @change="handleFindCustomer"
             @clear="handleClearEmail"
           />
+          <small class="small" v-if="isEmailFailed">{{ $t('notify.not-find-customer') }}</small>
         </el-form-item>
 
         <div class="be-flex jc-space-between">
@@ -41,7 +42,7 @@
         </div>
         <div class="btn-right">
           <el-button class="btn-default btn-close btn-h-40 mr-16" @click="handleCancel">{{ $t('button.cancel') }}</el-button>
-          <button type="button" class="btn-default-bg text-sm ml-auto add-member" @click="handleSubmit">
+          <button type="button" :class="isEmailFailed ? 'btn--disabled' : null" class="btn-default-bg text-sm ml-auto add-member" @click="handleSubmit">
             <span>{{ $t('button.save') }}</span>
           </button>
         </div>
@@ -53,7 +54,7 @@
 </template>
 
 <script lang="ts">
-  import { Component, Mixins, Prop } from 'vue-property-decorator'
+  import { Component, Mixins, Prop, Watch } from 'vue-property-decorator'
 
   import PopupMixin from '@/mixins/popup'
   import PopupConfirm from './PopupConfirm.vue'
@@ -85,6 +86,14 @@
     listRoundChecked: number[] = []
 
     isLoading = false
+    isEmailFailed = false
+
+    objRound = {
+      0: false,
+      1: false,
+      2: false,
+      3: false
+    }
 
     rules: Record<string, any> = {
       userEmail: [
@@ -92,8 +101,7 @@
           required: true,
           message: this.$t('member.validate.wrong-email'),
           trigger: 'blur'
-        },
-        { type: 'email', message: this.$t('member.validate.wrong-email-type'), trigger: 'blur' }
+        }
       ]
     }
 
@@ -111,7 +119,18 @@
       return this.$t('crowdsale.popup.title-member-edit') as string
     }
 
+    @Watch('form.userEmail') watchEmail(email: string): void {
+      if (email === '') {
+        this.isEmailFailed = false
+      }
+    }
+
     checkDisableRound(index: number): boolean {
+      forEach(this.listRound, (round, index) => {
+        if (index < this.indexRoundCurrent) {
+          this.objRound[index] = true
+        }
+      })
       return index < this.indexRoundCurrent
     }
 
@@ -123,6 +142,7 @@
     }
 
     handleOpen(): void {
+      this.isEmailFailed = false
       if (this.type === 'edit') {
         this.isLoading = true
         apiCrowdsale
@@ -159,7 +179,22 @@
     }
 
     confirmDelete(): void {
-      console.log('del')
+      const roundId: number[] = []
+      for (const key in this.objRound) {
+        if (this.objRound[key]) {
+          roundId.push(+key)
+        }
+      }
+      const data = {
+        roundIds: roundId,
+        userEmail: this.form.userEmail
+      }
+      apiCrowdsale.updateBuyer(data).then(() => {
+        const message: any = this.$t('notify.delete-buyer')
+        this.$message.success({ message, duration: 5000 })
+        this.handleCancel()
+        this.$emit('reload')
+      })
     }
 
     handleClearEmail(): void {
@@ -173,11 +208,11 @@
           if (res) {
             this.form.userFirstName = res.firstName
             this.form.userLastName = res.lastName
+            this.isEmailFailed = false
           } else {
+            this.isEmailFailed = true
             this.form.userFirstName = ''
             this.form.userLastName = ''
-            const message: any = this.$t('notify.not-find-customer')
-            this.$message.error({ message, duration: 5000 })
           }
           //@ts-ignore
           this.$refs['setting-round-member']?.fields.find(f => f.prop == 'userEmail').clearValidate()
@@ -328,5 +363,14 @@
         background-color: var(--bc-bg-white);
       }
     }
+  }
+  .small {
+    color: var(--bc-status-error);
+    font-size: 12px;
+    line-height: 1;
+    padding-top: 4px;
+    position: absolute;
+    top: 100%;
+    left: 0;
   }
 </style>

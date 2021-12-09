@@ -32,6 +32,7 @@
                   :placeholder="$t('label.from-date')"
                   v-model="filterException.fromDate"
                   type="date"
+                  :picker-options="pickerOption2"
                 >
                 </el-date-picker>
               </el-form-item>
@@ -40,16 +41,16 @@
                 <el-date-picker
                   class="w-100 date-picker"
                   format="MM/dd/yyyy"
-                  :picker-options="pickerOption"
                   :placeholder="$t('label.to-date')"
                   value-format="yyyy-MM-dd"
                   v-model="filterException.toDate"
                   type="date"
+                  :picker-options="pickerOption"
                 >
                 </el-date-picker>
               </el-form-item>
             </div>
-            <div class="be-flex jc-space-between row">
+            <!-- <div class="be-flex jc-space-between row">
               <el-form-item class="be-flex-item mr-40 form-item-line" :label="$t('label.trans-amount')">
                 <el-input
                   v-model="filterException.fromAmount"
@@ -71,8 +72,40 @@
                   <div class="prefix" slot="prefix">$</div>
                 </el-input>
               </el-form-item>
+            </div> -->
+            <div class="transaction-amount-form">
+              <div class="be-flex jc-space-between row">
+                <el-form-item
+                  class="be-flex-item mr-40 form-item-line"
+                  :class="errorType === 'amount' && 'error-amount-border-popup-transaction'"
+                  :label="$t('label.trans-amount')"
+                >
+                  <el-input
+                    v-model="filterException.fromAmount"
+                    :placeholder="$t('placeholder.from-amount')"
+                    @keypress.native="onlyNumber($event, 'fromAmount')"
+                    @keyup.native="numberFormat($event)"
+                  >
+                    <div class="prefix" slot="prefix">$</div>
+                  </el-input>
+                </el-form-item>
+
+                <el-form-item class="be-flex-item hide-label" label="1" :class="errorType === 'amount' && 'error-amount-border-popup-transaction'">
+                  <el-input
+                    v-model="filterException.toAmount"
+                    :placeholder="$t('placeholder.to-amount')"
+                    @keypress.native="onlyNumber($event, 'toAmount')"
+                    @keyup.native="numberFormat($event)"
+                  >
+                    <div class="prefix" slot="prefix">$</div>
+                  </el-input>
+                </el-form-item>
+              </div>
+              <div v-if="errorType === 'amount'" class="error-amount">
+                <p>{{ $t('notify.amount-invalid') }}</p>
+              </div>
             </div>
-            <!-- <el-form-item :label="$t('label.status')" class="be-flex-item mr-40">
+            <el-form-item v-if="this.$route.name === 'ExceptionCrowdsale'" :label="$t('label.status')" class="be-flex-item">
               <el-select v-model="filterException.status" clearable class="w-100">
                 <el-option v-for="status in listStatus" :key="status.id" :value="status.value" :label="status.label">
                   <template>
@@ -80,7 +113,7 @@
                   </template>
                 </el-option>
               </el-select>
-            </el-form-item> -->
+            </el-form-item>
           </el-form>
         </div>
         <div class="be-flex jc-flex-end footer">
@@ -120,7 +153,7 @@
 <script lang="ts">
   import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
   import EventBus from '@/utils/eventBus'
-  import { forEach, trim, debounce } from 'lodash'
+  import { forEach, trim, debounce, includes } from 'lodash'
   import getRepository from '@/services'
   import { KycRepository } from '@/services/repositories/kyc'
   import { namespace } from 'vuex-class'
@@ -187,19 +220,15 @@
     listStatus: Array<Record<string, any>> = [
       {
         id: 0,
-        label: 'Pending',
-        value: 'PENDING'
+        label: this.$i18n.t('exception.locked'),
+        value: 'LOCKED'
       },
       {
         id: 1,
-        label: 'Processing',
-        value: 'PROCESSING'
-      },
-      {
-        id: 2,
-        label: 'Success',
-        value: 'SUCCESS'
+        label: this.$i18n.t('exception.failed-tranfer'),
+        value: 'FAILED_TRANSFER'
       }
+
       // {
       //   id: 3,
       //   label: 'Failed',
@@ -289,6 +318,7 @@
         i18n: 'exception.amount'
       }
     ]
+    errorType = ''
     sortActive = '1'
     listCountry: IListCountry[] = countryJson
     identificationType: Array<Record<string, any>> = [
@@ -317,11 +347,34 @@
       console.log('value', '$ ' + value)
       // this.filterException.fromAvailableAmount = "$ " + value
     }
+    @Watch('filterException.fromAmout') watchFromAmount(value: string | number): void {
+      if (value == '') {
+        this.errorType = ''
+      } else {
+        this.errorType = 'amount'
+      }
+      // this.filterException.fromAvailableAmount = "$ " + value
+    }
+    @Watch('filterException.toAmount') watchToAmount(value: string | number): void {
+      const a = value.toString().replaceAll(',', '')
+      const b = this.filterException.fromAmount.toString().replaceAll(',', '')
+      console.log('a', b)
+      if (parseFloat(a) > parseFloat(b) || value == '') {
+        this.errorType = ''
+      } else {
+        this.errorType = 'amount'
+      }
+      // this.filterException.fromAvailableAmount = "$ " + value
+    }
     searchText = debounce((value: string) => {
-      console.log('thanh', this.filterException)
+      let _currency = ''
+      if (this.filterException.currency) {
+        _currency = this.filterException.currency.join(',')
+      }
       this.$emit('filterException', {
         ...this.filterException,
-        search: trim(value)
+        search: trim(value),
+        currency: _currency
       })
     }, 500)
     numberFormat(event: FocusEvent): void {
@@ -338,9 +391,65 @@
         }
       }
     }
+    onlyNumber(event: KeyboardEvent, type: string): void {
+      let keyCode = event.keyCode ? event.keyCode : event.which
+      //if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
+      // 46 is dot
+      if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
+        event.preventDefault()
+      }
+      if (keyCode === 46 && includes(this.filterException[type], '.')) {
+        event.preventDefault()
+      }
+    }
+    // clickOutSide() {
+    //   this.checkValid()
+    // }
 
+    // checkValid(): boolean {
+    //   let toAmount = parseInt(this.filterException.toAmount.replaceAll(',', ''))
+    //   let fromAmount = parseInt(this.filterException.fromAmount.replaceAll(',', ''))
+    //   if (fromAmount > toAmount) {
+    //     this.errorType = 'amount'
+    //     return false
+    //   } else {
+    //     this.errorType = ''
+    //     return true
+    //   }
+    // }
+    get pickerOption(): any {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const _this = this
+      return {
+        disabledDate(time: Date) {
+          return _this.disableTime(time, 'from-to')
+        }
+      }
+    }
+
+    get pickerOption2(): any {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const _this = this
+      return {
+        disabledDate(time: Date) {
+          return _this.disableTime(time, 'to-from')
+        }
+      }
+    }
+
+    disableTime(time: Date, type: string): any {
+      if (type === 'from-to') {
+        if (this.filterException.fromDate) {
+          return time.getTime() < new Date(this.filterException.fromDate).getTime()
+        }
+      } else {
+        if (this.filterException.toDate) {
+          return time.getTime() >= new Date(this.filterException.toDate).getTime()
+        }
+      }
+    }
     created(): void {
-      console.log('route', this.$route.name)
+      this.errorType = ''
       EventBus.$on('changeLang', () => {
         console.log('a', window.localStorage.getItem('bc-lang'))
         forEach(this.sorts, elm => {
@@ -350,7 +459,6 @@
       })
       EventBus.$on('changeTabException', this.handleChangeTab)
       // this.$emit('filterException', this.filterException)
-      console.log('filter', this.filterException)
     }
     destroyed(): void {
       EventBus.$off('changeLang')
@@ -358,6 +466,14 @@
     }
 
     handleShowPopper(): void {
+      let toAmount = parseInt(this.filterException.toAmount.replaceAll(',', ''))
+      let fromAmount = parseInt(this.filterException.fromAmount.replaceAll(',', ''))
+      if (fromAmount > toAmount) {
+        this.errorType = 'amount'
+      } else {
+        this.errorType = ''
+      }
+      console.log('gfdgdfg', this.errorType)
       this.isVisible = true
       this.listApprove = [...this.listApproveBy]
     }
@@ -386,31 +502,42 @@
     resetFilter(): void {
       console.log('k')
     }
-
-    handleChangeTab(): void {
-      this.resetFilters()
-      this.sortActive = '1'
+    tabActive = ''
+    handleChangeTab(value: string): void {
+      this.tabActive = value
+      console.log('vao')
+      ;(this.filterException.search = ''),
+        (this.filterException.currency = ''),
+        (this.filterException.fromDate = ''),
+        (this.filterException.toDate = ''),
+        (this.filterException.fromAmount = ''),
+        (this.filterException.toAmount = ''),
+        (this.filterException.status = ''),
+        (this.filterException.orderBy = '1'),
+        (this.errorType = '')
     }
 
     handleSort(command: string): void {
       this.sortActive = command
       this.filterException.orderBy = command
       this.$emit('filterException', this.filterException)
-      console.log('1')
     }
 
     handleApply(): void {
-      this.isVisible = false
-      let _currency = ''
-      if (this.filterException.currency) {
-        _currency = this.filterException.currency.join(',')
+      if (this.errorType == '') {
+        this.isVisible = false
+        let _currency = ''
+        if (this.filterException.currency) {
+          _currency = this.filterException.currency.join(',')
+        }
+        const filters = {
+          ...this.filterException,
+          fromAmount: this.filterException.fromAmount.replaceAll(',', ''),
+          toAmount: this.filterException.toAmount.replaceAll(',', ''),
+          currency: _currency
+        }
+        this.$emit('filterException', filters)
       }
-      const filters = {
-        ...this.filterException,
-        currency: _currency
-      }
-      console.log('data', filters)
-      this.$emit('filterException', filters)
     }
     resetFilters(): void {
       ;(this.filterException.search = ''),
@@ -420,7 +547,8 @@
         (this.filterException.fromAmount = ''),
         (this.filterException.toAmount = ''),
         (this.filterException.status = ''),
-        (this.filterException.orderBy = '1')
+        (this.filterException.orderBy = '1'),
+        (this.errorType = '')
     }
     handleReset(): void {
       ;(this.filterException.search = ''),
@@ -430,7 +558,8 @@
         (this.filterException.fromAmount = ''),
         (this.filterException.toAmount = ''),
         (this.filterException.status = ''),
-        (this.filterException.orderBy = '1')
+        (this.filterException.orderBy = '1'),
+        (this.errorType = '')
       this.$emit('filterException', this.filterException)
       this.isVisible = false
     }
@@ -438,6 +567,20 @@
 </script>
 
 <style scoped lang="scss">
+  .error-amount {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    p {
+      font-family: Open Sans;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 20px;
+      color: #cf202f;
+    }
+  }
   .dash {
     text-align: center;
   }
@@ -488,5 +631,8 @@
         }
       }
     }
+  }
+  .transaction-amount-form {
+    position: relative;
   }
 </style>

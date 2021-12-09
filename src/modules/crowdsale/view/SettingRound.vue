@@ -20,15 +20,61 @@
           </span>
         </el-input>
       </div>
-      <div class="btn-filter be-flex align-center cursor" @click="handleOpenPopupFilter">
-        <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="16" /> <span class="fs-16">{{ $t('crowdsale.filter') }}</span>
+      <div class="btn-filter be-flex align-center cursor">
+        <el-popover :value="isVisible" placement="bottom-start" width="400" trigger="click" popper-class="popper-filter-request-withdraw" @show="handleShowPopper">
+          <div class="content">
+            <div class="label">{{ $t('crowdsale.filter-popper.added-by') }}</div>
+            <div class="be-flex jc-space-between row box">
+              <el-select v-model="query.createdBy" :placeholder="$t('crowdsale.filter-popper.pl-createdBy')" clearable>
+                <el-option v-for="item in listCreatedBy" :key="item.id" :label="item.fullName" :value="item.userId" />
+              </el-select>
+            </div>
+            <div class="label">{{ $t('crowdsale.filter-popper.added-date') }}</div>
+            <div class="be-flex jc-space-between align-center row box">
+              <el-date-picker
+                v-model="query.fromDate"
+                value-format="yyyy-MM-dd"
+                format="MM/dd/yyyy"
+                clearable
+                type="date"
+                :placeholder="$t('crowdsale.filter-popper.pl-fromDate')"
+                class="box-input-request-date"
+              >
+              </el-date-picker>
+              <div class="line" style="margin: 0 5px"></div>
+              <el-date-picker
+                v-model="query.toDate"
+                :picker-options="pickerOption"
+                value-format="yyyy-MM-dd"
+                format="MM/dd/yyyy"
+                clearable
+                type="date"
+                :placeholder="$t('crowdsale.filter-popper.pl-toDate')"
+                class="box-input-request-date"
+              >
+              </el-date-picker>
+            </div>
+
+            <div class="be-flex jc-flex-end footer">
+              <el-button class="btn-default btn-400 btn-h-40 btn-close text-regular" @click="handleResetFilter">
+                {{ $t('button.reset') }}
+              </el-button>
+              <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border h-40 text-regular" @click="handleApply">
+                {{ $t('button.apply') }}
+              </el-button>
+            </div>
+          </div>
+          <div slot="reference" class="btn-filter be-flex align-center cursor">
+            <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="16" /> <span class="fs-16">{{ $t('crowdsale.filter') }}</span>
+          </div>
+        </el-popover>
       </div>
       <el-dropdown class="sort cursor" trigger="click" @command="handleSort">
         <div class="sort-title be-flex align-center">
           <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="16" class="icon" /> <span class="fs-16">{{ $t('crowdsale.sortBy') }}</span>
         </div>
         <el-dropdown-menu class="header-downloadapp dropdown-sort" slot="dropdown" style="width: 232px">
-          <el-dropdown-item v-for="(value, index) in sorts" :key="index" :class="sortActive === value.command ? 'active' : null" :command="value.command" :divided="value.divided">
+          <el-dropdown-item v-for="(value, index) in sorts" :key="index" :class="sortActive === value.command ? 'active' : null" :command="value.command">
             <span class="be-flex">
               <span class="be-flex-item">
                 {{ value.label }}
@@ -38,7 +84,13 @@
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-      <button type="button" :class="lang === 'vi' ? 'w-auto' : null" class="btn-default-bg text-sm ml-auto add-member" @click="handleAddMember">
+      <button
+        v-if="tabActive >= indexRoundCurrent"
+        type="button"
+        :class="lang === 'vi' ? 'w-auto' : null"
+        class="btn-default-bg text-sm ml-auto add-member"
+        @click="handleAddMember"
+      >
         <span>{{ $t('button.add-buyer') }}</span>
       </button>
     </div>
@@ -47,7 +99,7 @@
         :data="dataTable"
         :table="query"
         :paginationInfo="getPaginationInfo"
-        :emptyDefault="false"
+        :emptyDefault="emptyDefault"
         @sizeChange="handleSizeChange"
         @currentChange="handleCurrentChange"
         v-loading="isLoading"
@@ -66,7 +118,7 @@
             <span>{{ scope.row.createdByFullName }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" width="80">
+        <el-table-column align="center" width="80" v-if="tabActive >= indexRoundCurrent">
           <template slot-scope="scope">
             <span @click="handleEdit(scope.row.userId)">
               <base-icon icon="icon-edit" size="24" style="margin-right: 5px" />
@@ -78,9 +130,8 @@
         </el-table-column>
       </base-table>
     </div>
-    <popup-filter-crowdsale @apply="getFilter" />
     <popup-setting-round-member :type="type" :userId="userId" :listRound="listRound" @reload="init" />
-    <popup-confirm @delete="confirmDelete" />
+    <popup-confirm @reload="init" :userId="userId" :listRound="listRound" :tabActive="tabActive" />
   </div>
 </template>
 <script lang="ts">
@@ -92,34 +143,73 @@
   import getRepository from '@/services'
   import { CrowdsaleRepository } from '@/services/repositories/crowdsale'
   import firebase from '@/utils/firebase'
-  import { debounce } from 'lodash'
+  import { debounce, findIndex } from 'lodash'
+  import { namespace } from 'vuex-class'
 
+  const crowdsaleBo = namespace('crowdsaleBo')
   const apiCrowdsale: CrowdsaleRepository = getRepository('crowdsale')
+
   @Component({ components: { PopupFilterCrowdsale, PopupSettingRoundMember, PopupConfirm } })
   export default class SettingRound extends Mixins(PopupMixin) {
+    @crowdsaleBo.State('roundCurrent') roundCurrent!: Record<string, any>
+
     tabActive = 0
     type = 'add'
     userId = 0
     listRound: Array<Record<string, any>> = []
 
+    isVisible = false
+
     query: any = {
       search: '',
       limit: 10,
       page: 1,
-      //   orderBy: 1,
+      orderBy: 'CREATED_AT',
       total: 0
     }
+
+    listCreatedBy: Array<Record<string, any>> = []
 
     listener: any = null
     lang = 'en'
 
     dataProp: any = {}
     isLoading = false
-    orderBy = 'TRANSACTION_DATE'
+    emptyDefault = false
+
     dataTable: Record<string, any>[] = []
+    sortActive = 'CREATED_AT'
+
+    sorts: Array<Record<string, any>> = [
+      {
+        command: 'USER_FULL_NAME',
+        label: this.$i18n.t('crowdsale.sort.full-name')
+      },
+      {
+        command: 'CREATED_AT',
+        label: this.$i18n.t('crowdsale.sort.create-at')
+      }
+    ]
 
     get getPaginationInfo(): any {
       return this.$t('paging.buyer')
+    }
+
+    get indexRoundCurrent(): number {
+      if (this.listRound.length && this.roundCurrent) {
+        return findIndex(this.listRound, round => round.id === this.roundCurrent.id)
+      }
+      return 0
+    }
+
+    get pickerOption(): any {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const _this = this
+      return {
+        disabledDate(time: Date) {
+          return _this.disableTime(time)
+        }
+      }
     }
 
     mounted(): void {
@@ -136,6 +226,12 @@
       this.init()
     }, 500)
 
+    disableTime(time: Date): any {
+      if (this.query.fromDate) {
+        return time.getTime() < new Date(this.query.fromDate).getTime()
+      }
+    }
+
     async init(): Promise<void> {
       try {
         this.isLoading = true
@@ -149,12 +245,18 @@
             const result = await apiCrowdsale.getListUserInRound({ ..._this.query, roundId: roundCurrent.id })
             _this.dataTable = result.content || []
             _this.query.total = result.totalElements
+            if (!_this.query.total) {
+              _this.emptyDefault = true
+            }
           })
         } else {
           const roundCurrent = this.listRound[_this.tabActive]
           const result = await apiCrowdsale.getListUserInRound({ ...this.query, roundId: roundCurrent.id })
           this.dataTable = result.content || []
           this.query.total = result.totalElements
+          if (!_this.query.total) {
+            _this.emptyDefault = true
+          }
         }
         this.isLoading = false
       } catch (error) {
@@ -163,8 +265,46 @@
       }
     }
 
+    handleShowPopper(): void {
+      this.isVisible = true
+      const params = {
+        page: 1,
+        limit: 1000,
+        roles: 'ADMIN,ACCOUNTANT'
+      }
+      if (!this.listCreatedBy.length) {
+        apiCrowdsale.getListCreatedBy(params).then(res => {
+          this.listCreatedBy = res.content || []
+        })
+      }
+    }
+
+    handleResetFilter(): void {
+      this.query = {
+        ...this.query,
+        fromDate: null,
+        toDate: null,
+        createdBy: null
+      }
+      this.isVisible = false
+      this.init()
+    }
+
+    handleApply(): void {
+      this.init()
+      this.isVisible = false
+    }
+
     handleChangeTab(index: number): void {
       this.tabActive = index
+      this.sortActive = 'CREATED_AT'
+      this.query = {
+        search: this.query.search,
+        limit: 10,
+        page: 1,
+        orderBy: 'CREATED_AT',
+        total: 0
+      }
       if (this.query.search) {
         this.query.search = ''
       } else {
@@ -192,34 +332,10 @@
         isOpen: true
       })
     }
-    sorts: Array<Record<string, any>> = [
-      {
-        command: 'TRANSACTION_DATE',
-        label: this.$i18n.t('crowdsale.transactionDate'),
-        divided: false,
-        i18n: 'crowdsale.transactionDate'
-      },
-      {
-        command: 'TRANSACTION_AMOUNT',
-        label: this.$i18n.t('crowdsale.transactionAmount'),
-        divided: false,
-        i18n: 'crowdsale.transactionAmount'
-      }
-    ]
-    sortActive = 'TRANSACTION_DATE'
+
     handleSort(command: string): void {
       this.sortActive = command
-      if (command == 'TRANSACTION_DATE') {
-        this.query.orderBy = 1
-      } else {
-        this.query.orderBy = 2
-      }
-      this.isLoading = true
-      this.init()
-      this.orderBy = command
-    }
-    getFilter(form: any): void {
-      this.dataProp = form
+      this.query.orderBy = command
       this.init()
     }
 
@@ -241,14 +357,11 @@
     }
 
     handleDelete(row: Record<string, any>): void {
+      this.userId = row.userId
       this.setOpenPopup({
         popupName: 'popup-confirm-buyer-table',
         isOpen: true
       })
-    }
-
-    confirmDelete(): void {
-      console.log('a')
     }
   }
 </script>
@@ -346,6 +459,7 @@
     }
   }
   .btn-filter {
+    margin-right: 15px !important;
     &:hover {
       color: var(--bc-theme-primary) !important;
       .span-icon {

@@ -1,7 +1,8 @@
 <template>
   <base-popup name="popup-exception-detail" class="popup-exception-detail" width="480px" :isShowFooter="false" :open="handleOpen" :close="handleClose">
     <div class="title-popup" slot="title">
-      <span>{{ handleRenderTitleDetail(detailRow.transactionType) }} {{ detailRow.currency }}</span>
+      <span v-if="detailRow.transactionType === 'WITHDRAW'">{{ $t('exception.title-widthdraw') }} {{ detailRow.currency }}</span>
+      <span v-else>{{ $t('exception.title-crowdasle') }} {{ detailRow.currency }}</span>
     </div>
     <div class="w-100 fluctuating">
       <div class="text-center">
@@ -11,10 +12,10 @@
         <p v-if="detailRow.transactionType === 'WITHDRAW'" :class="checkValueAmountDisplay(detailRow.amountWithoutFeeDisplay)">
           -{{ detailRow.amountWithoutFeeDisplay }} {{ detailRow.currency }}
         </p>
-        <p v-else class="add">+{{ detailRow.paidAmountDisplay }} {{ detailRow.currency }}</p>
+        <p v-else class="sub">-{{ detailRow.paidAmountDisplay }} {{ detailRow.currency }}</p>
 
-        <p v-if="detailRow.transactionType === 'WITHDRAW'" class="usd">~${{ detailRow.amountWithoutFeeToUsdDisplay | convertAmountDecimal('USD') }}</p>
-        <p v-else class="usd">~${{ detailRow.paidAmountToUsd | convertAmountDecimal('USD') }}</p>
+        <p v-if="detailRow.transactionType === 'WITHDRAW'" class="usd">~${{ detailRow.amountWithoutFeeToUsdDisplay }}</p>
+        <p v-else class="usd">~${{ detailRow.paidAmountToUsd }}</p>
       </div>
     </div>
     <div class="transaction-detail">
@@ -63,12 +64,15 @@
         <p>{{ $t('transaction.detail.fees') }}</p>
         <div class="be-flex">
           <p class="sub">-{{ detailRow.transactionFeeDisplay }} {{ detailRow.currency }}</p>
-          <p class="convert" style="margin-left: 4px">(~${{ detailRow.transactionFeeToUsdDisplay | convertAmountDecimal('USD') }})</p>
+          <p class="convert" style="margin-left: 4px">(~${{ detailRow.transactionFeeToUsdDisplay }})</p>
         </div>
       </div>
       <div class="item be-flex">
         <p>{{ $t('transaction.detail.status') }}</p>
-        <p :class="checkType(detailRow.status)">{{ checkTransactionStatus(detailRow.status) }}</p>
+        <p v-if="detailRow.transactionType === 'CROWDSALE'" :class="detailRow.status == 'LOCKED' ? 'status-locked' : 'status-fail'">
+          {{ checkTransactionStatusCrowdSale(detailRow.status) }}
+        </p>
+        <p v-else :class="detailRow.status == 'LOCKED' ? 'status-locked' : 'status-fail'">{{ checkTransactionStatus(detailRow.status) }}</p>
       </div>
     </div>
     <div class="customer-info" v-if="detailRow.transactionType === 'WITHDRAW'">
@@ -103,7 +107,7 @@
     async handleOpen(): Promise<void> {
       console.log('open', this.detailRow)
     }
-
+    
     handleClose(): void {
       this.tabActive = 0
       this.detailRow = {}
@@ -127,6 +131,24 @@
           return this.$i18n.t('transaction.table.locked')
         default:
           return this.$i18n.t('transaction.table.failed')
+      }
+    }
+    checkTransactionStatusCrowdSale(status: string): any {
+      switch (status) {
+        case 'SUCCESS':
+          return this.$i18n.t('transaction.table.succsess')
+        case 'PENDING':
+          return this.$i18n.t('transaction.table.pending')
+        case 'PROCESSING':
+          return this.$i18n.t('transaction.table.processing')
+        case 'REJECTED':
+          return this.$i18n.t('transaction.table.rejected')
+        case 'LOCKED':
+          return this.$i18n.t('transaction.table.locked')
+        case 'FAILED':
+          return this.$i18n.t('exception.failed-tranfer')
+        default:
+          return this.$i18n.t('exception.failed-tranfer')
       }
     }
 
@@ -217,17 +239,36 @@
       message = this.$t('notify.copy')
       this.$message.success(message)
     }
-
-    handleRenderTitleDetail(type: string | null | undefined): string {
-      console.log('type', type)
-      if (type) {
-        return type.replaceAll('_', ' ')
-      } else return ''
-    }
+    titlePopUp = ''
+  
   }
 </script>
 
 <style scoped lang="scss">
+  .status-fail {
+    border-radius: 4px;
+    font-size: 12px;
+    width: 96px;
+    height: 24px;
+    line-height: 24px;
+    vertical-align: middle;
+    display: inline-block;
+    text-align: center;
+    color: var(--bc-status-reject);
+    background-color: var(--bc-bg-reject);
+  }
+  .status-locked {
+    border-radius: 4px;
+    font-size: 12px;
+    width: 96px;
+    height: 24px;
+    line-height: 24px;
+    vertical-align: middle;
+    display: inline-block;
+    text-align: center;
+    color: #5b616e;
+    background-color: #f3f2f1;
+  }
   .popup-exception-detail {
     .add {
       color: #129961 !important;
@@ -319,7 +360,7 @@
         }
 
         &:last-of-type {
-          border-bottom: none;
+          // border-bottom: none;
           margin-bottom: 0;
         }
       }

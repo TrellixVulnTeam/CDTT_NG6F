@@ -1,5 +1,5 @@
 <template>
-  <base-popup name="popup-confirm-buyer-table" class="popup-member" width="400px">
+  <base-popup name="popup-confirm-buyer-table" class="popup-member" width="400px" :open="handleOpen">
     <div class="title-popup" slot="title">
       <span>{{ $t('crowdsale.popup.title-confirm') }}</span>
     </div>
@@ -20,14 +20,39 @@
 </template>
 
 <script lang="ts">
-  import { Component, Mixins } from 'vue-property-decorator'
+  import { Component, Mixins, Prop } from 'vue-property-decorator'
 
   import PopupMixin from '@/mixins/popup'
+  import { CrowdsaleRepository } from '@/services/repositories/crowdsale'
+  import getRepository from '@/services'
+  import { namespace } from 'vuex-class'
+  import { findIndex, forEach } from 'lodash'
 
+  const crowdsaleBo = namespace('crowdsaleBo')
+
+  const apiCrowdsale: CrowdsaleRepository = getRepository('crowdsale')
   @Component({
     components: {}
   })
   export default class PopupConfirm extends Mixins(PopupMixin) {
+    @Prop({ required: false, type: Array, default: () => [] }) listRound!: Record<string, any>[]
+    @Prop({ required: true, type: Number, default: 0 }) userId!: number
+    @Prop({ required: true, type: Number, default: 0 }) tabActive!: number
+    @crowdsaleBo.State('roundCurrent') roundCurrent!: Record<string, any>
+
+    form = {
+      userEmail: '',
+      userFirstName: '',
+      userLastName: ''
+    }
+
+    get indexRoundCurrent(): number {
+      if (this.listRound.length && this.roundCurrent) {
+        return findIndex(this.listRound, round => round.id === this.roundCurrent.id)
+      }
+      return 0
+    }
+
     handleCancel(): void {
       this.setOpenPopup({
         popupName: 'popup-confirm-buyer-table',
@@ -35,9 +60,23 @@
       })
     }
 
+    handleOpen(): void {
+      apiCrowdsale.getDetailRoundUser(this.userId).then(res => {
+        this.form = { ...res }
+      })
+    }
+
     handleSubmit(): void {
-      this.$emit('delete')
-      this.handleCancel()
+      const data = {
+        roundIds: [this.listRound[this.tabActive].id],
+        userEmail: this.form.userEmail
+      }
+      apiCrowdsale.updateBuyer(data).then(() => {
+        const message: any = this.$t('notify.delete-buyer')
+        this.$message.success({ message, duration: 5000 })
+        this.handleCancel()
+        this.$emit('reload')
+      })
     }
   }
 </script>

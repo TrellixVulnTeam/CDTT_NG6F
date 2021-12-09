@@ -74,7 +74,7 @@
   },
   "leftMenu": {
     "home": "Trang chủ",
-    "kyc": "Kyc",
+    "kyc": "KYC",
     "customer": "Khách hàng",
     "contract": "Hợp đồng",
     "report": "Báo cáo",
@@ -84,7 +84,8 @@
     "balance": "Số dư",
     "transaction": "Giao dịch",
     "member": "Nhân viên",
-    "exception": "Ngoại lệ"
+    "exception": "Ngoại lệ",
+    "more":"Thêm"
   },
   "header": {
     "kyc": "KYC",
@@ -248,9 +249,11 @@
     "update-user-succsess": "Sửa nhân viên thành công",
     "delete-user-success": "Xóa thành công",
     "reset-pass-succsess": "Đặt lại mật khẩu thành công",
-    "not-find-customer": "không tìm thấy khách hàng",
+    "not-find-customer": "Không có tài khoản nào được đăng ký bởi email này",
     "add-buyer": "Thêm người mua thành công",
-    "update-buyer": "Sửa người mua thành công"
+    "update-buyer": "Chỉnh sửa thông tin người mua thành công",
+    "buyer-already-listed": "Nhà đầu tư đã có trong danh sách",
+    "delete-buyer": "Xóa thành công"
   },
   "logout": {
     "title": "Đăng xuất"
@@ -342,7 +345,7 @@
       "num-of-trans": "SỐ GIAO DỊCH",
       "total-amount": "TỔNG SỐ",
       "avg-trans-amount": "SỐ TIỀN TRUNG BÌNH ",
-      "last-transaction": "GIAO DỊCH CUỐI CÙNG"
+      "last-transaction": "GIAO DỊCH GẦN NHẤT"
     },
     "select": {
       "accepted": "Xác nhận",
@@ -426,7 +429,7 @@
       "total-transfer": "Tổng tiền chuyển",
       "total-bonus": "Tổng tiền thưởng",
       "total-withdraw": "Tổng tiền rút",
-      "locked":"Khóa"
+      "locked": "Khóa"
     },
     "popup": {
       "title-filter": "Bộ lọc",
@@ -434,7 +437,7 @@
       "customer-info": "Chi tiết người dùng"
     },
     "detail": {
-      "transaction-id": "ID Giao dịch",
+      "transaction-id": "ID giao dịch",
       "date": "Ngày",
       "from": "Từ",
       "to": "Đến",
@@ -556,6 +559,17 @@
       "title-member-edit": "sửa người mua",
       "title-confirm": "Xác nhận xóa",
       "content-confirm": "Bạn có chắc chắn muốn xóa người mua này không ?"
+    },
+    "filter-popper": {
+      "createdBy": "Thêm bởi",
+      "pl-createdBy": "chọn",
+      "added-date": "Ngày thêm",
+      "pl-fromDate": "từ",
+      "pl-toDate": "đến"
+    },
+    "sort": {
+      "full-name": "Họ tên",
+      "create-at": "Ngày tạo"
     }
   },
   "request": {
@@ -758,7 +772,12 @@
     }
   },
   "exception": {
-    "total": "Tổng số",
-    "amount":"Số lượng"
+    "total": "TỔNG SỐ",
+    "amount": "Số lượng",
+    "locked": "Khóa",
+    "failed-tranfer": "Chuyển thất bại",
+    "fail-ex":"Thất bại",
+    "title-widthdraw": "RÚT",
+    "title-crowdasle":"CROWDSALE"
   }
 }

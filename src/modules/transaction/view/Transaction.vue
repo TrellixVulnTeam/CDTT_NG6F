@@ -224,15 +224,16 @@
         ...this.query,
         page: 1,
         limit: 10,
-        search: '',
+        search: null,
         orderBy: '1',
-        keywordString: '',
-        currency: '',
-        status: '',
-        fromDate: '',
-        toDate: '',
-        fromAmount: '',
-        toAmount: ''
+        keywordString: null,
+        currency: null,
+        status: null,
+        fromDate: null,
+        toDate: null,
+        fromAmount: null,
+        toAmount: null,
+        bonusType: null
       }
     }
 
