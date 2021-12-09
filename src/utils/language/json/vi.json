@@ -772,7 +772,7 @@
     }
   },
   "exception": {
-    "total": "Tổng số",
+    "total": "TỔNG SỐ",
     "amount": "Số lượng",
     "locked": "Khóa",
     "failed-tranfer": "Chuyển thất bại",
