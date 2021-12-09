@@ -347,11 +347,20 @@
       console.log('value', '$ ' + value)
       // this.filterException.fromAvailableAmount = "$ " + value
     }
+    @Watch('filterException.fromAmout') watchFromAmount(value: string | number): void {
+   
+      if ( value =='') {
+        this.errorType = ''
+      } else {
+        this.errorType = 'amount'
+      }
+      // this.filterException.fromAvailableAmount = "$ " + value
+    }
     @Watch('filterException.toAmount') watchToAmount(value: string | number): void {
       const a = value.toString().replaceAll(',', '')
       const b = this.filterException.fromAmount.toString().replaceAll(',', '')
       console.log('a', b)
-      if (parseFloat(a) > parseFloat(b)) {
+      if (parseFloat(a) > parseFloat(b) || value =='') {
         this.errorType = ''
       } else {
         this.errorType = 'amount'

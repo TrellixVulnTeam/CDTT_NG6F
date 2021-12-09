@@ -14,7 +14,7 @@
         <p v-else class="sub">-{{ detailRow.paidAmountDisplay }} {{ detailRow.currency }}</p>
 
         <p v-if="detailRow.transactionType === 'WITHDRAW'" class="usd">~${{ detailRow.amountWithoutFeeToUsdDisplay }}</p>
-        <p v-else class="usd">~${{ detailRow.paidAmountToUsd | convertAmountDecimal('USD') }}</p>
+        <p v-else class="usd">~${{ detailRow.paidAmountToUsd }}</p>
       </div>
     </div>
     <div class="transaction-detail">
@@ -63,12 +63,15 @@
         <p>{{ $t('transaction.detail.fees') }}</p>
         <div class="be-flex">
           <p class="sub">-{{ detailRow.transactionFeeDisplay }} {{ detailRow.currency }}</p>
-          <p class="convert" style="margin-left: 4px">(~${{ detailRow.transactionFeeToUsdDisplay  }})</p>
+          <p class="convert" style="margin-left: 4px">(~${{ detailRow.transactionFeeToUsdDisplay }})</p>
         </div>
       </div>
       <div class="item be-flex">
         <p>{{ $t('transaction.detail.status') }}</p>
-        <p :class="detailRow.status == 'LOCKED' ? 'status-locked' : 'status-fail'">{{ checkTransactionStatus(detailRow.status) }}</p>
+        <p v-if="detailRow.transactionType === 'CROWDSALE'" :class="detailRow.status == 'LOCKED' ? 'status-locked' : 'status-fail'">
+          {{ checkTransactionStatusCrowdSale(detailRow.status) }}
+        </p>
+        <p v-else :class="detailRow.status == 'LOCKED' ? 'status-locked' : 'status-fail'">{{ checkTransactionStatus(detailRow.status) }}</p>
       </div>
     </div>
     <div class="customer-info" v-if="detailRow.transactionType === 'WITHDRAW'">
@@ -127,6 +130,24 @@
           return this.$i18n.t('transaction.table.locked')
         default:
           return this.$i18n.t('transaction.table.failed')
+      }
+    }
+    checkTransactionStatusCrowdSale(status: string): any {
+      switch (status) {
+        case 'SUCCESS':
+          return this.$i18n.t('transaction.table.succsess')
+        case 'PENDING':
+          return this.$i18n.t('transaction.table.pending')
+        case 'PROCESSING':
+          return this.$i18n.t('transaction.table.processing')
+        case 'REJECTED':
+          return this.$i18n.t('transaction.table.rejected')
+        case 'LOCKED':
+          return this.$i18n.t('transaction.table.locked')
+        case 'FAILED':
+          return this.$i18n.t('exception.failed-tranfer')
+        default:
+          return this.$i18n.t('exception.failed-tranfer')
       }
     }
 
