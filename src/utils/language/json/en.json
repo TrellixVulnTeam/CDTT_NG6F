@@ -107,7 +107,8 @@
     "request": "Request",
     "transaction": "Transaction",
     "member": "Members",
-    "exception": "Exception"
+    "exception": "Exception",
+    "more":"More"
   },
   "header": {
     "kyc": "KYC",
