@@ -198,8 +198,8 @@
     "role": "Quyền",
     "new-password": "Mật khẩu mới",
     "round": "Vòng",
-    "asset": "Ví",
-    "network": "Mạng",
+    "asset": "Loại ví",
+    "network": "Loại mạng",
     "created-date": "Ngày tạo"
   },
   "validate": {
