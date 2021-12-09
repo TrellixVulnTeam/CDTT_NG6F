@@ -116,6 +116,9 @@ request.interceptors.response.use(
       if (data.status === 'Invalid verification code') {
         message = i18n.tc('notify.verify-fail')
       }
+      if (data.status === 'BAD_REQUEST' && data.message === 'This investor is already listed') {
+        message = i18n.tc('notify.buyer-already-listed')
+      }
 
       console.log(message)
 
