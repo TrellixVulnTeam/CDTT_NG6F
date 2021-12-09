@@ -103,6 +103,7 @@
 
   import { namespace } from 'vuex-class'
   import { filter } from 'lodash'
+  import { debounce } from 'lodash'
 
   const bcKyc = namespace('bcKyc')
 
@@ -212,11 +213,23 @@
         })
       })
     }
-    handleApprove(): void {
-      this.handleUpdate()
-    }
 
-    async submitReject(data: Record<string, any>): Promise<void> {
+    //protected double click
+    debounceApprove = debounce((nameAction: any) => {
+      if (nameAction == 'handleSubmit') {
+        this.handleUpdate()
+      }
+    }, 400)
+    handleApprove(): void {
+      this.debounceApprove("handleSubmit")
+    }
+    debounceReject = debounce((data: Record<string, any>) => {
+        this.reject(data)
+    }, 400)
+    submitReject(data: Record<string, any>) {
+      this.debounceReject(data)
+    }
+    async reject(data: Record<string, any>): Promise<void> {
       try {
         const data2 = {
           ...this.detail,
