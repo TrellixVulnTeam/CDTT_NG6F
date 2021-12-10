@@ -152,6 +152,11 @@
       }
     ]
     errorType = ''
+<<<<<<< HEAD
+    showChoseCurrency(name: string, type: string): string {
+      return formatType(name) + '(' + type + ')'
+    }
+=======
 
     showChoseCurrency(name: string, type: string): string {
       return formatType(name) + '(' + type + ')'
@@ -171,6 +176,7 @@
       return arr
     }
 
+>>>>>>> develop
     formatCurrencyName(name: string): string {
       if (name === 'USDC' || name === 'USDT') {
         return name
