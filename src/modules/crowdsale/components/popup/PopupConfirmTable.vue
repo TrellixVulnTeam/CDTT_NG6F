@@ -81,8 +81,9 @@
     }
 
     handleSubmit(): void {
-      const idCurrent = this.listRound[this.indexRoundCurrent].id
-      const roundIds: number[] = this.listRoundChecked.filter((element: any) => !includes([idCurrent], element))
+      const idCurrent = this.listRound[this.tabActive].id
+
+      const roundIds: number[] = this.listRoundChecked.filter((element: any) => ![idCurrent].includes(element))
 
       const data = {
         roundIds,
