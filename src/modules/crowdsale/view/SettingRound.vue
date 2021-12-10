@@ -229,7 +229,7 @@
 
     mounted(): void {
       this.lang = window.localStorage.getItem('bc-lang')!
-      this.init()
+      this.init(true)
     }
 
     @Watch('query.search')
@@ -247,7 +247,7 @@
       }
     }
 
-    async init(): Promise<void> {
+    async init(firstTime = false): Promise<void> {
       try {
         this.isLoading = true
         const leadsRef = firebase.ref('crowd-sales')
@@ -260,16 +260,22 @@
             const result = await apiCrowdsale.getListUserInRound({ ..._this.query, roundId: roundCurrent.id })
             _this.dataTable = result.content || []
             _this.query.total = result.totalElements
-            if (!_this.query.total) {
+            if (!_this.query.total && firstTime) {
+              _this.emptyDefault = false
+            }
+            if (!_this.query.total && !firstTime) {
               _this.emptyDefault = true
             }
           })
         } else {
           const roundCurrent = this.listRound[_this.tabActive]
           const result = await apiCrowdsale.getListUserInRound({ ...this.query, roundId: roundCurrent.id })
-          this.dataTable = result.content || []
-          this.query.total = result.totalElements
-          if (!_this.query.total) {
+          _this.dataTable = result.content || []
+          _this.query.total = result.totalElements
+          if (!_this.query.total && firstTime) {
+            _this.emptyDefault = false
+          }
+          if (!_this.query.total && !firstTime) {
             _this.emptyDefault = true
           }
         }
@@ -311,6 +317,7 @@
     }
 
     handleChangeTab(index: number): void {
+      this.emptyDefault = false
       this.tabActive = index
       this.sortActive = 'CREATED_AT'
       this.query = {
@@ -323,7 +330,7 @@
       if (this.query.search) {
         this.query.search = ''
       } else {
-        this.init()
+        this.init(true)
       }
     }
 
