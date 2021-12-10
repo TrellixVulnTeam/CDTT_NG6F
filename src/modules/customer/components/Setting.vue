@@ -6,19 +6,13 @@
       </div>
 
       <div class="form">
-        <el-form class="form-item" :model="form" :rules="rules" ref="form-phone" @submit.prevent.native="handleContinue">
+        <el-form class="form-item" @submit.prevent.native="handleContinue" :model="form" :rules="rules" ref="form-phone">
           <el-form-item prop="country">
             <div class="be-flex label" slot="label">{{ $t('label.country') }}</div>
             <el-select v-model="form.country" class="w-100" filterable reserve-keyword remote :remote-method="remoteCountry" clearable @change="handleSelectCountry">
               <el-option v-for="(country, index) in listCountry" :key="index" :label="country.name" :value="country.name" />
             </el-select>
           </el-form-item>
-
-          <!-- <el-form-item prop="country">
-          <el-select v-model="form.country" filterable reserve-keyword remote :remote-method="remoteCountry" clearable @change="handleSelectCountry">
-            <el-option v-for="(country, index) in listCountry" :key="index" :label="country.name" :value="country.name" />
-          </el-select>
-        </el-form-item> -->
 
           <el-form-item prop="phone">
             <div class="be-flex label" slot="label">{{ $t('label.phone-number') }}</div>
@@ -35,9 +29,11 @@
             <div class="btn-right">
               <el-button class="btn-default btn-close btn-h-40" @click="handleClose">{{ $t('button.cancel') }}</el-button>
               <el-button
+                type="button"
                 :class="disabledContinue ? 'btn btn-h-40 is-none-border backgroundDisable' : 'btn btn-continue btn-h-40 is-none-border'"
                 :disabled="disabledContinue"
                 @click="handleContinue"
+                @keyup.enter.native="handleContinue"
                 >{{ $t('verify.continue') }}</el-button
               >
             </div>
@@ -87,7 +83,6 @@
           @click="handleSubmit"
           type="button"
           @keyup.enter.native="handleSubmit"
-          @keydown="handleKeydown"
           >{{ $t('verify.submit') }}
         </el-button>
         <div v-if="this.typeAdminFa !== 'APP'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
@@ -363,6 +358,7 @@
     disabledContinue = true
     disableSubmit = true
     @Watch('form.phone') watchList(value: string): void {
+      console.log('vao')
       this.disabledContinue = value.length > 0 ? false : true
     }
     @Watch('form.resendCode') watchSubmit(value: string): void {
@@ -828,16 +824,7 @@
     //     event.preventDefault()
     //   }
     // }
-    handleKeydown(event) {
-      const keyCode = event.keyCode
-      // Enter
-      if (keyCode === 13) {
-        console.log('enter')
 
-        event.stopPropagation()
-        return
-      }
-    }
     numberFormat(event: FocusEvent): void {
       const _event: any = event
       let fnumber = _event.target.value

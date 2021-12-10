@@ -221,10 +221,10 @@
       }
     }, 400)
     handleApprove(): void {
-      this.debounceApprove("handleSubmit")
+      this.debounceApprove('handleSubmit')
     }
     debounceReject = debounce((data: Record<string, any>) => {
-        this.reject(data)
+      this.reject(data)
     }, 400)
     submitReject(data: Record<string, any>) {
       this.debounceReject(data)
