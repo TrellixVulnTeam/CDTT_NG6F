@@ -11,7 +11,7 @@
               <template>
                 <div class="be-flex wallet-item">
                   <base-icon :icon="renderIconAsset(wallet.currency)" size="24" />
-                  <span class="d-ib" style="margin-left: 10px">{{ wallet.currencyName |formatType }}</span>
+                  <span class="d-ib" style="margin-left: 10px">{{ formatCurrencyName(wallet.currencyName) }}</span>
                   <span class="d-ib" style="margin-left: 4px">({{ wallet.currency.toUpperCase() }})</span>
                 </div>
               </template>
@@ -151,6 +151,13 @@
     errorType = ''
     showChoseCurrency(name:string,type:string):string{
       return formatType(name) + '(' + type + ')'
+    }
+    formatCurrencyName(name:string):string{
+      if (name==="USDC"||name==="USDT"){
+        return name
+      }else {
+        return formatType(name)
+      }
     }
     renderIconAsset(currency: string): string {
       switch (currency) {
