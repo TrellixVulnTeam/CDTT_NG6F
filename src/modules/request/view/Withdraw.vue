@@ -101,7 +101,7 @@
         @rowClick="handleRowClick"
         class="base-table table-request"
       >
-        <el-table-column label="#" type="index" :index="indexMethod" align="center" width="40" />
+        <el-table-column label="#" type="index" :index="indexMethod" align="center" width="80" />
         <el-table-column :label="this.$t('request.table.label2')" prop="transactionMillisecond" align="left" width="220">
           <template slot-scope="scope">
             <span>{{ scope.row.transactionMillisecond | formatDateHourMs }}</span>

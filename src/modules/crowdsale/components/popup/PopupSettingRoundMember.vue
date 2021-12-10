@@ -11,6 +11,7 @@
             autocomplete="new-password"
             :readonly="false"
             :placeholder="$t('placeholder.email')"
+            :disabled="type === 'edit'"
             clearable
             @change="handleFindCustomer"
             @clear="handleClearEmail"
@@ -88,12 +89,7 @@
     isLoading = false
     isEmailFailed = false
 
-    objRound = {
-      0: false,
-      1: false,
-      2: false,
-      3: false
-    }
+    objRound = {}
 
     rules: Record<string, any> = {
       userEmail: [
@@ -128,7 +124,7 @@
     checkDisableRound(index: number): boolean {
       forEach(this.listRound, (round, index) => {
         if (index < this.indexRoundCurrent) {
-          this.objRound[index] = true
+          this.objRound[round.id] = true
         }
       })
       return index < this.indexRoundCurrent
@@ -179,14 +175,11 @@
     }
 
     confirmDelete(): void {
-      const roundId: number[] = []
-      for (const key in this.objRound) {
-        if (this.objRound[key]) {
-          roundId.push(+key)
-        }
-      }
+      const keyObj = Object.keys(this.objRound)
+      const roundIds: number[] = this.listRoundChecked.filter((element: any) => keyObj.includes(element + ''))
+
       const data = {
-        roundIds: roundId,
+        roundIds,
         userEmail: this.form.userEmail
       }
       apiCrowdsale.updateBuyer(data).then(() => {

@@ -108,7 +108,7 @@
     "transaction": "Transaction",
     "member": "Members",
     "exception": "Exception",
-    "more":"More"
+    "more": "More"
   },
   "header": {
     "kyc": "KYC",
@@ -616,7 +616,7 @@
     },
     "sort": {
       "full-name": "Full name",
-      "create-at": "Created at"
+      "added-at": "Added date"
     }
   },
   "balance": {
@@ -659,12 +659,12 @@
         "deposit": "Deposit",
         "transfer": "Transfer",
         "crowdsale": "Crowdsale",
-        "bonus-early-backers": "Bonus Early Backers",
-        "bonus-big-backers": "Bonus Big Backers",
-        "bonus-affiliate": "Bonus Affiliate",
-        "bonus-first-trans": "Bonus First Trans",
-        "bonus-crowdsale": "Bonus Crowdsale",
-        "bonus-sign-up": "Bonus Sign Up"
+        "bonus-early-backers": "Bonus early backer",
+        "bonus-big-backers": "Bonus big backer",
+        "bonus-affiliate": "Bonus affiliate",
+        "bonus-first-trans": "Bonus first transaction",
+        "bonus-crowdsale": "Bonus crowdsale",
+        "bonus-sign-up": "Bonus sign up"
       }
     }
   },
@@ -824,8 +824,8 @@
     "amount": "Amount",
     "locked": "Locked",
     "failed-tranfer": "Failed transfer",
-    "fail-ex":"Failed",
+    "fail-ex": "Failed",
     "title-widthdraw": "WITHDRAW",
-    "title-crowdasle":"CROWDSALE"
+    "title-crowdasle": "CROWDSALE"
   }
 }

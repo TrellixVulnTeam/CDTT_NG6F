@@ -16,7 +16,15 @@
         </div>
       </div>
       <balance-detail-card :data-card="detailRow" :tab-active-filter="tabActiveFilter" />
-      <account-statement-card :is-loading="isLoading" :data="dataTable" :summary="dataSummary" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" />
+      <account-statement-card
+        :is-loading="isLoading"
+        :tab-active-filter="tabActiveFilter"
+        :data="dataTable"
+        :summary="dataSummary"
+        @sizeChange="handleSizeChange"
+        @pageChange="handlePageChange"
+        :query="query"
+      />
     </div>
   </base-popup>
 </template>
@@ -128,6 +136,12 @@
     }
 
     async handleOpen(): Promise<void> {
+      this.query={
+        ...this.query,
+        page: 1,
+        limit: 10,
+        total: 10
+      }
       this.init().then()
     }
 

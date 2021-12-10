@@ -50,12 +50,32 @@
           </span>
         </div>
       </div>
+      <div v-else class="item be-flex">
+        <p>{{ $t('transaction.detail.from') }}</p>
+        <div class="be-flex align-center">
+          <base-icon :icon="renderIconCurrency(detailRow.paidCurrency.toLowerCase())" size="20" />
+          <p class="text-detail-2" style="margin-left: 8px">{{ detailRow.paidAddress | formatTransactionCode(10) }}</p>
+          <span v-if="detailRow.paidAddress" style="margin-left: 8px" class="icon-copy" @click="handleCopyTransaction(detailRow.paidAddress)">
+            <base-icon icon="icon-copy" size="24" />
+          </span>
+        </div>
+      </div>
       <div class="item be-flex" v-if="detailRow.transactionType === 'WITHDRAW'">
         <p>{{ $t('transaction.detail.to') }}</p>
         <div class="be-flex align-center">
           <base-icon :icon="renderIconCurrency(detailRow.currency.toLowerCase())" size="20" />
           <p class="text-detail-2" style="margin-left: 8px">{{ detailRow.toAddress | formatTransactionCode(10) }}</p>
           <span v-if="detailRow.toAddress" style="margin-left: 8px" class="icon-copy" @click="handleCopyTransaction(detailRow.toAddress)">
+            <base-icon icon="icon-copy" size="24" />
+          </span>
+        </div>
+      </div>
+      <div class="item be-flex" v-else>
+        <p>{{ $t('transaction.detail.to') }}</p>
+        <div class="be-flex align-center">
+          <base-icon v-if="detailRow.tokenAddress" :icon="renderIconCurrency(detailRow.paidCurrency.toLowerCase())" size="20" />
+          <p class="text-detail-2" style="margin-left: 8px">{{ detailRow.tokenAddress | formatTransactionCode(10) }}</p>
+          <span v-if="detailRow.tokenAddress" style="margin-left: 8px" class="icon-copy" @click="handleCopyTransaction(detailRow.tokenAddress)">
             <base-icon icon="icon-copy" size="24" />
           </span>
         </div>
@@ -107,7 +127,7 @@
     async handleOpen(): Promise<void> {
       console.log('open', this.detailRow)
     }
-    
+
     handleClose(): void {
       this.tabActive = 0
       this.detailRow = {}
@@ -240,7 +260,6 @@
       this.$message.success(message)
     }
     titlePopUp = ''
-  
   }
 </script>
 

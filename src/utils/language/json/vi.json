@@ -83,9 +83,9 @@
     "request": "Yêu cầu",
     "balance": "Số dư",
     "transaction": "Giao dịch",
-    "member": "Nhân viên",
+    "member": "Nhân sự",
     "exception": "Ngoại lệ",
-    "more":"Thêm"
+    "more": "Thêm"
   },
   "header": {
     "kyc": "KYC",
@@ -198,8 +198,8 @@
     "role": "Quyền",
     "new-password": "Mật khẩu mới",
     "round": "Vòng",
-    "asset": "Ví",
-    "network": "Mạng",
+    "asset": "Loại ví",
+    "network": "Loại mạng",
     "created-date": "Ngày tạo"
   },
   "validate": {
@@ -569,7 +569,7 @@
     },
     "sort": {
       "full-name": "Họ tên",
-      "create-at": "Ngày tạo"
+      "create-at": "Ngày thêm"
     }
   },
   "request": {
@@ -725,11 +725,11 @@
         "deposit": "Nạp",
         "transfer": "Chuyển",
         "crowdsale": "Crowdsale",
-        "bonus-early-backers": "Thưởng mua sớm",
-        "bonus-big-backers": "Thưởng giao dịch lớn",
-        "bonus-affiliate": "Thưởng affiliate",
-        "bonus-first-trans": "Thưởng giới thiệu",
-        "bonus-crowdsale": "Thưởng mua crowdsale",
+        "bonus-early-backers": "Thưởng nhà đầu tư sớm",
+        "bonus-big-backers": "Thưởng nhà đầu tư lớn",
+        "bonus-affiliate": "Thưởng giới thiệu",
+        "bonus-first-trans": "Thưởng giao dịch đầu tiên",
+        "bonus-crowdsale": "Thưởng crowdsale",
         "bonus-sign-up": "Thưởng đăng ký"
       }
     }
@@ -776,8 +776,8 @@
     "amount": "Số lượng",
     "locked": "Khóa",
     "failed-tranfer": "Chuyển thất bại",
-    "fail-ex":"Thất bại",
+    "fail-ex": "Thất bại",
     "title-widthdraw": "RÚT",
-    "title-crowdasle":"CROWDSALE"
+    "title-crowdasle": "CROWDSALE"
   }
 }

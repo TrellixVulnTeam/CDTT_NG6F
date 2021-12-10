@@ -567,6 +567,14 @@
 </script>
 
 <style scoped lang="scss">
+  .jc-space-between {
+    justify-content: space-between;
+    margin-bottom: 0px !important;
+    margin-top: -10px !important;
+  }
+  .el-popper.popper-filter .content {
+    padding: 12px 24px 0;
+  }
   .error-amount {
     position: absolute;
     bottom: 0;
@@ -576,7 +584,7 @@
       font-family: Open Sans;
       font-style: normal;
       font-weight: normal;
-      font-size: 14px;
+      font-size: 12px;
       line-height: 20px;
       color: #cf202f;
     }
