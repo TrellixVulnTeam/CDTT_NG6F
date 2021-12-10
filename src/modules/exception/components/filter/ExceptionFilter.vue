@@ -514,7 +514,8 @@
         (this.filterException.toAmount = ''),
         (this.filterException.status = ''),
         (this.filterException.orderBy = '1'),
-        (this.errorType = '')
+        (this.errorType = ''),
+        (this.sortActive = '1')
     }
 
     handleSort(command: string): void {
