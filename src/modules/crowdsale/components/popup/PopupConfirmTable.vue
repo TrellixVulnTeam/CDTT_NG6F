@@ -83,18 +83,17 @@
     handleSubmit(): void {
       const keyObj = Object.keys(this.objRound)
       const roundIds: number[] = this.listRoundChecked.filter((element: any) => keyObj.includes(element + ''))
-      console.log(roundIds)
 
-      // const data = {
-      //   roundIds,
-      //   userEmail: this.form.userEmail
-      // }
-      // apiCrowdsale.updateBuyer(data).then(() => {
-      //   const message: any = this.$t('notify.delete-buyer')
-      //   this.$message.success({ message, duration: 5000 })
-      //   this.handleCancel()
-      //   this.$emit('reload')
-      // })
+      const data = {
+        roundIds,
+        userEmail: this.form.userEmail
+      }
+      apiCrowdsale.updateBuyer(data).then(() => {
+        const message: any = this.$t('notify.delete-buyer')
+        this.$message.success({ message, duration: 5000 })
+        this.handleCancel()
+        this.$emit('reload')
+      })
     }
   }
 </script>
