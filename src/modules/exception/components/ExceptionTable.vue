@@ -46,7 +46,7 @@
             </div>
             <div v-else class="customer">
               <p>{{ scope.row.fullName }}</p>
-              <p>{{ scope.row.email }}</p>
+              <p style="color: #5b616e; font-size: 14px">{{ scope.row.email }}</p>
             </div>
           </template>
         </el-table-column>
