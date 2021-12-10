@@ -160,7 +160,7 @@
 
     isVisible = false
 
-    query: any = {
+    query: Record<string, any> = {
       search: '',
       limit: 10,
       page: 1,
