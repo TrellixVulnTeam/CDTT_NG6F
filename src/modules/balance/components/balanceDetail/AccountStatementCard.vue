@@ -5,7 +5,7 @@
     </div>
     <div class="opening-balance be-flex jc-space-between">
       <p>{{ $t('balance.popup.opening-balance') }}</p>
-      <p>{{ summary.openBalance }}</p>
+      <p>{{ summary.openBalance }} {{ this.tabActiveFilter.toUpperCase() }}</p>
     </div>
     <div v-loading="isLoading" class="wallet-table-balance__below">
       <base-table
@@ -46,15 +46,15 @@
     </div>
     <div class="total be-flex">
       <div class="total-title">{{ $t('balance.popup.total') }}</div>
-      <p class="credit" v-if="summary.totalCreditAmount === '0'">0</p>
-      <p class="credit" v-else>+ {{ summary.totalCreditAmount | numberWithCommas }}</p>
-      <p v-if="summary.totalDebitAmount === '0'">0</p>
-      <p v-else>-{{ summary.totalDebitAmount | numberWithCommas }}</p>
+      <p class="credit" v-if="summary.totalCreditAmount === '0'">0 {{ this.tabActiveFilter.toUpperCase() }}</p>
+      <p class="credit" v-else>+ {{ summary.totalCreditAmount | numberWithCommas }} {{ this.tabActiveFilter.toUpperCase() }}</p>
+      <p v-if="summary.totalDebitAmount === '0'">0 {{ this.tabActiveFilter.toUpperCase() }}</p>
+      <p v-else>-{{ summary.totalDebitAmount | numberWithCommas }} {{ this.tabActiveFilter.toUpperCase() }}</p>
     </div>
     <div class="ending-balance be-flex jc-space-between">
       <p>{{ $t('balance.popup.ending-balance') }}</p>
-      <p v-if="summary.closeBalance === '0'">0</p>
-      <p v-else>{{ summary.closeBalance | numberWithCommas }}</p>
+      <p v-if="summary.closeBalance === '0'">0 {{ this.tabActiveFilter.toUpperCase() }}</p>
+      <p v-else>{{ summary.closeBalance | numberWithCommas }} {{ this.tabActiveFilter.toUpperCase() }}</p>
     </div>
   </div>
 </template>
@@ -69,6 +69,7 @@
     @Prop({ required: true }) summary!: Record<string, any>
     @Prop({ required: true, type: Object, default: {} }) query!: Record<string, any>
     @Prop({}) isLoading!: boolean
+    @Prop({ required: true }) tabActiveFilter!: string
     get getPaginationInfo(): any {
       return this.$t('paging.transaction')
     }
@@ -90,9 +91,9 @@
           return this.$i18n.t('balance.popup.crow-type.transfer')
         case 'CROWDSALE':
           return this.$i18n.t('balance.popup.crow-type.crowdsale')
-        case 'BONUS_EARLY_BACKERS':
+        case 'BONUS_EARLY_BACKER':
           return this.$i18n.t('balance.popup.crow-type.bonus-early-backers')
-        case 'BONUS_BIG_BACKERS':
+        case 'BONUS_BIG_BACKER':
           return this.$i18n.t('balance.popup.crow-type.bonus-big-backers')
         case 'BONUS_AFFILIATE':
           return this.$i18n.t('balance.popup.crow-type.bonus-affiliate')
@@ -215,6 +216,8 @@
         color: #0a0b0d;
         font-weight: 600;
         text-align: right;
+        word-wrap: break-word;
+        word-break: break-word;
       }
       .credit {
         width: 186px !important;

@@ -725,11 +725,11 @@
         "deposit": "Nạp",
         "transfer": "Chuyển",
         "crowdsale": "Crowdsale",
-        "bonus-early-backers": "Thưởng mua sớm",
-        "bonus-big-backers": "Thưởng giao dịch lớn",
-        "bonus-affiliate": "Thưởng affiliate",
-        "bonus-first-trans": "Thưởng giới thiệu",
-        "bonus-crowdsale": "Thưởng mua crowdsale",
+        "bonus-early-backers": "Thưởng nhà đầu tư sớm",
+        "bonus-big-backers": "Thưởng nhà đầu tư lớn",
+        "bonus-affiliate": "Thưởng giới thiệu",
+        "bonus-first-trans": "Thưởng giao dịch đầu tiên",
+        "bonus-crowdsale": "Thưởng crowdsale",
         "bonus-sign-up": "Thưởng đăng ký"
       }
     }
