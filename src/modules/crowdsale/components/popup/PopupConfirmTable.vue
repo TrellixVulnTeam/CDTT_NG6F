@@ -26,7 +26,7 @@
   import { CrowdsaleRepository } from '@/services/repositories/crowdsale'
   import getRepository from '@/services'
   import { namespace } from 'vuex-class'
-  import { filter, findIndex, forEach } from 'lodash'
+  import { filter, findIndex, forEach, includes } from 'lodash'
 
   const crowdsaleBo = namespace('crowdsaleBo')
 
@@ -81,8 +81,8 @@
     }
 
     handleSubmit(): void {
-      const keyObj = Object.keys(this.objRound)
-      const roundIds: number[] = this.listRoundChecked.filter((element: any) => keyObj.includes(element + ''))
+      const idCurrent = this.listRound[this.indexRoundCurrent].id
+      const roundIds: number[] = this.listRoundChecked.filter((element: any) => !includes([idCurrent], element))
 
       const data = {
         roundIds,
