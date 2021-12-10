@@ -652,7 +652,8 @@
         "bnb-wallet": "BNB Wallet",
         "usdt-wallet": "USDT Wallet",
         "usdc-wallet": "USDC Wallet",
-        "lynk-wallet": "LYNK Wallet"
+        "lynk-wallet": "LYNK Wallet",
+        "clm-wallet": "LYNK Wallet"
       },
       "crow-type": {
         "withdraw": "Withdraw",

@@ -718,7 +718,8 @@
         "bnb-wallet": "Ví BNB",
         "usdt-wallet": "Ví USDT",
         "usdc-wallet": "Ví USDC",
-        "lynk-wallet": "ví LYNK"
+        "lynk-wallet": "ví LYNK",
+        "clm-wallet": "ví CLM"
       },
       "crow-type": {
         "withdraw": "Rút",

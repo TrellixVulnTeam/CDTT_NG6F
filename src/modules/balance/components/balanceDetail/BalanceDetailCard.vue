@@ -61,7 +61,7 @@
         ? (this.$i18n.t('balance.popup.wallet.bnb-wallet') as string)
         : type === 'usdc'
         ? (this.$i18n.t('balance.popup.wallet.usdc-wallet') as string)
-        : (this.$i18n.t('balance.popup.wallet.lynk-wallet') as string)
+        : (this.$i18n.t('balance.popup.wallet.clm-wallet') as string)
     }
 
     checkType(type: string): string {
