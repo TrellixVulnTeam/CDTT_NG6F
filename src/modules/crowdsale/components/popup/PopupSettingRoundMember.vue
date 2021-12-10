@@ -11,6 +11,7 @@
             autocomplete="new-password"
             :readonly="false"
             :placeholder="$t('placeholder.email')"
+            :disabled="type === 'edit'"
             clearable
             @change="handleFindCustomer"
             @clear="handleClearEmail"
