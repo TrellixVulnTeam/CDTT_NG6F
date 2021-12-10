@@ -26,7 +26,7 @@
   import { CrowdsaleRepository } from '@/services/repositories/crowdsale'
   import getRepository from '@/services'
   import { namespace } from 'vuex-class'
-  import { findIndex, forEach } from 'lodash'
+  import { filter, findIndex, forEach } from 'lodash'
 
   const crowdsaleBo = namespace('crowdsaleBo')
 
@@ -67,8 +67,14 @@
     }
 
     handleSubmit(): void {
+      const roundOther = filter(this.listRound, round => round.id !== this.listRound[this.tabActive].id)
+      const roundIds: number[] = []
+      forEach(roundOther, round => {
+        roundIds.push(round.id)
+      })
+
       const data = {
-        roundIds: [this.listRound[this.tabActive].id],
+        roundIds,
         userEmail: this.form.userEmail
       }
       apiCrowdsale.updateBuyer(data).then(() => {
