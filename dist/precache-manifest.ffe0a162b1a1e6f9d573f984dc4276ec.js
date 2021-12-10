@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "9b6ac4f320fc21abdea8",
+    "revision": "94354fa54bc4c26d6adf",
     "url": "/css/app.4035773b.css"
   },
   {
@@ -8,8 +8,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/css/chunk-0a9e33ef.8f77bfe9.css"
   },
   {
-    "revision": "5bc7f740acfe11f70769",
-    "url": "/css/chunk-13a272c2.7b381c0e.css"
+    "revision": "9c0b471e802ba10f60f4",
+    "url": "/css/chunk-0f616948.b2ef757e.css"
   },
   {
     "revision": "7dae4c5a325a10bd9703",
@@ -140,20 +140,20 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/img/icons_clm/safari-pinned-tab.svg"
   },
   {
-    "revision": "4e61ce6e6a0650261c701d520aa46bfa",
+    "revision": "fe01937e2688aca356ab9072616c12a3",
     "url": "/index.html"
   },
   {
-    "revision": "9b6ac4f320fc21abdea8",
-    "url": "/js/app.058c90dd.js"
+    "revision": "94354fa54bc4c26d6adf",
+    "url": "/js/app.6f515f61.js"
   },
   {
     "revision": "b756ada8a55e455068c5",
     "url": "/js/chunk-0a9e33ef.c1175ebf.js"
   },
   {
-    "revision": "5bc7f740acfe11f70769",
-    "url": "/js/chunk-13a272c2.07704968.js"
+    "revision": "9c0b471e802ba10f60f4",
+    "url": "/js/chunk-0f616948.172e8a57.js"
   },
   {
     "revision": "7dae4c5a325a10bd9703",
