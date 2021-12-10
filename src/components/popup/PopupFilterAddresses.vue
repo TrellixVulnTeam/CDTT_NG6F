@@ -1,57 +1,59 @@
 <template>
-  <base-popup name="popup-filter-addresses" class="popup-filter-transaction" width="600px">
-    <div class="title-popup" slot="title">
+  <base-popup name='popup-filter-addresses' class='popup-filter-transaction' width='600px'>
+    <div class='title-popup' slot='title'>
       <span>{{ $t('transaction.popup.title-filter') }}</span>
     </div>
-    <div class="content">
+    <div class='content'>
       <el-form>
         <el-form-item :label="$t('label.asset')">
-          <el-select v-model="filter.currency" clearable class="w-100">
-            <el-option v-for="wallet in listAssetNetwork" :key="wallet.id" :value="wallet.currency" :label="showChoseCurrency(wallet.currencyName, wallet.currency)">
+          <el-select v-model='filter.currency' clearable class='w-100'>
+            <el-option v-for='wallet in listAssetNetwork' :key='wallet.id' :value='wallet.currency'
+                       :label='showChoseCurrency(wallet.currencyName, wallet.currency)'>
               <template>
-                <div class="be-flex wallet-item">
-                  <base-icon :icon="renderIconAsset(wallet.currency)" size="24" />
-                  <span class="d-ib" style="margin-left: 10px">{{ formatCurrencyName(wallet.currencyName) }}</span>
-                  <span class="d-ib" style="margin-left: 4px">({{ wallet.currency.toUpperCase() }})</span>
+                <div class='be-flex wallet-item'>
+                  <base-icon :icon='renderIconAsset(wallet.currency)' size='24' />
+                  <span class='d-ib' style='margin-left: 10px'>{{ formatCurrencyName(wallet.currencyName) }}</span>
+                  <span class='d-ib' style='margin-left: 4px'>({{ wallet.currency.toUpperCase() }})</span>
                 </div>
               </template>
             </el-option>
           </el-select>
         </el-form-item>
-        <div class="be-flex jc-space-between row">
-          <el-form-item class="be-flex-item mr-40 form-item-line" :label="$t('label.created-date')">
+        <div class='be-flex jc-space-between row'>
+          <el-form-item class='be-flex-item mr-40 form-item-line' :label="$t('label.created-date')">
             <el-date-picker
-              class="w-100 date-picker"
-              format="MM/dd/yyyy"
-              value-format="yyyy-MM-dd"
+              class='w-100 date-picker'
+              format='MM/dd/yyyy'
+              value-format='yyyy-MM-dd'
               :placeholder="$t('label.from-date')"
-              v-model="filter.fromCreatedAt"
-              type="date"
-              :picker-options="pickerOption2"
+              v-model='filter.fromCreatedAt'
+              type='date'
+              :picker-options='pickerOption2'
             >
             </el-date-picker>
           </el-form-item>
 
-          <el-form-item class="be-flex-item hide-label" label="1">
+          <el-form-item class='be-flex-item hide-label' label='1'>
             <el-date-picker
-              class="w-100 date-picker"
-              format="MM/dd/yyyy"
+              class='w-100 date-picker'
+              format='MM/dd/yyyy'
               :placeholder="$t('label.to-date')"
-              value-format="yyyy-MM-dd"
-              v-model="filter.toCreatedAt"
-              type="date"
-              :picker-options="pickerOption"
+              value-format='yyyy-MM-dd'
+              v-model='filter.toCreatedAt'
+              type='date'
+              :picker-options='pickerOption'
             >
             </el-date-picker>
           </el-form-item>
         </div>
         <div>
           <el-form-item :label="$t('label.network')">
-            <el-select v-model="filter.network" clearable class="w-100">
-              <el-option v-for="status in listStatus" :key="status.id" :value="status.value" :label="status.label + '(' + status.value + ')'">
+            <el-select v-model='filter.network' clearable class='w-100'>
+              <el-option v-for='status in convertListNetwork(listAssetNetwork)' :key='status.id' :value='status.network'
+                         :label="status.networkName + '(' + status.network + ')'">
                 <template>
-                  <span class="d-ib">{{ status.label }}</span>
-                  <span class="d-ib" style="margin-left: 4px">({{ status.value.toUpperCase() }})</span>
+                  <span class='d-ib'>{{ status.networkName }}</span>
+                  <span class='d-ib' style='margin-left: 4px'>({{ status.network.toUpperCase() }})</span>
                 </template>
               </el-option>
             </el-select>
@@ -59,22 +61,23 @@
         </div>
       </el-form>
     </div>
-    <div slot="footer" class="footer">
-      <button class="btn-default mr-15 text-regular btn-h40" @click="handleReset">{{ $t('button.reset') }}</button>
+    <div slot='footer' class='footer'>
+      <button class='btn-default mr-15 text-regular btn-h40' @click='handleReset'>{{ $t('button.reset') }}</button>
       <!-- <button class="btn-default-bg text-regular btn-h40"  disabled  @click="handleConfirm">{{ $t('button.continue') }}</button> -->
-      <button class="btn-default-bg text-regular btn-h40" @click="handleApply">
+      <button class='btn-default-bg text-regular btn-h40' @click='handleApply'>
         {{ $t('button.continue') }}
       </button>
     </div>
   </base-popup>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
   import { Component, Mixins, Prop } from 'vue-property-decorator'
   import includes from 'lodash/includes'
   import PopupMixin from '@/mixins/popup'
   import { namespace } from 'vuex-class'
   import { formatType } from '@/configs'
+
   const beBase = namespace('beBase')
 
   @Component
@@ -149,9 +152,31 @@
       }
     ]
     errorType = ''
+<<<<<<< HEAD
     showChoseCurrency(name: string, type: string): string {
       return formatType(name) + '(' + type + ')'
     }
+=======
+
+    showChoseCurrency(name: string, type: string): string {
+      return formatType(name) + '(' + type + ')'
+    }
+
+    convertListNetwork(listAssetNetwork: Array<Record<string, any>>): Array<Record<string, any>> {
+      let arr: Array<Record<string, any>>
+      arr = []
+      listAssetNetwork.map((value, i) => {
+        let arr1 = arr.filter((item) => {
+          return item.network.indexOf(value.network) !== -1
+        })
+        if (arr1.length===0||!arr1) {
+          arr.push({ network: value.network, networkName: value.networkName })
+        }
+      })
+      return arr
+    }
+
+>>>>>>> develop
     formatCurrencyName(name: string): string {
       if (name === 'USDC' || name === 'USDT') {
         return name
@@ -159,6 +184,7 @@
         return formatType(name)
       }
     }
+
     renderIconAsset(currency: string): string {
       switch (currency) {
         case 'BNB':
@@ -178,6 +204,7 @@
           return 'icon-lin'
       }
     }
+
     get getListWallet(): Array<Record<string, any>> {
       if (this.coinMain === 'LYNK') {
         return [
@@ -224,6 +251,7 @@
       }
       return true
     }
+
     get pickerOption(): any {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const _this = this
@@ -233,6 +261,7 @@
         }
       }
     }
+
     get pickerOption2(): any {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const _this = this
@@ -300,7 +329,7 @@
   }
 </script>
 
-<style scoped lang="scss">
+<style scoped lang='scss'>
   .prefix {
     height: 100%;
     font-size: 16px;

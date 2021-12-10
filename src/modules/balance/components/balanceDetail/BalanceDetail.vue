@@ -136,6 +136,12 @@
     }
 
     async handleOpen(): Promise<void> {
+      this.query={
+        ...this.query,
+        page: 1,
+        limit: 10,
+        total: 10
+      }
       this.init().then()
     }
 

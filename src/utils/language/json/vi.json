@@ -85,7 +85,7 @@
     "transaction": "Giao dịch",
     "member": "Nhân sự",
     "exception": "Ngoại lệ",
-    "more":"Thêm"
+    "more": "Thêm"
   },
   "header": {
     "kyc": "KYC",
@@ -569,7 +569,7 @@
     },
     "sort": {
       "full-name": "Họ tên",
-      "create-at": "Ngày tạo"
+      "create-at": "Ngày thêm"
     }
   },
   "request": {
@@ -776,8 +776,8 @@
     "amount": "Số lượng",
     "locked": "Khóa",
     "failed-tranfer": "Chuyển thất bại",
-    "fail-ex":"Thất bại",
+    "fail-ex": "Thất bại",
     "title-widthdraw": "RÚT",
-    "title-crowdasle":"CROWDSALE"
+    "title-crowdasle": "CROWDSALE"
   }
 }
