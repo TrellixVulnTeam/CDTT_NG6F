@@ -152,10 +152,10 @@
     showChoseCurrency(name: string, type: string): string {
       return formatType(name) + '(' + type + ')'
     }
-    formatCurrencyName(name:string):string{
-      if (name==="USDC"||name==="USDT"){
+    formatCurrencyName(name: string): string {
+      if (name === 'USDC' || name === 'USDT') {
         return name
-      }else {
+      } else {
         return formatType(name)
       }
     }
