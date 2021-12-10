@@ -13,14 +13,15 @@
     "wrong-email": "Please enter your email",
     "wrong-email-type": "Please enter a correct email address",
     "wrong-password": "Please enter your password",
+    "checkpass": "Please enter a valid password",
     "placeholder": {
       "password": "Password"
     }
   },
   "verify": {
-    "title-phone": "Enter the 6-digit code we texted to your",
-    "title-email": "Enter the 6-digit code we sent to your",
-    "title-app": "Enter the 6-digit code from your",
+    "title-phone": "Enter the 6-digit code we texted to your phone number",
+    "title-email": "Enter the 6-digit code we sent to your email",
+    "title-app": "Enter the 6-digit code from your authenticator app",
     "label": "Enter 2-step authentication code:",
     "submit": "Submit",
     "question": "Didn’t receive any verification code?",
@@ -30,7 +31,7 @@
     "phone-title": "Verify your phone number",
     "continue": "Continue",
     "phone-number": "phone number",
-    "authen-app":"authenticator app"
+    "authen-app": "authenticator app"
   },
   "signup": {
     "title-form": "Sign Up",
@@ -96,21 +97,28 @@
   },
   "leftMenu": {
     "home": "Home",
-    "kyc": "Kyc",
+    "kyc": "KYC",
     "customer": "Customer",
     "contract": "Contract",
     "report": "Report",
     "setting": "Setting",
     "crowdsale": "Crowdsale",
     "balance": "Balance",
-    "request": "Request"
+    "request": "Request",
+    "transaction": "Transaction",
+    "member": "Members",
+    "exception": "Exception",
+    "more":"More"
   },
   "header": {
     "kyc": "KYC",
     "customer": "Customer",
     "crowdsale": "Crowdsale",
     "request": "Request",
-    "balance":"Balance"
+    "balance": "Balance",
+    "transaction": "Transaction",
+    "exception": "Exception",
+    "member": "Members"
   },
   "footer": {
     "terms": "Terms and Conditions"
@@ -135,20 +143,32 @@
     "phone-number": "Phone number",
     "reason": "Other reason...",
     "search": "Search",
-    "from-amount": " From amount",
+    "from-amount": "From amount",
     "to-amount": "To amount",
     "select-type": "Select type",
-    "status": "Select status"
+    "status": "Select status",
+    "from": "From",
+    "to": "To",
+    "email": "Email",
+    "f-name": "First name",
+    "l-name": "Last name"
   },
   "button": {
     "reset": "Reset",
+    "reset-pass": "Reset",
     "continue": "Continue",
     "cancel": "Cancel",
     "submit": "Submit",
     "close": "Close",
     "approve": "Approve",
     "reject": "Reject",
-    "apply": "Apply"
+    "apply": "Apply",
+    "add-member": "Add member",
+    "add-member-1": "Add Member",
+    "add-buyer": "Add Buyer",
+    "delete-user": "Delete User",
+    "save": "Save",
+    "delete": "Delete"
   },
   "deposit": {
     "lynkey": "DEPOSIT LYNKEY",
@@ -168,7 +188,9 @@
     "crowdsale": "transactions",
     "investor": "investors",
     "request": "requests",
-    "balance": "balance"
+    "balance": "balance",
+    "member": "members",
+    "buyer": "buyers"
   },
   "label": {
     "buy-from": "Buy from",
@@ -193,6 +215,7 @@
     "create-date": "Created date",
     "last-login": "Last login",
     "f-name": "First name",
+    "password": "Password",
     "l-name": "Last name",
     "birth-day": "Date of birth",
     "address": "Address",
@@ -210,9 +233,15 @@
     "available-amount": "Available amount",
     "locked-amount": "Locked amount",
     "balance": "Balance",
-    "enter-verify-code":"Enter verification code",
-    "verify-code":"Verification code"
-   
+    "enter-verify-code": "Enter verification code",
+    "verify-code": "Verification code",
+    "bonus-type": "Bonus Type",
+    "role": "Role",
+    "asset": "Asset",
+    "network": "Network",
+    "created-date": "Created date",
+    "new-password": "New password",
+    "round": "Round"
   },
   "buy-lyn": {
     "title": "BUY LYN"
@@ -231,6 +260,7 @@
   "notify": {
     "500": "Internal Server Error",
     "user-exits": "Invalid email or password",
+    "user-not-exits": "Your account is inactive or deleted",
     "pass-invalid": "Invalid email or password",
     "user-locked": "Account has been locked",
     "user-expired": "Account has been locked",
@@ -247,12 +277,28 @@
     "reject-success": "Rejected successfully",
     "no-select-reject": "Must choose at least 1 reason",
     "no-data": "There are no data",
+    "no-data-round": "No specific users are listed.",
+    "no-data-round-1": "Everyone can buy in this round.",
     "no-data-kyc": "No data",
     "copy": "Copied",
-    "invalid-code":"Invalid verification code",
-    "captcha-invalid":"Invalid captcha",
-    "invalid-username":"Username or password is incorrect!",
-    "account-exits":"An account already exists with this phone number!"
+    "invalid-code": "Invalid verification code",
+    "captcha-invalid": "Invalid captcha",
+    "invalid-username": "Username or password is incorrect!",
+    "account-exits": "An account already exists with this phone number!",
+    "no-permisson": "You don’t have permission to access",
+    "experied-verify": "Expired verification code",
+    "date-invalid": "From date is less than to date",
+    "amount-invalid": "From amount must be less than To amount",
+    "account-exist": "Account already exists",
+    "add-user-succsess": "Add member successfully",
+    "update-user-succsess": "Update member successfully",
+    "delete-user-success": "Delete successfully",
+    "reset-pass-succsess": "Reset password success",
+    "not-find-customer": "No accounts registered by this email",
+    "add-buyer": "Added buyer successfully",
+    "update-buyer": "Edited buyer successfully",
+    "buyer-already-listed": "This investor is already listed",
+    "delete-buyer": "Deleted successfully"
   },
   "logout": {
     "title": "Sign out"
@@ -263,6 +309,7 @@
     "other-reason": "Other reason: ",
     "table": {
       "fullName": "full name",
+      "role": "role",
       "email": "email",
       "national": "NATIONALITY",
       "date": "CREATED DATE",
@@ -318,7 +365,8 @@
       "trans-amount": "Transaction amount",
       "trans-date": "Transaction date",
       "status": "Status",
-      "referral-name": "Referral name"
+      "referral-name": "Referral name",
+      "created-date": "Created date"
     },
     "table": {
       "asset": "asset",
@@ -349,39 +397,40 @@
       "accepted": "Accepted",
       "invited": "Invited"
     },
-    "setting":{
-      "new-phone":"New phone number",
-      "verify":"VERIFICATION",
-      "phone":"Phone number",
-      "2factor":"2-factor Authentication",
-      "status":"Active status",
-      "change":"Change",
-      "lock":"Lock user",
-      "unlock":"Unlock user",
-      "reset":"Reset Default",
-      "enter-code":"Enter the 6-digit code we texted to your phone number",
-      "send-code":"Send code verification successfully!",
-      "send-code-fail":"Send code verification failed!",
-      "lock-user-success":"Locked user successfully!",
-      "lock-user-fail":"Locked user failed!",
-      "unlock-user-success":"Unlocked successfully!",
-      "unlock-user-fail":"Unlocked user failed!",
-      "send-mail-success":"Send mail and verification code to customer successfully!",
-      "send-reset-default":"Send mail to customer successfully!",
-      "send-reset-default-fail":"Send mail to customer failed!",
-      "send-mail-fail":"Send mail and verification code to customer failed!",
-      "user-active":"Active",
-      "user-locked":"Locked",
-      "user-unverified":"Unverified"
+    "setting": {
+      "new-phone": "New phone number",
+      "verify": "VERIFICATION",
+      "phone": "Phone number",
+      "2factor": "2-factor Authentication",
+      "status": "Active status",
+      "change": "Change",
+      "lock": "Lock user",
+      "unlock": "Unlock user",
+      "reset": "Reset Default",
+      "enter-code": "Enter the 6-digit code we texted to your phone number",
+      "send-code": "Send code verification successfully!",
+      "send-code-fail": "Send code verification failed!",
+      "lock-user-success": "Locked user successfully!",
+      "lock-user-fail": "Locked user failed!",
+      "unlock-user-success": "Unlocked successfully!",
+      "send-email-avtive": "Activation email sent to customer successfully!",
+      "unlock-user-fail": "Unlocked user failed!",
+      "send-mail-success": "Send mail and verification code to customer successfully!",
+      "send-reset-default": "Send mail to customer successfully!",
+      "send-reset-default-fail": "Send mail to customer failed!",
+      "send-mail-fail": "Send mail and verification code to customer failed!",
+      "user-active": "Active",
+      "user-locked": "Locked",
+      "user-unverified": "Unverified"
     },
-    "authen":{
-      "phone":"Phone number",
-      "app":"Authenticator app",
-      "email":"Email"
+    "authen": {
+      "phone": "Phone number",
+      "app": "Authenticator app",
+      "email": "Email"
     },
-    "phoneveri":{
-      "verified":"Verified",
-      "not-verified":"Not verified"
+    "phoneveri": {
+      "verified": "Verified",
+      "not-verified": "Not verified"
     },
     "statistics": {
       "balance": "Balance",
@@ -390,7 +439,7 @@
       "total-trade": "Total Trade",
       "bonus": "Bonus",
       "crowdsale": "Crowdsale",
-      "deposit":"Deposit",
+      "deposit": "Deposit",
       "transfer": "Transfer",
       "withdraw": "Withdraw"
     }
@@ -403,8 +452,12 @@
       "status": "status",
       "amount": "amount",
       "deposit": "Deposit",
+      "total-deposit": "Total Deposit",
       "withdraw": "Withdraw",
+      "total-withdraw": "Total Withdraw",
       "transfer": "Transfer",
+      "total-transfer": "Total Transfer",
+      "total-bonus": "Total Bonus",
       "crowdsale": "Crowdsale",
       "succsess": "Success",
       "pending": "Pending",
@@ -417,10 +470,29 @@
       "bonus-first-trans": "Bonus first transaction",
       "bonus-affiliate": "Bonus affiliate",
       "bonus-big-backer": "Bonus big backer",
-      "bonus-early-backer": "Bonus early backer"
+      "bonus-early-backer": "Bonus early backer",
+      "DATE": "DATE",
+      "CUSTOMER": "CUSTOMER",
+      "STATUS": "STATUS",
+      "AMOUNT": "AMOUNT",
+      "transactions": "transactions",
+      "locked": "Locked"
     },
     "popup": {
-      "title-filter": "Filter"
+      "title-filter": "Filter",
+      "transaction-detail": "Transaction Details",
+      "customer-info": "Customer Info"
+    },
+    "detail": {
+      "transaction-id": "Transaction ID",
+      "date": "Date",
+      "from": "From",
+      "to": "To",
+      "fees": "Fees",
+      "status": "Status",
+      "full-name": "Full name",
+      "phone-number": "Phone number",
+      "email": "Email"
     }
   },
   "params": {
@@ -454,11 +526,18 @@
     "Transactions": "Transactions",
     "Round": "Round",
     "LYNK": "LYNK",
+    "CLM": "CLM",
     "BTC": "BTC",
     "ETH": "ETH",
     "BNB": "BNB",
     "USDT": "USDT",
-    "USDC": "USDC"
+    "USDC": "USDC",
+    "deposit": "Deposit",
+    "withdraw": "Withdraw",
+    "transfer": "Transfer",
+    "member-active": "Active",
+    "member-inactive": "Inactive",
+    "crowdsales": "Crowdsale"
   },
   "status": {
     "pending": "Pending",
@@ -500,6 +579,10 @@
     "opening": "Opening",
     "finish": "Finish",
     "upcoming": "Upcoming",
+    "setting": "Settings",
+    "full-name": "Full name",
+    "add-date": "added date",
+    "add-by": "added by",
     "popup-filter": {
       "title": "filter",
       "round": "Round",
@@ -517,6 +600,23 @@
       "planceOderCountry": "Select country",
       "planceOderTransactionDateStart": "From",
       "planceOderTransactionDateEnd": "To"
+    },
+    "popup": {
+      "title-member": "ADD BUYER",
+      "title-member-edit": "EDIT BUYER",
+      "title-confirm": "Confirm delete",
+      "content-confirm": "Are you sure you want to delete this buyer ?"
+    },
+    "filter-popper": {
+      "added-by": "Added by",
+      "pl-createdBy": "Select added by",
+      "added-date": "Added date",
+      "pl-fromDate": "from",
+      "pl-toDate": "to"
+    },
+    "sort": {
+      "full-name": "Full name",
+      "create-at": "Created at"
     }
   },
   "balance": {
@@ -526,11 +626,11 @@
     "lastChange": "Last changed",
     "availableAmout": "Available amount",
     "name": "Name",
-    "investor":"Investor",
-    "total-available":"Total Available",
-    "total-locked":"Total Locked",
-    "of-total":"of total",
-    "balance-wallet":"Balance",
+    "investor": "Investor",
+    "total-available": "Total Available",
+    "total-locked": "Total Locked",
+    "of-total": "of total",
+    "balance-wallet": "Balance",
     "popup": {
       "title": "BALANCE DETAIL",
       "bitcoin-wallet": "Bitcoin Wallet",
@@ -663,24 +763,69 @@
         "wrong-reason": "Please enter reason"
       }
     },
-    "transactiontype":{
-      "sign-up":"Bonus sign up",
-      "crowd-sale":"Bonus crowdsale",
-      "first-trans":"Bonus first transaction",
-      "affiliate":"Bonus affiliate",
-      "bigbacker":"Bonus big backer",
-      "earlybacker":"Bonus early backer",
-      "tranfer":"Transfer",
-      "widthdraw":"Withdraw",
-      "deposit":"Deposit",
-      "crowdsale":"Crowdsale"
+    "transactiontype": {
+      "sign-up": "Bonus sign up",
+      "crowd-sale": "Bonus crowdsale",
+      "first-trans": "Bonus first transaction",
+      "affiliate": "Bonus affiliate",
+      "bigbacker": "Bonus big backer",
+      "earlybacker": "Bonus early backer",
+      "tranfer": "Transfer",
+      "widthdraw": "Withdraw",
+      "deposit": "Deposit",
+      "crowdsale": "Crowdsale"
     },
-    "warning":{
-      "notmatched":"Current Balance and Ending Balance are not matched.",
-      "exceeded1":"Current Balance and Ending Balance are not matched.",
-      "exceeded2":" The request has exceeded the allowable limit.",
-      "allow":"The request has exceeded the allowable limit."
+    "warning": {
+      "notmatched": "Current Balance and Ending Balance are not matched.",
+      "exceeded1": "Current Balance and Ending Balance are not matched.",
+      "exceeded2": " The request has exceeded the allowable limit.",
+      "allow": "The request has exceeded the allowable limit."
     }
-    
+  },
+  "member": {
+    "popup": {
+      "title-add": "ADD MEMBER",
+      "title-edit": "EDIT MEMBER",
+      "title-reset": "RESET PASSWORD",
+      "status-active": "Active status",
+      "title-confirm": "Confirm delete",
+      "content-confirm": "Are you sure you want to delete this member ?",
+      "title-detail": "MEMBER DETAIL",
+      "edit": "Edit",
+      "email": "Email",
+      "create-date": "Created date",
+      "last-login": "Last login",
+      "active-status": "Active status",
+      "reset-password": "Reset password"
+    },
+    "sort": {
+      "full-name": "Full name",
+      "email": "Email",
+      "create-date": "Created date",
+      "all-role": "All roles",
+      "admin": "Admin",
+      "support": "Support",
+      "mkt": "Marketing",
+      "accountant": "Accountant"
+    },
+    "validate": {
+      "wrong-email": "Please enter email",
+      "wrong-email-type": "Please enter a correct email address",
+      "wrong-password": "Please enter password",
+      "checkpass": "Please enter a valid password",
+      "firstname": "Please enter first name",
+      "lastname": "Please enter last name",
+      "lastnameLength": "Minimum 2 characters",
+      "firstnameLength": "Minimum 2 characters"
+    }
+  },
+  "exception": {
+    "total": "TOTAL",
+    "amount": "Amount",
+    "locked": "Locked",
+    "failed-tranfer": "Failed transfer",
+    "fail-ex":"Failed",
+    "title-widthdraw": "WITHDRAW",
+    "title-crowdasle":"CROWDSALE"
   }
 }

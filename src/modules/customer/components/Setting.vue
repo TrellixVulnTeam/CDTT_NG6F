@@ -6,7 +6,7 @@
       </div>
 
       <div class="form">
-        <el-form class="form-item" :model="form" :rules="rules" ref="form-phone">
+        <el-form class="form-item" :model="form" :rules="rules" ref="form-phone" @submit.prevent.native="handleContinue">
           <el-form-item prop="country">
             <div class="be-flex label" slot="label">{{ $t('label.country') }}</div>
             <el-select v-model="form.country" class="w-100" filterable reserve-keyword remote :remote-method="remoteCountry" clearable @change="handleSelectCountry">
@@ -52,18 +52,24 @@
         <span>{{ $t('customer.setting.verify') }}</span>
       </div>
       <div class="bc-verify">
-        <h3 class="text-3xl text-center text-semibold title-form" style="justify-content: center">
-          {{ this.typeAdminFa == 'APP' ? $t('verify.title-app') : $t('verify.title-phone') }} {{ typeVerified }}
+        <h3 v-if="this.typeAdminFa == 'APP'" class="text-3xl text-center text-semibold title-form" style="justify-content: center">
+          {{ $t('verify.title-app') }}
+        </h3>
+        <h3 v-else-if="this.typeAdminFa == 'SMS'" class="text-3xl text-center text-semibold title-form" style="justify-content: center">
+          {{ $t('verify.title-phone') }}
+        </h3>
+        <h3 v-else-if="this.typeAdminFa == 'EMAIL'" class="text-3xl text-center text-semibold title-form" style="justify-content: center">
+          {{ $t('verify.title-email') }}
         </h3>
         <!-- <h3 v-else class="text-3xl text-center text-semibold title-form" style="justify-content: center">{{ $t('verify.title-phone') }} {{ typeVerified }}</h3> -->
         <div class="be-flex verify-code" style="margin-right: 8px">
           <base-icon :icon="getIcon" size="80" />
           <div class="ml-1 w-100 input-code">
-            <el-form>
+            <el-form @submit.prevent.native="handleSubmit">
               <el-form-item prop="phone">
                 <div class="be-flex label text-semibold" slot="label" style="color: #5b616e">{{ $t('label.enter-verify-code') }}</div>
 
-                <el-input type="text" maxlength="6" :placeholder="$t('label.verify-code')" v-model.trim="form.resendCode">
+                <el-input type="number" maxlength="6" :placeholder="$t('label.verify-code')" v-model.trim="form.resendCode">
                   <!-- <template style="cursor: pointer" slot="prepend"
                     ><span style="color: #5b616e">{{ phoneDefault }}</span></template
                   > -->
@@ -73,11 +79,15 @@
           </div>
         </div>
         <el-button
+          class="none-focus"
           :loading="isLoading"
           :class="disableSubmit ? 'btn w-100 is-none-border btn-h-40 cursor backgroundDisable' : 'btn w-100 is-none-border btn-h-40 cursor'"
           :disabled="disableSubmit"
           style="height: 40px"
           @click="handleSubmit"
+          type="button"
+          @keyup.enter.native="handleSubmit"
+          @keydown="handleKeydown"
           >{{ $t('verify.submit') }}
         </el-button>
         <div v-if="this.typeAdminFa !== 'APP'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
@@ -96,21 +106,27 @@
         <span>{{ $t('customer.setting.verify') }}</span>
       </div>
       <div class="bc-verify">
-        <h3 class="text-3xl text-center text-semibold title-form" style="justify-content: center">
-          {{ this.typeAdminFa == 'APP' ? $t('verify.title-app') : $t('verify.title-phone') }} {{ typeVerified }}
+        <h3 v-if="this.typeAdminFa == 'APP'" class="text-3xl text-center text-semibold title-form" style="justify-content: center">
+          {{ $t('verify.title-app') }}
+        </h3>
+        <h3 v-else-if="this.typeAdminFa == 'SMS'" class="text-3xl text-center text-semibold title-form" style="justify-content: center">
+          {{ $t('verify.title-phone') }}
+        </h3>
+        <h3 v-else-if="this.typeAdminFa == 'EMAIL'" class="text-3xl text-center text-semibold title-form" style="justify-content: center">
+          {{ $t('verify.title-email') }}
         </h3>
         <!-- <h3 v-else class="text-3xl text-center text-semibold title-form" style="justify-content: center">{{ $t('verify.title-phone') }} {{ typeVerified }}</h3> -->
         <div class="be-flex verify-code">
           <base-icon :icon="getIcon" size="80" />
           <div class="ml-1 w-100 input-code">
-            <el-form>
+            <el-form @submit.prevent.native="handleSubmitResetDefault">
               <!-- <el-form-item prop="code" :label="`${$t('verify.label')}`" class="no-require-label">
                 <el-input type="text" v-model.trim="twoFaCode" maxlength="6" :placeholder="`${$t('verify.placeholder')}`" />
               </el-form-item> -->
               <el-form-item prop="phone">
                 <div class="be-flex label" slot="label">{{ $t('label.enter-verify-code') }}</div>
 
-                <el-input type="text" maxlength="6" :placeholder="$t('label.verify-code')" v-model="form.resendCode">
+                <el-input type="number" maxlength="6" :placeholder="$t('label.verify-code')" v-model.trim="form.resendCode">
                   <!-- <template style="cursor: pointer" slot="prepend"
                     ><span style="color: #5b616e">{{ phoneDefault }}</span></template
                   > -->
@@ -120,11 +136,14 @@
           </div>
         </div>
         <el-button
+          type="button"
+          class="none-focus"
           :loading="isLoading"
           :class="disableSubmit ? 'btn w-100 is-none-border btn-h-40 cursor backgroundDisable' : 'btn w-100 is-none-border btn-h-40 cursor'"
           :disabled="disableSubmit"
           style="height: 40px"
           @click="handleSubmitResetDefault"
+          @keyup.enter.native="handleSubmitResetDefault"
           >{{ $t('verify.submit') }}
         </el-button>
         <div v-if="this.typeAdminFa !== 'APP'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
@@ -143,21 +162,27 @@
         <span>{{ $t('customer.setting.verify') }}</span>
       </div>
       <div class="bc-verify">
-        <h3 class="text-3xl text-center text-semibold title-form" style="justify-content: center">
-          {{ this.typeAdminFa == 'APP' ? $t('verify.title-app') : $t('verify.title-phone') }} {{ typeVerified }}
+        <h3 v-if="this.typeAdminFa == 'APP'" class="text-3xl text-center text-semibold title-form" style="justify-content: center">
+          {{ $t('verify.title-app') }}
+        </h3>
+        <h3 v-else-if="this.typeAdminFa == 'SMS'" class="text-3xl text-center text-semibold title-form" style="justify-content: center">
+          {{ $t('verify.title-phone') }}
+        </h3>
+        <h3 v-else-if="this.typeAdminFa == 'EMAIL'" class="text-3xl text-center text-semibold title-form" style="justify-content: center">
+          {{ $t('verify.title-email') }}
         </h3>
         <!-- <h3 v-else class="text-3xl text-center text-semibold title-form" style="justify-content: center">{{ $t('verify.title-phone') }} {{ typeVerified }}</h3> -->
         <div class="be-flex verify-code">
           <base-icon :icon="getIcon" size="80" />
           <div class="ml-1 w-100 input-code">
-            <el-form>
+            <el-form @submit.prevent.native="handleSubmitLockUser">
               <!-- <el-form-item prop="code" :label="`${$t('verify.label')}`" class="no-require-label">
                 <el-input type="text" v-model.trim="twoFaCode" maxlength="6" :placeholder="`${$t('verify.placeholder')}`" />
               </el-form-item> -->
               <el-form-item prop="phone">
                 <div class="be-flex label" slot="label">{{ $t('label.enter-verify-code') }}</div>
 
-                <el-input type="text" maxlength="6" :placeholder="$t('label.verify-code')" v-model="form.resendCode">
+                <el-input type="number" maxlength="6" :placeholder="$t('label.verify-code')" v-model.trim="form.resendCode">
                   <!-- <template style="cursor: pointer" slot="prepend"
                     ><span style="color: #5b616e">{{ phoneDefault }}</span></template
                   > -->
@@ -167,11 +192,14 @@
           </div>
         </div>
         <el-button
+          class="none-focus"
           :loading="isLoading"
           :class="disableSubmit ? 'btn w-100 is-none-border btn-h-40 cursor backgroundDisable' : 'btn w-100 is-none-border btn-h-40 cursor'"
           :disabled="disableSubmit"
           style="height: 40px"
           @click="handleSubmitLockUser"
+          type="button"
+          @keyup.enter.native="handleSubmitLockUser"
           >{{ $t('verify.submit') }}
         </el-button>
         <div v-if="this.typeAdminFa !== 'APP'" class="text-base be-flex jc-space-center mt-24 text-grey-130">
@@ -189,8 +217,8 @@
         <div class="text1" style="transform: translateY(-9px)">{{ $t('customer.setting.phone') }}</div>
         <div class="be-flex">
           <div class="phone">
-            <span class="style-phone">{{ phoneNumber }}</span>
-            <span v-if="this.dataDetail.phoneVerified == '0'" style="color: blue; margin-left: 4px; font-size: 14px; line-height: 20px; color: #5b616e">{{ phoneVerified }}</span>
+            <span v-if="this.data.phoneVerified == '1'" class="style-phone">{{ phoneNumber }}</span>
+            <span v-if="this.data.phoneVerified == '0'" style="color: blue; margin-left: 4px; font-size: 14px; line-height: 20px; color: #5b616e">{{ phoneVerified }}</span>
             <span v-else style="color: blue; margin-left: 4px; font-size: 14px; line-height: 20px; color: #129961">{{ phoneVerified }}</span>
           </div>
           <div style="width: 170px">
@@ -339,6 +367,7 @@
     }
     @Watch('form.resendCode') watchSubmit(value: string): void {
       this.disableSubmit = value.length == 6 ? false : true
+      this.form.resendCode = this.form.resendCode.substring(0, 6)
     }
     @Watch('form.country')
     clearCountry(value: any) {
@@ -361,7 +390,6 @@
     }
     get getIconUser(): string {
       const name = this.data.faType
-      console.log('fatype', this.dataDetail.faType)
 
       if (name == 'SMS') {
         return 'verify-phone'
@@ -557,7 +585,8 @@
         }
         apiCustomer
           .updateLockedUser(params)
-          .then(() => {
+          .then((res: any) => {
+            console.log('res', res)
             let message: any = this.$t('customer.setting.lock-user-success')
             this.$message.success(message)
             this.setOpenPopup({
@@ -567,8 +596,8 @@
             this.form.resendCode = ''
           })
           .catch(() => {
-            let message: any = this.$t('customer.setting.lock-user-fail')
-            this.$message.error(message)
+            // let message: any = this.$t('customer.setting.lock-user-fail')
+            // this.$message.error(message)
           })
       } else {
         const paramsUnlock = {
@@ -578,9 +607,16 @@
         }
         apiCustomer
           .updateUnlockUser(paramsUnlock)
-          .then(() => {
-            let message: any = this.$t('customer.setting.unlock-user-success')
-            this.$message.success(message)
+          .then((res: any) => {
+            // get message thì sửa ở api Customer
+            if (res.message == 'Unlocked successfully') {
+              let message: any = this.$t('customer.setting.unlock-user-success')
+              this.$message.success(message)
+            } else {
+              let message: any = this.$t('customer.setting.send-email-avtive')
+              this.$message.success(message)
+            }
+
             this.setOpenPopup({
               popupName: 'popup-verify-lock',
               isOpen: false
@@ -678,7 +714,9 @@
       }
       const result: any = await apiCustomer.getListCustomer(params)
       this.data = result.content[0]
-      this.phoneNumber = '(' + this.data.countryCode + ') ' + this.data.phone
+      if (this.data.countryCode && this.data.phone) {
+        this.phoneNumber = '(' + this.data.countryCode + ') ' + this.data.phone
+      }
       // this.userStatus ? result.userStatus =='ACTIVE' :
       if (this.data.userStatus == 'ACTIVE') {
         this.userStatus = 'Active'
@@ -687,7 +725,6 @@
       } else {
         this.userStatus = 'Locked'
       }
-      console.log('data', this.data.userStatus)
 
       //check faType
       if (this.data.faType == 'EMAIL') {
@@ -716,7 +753,6 @@
       const currentCountry = filter(this.listCountry, country => country.isoCode === 'VN')[0]
       this.form.country = currentCountry.name
       this.get2Fa()
-      console.log('status', this.data.userStatus)
     }
     typeAdminFa = ''
     async get2Fa(): Promise<void> {
@@ -724,7 +760,6 @@
         email: this.user.email
       }
       await apiAuth.get2FA(params).then((res: any) => {
-        console.log('res', res)
         this.typeAdminFa = res
         this.typeVerified = res.toLowerCase()
         if (this.typeVerified == 'sms') {
@@ -739,7 +774,6 @@
         // else  {
         //   this.typeVerified = 'authenticator app'
         // }
-        console.log('typeverified', res)
       })
     }
     handleSelectCountry(country: string): void {
@@ -794,7 +828,16 @@
     //     event.preventDefault()
     //   }
     // }
+    handleKeydown(event) {
+      const keyCode = event.keyCode
+      // Enter
+      if (keyCode === 13) {
+        console.log('enter')
 
+        event.stopPropagation()
+        return
+      }
+    }
     numberFormat(event: FocusEvent): void {
       const _event: any = event
       let fnumber = _event.target.value
@@ -883,6 +926,13 @@
   }
   .style-button {
     border: 1px solid #89909e;
+    background-color: #fff;
+    color: var(--bc-text-primary);
+  }
+  .style-button:hover {
+    border: 1px solid var(--bc-theme-primary);
+    background-color: #fff;
+    color: var(--bc-theme-primary);
   }
   .list-bonus {
     .input-search {
@@ -904,5 +954,9 @@
         color: #5b616e;
       }
     }
+  }
+  .none-focus:focus {
+    color: var(--bc-color-white);
+    background-color: var(--bc-theme-primary);
   }
 </style>

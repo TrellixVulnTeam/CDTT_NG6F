@@ -36,7 +36,7 @@
         <div class="left">{{ $t('request.popup.transaction.label4') }}</div>
         <div class="right">
           <span class="fee">-{{ data.transactionFee | convertAmountDecimal(data.currency) }} {{ data.currency }} </span>
-          <span class="dolar">(~${{ data.amountToUsd | convertAmountDecimal('USD') }})</span>
+          <span class="dolar">(~${{ (data.tokenUsdExchangeRate * data.transactionFee) | convertAmountDecimal('USD') }})</span>
         </div>
       </div>
       <div class="line"></div>

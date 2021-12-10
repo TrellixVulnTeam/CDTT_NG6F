@@ -10,7 +10,7 @@
       </div>
       <div class="value-card" :class="checkType(tabActiveFilter.toLowerCase())">
         <p class="current">{{ dataCard.balance | convertAmountDecimal(this.tabActiveFilter.toUpperCase()) }} {{ this.tabActiveFilter.toUpperCase() }}</p>
-        <p class="last">-${{ dataCard.balanceUSD | convertAmountDecimal('USD') }}</p>
+        <p class="last">~${{ dataCard.balanceUSD | convertAmountDecimal('USD') }}</p>
       </div>
     </div>
     <div class="card-item">
@@ -23,7 +23,7 @@
       </div>
       <div class="value-card" :class="checkType(tabActiveFilter.toLowerCase())">
         <p class="current">{{ dataCard.availableBalance | convertAmountDecimal(this.tabActiveFilter.toUpperCase()) }} {{ this.tabActiveFilter.toUpperCase() }}</p>
-        <p class="last">-${{ dataCard.availableBalanceUSD | convertAmountDecimal('USD') }}</p>
+        <p class="last">~${{ dataCard.availableBalanceUSD | convertAmountDecimal('USD') }}</p>
       </div>
     </div>
     <div class="card-item">
@@ -83,6 +83,8 @@
     checkTypeIcon(type: string): string {
       return type === 'lynk'
         ? 'icon-lynk'
+        : type === 'clm'
+        ? 'icon-clm'
         : type === 'btc'
         ? 'icon-btc'
         : type === 'eth'

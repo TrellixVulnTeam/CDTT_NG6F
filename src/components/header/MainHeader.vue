@@ -66,6 +66,12 @@
           return this.$t('header.request')
         case '/balance':
           return this.$t('header.balance')
+        case '/transaction':
+          return this.$t('header.transaction')
+        case '/exception':
+          return this.$t('header.exception')
+        case '/member':
+          return this.$t('header.member')
         default:
           return this.$t('header.kyc')
       }

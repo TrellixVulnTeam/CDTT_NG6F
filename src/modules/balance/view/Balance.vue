@@ -3,14 +3,14 @@
     <div class="bg-white wallet-header">
       <div class="be-flex align-center jc-space-between wallet-header__above">
         <div class="wallet-header__above-tabs be-flex">
-          <div class="tab-item cursor" v-for="tab in tabs" :key="tab.id" :class="$route.name === tab.routeName ? 'tab-active' : null" @click="handleChangeTab(tab)">
+          <div class="tab-item cursor" v-for="tab in getTab" :key="tab.id" :class="$route.name === tab.routeName ? 'tab-active' : null" @click="handleChangeTab(tab)">
             <span class="text-base">{{ $t(`menu.${tab.title}`) }}</span>
           </div>
         </div>
       </div>
     </div>
-    <div class="container bg-white wallet-header" style="width: 100%">
-      <div style="" class="col-width col-margin">
+    <div class="container bg-white wallet-header-task" style="width: calc(100% - 48px)">
+      <div class="col-width col-margin">
         <div class="sack-banlance">
           <span class="text1">
             {{ $t(`balance.investor`) }}
@@ -32,8 +32,10 @@
             <base-icon icon="icon-swap" size="19" />
           </div>
         </div>
-        <span class="number2"> {{ totalAvailable | convertAmountDecimal(tabActive) }} {{ tabActive }}</span>
-        <span class="text3"> ~ ${{ totalAvailableUSD | convertAmountDecimal('USD') }}</span>
+        <span class="number2">
+          {{ totalAvailable | convertAmountDecimal(tabActive) }} <a class="tabActive">{{ tabActive }}</a>
+        </span>
+        <span class="text3"> ~${{ totalAvailableUSD | convertAmountDecimal('USD') }}</span>
       </div>
       <div class="col-width col-margin">
         <div class="sack-banlance">
@@ -42,8 +44,10 @@
             <base-icon icon="icon-lock-balance" size="19" />
           </div>
         </div>
-        <span class="number2"> {{ totalLocked | convertAmountDecimal(tabActive) }} {{ tabActive }}</span>
-        <span class="text3">~ ${{ totalLockedUSD | convertAmountDecimal('USD') }}</span>
+        <span class="number2">
+          {{ totalLocked | convertAmountDecimal(tabActive) }} <a class="tabActive">{{ tabActive }}</a></span
+        >
+        <span class="text3">~${{ totalLockedUSD | convertAmountDecimal('USD') }}</span>
       </div>
       <div class="col-width col-margin">
         <div class="sack-banlance">
@@ -52,7 +56,9 @@
             <base-icon icon="icon-wallet" size="19" />
           </div>
         </div>
-        <span class="number2"> {{ totalBalance | convertAmountDecimal(tabActive) }} {{ tabActive }}</span>
+        <span class="number2">
+          {{ totalBalance | convertAmountDecimal(tabActive) }} <a class="tabActive">{{ tabActive }}</a></span
+        >
         <span class="text3"> ~ ${{ totalBalanceUSD | convertAmountDecimal('USD') }}</span>
       </div>
     </div>
@@ -85,14 +91,15 @@
   import BalanceDetail from '@/modules/balance/components/balanceDetail/BalanceDetail.vue'
   const api: BalanceRepository = getRepository('balance')
 
+  import { namespace } from 'vuex-class'
+
+  const beBase = namespace('beBase')
+
   @Component({ components: { BalanceTable, BalanceFilter, BalanceDetail } })
   export default class BOKyc extends Mixins(PopupMixin) {
+    @beBase.State('coinMain') coinMain!: string
+
     tabs: Array<Record<string, any>> = [
-      {
-        id: 1,
-        title: 'LYNK',
-        routeName: 'BalanceLynk'
-      },
       {
         id: 2,
         title: 'BTC',
@@ -129,7 +136,7 @@
     dataDetail = {}
     query: any = {
       search: '',
-      orderBy: 1,
+      orderBy: 3,
       page: 1,
       limit: 10,
       total: 10
@@ -144,6 +151,28 @@
     totalLockedUSD = ''
     totalBalanceUSD = ''
     listApproveBy: Record<string, any>[] = []
+
+    get getTab(): Array<Record<string, any>> {
+      if (this.coinMain === 'LYNK') {
+        return [
+          {
+            id: 1,
+            title: 'LYNK',
+            routeName: 'BalanceLynk'
+          },
+          ...this.tabs
+        ]
+      }
+      return [
+        {
+          id: 1,
+          title: 'CLM',
+          routeName: 'BalanceClm'
+        },
+        ...this.tabs
+      ]
+    }
+
     getListBalance(): void {
       console.log('1')
     }
@@ -155,11 +184,11 @@
       // })
       // const name = this.$route.name
       // this.query.kycStatus = name === 'KycPending' ? 'PENDING' : name === 'KycVerified' ? 'VERIFIED' : 'REJECTED'
-      // this.init()
+      this.init()
     }
     propdataTable: Record<string, any>[] = []
     async init(): Promise<void> {
-      console.log("tabactive", this.tabActive)
+      console.log('tabactive', this.tabActive)
       this.data = []
       this.propdataTable = []
       try {
@@ -181,12 +210,22 @@
         if (this.data.length > 0) {
           for (let i = 0; i < this.data.length; i++) {
             let str = this.data[i].email
-            const newEmail = str.substring(0, 6) + '...' + str.substring(str.length - 10, str.length)
-            const dataItem = {
-              ...this.data[i],
-              email: newEmail
+            const email = str.split('@')
+            if (email[0].length > 6) {
+              const newEmail = email[0].substring(0, 6) + '...@' + email[1].substring(0, 10)
+              const dataItem = {
+                ...this.data[i],
+                email: newEmail
+              }
+              this.propdataTable.push(dataItem)
+            } else {
+              const newEmail = email[0] + '...@' + email[1].substring(0, 10)
+              const dataItem = {
+                ...this.data[i],
+                email: newEmail
+              }
+              this.propdataTable.push(dataItem)
             }
-            this.propdataTable.push(dataItem)
           }
         }
 
@@ -236,6 +275,7 @@
         (this.query.toAvailableAmount = ''),
         (this.query.fromAvailableAmount = ''),
         (this.query.search = '')
+      this.query.orderBy = '3'
       this.init()
       this.resetQuery()
       EventBus.$emit('selectTabBalance')
@@ -243,6 +283,7 @@
     }
     destroyed(): void {
       EventBus.$off('selectTabBalance')
+      EventBus.$off('changeTab')
     }
     resetQuery(): void {
       this.query = {
@@ -274,7 +315,9 @@
     handleFilter(filter: Record<string, any>): void {
       this.query = {
         ...this.query,
-        ...filter
+        ...filter,
+        page: 1,
+        limit: 10
       }
       this.debounceInit()
     }
@@ -317,6 +360,11 @@
     border: 1px solid #dbdbdb !important;
     box-sizing: border-box !important;
   }
+  .tabActive {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+  }
   .text1 {
     // margin-top: 16px;
     // margin-left: 18px;
@@ -328,20 +376,23 @@
   .number2 {
     margin-top: 8px;
     margin-left: 18px;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 24px;
-    line-height: 32px;
+    line-height: 24px;
     color: #0a0b0d;
   }
   .text3 {
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
     margin-top: 6px;
     margin-left: 18px;
     margin-bottom: 16px;
     color: var(--bc-text-discript);
   }
   .col-margin {
-    margin: 24px 24px;
     background: #fff !important;
+    flex-basis: calc((100% - 24px - 48px) / 4) !important;
   }
   .container > div {
     width: 100px;
@@ -420,5 +471,10 @@
         }
       }
     }
+  }
+  .wallet-header-task {
+    display: flex;
+    justify-content: space-between;
+    padding: 24px;
   }
 </style>

@@ -112,7 +112,7 @@
         <el-table-column :label="$t('customer.table.amount')" align="right" width="160">
           <template slot-scope="scope">
             <div v-if="scope.row.tokenAmount" class="amount-increase">
-              <span>+{{ scope.row.tokenAmount | convertAmountDecimal(coinMain) }} {{ coinMain }}</span>
+              <span>+{{ scope.row.tokenAmount | convertAmountDecimal(scope.row.tokenCurrency) }} {{ scope.row.tokenCurrency }}</span>
               <span class="d-block amount-exchange-small">~${{ scope.row.tokenAmountToUsd | convertAmountDecimal('USD') }}</span>
             </div>
           </template>

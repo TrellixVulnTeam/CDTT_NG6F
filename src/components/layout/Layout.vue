@@ -94,7 +94,8 @@
     handleChangeLanguage(lang: string): void {
       this.$i18n.locale = lang
       window.localStorage.setItem('bc-lang', lang)
-      EventBus.$emit('changeLang')
+      // EventBus.$emit('changeLang')
+      location.reload()
     }
     handleClickTerm(): void {
       window.open(`${this.urlSystem['system.token.terms']}`)
