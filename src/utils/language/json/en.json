@@ -108,7 +108,7 @@
     "transaction": "Transaction",
     "member": "Members",
     "exception": "Exception",
-    "more":"More"
+    "more": "More"
   },
   "header": {
     "kyc": "KYC",
@@ -616,7 +616,7 @@
     },
     "sort": {
       "full-name": "Full name",
-      "create-at": "Created at"
+      "added-at": "Added date"
     }
   },
   "balance": {
@@ -824,8 +824,8 @@
     "amount": "Amount",
     "locked": "Locked",
     "failed-tranfer": "Failed transfer",
-    "fail-ex":"Failed",
+    "fail-ex": "Failed",
     "title-widthdraw": "WITHDRAW",
-    "title-crowdasle":"CROWDSALE"
+    "title-crowdasle": "CROWDSALE"
   }
 }

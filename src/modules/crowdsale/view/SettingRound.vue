@@ -25,7 +25,15 @@
           <div class="content">
             <div class="label">{{ $t('crowdsale.filter-popper.added-by') }}</div>
             <div class="be-flex jc-space-between row box">
-              <el-select v-model="query.createdBy" :placeholder="$t('crowdsale.filter-popper.pl-createdBy')" clearable>
+              <el-select
+                v-model="query.createdBy"
+                filterable
+                remote
+                reserve-keyword
+                :remote-method="handleSearchAddedBy"
+                :placeholder="$t('crowdsale.filter-popper.pl-createdBy')"
+                clearable
+              >
                 <el-option v-for="item in listCreatedBy" :key="item.id" :label="item.fullName" :value="item.userId" />
               </el-select>
             </div>
@@ -143,7 +151,7 @@
   import getRepository from '@/services'
   import { CrowdsaleRepository } from '@/services/repositories/crowdsale'
   import firebase from '@/utils/firebase'
-  import { debounce, findIndex } from 'lodash'
+  import { debounce, findIndex, trim } from 'lodash'
   import { namespace } from 'vuex-class'
 
   const crowdsaleBo = namespace('crowdsaleBo')
@@ -187,9 +195,16 @@
       },
       {
         command: 'CREATED_AT',
-        label: this.$i18n.t('crowdsale.sort.create-at')
+        label: this.$i18n.t('crowdsale.sort.added-at')
       }
     ]
+
+    queryAddedBy = {
+      page: 1,
+      limit: 1000,
+      search: '',
+      roles: 'ADMIN,ACCOUNTANT'
+    }
 
     get getPaginationInfo(): any {
       return this.$t('paging.buyer')
@@ -267,13 +282,13 @@
 
     handleShowPopper(): void {
       this.isVisible = true
-      const params = {
-        page: 1,
-        limit: 1000,
-        roles: 'ADMIN,ACCOUNTANT'
-      }
+      // const params = {
+      //   page: 1,
+      //   limit: 1000,
+      //   roles: 'ADMIN,ACCOUNTANT'
+      // }
       if (!this.listCreatedBy.length) {
-        apiCrowdsale.getListCreatedBy(params).then(res => {
+        apiCrowdsale.getListCreatedBy({ ...this.queryAddedBy }).then(res => {
           this.listCreatedBy = res.content || []
         })
       }
@@ -361,6 +376,21 @@
       this.setOpenPopup({
         popupName: 'popup-confirm-buyer-table',
         isOpen: true
+      })
+    }
+
+    handleSearchAddedBy(query: string): void {
+      // if (query !== '') {
+      //   this.queryAddedBy.search = trim(query)
+      //   apiCrowdsale.getListCreatedBy(this.queryAddedBy).then(res => {
+      //     this.listCreatedBy = res.content || []
+      //   })
+      // } else {
+      //   this.listApprove = this.listApproveBy
+      // }
+      this.queryAddedBy.search = trim(query)
+      apiCrowdsale.getListCreatedBy(this.queryAddedBy).then(res => {
+        this.listCreatedBy = res.content || []
       })
     }
   }

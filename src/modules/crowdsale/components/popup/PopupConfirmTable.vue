@@ -1,5 +1,5 @@
 <template>
-  <base-popup name="popup-confirm-buyer-table" class="popup-member" width="400px" :open="handleOpen">
+  <base-popup name="popup-confirm-buyer-table" class="popup-member" width="400px" :open="handleOpen" :close="handleClose">
     <div class="title-popup" slot="title">
       <span>{{ $t('crowdsale.popup.title-confirm') }}</span>
     </div>
@@ -45,6 +45,8 @@
       userFirstName: '',
       userLastName: ''
     }
+    listRoundChecked: number[] = []
+    objRound = {}
 
     get indexRoundCurrent(): number {
       if (this.listRound.length && this.roundCurrent) {
@@ -60,29 +62,39 @@
       })
     }
 
+    handleClose(): void {
+      this.listRoundChecked = []
+    }
+
     handleOpen(): void {
       apiCrowdsale.getDetailRoundUser(this.userId).then(res => {
         this.form = { ...res }
+        forEach(res.listRoundOfUser, elm => {
+          this.listRoundChecked.push(elm.roundId)
+        })
+        forEach(this.listRound, (round, index) => {
+          if (index < this.indexRoundCurrent) {
+            this.objRound[round.id] = true
+          }
+        })
       })
     }
 
     handleSubmit(): void {
-      const roundOther = filter(this.listRound, round => round.id !== this.listRound[this.tabActive].id)
-      const roundIds: number[] = []
-      forEach(roundOther, round => {
-        roundIds.push(round.id)
-      })
+      const keyObj = Object.keys(this.objRound)
+      const roundIds: number[] = this.listRoundChecked.filter((element: any) => keyObj.includes(element + ''))
+      console.log(roundIds)
 
-      const data = {
-        roundIds,
-        userEmail: this.form.userEmail
-      }
-      apiCrowdsale.updateBuyer(data).then(() => {
-        const message: any = this.$t('notify.delete-buyer')
-        this.$message.success({ message, duration: 5000 })
-        this.handleCancel()
-        this.$emit('reload')
-      })
+      // const data = {
+      //   roundIds,
+      //   userEmail: this.form.userEmail
+      // }
+      // apiCrowdsale.updateBuyer(data).then(() => {
+      //   const message: any = this.$t('notify.delete-buyer')
+      //   this.$message.success({ message, duration: 5000 })
+      //   this.handleCancel()
+      //   this.$emit('reload')
+      // })
     }
   }
 </script>
