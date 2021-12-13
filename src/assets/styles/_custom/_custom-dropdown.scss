@@ -55,6 +55,9 @@
     .dropdown-group {
         .el-dropdown-menu__item {
             color: var(--bc-text-primary);
+            &:hover {
+                color: var(--bc-theme-primary) !important;
+            }
         }
         .el-dropdown-menu__item.item-above {
             line-height: 1;
