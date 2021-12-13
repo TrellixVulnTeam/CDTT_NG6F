@@ -611,8 +611,8 @@
       "added-by": "Added by",
       "pl-createdBy": "Select added by",
       "added-date": "Added date",
-      "pl-fromDate": "from",
-      "pl-toDate": "to"
+      "pl-fromDate": "From",
+      "pl-toDate": "To"
     },
     "sort": {
       "full-name": "Full name",

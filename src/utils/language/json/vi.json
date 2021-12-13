@@ -561,15 +561,15 @@
       "content-confirm": "Bạn có chắc chắn muốn xóa người mua này không?"
     },
     "filter-popper": {
-      "createdBy": "Thêm bởi",
+      "added-by": "Thêm bởi",
       "pl-createdBy": "chọn",
       "added-date": "Ngày thêm",
-      "pl-fromDate": "từ",
-      "pl-toDate": "đến"
+      "pl-fromDate": "Từ",
+      "pl-toDate": "Đến"
     },
     "sort": {
       "full-name": "Họ tên",
-      "create-at": "Ngày thêm"
+      "added-at": "Ngày thêm"
     }
   },
   "request": {
