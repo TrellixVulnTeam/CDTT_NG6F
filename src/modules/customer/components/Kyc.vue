@@ -6,15 +6,15 @@
           <span class="title text-l text-bold">{{ $t('kyc.popup.personal-detail') }}</span>
           <div class="wrap">
             <span class="wrap-small">{{ $t('kyc.popup.f-name') }}</span>
-            <span class="name">{{ detail.firstName }}</span>
+            <span class="name">{{ detailRow.firstName }}</span>
           </div>
           <div class="wrap">
             <span class="wrap-small">{{ $t('kyc.popup.l-name') }}</span>
-            <span class="name">{{ detail.lastName }}</span>
+            <span class="name">{{ detailRow.lastName }}</span>
           </div>
           <div class="wrap">
             <span class="wrap-small">{{ $t('kyc.popup.national') }}</span>
-            <span class="name">{{ detail.nationality }}</span>
+            <span class="name">{{ detailRow.nationality }}</span>
           </div>
         </div>
         <div class="detail-item detail-item--below">

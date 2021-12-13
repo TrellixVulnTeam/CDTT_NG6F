@@ -6,12 +6,12 @@
     <div class="content">
       <el-form>
         <el-form-item :label="$t('label.asset')">
-          <el-select v-model='filter.currency'  clearable class='w-100'>
-            <el-option v-for='wallet in listAssetNetwork' :key='wallet.id' :value='wallet.currency' :label='wallet.currencyName+" ("+wallet.currency+")"'>
+          <el-select v-model="filter.currency" clearable class="w-100">
+            <el-option v-for="wallet in listAssetNetwork" :key="wallet.id" :value="wallet.currency" :label="showChoseCurrency(wallet.currencyName, wallet.currency)">
               <template>
                 <div class="be-flex wallet-item">
                   <base-icon :icon="renderIconAsset(wallet.currency)" size="24" />
-                  <span class="d-ib" style="margin-left: 10px">{{ wallet.currencyName }}</span>
+                  <span class="d-ib" style="margin-left: 10px">{{ formatCurrencyName(wallet.currencyName) }}</span>
                   <span class="d-ib" style="margin-left: 4px">({{ wallet.currency.toUpperCase() }})</span>
                 </div>
               </template>
@@ -48,10 +48,10 @@
         <div>
           <el-form-item :label="$t('label.network')">
             <el-select v-model="filter.network" clearable class="w-100">
-              <el-option v-for="status in listStatus" :key="status.id" :value="status.value" :label='status.label+" ("+status.value+")"'>
+              <el-option v-for="status in convertListNetwork(listAssetNetwork)" :key="status.id" :value="status.network" :label="status.networkName + '(' + status.network + ')'">
                 <template>
-                  <span class="d-ib">{{ status.label }}</span>
-                  <span class='d-ib' style='margin-left: 4px'>({{ status.value.toUpperCase() }})</span>
+                  <span class="d-ib">{{ status.networkName }}</span>
+                  <span class="d-ib" style="margin-left: 4px">({{ status.network.toUpperCase() }})</span>
                 </template>
               </el-option>
             </el-select>
@@ -74,6 +74,7 @@
   import includes from 'lodash/includes'
   import PopupMixin from '@/mixins/popup'
   import { namespace } from 'vuex-class'
+  import { formatType } from '@/configs'
 
   const beBase = namespace('beBase')
 
@@ -149,6 +150,33 @@
       }
     ]
     errorType = ''
+
+    showChoseCurrency(name: string, type: string): string {
+      return formatType(name) + '(' + type + ')'
+    }
+
+    convertListNetwork(listAssetNetwork: Array<Record<string, any>>): Array<Record<string, any>> {
+      let arr: Array<Record<string, any>>
+      arr = []
+      listAssetNetwork.map((value, i) => {
+        let arr1 = arr.filter(item => {
+          return item.network.indexOf(value.network) !== -1
+        })
+        if (arr1.length === 0 || !arr1) {
+          arr.push({ network: value.network, networkName: value.networkName })
+        }
+      })
+      return arr
+    }
+
+    formatCurrencyName(name: string): string {
+      if (name === 'USDC' || name === 'USDT') {
+        return name
+      } else {
+        return formatType(name)
+      }
+    }
+
     renderIconAsset(currency: string): string {
       switch (currency) {
         case 'BNB':
@@ -168,12 +196,13 @@
           return 'icon-lin'
       }
     }
+
     get getListWallet(): Array<Record<string, any>> {
       if (this.coinMain === 'LYNK') {
         return [
           {
             id: 5,
-            name: 'Lynkey',
+            name: 'LynKey',
             symbol: 'lynk',
             icon: 'icon-lin'
           },
@@ -214,6 +243,7 @@
       }
       return true
     }
+
     get pickerOption(): any {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const _this = this
@@ -223,6 +253,7 @@
         }
       }
     }
+
     get pickerOption2(): any {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const _this = this

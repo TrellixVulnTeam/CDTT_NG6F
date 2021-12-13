@@ -348,8 +348,7 @@
       // this.filterException.fromAvailableAmount = "$ " + value
     }
     @Watch('filterException.fromAmout') watchFromAmount(value: string | number): void {
-   
-      if ( value =='') {
+      if (value == '') {
         this.errorType = ''
       } else {
         this.errorType = 'amount'
@@ -360,7 +359,7 @@
       const a = value.toString().replaceAll(',', '')
       const b = this.filterException.fromAmount.toString().replaceAll(',', '')
       console.log('a', b)
-      if (parseFloat(a) > parseFloat(b) || value =='') {
+      if (parseFloat(a) > parseFloat(b) || value == '') {
         this.errorType = ''
       } else {
         this.errorType = 'amount'
@@ -515,7 +514,8 @@
         (this.filterException.toAmount = ''),
         (this.filterException.status = ''),
         (this.filterException.orderBy = '1'),
-        (this.errorType = '')
+        (this.errorType = ''),
+        (this.sortActive = '1')
     }
 
     handleSort(command: string): void {
@@ -568,6 +568,14 @@
 </script>
 
 <style scoped lang="scss">
+  .jc-space-between {
+    justify-content: space-between;
+    margin-bottom: 0px !important;
+    margin-top: -10px !important;
+  }
+  .el-popper.popper-filter .content {
+    padding: 12px 24px 0;
+  }
   .error-amount {
     position: absolute;
     bottom: 0;
@@ -577,7 +585,7 @@
       font-family: Open Sans;
       font-style: normal;
       font-weight: normal;
-      font-size: 14px;
+      font-size: 12px;
       line-height: 20px;
       color: #cf202f;
     }

@@ -94,13 +94,13 @@
               clearable
               @keyup.native="numberFormat($event)"
             ></el-input>
-            <div v-if="form.fromAmount" class="dolar fw-400 fs-16">$</div>
+            <div class="dolar fw-400 fs-16">$</div>
           </el-form-item>
 
           <div class="line"></div>
           <el-form-item prop="toAmount" class="box-input">
             <el-input :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateEnd')" v-model="form.toAmount" clearable @keyup.native="numberFormat($event)"></el-input>
-            <div v-if="form.toAmount" class="dolar fw-400 fs-16">$</div>
+            <div class="dolar fw-400 fs-16">$</div>
           </el-form-item>
         </div>
       </el-form>
@@ -152,11 +152,11 @@
       {
         value: 'Binance',
         label: 'Binance'
-      },
-      {
-        value: 'Ethereum',
-        label: 'Ethereum'
       }
+      // {
+      //   value: 'Ethereum',
+      //   label: 'Ethereum'
+      // }
     ]
     optionByRound: any = {}
     handleReset(): void {
@@ -275,8 +275,10 @@
         }
         .dolar {
           position: absolute;
-          top: 5px;
+          top: 0;
           left: 12px;
+          height: 100%;
+          line-height: 48px;
         }
       }
       .by-with-wallet,

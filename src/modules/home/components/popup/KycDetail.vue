@@ -83,8 +83,8 @@
           <el-button class="btn-default btn-close btn-h-40" @click="handleClose">{{ $t('button.close') }}</el-button>
         </div>
         <div class="btn-right">
-          <el-button class="btn btn-reject btn-h-40 is-none-border" @click="handleReject">{{ $t('button.reject') }} </el-button>
-          <el-button class="btn btn-approve btn-h-40 is-none-border" @click="handleApprove">{{ $t('button.approve') }} </el-button>
+          <el-button class="btn btn-reject btn-h-40 is-none-border" @click="handleReject" :disabled='this.isLoading'>{{ $t('button.reject') }} </el-button>
+          <el-button class="btn btn-approve btn-h-40 is-none-border" @click="handleApprove" :disabled='this.isLoading'>{{ $t('button.approve') }} </el-button>
         </div>
       </div>
     </div>
@@ -103,6 +103,7 @@
 
   import { namespace } from 'vuex-class'
   import { filter } from 'lodash'
+  import { debounce } from 'lodash'
 
   const bcKyc = namespace('bcKyc')
 
@@ -194,6 +195,7 @@
       }
     }
     handleUpdate(): void {
+      this.isLoading = true
       const data = {
         ids: [this.detailRow.id]
       }
@@ -207,17 +209,31 @@
         apiKyc.approveKyc(data).then(() => {
           const message: any = this.$i18n.t('notify.approve-success')
           this.$message.success({ message, duration: 5000 })
+          this.isLoading = false
           this.handleClose()
           this.$emit('init')
         })
       })
     }
-    handleApprove(): void {
-      this.handleUpdate()
-    }
 
-    async submitReject(data: Record<string, any>): Promise<void> {
+    //protected double click
+    debounceApprove = debounce((nameAction: any) => {
+      if (nameAction == 'handleSubmit') {
+        this.handleUpdate()
+      }
+    }, 400)
+    handleApprove(): void {
+      this.debounceApprove('handleSubmit')
+    }
+    debounceReject = debounce((data: Record<string, any>) => {
+      this.reject(data)
+    }, 400)
+    submitReject(data: Record<string, any>) {
+      this.debounceReject(data)
+    }
+    async reject(data: Record<string, any>): Promise<void> {
       try {
+        this.isLoading=true
         const data2 = {
           ...this.detail,
           rotateSelfiePhoto: `rotate(${this.rotateDeg[2]}deg)`,
@@ -228,6 +244,7 @@
         await apiKyc.rejectKyc({ ...data, ids: [this.detailRow.id] })
         const message: any = this.$i18n.t('notify.reject-success')
         this.$message.success({ message, duration: 5000 })
+        this.isLoading=false;
         this.handleClose()
         this.$emit('init')
       } catch (error) {
@@ -404,6 +421,13 @@
           top: 50%;
           transform: translateY(-50%);
         }
+      }
+    }
+  }
+  .footer{
+    .btn-right{
+      button[disabled]{
+        opacity: 0.5;
       }
     }
   }

@@ -1,7 +1,8 @@
 <template>
   <base-popup name="popup-exception-detail" class="popup-exception-detail" width="480px" :isShowFooter="false" :open="handleOpen" :close="handleClose">
     <div class="title-popup" slot="title">
-      <span>{{ handleRenderTitleDetail(detailRow.transactionType) }} {{ detailRow.currency }}</span>
+      <span v-if="detailRow.transactionType === 'WITHDRAW'">{{ $t('exception.title-widthdraw') }} {{ detailRow.currency }}</span>
+      <span v-else>{{ $t('exception.title-crowdasle') }} {{ detailRow.currency }}</span>
     </div>
     <div class="w-100 fluctuating">
       <div class="text-center">
@@ -49,12 +50,32 @@
           </span>
         </div>
       </div>
+      <div v-else class="item be-flex">
+        <p>{{ $t('transaction.detail.from') }}</p>
+        <div class="be-flex align-center">
+          <base-icon :icon="renderIconCurrency(detailRow.paidCurrency.toLowerCase())" size="20" />
+          <p class="text-detail-2" style="margin-left: 8px">{{ detailRow.paidAddress | formatTransactionCode(10) }}</p>
+          <span v-if="detailRow.paidAddress" style="margin-left: 8px" class="icon-copy" @click="handleCopyTransaction(detailRow.paidAddress)">
+            <base-icon icon="icon-copy" size="24" />
+          </span>
+        </div>
+      </div>
       <div class="item be-flex" v-if="detailRow.transactionType === 'WITHDRAW'">
         <p>{{ $t('transaction.detail.to') }}</p>
         <div class="be-flex align-center">
           <base-icon :icon="renderIconCurrency(detailRow.currency.toLowerCase())" size="20" />
           <p class="text-detail-2" style="margin-left: 8px">{{ detailRow.toAddress | formatTransactionCode(10) }}</p>
           <span v-if="detailRow.toAddress" style="margin-left: 8px" class="icon-copy" @click="handleCopyTransaction(detailRow.toAddress)">
+            <base-icon icon="icon-copy" size="24" />
+          </span>
+        </div>
+      </div>
+      <div class="item be-flex" v-else>
+        <p>{{ $t('transaction.detail.to') }}</p>
+        <div class="be-flex align-center">
+          <base-icon v-if="detailRow.tokenAddress" :icon="renderIconCurrency(detailRow.paidCurrency.toLowerCase())" size="20" />
+          <p class="text-detail-2" style="margin-left: 8px">{{ detailRow.tokenAddress | formatTransactionCode(10) }}</p>
+          <span v-if="detailRow.tokenAddress" style="margin-left: 8px" class="icon-copy" @click="handleCopyTransaction(detailRow.tokenAddress)">
             <base-icon icon="icon-copy" size="24" />
           </span>
         </div>
@@ -238,13 +259,7 @@
       message = this.$t('notify.copy')
       this.$message.success(message)
     }
-
-    handleRenderTitleDetail(type: string | null | undefined): string {
-      console.log('type', type)
-      if (type) {
-        return type.replaceAll('_', ' ')
-      } else return ''
-    }
+    titlePopUp = ''
   }
 </script>
 

@@ -60,7 +60,7 @@
     "deposit11": "Chuyển tiền vào địa chỉ bên dưới hoặc quét mã QR ",
     "text11": "để nạp Bitcoin vào tài khoản",
     "text12": "để nạp Ethereum vào tài khoản",
-    "text13": "để nạp Lynkey vào tài khoản"
+    "text13": "để nạp LynKey vào tài khoản"
   },
   "resetPass": {
     "title": "Đặt lại mật khẩu",
@@ -74,7 +74,7 @@
   },
   "leftMenu": {
     "home": "Trang chủ",
-    "kyc": "Kyc",
+    "kyc": "KYC",
     "customer": "Khách hàng",
     "contract": "Hợp đồng",
     "report": "Báo cáo",
@@ -83,8 +83,9 @@
     "request": "Yêu cầu",
     "balance": "Số dư",
     "transaction": "Giao dịch",
-    "member": "Nhân viên",
-    "exception": "Ngoại lệ"
+    "member": "Nhân sự",
+    "exception": "Ngoại lệ",
+    "more": "Thêm"
   },
   "header": {
     "kyc": "KYC",
@@ -197,8 +198,8 @@
     "role": "Quyền",
     "new-password": "Mật khẩu mới",
     "round": "Vòng",
-    "asset": "Ví",
-    "network": "Mạng",
+    "asset": "Loại ví",
+    "network": "Loại mạng",
     "created-date": "Ngày tạo"
   },
   "validate": {
@@ -255,7 +256,8 @@
     "delete-buyer": "Xóa thành công"
   },
   "logout": {
-    "title": "Đăng xuất"
+    "title": "Đăng xuất",
+    "change-pass": "Đổi mật khẩu"
   },
   "kyc": {
     "reason-reject": "Lý do từ chối",
@@ -436,7 +438,7 @@
       "customer-info": "Chi tiết người dùng"
     },
     "detail": {
-      "transaction-id": "ID Giao dịch",
+      "transaction-id": "ID giao dịch",
       "date": "Ngày",
       "from": "Từ",
       "to": "Đến",
@@ -557,18 +559,18 @@
       "title-member": "thêm người mua",
       "title-member-edit": "sửa người mua",
       "title-confirm": "Xác nhận xóa",
-      "content-confirm": "Bạn có chắc chắn muốn xóa người mua này không ?"
+      "content-confirm": "Bạn có chắc chắn muốn xóa người mua này không?"
     },
     "filter-popper": {
-      "createdBy": "Tạo bởi",
-      "pl-createdBy": "chọn",
+      "added-by": "Thêm bởi",
+      "pl-createdBy": "Chọn",
       "added-date": "Ngày thêm",
-      "pl-fromDate": "từ",
-      "pl-toDate": "đến"
+      "pl-fromDate": "Từ",
+      "pl-toDate": "Đến"
     },
     "sort": {
       "full-name": "Họ tên",
-      "create-at": "Ngày tạo"
+      "added-at": "Ngày thêm"
     }
   },
   "request": {
@@ -631,7 +633,7 @@
         "label12": "Lý do"
       },
       "account": {
-        "Linkey": "Ví Lynkey",
+        "Linkey": "Ví LynKey",
         "Ethereum": "Ví Ethereum",
         "Bitcoin": "Ví Bitcoin",
         "Bnb": "Ví BNB",
@@ -717,18 +719,19 @@
         "bnb-wallet": "Ví BNB",
         "usdt-wallet": "Ví USDT",
         "usdc-wallet": "Ví USDC",
-        "lynk-wallet": "ví LYNK"
+        "lynk-wallet": "Ví LYNK",
+        "clm-wallet": "Ví CLM"
       },
       "crow-type": {
         "withdraw": "Rút",
         "deposit": "Nạp",
         "transfer": "Chuyển",
         "crowdsale": "Crowdsale",
-        "bonus-early-backers": "Thưởng mua sớm",
-        "bonus-big-backers": "Thưởng giao dịch lớn",
-        "bonus-affiliate": "Thưởng affiliate",
-        "bonus-first-trans": "Thưởng giới thiệu",
-        "bonus-crowdsale": "Thưởng mua crowdsale",
+        "bonus-early-backers": "Thưởng nhà đầu tư sớm",
+        "bonus-big-backers": "Thưởng nhà đầu tư lớn",
+        "bonus-affiliate": "Thưởng giới thiệu",
+        "bonus-first-trans": "Thưởng giao dịch đầu tiên",
+        "bonus-crowdsale": "Thưởng crowdsale",
         "bonus-sign-up": "Thưởng đăng ký"
       }
     }
@@ -740,7 +743,7 @@
       "title-reset": "ĐẶT LẠI MẬT KHẨU",
       "status-active": "Trạng thái kích hoạt",
       "title-confirm": "Xác nhận xóa",
-      "content-confirm": "Bạn có chắc chắn muốn xóa nhân viên này không ?",
+      "content-confirm": "Bạn có chắc chắn muốn xóa nhân viên này không?",
       "title-detail": "chi tiết nhân viên",
       "edit": "Sửa",
       "email": "Email",
@@ -771,10 +774,36 @@
     }
   },
   "exception": {
-    "total": "Tổng số",
+    "total": "TỔNG SỐ",
     "amount": "Số lượng",
     "locked": "Khóa",
     "failed-tranfer": "Chuyển thất bại",
-    "fail-ex":"Thất bại"
+    "fail-ex": "Thất bại",
+    "title-widthdraw": "RÚT",
+    "title-crowdasle": "CROWDSALE"
+  },
+  "changePassword": {
+    "title": "ĐỔI MẬT KHẨU",
+    "label1": "Mật khẩu cũ",
+    "label2": "Mật khẩu mới",
+    "label3": "Nhập lại mật khẩu",
+    "label4": "Nhập mã xác thực 2 bước:",
+    "placeholder": "Mã xác nhận",
+    "big-title": "Nhập mã gồm 6 chữ số mà chúng tôi đã gửi đến email của bạn",
+    "discription": "Bạn chưa nhận được mã xác thực?",
+    "link": "Gửi lại",
+    "confirm": "Xác nhận",
+    "cancel": "Huỷ",
+    "wrong-oldPassword": "Vui lòng nhập mật khẩu cũ",
+    "wrong-newPassword": "Vui lòng nhập mật khẩu mới",
+    "wrong-confirmPassword": "Vui lòng nhập lại mật khẩu mới",
+    "wrong-code": "Vui lòng nhập mã xác nhận",
+    "errorPassword": "Mật khẩu nhập lại không khớp",
+    "errorValidatePassword": "Vui lòng nhập mật khẩu hợp lệ",
+    "errorLengthVerificationCode": "Vui lòng nhập đủ 6 ký tự"
+  },
+  "verified": {
+    "titlePopup": "Xác minh",
+    "titleContent3": "Nhập mã gồm 6 chữ số mà chúng tôi đã gửi đến email của bạn"
   }
 }

@@ -24,17 +24,8 @@
                   </el-col>
                 </el-row>
               </el-form-item>
-              <!-- <el-form-item class="be-flex-item mr-40 form-item-line" :label="$t('label.trans-amount')">
-            <el-input
-              v-model="filter.fromAmount"
-              :placeholder="$t('placeholder.from-amount')"
-              @keypress.native="onlyNumber($event, 'fromAmount')"
-              @keyup.native="numberFormat($event)"
-            >
-              <div class="prefix" slot="prefix">$</div>
-            </el-input>
-          </el-form-item> -->
             </div>
+            <p class="error-validate" v-if="checkAvailabelAmout">{{ $t('notify.amount-invalid') }}</p>
             <div class="be-flex jc-space-between row">
               <el-form-item class="be-flex-item mr-40" :label="$t('label.locked-amount')">
                 <!-- <el-input :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateStart')" clearable></el-input> -->
@@ -53,6 +44,7 @@
                 </el-row>
               </el-form-item>
             </div>
+            <p v-if="checkLockedAmount" class="error-validate">{{ $t('notify.amount-invalid') }}</p>
             <div class="be-flex jc-space-between row">
               <el-form-item class="be-flex-item mr-40" :label="$t('label.balance')">
                 <!-- <el-input :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateStart')" clearable></el-input> -->
@@ -71,6 +63,7 @@
                 </el-row>
               </el-form-item>
             </div>
+            <p v-if="checkBalance" class="error-validate">{{ $t('notify.amount-invalid') }}</p>
           </el-form>
         </div>
         <div class="be-flex jc-flex-end footer">
@@ -200,8 +193,37 @@
         value: 'DRIVER_LICENSE'
       }
     ]
+    checkAvailabelAmout = false
+    checkLockedAmount = false
+    checkBalance = false
     isVisible = false
-
+    @Watch('filterBalance.toAvailableAmount') watchToAmount(value: string | number): void {
+      const a = value.toString().replaceAll(',', '')
+      const b = this.filterBalance.fromAvailableAmount.toString().replaceAll(',', '')
+      if (parseFloat(a) > parseFloat(b) || value == '') {
+        this.checkAvailabelAmout = false
+      } else {
+        this.checkAvailabelAmout = true
+      }
+    }
+    @Watch('filterBalance.toLockedAmount') watchLocked(value: string | number): void {
+      const a = value.toString().replaceAll(',', '')
+      const b = this.filterBalance.fromLockedAmount.toString().replaceAll(',', '')
+      if (parseFloat(a) > parseFloat(b) || value == '') {
+        this.checkLockedAmount = false
+      } else {
+        this.checkLockedAmount = true
+      }
+    }
+    @Watch('filterBalance.toBalanceAmount') watchBalance(value: string | number): void {
+      const a = value.toString().replaceAll(',', '')
+      const b = this.filterBalance.fromBalanceAmount.toString().replaceAll(',', '')
+      if (parseFloat(a) > parseFloat(b) || value == '') {
+        this.checkBalance = false
+      } else {
+        this.checkBalance = true
+      }
+    }
     @Watch('filterBalance.search') handleSearch(value: string): void {
       this.searchText(value)
     }
@@ -307,24 +329,22 @@
     }
 
     handleApply(): void {
-      this.isVisible = false
-      const filters = {
-        ...this.filterBalance,
-        // toBalanceAmount: this.filterBalance.replace(',')
-        // fromBalanceAmount: '',
-        // toLockedAmount: '',
-        // fromLockedAmount: '',
-        // toAvailableAmount: '',
-        // fromAvailableAmount: '',
-        fromAvailableAmount: this.filterBalance.fromAvailableAmount.replaceAll(',', ''),
-        fromBalanceAmount: this.filterBalance.fromBalanceAmount.replaceAll(',', ''),
-        fromLockedAmount: this.filterBalance.fromLockedAmount.replaceAll(',', ''),
-        toAvailableAmount: this.filterBalance.toAvailableAmount.replaceAll(',', ''),
-        toBalanceAmount: this.filterBalance.toBalanceAmount.replaceAll(',', ''),
-        toLockedAmount: this.filterBalance.toLockedAmount.replaceAll(',', '')
+      if (this.checkAvailabelAmout || this.checkLockedAmount || this.checkBalance) {
+        console.log('validate')
+      } else {
+        this.isVisible = false
+        const filters = {
+          ...this.filterBalance,
+          fromAvailableAmount: this.filterBalance.fromAvailableAmount.replaceAll(',', ''),
+          fromBalanceAmount: this.filterBalance.fromBalanceAmount.replaceAll(',', ''),
+          fromLockedAmount: this.filterBalance.fromLockedAmount.replaceAll(',', ''),
+          toAvailableAmount: this.filterBalance.toAvailableAmount.replaceAll(',', ''),
+          toBalanceAmount: this.filterBalance.toBalanceAmount.replaceAll(',', ''),
+          toLockedAmount: this.filterBalance.toLockedAmount.replaceAll(',', '')
+        }
+        console.log('data', filters)
+        this.$emit('filterBalance', filters)
       }
-      console.log('data', filters)
-      this.$emit('filterBalance', filters)
     }
 
     handleReset(): void {
@@ -345,6 +365,11 @@
 </script>
 
 <style scoped lang="scss">
+  .error-validate {
+    margin-top: -20px;
+    margin-bottom: 10px;
+    color: #cf202f;
+  }
   .dash {
     text-align: center;
   }

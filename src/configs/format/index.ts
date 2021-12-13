@@ -179,6 +179,14 @@ export function formatMMDDYY(value: string | number): any {
   )
 }
 
+export function formatMMDDYYWithoutHour(value: string | number): any {
+  if (!value) {
+    return ''
+  }
+  const date = new Date(value)
+  return (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '/' + (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + '/' + date.getFullYear()
+}
+
 export function encryptPassword(pass: string): string | boolean {
   const PUBLIC_KEY =
     'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCgw0IeOV0DZL1ZfzsSSbZDRu9XPPBkb4EVsFKYODFJnEEMdVK3IBhCyehoUbJFufIvdQD78LyfRo46fB5B6k+EsLC/4vofQiYyE/R13r+Fd+xufTXpxDKkj544LtfBfvsh/fYFx+vUH1/5XtuCplBX4cOsIdMni026zZv46clJswIDAQAB'
@@ -231,8 +239,12 @@ export function formatTransactionCode(code: string | null, number = 10): string 
 
 export function formatDateTimeBirthday(time: string | null): string {
   if (time !== null) {
-    const timeConvert: string[] = time.split(' ')
-    return timeConvert[0].replace(/-/g, '/')
+    // const timeConvert: string[] = time.split(' ')
+    // return timeConvert[0].replace(/-/g, '/')
+    const date = new Date(time)
+    return (
+      (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '/' + (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + '/' + date.getFullYear()
+    )
   } else return ''
 }
 

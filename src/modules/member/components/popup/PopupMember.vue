@@ -297,7 +297,7 @@
               this.$emit('reload')
             })
           } else {
-            apiMember.updateMember(this.detailRow.userId, this.form).then(() => {
+            apiMember.updateMember(this.detailRow.userId, { ...this.form, fullName: null }).then(() => {
               let message: any = this.$t('notify.update-user-succsess')
               this.$message.success({ message, duration: 5000 })
               this.setOpenPopup({

@@ -73,7 +73,7 @@
     "goback": "Go back"
   },
   "wallet": {
-    "Linkey": "Lynkey Wallet",
+    "Linkey": "LynKey Wallet",
     "Ethereum": "Ethereum Wallet",
     "Bitcoin": "Bitcoin Wallet",
     "lock": "Locked Amount",
@@ -97,7 +97,7 @@
   },
   "leftMenu": {
     "home": "Home",
-    "kyc": "Kyc",
+    "kyc": "KYC",
     "customer": "Customer",
     "contract": "Contract",
     "report": "Report",
@@ -107,7 +107,8 @@
     "request": "Request",
     "transaction": "Transaction",
     "member": "Members",
-    "exception": "Exception"
+    "exception": "Exception",
+    "more": "More"
   },
   "header": {
     "kyc": "KYC",
@@ -300,7 +301,8 @@
     "delete-buyer": "Deleted successfully"
   },
   "logout": {
-    "title": "Sign out"
+    "title": "Sign out",
+    "change-pass": "Change password"
   },
   "kyc": {
     "reason-reject": "Reject Reason",
@@ -604,18 +606,18 @@
       "title-member": "ADD BUYER",
       "title-member-edit": "EDIT BUYER",
       "title-confirm": "Confirm delete",
-      "content-confirm": "Are you sure you want to delete this buyer ?"
+      "content-confirm": "Are you sure you want to remove this buyer?"
     },
     "filter-popper": {
-      "createdBy": "Created by",
-      "pl-createdBy": "Select created by",
+      "added-by": "Added by",
+      "pl-createdBy": "Select added by",
       "added-date": "Added date",
-      "pl-fromDate": "from",
-      "pl-toDate": "to"
+      "pl-fromDate": "From",
+      "pl-toDate": "To"
     },
     "sort": {
       "full-name": "Full name",
-      "create-at": "Created at"
+      "added-at": "Added date"
     }
   },
   "balance": {
@@ -651,19 +653,20 @@
         "bnb-wallet": "BNB Wallet",
         "usdt-wallet": "USDT Wallet",
         "usdc-wallet": "USDC Wallet",
-        "lynk-wallet": "LYNK Wallet"
+        "lynk-wallet": "LYNK Wallet",
+        "clm-wallet": "CLM Wallet"
       },
       "crow-type": {
         "withdraw": "Withdraw",
         "deposit": "Deposit",
         "transfer": "Transfer",
         "crowdsale": "Crowdsale",
-        "bonus-early-backers": "Bonus Early Backers",
-        "bonus-big-backers": "Bonus Big Backers",
-        "bonus-affiliate": "Bonus Affiliate",
-        "bonus-first-trans": "Bonus First Trans",
-        "bonus-crowdsale": "Bonus Crowdsale",
-        "bonus-sign-up": "Bonus Sign Up"
+        "bonus-early-backers": "Bonus early backer",
+        "bonus-big-backers": "Bonus big backer",
+        "bonus-affiliate": "Bonus affiliate",
+        "bonus-first-trans": "Bonus first transaction",
+        "bonus-crowdsale": "Bonus crowdsale",
+        "bonus-sign-up": "Bonus sign up"
       }
     }
   },
@@ -727,7 +730,7 @@
         "label12": "Reason"
       },
       "account": {
-        "Linkey": "Lynkey Wallet",
+        "Linkey": "LynKey Wallet",
         "Ethereum": "Ethereum Wallet",
         "Bitcoin": "Bitcoin Wallet",
         "Bnb": "BNB Wallet",
@@ -788,7 +791,7 @@
       "title-reset": "RESET PASSWORD",
       "status-active": "Active status",
       "title-confirm": "Confirm delete",
-      "content-confirm": "Are you sure you want to delete this member ?",
+      "content-confirm": "Are you sure you want to remove this member?",
       "title-detail": "MEMBER DETAIL",
       "edit": "Edit",
       "email": "Email",
@@ -823,6 +826,32 @@
     "amount": "Amount",
     "locked": "Locked",
     "failed-tranfer": "Failed transfer",
-    "fail-ex":"Failed"
+    "fail-ex": "Failed",
+    "title-widthdraw": "WITHDRAW",
+    "title-crowdasle": "CROWDSALE"
+  },
+  "changePassword": {
+    "title": "CHANGE PASSWORD",
+    "label1": "Old password",
+    "label2": "New password",
+    "label3": "Confirm password",
+    "label4": "Enter 2-step authentication code:",
+    "placeholder": "Verification code",
+    "big-title": "Enter the 6-digit code we sent to your email",
+    "discription": "Didn’t receive any verification code?",
+    "link": "Resend code",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "wrong-oldPassword": "Please enter old password",
+    "wrong-newPassword": "Please enter new password",
+    "wrong-confirmPassword": "Please enter confirm password",
+    "wrong-code": "Please enter code",
+    "errorPassword": "Password confirmation doesn't match Password",
+    "errorValidatePassword": "Please enter a valid password",
+    "errorLengthVerificationCode": "Please enter all 6 characters"
+  },
+  "verified": {
+    "titlePopup": "VERIFICATION",
+    "titleContent3": "Enter the 6-digit code we sent to your email"
   }
 }

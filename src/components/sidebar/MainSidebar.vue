@@ -70,9 +70,16 @@
       </div>
     </router-link> -->
 
-    <el-popover trigger="hover" v-model="isOpenPopup" placement="right" popper-class="p-0 poper popper-add-menu" style="min-width: 80px">
+    <el-popover
+      trigger="hover"
+      v-if="checkPemission('exception', ['view']) || checkPemission('member', ['view'])"
+      v-model="isOpenPopup"
+      placement="right"
+      popper-class="p-0 poper popper-add-menu"
+      style="min-width: 80px"
+    >
       <div class="popper-add-menu-content">
-        <ul class="module">
+        <ul class="module" v-if="checkPemission('exception', ['view'])">
           <li class="module-item" @click="isOpenPopup = false">
             <router-link :to="{ name: 'Exception' }" class="router_center">
               <div class="sack_avatar">
@@ -98,8 +105,8 @@
       </div>
 
       <el-button slot="reference" class="is-create-color is-white is-none-border icon-btn p-0 m-0 button-add" style="height: 100%; position: relative; width: 100%">
-        <base-icon icon="icon-exception-bo" style="font-size: 27px" />
-        <span style="font-size: 11px; display: block; margin-top: 7px">Thêm</span>
+        <base-icon icon="icon-more" class="menu" size="32" />
+        <span style="font-size: 10px; display: block; margin-top: 7px; color: var(--bc-color-grey190)">{{ $t('leftMenu.more') }}</span>
       </el-button>
     </el-popover>
 

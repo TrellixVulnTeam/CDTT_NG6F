@@ -233,7 +233,7 @@
         toDate: null,
         fromAmount: null,
         toAmount: null,
-        bonusType:null
+        bonusType: null
       }
     }
 

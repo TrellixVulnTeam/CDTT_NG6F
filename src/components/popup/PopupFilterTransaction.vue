@@ -282,7 +282,7 @@
         return [
           {
             id: 5,
-            name: 'Lynkey',
+            name: 'LynKey',
             symbol: 'lynk',
             icon: 'icon-lin'
           },
@@ -308,7 +308,7 @@
         fromAmount: '',
         toAmount: '',
         status: null,
-        bonusType:null
+        bonusType: null
       }
       this.errorType = ''
       // this.setOpenPopup({
@@ -365,6 +365,7 @@
     }
 
     numberFormat(event: FocusEvent): void {
+      this.checkValid()
       const _event: any = event
       let fnumber = _event.target.value
       if (fnumber.length > 0) {
