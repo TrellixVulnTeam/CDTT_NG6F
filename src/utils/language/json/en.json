@@ -301,7 +301,8 @@
     "delete-buyer": "Deleted successfully"
   },
   "logout": {
-    "title": "Sign out"
+    "title": "Sign out",
+    "change-pass": "Change password"
   },
   "kyc": {
     "reason-reject": "Reject Reason",
@@ -828,5 +829,29 @@
     "fail-ex": "Failed",
     "title-widthdraw": "WITHDRAW",
     "title-crowdasle": "CROWDSALE"
+  },
+  "changePassword": {
+    "title": "CHANGE PASSWORD",
+    "label1": "Old password",
+    "label2": "New password",
+    "label3": "Confirm password",
+    "label4": "Enter 2-step authentication code:",
+    "placeholder": "Verification code",
+    "big-title": "Enter the 6-digit code we sent to your email",
+    "discription": "Didn’t receive any verification code?",
+    "link": "Resend code",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "wrong-oldPassword": "Please enter old password",
+    "wrong-newPassword": "Please enter new password",
+    "wrong-confirmPassword": "Please enter confirm password",
+    "wrong-code": "Please enter code",
+    "errorPassword": "Password confirmation doesn't match Password",
+    "errorValidatePassword": "Please enter a valid password",
+    "errorLengthVerificationCode": "Please enter all 6 characters"
+  },
+  "verified": {
+    "titlePopup": "VERIFICATION",
+    "titleContent3": "Enter the 6-digit code we sent to your email"
   }
 }

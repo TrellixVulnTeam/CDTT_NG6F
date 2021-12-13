@@ -256,7 +256,8 @@
     "delete-buyer": "Xóa thành công"
   },
   "logout": {
-    "title": "Đăng xuất"
+    "title": "Đăng xuất",
+    "change-pass": "Đổi mật khẩu"
   },
   "kyc": {
     "reason-reject": "Lý do từ chối",
@@ -780,5 +781,29 @@
     "fail-ex": "Thất bại",
     "title-widthdraw": "RÚT",
     "title-crowdasle": "CROWDSALE"
+  },
+  "changePassword": {
+    "title": "ĐỔI MẬT KHẨU",
+    "label1": "Mật khẩu cũ",
+    "label2": "Mật khẩu mới",
+    "label3": "Nhập lại mật khẩu",
+    "label4": "Nhập mã xác thực 2 bước:",
+    "placeholder": "Mã xác nhận",
+    "big-title": "Nhập mã gồm 6 chữ số mà chúng tôi đã gửi đến email của bạn",
+    "discription": "Bạn chưa nhận được mã xác thực?",
+    "link": "Gửi lại",
+    "confirm": "Xác nhận",
+    "cancel": "Huỷ",
+    "wrong-oldPassword": "Vui lòng nhập mật khẩu cũ",
+    "wrong-newPassword": "Vui lòng nhập mật khẩu mới",
+    "wrong-confirmPassword": "Vui lòng nhập lại mật khẩu mới",
+    "wrong-code": "Vui lòng nhập mã xác nhận",
+    "errorPassword": "Mật khẩu nhập lại không khớp",
+    "errorValidatePassword": "Vui lòng nhập mật khẩu hợp lệ",
+    "errorLengthVerificationCode": "Vui lòng nhập đủ 6 ký tự"
+  },
+  "verified": {
+    "titlePopup": "Xác minh",
+    "titleContent3": "Nhập mã gồm 6 chữ số mà chúng tôi đã gửi đến email của bạn"
   }
 }
