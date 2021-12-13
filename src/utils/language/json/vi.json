@@ -779,6 +779,8 @@
     "failed-tranfer": "Chuyển thất bại",
     "fail-ex": "Thất bại",
     "title-widthdraw": "RÚT",
-    "title-crowdasle": "CROWDSALE"
+    "title-crowdasle": "CROWDSALE",
+    "id":"Mã giao dịch",
+    "detail-exception":"Chi tiết giao dịch"
   }
 }

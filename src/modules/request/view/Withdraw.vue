@@ -7,6 +7,7 @@
             <base-icon icon="icon-search" size="16" />
           </div>
         </el-input>
+        
       </div>
 
       <el-popover :value="isVisible" placement="bottom-start" width="518" trigger="click" popper-class="popper-filter-request-withdraw" @show="handleShowPopper">
@@ -28,6 +29,7 @@
               type="date"
               :placeholder="$t('request.filter.planceOder2')"
               class="box-input-request-date"
+              :picker-options="pickerOption2"
             >
             </el-date-picker>
             <div class="line"></div>
@@ -39,6 +41,7 @@
               type="date"
               :placeholder="$t('request.filter.planceOder3')"
               class="box-input-request-date"
+              :picker-options="pickerOption"
             >
             </el-date-picker>
           </div>
@@ -59,6 +62,9 @@
               clearable
               @keyup.native="numberFormat($event)"
             ></el-input>
+          </div>
+          <div v-if="errorType === 'amount'" class="error-amount">
+            <p>{{ $t('notify.amount-invalid') }}</p>
           </div>
           <div class="be-flex jc-flex-end footer">
             <el-button class="btn-default btn-400 btn-h-40 btn-close text-regular" @click="handleResetFilter">
@@ -157,6 +163,7 @@
       toAmount: '',
       status: ''
     }
+    errorType = ''
     dataProp: any = {}
     query: any = {
       page: 1,
@@ -212,6 +219,25 @@
     loadingTable = true
     get getPaginationInfo(): any {
       return this.$t('paging.request')
+    }
+    // @Watch('filter.fromAmount') watchFromAmount(value: string | number): void {
+    //   if (value == '') {
+    //     this.errorType = ''
+    //   } else {
+    //     this.errorType = 'amount'
+    //   }
+    //   // this.filterException.fromAvailableAmount = "$ " + value
+    // }
+    @Watch('filter.toAmount') watchToAmount(value: string | number): void {
+      const a = value.toString().replaceAll(',', '')
+      const b = this.filter.fromAmount.toString().replaceAll(',', '')
+      console.log('a', b)
+      if (parseFloat(a) > parseFloat(b) || value == '') {
+        this.errorType = ''
+      } else {
+        this.errorType = 'amount'
+      }
+      // this.filterException.fromAvailableAmount = "$ " + value
     }
     handleSizeChange(value: number): void {
       if (value) {
@@ -288,6 +314,37 @@
       // }
       this.isVisible = true
     }
+    get pickerOption(): any {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const _this = this
+      return {
+        disabledDate(time: Date) {
+          return _this.disableTime(time, 'from-to')
+        }
+      }
+    }
+
+    get pickerOption2(): any {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const _this = this
+      return {
+        disabledDate(time: Date) {
+          return _this.disableTime(time, 'to-from')
+        }
+      }
+    }
+
+    disableTime(time: Date, type: string): any {
+      if (type === 'from-to') {
+        if (this.filter.fromDate) {
+          return time.getTime() < new Date(this.filter.fromDate).getTime()
+        }
+      } else {
+        if (this.filter.toDate) {
+          return time.getTime() >= new Date(this.filter.toDate).getTime()
+        }
+      }
+    }
     handleResetFilter(): void {
       this.filter = {
         fromDate: '',
@@ -298,21 +355,23 @@
       }
     }
     handleApply(): void {
-      let filter: any = { ...this.filter }
-      if (this.filter.status.length > 0) {
-        filter.status = this.filter.status.join()
+      if (this.errorType == 'amount') {
+        let filter: any = { ...this.filter }
+        if (this.filter.status.length > 0) {
+          filter.status = this.filter.status.join()
+        }
+        if (filter) {
+          this.querry.fromDate = filter.fromDate
+          this.querry.toDate = filter.toDate
+          this.querry.fromAmount = filter.fromAmount.replace(/,/g, '')
+          this.querry.toAmount = filter.toAmount.replace(/,/g, '')
+          this.querry.status = filter.status
+        }
+        this.querry.page = 1
+        this.query.page = 1
+        this.getDataTable()
+        this.isVisible = false
       }
-      if (filter) {
-        this.querry.fromDate = filter.fromDate
-        this.querry.toDate = filter.toDate
-        this.querry.fromAmount = filter.fromAmount.replace(/,/g, '')
-        this.querry.toAmount = filter.toAmount.replace(/,/g, '')
-        this.querry.status = filter.status
-      }
-      this.querry.page = 1
-      this.query.page = 1
-      this.getDataTable()
-      this.isVisible = false
     }
     numberFormat(event: FocusEvent): void {
       const _event: any = event
@@ -343,6 +402,22 @@
   }
 </script>
 <style scoped lang="scss">
+  .error-amount {
+    margin-top: -20px;
+    margin-bottom: 10px;
+    // position: absolute;
+    // bottom: 0;
+    // left: 0;
+
+    p {
+      font-family: Open Sans;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 12px;
+      line-height: 20px;
+      color: #cf202f;
+    }
+  }
   .bo-request-withdraw {
     .box-filter {
       margin-bottom: 24px;

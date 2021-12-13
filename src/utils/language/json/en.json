@@ -827,6 +827,9 @@
     "failed-tranfer": "Failed transfer",
     "fail-ex": "Failed",
     "title-widthdraw": "WITHDRAW",
-    "title-crowdasle": "CROWDSALE"
+    "title-crowdasle": "CROWDSALE",
+    "detail-exception":"Transaction Details",
+    "id":"ID"
+    
   }
 }
