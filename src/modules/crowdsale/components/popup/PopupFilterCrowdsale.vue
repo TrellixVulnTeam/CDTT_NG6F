@@ -152,11 +152,11 @@
       {
         value: 'Binance',
         label: 'Binance'
-      },
-      {
-        value: 'Ethereum',
-        label: 'Ethereum'
       }
+      // {
+      //   value: 'Ethereum',
+      //   label: 'Ethereum'
+      // }
     ]
     optionByRound: any = {}
     handleReset(): void {
