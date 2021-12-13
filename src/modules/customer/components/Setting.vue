@@ -17,7 +17,7 @@
           <el-form-item prop="phone">
             <div class="be-flex label" slot="label">{{ $t('label.phone-number') }}</div>
 
-            <el-input type="number" :placeholder="$t('placeholder.phone-number')" v-model="form.phone">
+            <el-input @change="handleChangePhone" v-on:keyup.enter="handleContinue" type="number" :placeholder="$t('placeholder.phone-number')" v-model="form.phone">
               <template style="cursor: pointer" slot="prepend"
                 ><span style="color: #5b616e">{{ phoneDefault }}</span></template
               >
@@ -535,7 +535,12 @@
       this.verifyCode()
       // await this.sendEmailcustomer()
     }
-
+    handleChangePhone(event: FocusEvent): void {
+      console.log('event', event)
+      if (event) {
+        this.handleContinue()
+      }
+    }
     async handleSendCodeCustomer(): Promise<void> {
       const params = {
         countryCode: this.phoneDefault,
