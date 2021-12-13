@@ -60,7 +60,7 @@
     "deposit11": "Chuyển tiền vào địa chỉ bên dưới hoặc quét mã QR ",
     "text11": "để nạp Bitcoin vào tài khoản",
     "text12": "để nạp Ethereum vào tài khoản",
-    "text13": "để nạp Lynkey vào tài khoản"
+    "text13": "để nạp LynKey vào tài khoản"
   },
   "resetPass": {
     "title": "Đặt lại mật khẩu",
@@ -562,7 +562,7 @@
     },
     "filter-popper": {
       "added-by": "Thêm bởi",
-      "pl-createdBy": "chọn",
+      "pl-createdBy": "Chọn",
       "added-date": "Ngày thêm",
       "pl-fromDate": "Từ",
       "pl-toDate": "Đến"
@@ -632,7 +632,7 @@
         "label12": "Lý do"
       },
       "account": {
-        "Linkey": "Ví Lynkey",
+        "Linkey": "Ví LynKey",
         "Ethereum": "Ví Ethereum",
         "Bitcoin": "Ví Bitcoin",
         "Bnb": "Ví BNB",

@@ -73,7 +73,7 @@
     "goback": "Go back"
   },
   "wallet": {
-    "Linkey": "Lynkey Wallet",
+    "Linkey": "LynKey Wallet",
     "Ethereum": "Ethereum Wallet",
     "Bitcoin": "Bitcoin Wallet",
     "lock": "Locked Amount",
@@ -729,7 +729,7 @@
         "label12": "Reason"
       },
       "account": {
-        "Linkey": "Lynkey Wallet",
+        "Linkey": "LynKey Wallet",
         "Ethereum": "Ethereum Wallet",
         "Bitcoin": "Bitcoin Wallet",
         "Bnb": "BNB Wallet",
