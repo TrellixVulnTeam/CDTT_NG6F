@@ -558,7 +558,7 @@
       "title-member": "thêm người mua",
       "title-member-edit": "sửa người mua",
       "title-confirm": "Xác nhận xóa",
-      "content-confirm": "Bạn có chắc chắn muốn xóa người mua này không ?"
+      "content-confirm": "Bạn có chắc chắn muốn xóa người mua này không?"
     },
     "filter-popper": {
       "createdBy": "Thêm bởi",
@@ -742,7 +742,7 @@
       "title-reset": "ĐẶT LẠI MẬT KHẨU",
       "status-active": "Trạng thái kích hoạt",
       "title-confirm": "Xác nhận xóa",
-      "content-confirm": "Bạn có chắc chắn muốn xóa nhân viên này không ?",
+      "content-confirm": "Bạn có chắc chắn muốn xóa nhân viên này không?",
       "title-detail": "chi tiết nhân viên",
       "edit": "Sửa",
       "email": "Email",

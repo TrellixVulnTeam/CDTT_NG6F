@@ -605,7 +605,7 @@
       "title-member": "ADD BUYER",
       "title-member-edit": "EDIT BUYER",
       "title-confirm": "Confirm delete",
-      "content-confirm": "Are you sure you want to remove this buyer ?"
+      "content-confirm": "Are you sure you want to remove this buyer?"
     },
     "filter-popper": {
       "added-by": "Added by",
@@ -790,7 +790,7 @@
       "title-reset": "RESET PASSWORD",
       "status-active": "Active status",
       "title-confirm": "Confirm delete",
-      "content-confirm": "Are you sure you want to remove this member ?",
+      "content-confirm": "Are you sure you want to remove this member?",
       "title-detail": "MEMBER DETAIL",
       "edit": "Edit",
       "email": "Email",
