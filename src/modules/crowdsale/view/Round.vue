@@ -9,12 +9,12 @@
         </el-table-column>
         <el-table-column :label="this.$t('crowdsale.startDate')" prop="fromDate" align="left" width="160">
           <template slot-scope="scope">
-            <span>{{ scope.row.fromDate.time | formatDDMMYY }}</span>
+            <span>{{ scope.row.fromDate.time | formatMMDDYYWithoutHour }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="this.$t('crowdsale.endDate')" prop="toDate" align="left" width="160">
           <template slot-scope="scope">
-            <span>{{ scope.row.toDate.time | formatDDMMYY }}</span>
+            <span>{{ scope.row.toDate.time | formatMMDDYYWithoutHour }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="this.$t('crowdsale.price')" prop="price" align="center" width="124">
