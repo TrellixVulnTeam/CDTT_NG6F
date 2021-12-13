@@ -36,6 +36,7 @@
                     @keypress.native="onlyNumber($event, 'fromAmount')"
                     @keyup.native="numberFormat($event)"
                   >
+                    <div class="prefix" slot="prefix">$</div>
                   </el-input>
                 </el-form-item>
 
@@ -46,6 +47,7 @@
                     @keypress.native="onlyNumber($event, 'toAmount')"
                     @keyup.native="numberFormat($event)"
                   >
+                    <div class="prefix" slot="prefix">$</div>
                   </el-input>
                 </el-form-item>
               </div>
@@ -349,5 +351,13 @@
         color: #5b616e;
       }
     }
+  }
+  .prefix {
+    height: 100%;
+    font-size: 16px;
+    color: #0a0b0d;
+    position: absolute;
+    left: 8px;
+    top: 4px;
   }
 </style>
