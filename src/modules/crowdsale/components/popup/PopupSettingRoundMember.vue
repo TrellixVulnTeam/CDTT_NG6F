@@ -30,9 +30,10 @@
         </div>
 
         <el-form-item :label="$t('label.round')" class="is-required" prop="role">
-          <el-checkbox-group v-model="listRoundChecked" class="list-role">
+          <el-checkbox-group v-model="listRoundChecked" class="list-role" @change="isNotChooseRound = false">
             <el-checkbox v-for="(round, index) in listRound" :key="round.id" :label="round.id" :disabled="checkDisableRound(index)">{{ round.name }}</el-checkbox>
           </el-checkbox-group>
+          <small class="small" v-if="isNotChooseRound">{{ $t('notify.choose-round') }}</small>
         </el-form-item>
       </el-form>
     </div>
@@ -88,6 +89,7 @@
 
     isLoading = false
     isEmailFailed = false
+    isNotChooseRound = false
 
     objRound = {}
 
@@ -158,6 +160,7 @@
 
     handleClose(): void {
       this.listRoundChecked = []
+      this.isNotChooseRound = false
       this.form = {
         userEmail: '',
         userFirstName: '',
@@ -218,6 +221,12 @@
     }, 500)
 
     handleSubmit(): void {
+      if (!this.listRoundChecked.length) {
+        //@ts-ignore
+        this.$refs['setting-round-member']?.validate()
+        this.isNotChooseRound = true
+        return
+      }
       //@ts-ignore
       this.$refs['setting-round-member']?.validate(valid => {
         if (valid && !this.isEmailFailed) {

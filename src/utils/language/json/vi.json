@@ -254,7 +254,8 @@
     "update-buyer": "Chỉnh sửa thông tin người mua thành công",
     "buyer-already-listed": "Nhà đầu tư đã có trong danh sách",
     "delete-buyer": "Xóa thành công",
-    "incorrect-old-pass": "Mật khẩu cũ không chính xác"
+    "incorrect-old-pass": "Mật khẩu cũ không chính xác",
+    "choose-round": "Chọn tối thiểu 1 vòng"
   },
   "logout": {
     "title": "Đăng xuất",
