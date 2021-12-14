@@ -13,7 +13,7 @@
             :placeholder="$t('placeholder.email')"
             :disabled="type === 'edit'"
             clearable
-            @change="handleFindCustomer"
+            @input="handleFindCustomer"
             @clear="handleClearEmail"
           />
           <small class="small" v-if="isEmailFailed">{{ $t('notify.not-find-customer') }}</small>
@@ -62,7 +62,7 @@
   import { CrowdsaleRepository } from '@/services/repositories/crowdsale'
   import getRepository from '@/services'
   import { namespace } from 'vuex-class'
-  import { findIndex, forEach } from 'lodash'
+  import { debounce, findIndex, forEach } from 'lodash'
 
   const crowdsaleBo = namespace('crowdsaleBo')
 
@@ -196,27 +196,31 @@
     }
 
     handleFindCustomer(): void {
-      if (this.form.userEmail) {
-        apiCrowdsale.findCustomerByEmail(this.form.userEmail).then(res => {
+      this.debouneFindCustomer(this)
+    }
+
+    debouneFindCustomer = debounce(_this => {
+      if (_this.form.userEmail) {
+        apiCrowdsale.findCustomerByEmail(_this.form.userEmail).then(res => {
           if (res) {
-            this.form.userFirstName = res.firstName
-            this.form.userLastName = res.lastName
-            this.isEmailFailed = false
+            _this.form.userFirstName = res.firstName
+            _this.form.userLastName = res.lastName
+            _this.isEmailFailed = false
           } else {
-            this.isEmailFailed = true
-            this.form.userFirstName = ''
-            this.form.userLastName = ''
+            _this.isEmailFailed = true
+            _this.form.userFirstName = ''
+            _this.form.userLastName = ''
           }
           //@ts-ignore
-          this.$refs['setting-round-member']?.fields.find(f => f.prop == 'userEmail').clearValidate()
+          _this.$refs['setting-round-member']?.fields.find(f => f.prop == 'userEmail').clearValidate()
         })
       }
-    }
+    }, 500)
 
     handleSubmit(): void {
       //@ts-ignore
       this.$refs['setting-round-member']?.validate(valid => {
-        if (valid) {
+        if (valid && !this.isEmailFailed) {
           const data = {
             roundIds: this.listRoundChecked,
             userEmail: this.form.userEmail
