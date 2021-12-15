@@ -28,7 +28,7 @@
           </div>
         </div>
       </div>
-      <filter-transaction @filter="handleFilter" :type="'transaction'" :showBtn="true" ref="filter" @addDeposit="handleOpenAddDeposit" />
+      <filter-transaction @filter="handleFilter" :type="'transaction'" :showBtn="$route.name === 'TransactionDeposit'" ref="filter" @addDeposit="handleOpenAddDeposit" />
       <div class="table-transaction">
         <table-transaction
           v-loading="isLoading"
