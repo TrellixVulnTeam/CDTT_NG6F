@@ -253,7 +253,8 @@
     "add-buyer": "Thêm người mua thành công",
     "update-buyer": "Chỉnh sửa thông tin người mua thành công",
     "buyer-already-listed": "Nhà đầu tư đã có trong danh sách",
-    "delete-buyer": "Xóa thành công"
+    "delete-buyer": "Xóa thành công",
+    "incorrect-old-pass": "Mật khẩu cũ không chính xác"
   },
   "logout": {
     "title": "Đăng xuất",
@@ -804,6 +805,7 @@
   },
   "verified": {
     "titlePopup": "Xác minh",
-    "titleContent3": "Nhập mã gồm 6 chữ số mà chúng tôi đã gửi đến email của bạn"
+    "titleContent3": "Nhập mã gồm 6 chữ số mà chúng tôi đã gửi đến email của bạn",
+    "resendCodeMess": "Gửi lại mã thành công"
   }
 }

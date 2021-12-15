@@ -298,7 +298,8 @@
     "add-buyer": "Added buyer successfully",
     "update-buyer": "Edited buyer successfully",
     "buyer-already-listed": "This investor is already listed",
-    "delete-buyer": "Deleted successfully"
+    "delete-buyer": "Deleted successfully",
+    "incorrect-old-pass": "Incorrect old password"
   },
   "logout": {
     "title": "Sign out",
@@ -852,6 +853,7 @@
   },
   "verified": {
     "titlePopup": "VERIFICATION",
-    "titleContent3": "Enter the 6-digit code we sent to your email"
+    "titleContent3": "Enter the 6-digit code we sent to your email",
+    "resendCodeMess": "Resend code successfully"
   }
 }

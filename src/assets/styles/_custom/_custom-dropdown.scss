@@ -55,13 +55,16 @@
     .dropdown-group {
         .el-dropdown-menu__item {
             color: var(--bc-text-primary);
+            &:hover {
+                color: var(--bc-theme-primary) !important;
+            }
         }
         .el-dropdown-menu__item.item-above {
             line-height: 1;
             cursor: default;
             display: flex;
             flex-direction: column;
-            color: var(--bc-text-primary);
+            color: var(--bc-text-primary); 
             margin-bottom: 10px;
             &:hover {
                 background-color: transparent !important;

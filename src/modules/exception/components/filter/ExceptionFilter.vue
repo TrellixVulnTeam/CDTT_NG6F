@@ -279,7 +279,7 @@
         return [
           {
             id: 5,
-            name: 'Lynkey',
+            name: 'LynKey',
             symbol: 'lynk',
             icon: 'icon-lin'
           },
