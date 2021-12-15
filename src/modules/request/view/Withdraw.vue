@@ -28,6 +28,7 @@
               type="date"
               :placeholder="$t('request.filter.planceOder2')"
               class="box-input-request-date"
+              :picker-options="pickerOption2"
             >
             </el-date-picker>
             <div class="line"></div>
@@ -39,17 +40,20 @@
               type="date"
               :placeholder="$t('request.filter.planceOder3')"
               class="box-input-request-date"
+              :picker-options="pickerOption"
             >
             </el-date-picker>
           </div>
           <div class="label">{{ $t('request.filter.label3') }}</div>
-          <div class="be-flex jc-space-between align-center row box">
+        <div style='position: relative'>
+          <div class="be-flex jc-space-between align-center row box" :class="errorType === 'amount' && 'error-amount-border-popup-transaction'">
             <el-input
               v-model="filter.fromAmount"
               :placeholder="$t('request.filter.planceOder2')"
               class="box-input-request-date"
               clearable
               @keyup.native="numberFormat($event)"
+              @blur="clickOutSide"
             ></el-input>
             <div class="line"></div>
             <el-input
@@ -58,13 +62,18 @@
               class="box-input-request-date"
               clearable
               @keyup.native="numberFormat($event)"
+              @blur="clickOutSide"
             ></el-input>
           </div>
+          <div v-if="errorType === 'amount'" class="error-amount">
+            <p>{{ $t('notify.amount-invalid') }}</p>
+          </div>
+        </div>
           <div class="be-flex jc-flex-end footer">
             <el-button class="btn-default btn-400 btn-h-40 btn-close text-regular" @click="handleResetFilter">
               {{ $t('button.reset') }}
             </el-button>
-            <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border h-40 text-regular" @click="handleApply">
+            <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border h-40 text-regular" @click="handleApply" :disabled="errorType === 'amount'">
               {{ $t('button.apply') }}
             </el-button>
           </div>
@@ -210,6 +219,52 @@
     sortActive = 'REQUEST_DATE'
     orderBy = 'REQUEST_DATE'
     loadingTable = true
+    errorType=''
+    get pickerOption(): any {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const _this = this
+      return {
+        disabledDate(time: Date) {
+          return _this.disableTime(time, 'from-to')
+        }
+      }
+    }
+
+    get pickerOption2(): any {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const _this = this
+      return {
+        disabledDate(time: Date) {
+          return _this.disableTime(time, 'to-from')
+        }
+      }
+    }
+
+    disableTime(time: Date, type: string): any {
+      if (type === 'from-to') {
+        if (this.filter.fromDate) {
+          return time.getTime() < new Date(this.filter.fromDate).getTime()
+        }
+      } else {
+        if (this.filter.toDate) {
+          return time.getTime() >= new Date(this.filter.toDate).getTime()
+        }
+      }
+    }
+    clickOutSide() {
+      this.checkValid()
+    }
+    checkValid(): boolean {
+      let toAmount = parseInt(this.filter.toAmount.replaceAll(',', ''))
+      let fromAmount = parseInt(this.filter.fromAmount.replaceAll(',', ''))
+      if (fromAmount > toAmount) {
+        this.errorType = 'amount'
+        return false
+      } else {
+        this.errorType = ''
+        return true
+      }
+    }
     get getPaginationInfo(): any {
       return this.$t('paging.request')
     }
@@ -315,6 +370,7 @@
       this.isVisible = false
     }
     numberFormat(event: FocusEvent): void {
+      this.checkValid()
       const _event: any = event
       let fnumber = _event.target.value
       if (fnumber.length > 0) {
@@ -402,6 +458,27 @@
           color: #5b616e;
         }
       }
+    }
+  }
+  .error-amount {
+    position: absolute;
+    bottom: -24px;
+    left: 0;
+
+    p {
+      font-family: Open Sans;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 20px;
+      color: #cf202f;
+    }
+  }
+  .footer {
+    button[disabled] {
+      opacity: 0.5 ;
+      background-color: var(--bc-btn-bg-default);
+      cursor: not-allowed;
     }
   }
 </style>
