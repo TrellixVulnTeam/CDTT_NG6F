@@ -24,4 +24,13 @@ export class TransactionRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+  async addDeposit(params: Record<string, any>): Promise<any> {
+    try {
+      const rs = await request.put(`${this.prefix}/deposit/insert`, {}, { params })
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      console.log(error)
+      return Promise.reject(error)
+    }
+  }
 }

@@ -28,7 +28,7 @@
           </div>
         </div>
       </div>
-      <filter-transaction @filter="handleFilter" :type="'transaction'" ref="filter" />
+      <filter-transaction @filter="handleFilter" :type="'transaction'" :showBtn="true" ref="filter" @addDeposit="handleOpenAddDeposit" />
       <div class="table-transaction">
         <table-transaction
           v-loading="isLoading"
@@ -42,6 +42,7 @@
       </div>
       <popup-filter-transaction @filter="handleFilter" :tab-active-filter="tabActive" :type="'transaction'" ref="popup-filter" />
       <transaction-detail :detail-row="detailRow" :tab-active-filter="tabActive" />
+      <popup-add-deposit @reload="init" />
     </div>
   </div>
 </template>
@@ -58,6 +59,7 @@
   import FilterTransaction from '@/components/filter/FilterTransaction.vue'
   import PopupFilterTransaction from '@/components/popup/PopupFilterTransaction.vue'
   import TransactionDetail from '@/modules/transaction/components/transactionDetail/TransactionDetail.vue'
+  import PopupAddDeposit from '../components/PopupAddDeposit.vue'
 
   const api: TransactionRepository = getRepository('transaction')
 
@@ -67,7 +69,7 @@
     transactionType: string | null
   }
 
-  @Component({ components: { PopupFilterTransaction, TableTransaction, FilterTransaction, TransactionDetail } })
+  @Component({ components: { PopupFilterTransaction, TableTransaction, FilterTransaction, TransactionDetail, PopupAddDeposit } })
   export default class Transaction extends Mixins(PopupMixin) {
     tabs: Array<Record<string, any>> = [
       {
@@ -267,6 +269,13 @@
     debounceInit = debounce(() => {
       this.init()
     }, 300)
+
+    handleOpenAddDeposit(): void {
+      this.setOpenPopup({
+        popupName: 'popup-add-deposit',
+        isOpen: true
+      })
+    }
   }
 </script>
 

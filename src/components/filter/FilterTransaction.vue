@@ -26,6 +26,9 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+    <button v-if="showBtn" type="button" class="btn-default-bg text-sm ml-auto add-member" @click="handleAddDeposit">
+      <span>{{ $t('button.add-deposit') }}</span>
+    </button>
   </div>
 </template>
 
@@ -38,6 +41,7 @@
   @Component
   export default class FilterTransaction extends Mixins(PopupMixin) {
     @Prop({ required: true, type: String, default: 'customer' }) type!: string
+    @Prop({ required: true, type: Boolean, default: false }) showBtn!: boolean
     filter: Record<string, any> = {
       search: '',
       keywordString: '',
@@ -82,6 +86,7 @@
         })
       }
     }, 500)
+
     public handleReset() {
       this.filter.search = ''
       this.filter.keywordString = ''
@@ -105,6 +110,9 @@
           isOpen: true
         })
       }
+    }
+    handleAddDeposit(): void {
+      this.$emit('addDeposit')
     }
   }
 </script>
@@ -157,6 +165,15 @@
           color: var(--bc-theme-primary) !important;
         }
       }
+    }
+  }
+  .add-member {
+    height: 40px;
+    font-weight: 400;
+    padding: 0 8px;
+    margin-right: 24px;
+    &:hover {
+      border: 1px solid transparent;
     }
   }
 </style>
