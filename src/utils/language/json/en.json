@@ -167,7 +167,7 @@
     "add-member": "Add member",
     "add-member-1": "Add Member",
     "add-buyer": "Add Buyer",
-    "add-deposit": "Add Deposit",
+    "add-deposit": "Deposit",
     "delete-user": "Delete User",
     "save": "Save",
     "delete": "Delete"
@@ -488,7 +488,7 @@
       "title-filter": "Filter",
       "transaction-detail": "Transaction Details",
       "customer-info": "Customer Info",
-      "add-deposit": "Add Deposit"
+      "add-deposit": "Deposit"
     },
     "detail": {
       "transaction-id": "Transaction ID",

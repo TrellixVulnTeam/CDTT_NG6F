@@ -19,7 +19,9 @@
               @keypress.native="onlyNumber($event, 'amount')"
               @keyup.native="numberFormat($event)"
               clearable
-            />
+            >
+              <template slot="append">USDT</template>
+            </el-input>
           </el-form-item>
         </div>
       </el-form>
