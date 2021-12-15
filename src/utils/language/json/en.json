@@ -299,7 +299,8 @@
     "update-buyer": "Edited buyer successfully",
     "buyer-already-listed": "This investor is already listed",
     "delete-buyer": "Deleted successfully",
-    "incorrect-old-pass": "Incorrect old password"
+    "incorrect-old-pass": "Incorrect old password",
+    "choose-round": "Must choose at least 1 round"
   },
   "logout": {
     "title": "Sign out",
