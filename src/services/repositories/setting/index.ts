@@ -33,6 +33,7 @@ export class SettingRepository extends BaseRepository {
   }
   async resendCode(data?: Record<string, any>): Promise<any> {
     try {
+      data!.userType = 'EMPLOYEE'
       const result = await request.post(`${this.prefix}/0/resendCode`, data)
       return Promise.resolve(result.data.data)
     } catch (error) {
