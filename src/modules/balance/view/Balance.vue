@@ -19,7 +19,7 @@
             <base-icon icon="icon-people" size="19" />
           </div>
         </div>
-        <span class="number2"> {{ numOfInvestor }}</span>
+        <span class="number2"> {{ numOfInvestor| formatNumber }}</span>
         <div>
           <span class="text3"> {{ $t(`balance.of-total`) }} {{ numOfUser | formatNumber }}</span>
         </div>
