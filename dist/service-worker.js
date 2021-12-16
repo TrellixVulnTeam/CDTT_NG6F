@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.a3825ca4cbfb5e6ca483b035c7e00061.js"
+  "/precache-manifest.e67da6ad8119887f8b00ded19cbfa770.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "blockchain-web-backoffice"});
