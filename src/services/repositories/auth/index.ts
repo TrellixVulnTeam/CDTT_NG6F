@@ -24,6 +24,7 @@ export class AuthRepository extends BaseRepository {
   async login(data: Record<string, any>): Promise<any> {
     try {
       delete request.defaults.headers.common['Authorization']
+      data.employee = true
       const result = await request.post(`${this.prefix}/login`, data)
       return Promise.resolve(result.data.data)
     } catch (error) {
@@ -51,6 +52,7 @@ export class AuthRepository extends BaseRepository {
   }
   async validateUser(data: Record<string, any>, captcha: string): Promise<any> {
     try {
+      data.employee = true
       delete request.defaults.headers.common['Authorization']
       const rs = await request.post(`${this.prefix}/validate`, data, {
         headers: {
@@ -65,6 +67,7 @@ export class AuthRepository extends BaseRepository {
 
   async resendCode(data: Record<string, any>, userId = 0): Promise<any> {
     try {
+      data.userType = 'EMPLOYEE'
       const rs = await request.post(`${this.prefix}/${userId}/resendCode`, data)
       Promise.resolve(rs.data)
     } catch (error) {

@@ -19,9 +19,9 @@
       </div>
     </div>
     <div class="transaction-detail">
-      <p class="title">{{ $t('transaction.popup.transaction-detail') }}</p>
+      <p class="title">{{ $t('exception.detail-exception') }}</p>
       <div class="item be-flex">
-        <p>{{ $t('transaction.detail.transaction-id') }}</p>
+        <p>{{ $t('exception.id') }}</p>
         <div class="be-flex align-center" v-if="detailRow.transactionType === 'WITHDRAW'">
           <p class="text-detail-2">{{ detailRow.transactionHash | formatTransactionCode(10) }}</p>
           <span v-if="detailRow.transactionHash" style="margin-left: 8px" class="icon-copy" @click="handleCopyTransaction(detailRow.transactionHash)">
