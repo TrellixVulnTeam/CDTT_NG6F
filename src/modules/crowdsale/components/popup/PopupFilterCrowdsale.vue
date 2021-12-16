@@ -39,7 +39,8 @@
           <el-form-item prop="paidWallet" class="box-input">
             <el-select class="select" v-model="form.paidWallet" :placeholder="$t('crowdsale.popup-filter.planceOderWallet')" clearable>
               <div infinite-scroll-delay="500">
-                <el-option v-for="item in optionByWallet" :key="item.value" :label="item.label" :value="item.value"> </el-option>
+                <el-option v-for="item in optionByWallet" :key="item.value" :label="item.label" :value="item.value">
+                </el-option>
               </div>
             </el-select>
           </el-form-item>
@@ -49,7 +50,15 @@
           <el-form-item prop="currency" class="box-input">
             <el-select class="select" v-model="form.currency" multiple :placeholder="$t('crowdsale.popup-filter.planceOderToken')">
               <div infinite-scroll-delay="500">
-                <el-option v-for="(item, index) in optionByToken" :key="index" :label="item.currency" :value="item.currency"> </el-option>
+                <el-option v-for="(item, index) in optionByToken" :key="index" :label="item.currency" :value="item.currency">
+                  <template>
+                    <div class="be-flex wallet-item">
+                      <base-icon :icon="renderIcon(item.currency)" size="24" />
+                      <span class="d-ib" style="margin-left: 10px">{{ formatCurrencyName(item.currencyName) }}</span>
+                      <span class="d-ib" style="margin-left: 4px">({{ item.currency.toUpperCase() }})</span>
+                    </div>
+                  </template>
+                </el-option>
               </div>
             </el-select>
           </el-form-item>
@@ -94,13 +103,13 @@
               clearable
               @keyup.native="numberFormat($event)"
             ></el-input>
-            <div v-if="form.fromAmount" class="dolar fw-400 fs-16">$</div>
+            <div class="dolar fw-400 fs-16">$</div>
           </el-form-item>
 
           <div class="line"></div>
           <el-form-item prop="toAmount" class="box-input">
             <el-input :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateEnd')" v-model="form.toAmount" clearable @keyup.native="numberFormat($event)"></el-input>
-            <div v-if="form.toAmount" class="dolar fw-400 fs-16">$</div>
+            <div class="dolar fw-400 fs-16">$</div>
           </el-form-item>
         </div>
       </el-form>
@@ -118,6 +127,7 @@
   import getRepository from '@/services'
   import countryJson from '@/utils/country/index.json'
   import { CrowdsaleRepository } from '@/services/repositories/crowdsale'
+  import { formatType } from '@/configs'
   interface IListCountry {
     name: string
     dialCode: string
@@ -152,13 +162,41 @@
       {
         value: 'Binance',
         label: 'Binance'
-      },
-      {
-        value: 'Ethereum',
-        label: 'Ethereum'
       }
+      // {
+      //   value: 'Ethereum',
+      //   label: 'Ethereum'
+      // }
     ]
     optionByRound: any = {}
+
+    formatCurrencyName(name: string): string {
+      if (name === 'USDC' || name === 'USDT') {
+        return name
+      } else if (name === 'LYNKEY') {
+        return 'LynKey'
+      } else {
+        return formatType(name)
+      }
+    }
+    renderIcon(type:string):string{
+      type=type.toLowerCase();
+      return type === 'lynk'
+        ? 'icon-lynk'
+        : type === 'clm'
+          ? 'icon-clm'
+          : type === 'btc'
+            ? 'icon-btc'
+            : type === 'eth'
+              ? 'icon-eth'
+              : type === 'usdt'
+                ? 'icon-usdt'
+                : type === 'bnb'
+                  ? 'icon-bnb'
+                  : type === 'usdc'
+                    ? 'icon-usdc'
+                    : 'icon-locker'
+    }
     handleReset(): void {
       this.form = {
         roundId: '',
@@ -275,8 +313,10 @@
         }
         .dolar {
           position: absolute;
-          top: 5px;
+          top: 0;
           left: 12px;
+          height: 100%;
+          line-height: 48px;
         }
       }
       .by-with-wallet,

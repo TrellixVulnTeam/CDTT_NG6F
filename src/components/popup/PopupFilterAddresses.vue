@@ -172,6 +172,8 @@
     formatCurrencyName(name: string): string {
       if (name === 'USDC' || name === 'USDT') {
         return name
+      } else if (name === 'LYNKEY') {
+        return 'LynKey'
       } else {
         return formatType(name)
       }
@@ -202,7 +204,7 @@
         return [
           {
             id: 5,
-            name: 'Lynkey',
+            name: 'LynKey',
             symbol: 'lynk',
             icon: 'icon-lin'
           },

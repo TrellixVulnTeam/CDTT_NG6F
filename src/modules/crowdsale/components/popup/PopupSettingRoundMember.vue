@@ -13,7 +13,7 @@
             :placeholder="$t('placeholder.email')"
             :disabled="type === 'edit'"
             clearable
-            @change="handleFindCustomer"
+            @input="handleFindCustomer"
             @clear="handleClearEmail"
           />
           <small class="small" v-if="isEmailFailed">{{ $t('notify.not-find-customer') }}</small>
@@ -30,9 +30,10 @@
         </div>
 
         <el-form-item :label="$t('label.round')" class="is-required" prop="role">
-          <el-checkbox-group v-model="listRoundChecked" class="list-role">
+          <el-checkbox-group v-model="listRoundChecked" class="list-role" @change="isNotChooseRound = false">
             <el-checkbox v-for="(round, index) in listRound" :key="round.id" :label="round.id" :disabled="checkDisableRound(index)">{{ round.name }}</el-checkbox>
           </el-checkbox-group>
+          <small class="small" v-if="isNotChooseRound">{{ $t('notify.choose-round') }}</small>
         </el-form-item>
       </el-form>
     </div>
@@ -62,7 +63,7 @@
   import { CrowdsaleRepository } from '@/services/repositories/crowdsale'
   import getRepository from '@/services'
   import { namespace } from 'vuex-class'
-  import { findIndex, forEach } from 'lodash'
+  import { debounce, findIndex, forEach } from 'lodash'
 
   const crowdsaleBo = namespace('crowdsaleBo')
 
@@ -88,6 +89,7 @@
 
     isLoading = false
     isEmailFailed = false
+    isNotChooseRound = false
 
     objRound = {}
 
@@ -158,6 +160,7 @@
 
     handleClose(): void {
       this.listRoundChecked = []
+      this.isNotChooseRound = false
       this.form = {
         userEmail: '',
         userFirstName: '',
@@ -196,27 +199,37 @@
     }
 
     handleFindCustomer(): void {
-      if (this.form.userEmail) {
-        apiCrowdsale.findCustomerByEmail(this.form.userEmail).then(res => {
-          if (res) {
-            this.form.userFirstName = res.firstName
-            this.form.userLastName = res.lastName
-            this.isEmailFailed = false
-          } else {
-            this.isEmailFailed = true
-            this.form.userFirstName = ''
-            this.form.userLastName = ''
-          }
-          //@ts-ignore
-          this.$refs['setting-round-member']?.fields.find(f => f.prop == 'userEmail').clearValidate()
-        })
-      }
+      this.debouneFindCustomer(this)
     }
 
+    debouneFindCustomer = debounce(_this => {
+      if (_this.form.userEmail) {
+        apiCrowdsale.findCustomerByEmail(_this.form.userEmail).then(res => {
+          if (res) {
+            _this.form.userFirstName = res.firstName
+            _this.form.userLastName = res.lastName
+            _this.isEmailFailed = false
+          } else {
+            _this.isEmailFailed = true
+            _this.form.userFirstName = ''
+            _this.form.userLastName = ''
+          }
+          //@ts-ignore
+          _this.$refs['setting-round-member']?.fields.find(f => f.prop == 'userEmail').clearValidate()
+        })
+      }
+    }, 500)
+
     handleSubmit(): void {
+      if (!this.listRoundChecked.length) {
+        //@ts-ignore
+        this.$refs['setting-round-member']?.validate()
+        this.isNotChooseRound = true
+        return
+      }
       //@ts-ignore
       this.$refs['setting-round-member']?.validate(valid => {
-        if (valid) {
+        if (valid && !this.isEmailFailed) {
           const data = {
             roundIds: this.listRoundChecked,
             userEmail: this.form.userEmail

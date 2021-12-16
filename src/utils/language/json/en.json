@@ -73,7 +73,7 @@
     "goback": "Go back"
   },
   "wallet": {
-    "Linkey": "Lynkey Wallet",
+    "Linkey": "LynKey Wallet",
     "Ethereum": "Ethereum Wallet",
     "Bitcoin": "Bitcoin Wallet",
     "lock": "Locked Amount",
@@ -151,7 +151,8 @@
     "to": "To",
     "email": "Email",
     "f-name": "First name",
-    "l-name": "Last name"
+    "l-name": "Last name",
+    "amount-deposit": "Amount USDT"
   },
   "button": {
     "reset": "Reset",
@@ -166,6 +167,7 @@
     "add-member": "Add member",
     "add-member-1": "Add Member",
     "add-buyer": "Add Buyer",
+    "add-deposit": "Deposit",
     "delete-user": "Delete User",
     "save": "Save",
     "delete": "Delete"
@@ -241,7 +243,8 @@
     "network": "Network",
     "created-date": "Created date",
     "new-password": "New password",
-    "round": "Round"
+    "round": "Round",
+    "amount": "Amount"
   },
   "buy-lyn": {
     "title": "BUY LYN"
@@ -298,10 +301,13 @@
     "add-buyer": "Added buyer successfully",
     "update-buyer": "Edited buyer successfully",
     "buyer-already-listed": "This investor is already listed",
-    "delete-buyer": "Deleted successfully"
+    "delete-buyer": "Deleted successfully",
+    "incorrect-old-pass": "Incorrect old password",
+    "choose-round": "Must choose at least 1 round"
   },
   "logout": {
-    "title": "Sign out"
+    "title": "Sign out",
+    "change-pass": "Change password"
   },
   "kyc": {
     "reason-reject": "Reject Reason",
@@ -481,7 +487,8 @@
     "popup": {
       "title-filter": "Filter",
       "transaction-detail": "Transaction Details",
-      "customer-info": "Customer Info"
+      "customer-info": "Customer Info",
+      "add-deposit": "Deposit"
     },
     "detail": {
       "transaction-id": "Transaction ID",
@@ -611,8 +618,8 @@
       "added-by": "Added by",
       "pl-createdBy": "Select added by",
       "added-date": "Added date",
-      "pl-fromDate": "from",
-      "pl-toDate": "to"
+      "pl-fromDate": "From",
+      "pl-toDate": "To"
     },
     "sort": {
       "full-name": "Full name",
@@ -729,7 +736,7 @@
         "label12": "Reason"
       },
       "account": {
-        "Linkey": "Lynkey Wallet",
+        "Linkey": "LynKey Wallet",
         "Ethereum": "Ethereum Wallet",
         "Bitcoin": "Bitcoin Wallet",
         "Bnb": "BNB Wallet",
@@ -811,6 +818,7 @@
     },
     "validate": {
       "wrong-email": "Please enter email",
+      "wrong-deposit": "Please enter amount USDT",
       "wrong-email-type": "Please enter a correct email address",
       "wrong-password": "Please enter password",
       "checkpass": "Please enter a valid password",
@@ -827,9 +835,31 @@
     "failed-tranfer": "Failed transfer",
     "fail-ex": "Failed",
     "title-widthdraw": "WITHDRAW",
-    "title-crowdasle": "CROWDSALE",
-    "detail-exception":"Transaction Details",
-    "id":"ID"
-    
+    "title-crowdasle": "CROWDSALE"
+  },
+  "changePassword": {
+    "title": "CHANGE PASSWORD",
+    "label1": "Old password",
+    "label2": "New password",
+    "label3": "Confirm password",
+    "label4": "Enter 2-step authentication code:",
+    "placeholder": "Verification code",
+    "big-title": "Enter the 6-digit code we sent to your email",
+    "discription": "Didn’t receive any verification code?",
+    "link": "Resend code",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "wrong-oldPassword": "Please enter old password",
+    "wrong-newPassword": "Please enter new password",
+    "wrong-confirmPassword": "Please enter confirm password",
+    "wrong-code": "Please enter code",
+    "errorPassword": "Password confirmation doesn't match Password",
+    "errorValidatePassword": "Please enter a valid password",
+    "errorLengthVerificationCode": "Please enter all 6 characters"
+  },
+  "verified": {
+    "titlePopup": "VERIFICATION",
+    "titleContent3": "Enter the 6-digit code we sent to your email",
+    "resendCodeMess": "Resend code successfully"
   }
 }

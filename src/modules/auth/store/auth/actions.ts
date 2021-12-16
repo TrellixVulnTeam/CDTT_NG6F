@@ -44,9 +44,11 @@ const actions: ActionTree<IAuth, unknown> = {
       return Promise.reject(error)
     }
   },
-  async logout({ commit }) {
+  async logout({ commit }, status = true) {
     try {
-      await authRes.logout()
+      if (status) {
+        await authRes.logout()
+      }
       commit('LOG_OUT')
       Cookies.remove('access_token')
       Cookies.remove('refresh_token')

@@ -25,10 +25,18 @@
                 <img v-else :src="user.avatar" />
               </span>
 
-              <el-dropdown-menu slot="dropdown" class="header-downloadapp">
+              <el-dropdown-menu slot="dropdown" class="header-downloadapp header-dropdown">
                 <div class="dropdown-group">
+                  <el-dropdown-item class="item-above">
+                    <span class="text-base text-bold" style="padding-bottom: 4px">{{ user.fullName }}</span>
+                    <span v-if="user.email" class="text-sm" style="color: #5b616e">{{ user.email }}</span>
+                    <span class="line"></span>
+                  </el-dropdown-item>
+                  <el-dropdown-item command="change-pass"
+                    ><span>{{ $t('logout.change-pass') }}</span></el-dropdown-item
+                  >
                   <el-dropdown-item command="logout"
-                    ><span class="pl-1">{{ $t('logout.title') }}</span></el-dropdown-item
+                    ><span>{{ $t('logout.title') }}</span></el-dropdown-item
                   >
                 </div>
               </el-dropdown-menu>
@@ -40,15 +48,23 @@
         </div>
       </div>
     </div>
+    <popup-change-password />
   </div>
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator'
+  import PopupMixin from '@/mixins/popup'
+  import { Component, Mixins } from 'vue-property-decorator'
+  import PopupChangePassword from './PopupChangePass.vue'
+  import getRepository from '@/services'
+  import { SettingRepository } from '@/services/repositories/setting'
+
+  const api: SettingRepository = getRepository('setting')
+
   import { namespace } from 'vuex-class'
   const bcAuth = namespace('beAuth')
-  @Component
-  export default class MainHeader extends Vue {
+  @Component({ components: { PopupChangePassword } })
+  export default class MainHeader extends Mixins(PopupMixin) {
     @bcAuth.Action('logout') logout!: () => Promise<any>
     @bcAuth.State('user') user!: Record<string, any>
 
@@ -81,6 +97,19 @@
       if (command === 'logout') {
         this.logout().then(() => {
           this.$router.push({ name: 'login' })
+        })
+      }
+      if (command === 'change-pass') {
+        const data = {
+          email: this.user.email,
+          type: 'EMAIL',
+          reason: 'PROFILE_RESET_PASSWORD'
+        }
+        api.resendCode(data).then(() => {
+          this.setOpenPopup({
+            popupName: 'popup-change-password',
+            isOpen: true
+          })
         })
       }
     }

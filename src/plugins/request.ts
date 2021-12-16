@@ -120,7 +120,9 @@ request.interceptors.response.use(
         message = i18n.tc('notify.buyer-already-listed')
       }
 
-      console.log(message)
+      if (data.status === 'BAD_REQUEST' && data.message === 'Incorrect old password' && includes(config.url, 'change-pass')) {
+        message = i18n.tc('notify.incorrect-old-pass')
+      }
 
       Message.error({ message, duration: 5000 })
     }

@@ -139,7 +139,7 @@
           return 'Tether'
 
         default:
-          return 'Lynkey'
+          return 'LynKey'
       }
     }
   }

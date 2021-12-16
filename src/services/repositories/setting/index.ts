@@ -23,4 +23,21 @@ export class SettingRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+  async changePassword(data?: Record<string, any>, userId = 0): Promise<any> {
+    try {
+      const result = await request.post(`${this.prefix}/${userId}/change-pass`, data)
+      return Promise.resolve(result.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+  async resendCode(data?: Record<string, any>): Promise<any> {
+    try {
+      data!.userType = 'EMPLOYEE'
+      const result = await request.post(`${this.prefix}/0/resendCode`, data)
+      return Promise.resolve(result.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
 }

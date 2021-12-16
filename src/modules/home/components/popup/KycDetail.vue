@@ -406,7 +406,6 @@
 
       .item {
         position: relative;
-        position: relative;
         padding-left: 16px;
         margin-left: 10px;
 
