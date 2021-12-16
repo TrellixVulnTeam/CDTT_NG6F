@@ -229,6 +229,7 @@
     }
 
     async getDataTable(): Promise<void> {
+      this.loading = true
       if (this.data.userId) {
         await api
           .getTableStatement(this.data.currency, this.data.userId, this.query.page, this.query.limit)
