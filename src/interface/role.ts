@@ -1,5 +1,5 @@
 import { ROLE_TYPE } from '@/configs/role/index'
-export type RoleActions = 'view' | 'edit' | 'remove' | 'all' | 'view-kyc-customer-detail' | 'view-detail-customer'
+export type RoleActions = 'view' | 'edit' | 'remove' | 'all' | 'view-kyc-customer-detail' | 'view-detail-customer' | 'add-deposit'
 
 //view-kyc-customer-detail: quyền xem tab kyc trong popup detail customer
 //view-detail-customer: quyền xem chi tiết customer

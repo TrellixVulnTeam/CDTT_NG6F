@@ -4,7 +4,7 @@
       <div class="box-search">
         <el-input class="input-search" :placeholder="$t('placeholder.search')" v-model="querry.keywordString" clearable>
           <div slot="prefix" class="prefix-search">
-            <base-icon icon="icon-search" size="16" />
+            <base-icon icon="icon-search" size="24" />
           </div>
         </el-input>
       </div>
@@ -407,10 +407,10 @@
       .input-search {
         width: 400px;
         margin-right: 29px;
-        .prefix-search {
-          margin-top: 9px;
-          margin-left: 3px;
-        }
+        //.prefix-search {
+        //  margin-top: 9px;
+        //  margin-left: 3px;
+        //}
       }
     }
     .btn-filter,
