@@ -1,83 +1,84 @@
 <template>
-  <div class="w-100 bo-kyc">
-    <div class="bg-white wallet-header">
-      <div class="be-flex align-center jc-space-between wallet-header__above">
-        <div class="wallet-header__above-tabs be-flex">
-          <div class="tab-item cursor" v-for="tab in getTab" :key="tab.id" :class="$route.name === tab.routeName ? 'tab-active' : null" @click="handleChangeTab(tab)">
-            <span class="text-base">{{ $t(`menu.${tab.title}`) }}</span>
+  <div class='w-100 bo-kyc'>
+    <div class='bg-white wallet-header'>
+      <div class='be-flex align-center jc-space-between wallet-header__above'>
+        <div class='wallet-header__above-tabs be-flex'>
+          <div class='tab-item cursor' v-for='tab in getTab' :key='tab.id'
+               :class="$route.name === tab.routeName ? 'tab-active' : null" @click='handleChangeTab(tab)'>
+            <span class='text-base'>{{ $t(`menu.${tab.title}`) }}</span>
           </div>
         </div>
       </div>
     </div>
-    <div class="container bg-white wallet-header-task" style="width: calc(100% - 48px)">
-      <div class="col-width col-margin">
-        <div class="sack-banlance">
-          <span class="text1">
+    <div class='container bg-white wallet-header-task' style='width: calc(100% - 48px)'>
+      <div class='col-width col-margin'>
+        <div class='sack-banlance'>
+          <span class='text1'>
             {{ $t(`balance.investor`) }}
           </span>
           <div>
-            <base-icon icon="icon-people" size="19" />
+            <base-icon icon='icon-people' size='19' />
           </div>
         </div>
-        <span class="number2"> {{ numOfInvestor| formatNumber }}</span>
+          <span class='number2'> {{ numOfInvestor| formatNumber }}</span>
         <div>
-          <span class="text3"> {{ $t(`balance.of-total`) }} {{ numOfUser | formatNumber }}</span>
+          <span class='text3'> {{ $t(`balance.of-total`) }} {{ numOfUser | formatNumber }}</span>
         </div>
       </div>
 
-      <div class="col-width col-margin">
-        <div class="sack-banlance">
-          <span class="text1">{{ $t(`balance.total-available`) }} </span>
+      <div class='col-width col-margin'>
+        <div class='sack-banlance'>
+          <span class='text1'>{{ $t(`balance.total-available`) }} </span>
           <div>
-            <base-icon icon="icon-swap" size="19" />
+            <base-icon icon='icon-swap' size='19' />
           </div>
         </div>
-        <span class="number2">
-          {{ totalAvailable | convertAmountDecimal(tabActive) }} <a class="tabActive">{{ tabActive }}</a>
+        <span class='number2'>
+          {{ totalAvailable | convertAmountDecimal(tabActive) }} <a class='tabActive'>{{ tabActive }}</a>
         </span>
-        <span class="text3"> ~${{ totalAvailableUSD | convertAmountDecimal('USD') }}</span>
+        <span class='text3'> ~${{ totalAvailableUSD | convertAmountDecimal('USD') }}</span>
       </div>
-      <div class="col-width col-margin">
-        <div class="sack-banlance">
-          <span class="text1">{{ $t(`balance.total-locked`) }}</span>
+      <div class='col-width col-margin'>
+        <div class='sack-banlance'>
+          <span class='text1'>{{ $t(`balance.total-locked`) }}</span>
           <div>
-            <base-icon icon="icon-lock-balance" size="19" />
+            <base-icon icon='icon-lock-balance' size='19' />
           </div>
         </div>
-        <span class="number2">
-          {{ totalLocked | convertAmountDecimal(tabActive) }} <a class="tabActive">{{ tabActive }}</a></span
+        <span class='number2'>
+          {{ totalLocked | convertAmountDecimal(tabActive) }} <a class='tabActive'>{{ tabActive }}</a></span
         >
-        <span class="text3">~${{ totalLockedUSD | convertAmountDecimal('USD') }}</span>
+        <span class='text3'>~${{ totalLockedUSD | convertAmountDecimal('USD') }}</span>
       </div>
-      <div class="col-width col-margin">
-        <div class="sack-banlance">
-          <span class="text1"> {{ $t(`balance.balance-wallet`) }}</span>
+      <div class='col-width col-margin'>
+        <div class='sack-banlance'>
+          <span class='text1'> {{ $t(`balance.balance-wallet`) }}</span>
           <div>
-            <base-icon icon="icon-wallet" size="19" />
+            <base-icon icon='icon-wallet' size='19' />
           </div>
         </div>
-        <span class="number2">
-          {{ totalBalance | convertAmountDecimal(tabActive) }} <a class="tabActive">{{ tabActive }}</a></span
+        <span class='number2'>
+          {{ totalBalance | convertAmountDecimal(tabActive) }} <a class='tabActive'>{{ tabActive }}</a></span
         >
-        <span class="text3"> ~ ${{ totalBalanceUSD | convertAmountDecimal('USD') }}</span>
+        <span class='text3'> ~ ${{ totalBalanceUSD | convertAmountDecimal('USD') }}</span>
       </div>
     </div>
-    <balance-filter @filterBalance="handleFilter" :listApproveBy="listApproveBy" />
+    <balance-filter @filterBalance='handleFilter' :listApproveBy='listApproveBy' />
     <balance-table
-      v-loading="isLoading"
-      @rowClick="handleRowClick"
-      @sizeChange="handleSizeChange"
-      @pageChange="handlePageChange"
-      :query="query"
-      :propTabActive="tabActive"
-      :data="propdataTable"
+      v-loading='isLoading'
+      @rowClick='handleRowClick'
+      @sizeChange='handleSizeChange'
+      @pageChange='handlePageChange'
+      :query='query'
+      :propTabActive='tabActive'
+      :data='propdataTable'
     />
     <!-- <kyc-detail :detailRow="detailRow" @init="init" /> -->
-    <balance-detail :detailRow="detailRow" :data="dataDetail" :tab-active-filter="tabActive" />
+    <balance-detail :detailRow='detailRow' :data='dataDetail' :tab-active-filter='tabActive' />
   </div>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
   import { Component, Mixins, Watch } from 'vue-property-decorator'
   //@ts-ignore
   import BalanceTable from '../components/BalanceTable.vue'
@@ -89,6 +90,7 @@
   import { debounce } from 'lodash'
 
   import BalanceDetail from '@/modules/balance/components/balanceDetail/BalanceDetail.vue'
+
   const api: BalanceRepository = getRepository('balance')
 
   import { namespace } from 'vuex-class'
@@ -176,6 +178,7 @@
     getListBalance(): void {
       console.log('1')
     }
+
     created(): void {
       console.log('route', this.$route.path.split('/')[2])
       this.tabActive = this.$route.path.split('/')[2]
@@ -186,7 +189,9 @@
       // this.query.kycStatus = name === 'KycPending' ? 'PENDING' : name === 'KycVerified' ? 'VERIFIED' : 'REJECTED'
       this.init()
     }
+
     propdataTable: Record<string, any>[] = []
+
     async init(): Promise<void> {
       console.log('tabactive', this.tabActive)
       this.data = []
@@ -281,10 +286,12 @@
       EventBus.$emit('selectTabBalance')
       EventBus.$emit('changeTab', this.tabActive)
     }
+
     destroyed(): void {
       EventBus.$off('selectTabBalance')
       EventBus.$off('changeTab')
     }
+
     resetQuery(): void {
       this.query = {
         ...this.query,
@@ -299,6 +306,7 @@
       this.query.page = page
       this.init()
     }
+
     handleSizeChange(limit: number): void {
       this.query.limit = limit
       this.init()
@@ -321,22 +329,25 @@
       }
       this.debounceInit()
     }
+
     debounceInit = debounce(() => {
       this.init()
     }, 300)
   }
 </script>
 
-<style scoped lang="scss">
+<style scoped lang='scss'>
   .container {
     text-align: justify;
     -ms-text-justify: distribute-all-lines;
     text-justify: distribute-all-lines;
     width: 100%;
   }
+
   .bo-kyc .wallet-header__above-tabs .tab-item {
     color: var(--bc-text-discript);
   }
+
   ::v-deep .container > div {
     width: 100px;
     height: 100px;
@@ -347,24 +358,32 @@
     background: #efefef;
     margin-right: -2px !important;
   }
+
   .sack-banlance {
     display: flex;
     justify-content: space-between;
     margin-top: 6px;
-    padding: 0 18px;
+    //padding: 0 18px;
   }
+
   .col-width {
     width: 20% !important;
-    height: 112px !important;
+    height: auto !important;
     border-radius: 8px !important;
     border: 1px solid #dbdbdb !important;
     box-sizing: border-box !important;
+    padding: 0 16px!important;
+    display: flex!important;
+    flex-direction: column;
+    justify-content: space-between;
   }
+
   .tabActive {
     font-weight: 400;
     font-size: 12px;
     line-height: 16px;
   }
+
   .text1 {
     // margin-top: 16px;
     // margin-left: 18px;
@@ -373,27 +392,34 @@
     line-height: 24px;
     color: var(--bc-text-discript);
   }
+
   .number2 {
+    width: 100%;
     margin-top: 8px;
-    margin-left: 18px;
+    //margin-left: 18px;
+    //margin-right: 18px;
     font-weight: 600;
     font-size: 24px;
     line-height: 24px;
     color: #0a0b0d;
+    word-break: break-all;
   }
+
   .text3 {
     font-size: 14px;
     line-height: 20px;
     font-weight: 400;
     margin-top: 6px;
-    margin-left: 18px;
+    //margin-left: 18px;
     margin-bottom: 16px;
     color: var(--bc-text-discript);
   }
+
   .col-margin {
     background: #fff !important;
     flex-basis: calc((100% - 24px - 48px) / 4) !important;
   }
+
   .container > div {
     width: 100px;
     height: 100px;
@@ -403,29 +429,36 @@
     zoom: 1;
     background: red;
   }
+
   span {
     width: 100%;
     display: inline-block;
     font-size: 16px;
     line-height: 24px;
   }
+
   .bo-kyc {
     box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
     border-radius: 4px;
+
     .wallet-header {
       &__above {
         border-bottom: 1px solid var(--bc-border-primary);
+
         &-tabs {
           .tab-item {
             padding: 16px 12px;
             position: relative;
+
             &:hover {
               color: var(--bc-tab-active);
             }
           }
+
           .tab-active {
             color: var(--bc-tab-active);
             font-weight: 600;
+
             &::after {
               content: '';
               position: absolute;
@@ -441,30 +474,37 @@
 
       &__below {
         padding: 24px;
+
         &-amount {
           .amount-wallet,
           .amount-lock {
             flex: 1;
+
             .title {
               margin-left: 16px;
+
               .title-coin {
                 color: #201f1e;
               }
             }
+
             .amount {
               margin-top: 10px;
 
               .amount-btc {
                 color: var(--bc-amount-btc);
               }
+
               .amount-lyn {
                 color: var(--bc-amount-lin);
               }
+
               .amount-lock {
                 color: var(--bc-amount-lock);
               }
             }
           }
+
           .amount-wallet {
             border-right: 1px solid var(--bc-border-primary);
           }
@@ -472,6 +512,7 @@
       }
     }
   }
+
   .wallet-header-task {
     display: flex;
     justify-content: space-between;
