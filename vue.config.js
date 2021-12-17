@@ -70,6 +70,7 @@ function configSVGIcon(config) {
 }
 
 module.exports = {
+  productionSourceMap: false,
   chainWebpack: config => {
     configSVGIcon(config)
     config.module
