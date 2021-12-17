@@ -20,14 +20,14 @@
               <div class="be-flex jc-space-between info-item">
                 <span class="text-xs label">{{ $t('label.phone') }}:</span>
                 <span class="text-base">({{ detailRow.countryCode }}) {{ detailRow.phone }}</span>
-                <span style="width: fit-content" class="status-verified" :style="lang === 'en' ? 'right:-50px' : 'right:-75px'" v-if="detailRow.emailVerified === '1'">{{
+                <span style="width: fit-content" class="status-verified" :style="lang === 'en' ? 'right:-50px' : 'right:-75px'" v-if="detailRow.phoneVerified === '1'">{{
                   $t('customer.verified')
                 }}</span>
               </div>
               <div class="be-flex jc-space-between info-item">
                 <span class="text-xs label">{{ $t('label.email') }}:</span>
                 <span class="text-base">{{ detailRow.email }}</span>
-                <span style="width: fit-content" class="status-verified" :style="lang === 'en' ? 'right:-50px' : 'right:-75px'" v-if="detailRow.phoneVerified === '1'">{{
+                <span style="width: fit-content" class="status-verified" :style="lang === 'en' ? 'right:-50px' : 'right:-75px'" v-if="detailRow.emailVerified === '1'">{{
                   $t('customer.verified')
                 }}</span>
               </div>
