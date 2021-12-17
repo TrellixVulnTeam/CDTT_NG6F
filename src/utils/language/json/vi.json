@@ -439,12 +439,12 @@
     },
     "popup": {
       "title-filter": "Bộ lọc",
-      "transaction-detail": "Chi tiết chuyển",
+      "transaction-detail": "Chi tiết giao dịch",
       "customer-info": "Chi tiết người dùng",
       "add-deposit": "nạp"
     },
     "detail": {
-      "transaction-id": "ID giao dịch",
+      "transaction-id": "Mã giao dịch",
       "date": "Ngày",
       "from": "Từ",
       "to": "Đến",
@@ -787,7 +787,9 @@
     "failed-tranfer": "Chuyển thất bại",
     "fail-ex": "Thất bại",
     "title-widthdraw": "RÚT",
-    "title-crowdasle": "CROWDSALE"
+    "title-crowdasle": "CROWDSALE",
+    "id":"Mã giao dịch",
+    "detail-exception":"Chi tiết giao dịch"
   },
   "changePassword": {
     "title": "ĐỔI MẬT KHẨU",
