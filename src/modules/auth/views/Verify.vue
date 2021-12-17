@@ -96,7 +96,7 @@
         const email = this.$route.query.email
         // const reason = this.$route.query.reason
         const type = this.$route.query.type
-        await apiAuth.resendCode({ email, type })
+        await apiAuth.resendCode({ email, type, reason: 'FOR_LOGIN' })
         message = this.$t('notify.send-code')
         this.$message.success({ message, duration: 5000 })
       } catch (error: any) {

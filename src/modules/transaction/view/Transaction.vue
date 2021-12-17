@@ -28,7 +28,7 @@
           </div>
         </div>
       </div>
-      <filter-transaction @filter="handleFilter" :type="'transaction'" :showBtn="$route.name === 'TransactionDeposit'" ref="filter" @addDeposit="handleOpenAddDeposit" />
+      <filter-transaction @filter="handleFilter" :type="'transaction'" :showBtn="getShowBtn" ref="filter" @addDeposit="handleOpenAddDeposit" />
       <div class="table-transaction">
         <table-transaction
           v-loading="isLoading"
@@ -114,6 +114,10 @@
       total: 10
     }
     listApproveBy: Record<string, any>[] = []
+
+    get getShowBtn(): boolean {
+      return this.$route.name === 'TransactionDeposit' && this.checkPemission('transaction', ['add-deposit'])
+    }
 
     async created(): Promise<void> {
       // apiKyc.getListApprove({ page: 1, limit: 20 }).then(res => {

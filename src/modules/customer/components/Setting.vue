@@ -758,7 +758,8 @@
     typeAdminFa = ''
     async get2Fa(): Promise<void> {
       const params = {
-        email: this.user.email
+        email: this.user.email,
+        userType: 'EMPLOYEE'
       }
       await apiAuth.get2FA(params).then((res: any) => {
         this.typeAdminFa = res
