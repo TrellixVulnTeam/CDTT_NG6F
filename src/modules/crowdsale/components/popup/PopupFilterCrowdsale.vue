@@ -141,9 +141,9 @@
       countryName: '',
       paidWallet: '',
       currency: [],
-      fromDate: '',
-      toDate: '',
-      fromAmount: '',
+      fromDate: null,
+      toDate: null,
+      fromAmount: null,
       toAmount: ''
     }
     listCountry: IListCountry[] = countryJson
@@ -214,9 +214,13 @@
 
     disableTime(time: Date, type: string): any {
       if (type === 'from-to') {
-        return time.getTime()/1000 < new Date(this.form.fromDate).getTime()/ 1000 - 7 * 60 * 60;
+        if (this.form.fromDate){
+          return time.getTime()/1000 < new Date(this.form.fromDate).getTime()/ 1000 - 7 * 60 * 60;
+        }
       } else {
-        return time.getTime()/1000 > new Date(this.form.toDate).getTime()/ 1000 - 7 * 60 * 60;
+        if (this.form.toDate){
+          return time.getTime()/1000 > new Date(this.form.toDate).getTime()/ 1000 - 7 * 60 * 60;
+        }
       }
     }
     handleReset(): void {

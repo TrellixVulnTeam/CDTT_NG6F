@@ -247,9 +247,13 @@
 
     disableTime(time: Date, type: string): any {
       if (type === 'from-to') {
-        return time.getTime() / 1000 < new Date(this.filter.fromDate).getTime() / 1000 - 7 * 60 * 60
+        if (this.filter.fromDate){
+          return time.getTime() / 1000 < new Date(this.filter.fromDate).getTime() / 1000 - 7 * 60 * 60
+        }
       } else {
-        return time.getTime() / 1000 > new Date(this.filter.toDate).getTime() / 1000 - 7 * 60 * 60
+        if (this.filter.toDate){
+          return time.getTime() / 1000 > new Date(this.filter.toDate).getTime() / 1000 - 7 * 60 * 60
+        }
       }
     }
 
