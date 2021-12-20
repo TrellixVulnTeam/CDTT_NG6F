@@ -6,7 +6,21 @@
     <div class="content" v-loading="isLoading">
       <el-form class="form-item" :model="form" :rules="rules" ref="setting-round-member" autocomplete="off">
         <el-form-item :label="$t('label.email')" :class="isEmailFailed ? 'is-error' : null" prop="userEmail">
-          <el-input
+          <el-select
+            v-model="form.userEmail"
+            class="w-100"
+            filterable
+            remote
+            clearable
+            reserve-keyword
+            :placeholder="$t('placeholder.email')"
+            :remote-method="handleFindCustomer"
+            @change="handleSelectCustomer"
+            @clear="handleClearEmail"
+          >
+            <el-option v-for="item in listCustomer" :key="item.id" :label="item.fullName" :value="item.email"> </el-option>
+          </el-select>
+          <!-- <el-input
             v-model="form.userEmail"
             autocomplete="new-password"
             :readonly="false"
@@ -15,8 +29,8 @@
             clearable
             @input="handleFindCustomer"
             @clear="handleClearEmail"
-          />
-          <small class="small" v-if="isEmailFailed">{{ $t('notify.not-find-customer') }}</small>
+          /> -->
+          <!-- <small class="small" v-if="isEmailFailed">{{ $t('notify.not-find-customer') }}</small> -->
         </el-form-item>
 
         <div class="be-flex jc-space-between">
@@ -63,7 +77,7 @@
   import { CrowdsaleRepository } from '@/services/repositories/crowdsale'
   import getRepository from '@/services'
   import { namespace } from 'vuex-class'
-  import { debounce, findIndex, forEach } from 'lodash'
+  import { debounce, filter, findIndex, forEach, trim } from 'lodash'
 
   const crowdsaleBo = namespace('crowdsaleBo')
 
@@ -87,6 +101,8 @@
       userLastName: ''
     }
     listRoundChecked: number[] = []
+    listCustomer: Record<string, any>[] = []
+    listCustomerClone: Record<string, any>[] = []
 
     isLoading = false
     isEmailFailed = false
@@ -99,7 +115,7 @@
         {
           required: true,
           message: this.$t('member.validate.wrong-email'),
-          trigger: 'blur'
+          trigger: 'change'
         }
       ]
     }
@@ -118,11 +134,11 @@
       return this.$t('crowdsale.popup.title-member-edit') as string
     }
 
-    @Watch('form.userEmail') watchEmail(email: string): void {
-      if (email === '') {
-        this.isEmailFailed = false
-      }
-    }
+    // @Watch('form.userEmail') watchEmail(email: string): void {
+    //   if (email === '') {
+    //     this.isEmailFailed = false
+    //   }
+    // }
 
     checkDisableRound(index: number): boolean {
       forEach(this.listRound, (round, index) => {
@@ -141,6 +157,8 @@
     }
 
     handleOpen(): void {
+      //@ts-ignore
+      this.$refs['setting-round-member']?.clearValidate()
       this.isEmailFailed = false
       if (this.type === 'edit') {
         this.isLoading = true
@@ -157,6 +175,7 @@
             this.isLoading = false
           })
       } else {
+        this.handleFindCustomer(' ', true)
         const roundId = this.listRound[this.tabActive].id
         this.listRoundChecked.push(roundId)
       }
@@ -200,29 +219,59 @@
     handleClearEmail(): void {
       this.form.userFirstName = ''
       this.form.userLastName = ''
+      this.listCustomer = [...this.listCustomerClone]
     }
 
-    handleFindCustomer(): void {
-      this.debouneFindCustomer(this)
-    }
+    // handleFindCustomer(): void {
+    //   this.debouneFindCustomer(this)
+    // }
 
-    debouneFindCustomer = debounce(_this => {
-      if (_this.form.userEmail) {
-        apiCrowdsale.findCustomerByEmail(_this.form.userEmail).then(res => {
-          if (res) {
-            _this.form.userFirstName = res.firstName
-            _this.form.userLastName = res.lastName
-            _this.isEmailFailed = false
-          } else {
-            _this.isEmailFailed = true
-            _this.form.userFirstName = ''
-            _this.form.userLastName = ''
+    // debouneFindCustomer = debounce(_this => {
+    //   if (_this.form.userEmail) {
+    //     const params = {
+    //       email: _this.form.userEmail,
+    //       limit: 1000
+    //     }
+    //     apiCrowdsale.findCustomerByEmail(params).then(res => {
+    //       if (res) {
+    //         _this.form.userFirstName = res.firstName
+    //         _this.form.userLastName = res.lastName
+    //         _this.isEmailFailed = false
+    //       } else {
+    //         _this.isEmailFailed = true
+    //         _this.form.userFirstName = ''
+    //         _this.form.userLastName = ''
+    //       }
+    //       //@ts-ignore
+    //       _this.$refs['setting-round-member']?.fields.find(f => f.prop == 'userEmail').clearValidate()
+    //     })
+    //   }
+    // }, 500)
+
+    handleFindCustomer(query: string, isFirst = false): void {
+      if (query !== '') {
+        const params = {
+          email: trim(query),
+          limit: 10000
+        }
+        apiCrowdsale.findCustomerByEmail(params).then(res => {
+          this.listCustomer = res
+          if (isFirst) {
+            this.listCustomerClone = res
           }
-          //@ts-ignore
-          _this.$refs['setting-round-member']?.fields.find(f => f.prop == 'userEmail').clearValidate()
         })
+      } else {
+        this.listCustomer = [...this.listCustomerClone]
       }
-    }, 500)
+    }
+
+    handleSelectCustomer(value: string): void {
+      const customer = filter(this.listCustomer, elm => elm.email === value)
+      if (customer.length) {
+        this.form.userFirstName = customer[0].firstName
+        this.form.userLastName = customer[0].lastName
+      }
+    }
 
     handleSubmit(): void {
       if (!this.listRoundChecked.length) {
@@ -233,7 +282,7 @@
       }
       //@ts-ignore
       this.$refs['setting-round-member']?.validate(valid => {
-        if (valid && !this.isEmailFailed) {
+        if (valid) {
           const data = {
             roundIds: this.listRoundChecked,
             userEmail: this.form.userEmail

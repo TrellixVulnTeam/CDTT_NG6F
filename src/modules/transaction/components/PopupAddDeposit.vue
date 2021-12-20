@@ -6,8 +6,21 @@
     <div class="content" v-loading="isLoading">
       <el-form class="form-item" :model="form" :rules="rules" ref="setting-round-member" autocomplete="off">
         <el-form-item :label="$t('label.email')" :class="isEmailFailed ? 'is-error' : null" prop="email">
-          <el-input v-model="form.email" autocomplete="new-password" :readonly="false" :placeholder="$t('placeholder.email')" clearable @input="handleFindCustomer" />
-          <small class="small" v-if="isEmailFailed">{{ $t('notify.not-find-customer') }}</small>
+          <el-select
+            v-model="form.email"
+            class="w-100"
+            filterable
+            remote
+            clearable
+            reserve-keyword
+            :placeholder="$t('placeholder.email')"
+            :remote-method="handleFindCustomer"
+            @clear="handleClearEmail"
+          >
+            <el-option v-for="item in listCustomer" :key="item.id" :label="item.fullName" :value="item.email"> </el-option>
+          </el-select>
+          <!-- <el-input v-model="form.email" autocomplete="new-password" :readonly="false" :placeholder="$t('placeholder.email')" clearable @input="handleFindCustomer" /> -->
+          <!-- <small class="small" v-if="isEmailFailed">{{ $t('notify.not-find-customer') }}</small> -->
         </el-form-item>
 
         <div class="be-flex jc-space-between">
@@ -47,7 +60,7 @@
   import { TransactionRepository } from '@/services/repositories/transaction'
   import getRepository from '@/services'
   import { namespace } from 'vuex-class'
-  import { debounce, includes } from 'lodash'
+  import { trim, includes } from 'lodash'
 
   const crowdsaleBo = namespace('crowdsaleBo')
 
@@ -66,6 +79,9 @@
       currency: 'USDT'
     }
     listRoundChecked: number[] = []
+
+    listCustomer: Record<string, any>[] = []
+    listCustomerClone: Record<string, any>[] = []
 
     isLoading = false
     isEmailFailed = false
@@ -91,11 +107,11 @@
       ]
     }
 
-    @Watch('form.email') watchEmail(email: string): void {
-      if (email === '') {
-        this.isEmailFailed = false
-      }
-    }
+    // @Watch('form.email') watchEmail(email: string): void {
+    //   if (email === '') {
+    //     this.isEmailFailed = false
+    //   }
+    // }
 
     handleCancel(): void {
       this.setOpenPopup({
@@ -106,6 +122,7 @@
 
     handleOpen(): void {
       this.isEmailFailed = false
+      this.handleFindCustomer(' ', true)
     }
 
     handleClose(): void {
@@ -124,29 +141,50 @@
       //@ts-ignore
       this.$refs['setting-round-member']?.fields.find(f => f.prop == 'amount').clearValidate()
     }
-    handleFindCustomer(): void {
-      this.debouneFindCustomer(this)
-    }
+    // handleFindCustomer(): void {
+    //   this.debouneFindCustomer(this)
+    // }
 
-    debouneFindCustomer = debounce(_this => {
-      //@ts-ignore
-      _this.$refs['setting-round-member']?.fields.find(f => f.prop == 'email').clearValidate()
-      if (_this.form.email) {
-        apiCrowdsale.findCustomerByEmail(_this.form.email).then(res => {
-          if (res) {
-            _this.isEmailFailed = false
-          } else {
-            _this.isEmailFailed = true
+    // debouneFindCustomer = debounce(_this => {
+    //   //@ts-ignore
+    //   _this.$refs['setting-round-member']?.fields.find(f => f.prop == 'email').clearValidate()
+    //   if (_this.form.email) {
+    //     apiCrowdsale.findCustomerByEmail(_this.form.email).then(res => {
+    //       if (res) {
+    //         _this.isEmailFailed = false
+    //       } else {
+    //         _this.isEmailFailed = true
+    //       }
+    //     })
+    //   }
+    // }, 500)
+
+    handleFindCustomer(query: string, isFirst = false): void {
+      if (query !== '') {
+        const params = {
+          email: trim(query),
+          limit: 10000
+        }
+        apiCrowdsale.findCustomerByEmail(params).then(res => {
+          this.listCustomer = res
+          if (isFirst) {
+            this.listCustomerClone = res
           }
         })
+      } else {
+        this.listCustomer = [...this.listCustomerClone]
       }
-    }, 500)
+    }
+
+    handleClearEmail(): void {
+      this.listCustomer = [...this.listCustomerClone]
+    }
 
     handleSubmit(): void {
       this.numClick += 1
       //@ts-ignore
       this.$refs['setting-round-member']?.validate(valid => {
-        if (valid && !this.isEmailFailed && this.numClick === 1) {
+        if (valid && this.numClick === 1) {
           const amount = this.form.amount.replaceAll(',', '')
           apiTransaction.addDeposit({ ...this.form, amount }).then(() => {
             this.handleCancel()
