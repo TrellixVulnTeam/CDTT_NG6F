@@ -29,7 +29,6 @@
         <el-table-column :label="$t('kyc.table.status')" prop="kycStatus" align="center" width="160">
           <template slot-scope="scope">
             <span :class="checkType(scope.row.kycStatus)">{{ checkStatus(scope.row.kycStatus) }}</span>
-            <!-- <span class="status-locked">{{ $t('status.locked') }}</span> -->
           </template>
         </el-table-column>
       </base-table>
