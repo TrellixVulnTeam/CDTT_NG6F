@@ -764,6 +764,7 @@
       "create-date": "Ngày tạo",
       "all-role": "Tất cả",
       "admin": "Admin",
+      "spadmin": "Super admin",
       "support": "Hỗ trợ",
       "mkt": "Marketing",
       "accountant": "Kế toán"
@@ -788,8 +789,8 @@
     "fail-ex": "Thất bại",
     "title-widthdraw": "RÚT",
     "title-crowdasle": "CROWDSALE",
-    "id":"Mã giao dịch",
-    "detail-exception":"Chi tiết giao dịch"
+    "id": "Mã giao dịch",
+    "detail-exception": "Chi tiết giao dịch"
   },
   "changePassword": {
     "title": "ĐỔI MẬT KHẨU",

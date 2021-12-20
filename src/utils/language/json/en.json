@@ -812,6 +812,7 @@
       "create-date": "Created date",
       "all-role": "All roles",
       "admin": "Admin",
+      "spadmin": "Super admin",
       "support": "Support",
       "mkt": "Marketing",
       "accountant": "Accountant"
@@ -836,9 +837,8 @@
     "fail-ex": "Failed",
     "title-widthdraw": "WITHDRAW",
     "title-crowdasle": "CROWDSALE",
-    "detail-exception":"Transaction Details",
-    "id":"ID"
-    
+    "detail-exception": "Transaction Details",
+    "id": "ID"
   },
   "changePassword": {
     "title": "CHANGE PASSWORD",
