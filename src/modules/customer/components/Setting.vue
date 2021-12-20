@@ -538,7 +538,7 @@
     handleChangePhone(event: FocusEvent): void {
       console.log('event', event)
       if (event) {
-        this.handleContinue()
+        this.handleContinueChangePhone()
       }
     }
     async handleSendCodeCustomer(): Promise<void> {
@@ -689,6 +689,21 @@
           let message: any = this.$t('customer.setting.send-code-fail')
           this.$message.error(message)
         })
+    }
+    async handleContinueChangePhone(): Promise<void> {
+      if (this.form.country !== '' && this.form.phone !== '') {
+        const params = {
+          countryCode: this.phoneDefault,
+          country: this.form.country,
+          newPhone: this.form.phone
+        }
+        const result = await apiCustomer.validatePhoneNumber(params)
+        this.setOpenPopup({
+          popupName: 'popup-verify',
+          isOpen: true
+        })
+        this.handleSendCode()
+      }
     }
     async handleContinue(): Promise<void> {
       if (this.form.country !== '' && this.form.phone !== '') {

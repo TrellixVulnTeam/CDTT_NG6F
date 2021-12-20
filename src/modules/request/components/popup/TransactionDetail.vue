@@ -134,6 +134,16 @@
 </script>
 
 <style scoped lang="scss">
+  .content-transaction .mini-box .left {
+    /* color: red; */
+    width: 210px;
+    margin-right: 10px;
+    word-break: break-word;
+  }
+  .content-transaction .mini-box .right {
+    font-size: 16px;
+    word-break: break-word;
+  }
   .content-transaction {
     min-height: 316px;
     .icon {
