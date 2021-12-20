@@ -26,12 +26,28 @@
             </div>
             <div class="be-flex jc-space-between row">
               <el-form-item class="be-flex-item mr-40" :label="$t('label.create-date')">
-                <el-date-picker class="w-100" format="yyyy/MM/dd" value-format="yyyy-MM-dd" :placeholder="$t('label.from-date')" v-model="filter.fromCreatedAt" type="date" :picker-options='pickerOption2'>
+                <el-date-picker
+                  class="w-100"
+                  format="yyyy/MM/dd"
+                  value-format="yyyy-MM-dd"
+                  :placeholder="$t('label.from-date')"
+                  v-model="filter.fromCreatedAt"
+                  type="date"
+                  :picker-options="pickerOption2"
+                >
                 </el-date-picker>
               </el-form-item>
 
               <el-form-item class="be-flex-item hide-label" label="1">
-                <el-date-picker class="w-100" format="yyyy/MM/dd" :placeholder="$t('label.to-date')" value-format="yyyy-MM-dd" v-model="filter.toCreatedAt" type="date" :picker-options='pickerOption'>
+                <el-date-picker
+                  class="w-100"
+                  format="yyyy/MM/dd"
+                  :placeholder="$t('label.to-date')"
+                  value-format="yyyy-MM-dd"
+                  v-model="filter.toCreatedAt"
+                  type="date"
+                  :picker-options="pickerOption"
+                >
                 </el-date-picker>
               </el-form-item>
             </div>
@@ -213,30 +229,30 @@
       }
       this.isVisible = true
     }
-    get pickerOption():any{
+    get pickerOption(): any {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
-      const _this=this;
+      const _this = this
       return {
-        disabledDate(time:Date){
-          return _this.disableTime(time,"from-to");
+        disabledDate(time: Date) {
+          return _this.disableTime(time, 'from-to')
         }
       }
     }
 
-    get pickerOption2():any{
+    get pickerOption2(): any {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
-      const _this=this;
-      return{
-        disabledDate(time:Date){
-          return _this.disableTime(time,"to-from");
+      const _this = this
+      return {
+        disabledDate(time: Date) {
+          return _this.disableTime(time, 'to-from')
         }
       }
     }
-    disableTime(time: Date, type: string):any{
-      if (type==="from-to"){
-        return time.getTime()<new Date(this.filter.fromCreatedAt).getTime();
-      }else {
-        return time.getTime()>=new Date(this.filter.toCreatedAt).getTime();
+    disableTime(time: Date, type: string): any {
+      if (type === 'from-to') {
+        return time.getTime() < new Date(this.filter.fromCreatedAt).getTime()
+      } else {
+        return time.getTime() >= new Date(this.filter.toCreatedAt).getTime()
       }
     }
 

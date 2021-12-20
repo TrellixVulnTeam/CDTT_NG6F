@@ -273,7 +273,7 @@
       "email": "email",
       "national": "quốc gia",
       "date": "ngày tạo",
-      "status": "trạng thái",
+      "status": "trạng thái KYC",
       "role": "Quyền"
     },
     "popup": {
@@ -645,7 +645,7 @@
         "Bnb": "Ví BNB",
         "Usdt": "Ví USDT",
         "Usdc": "Ví USDC",
-        "Cleverme": "Ví Cleverme",
+        "Cleverme": "Ví CleverMe",
         "amount": "Số lượng",
         "available": "Số lượng có sẵn",
         "locked": "Số lượng đã khóa",
