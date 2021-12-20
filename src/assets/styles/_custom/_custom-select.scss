@@ -13,7 +13,7 @@
       .el-select-dropdown__item {
         font-size: 14px;
         &::after {
-          content: '' !important;
+          content: "" !important;
         }
       }
     }
@@ -48,4 +48,8 @@
   .el-input__prefix {
     top: 1.8px;
   }
+}
+
+.popper-select-role {
+  width: 185px !important;
 }

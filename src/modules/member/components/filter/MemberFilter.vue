@@ -7,7 +7,7 @@
     </el-input>
     <div class="be-flex align-center">
       <div class="filter-role">
-        <el-select v-model="filter.filter" @change="handleSelectRole">
+        <el-select v-model="filter.filter" @change="handleSelectRole" popper-class="popper-select-role">
           <el-option v-for="item in listRole" :key="item.value" :label="item.label" :value="item.value"> </el-option>
         </el-select>
       </div>
@@ -58,6 +58,10 @@
       {
         value: 'ALL',
         label: this.$i18n.t('member.sort.all-role')
+      },
+      {
+        value: 'SUPERADMIN',
+        label: this.$i18n.t('member.sort.spadmin')
       },
       {
         value: 'ADMIN',
