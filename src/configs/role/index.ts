@@ -1,5 +1,6 @@
 import { UserRoleInterface } from '@/interface/role'
 export type ROLE_TYPE = {
+  SUPERADMIN: 'SUPERADMIN'
   ADMIN: 'ADMIN'
   SUPPORT: 'SUPPORT' //NV HỖ TRỢ
   MARKETING: 'MARKETING' //Quyền nhân viên marketing
@@ -7,6 +8,7 @@ export type ROLE_TYPE = {
   NONE: 'NONE'
 }
 export const ROLE_CODE: ROLE_TYPE = {
+  SUPERADMIN: 'SUPERADMIN',
   ADMIN: 'ADMIN',
   SUPPORT: 'SUPPORT',
   MARKETING: 'MARKETING',
@@ -15,6 +17,47 @@ export const ROLE_CODE: ROLE_TYPE = {
 }
 
 export const ROLE_DEFINE: UserRoleInterface[] = [
+  {
+    userRole: ROLE_CODE.SUPERADMIN,
+    roles: [
+      {
+        module: 'crowd-sale',
+        roles: ['all']
+      },
+      {
+        module: 'kyc',
+        roles: ['all']
+      },
+      {
+        module: 'customer',
+        roles: ['all']
+      },
+      {
+        module: 'balance',
+        roles: ['all']
+      },
+      {
+        module: 'request',
+        roles: ['all']
+      },
+      {
+        module: 'transaction',
+        roles: ['view']
+      },
+      {
+        module: 'exception',
+        roles: ['all']
+      },
+      {
+        module: 'member',
+        roles: ['all']
+      },
+      {
+        module: 'setting',
+        roles: ['all']
+      }
+    ]
+  },
   {
     userRole: ROLE_CODE.ADMIN,
     roles: [
@@ -48,7 +91,7 @@ export const ROLE_DEFINE: UserRoleInterface[] = [
       },
       {
         module: 'member',
-        roles: ['all']
+        roles: []
       },
       {
         module: 'setting',

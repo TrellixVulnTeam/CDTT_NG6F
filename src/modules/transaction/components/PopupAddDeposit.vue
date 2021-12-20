@@ -17,7 +17,9 @@
             :remote-method="handleFindCustomer"
             @clear="handleClearEmail"
           >
-            <el-option v-for="item in listCustomer" :key="item.id" :label="item.fullName" :value="item.email"> </el-option>
+            <div v-infinite-scroll="loadMoreCustomer" infinite-scroll-delay="500">
+              <el-option v-for="item in listCustomer" :key="item.id" :label="item.email" :value="item.email"> </el-option>
+            </div>
           </el-select>
           <!-- <el-input v-model="form.email" autocomplete="new-password" :readonly="false" :placeholder="$t('placeholder.email')" clearable @input="handleFindCustomer" /> -->
           <!-- <small class="small" v-if="isEmailFailed">{{ $t('notify.not-find-customer') }}</small> -->
@@ -90,6 +92,9 @@
     objRound = {}
     numClick = 0
 
+    limit = 20
+    emailSearch = ''
+
     rules: Record<string, any> = {
       email: [
         {
@@ -159,11 +164,24 @@
     //   }
     // }, 500)
 
+    loadMoreCustomer(): void {
+      this.limit += 20
+      const params = {
+        email: this.emailSearch,
+        limit: this.limit
+      }
+      apiCrowdsale.findCustomerByEmail(params).then(res => {
+        this.listCustomer = res
+      })
+    }
+
     handleFindCustomer(query: string, isFirst = false): void {
       if (query !== '') {
+        this.emailSearch = trim(query)
+        this.limit = 20
         const params = {
-          email: trim(query),
-          limit: 10000
+          email: this.emailSearch,
+          limit: 20
         }
         apiCrowdsale.findCustomerByEmail(params).then(res => {
           this.listCustomer = res
@@ -172,12 +190,16 @@
           }
         })
       } else {
+        this.limit = 20
+        this.emailSearch = ''
         this.listCustomer = [...this.listCustomerClone]
       }
     }
 
     handleClearEmail(): void {
       this.listCustomer = [...this.listCustomerClone]
+      this.limit = 20
+      this.emailSearch = ''
     }
 
     handleSubmit(): void {

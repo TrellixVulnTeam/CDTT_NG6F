@@ -18,7 +18,9 @@
             @change="handleSelectCustomer"
             @clear="handleClearEmail"
           >
-            <el-option v-for="item in listCustomer" :key="item.id" :label="item.fullName" :value="item.email"> </el-option>
+            <div v-infinite-scroll="loadMoreCustomer" infinite-scroll-delay="500">
+              <el-option v-for="item in listCustomer" :key="item.id" :label="item.email" :value="item.email"> </el-option>
+            </div>
           </el-select>
           <!-- <el-input
             v-model="form.userEmail"
@@ -70,14 +72,14 @@
 </template>
 
 <script lang="ts">
-  import { Component, Mixins, Prop, Watch } from 'vue-property-decorator'
+  import { Component, Mixins, Prop } from 'vue-property-decorator'
 
   import PopupMixin from '@/mixins/popup'
   import PopupConfirm from './PopupConfirm.vue'
   import { CrowdsaleRepository } from '@/services/repositories/crowdsale'
   import getRepository from '@/services'
   import { namespace } from 'vuex-class'
-  import { debounce, filter, findIndex, forEach, trim } from 'lodash'
+  import { filter, findIndex, forEach, trim } from 'lodash'
 
   const crowdsaleBo = namespace('crowdsaleBo')
 
@@ -107,6 +109,9 @@
     isLoading = false
     isEmailFailed = false
     isNotChooseRound = false
+
+    limit = 20
+    emailSearch = ''
 
     objRound = {}
 
@@ -220,6 +225,8 @@
       this.form.userFirstName = ''
       this.form.userLastName = ''
       this.listCustomer = [...this.listCustomerClone]
+      this.limit = 20
+      this.emailSearch = ''
     }
 
     // handleFindCustomer(): void {
@@ -248,11 +255,24 @@
     //   }
     // }, 500)
 
+    loadMoreCustomer(): void {
+      this.limit += 20
+      const params = {
+        email: this.emailSearch,
+        limit: this.limit
+      }
+      apiCrowdsale.findCustomerByEmail(params).then(res => {
+        this.listCustomer = res
+      })
+    }
+
     handleFindCustomer(query: string, isFirst = false): void {
       if (query !== '') {
+        this.emailSearch = trim(query)
+        this.limit = 20
         const params = {
-          email: trim(query),
-          limit: 10000
+          email: this.emailSearch,
+          limit: 20
         }
         apiCrowdsale.findCustomerByEmail(params).then(res => {
           this.listCustomer = res
@@ -261,6 +281,8 @@
           }
         })
       } else {
+        this.limit = 20
+        this.emailSearch = ''
         this.listCustomer = [...this.listCustomerClone]
       }
     }
