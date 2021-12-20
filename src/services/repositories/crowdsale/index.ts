@@ -62,9 +62,9 @@ export class CrowdsaleRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
-  async findCustomerByEmail(email: string): Promise<any> {
+  async findCustomerByEmail(params: Record<string, any>): Promise<any> {
     try {
-      const rs = await request.get(`main/api/v1/customer/detail-by-username/${email}`)
+      const rs = await request.get(`main/api/v1/customer/detail-by-username`, { params })
       return Promise.resolve(rs.data.data)
     } catch (error) {
       return Promise.reject(error)
