@@ -440,11 +440,11 @@
     disableTime(time: Date, type: string): any {
       if (type === 'from-to') {
         if (this.filterException.fromDate) {
-          return time.getTime() < new Date(this.filterException.fromDate).getTime()
+          return time.getTime()/1000 < new Date(this.filterException.fromDate).getTime()/1000-7*60*60;
         }
       } else {
         if (this.filterException.toDate) {
-          return time.getTime() >= new Date(this.filterException.toDate).getTime()
+          return time.getTime()/1000 > new Date(this.filterException.toDate).getTime()/1000-7*60*60;
         }
       }
     }

@@ -243,11 +243,11 @@
     disableTime(time: Date, type: string): any {
       if (type === 'from-to') {
         if (this.filter.fromDate) {
-          return time.getTime() < new Date(this.filter.fromDate).getTime()
+          return time.getTime()/1000 < new Date(this.filter.fromDate).getTime()/1000-7*60*60;
         }
       } else {
         if (this.filter.toDate) {
-          return time.getTime() >= new Date(this.filter.toDate).getTime()
+          return time.getTime()/1000 > new Date(this.filter.toDate).getTime()/1000-7*60*60;
         }
       }
     }

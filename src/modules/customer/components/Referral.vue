@@ -11,12 +11,12 @@
                 </el-select>
               </el-form-item>
               <el-form-item class="be-flex-item" :label="$t('label.from-date')">
-                <el-date-picker class="w-100" format="yyyy/MM/dd" value-format="yyyy-MM-dd" :placeholder="$t('label.from-date')" v-model="filter.fromCreatedAt" type="date">
+                <el-date-picker class="w-100" format="MM/dd/yyyy" value-format="yyyy-MM-dd" :placeholder="$t('label.from-date')" v-model="filter.fromCreatedAt" type="date" :picker-options="pickerOption2">
                 </el-date-picker>
               </el-form-item>
 
               <el-form-item class="be-flex-item" :label="$t('label.to-date')">
-                <el-date-picker class="w-100" format="yyyy/MM/dd" :placeholder="$t('label.to-date')" value-format="yyyy-MM-dd" v-model="filter.toCreatedAt" type="date">
+                <el-date-picker class="w-100" format="MM/dd/yyyy" :placeholder="$t('label.to-date')" value-format="yyyy-MM-dd" v-model="filter.toCreatedAt" type="date"  :picker-options="pickerOption">
                 </el-date-picker>
               </el-form-item>
             </el-form>
@@ -129,7 +129,33 @@
     created(): void {
       this.handleGetListReferral()
     }
+    get pickerOption(): any {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const _this = this
+      return {
+        disabledDate(time: Date) {
+          return _this.disableTime(time, 'from-to')
+        }
+      }
+    }
 
+    get pickerOption2(): any {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const _this = this
+      return {
+        disabledDate(time: Date) {
+          return _this.disableTime(time, 'to-from')
+        }
+      }
+    }
+
+    disableTime(time: Date, type: string): any {
+      if (type === 'from-to') {
+        return time.getTime()/1000 < new Date(this.filter.fromCreatedAt).getTime()/ 1000 - 7 * 60 * 60;
+      } else {
+        return time.getTime()/1000 > new Date(this.filter.toCreatedAt).getTime()/ 1000 - 7 * 60 * 60;
+      }
+    }
     get getIndex(): number {
       return this.query.limit * (this.query.page - 1) + 1
     }
