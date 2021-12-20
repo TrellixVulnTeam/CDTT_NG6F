@@ -19,7 +19,7 @@
                 </el-select>
               </el-form-item>
               <el-form-item class="be-flex-item" :label="$t('label.from-date')">
-                <el-date-picker class="w-100" format="dd/MM/yyyy" value-format="yyyy-MM-dd" v-model="filter.fromCreatedAt" type="date"> </el-date-picker>
+                <el-date-picker class="w-100" format="MM/dd/yyyy" value-format="yyyy-MM-dd" v-model="filter.fromCreatedAt" type="date" :picker-options='pickerOption2'> </el-date-picker>
               </el-form-item>
             </div>
             <div class="be-flex jc-space-between row">
@@ -29,7 +29,7 @@
                 </el-select>
               </el-form-item>
               <el-form-item class="be-flex-item" :label="$t('label.to-date')">
-                <el-date-picker class="w-100" format="dd/MM/yyyy" value-format="yyyy-MM-dd" v-model="filter.toCreatedAt" type="date"> </el-date-picker>
+                <el-date-picker class="w-100" format="MM/dd/yyyy" value-format="yyyy-MM-dd" v-model="filter.toCreatedAt" type="date" :picker-options='pickerOption'> </el-date-picker>
               </el-form-item>
             </div>
             <div class="be-flex jc-space-between row">
@@ -177,6 +177,37 @@
       })
       EventBus.$on('changeTabKyc', this.handleChangeTab)
       this.$emit('filter', this.filter)
+    }
+    get pickerOption(): any {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const _this = this
+      return {
+        disabledDate(time: Date) {
+          return _this.disableTime(time, 'from-to')
+        }
+      }
+    }
+
+    get pickerOption2(): any {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const _this = this
+      return {
+        disabledDate(time: Date) {
+          return _this.disableTime(time, 'to-from')
+        }
+      }
+    }
+
+    disableTime(time: Date, type: string): any {
+      if (type === 'from-to') {
+        if (this.filter.fromCreatedAt) {
+          return time.getTime()/1000 < new Date(this.filter.fromCreatedAt).getTime()/1000-7*60*60;
+        }
+      } else {
+        if (this.filter.toCreatedAt) {
+          return time.getTime()/1000 > new Date(this.filter.toCreatedAt).getTime()/1000-7*60*60;
+        }
+      }
     }
     destroyed(): void {
       EventBus.$off('changeLang')
