@@ -55,6 +55,8 @@
 
     switchRole(role: string): string {
       switch (role) {
+        case 'SUPERADMIN':
+          return this.$t('member.sort.spadmin') as string
         case 'ADMIN':
           return this.$t('member.sort.admin') as string
         case 'SUPPORT':

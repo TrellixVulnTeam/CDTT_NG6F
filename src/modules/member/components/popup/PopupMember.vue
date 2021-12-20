@@ -81,6 +81,7 @@
             <el-checkbox label="ACCOUNTANT">{{ $t('member.sort.accountant') }}</el-checkbox>
             <el-checkbox label="SUPPORT">{{ $t('member.sort.support') }}</el-checkbox>
             <el-checkbox label="ADMIN">{{ $t('member.sort.admin') }}</el-checkbox>
+            <el-checkbox label="SUPERADMIN">{{ $t('member.sort.spadmin') }}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
 
