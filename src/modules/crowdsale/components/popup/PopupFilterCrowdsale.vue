@@ -73,7 +73,7 @@
               format="MM/dd/yyyy"
               type="date"
               clearable
-              :picker-options="pickerOptions"
+              :picker-options="pickerOption2"
               :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateStart')"
             >
             </el-date-picker>
@@ -89,7 +89,7 @@
               format="MM/dd/yyyy"
               type="date"
               clearable
-              :picker-options="pickerOptions"
+              :picker-options="pickerOption"
             >
             </el-date-picker>
           </el-form-item>
@@ -148,11 +148,7 @@
       toAmount: ''
     }
     listCountry: IListCountry[] = countryJson
-    pickerOptions = {
-      disabledDate(time: any) {
-        return time.getTime() >= Date.now()
-      }
-    }
+
     optionByToken: any = {}
     optionByWallet: any = [
       {
@@ -196,6 +192,33 @@
                   : type === 'usdc'
                     ? 'icon-usdc'
                     : 'icon-locker'
+    }
+    get pickerOption(): any {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const _this = this
+      return {
+        disabledDate(time: Date) {
+          return _this.disableTime(time, 'from-to')
+        }
+      }
+    }
+
+    get pickerOption2(): any {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const _this = this
+      return {
+        disabledDate(time: Date) {
+          return _this.disableTime(time, 'to-from')
+        }
+      }
+    }
+
+    disableTime(time: Date, type: string): any {
+      if (type === 'from-to') {
+        return time.getTime()/1000 < new Date(this.form.fromDate).getTime()/ 1000 - 7 * 60 * 60;
+      } else {
+        return time.getTime()/1000 > new Date(this.form.toDate).getTime()/ 1000 - 7 * 60 * 60;
+      }
     }
     handleReset(): void {
       this.form = {
