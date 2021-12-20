@@ -39,8 +39,7 @@
           <el-form-item prop="paidWallet" class="box-input">
             <el-select class="select" v-model="form.paidWallet" :placeholder="$t('crowdsale.popup-filter.planceOderWallet')" clearable>
               <div infinite-scroll-delay="500">
-                <el-option v-for="item in optionByWallet" :key="item.value" :label="item.label" :value="item.value">
-                </el-option>
+                <el-option v-for="item in optionByWallet" :key="item.value" :label="item.label" :value="item.value"> </el-option>
               </div>
             </el-select>
           </el-form-item>
@@ -175,23 +174,23 @@
         return formatType(name)
       }
     }
-    renderIcon(type:string):string{
-      type=type.toLowerCase();
+    renderIcon(type: string): string {
+      type = type.toLowerCase()
       return type === 'lynk'
         ? 'icon-lynk'
         : type === 'clm'
-          ? 'icon-clm'
-          : type === 'btc'
-            ? 'icon-btc'
-            : type === 'eth'
-              ? 'icon-eth'
-              : type === 'usdt'
-                ? 'icon-usdt'
-                : type === 'bnb'
-                  ? 'icon-bnb'
-                  : type === 'usdc'
-                    ? 'icon-usdc'
-                    : 'icon-locker'
+        ? 'icon-clm'
+        : type === 'btc'
+        ? 'icon-btc'
+        : type === 'eth'
+        ? 'icon-eth'
+        : type === 'usdt'
+        ? 'icon-usdt'
+        : type === 'bnb'
+        ? 'icon-bnb'
+        : type === 'usdc'
+        ? 'icon-usdc'
+        : 'icon-locker'
     }
     get pickerOption(): any {
       // eslint-disable-next-line @typescript-eslint/no-this-alias

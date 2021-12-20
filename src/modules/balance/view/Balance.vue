@@ -1,84 +1,83 @@
 <template>
-  <div class='w-100 bo-kyc'>
-    <div class='bg-white wallet-header'>
-      <div class='be-flex align-center jc-space-between wallet-header__above'>
-        <div class='wallet-header__above-tabs be-flex'>
-          <div class='tab-item cursor' v-for='tab in getTab' :key='tab.id'
-               :class="$route.name === tab.routeName ? 'tab-active' : null" @click='handleChangeTab(tab)'>
-            <span class='text-base'>{{ $t(`menu.${tab.title}`) }}</span>
+  <div class="w-100 bo-kyc">
+    <div class="bg-white wallet-header">
+      <div class="be-flex align-center jc-space-between wallet-header__above">
+        <div class="wallet-header__above-tabs be-flex">
+          <div class="tab-item cursor" v-for="tab in getTab" :key="tab.id" :class="$route.name === tab.routeName ? 'tab-active' : null" @click="handleChangeTab(tab)">
+            <span class="text-base">{{ $t(`menu.${tab.title}`) }}</span>
           </div>
         </div>
       </div>
     </div>
-    <div class='container bg-white wallet-header-task' style='width: calc(100% - 48px)'>
-      <div class='col-width col-margin'>
-        <div class='sack-banlance'>
-          <span class='text1'>
+    <div class="container bg-white wallet-header-task" style="width: calc(100% - 48px)">
+      <div class="col-width col-margin">
+        <div class="sack-banlance">
+          <span class="text1">
             {{ $t(`balance.investor`) }}
           </span>
           <div>
-            <base-icon icon='icon-people' size='19' />
+            <base-icon icon="icon-people" size="19" />
           </div>
         </div>
-          <span class='number2'> {{ numOfInvestor| formatNumber }}</span>
+        <span class="number2"> {{ numOfInvestor | formatNumber }}</span>
         <div>
-          <span class='text3'> {{ $t(`balance.of-total`) }} {{ numOfUser | formatNumber }}</span>
+          <span class="text3"> {{ $t(`balance.of-total`) }} {{ numOfUser | formatNumber }}</span>
         </div>
       </div>
 
-      <div class='col-width col-margin'>
-        <div class='sack-banlance'>
-          <span class='text1'>{{ $t(`balance.total-available`) }} </span>
+      <div class="col-width col-margin">
+        <div class="sack-banlance">
+          <span class="text1">{{ $t(`balance.total-available`) }} </span>
           <div>
-            <base-icon icon='icon-swap' size='19' />
+            <base-icon icon="icon-swap" size="19" />
           </div>
         </div>
-        <span class='number2'>
-          {{ totalAvailable | convertAmountDecimal(tabActive) }} <a class='tabActive'>{{ tabActive }}</a>
+        <span class="number2">
+          {{ totalAvailable | convertAmountDecimal(tabActive) }} <a class="tabActive">{{ tabActive }}</a>
         </span>
-        <span class='text3'> ~${{ totalAvailableUSD | convertAmountDecimal('USD') }}</span>
+        <span class="text3"> ~${{ totalAvailableUSD | convertAmountDecimal('USD') }}</span>
       </div>
-      <div class='col-width col-margin'>
-        <div class='sack-banlance'>
-          <span class='text1'>{{ $t(`balance.total-locked`) }}</span>
+      <div class="col-width col-margin">
+        <div class="sack-banlance">
+          <span class="text1">{{ $t(`balance.total-locked`) }}</span>
           <div>
-            <base-icon icon='icon-lock-balance' size='19' />
+            <base-icon icon="icon-lock-balance" size="19" />
           </div>
         </div>
-        <span class='number2'>
-          {{ totalLocked | convertAmountDecimal(tabActive) }} <a class='tabActive'>{{ tabActive }}</a></span
+        <span class="number2">
+          {{ totalLocked | convertAmountDecimal(tabActive) }} <a class="tabActive">{{ tabActive }}</a></span
         >
-        <span class='text3'>~${{ totalLockedUSD | convertAmountDecimal('USD') }}</span>
+        <span class="text3">~${{ totalLockedUSD | convertAmountDecimal('USD') }}</span>
       </div>
-      <div class='col-width col-margin'>
-        <div class='sack-banlance'>
-          <span class='text1'> {{ $t(`balance.balance-wallet`) }}</span>
+      <div class="col-width col-margin">
+        <div class="sack-banlance">
+          <span class="text1"> {{ $t(`balance.balance-wallet`) }}</span>
           <div>
-            <base-icon icon='icon-wallet' size='19' />
+            <base-icon icon="icon-wallet" size="19" />
           </div>
         </div>
-        <span class='number2'>
-          {{ totalBalance | convertAmountDecimal(tabActive) }} <a class='tabActive'>{{ tabActive }}</a></span
+        <span class="number2">
+          {{ totalBalance | convertAmountDecimal(tabActive) }} <a class="tabActive">{{ tabActive }}</a></span
         >
-        <span class='text3'> ~ ${{ totalBalanceUSD | convertAmountDecimal('USD') }}</span>
+        <span class="text3"> ~ ${{ totalBalanceUSD | convertAmountDecimal('USD') }}</span>
       </div>
     </div>
-    <balance-filter @filterBalance='handleFilter' :listApproveBy='listApproveBy' />
+    <balance-filter @filterBalance="handleFilter" :listApproveBy="listApproveBy" />
     <balance-table
-      v-loading='isLoading'
-      @rowClick='handleRowClick'
-      @sizeChange='handleSizeChange'
-      @pageChange='handlePageChange'
-      :query='query'
-      :propTabActive='tabActive'
-      :data='propdataTable'
+      v-loading="isLoading"
+      @rowClick="handleRowClick"
+      @sizeChange="handleSizeChange"
+      @pageChange="handlePageChange"
+      :query="query"
+      :propTabActive="tabActive"
+      :data="propdataTable"
     />
     <!-- <kyc-detail :detailRow="detailRow" @init="init" /> -->
-    <balance-detail :detailRow='detailRow' :data='dataDetail' :tab-active-filter='tabActive' />
+    <balance-detail :detailRow="detailRow" :data="dataDetail" :tab-active-filter="tabActive" />
   </div>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
   import { Component, Mixins, Watch } from 'vue-property-decorator'
   //@ts-ignore
   import BalanceTable from '../components/BalanceTable.vue'
@@ -336,7 +335,7 @@
   }
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
   .container {
     text-align: justify;
     -ms-text-justify: distribute-all-lines;
@@ -372,8 +371,8 @@
     border-radius: 8px !important;
     border: 1px solid #dbdbdb !important;
     box-sizing: border-box !important;
-    padding: 0 16px!important;
-    display: flex!important;
+    padding: 0 16px !important;
+    display: flex !important;
     flex-direction: column;
     justify-content: space-between;
   }

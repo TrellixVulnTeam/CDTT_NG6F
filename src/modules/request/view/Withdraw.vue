@@ -45,30 +45,30 @@
             </el-date-picker>
           </div>
           <div class="label">{{ $t('request.filter.label3') }}</div>
-        <div style='position: relative'>
-          <div class="be-flex jc-space-between align-center row box" :class="errorType === 'amount' && 'error-amount-border-popup-transaction'">
-            <el-input
-              v-model="filter.fromAmount"
-              :placeholder="$t('request.filter.planceOder2')"
-              class="box-input-request-date"
-              clearable
-              @keyup.native="numberFormat($event)"
-              @blur="clickOutSide"
-            ></el-input>
-            <div class="line"></div>
-            <el-input
-              v-model="filter.toAmount"
-              :placeholder="$t('request.filter.planceOder3')"
-              class="box-input-request-date"
-              clearable
-              @keyup.native="numberFormat($event)"
-              @blur="clickOutSide"
-            ></el-input>
+          <div style="position: relative">
+            <div class="be-flex jc-space-between align-center row box" :class="errorType === 'amount' && 'error-amount-border-popup-transaction'">
+              <el-input
+                v-model="filter.fromAmount"
+                :placeholder="$t('request.filter.planceOder2')"
+                class="box-input-request-date"
+                clearable
+                @keyup.native="numberFormat($event)"
+                @blur="clickOutSide"
+              ></el-input>
+              <div class="line"></div>
+              <el-input
+                v-model="filter.toAmount"
+                :placeholder="$t('request.filter.planceOder3')"
+                class="box-input-request-date"
+                clearable
+                @keyup.native="numberFormat($event)"
+                @blur="clickOutSide"
+              ></el-input>
+            </div>
+            <div v-if="errorType === 'amount'" class="error-amount">
+              <p>{{ $t('notify.amount-invalid') }}</p>
+            </div>
           </div>
-          <div v-if="errorType === 'amount'" class="error-amount">
-            <p>{{ $t('notify.amount-invalid') }}</p>
-          </div>
-        </div>
           <div class="be-flex jc-flex-end footer">
             <el-button class="btn-default btn-400 btn-h-40 btn-close text-regular" @click="handleResetFilter">
               {{ $t('button.reset') }}
@@ -219,7 +219,7 @@
     sortActive = 'REQUEST_DATE'
     orderBy = 'REQUEST_DATE'
     loadingTable = true
-    errorType=''
+    errorType = ''
     get pickerOption(): any {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const _this = this
@@ -476,7 +476,7 @@
   }
   .footer {
     button[disabled] {
-      opacity: 0.5 ;
+      opacity: 0.5;
       background-color: var(--bc-btn-bg-default);
       cursor: not-allowed;
     }

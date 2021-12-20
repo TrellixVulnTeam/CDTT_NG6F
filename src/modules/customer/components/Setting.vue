@@ -6,7 +6,7 @@
       </div>
 
       <div class="form">
-        <el-form class="form-item" @submit.prevent.native="handleContinue" :model="form" :rules="rules" ref="form-phone">
+        <el-form class="form-item" :model="form" :rules="rules" ref="form-phone">
           <el-form-item prop="country">
             <div class="be-flex label" slot="label">{{ $t('label.country') }}</div>
             <el-select v-model="form.country" class="w-100" filterable reserve-keyword remote :remote-method="remoteCountry" clearable @change="handleSelectCountry">
@@ -17,7 +17,7 @@
           <el-form-item prop="phone">
             <div class="be-flex label" slot="label">{{ $t('label.phone-number') }}</div>
 
-            <el-input @change="handleChangePhone" v-on:keyup.enter="handleContinue" type="number" :placeholder="$t('placeholder.phone-number')" v-model="form.phone">
+            <el-input @keypress.native="handleChangeCode($event)" type="number" :placeholder="$t('placeholder.phone-number')" v-model="form.phone">
               <template style="cursor: pointer" slot="prepend"
                 ><span style="color: #5b616e">{{ phoneDefault }}</span></template
               >
@@ -33,7 +33,6 @@
                 :class="disabledContinue ? 'btn btn-h-40 is-none-border backgroundDisable' : 'btn btn-continue btn-h-40 is-none-border'"
                 :disabled="disabledContinue"
                 @click="handleContinue"
-                @keyup.enter.native="handleContinue"
                 >{{ $t('verify.continue') }}</el-button
               >
             </div>
@@ -535,12 +534,14 @@
       this.verifyCode()
       // await this.sendEmailcustomer()
     }
-    handleChangePhone(event: FocusEvent): void {
-      console.log('event', event)
-      if (event) {
-        this.handleContinueChangePhone()
-      }
-    }
+    checkEvent: any = ''
+    // handleChangePhone(event: FocusEvent): void {
+    //   this.checkEvent = event
+    //   console.log('11111 ', this.checkEvent)
+    //   if (event) {
+    //     this.handleContinue()
+    //   }
+    // }
     async handleSendCodeCustomer(): Promise<void> {
       const params = {
         countryCode: this.phoneDefault,
@@ -705,7 +706,14 @@
         this.handleSendCode()
       }
     }
+    handleChangeCode(event: KeyboardEvent): void {
+      let keyCode = event.keyCode ? event.keyCode : event.which
+      if (keyCode === 13) {
+        this.handleContinue()
+      }
+    }
     async handleContinue(): Promise<void> {
+      console.log('this.checkEvent ', this.checkEvent)
       if (this.form.country !== '' && this.form.phone !== '') {
         const params = {
           countryCode: this.phoneDefault,
