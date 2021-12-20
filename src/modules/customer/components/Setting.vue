@@ -17,7 +17,7 @@
           <el-form-item prop="phone">
             <div class="be-flex label" slot="label">{{ $t('label.phone-number') }}</div>
 
-            <el-input  v-on:keyup.enter="handleContinue" type="number" :placeholder="$t('placeholder.phone-number')" v-model="form.phone">
+            <el-input @change="handleChangePhone" v-on:keyup.enter="handleContinue" type="number" :placeholder="$t('placeholder.phone-number')" v-model="form.phone">
               <template style="cursor: pointer" slot="prepend"
                 ><span style="color: #5b616e">{{ phoneDefault }}</span></template
               >
@@ -32,7 +32,8 @@
                 type="button"
                 :class="disabledContinue ? 'btn btn-h-40 is-none-border backgroundDisable' : 'btn btn-continue btn-h-40 is-none-border'"
                 :disabled="disabledContinue"
-                @click="handleContinue" 
+                @click="handleContinue"
+                @keyup.enter.native="handleContinue"
                 >{{ $t('verify.continue') }}</el-button
               >
             </div>
@@ -534,12 +535,12 @@
       this.verifyCode()
       // await this.sendEmailcustomer()
     }
-    // handleChangePhone(event: FocusEvent): void {
-    //   console.log('event', event)
-    //   if (event) {
-    //     this.handleContinue()
-    //   }
-    // }
+    handleChangePhone(event: FocusEvent): void {
+      console.log('event', event)
+      if (event) {
+        this.handleContinueChangePhone()
+      }
+    }
     async handleSendCodeCustomer(): Promise<void> {
       const params = {
         countryCode: this.phoneDefault,
@@ -688,6 +689,21 @@
           let message: any = this.$t('customer.setting.send-code-fail')
           this.$message.error(message)
         })
+    }
+    async handleContinueChangePhone(): Promise<void> {
+      if (this.form.country !== '' && this.form.phone !== '') {
+        const params = {
+          countryCode: this.phoneDefault,
+          country: this.form.country,
+          newPhone: this.form.phone
+        }
+        const result = await apiCustomer.validatePhoneNumber(params)
+        this.setOpenPopup({
+          popupName: 'popup-verify',
+          isOpen: true
+        })
+        this.handleSendCode()
+      }
     }
     async handleContinue(): Promise<void> {
       if (this.form.country !== '' && this.form.phone !== '') {
