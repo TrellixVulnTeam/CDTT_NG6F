@@ -77,6 +77,7 @@
     @Prop({ required: false, type: Array, default: () => [] }) listRound!: Record<string, any>[]
     @Prop({ required: true, type: String, default: 'add' }) type!: string
     @Prop({ required: true, type: Number, default: 0 }) userId!: number
+    @Prop({ required: true, type: Number, default: 0 }) tabActive!: number
 
     @crowdsaleBo.State('roundCurrent') roundCurrent!: Record<string, any>
 
@@ -155,6 +156,9 @@
           .catch(() => {
             this.isLoading = false
           })
+      } else {
+        const roundId = this.listRound[this.tabActive].id
+        this.listRoundChecked.push(roundId)
       }
     }
 

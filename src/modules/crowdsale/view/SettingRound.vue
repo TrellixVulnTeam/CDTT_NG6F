@@ -138,7 +138,7 @@
         </el-table-column>
       </base-table>
     </div>
-    <popup-setting-round-member :type="type" :userId="userId" :listRound="listRound" @reload="init" />
+    <popup-setting-round-member :type="type" :userId="userId" :listRound="listRound" @reload="init" :tabActive="tabActive" />
     <popup-confirm @reload="init" :userId="userId" :listRound="listRound" :tabActive="tabActive" />
   </div>
 </template>
