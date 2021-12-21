@@ -18,18 +18,22 @@
                   <el-option v-for="(country, index) in listCountry" :key="index" :label="country.name" :value="country.name" />
                 </el-select>
               </el-form-item>
-              <el-form-item class="be-flex-item" :label="$t('label.from-date')">
-                <el-date-picker class="w-100" format="MM/dd/yyyy" value-format="yyyy-MM-dd" v-model="filter.fromCreatedAt" type="date" :picker-options='pickerOption2'> </el-date-picker>
-              </el-form-item>
-            </div>
-            <div class="be-flex jc-space-between row">
-              <el-form-item class="be-flex-item mr-40" :label="$t('label.id-type')">
+
+              <el-form-item class="be-flex-item" :label="$t('label.id-type')">
                 <el-select v-model="filter.identificationType" id-type :placeholder="$t('label.placehoderidType')" class="w-100" clearable>
                   <el-option v-for="(type, index) in identificationType" :key="index" :label="type.type" :value="type.value" />
                 </el-select>
               </el-form-item>
+            </div>
+            <div class="be-flex jc-space-between row">
+              <el-form-item class="be-flex-item mr-40" :label="$t('label.from-date')">
+                <el-date-picker class="w-100" format="MM/dd/yyyy" value-format="yyyy-MM-dd" v-model="filter.fromCreatedAt" type="date" :picker-options="pickerOption2">
+                </el-date-picker>
+              </el-form-item>
+
               <el-form-item class="be-flex-item" :label="$t('label.to-date')">
-                <el-date-picker class="w-100" format="MM/dd/yyyy" value-format="yyyy-MM-dd" v-model="filter.toCreatedAt" type="date" :picker-options='pickerOption'> </el-date-picker>
+                <el-date-picker class="w-100" format="MM/dd/yyyy" value-format="yyyy-MM-dd" v-model="filter.toCreatedAt" type="date" :picker-options="pickerOption">
+                </el-date-picker>
               </el-form-item>
             </div>
             <div class="be-flex jc-space-between row">
@@ -201,11 +205,11 @@
     disableTime(time: Date, type: string): any {
       if (type === 'from-to') {
         if (this.filter.fromCreatedAt) {
-          return time.getTime()/1000 < new Date(this.filter.fromCreatedAt).getTime()/1000-7*60*60;
+          return time.getTime() / 1000 < new Date(this.filter.fromCreatedAt).getTime() / 1000 - 7 * 60 * 60
         }
       } else {
         if (this.filter.toCreatedAt) {
-          return time.getTime()/1000 > new Date(this.filter.toCreatedAt).getTime()/1000-7*60*60;
+          return time.getTime() / 1000 > new Date(this.filter.toCreatedAt).getTime() / 1000 - 7 * 60 * 60
         }
       }
     }

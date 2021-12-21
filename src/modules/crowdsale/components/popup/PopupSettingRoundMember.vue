@@ -13,6 +13,7 @@
             remote
             clearable
             reserve-keyword
+            :disabled="type === 'edit'"
             :placeholder="$t('placeholder.email')"
             :remote-method="handleFindCustomer"
             @change="handleSelectCustomer"
