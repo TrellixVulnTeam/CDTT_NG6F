@@ -43,11 +43,15 @@
       <div class="mini-box be-flex align-center jc-space-between">
         <div class="left">{{ $t('request.popup.transaction.label5') }}</div>
         <div class="right">
-          <div class="status" :class="data.status != 'PENDING' ? 'rejected' : null" style="text-transform: capitalize">{{ data.status.toLowerCase() }}</div>
+          <div class="status" :class="data.status != 'PENDING' ? 'rejected' : null" style="text-transform: capitalize">{{ getStatus(data.status) }}</div>
         </div>
       </div>
       <!-- <div v-if="this.data.rejectedReason" class="line"></div> -->
-      <div v-if="this.data.rejectedReason" class="mini-box be-flex align-center jc-space-between mini-box--reason">
+      <div
+        v-if="this.data.rejectedReason"
+        :style="data.rejectedReason && data.rejectedReason.length > 38 ? 'padding:12px 0' : ''"
+        class="mini-box be-flex align-center jc-space-between mini-box--reason"
+      >
         <div class="left">{{ $t('request.popup.transaction.label12') }}</div>
         <div class="right">
           {{ data.rejectedReason }}
@@ -127,6 +131,16 @@
         message = this.$t('notify.copy')
         this.$message.success(message)
       }
+    }
+    getStatus(status: string): string {
+      let string: any = ''
+      if (status === 'PENDING') {
+        string = this.$t('request.filter.pending')
+      }
+      if (status === 'REJECTED') {
+        string = this.$t('request.filter.rejected')
+      }
+      return string
     }
   }
 </script>
@@ -229,7 +243,7 @@
   .mini-box--reason {
     min-height: 48px;
     height: auto !important;
-    padding: 12px 0;
+    // padding: 12px 0;
     .left {
       flex-basis: 20% !important;
     }

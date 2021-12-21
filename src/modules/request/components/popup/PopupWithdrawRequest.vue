@@ -287,10 +287,13 @@
         isOpen: false
       })
     }
-    getStatus(status: string): void {
+    getStatus(status: string): string {
       let string: any = ''
-      if (status) {
-        string = status.toLowerCase()
+      if (status === 'PENDING') {
+        string = this.$t('request.filter.pending')
+      }
+      if (status === 'REJECTED') {
+        string = this.$t('request.filter.rejected')
       }
       return string
     }

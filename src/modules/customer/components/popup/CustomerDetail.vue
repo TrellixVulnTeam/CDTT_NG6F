@@ -205,13 +205,15 @@
 
     get getLevelCurrent(): string {
       const name = this.detailRow?.level
-      if (name !== 'Default') {
+      if (name && name !== 'Default') {
         return this.$t('customer.level', { level: name.match(/\d+/)[0] }) as string
       }
       return this.$t('customer.default') as string
     }
 
     handleOpen(): void {
+      console.log(window.localStorage.getItem('bc-lang')!)
+
       this.lang = window.localStorage.getItem('bc-lang')!
     }
 
