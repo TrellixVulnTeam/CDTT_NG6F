@@ -311,6 +311,8 @@
     }
   },
   "customer": {
+    "default": "Mặc định",
+    "level": "Cấp độ {level}",
     "verified": "Đã xác thực",
     "popup": {
       "title": "CHI TIẾT KHÁCH HÀNG",

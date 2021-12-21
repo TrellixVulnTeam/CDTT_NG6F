@@ -356,6 +356,8 @@
     }
   },
   "customer": {
+    "default": "Default",
+    "level": "Level {level}",
     "verified": "Verified",
     "popup": {
       "title": "CUSTOMER DETAIL",

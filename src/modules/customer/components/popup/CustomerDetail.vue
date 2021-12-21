@@ -35,7 +35,7 @@
             <div class="info-below__right">
               <div class="be-flex jc-space-between info-item">
                 <span class="text-xs label">{{ $t('label.level') }}:</span>
-                <span class="text-base">{{ detailRow.level }}</span>
+                <span class="text-base">{{ getLevelCurrent }}</span>
               </div>
               <div class="be-flex jc-space-between info-item">
                 <span class="text-xs label">{{ $t('label.create-date') }}:</span>
@@ -201,6 +201,14 @@
           title: 'statistics'
         }
       ]
+    }
+
+    get getLevelCurrent(): string {
+      const name = this.detailRow?.level
+      if (name !== 'Default') {
+        return this.$t('customer.level', { level: name.match(/\d+/)[0] }) as string
+      }
+      return this.$t('customer.default') as string
     }
 
     handleOpen(): void {
