@@ -121,12 +121,12 @@
         <el-table-column :label="this.$t('request.table.label4')" prop="status" align="center" width="144">
           <template slot-scope="scope">
             <div v-if="scope.row.status === 'REJECTED'" class="box-status-tabel locked">
-              <span class="fs-12 fw-500" style="text-transform: capitalize">{{ $t('request.filter.rejected') }}</span>
+              <span class="fs-12 fw-500">{{ $t('request.filter.rejected') }}</span>
             </div>
             <div v-else-if="scope.row.status === 'PENDING'" class="box-status-tabel failed">
               <span class="fs-12 fw-500">{{ $t('request.filter.pending') }}</span>
             </div>
-            <div v-else class="box-status-tabel" style="text-transform: capitalize">
+            <div v-else class="box-status-tabel">
               <span class="fs-12 fw-500">{{ scope.row.status.toLowerCase() }}</span>
             </div>
           </template>
