@@ -249,6 +249,8 @@
     }
     .right {
       flex: 1;
+      display: flex;
+      justify-content: flex-end;
     }
   }
 </style>

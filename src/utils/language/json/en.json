@@ -593,6 +593,8 @@
     "full-name": "Full name",
     "add-date": "added date",
     "add-by": "added by",
+    "locked": "Locked",
+    "failed": "Failed",
     "popup-filter": {
       "title": "filter",
       "round": "Round",
@@ -763,7 +765,11 @@
         "label5": "STATUS",
         "title1": "OPENING BALANCE",
         "title2": "TOTAL",
-        "title3": "ENDING BALANCE"
+        "title3": "ENDING BALANCE",
+        "pending": "Pending",
+        "failed": "Failed",
+        "success": "Success",
+        "processing": "Processing"
       },
       "reason": {
         "bigTitle": "REJECT REASON",
@@ -794,6 +800,8 @@
     }
   },
   "member": {
+    "inactive": "Inactive",
+    "active": "Active",
     "popup": {
       "title-add": "ADD MEMBER",
       "title-edit": "EDIT MEMBER",

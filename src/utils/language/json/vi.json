@@ -312,7 +312,7 @@
     }
   },
   "customer": {
-    "default": "Mặc định",
+    "default": "Default",
     "level": "Cấp độ {level}",
     "verified": "Đã xác thực",
     "popup": {
@@ -533,7 +533,7 @@
     "paid": "Thanh toán",
     "amount": "SỐ LƯỢNG",
     "pending": "Chưa giải quyết",
-    "success": "Sự thành công",
+    "success": "Thành công",
     "startDate": "ngày bắt đầu",
     "endDate": "ngày kết thúc",
     "remain": "còn lại",
@@ -546,6 +546,8 @@
     "full-name": "Họ tên",
     "add-date": "Ngày thêm",
     "add-by": "Thêm bởi",
+    "locked": "Bị khóa",
+    "failed": "Thất bại",
     "popup-filter": {
       "title": "bộ lọc",
       "round": "Vòng",
@@ -666,7 +668,11 @@
         "label5": "TRẠNG THÁI",
         "title1": "SỐ DƯ ĐẦU KỲ",
         "title2": "TỔNG",
-        "title3": "SỐ DƯ CUỐI KỲ"
+        "title3": "SỐ DƯ CUỐI KỲ",
+        "pending": "Đang chờ",
+        "failed": "Thất bại",
+        "success": "Thành công",
+        "processing": "Đang xử lý"
       },
       "reason": {
         "bigTitle": "LÝ DO TỪ CHỐI",
@@ -746,6 +752,8 @@
     }
   },
   "member": {
+    "inactive": "Không hoạt động",
+    "active": "Hoạt động",
     "popup": {
       "title-add": "THÊM NHÂN VIÊN",
       "title-edit": "SỬA NHÂN VIÊN",
