@@ -9,7 +9,7 @@
         <div class="left">{{ $t('request.popup.transaction.label1') }}</div>
         <div class="right fs-16">{{ data.transactionDate | formatMMDDYY }}</div>
       </div>
-      <div class="line"></div>
+
       <div class="mini-box be-flex align-center jc-space-between">
         <div class="left">{{ $t('request.popup.transaction.label2') }}</div>
         <div class="right">
@@ -20,7 +20,7 @@
           </span>
         </div>
       </div>
-      <div class="line"></div>
+
       <div class="mini-box be-flex align-center jc-space-between">
         <div class="left">{{ $t('request.popup.transaction.label3') }}</div>
         <div class="right">
@@ -31,7 +31,7 @@
           </span>
         </div>
       </div>
-      <div class="line"></div>
+
       <div class="mini-box be-flex align-center jc-space-between">
         <div class="left">{{ $t('request.popup.transaction.label4') }}</div>
         <div class="right">
@@ -39,21 +39,24 @@
           <span class="dolar">(~${{ (data.tokenUsdExchangeRate * data.transactionFee) | convertAmountDecimal('USD') }})</span>
         </div>
       </div>
-      <div class="line"></div>
+
       <div class="mini-box be-flex align-center jc-space-between">
         <div class="left">{{ $t('request.popup.transaction.label5') }}</div>
         <div class="right">
-          <div class="status" :class="data.status != 'PENDING' ? 'rejected' : null" style="text-transform: capitalize">{{ data.status.toLowerCase() }}</div>
+          <div class="status" :class="data.status != 'PENDING' ? 'rejected' : null">{{ getStatus(data.status) }}</div>
         </div>
       </div>
-      <div v-if="this.data.rejectedReason" class="line"></div>
-      <div v-if="this.data.rejectedReason" class="mini-box be-flex align-center jc-space-between">
+      <!-- <div v-if="this.data.rejectedReason" class="line"></div> -->
+      <div
+        v-if="this.data.rejectedReason"
+        :style="data.rejectedReason && data.rejectedReason.length > 38 ? 'padding:12px 0' : ''"
+        class="mini-box be-flex align-center jc-space-between mini-box--reason"
+      >
         <div class="left">{{ $t('request.popup.transaction.label12') }}</div>
         <div class="right">
           {{ data.rejectedReason }}
         </div>
       </div>
-      <div class="line"></div>
     </div>
     <div class="box-right">
       <div class="be-flex align-center" style="margin-bottom: 20px">
@@ -64,34 +67,33 @@
         <div class="left">{{ $t('request.popup.transaction.label6') }}</div>
         <div class="right fs-16">{{ dataUser.fullName }}</div>
       </div>
-      <div class="line"></div>
+
       <div class="mini-box be-flex align-center jc-space-between mini-box2">
         <div class="left">{{ $t('request.popup.transaction.label7') }}</div>
         <div class="right">
           <span class="plus" v-if="dataUser.countryCode">({{ dataUser.countryCode }})</span> {{ dataUser.phone }}
         </div>
       </div>
-      <div class="line"></div>
+
       <div class="mini-box be-flex align-center jc-space-between mini-box3">
         <div class="left">{{ $t('request.popup.transaction.label8') }}</div>
         <div class="right">{{ dataUser.email }}</div>
       </div>
-      <div class="line"></div>
+
       <div class="mini-box be-flex align-center jc-space-between mini-box4">
         <div class="left">{{ $t('request.popup.transaction.label9') }}</div>
         <div class="right">{{ dataUser.country }}</div>
       </div>
-      <div class="line"></div>
+
       <div class="mini-box be-flex align-center jc-space-between mini-box5">
         <div class="left">{{ $t('request.popup.transaction.label10') }}</div>
         <div class="right" style="text-transform: capitalize">{{ getLavel(dataUser.level) }}</div>
       </div>
-      <div class="line"></div>
+
       <div class="mini-box be-flex align-center jc-space-between">
         <div class="left">{{ $t('request.popup.transaction.label11') }}</div>
         <div class="right">{{ dataUser.createdDate | formatMMDDYY }}</div>
       </div>
-      <div class="line"></div>
     </div>
   </div>
 </template>
@@ -130,13 +132,23 @@
         this.$message.success(message)
       }
     }
+    getStatus(status: string): string {
+      let string: any = ''
+      if (status === 'PENDING') {
+        string = this.$t('request.filter.pending')
+      }
+      if (status === 'REJECTED') {
+        string = this.$t('request.filter.rejected')
+      }
+      return string
+    }
   }
 </script>
 
 <style scoped lang="scss">
   .content-transaction .mini-box .left {
     /* color: red; */
-    width: 210px;
+    width: 150px;
     margin-right: 10px;
     word-break: break-word;
   }
@@ -152,7 +164,8 @@
       left: 0px;
     }
     .mini-box {
-      margin-bottom: 12px;
+      height: 48px;
+      border-bottom: 1px solid #dbdbdb;
       .left {
         color: #5b616e;
       }
@@ -208,23 +221,34 @@
       min-width: 369px;
       position: relative;
       min-height: 316px;
-      .mini-box1 {
-        margin-bottom: 13px;
-      }
-      .mini-box2 {
-        margin-top: 22px;
-        margin-bottom: 13px;
-      }
-      .mini-box3 {
-        margin-top: 20px;
-        margin-bottom: 18px;
-      }
-      .mini-box4 {
-        margin-bottom: 10px;
-      }
-      .mini-box5 {
-        margin-bottom: 17px;
-      }
+      // .mini-box1 {
+      //   margin-bottom: 13px;
+      // }
+      // .mini-box2 {
+      //   margin-top: 22px;
+      //   margin-bottom: 13px;
+      // }
+      // .mini-box3 {
+      //   margin-top: 20px;
+      //   margin-bottom: 18px;
+      // }
+      // .mini-box4 {
+      //   margin-bottom: 10px;
+      // }
+      // .mini-box5 {
+      //   margin-bottom: 17px;
+      // }
+    }
+  }
+  .mini-box--reason {
+    min-height: 48px;
+    height: auto !important;
+    // padding: 12px 0;
+    .left {
+      flex-basis: 20% !important;
+    }
+    .right {
+      flex: 1;
     }
   }
 </style>

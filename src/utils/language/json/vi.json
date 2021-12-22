@@ -258,7 +258,8 @@
     "buyer-already-listed": "Nhà đầu tư đã có trong danh sách",
     "delete-buyer": "Xóa thành công",
     "incorrect-old-pass": "Mật khẩu cũ không chính xác",
-    "choose-round": "Chọn tối thiểu 1 vòng"
+    "choose-round": "Chọn tối thiểu 1 vòng",
+    "kyc-approved-already": "Yêu cầu KYC đã được duyệt bởi một tài khoản khác"
   },
   "logout": {
     "title": "Đăng xuất",
@@ -311,6 +312,8 @@
     }
   },
   "customer": {
+    "default": "Mặc định",
+    "level": "Cấp độ {level}",
     "verified": "Đã xác thực",
     "popup": {
       "title": "CHI TIẾT KHÁCH HÀNG",
@@ -466,7 +469,7 @@
     "kyc_reject_reason_selfie_photo_not_matching": "Ảnh chụp không khớp"
   },
   "menu": {
-    "Pending": "Pending",
+    "Pending": "Chờ xác minh",
     "Verified": "Đã xác thực",
     "Rejected": "Đã từ chối",
     "customer-all": "Tất cả",
@@ -604,7 +607,7 @@
       "planceOder2": "Từ",
       "label3": "Số lượng",
       "planceOder3": "Đến",
-      "pending": "Chưa giải quyết",
+      "pending": "Đang chờ",
       "rejected": "Từ chối"
     },
     "popup": {

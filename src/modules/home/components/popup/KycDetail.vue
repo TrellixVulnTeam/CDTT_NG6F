@@ -205,15 +205,27 @@
         rotatePhoto2: `rotate(${this.rotateDeg[1]}deg)`,
         rotatePhoto1: `rotate(${this.rotateDeg[0]}deg)`
       }
-      apiKyc.updateKyc(data2).then(() => {
-        apiKyc.approveKyc(data).then(() => {
-          const message: any = this.$i18n.t('notify.approve-success')
-          this.$message.success({ message, duration: 5000 })
+      apiKyc
+        .updateKyc(data2)
+        .then(() => {
+          apiKyc
+            .approveKyc(data)
+            .then(() => {
+              const message: any = this.$i18n.t('notify.approve-success')
+              this.$message.success({ message, duration: 5000 })
+              this.isLoading = false
+              this.handleClose()
+              this.$emit('init')
+            })
+            .catch(() => {
+              this.isLoading = false
+              this.handleClose()
+            })
+        })
+        .catch(() => {
           this.isLoading = false
           this.handleClose()
-          this.$emit('init')
         })
-      })
     }
 
     //protected double click

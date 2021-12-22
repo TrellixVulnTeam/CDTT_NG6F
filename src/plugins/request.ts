@@ -74,11 +74,18 @@ request.interceptors.response.use(
       if (data.message === 'User not exits') {
         message = i18n.tc('notify.user-exits')
       }
+      if (data.message === 'Kyc has been approved by another admin') {
+        message = i18n.tc('notify.kyc-approved-already')
+      }
       if (data.status === 'USER_NOT_EXISTS') {
         message = i18n.tc('notify.user-not-exits')
       }
       if (data.status === 'BAD_REQUEST' && includes(config.url, 'user/settings/kyc-requests')) {
-        return Promise.reject(error)
+        if (data.message === 'Kyc has been approved by another admin') {
+          message = i18n.tc('notify.kyc-approved-already')
+        } else {
+          return Promise.reject(error)
+        }
       }
       if (data.message === 'Username or password is incorrect') {
         message = i18n.tc('notify.invalid-username')

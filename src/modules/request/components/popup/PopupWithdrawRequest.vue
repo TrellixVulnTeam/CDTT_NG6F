@@ -75,7 +75,7 @@
             <div class="big-amout fw-600 fs-24" v-if="data.currency">{{ data.amountDisplay }}</div>
             <div class="dolar fw-400 fs-12">~${{ getAmountToUsd(data.amountToUsd) }}</div>
           </div>
-          <div class="box-status fw-400 fs-12" :class="data.status != 'PENDING' ? 'rejected' : null" style="text-transform: capitalize">{{ getStatus(data.status) }}</div>
+          <div class="box-status fw-400 fs-12" :class="data.status != 'PENDING' ? 'rejected' : null">{{ getStatus(data.status) }}</div>
         </div>
         <div class="line"></div>
         <div class="box-right">
@@ -287,10 +287,13 @@
         isOpen: false
       })
     }
-    getStatus(status: string): void {
+    getStatus(status: string): string {
       let string: any = ''
-      if (status) {
-        string = status.toLowerCase()
+      if (status === 'PENDING') {
+        string = this.$t('request.filter.pending')
+      }
+      if (status === 'REJECTED') {
+        string = this.$t('request.filter.rejected')
       }
       return string
     }
