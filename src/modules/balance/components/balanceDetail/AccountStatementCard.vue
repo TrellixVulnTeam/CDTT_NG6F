@@ -17,7 +17,7 @@
         @rowClick="handleRowClick"
         class="base-table table-wallet"
       >
-        <el-table-column :label="$t('balance.popup.type')" width="200" prop="transactionType">
+        <el-table-column :label="$t('balance.popup.type')" :width="language==='vi'?'220':'200'" prop="transactionType">
           <template slot-scope="scope">
             <p style="font-size: 16px">{{ checkRowType(scope.row.transactionType) }}</p>
             <p style="color: #5b616e; font-size: 14px">{{ scope.row.transactionMillisecond | formatMMDDYY }}</p>
@@ -45,7 +45,7 @@
       </base-table>
     </div>
     <div class="total be-flex">
-      <div class="total-title">{{ $t('balance.popup.total') }}</div>
+      <div class="total-title" v-bind:style="language==='vi'?'width:204px':'width:186px'">{{ $t('balance.popup.total') }}</div>
       <p class="credit" v-if="summary.totalCreditAmount === '0'">0 {{ this.tabActiveFilter.toUpperCase() }}</p>
       <p class="credit" v-else>+ {{ summary.totalCreditAmount | numberWithCommas }} {{ this.tabActiveFilter.toUpperCase() }}</p>
       <p v-if="summary.totalDebitAmount === '0'">0 {{ this.tabActiveFilter.toUpperCase() }}</p>
@@ -62,7 +62,8 @@
 <script lang="ts">
   import { Component, Prop, Vue } from 'vue-property-decorator'
   import { formatType } from '@/configs'
-
+  import { namespace } from 'vuex-class'
+  const beBase = namespace('beBase')
   @Component
   export default class AccountStatementCard extends Vue {
     @Prop({ required: true, type: Array, default: [] }) data!: Array<Record<string, any>>
@@ -70,10 +71,17 @@
     @Prop({ required: true, type: Object, default: {} }) query!: Record<string, any>
     @Prop({}) isLoading!: boolean
     @Prop({ required: true }) tabActiveFilter!: string
+    @beBase.State('coinMain') coinMain!: string
     get getPaginationInfo(): any {
       return this.$t('paging.transaction')
     }
-
+    language=''
+    created(){
+      if (window.localStorage.getItem('bc-lang')){
+        this.language=window.localStorage.getItem('bc-lang') as string
+        console.log(this.language)
+      }
+    }
     checkType(type: string): string {
       return type === 'Not verified' ? 'status-not-verified' : type === 'PENDING' ? 'status-pending' : type === 'SUCCESS' ? 'status-verified' : 'status-rejected'
     }
