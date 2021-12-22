@@ -232,7 +232,6 @@
       // this.filterBalance.fromAvailableAmount = "$ " + value
     }
     searchText = debounce((value: string) => {
-      console.log('thanh', this.filterBalance)
       this.$emit('filterBalance', {
         ...this.filterBalance,
         search: trim(value)
@@ -243,13 +242,9 @@
       let fnumber = _event.target.value
       if (fnumber.length > 0) {
         fnumber = fnumber.replaceAll(',', '')
-        fnumber = parseInt(fnumber)
-        if (!isNaN(fnumber)) {
-          fnumber = this.$options.filters?.numberWithCommas(fnumber)
-          _event.target.value = fnumber
-        } else {
-          _event.target.value = 0
-        }
+        // fnumber = parseInt(fnumber)
+        fnumber = this.$options.filters?.numberWithCommas(fnumber)
+        _event.target.value = fnumber
       }
     }
     created(): void {
@@ -325,12 +320,11 @@
       this.sortActive = command
       this.filterBalance.orderBy = command
       this.$emit('filterBalance', this.filterBalance)
-      console.log('1')
     }
 
     handleApply(): void {
       if (this.checkAvailabelAmout || this.checkLockedAmount || this.checkBalance) {
-        console.log('validate')
+        console.log("validate")
       } else {
         this.isVisible = false
         const filters = {
@@ -342,7 +336,6 @@
           toBalanceAmount: this.filterBalance.toBalanceAmount.replaceAll(',', ''),
           toLockedAmount: this.filterBalance.toLockedAmount.replaceAll(',', '')
         }
-        console.log('data', filters)
         this.$emit('filterBalance', filters)
       }
     }
