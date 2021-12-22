@@ -87,7 +87,7 @@
 
       <div class="mini-box be-flex align-center jc-space-between mini-box5">
         <div class="left">{{ $t('request.popup.transaction.label10') }}</div>
-        <div class="right" style="text-transform: capitalize">{{ getLavel(dataUser.level) }}</div>
+        <div class="right">{{ getLevelCurrent }}</div>
       </div>
 
       <div class="mini-box be-flex align-center jc-space-between">
@@ -105,6 +105,15 @@
   export default class TransactionDetail extends Vue {
     @Prop() data!: any
     @Prop() dataUser!: any
+
+    get getLevelCurrent(): string {
+      const name = this.dataUser?.level
+      if (name && name !== 'Default') {
+        return this.$t('customer.level', { level: name.match(/\d+/)[0] }) as string
+      }
+      return this.$t('customer.default') as string
+    }
+
     getIcon(currency: string): void {
       let icon: any = ''
       if (currency) {

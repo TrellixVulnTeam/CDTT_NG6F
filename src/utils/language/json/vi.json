@@ -312,7 +312,7 @@
     }
   },
   "customer": {
-    "default": "Default",
+    "default": "Mặc định",
     "level": "Cấp độ {level}",
     "verified": "Đã xác thực",
     "popup": {
