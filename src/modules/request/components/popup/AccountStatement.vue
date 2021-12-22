@@ -125,16 +125,16 @@
         <el-table-column :label="$t('request.popup.account.label5')" width="144" prop="status" align="center">
           <template slot-scope="scope">
             <div v-if="scope.row.status == 'PENDING'" class="box-status pending">
-              <p style="text-transform: capitalize">{{ scope.row.status.toLowerCase() }}</p>
+              <p>{{ $t('request.popup.account.pending') }}</p>
             </div>
             <div v-else-if="scope.row.status == 'FAILED'" class="box-status failed">
-              <p style="text-transform: capitalize">{{ scope.row.status.toLowerCase() }}</p>
+              <p>{{ $t('request.popup.account.failed') }}</p>
             </div>
             <div v-else-if="scope.row.status == 'SUCCESS'" class="box-status success">
-              <p style="text-transform: capitalize">{{ scope.row.status.toLowerCase() }}</p>
+              <p>{{ $t('request.popup.account.success') }}</p>
             </div>
             <div v-else-if="scope.row.status == 'PROCESSING'" class="box-status processing">
-              <p style="text-transform: capitalize">{{ scope.row.status.toLowerCase() }}</p>
+              <p>{{ $t('request.popup.account.processing') }}</p>
             </div>
           </template>
         </el-table-column>

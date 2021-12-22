@@ -70,10 +70,10 @@
     switchStatus(status: string): string {
       switch (status) {
         case 'INACTIVE':
-          return 'Inactive'
+          return this.$t('member.inactive') as string
 
         default:
-          return 'Active'
+          return this.$t('member.active') as string
       }
     }
 

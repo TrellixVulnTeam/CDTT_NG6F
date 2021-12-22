@@ -222,7 +222,12 @@
               this.handleClose()
             })
         })
-        .catch(() => {
+        .catch(error => {
+          const { data } = error.response
+          if (data.message === 'Kyc has been approved by another admin') {
+            this.$emit('init')
+          }
+
           this.isLoading = false
           this.handleClose()
         })

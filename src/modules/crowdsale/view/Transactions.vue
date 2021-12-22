@@ -54,13 +54,13 @@
         <el-table-column :label="this.$t('crowdsale.status')" prop="status" align="center" width="120">
           <template slot-scope="scope">
             <div v-if="scope.row.status === 'LOCKED'" class="box-status-tabel locked">
-              <span class="fs-12 fw-500">{{ scope.row.status | formatType }}</span>
+              <span class="fs-12 fw-500">{{ $t('crowdsale.locked') }}</span>
             </div>
             <div v-else-if="scope.row.status === 'FAILED'" class="box-status-tabel failed">
-              <span class="fs-12 fw-500">{{ scope.row.status | formatType }}</span>
+              <span class="fs-12 fw-500">{{ $t('crowdsale.failed') }}</span>
             </div>
             <div v-else class="box-status-tabel">
-              <span class="fs-12 fw-500">{{ scope.row.status | formatType }}</span>
+              <span class="fs-12 fw-500">{{ $t('crowdsale.success') }}</span>
             </div>
           </template>
         </el-table-column>
