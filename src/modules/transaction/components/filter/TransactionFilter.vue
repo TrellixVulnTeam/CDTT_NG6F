@@ -1,64 +1,76 @@
 <template>
-  <div class="pb-24 pt-24 be-flex align-center kyc-filter">
-    <el-input v-model="filterBalance.search" class="input-search" :placeholder="$t('placeholder.search')">
-      <span slot="prefix" class="prefix-search">
-        <base-icon icon="icon-search" size="24" />
+  <div class='pb-24 pt-24 be-flex align-center kyc-filter'>
+    <el-input v-model='filterBalance.search' class='input-search' :placeholder="$t('placeholder.search')">
+      <span slot='prefix' class='prefix-search'>
+        <base-icon icon='icon-search' size='24' />
       </span>
     </el-input>
-    <div class="filter-item">
-      <el-popover :value="isVisible" placement="bottom-start" width="518" trigger="click" popper-class="popper-filter" @show="handleShowPopper">
-        <div class="content">
+    <div class='filter-item'>
+      <el-popover :value='isVisible' placement='bottom-start' width='518' trigger='click' popper-class='popper-filter'
+                  @show='handleShowPopper'>
+        <div class='content'>
           <el-form>
-            <div class="be-flex jc-space-between row">
-              <el-form-item class="be-flex-item mr-40" :label="$t('label.available-amount')">
+            <div class='be-flex jc-space-between row'>
+              <el-form-item class='be-flex-item mr-40' :label="$t('label.available-amount')">
                 <!-- <el-input :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateStart')" clearable></el-input> -->
-                <el-row class="flex_line">
-                  <el-col :span="11">
-                    <el-input v-model="filterBalance.fromAvailableAmount" @keyup.native="numberFormat($event)" type="text" placeholder="From"></el-input>
+                <el-row class='flex_line'>
+                  <el-col :span='11'>
+                    <el-input v-model='filterBalance.fromAvailableAmount' @keyup.native='numberFormat($event)'
+                              type='text' placeholder='From'></el-input>
                   </el-col>
                   <!-- <span class="dash"><i class="el-icon-minus icon-dash"></i></span> -->
-                  <el-col :span="11" style="float: right">
-                    <el-input v-model="filterBalance.toAvailableAmount" @keyup.native="numberFormat($event)" type="text" placeholder="To"></el-input>
+                  <el-col :span='11' style='float: right'>
+                    <el-input v-model='filterBalance.toAvailableAmount' @keyup.native='numberFormat($event)' type='text'
+                              placeholder='To'></el-input>
                   </el-col>
                 </el-row>
               </el-form-item>
             </div>
-            <div class="be-flex jc-space-between row">
-              <el-form-item class="be-flex-item mr-40" :label="$t('label.locked-amount')">
+            <div class='be-flex jc-space-between row'>
+              <el-form-item class='be-flex-item mr-40' :label="$t('label.locked-amount')">
                 <!-- <el-input :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateStart')" clearable></el-input> -->
-                <el-row class="flex_line">
-                  <el-col :span="11">
-                    <el-input v-model="filterBalance.fromLockedAmount" @keyup.native="numberFormat($event)" type="text" placeholder="From"></el-input>
+                <el-row class='flex_line'>
+                  <el-col :span='11'>
+                    <el-input v-model='filterBalance.fromLockedAmount' @keyup.native='numberFormat($event)' type='text'
+                              placeholder='From'></el-input>
                   </el-col>
                   <!-- <span class="dash"><i class="el-icon-minus icon-dash"></i></span> -->
-                  <el-col :span="11" style="float: right">
-                    <el-input v-model="filterBalance.toLockedAmount" @keyup.native="numberFormat($event)" type="text" placeholder="To"></el-input>
+                  <el-col :span='11' style='float: right'>
+                    <el-input v-model='filterBalance.toLockedAmount' @keyup.native='numberFormat($event)' type='text'
+                              placeholder='To'></el-input>
                   </el-col>
                 </el-row>
               </el-form-item>
             </div>
-            <div class="be-flex jc-space-between row">
-              <el-form-item class="be-flex-item mr-40" :label="$t('label.balance')">
+            <div class='be-flex jc-space-between row'>
+              <el-form-item class='be-flex-item mr-40' :label="$t('label.balance')">
                 <!-- <el-input :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateStart')" clearable></el-input> -->
-                <el-row class="flex_line">
-                  <el-col :span="11">
-                    <el-input v-model="filterBalance.fromBalanceAmount" @keyup.native="numberFormat($event)" type="text" placeholder="From"></el-input>
+                <el-row class='flex_line'>
+                  <el-col :span='11'>
+                    <el-input v-model='filterBalance.fromBalanceAmount' @keyup.native='numberFormat($event)' type='text'
+                              placeholder='From'></el-input>
                   </el-col>
                   <!-- <span class="dash"><i class="el-icon-minus icon-dash"></i></span> -->
-                  <el-col :span="11" style="float: right">
-                    <el-input v-model="filterBalance.toBalanceAmount" @keyup.native="numberFormat($event)" type="text" placeholder="To"></el-input>
+                  <el-col :span='11' style='float: right'>
+                    <el-input v-model='filterBalance.toBalanceAmount' @keyup.native='numberFormat($event)' type='text'
+                              placeholder='To'></el-input>
                   </el-col>
                 </el-row>
               </el-form-item>
             </div>
           </el-form>
         </div>
-        <div class="be-flex jc-flex-end footer">
-          <el-button class="btn-default btn-400 btn-h-40 btn-close text-regular" @click="handleReset">{{ $t('button.reset') }}</el-button>
-          <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border h-40 text-regular" @click="handleApply">{{ $t('button.apply') }}</el-button>
+        <div class='be-flex jc-flex-end footer'>
+          <el-button class='btn-default btn-400 btn-h-40 btn-close text-regular' @click='handleReset'>
+            {{ $t('button.reset') }}
+          </el-button>
+          <el-button class='btn-default-bg btn-400 btn-h-40 is-none-border h-40 text-regular' @click='handleApply'>
+            {{ $t('button.apply') }}
+          </el-button>
         </div>
-        <div slot="reference" class="cursor text-filter" style="font-size: 16px">
-          <span class="abicon"> <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="18" /> </span>
+        <div slot='reference' class='cursor text-filter' style='font-size: 16px'>
+          <span class='abicon'> <base-icon style='color: #5b616e; margin-right: 10px' icon='icon-filter'
+                                           size='18' /> </span>
           {{ $t('kyc.filter.filter') }}
         </div>
       </el-popover>
@@ -68,17 +80,20 @@
       </div> -->
     </div>
     <div>
-      <el-dropdown class="sort" trigger="click" @command="handleSort">
-        <span class="abicon sort-title" style="font-size: 16px">
-          <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}</span
+      <el-dropdown class='sort' trigger='click' @command='handleSort'>
+        <span class='abicon sort-title' style='font-size: 16px'>
+          <base-icon icon='icon-sort' style='color: #5b616e; margin-right: 10px' size='18'
+                     class='icon' /> {{ $t('kyc.filter.sort') }}</span
         >
-        <el-dropdown-menu class="header-downloadapp dropdown-sort" slot="dropdown">
-          <el-dropdown-item v-for="(value, index) in sorts" :key="index" :class="sortActive === value.command ? 'active' : null" :command="value.command" :divided="value.divided">
-            <span class="be-flex">
-              <span class="be-flex-item">
+        <el-dropdown-menu class='header-downloadapp dropdown-sort' slot='dropdown'>
+          <el-dropdown-item v-for='(value, index) in sorts' :key='index'
+                            :class="sortActive === value.command ? 'active' : null" :command='value.command'
+                            :divided='value.divided'>
+            <span class='be-flex'>
+              <span class='be-flex-item'>
                 {{ value.label }}
               </span>
-              <base-icon v-if="sortActive === value.command" icon="icon-tick-dropdown" size="16" />
+              <base-icon v-if='sortActive === value.command' icon='icon-tick-dropdown' size='16' />
             </span>
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -87,21 +102,24 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
   import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
   import EventBus from '@/utils/eventBus'
   import { forEach, trim, debounce } from 'lodash'
   import getRepository from '@/services'
   import { KycRepository } from '@/services/repositories/kyc'
+
   const apiKyc: KycRepository = getRepository('kyc')
 
   import countryJson from '@/utils/country/index.json'
+
   interface IListCountry {
     name: string
     dialCode: string
     isoCode: string
     flag: string
   }
+
   @Component
   export default class TransactionFilter extends Vue {
     @Prop({ required: true, type: Array, default: [] }) listApproveBy!: Array<Record<string, any>>
@@ -192,6 +210,7 @@
         search: trim(value)
       })
     }, 500)
+
     numberFormat(event: FocusEvent): void {
       const _event: any = event
       let fnumber = _event.target.value
@@ -206,6 +225,7 @@
         }
       }
     }
+
     created(): void {
       EventBus.$on('changeLang', () => {
         console.log('a', window.localStorage.getItem('bc-lang'))
@@ -217,6 +237,7 @@
       EventBus.$on('selectTabBalance', this.handleChangeTab)
       this.$emit('filterBalance', this.filterBalance)
     }
+
     destroyed(): void {
       EventBus.$off('changeLang')
       EventBus.$off('changeTab')
@@ -314,43 +335,52 @@
   }
 </script>
 
-<style scoped lang="scss">
+<style scoped lang='scss'>
   .dash {
     text-align: center;
   }
+
   .kyc-filter {
     background-color: #fff;
+
     .input-search {
       width: 400px;
       margin-right: 30px;
     }
+
     .sort {
       margin-left: 30px;
       cursor: pointer;
       color: #0a0b0d;
     }
+
     ::v-deep .filter-item {
       &:hover {
         .text-filter {
           color: #0151fc;
+
           .span-icon {
             color: #0151fc !important;
           }
         }
       }
     }
+
     ::v-deep .sort {
       &:hover {
         .el-dropdown-selfdefine {
           color: #0151fc;
+
           .span-icon {
             color: #0151fc !important;
           }
         }
       }
+
       .sort-title {
         &:focus {
           color: #0151fc;
+
           .span-icon {
             color: #0151fc !important;
           }

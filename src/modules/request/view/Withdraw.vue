@@ -375,13 +375,8 @@
       let fnumber = _event.target.value
       if (fnumber.length > 0) {
         fnumber = fnumber.replaceAll(',', '')
-        fnumber = parseInt(fnumber)
-        if (!isNaN(fnumber)) {
           fnumber = this.$options.filters?.numberWithCommas(fnumber)
           _event.target.value = fnumber
-        } else {
-          _event.target.value = 0
-        }
       }
     }
     handleRowClick(row: Record<string, any>): void {

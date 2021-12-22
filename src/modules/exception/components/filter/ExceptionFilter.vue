@@ -358,7 +358,6 @@
     @Watch('filterException.toAmount') watchToAmount(value: string | number): void {
       const a = value.toString().replaceAll(',', '')
       const b = this.filterException.fromAmount.toString().replaceAll(',', '')
-      console.log('a', b)
       if (parseFloat(a) > parseFloat(b) || value == '') {
         this.errorType = ''
       } else {
@@ -382,13 +381,8 @@
       let fnumber = _event.target.value
       if (fnumber.length > 0) {
         fnumber = fnumber.replaceAll(',', '')
-        fnumber = parseInt(fnumber)
-        if (!isNaN(fnumber)) {
           fnumber = this.$options.filters?.numberWithCommas(fnumber)
           _event.target.value = fnumber
-        } else {
-          _event.target.value = 0
-        }
       }
     }
     onlyNumber(event: KeyboardEvent, type: string): void {
