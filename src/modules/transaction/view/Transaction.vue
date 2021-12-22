@@ -254,11 +254,11 @@
     }
 
     handleRowClick(row: Record<string, any>): void {
-      this.detailRow = row
-      this.setOpenPopup({
-        popupName: 'popup-transaction-detail',
-        isOpen: true
-      })
+        this.detailRow = row
+        this.setOpenPopup({
+          popupName: 'popup-transaction-detail',
+          isOpen: true
+        })
     }
 
     handleFilter(filter: Record<string, any>): void {
