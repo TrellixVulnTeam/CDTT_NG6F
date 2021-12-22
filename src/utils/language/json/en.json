@@ -303,7 +303,8 @@
     "buyer-already-listed": "This investor is already listed",
     "delete-buyer": "Deleted successfully",
     "incorrect-old-pass": "Incorrect old password",
-    "choose-round": "Must choose at least 1 round"
+    "choose-round": "Must choose at least 1 round",
+    "kyc-approved-already": "KYC request has been approved by another account"
   },
   "logout": {
     "title": "Sign out",

@@ -258,7 +258,8 @@
     "buyer-already-listed": "Nhà đầu tư đã có trong danh sách",
     "delete-buyer": "Xóa thành công",
     "incorrect-old-pass": "Mật khẩu cũ không chính xác",
-    "choose-round": "Chọn tối thiểu 1 vòng"
+    "choose-round": "Chọn tối thiểu 1 vòng",
+    "kyc-approved-already": "Yêu cầu KYC đã được duyệt bởi một tài khoản khác"
   },
   "logout": {
     "title": "Đăng xuất",
