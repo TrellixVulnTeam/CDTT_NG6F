@@ -408,7 +408,9 @@
     },
     "select": {
       "accepted": "Accepted",
-      "invited": "Invited"
+      "invited": "Invited",
+      "sign-up": "Sign up",
+      "crowdsale": "Crowdsale"
     },
     "setting": {
       "new-phone": "New phone number",

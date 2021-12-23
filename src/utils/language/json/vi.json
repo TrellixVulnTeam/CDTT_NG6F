@@ -362,7 +362,9 @@
     },
     "select": {
       "accepted": "Xác nhận",
-      "invited": "Đã mời"
+      "invited": "Đã mời",
+      "sign-up": "Đăng ký",
+      "crowdsale": "Crowdsale"
     },
     "setting": {
       "new-phone": "Số điện thoại mới",

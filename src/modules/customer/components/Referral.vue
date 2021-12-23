@@ -70,7 +70,7 @@
         @sizeChange="handleSizeChange"
         @currentChange="handleCurrentChange"
       >
-        <el-table-column type="expand" width="40px" align="right">
+        <el-table-column type="expand" width="35px" align="right">
           <template slot-scope="props">
             <base-tree-table
               :data="props.row.subs"
@@ -83,7 +83,7 @@
               class="table-text-body-bold table-expanded table-width-background custom-table custom-table-height"
             >
               <el-table-column width="40px" align="right" />
-              <el-table-column type="expand" width="40px" align="right">
+              <el-table-column type="expand" width="35px" align="right">
                 <template slot-scope="props1">
                   <base-tree-table
                     :data="props1.row.subs"
@@ -94,8 +94,8 @@
                     rowKey="inviteDate"
                     class="table-text-body-bold table-expanded table-width-background custom-table custom-table-height"
                   >
-                    <el-table-column width="80px" align="right" />
-                    <el-table-column :label="$t('customer.table.name')">
+                    <el-table-column width="100px" align="right" />
+                    <el-table-column :label="$t('customer.table.name')" class-name="no-padding-cell">
                       <template slot-scope="scope">
                         <span>{{ scope.row.fullName }}</span>
                       </template>
@@ -116,7 +116,7 @@
                   </base-tree-table>
                 </template>
               </el-table-column>
-              <el-table-column :label="$t('customer.table.name')">
+              <el-table-column :label="$t('customer.table.name')" class-name="no-padding-cell">
                 <template slot-scope="scope">
                   <span>{{ scope.row.fullName }}</span>
                 </template>
@@ -137,7 +137,7 @@
             </base-tree-table></template
           >
         </el-table-column>
-        <el-table-column :label="$t('customer.table.name')">
+        <el-table-column :label="$t('customer.table.name')" class-name="no-padding-cell">
           <template slot-scope="scope">
             <span>{{ scope.row.fullName }}</span>
           </template>
@@ -204,13 +204,18 @@
     listStatus: Array<Record<string, any>> = [
       {
         id: 0,
-        name: this.$i18n.t('customer.select.accepted'),
-        value: 'ACCEPTED'
+        name: this.$i18n.t('customer.select.sign-up'),
+        value: 'SIGNED_UP'
       },
       {
         id: 1,
         name: this.$i18n.t('customer.select.invited'),
         value: 'INVITED'
+      },
+      {
+        id: 2,
+        name: this.$i18n.t('customer.select.crowdsale'),
+        value: 'CROWDSALE'
       }
     ]
 
@@ -290,6 +295,9 @@
 
     handleApply(): void {
       this.query = { ...this.query, ...this.filter, page: 1 }
+      // if (this.filter.fromCreatedAt) {
+      //   this.query.fromCreatedAt = this.$options.filters?.formatReferral(this.filter.fromCreatedAt)
+      // }
       this.handleGetListReferral()
       this.isVisible = false
     }
@@ -310,10 +318,13 @@
     }
 
     checkTypeClass(status: string): string {
-      if (status === 'INVITED') {
-        return 'status-invited'
-      } else {
-        return 'status-accept'
+      switch (status) {
+        case 'INVITED':
+          return 'status-neutral status'
+        case 'SIGNED_UP':
+          return 'status-warning status'
+        default:
+          return 'status-success status'
       }
     }
     getTypeStatus(status: string): any {
