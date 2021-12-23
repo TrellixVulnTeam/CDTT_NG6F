@@ -152,3 +152,31 @@
         }
     }
 }
+
+.el-table__expand-icon {
+    color: #5b616e !important;
+    .el-icon-arrow-right:before {
+        content: "\e791" !important;
+        font-size: 16px;
+    }
+    .el-icon {
+        margin-left: -8px !important;
+        margin-top: -7px !important;
+    }
+}
+
+.el-table__row.no-sub {
+    .el-table__expand-column {
+        .cell {
+            display: none;
+        }
+    }
+}
+
+.table-expanded {
+    .el-table__body-wrapper {
+        td.el-table__expanded-cell {
+            padding: 0 !important;
+        }
+    }
+}

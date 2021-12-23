@@ -370,6 +370,7 @@
       "locked-amount": "Locked amount",
       "balance-amount": "Balance amount",
       "date": "Created date",
+      "invited-date": "Invited date",
       "amount": "Amount",
       "trans-amount": "Transaction amount",
       "trans-date": "Transaction date",
@@ -392,6 +393,8 @@
       "create-date": "Created date",
       "accept": "Accepted",
       "invited": "Invited",
+      "signedup": "Signed up",
+      "crowdsale": "Crowdsale",
       "trans-id": "TRANSACTION ID",
       "type": "type",
       "amount": "amount",
@@ -400,7 +403,8 @@
       "num-of-trans": "NUM OF TRANS",
       "total-amount": "TOTAL AMOUNT",
       "avg-trans-amount": "AVG TRANS AMOUNT",
-      "last-transaction": "LAST TRANSACTION"
+      "last-transaction": "LAST TRANSACTION",
+      "tier": "tier"
     },
     "select": {
       "accepted": "Accepted",
