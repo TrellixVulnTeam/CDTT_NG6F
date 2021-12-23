@@ -1,53 +1,58 @@
 <template>
-  <div class="w-100 transaction">
-    <div class="container wallet-header be-flex" style="width: 100%">
-      <div v-for="(value, i) in dataHeaderCard" :key="i" class="items-card">
-        <div class="item be-flex top">
-          <span class="text1">
+  <div class='w-100 transaction'>
+    <div class='container wallet-header be-flex' style='width: 100%'>
+      <div v-for='(value, i) in dataHeaderCard' :key='i' class='items-card'>
+        <div class='item be-flex top'>
+          <span class='text1'>
             {{ renderTitleCard(value.transactionType) }}
           </span>
           <div>
-            <base-icon :icon="renderIconCard(value.transactionType)" size="24" />
+            <base-icon :icon='renderIconCard(value.transactionType)' size='24' />
           </div>
         </div>
-        <div class="item">
-          <p class="number2">${{ value.totalAmount | convertAmountDecimal('USD') }}</p>
+        <div class='item'>
+          <p class='number2'>${{ value.totalAmount | convertAmountDecimal('USD') }}</p>
         </div>
-        <div class="item-bottom">
-          <span class="text3">{{ value.numOfTransaction | formatNumber }} {{ $t(`transaction.table.transactions`) }}</span>
+        <div class='item-bottom'>
+          <span class='text3'>{{ value.numOfTransaction | formatNumber }} {{ $t(`transaction.table.transactions`)
+            }}</span>
         </div>
       </div>
     </div>
-    <div class="w-100 bo-kyc">
-      <div class="bg-white wallet-header">
-        <div class="be-flex align-center jc-space-between wallet-header__above">
-          <div class="wallet-header__above-tabs be-flex">
-            <div class="tab-item cursor" v-for="tab in tabs" :key="tab.id" :class="$route.name === tab.routeName ? 'tab-active' : null" @click="handleChangeTab(tab)">
-              <span class="text-base">{{ $t(`menu.${tab.title}`) }}</span>
+    <div class='w-100 bo-kyc'>
+      <div class='bg-white wallet-header'>
+        <div class='be-flex align-center jc-space-between wallet-header__above'>
+          <div class='wallet-header__above-tabs be-flex'>
+            <div class='tab-item cursor' v-for='tab in tabs' :key='tab.id'
+                 :class="$route.name === tab.routeName ? 'tab-active' : null" @click='handleChangeTab(tab)'>
+              <span class='text-base'>{{ $t(`menu.${tab.title}`) }}</span>
             </div>
           </div>
         </div>
       </div>
-      <filter-transaction @filter="handleFilter" :type="'transaction'" :showBtn="getShowBtn" ref="filter" @addDeposit="handleOpenAddDeposit" />
-      <div class="table-transaction">
+      <filter-transaction @filter='handleFilter' :type="'transaction'" :showBtn='getShowBtn' ref='filter'
+                          @addDeposit='handleOpenAddDeposit' />
+      <div class='table-transaction'>
         <table-transaction
-          v-loading="isLoading"
-          :listTransaction="propDataTable"
-          :query="query"
-          @sizeChange="handleSizeChange"
-          @pageChange="handlePageChange"
+          v-loading='isLoading'
+          :listTransaction='propDataTable'
+          :query='query'
+          @sizeChange='handleSizeChange'
+          @pageChange='handlePageChange'
           :type="'transaction'"
-          @rowClick="handleRowClick"
+          @rowClick='handleRowClick'
+          @copy='handleCopy'
         />
       </div>
-      <popup-filter-transaction @filter="handleFilter" :tab-active-filter="tabActive" :type="'transaction'" ref="popup-filter" />
-      <transaction-detail :detail-row="detailRow" :tab-active-filter="tabActive" />
-      <popup-add-deposit @reload="init" />
+      <popup-filter-transaction @filter='handleFilter' :tab-active-filter='tabActive' :type="'transaction'"
+                                ref='popup-filter' />
+      <transaction-detail :detail-row='detailRow' :tab-active-filter='tabActive' />
+      <popup-add-deposit @reload='init' />
     </div>
   </div>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
   import { Component, Mixins } from 'vue-property-decorator'
   //@ts-ignore
 
@@ -69,7 +74,15 @@
     transactionType: string | null
   }
 
-  @Component({ components: { PopupFilterTransaction, TableTransaction, FilterTransaction, TransactionDetail, PopupAddDeposit } })
+  @Component({
+    components: {
+      PopupFilterTransaction,
+      TableTransaction,
+      FilterTransaction,
+      TransactionDetail,
+      PopupAddDeposit
+    }
+  })
   export default class Transaction extends Mixins(PopupMixin) {
     tabs: Array<Record<string, any>> = [
       {
@@ -242,6 +255,7 @@
         bonusType: null
       }
     }
+    isCopy=''
 
     handlePageChange(page: number): void {
       this.query.page = page
@@ -253,12 +267,20 @@
       this.init()
     }
 
+    handleCopy(data:any): void {
+      this.isCopy=data;
+    }
+
     handleRowClick(row: Record<string, any>): void {
+      if (this.isCopy!=="copy"){
         this.detailRow = row
         this.setOpenPopup({
           popupName: 'popup-transaction-detail',
           isOpen: true
         })
+      }else {
+        this.isCopy=''
+      }
     }
 
     handleFilter(filter: Record<string, any>): void {
@@ -283,7 +305,7 @@
   }
 </script>
 
-<style scoped lang="scss">
+<style scoped lang='scss'>
   .container {
     text-align: justify;
     -ms-text-justify: distribute-all-lines;
@@ -315,6 +337,7 @@
       .item-bottom {
         margin-top: auto;
       }
+
       &:last-of-type {
         margin-right: 0;
       }
@@ -409,6 +432,7 @@
               background-color: var(--bc-tab-active);
             }
           }
+
           .tab-item {
             font-family: Open Sans;
             font-style: normal;
