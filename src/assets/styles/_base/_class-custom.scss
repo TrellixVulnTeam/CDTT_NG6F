@@ -351,6 +351,11 @@ input[type="number"] {
     color: var(--bc-status-accept);
     background-color: var(--bc-bg-accept);
 }
+.status-neutral {
+    @include status;
+    color: var(--bc-status-neutral);
+    background-color: var(--bc-bg-neutral);
+}
 
 .h-40 {
     height: 40px;

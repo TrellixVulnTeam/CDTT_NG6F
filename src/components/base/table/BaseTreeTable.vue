@@ -15,6 +15,7 @@
       :border="border"
       :summary-method="summaryMethod"
       :cell-class-name="cellClassName"
+      :row-class-name="rowClassName"
       :show-summary="showSummary"
       :sum-text="sumText"
       :max-height="maxHeight"
@@ -109,6 +110,15 @@
     })
     cellClassName!: (params: { row: any; column: any; rowIndex: any; columnIndex: any }) => any
 
+    @Prop({
+      required: false,
+      type: Function,
+      default: () => {
+        return []
+      }
+    })
+    rowClassName!: (params: Record<string, any>) => any
+
     @Prop({ required: false, type: String || Number, default: 'auto' }) maxHeight!: string | number
     @Prop({ required: false, type: Boolean, default: true }) showTableHeader!: boolean
     @Prop({ required: false, type: Boolean, default: false }) defaultExpandAll!: boolean
@@ -152,12 +162,12 @@
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     handleRowClick(row: Record<string, any>, column: any, event: any): void {
       //@ts-ignore
-      this.$refs.table.toggleRowExpansion(row)
-      this.$emit('rowClick', {
-        row: row,
-        column: column,
-        event: event
-      })
+      // this.$refs.table.toggleRowExpansion(row)
+      // this.$emit('rowClick', {
+      //   row: row,
+      //   column: column,
+      //   event: event
+      // })
     }
 
     handleExpandChange(row: Record<string, any>, expandedRows: Record<string, any>): void {

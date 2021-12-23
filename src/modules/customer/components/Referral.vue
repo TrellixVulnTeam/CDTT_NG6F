@@ -11,12 +11,28 @@
                 </el-select>
               </el-form-item>
               <el-form-item class="be-flex-item" :label="$t('label.from-date')">
-                <el-date-picker class="w-100" format="MM/dd/yyyy" value-format="yyyy-MM-dd" :placeholder="$t('label.from-date')" v-model="filter.fromCreatedAt" type="date" :picker-options="pickerOption2">
+                <el-date-picker
+                  class="w-100"
+                  format="MM/dd/yyyy"
+                  value-format="yyyy-MM-dd"
+                  :placeholder="$t('label.from-date')"
+                  v-model="filter.fromCreatedAt"
+                  type="date"
+                  :picker-options="pickerOption2"
+                >
                 </el-date-picker>
               </el-form-item>
 
               <el-form-item class="be-flex-item" :label="$t('label.to-date')">
-                <el-date-picker class="w-100" format="MM/dd/yyyy" :placeholder="$t('label.to-date')" value-format="yyyy-MM-dd" v-model="filter.toCreatedAt" type="date"  :picker-options="pickerOption">
+                <el-date-picker
+                  class="w-100"
+                  format="MM/dd/yyyy"
+                  :placeholder="$t('label.to-date')"
+                  value-format="yyyy-MM-dd"
+                  v-model="filter.toCreatedAt"
+                  type="date"
+                  :picker-options="pickerOption"
+                >
                 </el-date-picker>
               </el-form-item>
             </el-form>
@@ -41,25 +57,97 @@
       </div>
     </filter-main>
     <div class="table" v-loading="isLoading" :class="isLoading ? 'list-loading' : null">
-      <base-table
+      <base-tree-table
         :data="listReferral"
         :table="query"
         :paginationInfo="getPaginationInfo"
+        :showPagination="true"
+        :showSummary="false"
+        :default-expand-all="false"
+        :rowClassName="rowClassName"
+        rowKey="inviteDate"
+        class="table-text-body-bold table-expanded table-width-background custom-table custom-table-height"
         @sizeChange="handleSizeChange"
         @currentChange="handleCurrentChange"
-        class="base-table table-wallet"
       >
-        <el-table-column label="#" :index="getIndex" type="index" width="40" />
-        <el-table-column :label="$t('customer.table.name')">
+        <el-table-column type="expand" width="35px" align="right">
+          <template slot-scope="props">
+            <base-tree-table
+              :data="props.row.subs"
+              :showPagination="false"
+              :showTableHeader="false"
+              :showSummary="false"
+              :default-expand-all="false"
+              :rowClassName="rowClassName"
+              rowKey="inviteDate"
+              class="table-text-body-bold table-expanded table-width-background custom-table custom-table-height"
+            >
+              <el-table-column width="40px" align="right" />
+              <el-table-column type="expand" width="35px" align="right">
+                <template slot-scope="props1">
+                  <base-tree-table
+                    :data="props1.row.subs"
+                    :showPagination="false"
+                    :showTableHeader="false"
+                    :showSummary="false"
+                    :default-expand-all="false"
+                    rowKey="inviteDate"
+                    class="table-text-body-bold table-expanded table-width-background custom-table custom-table-height"
+                  >
+                    <el-table-column width="100px" align="right" />
+                    <el-table-column :label="$t('customer.table.name')" class-name="no-padding-cell">
+                      <template slot-scope="scope">
+                        <span>{{ scope.row.fullName }}</span>
+                      </template>
+                    </el-table-column>
+
+                    <el-table-column :label="$t('customer.table.email')" prop="inviteEmail" width="260"> </el-table-column>
+                    <el-table-column :label="$t('customer.table.tier')" prop="tier" width="100" align="center" />
+                    <el-table-column :label="$t('customer.table.date')" width="200">
+                      <template slot-scope="scope">
+                        <span class="text-base">{{ scope.row.inviteDate | formatMMDDYY }} </span>
+                      </template>
+                    </el-table-column>
+                    <el-table-column :label="$t('customer.table.status')" align="center" width="120">
+                      <template slot-scope="scope">
+                        <span v-if="scope.row.status" :class="checkTypeClass(scope.row.status)">{{ getTypeStatus(scope.row.status) }}</span>
+                      </template>
+                    </el-table-column>
+                  </base-tree-table>
+                </template>
+              </el-table-column>
+              <el-table-column :label="$t('customer.table.name')" class-name="no-padding-cell">
+                <template slot-scope="scope">
+                  <span>{{ scope.row.fullName }}</span>
+                </template>
+              </el-table-column>
+
+              <el-table-column :label="$t('customer.table.email')" prop="inviteEmail" width="260"> </el-table-column>
+              <el-table-column :label="$t('customer.table.tier')" prop="tier" width="100" align="center" />
+              <el-table-column :label="$t('customer.table.date')" width="200">
+                <template slot-scope="scope">
+                  <span class="text-base">{{ scope.row.inviteDate | formatMMDDYY }} </span>
+                </template>
+              </el-table-column>
+              <el-table-column :label="$t('customer.table.status')" align="center" width="120">
+                <template slot-scope="scope">
+                  <span v-if="scope.row.status" :class="checkTypeClass(scope.row.status)">{{ getTypeStatus(scope.row.status) }}</span>
+                </template>
+              </el-table-column>
+            </base-tree-table></template
+          >
+        </el-table-column>
+        <el-table-column :label="$t('customer.table.name')" class-name="no-padding-cell">
           <template slot-scope="scope">
             <span>{{ scope.row.fullName }}</span>
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('customer.table.email')" prop="inviteEmail" width="304"> </el-table-column>
+        <el-table-column :label="$t('customer.table.email')" prop="inviteEmail" width="260"> </el-table-column>
+        <el-table-column :label="$t('customer.table.tier')" prop="tier" width="100" align="center" />
         <el-table-column :label="$t('customer.table.date')" width="200">
           <template slot-scope="scope">
-            <span class="text-base">{{ scope.row.createdAt | formatMMDDYY }} </span>
+            <span class="text-base">{{ scope.row.inviteDate | formatMMDDYY }} </span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('customer.table.status')" align="center" width="120">
@@ -67,7 +155,7 @@
             <span v-if="scope.row.status" :class="checkTypeClass(scope.row.status)">{{ getTypeStatus(scope.row.status) }}</span>
           </template>
         </el-table-column>
-      </base-table>
+      </base-tree-table>
     </div>
   </div>
 </template>
@@ -98,13 +186,13 @@
     }
     sorts: Array<Record<string, any>> = [
       {
-        command: 0,
-        label: this.$i18n.t('customer.sort.date'),
+        command: 3,
+        label: this.$i18n.t('customer.sort.invited-date'),
         divided: false,
-        i18n: 'customer.sort.date'
+        i18n: 'customer.sort.invited-date'
       },
       {
-        command: 2,
+        command: 1,
         label: this.$i18n.t('customer.sort.referral-name'),
         divided: false,
         i18n: 'customer.sort.referral-name'
@@ -116,13 +204,18 @@
     listStatus: Array<Record<string, any>> = [
       {
         id: 0,
-        name: this.$i18n.t('customer.select.accepted'),
-        value: 'ACCEPTED'
+        name: this.$i18n.t('customer.select.sign-up'),
+        value: 'SIGNED_UP'
       },
       {
         id: 1,
         name: this.$i18n.t('customer.select.invited'),
         value: 'INVITED'
+      },
+      {
+        id: 2,
+        name: this.$i18n.t('customer.select.crowdsale'),
+        value: 'CROWDSALE'
       }
     ]
 
@@ -151,12 +244,12 @@
 
     disableTime(time: Date, type: string): any {
       if (type === 'from-to') {
-        if (this.filter.fromCreatedAt){
-          return time.getTime()/1000 < new Date(this.filter.fromCreatedAt).getTime()/ 1000 - 7 * 60 * 60;
+        if (this.filter.fromCreatedAt) {
+          return time.getTime() / 1000 < new Date(this.filter.fromCreatedAt).getTime() / 1000 - 7 * 60 * 60
         }
       } else {
-        if (this.filter.toCreatedAt){
-          return time.getTime()/1000 > new Date(this.filter.toCreatedAt).getTime()/ 1000 - 7 * 60 * 60;
+        if (this.filter.toCreatedAt) {
+          return time.getTime() / 1000 > new Date(this.filter.toCreatedAt).getTime() / 1000 - 7 * 60 * 60
         }
       }
     }
@@ -196,12 +289,15 @@
     }
 
     handleFilter(filter: Record<string, any>): void {
-      this.query = { ...this.query, ...filter }
+      this.query = { ...this.query, ...filter, sort: filter.orderBy ? filter.orderBy : null, orderBy: null }
       this.handleGetListReferral()
     }
 
     handleApply(): void {
       this.query = { ...this.query, ...this.filter, page: 1 }
+      // if (this.filter.fromCreatedAt) {
+      //   this.query.fromCreatedAt = this.$options.filters?.formatReferral(this.filter.fromCreatedAt)
+      // }
       this.handleGetListReferral()
       this.isVisible = false
     }
@@ -222,18 +318,30 @@
     }
 
     checkTypeClass(status: string): string {
-      if (status === 'INVITED') {
-        return 'status-invited'
-      } else {
-        return 'status-accept'
+      switch (status) {
+        case 'INVITED':
+          return 'status-neutral status'
+        case 'SIGNED_UP':
+          return 'status-warning status'
+        default:
+          return 'status-success status'
       }
     }
     getTypeStatus(status: string): any {
       if (status === 'INVITED') {
         return this.$t('customer.table.invited')
+      } else if (status === 'SIGNED_UP') {
+        return this.$t('customer.table.signedup')
       } else {
-        return this.$t('customer.table.accept')
+        return this.$t('customer.table.crowdsale')
       }
+    }
+    rowClassName(params: Record<string, any>): string {
+      const { row } = params
+      if (row.subs) {
+        return 'have-subs'
+      }
+      return 'no-sub'
     }
   }
 </script>

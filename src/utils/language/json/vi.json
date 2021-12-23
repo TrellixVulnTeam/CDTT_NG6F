@@ -312,7 +312,7 @@
     }
   },
   "customer": {
-    "default": "Default",
+    "default": "Mặc định",
     "level": "Cấp độ {level}",
     "verified": "Đã xác thực",
     "popup": {
@@ -325,6 +325,7 @@
       "locked-amount": "Số lượng bị khóa",
       "balance-amount": "Số dư",
       "date": "Ngày tạo",
+      "invited-date": "Ngày mời",
       "amount": "Số lượng",
       "trans-amount": "Số lượng giao dịch",
       "trans-date": "Ngày giao dịch",
@@ -346,6 +347,8 @@
       "create-date": "ngày tạo",
       "accept": "Chấp nhận",
       "invited": "Đã mời",
+      "signedup": "Đã đăng kí",
+      "crowdsale": "Crowdsale",
       "trans-id": "mã giao dịch",
       "type": "loại",
       "amount": "số lượng",
@@ -354,11 +357,14 @@
       "num-of-trans": "SỐ GIAO DỊCH",
       "total-amount": "TỔNG SỐ",
       "avg-trans-amount": "SỐ TIỀN TRUNG BÌNH ",
-      "last-transaction": "GIAO DỊCH GẦN NHẤT"
+      "last-transaction": "GIAO DỊCH GẦN NHẤT",
+      "tier": "cấp"
     },
     "select": {
       "accepted": "Xác nhận",
-      "invited": "Đã mời"
+      "invited": "Đã mời",
+      "sign-up": "Đăng ký",
+      "crowdsale": "Crowdsale"
     },
     "setting": {
       "new-phone": "Số điện thoại mới",

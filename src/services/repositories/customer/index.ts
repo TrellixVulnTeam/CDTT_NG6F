@@ -14,6 +14,9 @@ export class CustomerRepository extends BaseRepository {
       if (_params[key] === '' && key !== 'type') {
         _params[key] = null
       }
+      // if (key === 'fromCreatedAt' && _params[key]) {
+      //   _params[key] = _params[key] - 7 * 60 * 60 * 1000
+      // }
     })
     return _params
   }
