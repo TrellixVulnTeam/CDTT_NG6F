@@ -269,11 +269,18 @@
         const leadsRef = firebase.ref('crowd-sales')
         // eslint-disable-next-line @typescript-eslint/no-this-alias
         let _this = this
+
+        const params = {
+          ...this.query,
+          fromDate: this.fromDate,
+          toDate: this.toDate
+        }
+        console.log('ôp', this.query)
         if (!this.listRound.length) {
           this.listener = leadsRef.once('value', async function (snapshot) {
             _this.listRound = snapshot.val()
             const roundCurrent = snapshot.val()[_this.tabActive]
-            const result = await apiCrowdsale.getListUserInRound({ ..._this.query, roundId: roundCurrent.id })
+            const result = await apiCrowdsale.getListUserInRound({ ...params, roundId: roundCurrent.id })
             _this.dataTable = result.content || []
             _this.query.total = result.totalElements
             if (!_this.query.total && firstTime) {
@@ -285,7 +292,7 @@
           })
         } else {
           const roundCurrent = this.listRound[_this.tabActive]
-          const result = await apiCrowdsale.getListUserInRound({ ...this.query, roundId: roundCurrent.id })
+          const result = await apiCrowdsale.getListUserInRound({ ...params, roundId: roundCurrent.id })
           _this.dataTable = result.content || []
           _this.query.total = result.totalElements
           if (!_this.query.total && firstTime) {
@@ -326,14 +333,17 @@
       this.isVisible = false
       this.init()
     }
-
+    fromDate = ''
+    toDate = ''
     handleApply(): void {
-       if (this.query.fromDate) {
-        this.query.fromDate = this.$options.filters?.formatReferral(this.query.fromDate)
+      if (this.query.fromDate) {
+        this.fromDate = this.$options.filters?.formatReferral(this.query.fromDate)
       }
       if (this.query.toDate) {
-        this.query.toDate = this.$options.filters?.formatReferral(this.query.toDate)
+        this.toDate = this.$options.filters?.formatReferral(this.query.toDate + 86399000)
       }
+
+      console.log('qêuueu', this.query)
       this.init()
       this.isVisible = false
     }

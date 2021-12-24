@@ -276,7 +276,9 @@
         const params = {
           ...this.query,
           total: null,
-          userId: this.userId
+          userId: this.userId,
+          fromDate: this.fromDate,
+          toDate: this.toDate
         }
         const result = await apiCustomer.getlistBonus(params)
         this.listBonus = result.content
@@ -302,14 +304,17 @@
       this.query = { ...this.query, ...filter }
       this.handleGetListBonus()
     }
-
+    fromDate = ''
+    toDate = ''
     handleApply(): void {
       this.query = { ...this.query, ...this.filter, page: 1 }
+      let fromDate = ''
+      let toDate = ''
       if (this.filter.fromDate) {
-        this.query.fromDate = this.$options.filters?.formatReferral(this.filter.fromDate)
+        this.fromDate = this.$options.filters?.formatReferral(this.filter.fromDate)
       }
       if (this.filter.toDate) {
-        this.query.toDate = this.$options.filters?.formatReferral(this.filter.toDate)
+        this.toDate = this.$options.filters?.formatReferral(this.filter.toDate + 86399000)
       }
       this.handleGetListBonus()
       this.isVisible = false

@@ -348,13 +348,15 @@
         if (this.filter.toAmount) {
           _toAmount = this.filter.toAmount.replaceAll(',', '')
         }
+            let fromDate = ''
+      let toDate = ''
         if (this.filter.fromDate) {
-          this.filter.fromDate = this.$options.filters?.formatReferral(this.filter.fromDate)
+          fromDate = this.$options.filters?.formatReferral(this.filter.fromDate)
         }
         if (this.filter.toDate) {
-          this.filter.toDate = this.$options.filters?.formatReferral(this.filter.toDate)
+          toDate = this.$options.filters?.formatReferral(this.filter.toDate + 86399000)
         }
-        this.$emit('filter', { ...this.filter, fromAmount: _fromAmount, toAmount: _toAmount, currency: _currency })
+        this.$emit('filter', { ...this.filter, fromAmount: _fromAmount, toAmount: _toAmount, currency: _currency, fromDate, toDate })
       }
     }
 

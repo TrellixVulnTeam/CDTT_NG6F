@@ -364,14 +364,27 @@
         this.querry.toAmount = filter.toAmount.replace(/,/g, '')
         this.querry.status = filter.status
       }
+
+      let fromDate = ''
+      let toDate = ''
       if (this.filter.fromDate) {
-        this.querry.fromDate = this.$options.filters?.formatReferral(this.filter.fromDate)
+        fromDate = this.$options.filters?.formatReferral(this.filter.fromDate)
       }
       if (this.filter.toDate) {
-        this.querry.toDate = this.$options.filters?.formatReferral(this.filter.toDate)
+        toDate = this.$options.filters?.formatReferral(this.filter.toDate + 86399000)
       }
       this.querry.page = 1
       this.query.page = 1
+      this.query = {
+        ...this.query,
+        fromDate,
+        toDate
+      }
+      this.querry = {
+        ...this.querry,
+        fromDate,
+        toDate
+      }
       this.getDataTable()
       this.isVisible = false
     }

@@ -524,17 +524,22 @@
         if (this.filterException.currency) {
           _currency = this.filterException.currency.join(',')
         }
+
+        let fromDate = ''
+        let toDate = ''
         if (this.filterException.fromDate) {
-          this.filterException.fromDate = this.$options.filters?.formatReferral(this.filterException.fromDate)
+          fromDate = this.$options.filters?.formatReferral(this.filterException.fromDate)
         }
         if (this.filterException.toDate) {
-          this.filterException.toDate = this.$options.filters?.formatReferral(this.filterException.toDate)
+          toDate = this.$options.filters?.formatReferral(this.filterException.toDate + 86399000)
         }
         const filters = {
           ...this.filterException,
           fromAmount: this.filterException.fromAmount.replaceAll(',', ''),
           toAmount: this.filterException.toAmount.replaceAll(',', ''),
-          currency: _currency
+          currency: _currency,
+          fromDate: fromDate,
+          toDate: toDate
         }
         this.$emit('filterException', filters)
       }

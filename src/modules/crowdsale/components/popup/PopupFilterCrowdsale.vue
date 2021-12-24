@@ -256,6 +256,8 @@
 
     async handleSubmit(): Promise<void> {
       let form2: any = { ...this.form }
+      let fromDate = ''
+      let toDate = ''
       if (this.form.fromAmount) {
         form2.fromAmount = this.form.fromAmount.replaceAll(',', '')
       }
@@ -265,14 +267,20 @@
       if (this.form.currency.length > 0) {
         form2.currency = this.form.currency.join()
       }
+      
       if (this.form.fromDate) {
         form2.fromDate = this.$options.filters?.formatReferral(form2.fromDate)
       }
       if (this.form.toDate) {
-        form2.toDate = this.$options.filters?.formatReferral(this.form.toDate)
+        form2.toDate = this.$options.filters?.formatReferral(this.form.toDate + 86399000)
       }
+      // form2 = {
+      //   ...form2,
+      //   fromDate,
+      //   toDate
+      // }
       this.$emit('apply', form2)
-
+      console.log("form2", form2)
       this.setOpenPopup({
         popupName: 'popup-filter-crowdsale',
         isOpen: false

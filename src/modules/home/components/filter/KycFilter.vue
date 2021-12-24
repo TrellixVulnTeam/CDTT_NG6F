@@ -288,15 +288,25 @@
     }
 
     handleApply(): void {
-      console.log('toCreatedAt', this.filter.toCreatedAt)
-      console.log('fromCreatedAt', this.filter.fromCreatedAt)
+      let fromDate = ''
+      let toDate = ''
       if (this.filter.fromCreatedAt) {
-        this.filter.fromCreatedAt = this.$options.filters?.formatReferral(this.filter.fromCreatedAt)
+        fromDate = this.$options.filters?.formatReferral(this.filter.fromCreatedAt)
       }
       if (this.filter.toCreatedAt) {
-        this.filter.toCreatedAt = this.$options.filters?.formatReferral(this.filter.toCreatedAt)
+        toDate = this.$options.filters?.formatReferral(this.filter.toCreatedAt + 86399000)
       }
-      this.$emit('filter', this.filter)
+      // this.filter = {
+      //   ...this.filter,
+      //   fromCreatedAt: fromDate,
+      //   toCreatedAt: toDate
+      // }
+      const filter = {
+        ...this.filter,
+        fromCreatedAt: fromDate,
+        toCreatedAt: toDate
+      }
+      this.$emit('filter', filter)
       this.isVisible = false
     }
 
