@@ -358,7 +358,13 @@
       "total-amount": "TỔNG SỐ",
       "avg-trans-amount": "SỐ TIỀN TRUNG BÌNH ",
       "last-transaction": "GIAO DỊCH GẦN NHẤT",
-      "tier": "cấp"
+      "tier": "cấp",
+      "bonus-signup": "Thưởng đăng ký",
+      "bonus-crowdsale": "Thưởng crowdsale",
+      "bonus-first-trans": "Thưởng giao dịch đầu tiên",
+      "bonus-affilicate": "Thưởng giới thiệu",
+      "bonus-big-backer": "Thưởng nhà đầu tư lớn",
+      "bonus-early-backer": "Thưởng nhà đầu tư sớm"
     },
     "select": {
       "accepted": "Xác nhận",
