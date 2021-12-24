@@ -21,7 +21,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('customer.table.num-of-trans')" prop="numOfTransaction" width="144" align="center">
+        <el-table-column :label="$t('customer.table.num-of-trans')" prop="numOfTransaction" width="144" align="right">
           <template slot-scope="scope">
             <span class="text-base">{{ scope.row.numOfTransaction | digitNumber }} </span>
           </template>
