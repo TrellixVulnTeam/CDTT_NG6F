@@ -326,7 +326,7 @@ export function formatReferral(value: number): any {
   if (!value) {
     return ''
   }
-  const gmt =new  Date().getTimezoneOffset() / (-60)
+  const gmt = new Date().getTimezoneOffset() / -60
   const ago = value - gmt * 60 * 60 * 1000
   const date = new Date(ago)
   return (

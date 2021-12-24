@@ -349,11 +349,11 @@
           _toAmount = this.filter.toAmount.replaceAll(',', '')
         }
         if (this.filter.fromDate) {
-        this.filter.fromDate = this.$options.filters?.formatReferral(this.filter.fromDate)
-      }
-      if (this.filter.toDate) {
-        this.filter.toDate = this.$options.filters?.formatReferral(this.filter.toDate)
-      }
+          this.filter.fromDate = this.$options.filters?.formatReferral(this.filter.fromDate)
+        }
+        if (this.filter.toDate) {
+          this.filter.toDate = this.$options.filters?.formatReferral(this.filter.toDate)
+        }
         this.$emit('filter', { ...this.filter, fromAmount: _fromAmount, toAmount: _toAmount, currency: _currency })
       }
     }

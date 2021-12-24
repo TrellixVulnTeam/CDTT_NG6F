@@ -364,7 +364,7 @@
         this.querry.toAmount = filter.toAmount.replace(/,/g, '')
         this.querry.status = filter.status
       }
-       if (this.filter.fromDate) {
+      if (this.filter.fromDate) {
         this.querry.fromDate = this.$options.filters?.formatReferral(this.filter.fromDate)
       }
       if (this.filter.toDate) {

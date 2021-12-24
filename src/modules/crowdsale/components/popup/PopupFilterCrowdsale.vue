@@ -266,7 +266,7 @@
         form2.currency = this.form.currency.join()
       }
       if (this.form.fromDate) {
-        form2.fromCreatedAt = this.$options.filters?.formatReferral(form2.fromDate)
+        form2.fromDate = this.$options.filters?.formatReferral(form2.fromDate)
       }
       if (this.form.toDate) {
         form2.toDate = this.$options.filters?.formatReferral(this.form.toDate)

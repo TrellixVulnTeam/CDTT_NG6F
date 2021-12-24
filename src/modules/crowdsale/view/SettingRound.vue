@@ -41,7 +41,7 @@
             <div class="be-flex jc-space-between align-center row box">
               <el-date-picker
                 v-model="query.fromDate"
-                value-format="yyyy-MM-dd"
+                value-format="timestamp"
                 format="MM/dd/yyyy"
                 clearable
                 type="date"
@@ -53,7 +53,7 @@
               <div class="line" style="margin: 0 5px"></div>
               <el-date-picker
                 v-model="query.toDate"
-                value-format="yyyy-MM-dd"
+                value-format="timestamp"
                 format="MM/dd/yyyy"
                 clearable
                 type="date"
@@ -328,6 +328,12 @@
     }
 
     handleApply(): void {
+       if (this.query.fromDate) {
+        this.query.fromDate = this.$options.filters?.formatReferral(this.query.fromDate)
+      }
+      if (this.query.toDate) {
+        this.query.toDate = this.$options.filters?.formatReferral(this.query.toDate)
+      }
       this.init()
       this.isVisible = false
     }
