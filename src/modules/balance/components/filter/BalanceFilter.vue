@@ -324,7 +324,7 @@
 
     handleApply(): void {
       if (this.checkAvailabelAmout || this.checkLockedAmount || this.checkBalance) {
-        console.log("validate")
+        console.log('validate')
       } else {
         this.isVisible = false
         const filters = {

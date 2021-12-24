@@ -1,76 +1,84 @@
 <template>
-  <div class='list-bonus'>
-    <filter-main :sorts='sorts' @filter='handleFilter'>
-      <div class='filter-item'>
-        <el-popover :value='isVisible' placement='bottom-start' width='518' trigger='click' popper-class='popper-filter'
-                    @show='handleShowPopper'>
-          <div class='content'>
+  <div class="list-bonus">
+    <filter-main :sorts="sorts" @filter="handleFilter">
+      <div class="filter-item">
+        <el-popover :value="isVisible" placement="bottom-start" width="518" trigger="click" popper-class="popper-filter" @show="handleShowPopper">
+          <div class="content">
             <el-form>
-              <div class='be-flex jc-space-between row'>
-                <el-form-item class='be-flex-item mr-40' :label="$t('label.trans-type')">
-                  <el-select v-model='filter.transactionType' :placeholder="$t('placeholder.select-type')" class='w-100'
-                             clearable>
-                    <el-option v-for='(type, index) in listType' :key='index' :label='type.name' :value='type.value' />
+              <div class="be-flex jc-space-between row">
+                <el-form-item class="be-flex-item mr-40" :label="$t('label.trans-type')">
+                  <el-select v-model="filter.transactionType" :placeholder="$t('placeholder.select-type')" class="w-100" clearable>
+                    <el-option v-for="(type, index) in listType" :key="index" :label="type.name" :value="type.value" />
                   </el-select>
                 </el-form-item>
-                <el-form-item class='be-flex-item' :label="$t('label.status')">
-                  <el-select v-model='filter.status' id-type :placeholder="$t('placeholder.status')" class='w-100'
-                             clearable>
-                    <el-option v-for='(status, index) in listStatus' :key='index' :label='status.name'
-                               :value='status.value' />
+                <el-form-item class="be-flex-item" :label="$t('label.status')">
+                  <el-select v-model="filter.status" id-type :placeholder="$t('placeholder.status')" class="w-100" clearable>
+                    <el-option v-for="(status, index) in listStatus" :key="index" :label="status.name" :value="status.value" />
                   </el-select>
                 </el-form-item>
               </div>
-              <div class='be-flex jc-space-between row'>
-                <el-form-item class='be-flex-item mr-40' :label="$t('label.date')">
-                  <el-date-picker class='w-100' format='MM/dd/yyyy' value-format='yyyy-MM-dd'
-                                  :placeholder="$t('label.from-date')" v-model='filter.fromDate' type='date'
-                                  :picker-options='pickerOption2'>
+              <div class="be-flex jc-space-between row">
+                <el-form-item class="be-flex-item mr-40" :label="$t('label.date')">
+                  <el-date-picker
+                    class="w-100"
+                    format="MM/dd/yyyy"
+                    value-format="timestamp"
+                    :placeholder="$t('label.from-date')"
+                    v-model="filter.fromDate"
+                    type="date"
+                    :picker-options="pickerOption2"
+                  >
                   </el-date-picker>
                 </el-form-item>
 
-                <el-form-item class='be-flex-item hide-label' label='1'>
-                  <el-date-picker class='w-100' format='MM/dd/yyyy' :placeholder="$t('label.to-date')"
-                                  value-format='yyyy-MM-dd' v-model='filter.toDate' type='date'
-                                  :picker-options='pickerOption'>
+                <el-form-item class="be-flex-item hide-label" label="1">
+                  <el-date-picker
+                    class="w-100"
+                    format="MM/dd/yyyy"
+                    :placeholder="$t('label.to-date')"
+                    value-format="timestamp"
+                    v-model="filter.toDate"
+                    type="date"
+                    :picker-options="pickerOption"
+                  >
                   </el-date-picker>
                 </el-form-item>
               </div>
-              <div class='be-flex jc-space-between row'>
-                <el-form-item class='be-flex-item mr-40 form-item-line' :label="$t('label.trans-amount')">
+              <div class="be-flex jc-space-between row">
+                <el-form-item class="be-flex-item mr-40 form-item-line" :label="$t('label.trans-amount')">
                   <el-input
-                    v-model='filter.fromAmount'
+                    v-model="filter.fromAmount"
                     :placeholder="$t('placeholder.from-amount')"
                     @keypress.native="onlyNumber($event, 'fromAmount')"
-                    @keyup.native='numberFormat($event)'
+                    @keyup.native="numberFormat($event)"
                   >
-                    <div class='prefix' slot='prefix'>$</div>
+                    <div class="prefix" slot="prefix">$</div>
                   </el-input>
                 </el-form-item>
 
-                <el-form-item class='be-flex-item hide-label' label='1'>
+                <el-form-item class="be-flex-item hide-label" label="1">
                   <el-input
-                    v-model='filter.toAmount'
+                    v-model="filter.toAmount"
                     :placeholder="$t('placeholder.to-amount')"
                     @keypress.native="onlyNumber($event, 'toAmount')"
-                    @keyup.native='numberFormat($event)'
+                    @keyup.native="numberFormat($event)"
                   >
-                    <div class='prefix' slot='prefix'>$</div>
+                    <div class="prefix" slot="prefix">$</div>
                   </el-input>
                 </el-form-item>
               </div>
             </el-form>
           </div>
-          <div class='be-flex jc-flex-end footer'>
-            <el-button class='btn-default btn-400 btn-h-40 btn-close text-regular' @click='handleReset'>
+          <div class="be-flex jc-flex-end footer">
+            <el-button class="btn-default btn-400 btn-h-40 btn-close text-regular" @click="handleReset">
               {{ $t('button.reset') }}
             </el-button>
-            <el-button class='btn-default-bg btn-400 btn-h-40 is-none-border h-40 text-regular' @click='handleApply'>
+            <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border h-40 text-regular" @click="handleApply">
               {{ $t('button.apply') }}
             </el-button>
           </div>
-          <div slot='reference' class='cursor text-filter' style='font-size: 16px'>
-            <span class='abicon'> <base-icon style='color: #5b616e; margin-right: 4px' icon='icon-filter' size='18' /> </span>
+          <div slot="reference" class="cursor text-filter" style="font-size: 16px">
+            <span class="abicon"> <base-icon style="color: #5b616e; margin-right: 4px" icon="icon-filter" size="18" /> </span>
             {{ $t('kyc.filter.filter') }}
           </div>
         </el-popover>
@@ -80,53 +88,50 @@
       </div> -->
       </div>
     </filter-main>
-    <div class='table' v-loading='isLoading' :class="isLoading ? 'list-loading' : null">
+    <div class="table" v-loading="isLoading" :class="isLoading ? 'list-loading' : null">
       <base-table
-        :data='listBonus'
-        :table='query'
-        :paginationInfo='getPaginationInfo'
-        @sizeChange='handleSizeChange'
-        @currentChange='handleCurrentChange'
-        class='base-table table-wallet'
+        :data="listBonus"
+        :table="query"
+        :paginationInfo="getPaginationInfo"
+        @sizeChange="handleSizeChange"
+        @currentChange="handleCurrentChange"
+        class="base-table table-wallet"
       >
-        <el-table-column label='#' :index='getIndex' type='index' width='50' />
+        <el-table-column label="#" :index="getIndex" type="index" width="50" />
         <el-table-column :label="$t('customer.table.trans-id')">
-          <template slot-scope='scope'>
-            <div class='be-flex align-center'>
-              <span class='d-ib'>{{ scope.row.transactionCode | formatTransactionCode(6) }}</span>
+          <template slot-scope="scope">
+            <div class="be-flex align-center">
+              <span class="d-ib">{{ scope.row.transactionCode | formatTransactionCode(6) }}</span>
             </div>
           </template>
         </el-table-column>
-        <el-table-column width='45'>
-          <template slot-scope='scope'>
-            <span v-if='scope.row.transactionCode' class='icon-copy' @click='handleCopyTransaction(scope.row)'>
-              <base-icon icon='icon-copy' size='24' />
+        <el-table-column width="45">
+          <template slot-scope="scope">
+            <span v-if="scope.row.transactionCode" class="icon-copy" @click="handleCopyTransaction(scope.row)">
+              <base-icon icon="icon-copy" size="24" />
             </span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('customer.table.type')" width='210'>
-          <template slot-scope='scope'>
+        <el-table-column :label="$t('customer.table.type')" width="210">
+          <template slot-scope="scope">
             <span>{{ scope.row.typeBounus }} Bonus</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('customer.table.date')" width='180'>
-          <template slot-scope='scope'>
-            <span class='text-base'>{{ scope.row.transactionDate | formatMMDDYY }} </span>
+        <el-table-column :label="$t('customer.table.date')" width="180">
+          <template slot-scope="scope">
+            <span class="text-base">{{ scope.row.transactionDate | formatMMDDYY }} </span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('customer.table.status')" align='center' width='120'>
-          <template slot-scope='scope'>
-            <span v-if='scope.row.status' :class='checkTypeClass(scope.row.status)'>{{ getTypeStatus(scope.row.status)
-              }}</span>
+        <el-table-column :label="$t('customer.table.status')" align="center" width="120">
+          <template slot-scope="scope">
+            <span v-if="scope.row.status" :class="checkTypeClass(scope.row.status)">{{ getTypeStatus(scope.row.status) }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('customer.table.amount')" align='right' width='160'>
-          <template slot-scope='scope'>
-            <div v-if='scope.row.tokenAmount' class='amount-increase'>
-              <span>+{{ scope.row.tokenAmount | convertAmountDecimal(scope.row.tokenCurrency)
-                }} {{ scope.row.tokenCurrency }}</span>
-              <span class='d-block amount-exchange-small'>~${{ scope.row.tokenAmountToUsd | convertAmountDecimal('USD')
-                }}</span>
+        <el-table-column :label="$t('customer.table.amount')" align="right" width="160">
+          <template slot-scope="scope">
+            <div v-if="scope.row.tokenAmount" class="amount-increase">
+              <span>+{{ scope.row.tokenAmount | convertAmountDecimal(scope.row.tokenCurrency) }} {{ scope.row.tokenCurrency }}</span>
+              <span class="d-block amount-exchange-small">~${{ scope.row.tokenAmountToUsd | convertAmountDecimal('USD') }}</span>
             </div>
           </template>
         </el-table-column>
@@ -135,7 +140,7 @@
   </div>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
   import { Component, Prop, Vue } from 'vue-property-decorator'
   import FilterMain from '@/components/filter/FilterMain.vue'
 
@@ -247,11 +252,11 @@
 
     disableTime(time: Date, type: string): any {
       if (type === 'from-to') {
-        if (this.filter.fromDate){
+        if (this.filter.fromDate) {
           return time.getTime() / 1000 < new Date(this.filter.fromDate).getTime() / 1000 - 7 * 60 * 60
         }
       } else {
-        if (this.filter.toDate){
+        if (this.filter.toDate) {
           return time.getTime() / 1000 > new Date(this.filter.toDate).getTime() / 1000 - 7 * 60 * 60
         }
       }
@@ -300,6 +305,12 @@
 
     handleApply(): void {
       this.query = { ...this.query, ...this.filter, page: 1 }
+      if (this.filter.fromDate) {
+        this.query.fromDate = this.$options.filters?.formatReferral(this.filter.fromDate)
+      }
+      if (this.filter.toDate) {
+        this.query.toDate = this.$options.filters?.formatReferral(this.filter.toDate)
+      }
       this.handleGetListBonus()
       this.isVisible = false
     }
@@ -374,7 +385,7 @@
   }
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
   .list-bonus {
     .input-search {
       width: 400px;

@@ -28,7 +28,7 @@
                 <el-date-picker
                   class="w-100 date-picker"
                   format="MM/dd/yyyy"
-                  value-format="yyyy-MM-dd"
+                  value-format="timestamp"
                   :placeholder="$t('label.from-date')"
                   v-model="filterException.fromDate"
                   type="date"
@@ -42,7 +42,7 @@
                   class="w-100 date-picker"
                   format="MM/dd/yyyy"
                   :placeholder="$t('label.to-date')"
-                  value-format="yyyy-MM-dd"
+                  value-format="timestamp"
                   v-model="filterException.toDate"
                   type="date"
                   :picker-options="pickerOption"
@@ -381,8 +381,8 @@
       let fnumber = _event.target.value
       if (fnumber.length > 0) {
         fnumber = fnumber.replaceAll(',', '')
-          fnumber = this.$options.filters?.numberWithCommas(fnumber)
-          _event.target.value = fnumber
+        fnumber = this.$options.filters?.numberWithCommas(fnumber)
+        _event.target.value = fnumber
       }
     }
     onlyNumber(event: KeyboardEvent, type: string): void {
@@ -434,11 +434,11 @@
     disableTime(time: Date, type: string): any {
       if (type === 'from-to') {
         if (this.filterException.fromDate) {
-          return time.getTime()/1000 < new Date(this.filterException.fromDate).getTime()/1000-7*60*60;
+          return time.getTime() / 1000 < new Date(this.filterException.fromDate).getTime() / 1000 - 7 * 60 * 60
         }
       } else {
         if (this.filterException.toDate) {
-          return time.getTime()/1000 > new Date(this.filterException.toDate).getTime()/1000-7*60*60;
+          return time.getTime() / 1000 > new Date(this.filterException.toDate).getTime() / 1000 - 7 * 60 * 60
         }
       }
     }
@@ -524,6 +524,12 @@
         let _currency = ''
         if (this.filterException.currency) {
           _currency = this.filterException.currency.join(',')
+        }
+        if (this.filterException.fromDate) {
+          this.filterException.fromDate = this.$options.filters?.formatReferral(this.filterException.fromDate)
+        }
+        if (this.filterException.toDate) {
+          this.filterException.toDate = this.$options.filters?.formatReferral(this.filterException.toDate)
         }
         const filters = {
           ...this.filterException,
