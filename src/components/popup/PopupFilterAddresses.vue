@@ -296,16 +296,16 @@
       if (this.filter.network === '') {
         this.filter.network = null
       }
-      let fromDate = ''
-      let toDate = ''
+      let fromCreatedAt = ''
+      let toCreatedAt = ''
     
       if (this.filter.fromCreatedAt) {
-        fromDate = this.$options.filters?.formatReferral(this.filter.fromCreatedAt)
+        fromCreatedAt = this.$options.filters?.formatReferral(this.filter.fromCreatedAt)
       }
       if (this.filter.toCreatedAt) {
-        toDate = this.$options.filters?.formatReferral(this.filter.toCreatedAt + 86399000)
+        toCreatedAt = this.$options.filters?.formatReferral(this.filter.toCreatedAt + 86399000)
       }
-      this.$emit('filter', { ...this.filter, fromDate, toDate })
+      this.$emit('filter', { ...this.filter, fromCreatedAt, toCreatedAt })
     }
 
     onlyNumber(event: KeyboardEvent, type: string): void {

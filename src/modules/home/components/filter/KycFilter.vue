@@ -307,7 +307,8 @@
         toCreatedAt: toDate
       }
       this.$emit('filter', filter)
-      this.isVisible = false
+
+this.isVisible = false
     }
 
     handleReset(): void {
