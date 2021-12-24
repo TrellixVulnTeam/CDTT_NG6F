@@ -267,7 +267,9 @@
         const params = {
           ...this.query,
           total: null,
-          userId: this.userId
+          userId: this.userId,
+          fromCreatedAt: this.fromCreatedAt,
+          toCreatedAt: this.toCreatedAt
         }
         const result = await apiCustomer.getlistReferral(params)
         this.listReferral = result.content
@@ -292,14 +294,15 @@
       this.query = { ...this.query, ...filter, sort: filter.orderBy ? filter.orderBy : null, orderBy: null }
       this.handleGetListReferral()
     }
-
+    fromCreatedAt = ''
+    toCreatedAt = ''
     handleApply(): void {
       this.query = { ...this.query, ...this.filter, page: 1 }
       if (this.filter.fromCreatedAt) {
-        this.query.fromCreatedAt = this.$options.filters?.formatReferral(this.filter.fromCreatedAt)
+        this.fromCreatedAt = this.$options.filters?.formatReferral(this.filter.fromCreatedAt)
       }
       if (this.filter.toCreatedAt) {
-        this.query.toCreatedAt = this.$options.filters?.formatReferral(this.filter.toCreatedAt)
+        this.toCreatedAt = this.$options.filters?.formatReferral(this.filter.toCreatedAt + 86399000)
       }
       this.handleGetListReferral()
       this.isVisible = false
