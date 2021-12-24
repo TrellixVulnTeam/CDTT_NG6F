@@ -28,7 +28,7 @@
                 <el-date-picker
                   class="w-100 date-picker"
                   format="MM/dd/yyyy"
-                  value-format="yyyy-MM-dd"
+                  value-format="timestamp"
                   :placeholder="$t('label.from-date')"
                   v-model="filterException.fromDate"
                   type="date"
@@ -42,7 +42,7 @@
                   class="w-100 date-picker"
                   format="MM/dd/yyyy"
                   :placeholder="$t('label.to-date')"
-                  value-format="yyyy-MM-dd"
+                  value-format="timestamp"
                   v-model="filterException.toDate"
                   type="date"
                   :picker-options="pickerOption"
@@ -523,6 +523,12 @@
         let _currency = ''
         if (this.filterException.currency) {
           _currency = this.filterException.currency.join(',')
+        }
+        if (this.filterException.fromDate) {
+          this.filterException.fromDate = this.$options.filters?.formatReferral(this.filterException.fromDate)
+        }
+        if (this.filterException.toDate) {
+          this.filterException.toDate = this.$options.filters?.formatReferral(this.filterException.toDate)
         }
         const filters = {
           ...this.filterException,

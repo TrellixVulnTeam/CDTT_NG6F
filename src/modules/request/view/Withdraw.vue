@@ -22,7 +22,7 @@
           <div class="be-flex jc-space-between align-center row box">
             <el-date-picker
               v-model="filter.fromDate"
-              value-format="yyyy-MM-dd"
+              value-format="timestamp"
               format="MM/dd/yyyy"
               clearable
               type="date"
@@ -34,7 +34,7 @@
             <div class="line"></div>
             <el-date-picker
               v-model="filter.toDate"
-              value-format="yyyy-MM-dd"
+              value-format="timestamp"
               format="MM/dd/yyyy"
               clearable
               type="date"
@@ -364,6 +364,12 @@
         this.querry.toAmount = filter.toAmount.replace(/,/g, '')
         this.querry.status = filter.status
       }
+       if (this.filter.fromDate) {
+        this.querry.fromDate = this.$options.filters?.formatReferral(this.filter.fromDate)
+      }
+      if (this.filter.toDate) {
+        this.querry.toDate = this.$options.filters?.formatReferral(this.filter.toDate)
+      }
       this.querry.page = 1
       this.query.page = 1
       this.getDataTable()
@@ -375,8 +381,8 @@
       let fnumber = _event.target.value
       if (fnumber.length > 0) {
         fnumber = fnumber.replaceAll(',', '')
-          fnumber = this.$options.filters?.numberWithCommas(fnumber)
-          _event.target.value = fnumber
+        fnumber = this.$options.filters?.numberWithCommas(fnumber)
+        _event.target.value = fnumber
       }
     }
     handleRowClick(row: Record<string, any>): void {

@@ -312,6 +312,12 @@
     }
 
     handleApply(): void {
+      if (this.filter.fromCreatedAt) {
+        this.filter.fromCreatedAt = this.$options.filters?.formatReferral(this.filter.fromCreatedAt)
+      }
+      if (this.filter.toCreatedAt) {
+        this.filter.toCreatedAt = this.$options.filters?.formatReferral(this.filter.toCreatedAt)
+      }
       this.$emit('filter', this.filter)
       this.isVisible = false
     }

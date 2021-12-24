@@ -27,12 +27,12 @@
             </div>
             <div class="be-flex jc-space-between row">
               <el-form-item class="be-flex-item mr-40" :label="$t('label.from-date')">
-                <el-date-picker class="w-100" format="MM/dd/yyyy" value-format="yyyy-MM-dd" v-model="filter.fromCreatedAt" type="date" :picker-options="pickerOption2">
+                <el-date-picker class="w-100" format="MM/dd/yyyy" value-format="timestamp" v-model="filter.fromCreatedAt" type="date" :picker-options="pickerOption2">
                 </el-date-picker>
               </el-form-item>
 
               <el-form-item class="be-flex-item" :label="$t('label.to-date')">
-                <el-date-picker class="w-100" format="MM/dd/yyyy" value-format="yyyy-MM-dd" v-model="filter.toCreatedAt" type="date" :picker-options="pickerOption">
+                <el-date-picker class="w-100" format="MM/dd/yyyy" value-format="timestamp" v-model="filter.toCreatedAt" type="date" :picker-options="pickerOption">
                 </el-date-picker>
               </el-form-item>
             </div>
@@ -290,6 +290,12 @@
     handleApply(): void {
       console.log('toCreatedAt', this.filter.toCreatedAt)
       console.log('fromCreatedAt', this.filter.fromCreatedAt)
+      if (this.filter.fromCreatedAt) {
+        this.filter.fromCreatedAt = this.$options.filters?.formatReferral(this.filter.fromCreatedAt)
+      }
+      if (this.filter.toCreatedAt) {
+        this.filter.toCreatedAt = this.$options.filters?.formatReferral(this.filter.toCreatedAt)
+      }
       this.$emit('filter', this.filter)
       this.isVisible = false
     }

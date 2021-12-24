@@ -68,7 +68,7 @@
             <el-date-picker
               class="box-input"
               v-model="form.fromDate"
-              value-format="yyyy-MM-dd"
+              value-format="timestamp"
               format="MM/dd/yyyy"
               type="date"
               clearable
@@ -84,7 +84,7 @@
               :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateEnd')"
               class="box-input"
               v-model="form.toDate"
-              value-format="yyyy-MM-dd"
+              value-format="timestamp"
               format="MM/dd/yyyy"
               type="date"
               clearable
@@ -264,6 +264,12 @@
       }
       if (this.form.currency.length > 0) {
         form2.currency = this.form.currency.join()
+      }
+      if (this.form.fromDate) {
+        form2.fromCreatedAt = this.$options.filters?.formatReferral(form2.fromDate)
+      }
+      if (this.form.toDate) {
+        form2.toDate = this.$options.filters?.formatReferral(this.form.toDate)
       }
       this.$emit('apply', form2)
 

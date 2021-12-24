@@ -47,7 +47,7 @@
                 type="date"
                 :placeholder="$t('crowdsale.filter-popper.pl-fromDate')"
                 class="box-input-request-date"
-                :picker-options='pickerOption2'
+                :picker-options="pickerOption2"
               >
               </el-date-picker>
               <div class="line" style="margin: 0 5px"></div>
@@ -59,7 +59,7 @@
                 type="date"
                 :placeholder="$t('crowdsale.filter-popper.pl-toDate')"
                 class="box-input-request-date"
-                :picker-options='pickerOption'
+                :picker-options="pickerOption"
               >
               </el-date-picker>
             </div>
@@ -240,12 +240,12 @@
 
     disableTime(time: Date, type: string): any {
       if (type === 'from-to') {
-        if (this.query.fromDate){
-          return time.getTime()/1000 < new Date(this.query.fromDate).getTime()/ 1000 - 7 * 60 * 60;
+        if (this.query.fromDate) {
+          return time.getTime() / 1000 < new Date(this.query.fromDate).getTime() / 1000 - 7 * 60 * 60
         }
       } else {
-        if (this.query.toDate){
-          return time.getTime()/1000 > new Date(this.query.toDate).getTime()/ 1000 - 7 * 60 * 60;
+        if (this.query.toDate) {
+          return time.getTime() / 1000 > new Date(this.query.toDate).getTime() / 1000 - 7 * 60 * 60
         }
       }
     }
