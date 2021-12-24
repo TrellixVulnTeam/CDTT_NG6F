@@ -104,9 +104,8 @@
 
   interface IListCountry {
     name: string
-    dialCode: string
-    isoCode: string
-    flag: string
+    dial_code: string
+    code: string
   }
 
   @Component

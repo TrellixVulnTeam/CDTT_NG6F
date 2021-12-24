@@ -140,9 +140,8 @@
 
   interface IListCountry {
     name: string
-    dialCode: string
-    isoCode: string
-    flag: string
+    dial_code: string
+    code: string
   }
 
   const api: CrowdsaleRepository = getRepository('crowdsale')
@@ -324,7 +323,7 @@
       if (query) {
         const currentCountry = filter(
           this.listCountry,
-          country => trim(country.isoCode).toUpperCase().includes(query.toUpperCase()) || trim(country.name).toUpperCase().includes(query.toUpperCase())
+          country => trim(country.code).toUpperCase().includes(query.toUpperCase()) || trim(country.name).toUpperCase().includes(query.toUpperCase())
         )
         if (currentCountry.length > 0) {
           this.listCountry = currentCountry
@@ -351,7 +350,7 @@
     }
 
     created(): void {
-      const currentCountry = filter(this.listCountry, country => country.isoCode === 'VN')[0]
+      const currentCountry = filter(this.listCountry, country => country.code === 'VN')[0]
       this.form.country = currentCountry.name
     }
   }
