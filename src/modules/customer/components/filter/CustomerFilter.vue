@@ -104,9 +104,8 @@
 
   interface IListCountry {
     name: string
-    dialCode: string
-    isoCode: string
-    flag: string
+    dial_code: string
+    code: string
   }
 
   @Component
@@ -313,7 +312,25 @@
     }
 
     handleApply(): void {
-      this.$emit('filter', this.filter)
+      let fromDate = ''
+      let toDate = ''
+      if (this.filter.fromCreatedAt) {
+        fromDate = this.$options.filters?.formatReferral(this.filter.fromCreatedAt)
+      }
+      if (this.filter.toCreatedAt) {
+        toDate = this.$options.filters?.formatReferral(this.filter.toCreatedAt + 86399000)
+      }
+      // this.filter = {
+      //   ...this.filter,
+      //   fromCreatedAt:fromDate,
+      //   toCreatedAt:toDate
+      // }
+      const filter = {
+        ...this.filter,
+        fromCreatedAt: fromDate,
+        toCreatedAt: toDate
+      }
+      this.$emit('filter', filter)
       this.isVisible = false
     }
 

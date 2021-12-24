@@ -23,7 +23,7 @@
             <el-date-picker
               class="w-100 date-picker"
               format="MM/dd/yyyy"
-              value-format="yyyy-MM-dd"
+              value-format="timestamp"
               :placeholder="$t('label.from-date')"
               v-model="filter.fromCreatedAt"
               type="date"
@@ -37,7 +37,7 @@
               class="w-100 date-picker"
               format="MM/dd/yyyy"
               :placeholder="$t('label.to-date')"
-              value-format="yyyy-MM-dd"
+              value-format="timestamp"
               v-model="filter.toCreatedAt"
               type="date"
               :picker-options="pickerOption"
@@ -269,11 +269,11 @@
     disableTime(time: Date, type: string): any {
       if (type === 'from-to') {
         if (this.filter.fromCreatedAt) {
-          return time.getTime()/1000 < new Date(this.filter.fromCreatedAt).getTime()/1000-7*60*60;
+          return time.getTime() / 1000 < new Date(this.filter.fromCreatedAt).getTime() / 1000 - 7 * 60 * 60
         }
       } else {
         if (this.filter.toCreatedAt) {
-          return time.getTime()/1000 > new Date(this.filter.toCreatedAt).getTime()/1000-7*60*60;
+          return time.getTime() / 1000 > new Date(this.filter.toCreatedAt).getTime() / 1000 - 7 * 60 * 60
         }
       }
     }
@@ -296,7 +296,16 @@
       if (this.filter.network === '') {
         this.filter.network = null
       }
-      this.$emit('filter', { ...this.filter })
+      let fromCreatedAt = ''
+      let toCreatedAt = ''
+    
+      if (this.filter.fromCreatedAt) {
+        fromCreatedAt = this.$options.filters?.formatReferral(this.filter.fromCreatedAt)
+      }
+      if (this.filter.toCreatedAt) {
+        toCreatedAt = this.$options.filters?.formatReferral(this.filter.toCreatedAt + 86399000)
+      }
+      this.$emit('filter', { ...this.filter, fromCreatedAt, toCreatedAt })
     }
 
     onlyNumber(event: KeyboardEvent, type: string): void {

@@ -1,68 +1,60 @@
 <template>
-  <base-popup name='popup-filter-crowdsale' class='popup-filter-crowdsale' width='600px' :isShowFooter='true'
-              :open='handleOpen' :close='handleClose'>
-    <div slot='title'>
+  <base-popup name="popup-filter-crowdsale" class="popup-filter-crowdsale" width="600px" :isShowFooter="true" :open="handleOpen" :close="handleClose">
+    <div slot="title">
       <span>{{ $t('crowdsale.popup-filter.title') }}</span>
     </div>
-    <div class='content'>
-      <el-form class='form-filter-crowdsale'>
-        <div class='box-input-1 be-flex align-center jc-space-between'>
-          <div class='round'>
-            <div class='label'>{{ $t('crowdsale.popup-filter.round') }}</div>
-            <el-form-item prop='roundId' class='box-input'>
-              <el-select class='select' v-model='form.roundId'
-                         :placeholder="$t('crowdsale.popup-filter.planceOderRound')" clearable>
-                <div infinite-scroll-delay='500'>
-                  <el-option v-for='item in optionByRound' :key='item.id' :label='item.name'
-                             :value='item.id'></el-option>
+    <div class="content">
+      <el-form class="form-filter-crowdsale">
+        <div class="box-input-1 be-flex align-center jc-space-between">
+          <div class="round">
+            <div class="label">{{ $t('crowdsale.popup-filter.round') }}</div>
+            <el-form-item prop="roundId" class="box-input">
+              <el-select class="select" v-model="form.roundId" :placeholder="$t('crowdsale.popup-filter.planceOderRound')" clearable>
+                <div infinite-scroll-delay="500">
+                  <el-option v-for="item in optionByRound" :key="item.id" :label="item.name" :value="item.id"></el-option>
                 </div>
               </el-select>
             </el-form-item>
           </div>
-          <div class='country'>
-            <div class='label'>{{ $t('crowdsale.popup-filter.country') }}</div>
-            <el-form-item prop='countryName' class='box-input'>
+          <div class="country">
+            <div class="label">{{ $t('crowdsale.popup-filter.country') }}</div>
+            <el-form-item prop="countryName" class="box-input">
               <el-select
-                class='select'
-                v-model='form.countryName'
+                class="select"
+                v-model="form.countryName"
                 filterable
                 reserve-keyword
                 remote
-                :remote-method='remoteCountry'
+                :remote-method="remoteCountry"
                 :placeholder="$t('crowdsale.popup-filter.planceOderCountry')"
                 clearable
               >
-                <el-option v-for='(country, index) in listCountry' :key='index' :label='country.name'
-                           :value='country.name' />
+                <el-option v-for="(country, index) in listCountry" :key="index" :label="country.name" :value="country.name" />
               </el-select>
             </el-form-item>
           </div>
         </div>
-        <div class='by-with-wallet'>
-          <div class='label'>{{ $t('crowdsale.popup-filter.buyWithWallet') }}</div>
-          <el-form-item prop='paidWallet' class='box-input'>
-            <el-select class='select' v-model='form.paidWallet'
-                       :placeholder="$t('crowdsale.popup-filter.planceOderWallet')" clearable>
-              <div infinite-scroll-delay='500'>
-                <el-option v-for='item in optionByWallet' :key='item.value' :label='item.label'
-                           :value='item.value'></el-option>
+        <div class="by-with-wallet">
+          <div class="label">{{ $t('crowdsale.popup-filter.buyWithWallet') }}</div>
+          <el-form-item prop="paidWallet" class="box-input">
+            <el-select class="select" v-model="form.paidWallet" :placeholder="$t('crowdsale.popup-filter.planceOderWallet')" clearable>
+              <div infinite-scroll-delay="500">
+                <el-option v-for="item in optionByWallet" :key="item.value" :label="item.label" :value="item.value"></el-option>
               </div>
             </el-select>
           </el-form-item>
         </div>
-        <div class='by-with-token'>
-          <div class='label'>{{ $t('crowdsale.popup-filter.buyWithToken') }}</div>
-          <el-form-item prop='currency' class='box-input'>
-            <el-select class='select' v-model='form.currency' multiple
-                       :placeholder="$t('crowdsale.popup-filter.planceOderToken')">
-              <div infinite-scroll-delay='500'>
-                <el-option v-for='(item, index) in optionByToken' :key='index' :label='item.currency'
-                           :value='item.currency'>
+        <div class="by-with-token">
+          <div class="label">{{ $t('crowdsale.popup-filter.buyWithToken') }}</div>
+          <el-form-item prop="currency" class="box-input">
+            <el-select class="select" v-model="form.currency" multiple :placeholder="$t('crowdsale.popup-filter.planceOderToken')">
+              <div infinite-scroll-delay="500">
+                <el-option v-for="(item, index) in optionByToken" :key="index" :label="item.currency" :value="item.currency">
                   <template>
-                    <div class='be-flex wallet-item'>
-                      <base-icon :icon='renderIcon(item.currency)' size='24' />
-                      <span class='d-ib' style='margin-left: 10px'>{{ formatCurrencyName(item.currencyName) }}</span>
-                      <span class='d-ib' style='margin-left: 4px'>({{ item.currency.toUpperCase() }})</span>
+                    <div class="be-flex wallet-item">
+                      <base-icon :icon="renderIcon(item.currency)" size="24" />
+                      <span class="d-ib" style="margin-left: 10px">{{ formatCurrencyName(item.currencyName) }}</span>
+                      <span class="d-ib" style="margin-left: 4px">({{ item.currency.toUpperCase() }})</span>
                     </div>
                   </template>
                 </el-option>
@@ -70,69 +62,73 @@
             </el-select>
           </el-form-item>
         </div>
-        <div class='label'>{{ $t('crowdsale.popup-filter.transactionDate') }}</div>
-        <div class='box-input-2 transaction-date be-flex align-center jc-space-between'>
-          <el-form-item prop='fromDate' class='box-input'>
+        <div class="label">{{ $t('crowdsale.popup-filter.transactionDate') }}</div>
+        <div class="box-input-2 transaction-date be-flex align-center jc-space-between">
+          <el-form-item prop="fromDate" class="box-input">
             <el-date-picker
-              class='box-input'
-              v-model='form.fromDate'
-              value-format='yyyy-MM-dd'
-              format='MM/dd/yyyy'
-              type='date'
+              class="box-input"
+              v-model="form.fromDate"
+              value-format="timestamp"
+              format="MM/dd/yyyy"
+              type="date"
               clearable
-              :picker-options='pickerOption2'
+              :picker-options="pickerOption2"
               :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateStart')"
             >
             </el-date-picker>
           </el-form-item>
 
-          <div class='line'></div>
-          <el-form-item prop='toDate' class='box-input'>
+          <div class="line"></div>
+          <el-form-item prop="toDate" class="box-input">
             <el-date-picker
               :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateEnd')"
-              class='box-input'
-              v-model='form.toDate'
-              value-format='yyyy-MM-dd'
-              format='MM/dd/yyyy'
-              type='date'
+              class="box-input"
+              v-model="form.toDate"
+              value-format="timestamp"
+              format="MM/dd/yyyy"
+              type="date"
               clearable
-              :picker-options='pickerOption'
+              :picker-options="pickerOption"
             >
             </el-date-picker>
           </el-form-item>
         </div>
-        <div class='label'>{{ $t('crowdsale.popup-filter.transactionAmount') }}</div>
-        <div class='box-input-3 transaction-amount be-flex align-center jc-space-between'>
-          <el-form-item prop='fromAmount' class='box-input'>
+        <div class="label">{{ $t('crowdsale.popup-filter.transactionAmount') }}</div>
+        <div class="box-input-3 transaction-amount be-flex align-center jc-space-between">
+          <el-form-item prop="fromAmount" class="box-input">
             <el-input
               :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateStart')"
-              v-model='form.fromAmount'
+              v-model="form.fromAmount"
               clearable
               @keypress.native="onlyNumber($event, 'toAmount')"
-              @keyup.native='numberFormat($event)'
-              type='text'
+              @keyup.native="numberFormat($event)"
+              type="text"
             ></el-input>
-            <div class='dolar fw-400 fs-16'>$</div>
+            <div class="dolar fw-400 fs-16">$</div>
           </el-form-item>
 
-          <div class='line'></div>
-          <el-form-item prop='toAmount' class='box-input'>
-            <el-input :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateEnd')"
-                      @keypress.native="onlyNumber($event, 'toAmount')" v-model='form.toAmount'
-                      clearable @keyup.native='numberFormat($event)' type='text'
+          <div class="line"></div>
+          <el-form-item prop="toAmount" class="box-input">
+            <el-input
+              :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateEnd')"
+              @keypress.native="onlyNumber($event, 'toAmount')"
+              v-model="form.toAmount"
+              clearable
+              @keyup.native="numberFormat($event)"
+              type="text"
             ></el-input>
-            <div class='dolar fw-400 fs-16'>$</div>
+            <div class="dolar fw-400 fs-16">$</div>
           </el-form-item>
         </div>
       </el-form>
     </div>
-    <div slot='footer' class='footer'>
-      <div @click='handleReset' class='btn-action btn-close'>{{ $t('crowdsale.popup-filter.reset') }}</div>
-      <div @click='handleSubmit' class='btn-action btn-submit'>{{ $t('crowdsale.popup-filter.apply') }}</div>
+    <div slot="footer" class="footer">
+      <div @click="handleReset" class="btn-action btn-close">{{ $t('crowdsale.popup-filter.reset') }}</div>
+      <div @click="handleSubmit" class="btn-action btn-submit">{{ $t('crowdsale.popup-filter.apply') }}</div>
     </div>
   </base-popup>
 </template>
-<script lang='ts'>
+<script lang="ts">
   import { Component, Mixins, Prop, Watch } from 'vue-property-decorator'
   import PopupMixin from '@/mixins/popup'
   import { trim, filter, debounce } from 'lodash'
@@ -144,9 +140,8 @@
 
   interface IListCountry {
     name: string
-    dialCode: string
-    isoCode: string
-    flag: string
+    dial_code: string
+    code: string
   }
 
   const api: CrowdsaleRepository = getRepository('crowdsale')
@@ -196,18 +191,18 @@
       return type === 'lynk'
         ? 'icon-lynk'
         : type === 'clm'
-          ? 'icon-clm'
-          : type === 'btc'
-            ? 'icon-btc'
-            : type === 'eth'
-              ? 'icon-eth'
-              : type === 'usdt'
-                ? 'icon-usdt'
-                : type === 'bnb'
-                  ? 'icon-bnb'
-                  : type === 'usdc'
-                    ? 'icon-usdc'
-                    : 'icon-locker'
+        ? 'icon-clm'
+        : type === 'btc'
+        ? 'icon-btc'
+        : type === 'eth'
+        ? 'icon-eth'
+        : type === 'usdt'
+        ? 'icon-usdt'
+        : type === 'bnb'
+        ? 'icon-bnb'
+        : type === 'usdc'
+        ? 'icon-usdc'
+        : 'icon-locker'
     }
 
     get pickerOption(): any {
@@ -261,6 +256,8 @@
 
     async handleSubmit(): Promise<void> {
       let form2: any = { ...this.form }
+      let fromDate = ''
+      let toDate = ''
       if (this.form.fromAmount) {
         form2.fromAmount = this.form.fromAmount.replaceAll(',', '')
       }
@@ -270,8 +267,20 @@
       if (this.form.currency.length > 0) {
         form2.currency = this.form.currency.join()
       }
+      
+      if (this.form.fromDate) {
+        form2.fromDate = this.$options.filters?.formatReferral(form2.fromDate)
+      }
+      if (this.form.toDate) {
+        form2.toDate = this.$options.filters?.formatReferral(this.form.toDate + 86399000)
+      }
+      // form2 = {
+      //   ...form2,
+      //   fromDate,
+      //   toDate
+      // }
       this.$emit('apply', form2)
-
+      console.log("form2", form2)
       this.setOpenPopup({
         popupName: 'popup-filter-crowdsale',
         isOpen: false
@@ -305,8 +314,8 @@
       if (fnumber.length > 0) {
         fnumber = fnumber.replaceAll(',', '')
         // fnumber = parseInt(fnumber)
-          fnumber = this.$options.filters?.numberWithCommas(fnumber)
-          _event.target.value = fnumber
+        fnumber = this.$options.filters?.numberWithCommas(fnumber)
+        _event.target.value = fnumber
       }
     }
 
@@ -322,7 +331,7 @@
       if (query) {
         const currentCountry = filter(
           this.listCountry,
-          country => trim(country.isoCode).toUpperCase().includes(query.toUpperCase()) || trim(country.name).toUpperCase().includes(query.toUpperCase())
+          country => trim(country.code).toUpperCase().includes(query.toUpperCase()) || trim(country.name).toUpperCase().includes(query.toUpperCase())
         )
         if (currentCountry.length > 0) {
           this.listCountry = currentCountry
@@ -349,12 +358,12 @@
     }
 
     created(): void {
-      const currentCountry = filter(this.listCountry, country => country.isoCode === 'VN')[0]
+      const currentCountry = filter(this.listCountry, country => country.code === 'VN')[0]
       this.form.country = currentCountry.name
     }
   }
 </script>
-<style scoped lang='scss'>
+<style scoped lang="scss">
   .popup-filter-crowdsale {
     .content {
       .select {

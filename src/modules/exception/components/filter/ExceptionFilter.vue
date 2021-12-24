@@ -28,7 +28,7 @@
                 <el-date-picker
                   class="w-100 date-picker"
                   format="MM/dd/yyyy"
-                  value-format="yyyy-MM-dd"
+                  value-format="timestamp"
                   :placeholder="$t('label.from-date')"
                   v-model="filterException.fromDate"
                   type="date"
@@ -42,7 +42,7 @@
                   class="w-100 date-picker"
                   format="MM/dd/yyyy"
                   :placeholder="$t('label.to-date')"
-                  value-format="yyyy-MM-dd"
+                  value-format="timestamp"
                   v-model="filterException.toDate"
                   type="date"
                   :picker-options="pickerOption"
@@ -162,9 +162,8 @@
   import countryJson from '@/utils/country/index.json'
   interface IListCountry {
     name: string
-    dialCode: string
-    isoCode: string
-    flag: string
+    dial_code: string
+    code: string
   }
   @Component
   export default class KycFilter extends Vue {
@@ -381,8 +380,8 @@
       let fnumber = _event.target.value
       if (fnumber.length > 0) {
         fnumber = fnumber.replaceAll(',', '')
-          fnumber = this.$options.filters?.numberWithCommas(fnumber)
-          _event.target.value = fnumber
+        fnumber = this.$options.filters?.numberWithCommas(fnumber)
+        _event.target.value = fnumber
       }
     }
     onlyNumber(event: KeyboardEvent, type: string): void {
@@ -434,11 +433,11 @@
     disableTime(time: Date, type: string): any {
       if (type === 'from-to') {
         if (this.filterException.fromDate) {
-          return time.getTime()/1000 < new Date(this.filterException.fromDate).getTime()/1000-7*60*60;
+          return time.getTime() / 1000 < new Date(this.filterException.fromDate).getTime() / 1000 - 7 * 60 * 60
         }
       } else {
         if (this.filterException.toDate) {
-          return time.getTime()/1000 > new Date(this.filterException.toDate).getTime()/1000-7*60*60;
+          return time.getTime() / 1000 > new Date(this.filterException.toDate).getTime() / 1000 - 7 * 60 * 60
         }
       }
     }
@@ -525,11 +524,22 @@
         if (this.filterException.currency) {
           _currency = this.filterException.currency.join(',')
         }
+
+        let fromDate = ''
+        let toDate = ''
+        if (this.filterException.fromDate) {
+          fromDate = this.$options.filters?.formatReferral(this.filterException.fromDate)
+        }
+        if (this.filterException.toDate) {
+          toDate = this.$options.filters?.formatReferral(this.filterException.toDate + 86399000)
+        }
         const filters = {
           ...this.filterException,
           fromAmount: this.filterException.fromAmount.replaceAll(',', ''),
           toAmount: this.filterException.toAmount.replaceAll(',', ''),
-          currency: _currency
+          currency: _currency,
+          fromDate: fromDate,
+          toDate: toDate
         }
         this.$emit('filterException', filters)
       }

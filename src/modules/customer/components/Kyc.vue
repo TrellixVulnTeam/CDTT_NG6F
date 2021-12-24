@@ -36,17 +36,19 @@
             <base-icon icon="icon-no-data" size="64" style="display: inline-flex" />
             <span>{{ $t('notify.no-data-kyc') }}</span>
           </div>
-          <el-carousel v-else indicator-position="none" arrow="always" :autoplay="false">
-            <el-carousel-item v-for="(item, index) in listImage" :key="index">
-              <!-- <img :src="item" class="img-fluid" :alt="item" /> -->
-              <el-image
-                style="height: 100%; border-radius: 4px; display: flex; justify-content: center; object-fit: contain"
-                class="img-fluid"
-                :src="item"
-                :preview-src-list="listImage"
-              ></el-image>
-            </el-carousel-item>
-          </el-carousel>
+          <div v-if="listImage.length" class="w-100">
+            <el-carousel indicator-position="none" arrow="always" style="height: 100%" :autoplay="false">
+              <el-carousel-item v-for="(item, index) in listImage" :key="index">
+                <!-- <img :src="item" class="img-fluid" :alt="item" /> -->
+                <el-image
+                  style="height: 100%; border-radius: 4px; display: flex; justify-content: center; object-fit: contain"
+                  class="img-fluid"
+                  :src="item"
+                  :preview-src-list="listImage"
+                ></el-image>
+              </el-carousel-item>
+            </el-carousel>
+          </div>
         </div>
       </div>
     </div>
@@ -81,6 +83,7 @@
     selfiePhoto: string
     pinEnabled: string | null
     kycRejectReasonIds: string
+    userId: number
   }
 
   @Component({ components: {} })
@@ -106,7 +109,11 @@
     }
 
     get listImage(): string[] {
-      return [this.detail.idPhoto1, this.detail.idPhoto2, this.detail.selfiePhoto]
+      if (this.detail.userId) {
+        return [this.detail.idPhoto1, this.detail.idPhoto2, this.detail.selfiePhoto]
+      } else {
+        return []
+      }
     }
   }
 </script>

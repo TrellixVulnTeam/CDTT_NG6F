@@ -27,12 +27,12 @@
             </div>
             <div class="be-flex jc-space-between row">
               <el-form-item class="be-flex-item mr-40" :label="$t('label.from-date')">
-                <el-date-picker class="w-100" format="MM/dd/yyyy" value-format="yyyy-MM-dd" v-model="filter.fromCreatedAt" type="date" :picker-options="pickerOption2">
+                <el-date-picker class="w-100" format="MM/dd/yyyy" :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateStart')" value-format="timestamp" v-model="filter.fromCreatedAt" type="date" :picker-options="pickerOption2">
                 </el-date-picker>
               </el-form-item>
 
               <el-form-item class="be-flex-item" :label="$t('label.to-date')">
-                <el-date-picker class="w-100" format="MM/dd/yyyy" value-format="yyyy-MM-dd" v-model="filter.toCreatedAt" type="date" :picker-options="pickerOption">
+                <el-date-picker class="w-100" format="MM/dd/yyyy" :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateEnd')" value-format="timestamp" v-model="filter.toCreatedAt" type="date" :picker-options="pickerOption">
                 </el-date-picker>
               </el-form-item>
             </div>
@@ -101,9 +101,8 @@
   import countryJson from '@/utils/country/index.json'
   interface IListCountry {
     name: string
-    dialCode: string
-    isoCode: string
-    flag: string
+    dial_code: string
+    code: string
   }
   @Component
   export default class KycFilter extends Vue {
@@ -289,10 +288,27 @@
     }
 
     handleApply(): void {
-      console.log('toCreatedAt', this.filter.toCreatedAt)
-      console.log('fromCreatedAt', this.filter.fromCreatedAt)
-      this.$emit('filter', this.filter)
-      this.isVisible = false
+      let fromDate = ''
+      let toDate = ''
+      if (this.filter.fromCreatedAt) {
+        fromDate = this.$options.filters?.formatReferral(this.filter.fromCreatedAt)
+      }
+      if (this.filter.toCreatedAt) {
+        toDate = this.$options.filters?.formatReferral(this.filter.toCreatedAt + 86399000)
+      }
+      // this.filter = {
+      //   ...this.filter,
+      //   fromCreatedAt: fromDate,
+      //   toCreatedAt: toDate
+      // }
+      const filter = {
+        ...this.filter,
+        fromCreatedAt: fromDate,
+        toCreatedAt: toDate
+      }
+      this.$emit('filter', filter)
+
+this.isVisible = false
     }
 
     handleReset(): void {

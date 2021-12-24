@@ -41,25 +41,25 @@
             <div class="be-flex jc-space-between align-center row box">
               <el-date-picker
                 v-model="query.fromDate"
-                value-format="yyyy-MM-dd"
+                value-format="timestamp"
                 format="MM/dd/yyyy"
                 clearable
                 type="date"
                 :placeholder="$t('crowdsale.filter-popper.pl-fromDate')"
                 class="box-input-request-date"
-                :picker-options='pickerOption2'
+                :picker-options="pickerOption2"
               >
               </el-date-picker>
               <div class="line" style="margin: 0 5px"></div>
               <el-date-picker
                 v-model="query.toDate"
-                value-format="yyyy-MM-dd"
+                value-format="timestamp"
                 format="MM/dd/yyyy"
                 clearable
                 type="date"
                 :placeholder="$t('crowdsale.filter-popper.pl-toDate')"
                 class="box-input-request-date"
-                :picker-options='pickerOption'
+                :picker-options="pickerOption"
               >
               </el-date-picker>
             </div>
@@ -240,12 +240,12 @@
 
     disableTime(time: Date, type: string): any {
       if (type === 'from-to') {
-        if (this.query.fromDate){
-          return time.getTime()/1000 < new Date(this.query.fromDate).getTime()/ 1000 - 7 * 60 * 60;
+        if (this.query.fromDate) {
+          return time.getTime() / 1000 < new Date(this.query.fromDate).getTime() / 1000 - 7 * 60 * 60
         }
       } else {
-        if (this.query.toDate){
-          return time.getTime()/1000 > new Date(this.query.toDate).getTime()/ 1000 - 7 * 60 * 60;
+        if (this.query.toDate) {
+          return time.getTime() / 1000 > new Date(this.query.toDate).getTime() / 1000 - 7 * 60 * 60
         }
       }
     }
@@ -269,11 +269,18 @@
         const leadsRef = firebase.ref('crowd-sales')
         // eslint-disable-next-line @typescript-eslint/no-this-alias
         let _this = this
+
+        const params = {
+          ...this.query,
+          fromDate: this.fromDate,
+          toDate: this.toDate
+        }
+        console.log('ôp', this.query)
         if (!this.listRound.length) {
           this.listener = leadsRef.once('value', async function (snapshot) {
             _this.listRound = snapshot.val()
             const roundCurrent = snapshot.val()[_this.tabActive]
-            const result = await apiCrowdsale.getListUserInRound({ ..._this.query, roundId: roundCurrent.id })
+            const result = await apiCrowdsale.getListUserInRound({ ...params, roundId: roundCurrent.id })
             _this.dataTable = result.content || []
             _this.query.total = result.totalElements
             if (!_this.query.total && firstTime) {
@@ -285,7 +292,7 @@
           })
         } else {
           const roundCurrent = this.listRound[_this.tabActive]
-          const result = await apiCrowdsale.getListUserInRound({ ...this.query, roundId: roundCurrent.id })
+          const result = await apiCrowdsale.getListUserInRound({ ...params, roundId: roundCurrent.id })
           _this.dataTable = result.content || []
           _this.query.total = result.totalElements
           if (!_this.query.total && firstTime) {
@@ -326,8 +333,17 @@
       this.isVisible = false
       this.init()
     }
-
+    fromDate = ''
+    toDate = ''
     handleApply(): void {
+      if (this.query.fromDate) {
+        this.fromDate = this.$options.filters?.formatReferral(this.query.fromDate)
+      }
+      if (this.query.toDate) {
+        this.toDate = this.$options.filters?.formatReferral(this.query.toDate + 86399000)
+      }
+
+      console.log('qêuueu', this.query)
       this.init()
       this.isVisible = false
     }

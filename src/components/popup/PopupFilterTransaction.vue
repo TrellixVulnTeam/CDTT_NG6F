@@ -23,7 +23,7 @@
             <el-date-picker
               class="w-100 date-picker"
               format="MM/dd/yyyy"
-              value-format="yyyy-MM-dd"
+              value-format="timestamp"
               :placeholder="$t('label.from-date')"
               v-model="filter.fromDate"
               type="date"
@@ -37,7 +37,7 @@
               class="w-100 date-picker"
               format="MM/dd/yyyy"
               :placeholder="$t('label.to-date')"
-              value-format="yyyy-MM-dd"
+              value-format="timestamp"
               v-model="filter.toDate"
               type="date"
               :picker-options="pickerOption"
@@ -165,12 +165,12 @@
 
     disableTime(time: Date, type: string): any {
       if (type === 'from-to') {
-        if (this.filter.fromDate){
-          return time.getTime()/1000 < new Date(this.filter.fromDate).getTime()/ 1000 - 7 * 60 * 60;
+        if (this.filter.fromDate) {
+          return time.getTime() / 1000 < new Date(this.filter.fromDate).getTime() / 1000 - 7 * 60 * 60
         }
       } else {
-        if (this.filter.toDate){
-          return time.getTime()/1000 > new Date(this.filter.toDate).getTime()/ 1000 - 7 * 60 * 60;
+        if (this.filter.toDate) {
+          return time.getTime() / 1000 > new Date(this.filter.toDate).getTime() / 1000 - 7 * 60 * 60
         }
       }
     }
@@ -310,6 +310,7 @@
         status: null,
         bonusType: null
       }
+      
       this.errorType = ''
       // this.setOpenPopup({
       //   popupName: 'popup-filter-transaction',
@@ -348,7 +349,15 @@
         if (this.filter.toAmount) {
           _toAmount = this.filter.toAmount.replaceAll(',', '')
         }
-        this.$emit('filter', { ...this.filter, fromAmount: _fromAmount, toAmount: _toAmount, currency: _currency })
+            let fromDate = ''
+      let toDate = ''
+        if (this.filter.fromDate) {
+          fromDate = this.$options.filters?.formatReferral(this.filter.fromDate)
+        }
+        if (this.filter.toDate) {
+          toDate = this.$options.filters?.formatReferral(this.filter.toDate + 86399000)
+        }
+        this.$emit('filter', { ...this.filter, fromAmount: _fromAmount, toAmount: _toAmount, currency: _currency, fromDate, toDate })
       }
     }
 

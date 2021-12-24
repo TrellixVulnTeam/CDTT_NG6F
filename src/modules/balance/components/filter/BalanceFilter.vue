@@ -111,9 +111,8 @@
   import countryJson from '@/utils/country/index.json'
   interface IListCountry {
     name: string
-    dialCode: string
-    isoCode: string
-    flag: string
+    dial_code: string
+    code: string
   }
   @Component
   export default class KycFilter extends Vue {
@@ -324,7 +323,7 @@
 
     handleApply(): void {
       if (this.checkAvailabelAmout || this.checkLockedAmount || this.checkBalance) {
-        console.log("validate")
+        console.log('validate')
       } else {
         this.isVisible = false
         const filters = {
