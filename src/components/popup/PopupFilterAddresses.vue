@@ -48,7 +48,7 @@
         <div>
           <el-form-item :label="$t('label.network')">
             <el-select v-model="filter.network" clearable class="w-100">
-              <el-option v-for="status in convertListNetwork(listAssetNetwork)" :key="status.id" :value="status.network" :label="status.networkName + '(' + status.network + ')'">
+              <el-option v-for="status in convertListNetwork(listAssetNetwork)" :key="status.id" :value="status.network" :label="status.networkName + ' (' + status.network + ')'">
                 <template>
                   <span class="d-ib">{{ status.networkName }}</span>
                   <span class="d-ib" style="margin-left: 4px">({{ status.network.toUpperCase() }})</span>
