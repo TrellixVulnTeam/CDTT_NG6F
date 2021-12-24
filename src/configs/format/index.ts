@@ -326,7 +326,9 @@ export function formatReferral(value: number): any {
   if (!value) {
     return ''
   }
-  const ago = value - 7 * 60 * 60 * 1000
+  const gmt =new  Date().getTimezoneOffset() / (-60)
+  console.log("gmt", gmt)
+  const ago = value - gmt * 60 * 60 * 1000
   const date = new Date(ago)
   return (
     date.getFullYear() +
