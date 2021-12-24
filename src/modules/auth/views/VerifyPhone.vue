@@ -47,9 +47,8 @@
   const bcAuth = namespace('beAuth')
   interface IListCountry {
     name: string
-    dialCode: string
-    isoCode: string
-    flag: string
+    dial_code: string
+    code: string
   }
   @Component({ components: { VueRecaptcha, HeaderLogin, Language } })
   export default class VerifyPhone extends Vue {
@@ -100,12 +99,12 @@
     created(): void {
       this.language = window.localStorage.getItem('bc-lang')!
       this.selectLanguage = this.language
-      const currentCountry = filter(this.listCountry, country => country.isoCode === 'VN')[0]
+      const currentCountry = filter(this.listCountry, country => country.code === 'VN')[0]
       this.form.country = currentCountry.name
     }
 
     handleSelectCountry(country: string): void {
-      this.phoneDefault = filter(this.listCountry, item => item.name === country)[0].dialCode
+      this.phoneDefault = filter(this.listCountry, item => item.name === country)[0].dial_code
     }
 
     handleChangeLanguage(): void {
