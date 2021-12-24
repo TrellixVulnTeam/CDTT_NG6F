@@ -28,7 +28,7 @@
                   class="w-100"
                   format="MM/dd/yyyy"
                   :placeholder="$t('label.to-date')"
-                  value-format="yyyy-MM-dd"
+                  value-format="timestamp"
                   v-model="filter.toCreatedAt"
                   type="date"
                   :picker-options="pickerOption"
