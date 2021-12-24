@@ -404,7 +404,13 @@
       "total-amount": "TOTAL AMOUNT",
       "avg-trans-amount": "AVG TRANS AMOUNT",
       "last-transaction": "LAST TRANSACTION",
-      "tier": "tier"
+      "tier": "tier",
+      "bonus-signup": "Bonus sign up",
+      "bonus-crowdsale": "Bonus crowdsale",
+      "bonus-first-trans": "Bonus first transaction",
+      "bonus-affilicate": "Bonus affiliate",
+      "bonus-big-backer": "Bonus big backer",
+      "bonus-early-backer": "Bonus early backer"
     },
     "select": {
       "accepted": "Accepted",

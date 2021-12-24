@@ -114,7 +114,7 @@
         </el-table-column>
         <el-table-column :label="$t('customer.table.type')" width="210">
           <template slot-scope="scope">
-            <span>{{ scope.row.typeBounus }} Bonus</span>
+            <span>{{ switchTypeBounus(scope.row.bonusProgramCode) }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('customer.table.date')" width="180">
@@ -354,6 +354,23 @@
         return this.$t('customer.table.pending')
       } else {
         return this.$t('customer.table.paid')
+      }
+    }
+    switchTypeBounus(type: string): any {
+      switch (type) {
+        case 'BONUS_SIGN_UP':
+          return this.$t('customer.table.bonus-signup')
+        case 'BONUS_CROWDSALE':
+          return this.$t('customer.table.bonus-crowdsale')
+        case 'BONUS_FIRST_TRANS':
+          return this.$t('customer.table.bonus-first-trans')
+        case 'BONUS_AFFILIATE':
+          return this.$t('customer.table.bonus-affilicate')
+        case 'BONUS_BIG_BACKER':
+          return this.$t('customer.table.bonus-big-backer')
+
+        default:
+          return this.$t('customer.table.bonus-early-backer')
       }
     }
 
