@@ -308,8 +308,6 @@
     toDate = ''
     handleApply(): void {
       this.query = { ...this.query, ...this.filter, page: 1 }
-      let fromDate = ''
-      let toDate = ''
       if (this.filter.fromDate) {
         this.fromDate = this.$options.filters?.formatReferral(this.filter.fromDate)
       }
@@ -329,6 +327,8 @@
         status: '',
         transactionType: ''
       }
+      this.fromDate = ''
+      this.toDate = ''
       this.query = { ...this.query, ...this.filter }
       this.handleGetListBonus()
       this.isVisible = false

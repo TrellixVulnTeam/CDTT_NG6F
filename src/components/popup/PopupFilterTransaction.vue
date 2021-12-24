@@ -310,6 +310,7 @@
         status: null,
         bonusType: null
       }
+      
       this.errorType = ''
       // this.setOpenPopup({
       //   popupName: 'popup-filter-transaction',
