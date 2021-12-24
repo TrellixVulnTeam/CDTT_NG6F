@@ -1,1472 +1,1237 @@
 [
     {
         "name": "Afghanistan",
-        "dialCode": "+93",
-        "isoCode": "AF",
-        "flag": "https://www.countryflags.io/AF/flat/64.png"
+        "code": "AF",
+        "dial_code": "+93"
     },
     {
-        "name": "Aland Islands",
-        "dialCode": "+358",
-        "isoCode": "AX",
-        "flag": "https://www.countryflags.io/AX/flat/64.png"
+        "name": "Åland Islands",
+        "code": "AX",
+        "dial_code": "+358"
     },
     {
         "name": "Albania",
-        "dialCode": "+355",
-        "isoCode": "AL",
-        "flag": "https://www.countryflags.io/AL/flat/64.png"
+        "code": "AL",
+        "dial_code": "+355"
     },
     {
         "name": "Algeria",
-        "dialCode": "+213",
-        "isoCode": "DZ",
-        "flag": "https://www.countryflags.io/DZ/flat/64.png"
+        "code": "DZ",
+        "dial_code": "+213"
     },
     {
-        "name": "AmericanSamoa",
-        "dialCode": "+1684",
-        "isoCode": "AS",
-        "flag": "https://www.countryflags.io/AS/flat/64.png"
+        "name": "American Samoa",
+        "code": "AS",
+        "dial_code": "+1684"
     },
     {
         "name": "Andorra",
-        "dialCode": "+376",
-        "isoCode": "AD",
-        "flag": "https://www.countryflags.io/AD/flat/64.png"
+        "code": "AD",
+        "dial_code": "+376"
     },
     {
         "name": "Angola",
-        "dialCode": "+244",
-        "isoCode": "AO",
-        "flag": "https://www.countryflags.io/AO/flat/64.png"
+        "code": "AO",
+        "dial_code": "+244"
     },
     {
         "name": "Anguilla",
-        "dialCode": "+1264",
-        "isoCode": "AI",
-        "flag": "https://www.countryflags.io/AI/flat/64.png"
+        "code": "AI",
+        "dial_code": "+1264"
     },
     {
         "name": "Antarctica",
-        "dialCode": "+672",
-        "isoCode": "AQ",
-        "flag": "https://www.countryflags.io/AQ/flat/64.png"
+        "code": "AQ",
+        "dial_code": "+672"
     },
     {
         "name": "Antigua and Barbuda",
-        "dialCode": "+1268",
-        "isoCode": "AG",
-        "flag": "https://www.countryflags.io/AG/flat/64.png"
+        "code": "AG",
+        "dial_code": "+1268"
     },
     {
         "name": "Argentina",
-        "dialCode": "+54",
-        "isoCode": "AR",
-        "flag": "https://www.countryflags.io/AR/flat/64.png"
+        "code": "AR",
+        "dial_code": "+54"
     },
     {
         "name": "Armenia",
-        "dialCode": "+374",
-        "isoCode": "AM",
-        "flag": "https://www.countryflags.io/AM/flat/64.png"
+        "code": "AM",
+        "dial_code": "+374"
     },
     {
         "name": "Aruba",
-        "dialCode": "+297",
-        "isoCode": "AW",
-        "flag": "https://www.countryflags.io/AW/flat/64.png"
-    },
-    {
-        "name": "Ascension Island",
-        "dialCode": "+247",
-        "isoCode": "AC",
-        "flag": "https://cdn.kcak11.com/flags/AC_64.png"
+        "code": "AW",
+        "dial_code": "+297"
     },
     {
         "name": "Australia",
-        "dialCode": "+61",
-        "isoCode": "AU",
-        "flag": "https://www.countryflags.io/AU/flat/64.png"
+        "code": "AU",
+        "dial_code": "+61"
     },
     {
         "name": "Austria",
-        "dialCode": "+43",
-        "isoCode": "AT",
-        "flag": "https://www.countryflags.io/AT/flat/64.png"
+        "code": "AT",
+        "dial_code": "+43"
     },
     {
         "name": "Azerbaijan",
-        "dialCode": "+994",
-        "isoCode": "AZ",
-        "flag": "https://www.countryflags.io/AZ/flat/64.png"
+        "code": "AZ",
+        "dial_code": "+994"
     },
     {
         "name": "Bahamas",
-        "dialCode": "+1242",
-        "isoCode": "BS",
-        "flag": "https://www.countryflags.io/BS/flat/64.png"
+        "code": "BS",
+        "dial_code": "+1242"
     },
     {
         "name": "Bahrain",
-        "dialCode": "+973",
-        "isoCode": "BH",
-        "flag": "https://www.countryflags.io/BH/flat/64.png"
+        "code": "BH",
+        "dial_code": "+973"
     },
     {
         "name": "Bangladesh",
-        "dialCode": "+880",
-        "isoCode": "BD",
-        "flag": "https://www.countryflags.io/BD/flat/64.png"
+        "code": "BD",
+        "dial_code": "+880"
     },
     {
         "name": "Barbados",
-        "dialCode": "+1246",
-        "isoCode": "BB",
-        "flag": "https://www.countryflags.io/BB/flat/64.png"
+        "code": "BB",
+        "dial_code": "+1246"
     },
     {
         "name": "Belarus",
-        "dialCode": "+375",
-        "isoCode": "BY",
-        "flag": "https://www.countryflags.io/BY/flat/64.png"
+        "code": "BY",
+        "dial_code": "+375"
     },
     {
         "name": "Belgium",
-        "dialCode": "+32",
-        "isoCode": "BE",
-        "flag": "https://www.countryflags.io/BE/flat/64.png"
+        "code": "BE",
+        "dial_code": "+32"
     },
     {
         "name": "Belize",
-        "dialCode": "+501",
-        "isoCode": "BZ",
-        "flag": "https://www.countryflags.io/BZ/flat/64.png"
+        "code": "BZ",
+        "dial_code": "+501"
     },
     {
         "name": "Benin",
-        "dialCode": "+229",
-        "isoCode": "BJ",
-        "flag": "https://www.countryflags.io/BJ/flat/64.png"
+        "code": "BJ",
+        "dial_code": "+229"
     },
     {
         "name": "Bermuda",
-        "dialCode": "+1441",
-        "isoCode": "BM",
-        "flag": "https://www.countryflags.io/BM/flat/64.png"
+        "code": "BM",
+        "dial_code": "+1441"
     },
     {
         "name": "Bhutan",
-        "dialCode": "+975",
-        "isoCode": "BT",
-        "flag": "https://www.countryflags.io/BT/flat/64.png"
+        "code": "BT",
+        "dial_code": "+975"
     },
     {
         "name": "Bolivia",
-        "dialCode": "+591",
-        "isoCode": "BO",
-        "flag": "https://www.countryflags.io/BO/flat/64.png"
+        "code": "BO",
+        "dial_code": "+591"
     },
     {
         "name": "Bosnia and Herzegovina",
-        "dialCode": "+387",
-        "isoCode": "BA",
-        "flag": "https://www.countryflags.io/BA/flat/64.png"
+        "code": "BA",
+        "dial_code": "+387"
     },
     {
         "name": "Botswana",
-        "dialCode": "+267",
-        "isoCode": "BW",
-        "flag": "https://www.countryflags.io/BW/flat/64.png"
+        "code": "BW",
+        "dial_code": "+267"
     },
     {
-        "name": "Brazil",
-        "dialCode": "+55",
-        "isoCode": "BR",
-        "flag": "https://www.countryflags.io/BR/flat/64.png"
+        "name": "Bouvet Island",
+        "code": "BV",
+        "dial_code": "+47"
+    },
+    {
+        "name": "Brasil",
+        "code": "BR",
+        "dial_code": "+55"
     },
     {
         "name": "British Indian Ocean Territory",
-        "dialCode": "+246",
-        "isoCode": "IO",
-        "flag": "https://www.countryflags.io/IO/flat/64.png"
+        "code": "IO",
+        "dial_code": "+246"
     },
     {
-        "name": "Brunei Darussalam",
-        "dialCode": "+673",
-        "isoCode": "BN",
-        "flag": "https://www.countryflags.io/BN/flat/64.png"
+        "name": "Negara Brunei Darussalam",
+        "code": "BN",
+        "dial_code": "+673"
     },
     {
         "name": "Bulgaria",
-        "dialCode": "+359",
-        "isoCode": "BG",
-        "flag": "https://www.countryflags.io/BG/flat/64.png"
+        "code": "BG",
+        "dial_code": "+359"
     },
     {
         "name": "Burkina Faso",
-        "dialCode": "+226",
-        "isoCode": "BF",
-        "flag": "https://www.countryflags.io/BF/flat/64.png"
+        "code": "BF",
+        "dial_code": "+226"
     },
     {
         "name": "Burundi",
-        "dialCode": "+257",
-        "isoCode": "BI",
-        "flag": "https://www.countryflags.io/BI/flat/64.png"
+        "code": "BI",
+        "dial_code": "+257"
     },
     {
         "name": "Cambodia",
-        "dialCode": "+855",
-        "isoCode": "KH",
-        "flag": "https://www.countryflags.io/KH/flat/64.png"
+        "code": "KH",
+        "dial_code": "+855"
     },
     {
         "name": "Cameroon",
-        "dialCode": "+237",
-        "isoCode": "CM",
-        "flag": "https://www.countryflags.io/CM/flat/64.png"
+        "code": "CM",
+        "dial_code": "+237"
     },
     {
         "name": "Canada",
-        "dialCode": "+1",
-        "isoCode": "CA",
-        "flag": "https://www.countryflags.io/CA/flat/64.png"
+        "code": "CA",
+        "dial_code": "+1"
     },
     {
-        "name": "Cape Verde",
-        "dialCode": "+238",
-        "isoCode": "CV",
-        "flag": "https://www.countryflags.io/CV/flat/64.png"
+        "name": "Cabo Verde",
+        "code": "CV",
+        "dial_code": "+238"
     },
     {
         "name": "Cayman Islands",
-        "dialCode": "+1345",
-        "isoCode": "KY",
-        "flag": "https://www.countryflags.io/KY/flat/64.png"
+        "code": "KY",
+        "dial_code": "+1345"
     },
     {
         "name": "Central African Republic",
-        "dialCode": "+236",
-        "isoCode": "CF",
-        "flag": "https://www.countryflags.io/CF/flat/64.png"
+        "code": "CF",
+        "dial_code": "+236"
     },
     {
         "name": "Chad",
-        "dialCode": "+235",
-        "isoCode": "TD",
-        "flag": "https://www.countryflags.io/TD/flat/64.png"
+        "code": "TD",
+        "dial_code": "+235"
     },
     {
         "name": "Chile",
-        "dialCode": "+56",
-        "isoCode": "CL",
-        "flag": "https://www.countryflags.io/CL/flat/64.png"
+        "code": "CL",
+        "dial_code": "+56"
     },
     {
         "name": "China",
-        "dialCode": "+86",
-        "isoCode": "CN",
-        "flag": "https://www.countryflags.io/CN/flat/64.png"
+        "code": "CN",
+        "dial_code": "+86"
     },
     {
         "name": "Christmas Island",
-        "dialCode": "+61",
-        "isoCode": "CX",
-        "flag": "https://www.countryflags.io/CX/flat/64.png"
+        "code": "CX",
+        "dial_code": "+61"
     },
     {
         "name": "Cocos (Keeling) Islands",
-        "dialCode": "+61",
-        "isoCode": "CC",
-        "flag": "https://www.countryflags.io/CC/flat/64.png"
+        "code": "CC",
+        "dial_code": "+61"
     },
     {
         "name": "Colombia",
-        "dialCode": "+57",
-        "isoCode": "CO",
-        "flag": "https://www.countryflags.io/CO/flat/64.png"
+        "code": "CO",
+        "dial_code": "+57"
     },
     {
-        "name": "Comoros",
-        "dialCode": "+269",
-        "isoCode": "KM",
-        "flag": "https://www.countryflags.io/KM/flat/64.png"
+        "name": "Komori",
+        "code": "KM",
+        "dial_code": "+269"
     },
     {
         "name": "Congo",
-        "dialCode": "+242",
-        "isoCode": "CG",
-        "flag": "https://www.countryflags.io/CG/flat/64.png"
+        "code": "CG",
+        "dial_code": "+242"
+    },
+    {
+        "name": "Congo, the Democratic Republic of the",
+        "code": "CD",
+        "dial_code": "+243"
     },
     {
         "name": "Cook Islands",
-        "dialCode": "+682",
-        "isoCode": "CK",
-        "flag": "https://www.countryflags.io/CK/flat/64.png"
+        "code": "CK",
+        "dial_code": "+682"
     },
     {
         "name": "Costa Rica",
-        "dialCode": "+506",
-        "isoCode": "CR",
-        "flag": "https://www.countryflags.io/CR/flat/64.png"
+        "code": "CR",
+        "dial_code": "+506"
+    },
+    {
+        "name": "Cote D'Ivoire",
+        "code": "CI",
+        "dial_code": "+225"
     },
     {
         "name": "Croatia",
-        "dialCode": "+385",
-        "isoCode": "HR",
-        "flag": "https://www.countryflags.io/HR/flat/64.png"
+        "code": "HR",
+        "dial_code": "+385"
     },
     {
         "name": "Cuba",
-        "dialCode": "+53",
-        "isoCode": "CU",
-        "flag": "https://www.countryflags.io/CU/flat/64.png"
+        "code": "CU",
+        "dial_code": "+53"
     },
     {
         "name": "Cyprus",
-        "dialCode": "+357",
-        "isoCode": "CY",
-        "flag": "https://www.countryflags.io/CY/flat/64.png"
+        "code": "CY",
+        "dial_code": "+357"
     },
     {
         "name": "Czech Republic",
-        "dialCode": "+420",
-        "isoCode": "CZ",
-        "flag": "https://www.countryflags.io/CZ/flat/64.png"
-    },
-    {
-        "name": "Democratic Republic of the Congo",
-        "dialCode": "+243",
-        "isoCode": "CD",
-        "flag": "https://www.countryflags.io/CD/flat/64.png"
+        "code": "CZ",
+        "dial_code": "+420"
     },
     {
         "name": "Denmark",
-        "dialCode": "+45",
-        "isoCode": "DK",
-        "flag": "https://www.countryflags.io/DK/flat/64.png"
+        "code": "DK",
+        "dial_code": "+45"
     },
     {
         "name": "Djibouti",
-        "dialCode": "+253",
-        "isoCode": "DJ",
-        "flag": "https://www.countryflags.io/DJ/flat/64.png"
+        "code": "DJ",
+        "dial_code": "+253"
     },
     {
         "name": "Dominica",
-        "dialCode": "+1767",
-        "isoCode": "DM",
-        "flag": "https://www.countryflags.io/DM/flat/64.png"
+        "code": "DM",
+        "dial_code": "+1767"
     },
     {
         "name": "Dominican Republic",
-        "dialCode": "+1849",
-        "isoCode": "DO",
-        "flag": "https://www.countryflags.io/DO/flat/64.png"
+        "code": "DO",
+        "dial_code": "+1"
     },
     {
         "name": "Ecuador",
-        "dialCode": "+593",
-        "isoCode": "EC",
-        "flag": "https://www.countryflags.io/EC/flat/64.png"
+        "code": "EC",
+        "dial_code": "+593"
     },
     {
         "name": "Egypt",
-        "dialCode": "+20",
-        "isoCode": "EG",
-        "flag": "https://www.countryflags.io/EG/flat/64.png"
+        "code": "EG",
+        "dial_code": "+20"
     },
     {
         "name": "El Salvador",
-        "dialCode": "+503",
-        "isoCode": "SV",
-        "flag": "https://www.countryflags.io/SV/flat/64.png"
+        "code": "SV",
+        "dial_code": "+503"
     },
     {
         "name": "Equatorial Guinea",
-        "dialCode": "+240",
-        "isoCode": "GQ",
-        "flag": "https://www.countryflags.io/GQ/flat/64.png"
+        "code": "GQ",
+        "dial_code": "+240"
     },
     {
         "name": "Eritrea",
-        "dialCode": "+291",
-        "isoCode": "ER",
-        "flag": "https://www.countryflags.io/ER/flat/64.png"
+        "code": "ER",
+        "dial_code": "+291"
     },
     {
         "name": "Estonia",
-        "dialCode": "+372",
-        "isoCode": "EE",
-        "flag": "https://www.countryflags.io/EE/flat/64.png"
-    },
-    {
-        "name": "Eswatini",
-        "dialCode": "+268",
-        "isoCode": "SZ",
-        "flag": "https://www.countryflags.io/SZ/flat/64.png"
+        "code": "EE",
+        "dial_code": "+372"
     },
     {
         "name": "Ethiopia",
-        "dialCode": "+251",
-        "isoCode": "ET",
-        "flag": "https://www.countryflags.io/ET/flat/64.png"
+        "code": "ET",
+        "dial_code": "+251"
     },
     {
         "name": "Falkland Islands (Malvinas)",
-        "dialCode": "+500",
-        "isoCode": "FK",
-        "flag": "https://www.countryflags.io/FK/flat/64.png"
+        "code": "FK",
+        "dial_code": "+500"
     },
     {
         "name": "Faroe Islands",
-        "dialCode": "+298",
-        "isoCode": "FO",
-        "flag": "https://www.countryflags.io/FO/flat/64.png"
+        "code": "FO",
+        "dial_code": "+298"
     },
     {
         "name": "Fiji",
-        "dialCode": "+679",
-        "isoCode": "FJ",
-        "flag": "https://www.countryflags.io/FJ/flat/64.png"
+        "code": "FJ",
+        "dial_code": "+679"
     },
     {
         "name": "Finland",
-        "dialCode": "+358",
-        "isoCode": "FI",
-        "flag": "https://www.countryflags.io/FI/flat/64.png"
+        "code": "FI",
+        "dial_code": "+358"
     },
     {
         "name": "France",
-        "dialCode": "+33",
-        "isoCode": "FR",
-        "flag": "https://www.countryflags.io/FR/flat/64.png"
+        "code": "FR",
+        "dial_code": "+33"
     },
     {
         "name": "French Guiana",
-        "dialCode": "+594",
-        "isoCode": "GF",
-        "flag": "https://www.countryflags.io/GF/flat/64.png"
+        "code": "GF",
+        "dial_code": "+594"
     },
     {
         "name": "French Polynesia",
-        "dialCode": "+689",
-        "isoCode": "PF",
-        "flag": "https://www.countryflags.io/PF/flat/64.png"
+        "code": "PF",
+        "dial_code": "+689"
+    },
+    {
+        "name": "French Southern Territories",
+        "code": "TF",
+        "dial_code": "+262"
     },
     {
         "name": "Gabon",
-        "dialCode": "+241",
-        "isoCode": "GA",
-        "flag": "https://www.countryflags.io/GA/flat/64.png"
+        "code": "GA",
+        "dial_code": "+241"
     },
     {
         "name": "Gambia",
-        "dialCode": "+220",
-        "isoCode": "GM",
-        "flag": "https://www.countryflags.io/GM/flat/64.png"
+        "code": "GM",
+        "dial_code": "+220"
     },
     {
         "name": "Georgia",
-        "dialCode": "+995",
-        "isoCode": "GE",
-        "flag": "https://www.countryflags.io/GE/flat/64.png"
+        "code": "GE",
+        "dial_code": "+995"
     },
     {
         "name": "Germany",
-        "dialCode": "+49",
-        "isoCode": "DE",
-        "flag": "https://www.countryflags.io/DE/flat/64.png"
+        "code": "DE",
+        "dial_code": "+49"
     },
     {
         "name": "Ghana",
-        "dialCode": "+233",
-        "isoCode": "GH",
-        "flag": "https://www.countryflags.io/GH/flat/64.png"
+        "code": "GH",
+        "dial_code": "+233"
     },
     {
         "name": "Gibraltar",
-        "dialCode": "+350",
-        "isoCode": "GI",
-        "flag": "https://www.countryflags.io/GI/flat/64.png"
+        "code": "GI",
+        "dial_code": "+350"
     },
     {
         "name": "Greece",
-        "dialCode": "+30",
-        "isoCode": "GR",
-        "flag": "https://www.countryflags.io/GR/flat/64.png"
+        "code": "GR",
+        "dial_code": "+30"
     },
     {
         "name": "Greenland",
-        "dialCode": "+299",
-        "isoCode": "GL",
-        "flag": "https://www.countryflags.io/GL/flat/64.png"
+        "code": "GL",
+        "dial_code": "+299"
     },
     {
         "name": "Grenada",
-        "dialCode": "+1473",
-        "isoCode": "GD",
-        "flag": "https://www.countryflags.io/GD/flat/64.png"
+        "code": "GD",
+        "dial_code": "+1473"
     },
     {
         "name": "Guadeloupe",
-        "dialCode": "+590",
-        "isoCode": "GP",
-        "flag": "https://www.countryflags.io/GP/flat/64.png"
+        "code": "GP",
+        "dial_code": "+590"
     },
     {
         "name": "Guam",
-        "dialCode": "+1671",
-        "isoCode": "GU",
-        "flag": "https://www.countryflags.io/GU/flat/64.png"
+        "code": "GU",
+        "dial_code": "+1671"
     },
     {
         "name": "Guatemala",
-        "dialCode": "+502",
-        "isoCode": "GT",
-        "flag": "https://www.countryflags.io/GT/flat/64.png"
+        "code": "GT",
+        "dial_code": "+502"
     },
     {
         "name": "Guernsey",
-        "dialCode": "+44",
-        "isoCode": "GG",
-        "flag": "https://www.countryflags.io/GG/flat/64.png"
+        "code": "GG",
+        "dial_code": "+44"
     },
     {
         "name": "Guinea",
-        "dialCode": "+224",
-        "isoCode": "GN",
-        "flag": "https://www.countryflags.io/GN/flat/64.png"
+        "code": "GN",
+        "dial_code": "+224"
     },
     {
         "name": "Guinea-Bissau",
-        "dialCode": "+245",
-        "isoCode": "GW",
-        "flag": "https://www.countryflags.io/GW/flat/64.png"
+        "code": "GW",
+        "dial_code": "+245"
     },
     {
         "name": "Guyana",
-        "dialCode": "+592",
-        "isoCode": "GY",
-        "flag": "https://www.countryflags.io/GY/flat/64.png"
+        "code": "GY",
+        "dial_code": "+592"
     },
     {
         "name": "Haiti",
-        "dialCode": "+509",
-        "isoCode": "HT",
-        "flag": "https://www.countryflags.io/HT/flat/64.png"
+        "code": "HT",
+        "dial_code": "+509"
+    },
+    {
+        "name": "Heard Island and McDonald Islands",
+        "code": "HM",
+        "dial_code": "+0"
     },
     {
         "name": "Holy See (Vatican City State)",
-        "dialCode": "+379",
-        "isoCode": "VA",
-        "flag": "https://www.countryflags.io/VA/flat/64.png"
+        "code": "VA",
+        "dial_code": "+379"
     },
     {
         "name": "Honduras",
-        "dialCode": "+504",
-        "isoCode": "HN",
-        "flag": "https://www.countryflags.io/HN/flat/64.png"
+        "code": "HN",
+        "dial_code": "+504"
     },
     {
         "name": "Hong Kong",
-        "dialCode": "+852",
-        "isoCode": "HK",
-        "flag": "https://www.countryflags.io/HK/flat/64.png"
+        "code": "HK",
+        "dial_code": "+852"
     },
     {
         "name": "Hungary",
-        "dialCode": "+36",
-        "isoCode": "HU",
-        "flag": "https://www.countryflags.io/HU/flat/64.png"
+        "code": "HU",
+        "dial_code": "+36"
     },
     {
         "name": "Iceland",
-        "dialCode": "+354",
-        "isoCode": "IS",
-        "flag": "https://www.countryflags.io/IS/flat/64.png"
+        "code": "IS",
+        "dial_code": "+354"
     },
     {
         "name": "India",
-        "dialCode": "+91",
-        "isoCode": "IN",
-        "flag": "https://www.countryflags.io/IN/flat/64.png"
+        "code": "IN",
+        "dial_code": "+91"
     },
     {
         "name": "Indonesia",
-        "dialCode": "+62",
-        "isoCode": "ID",
-        "flag": "https://www.countryflags.io/ID/flat/64.png"
+        "code": "ID",
+        "dial_code": "+62"
     },
     {
-        "name": "Iran",
-        "dialCode": "+98",
-        "isoCode": "IR",
-        "flag": "https://www.countryflags.io/IR/flat/64.png"
+        "name": "Iran, Islamic Republic of",
+        "code": "IR",
+        "dial_code": "+98"
     },
     {
         "name": "Iraq",
-        "dialCode": "+964",
-        "isoCode": "IQ",
-        "flag": "https://www.countryflags.io/IQ/flat/64.png"
+        "code": "IQ",
+        "dial_code": "+964"
     },
     {
         "name": "Ireland",
-        "dialCode": "+353",
-        "isoCode": "IE",
-        "flag": "https://www.countryflags.io/IE/flat/64.png"
+        "code": "IE",
+        "dial_code": "+353"
     },
     {
         "name": "Isle of Man",
-        "dialCode": "+44",
-        "isoCode": "IM",
-        "flag": "https://www.countryflags.io/IM/flat/64.png"
+        "code": "IM",
+        "dial_code": "+44"
     },
     {
         "name": "Israel",
-        "dialCode": "+972",
-        "isoCode": "IL",
-        "flag": "https://www.countryflags.io/IL/flat/64.png"
+        "code": "IL",
+        "dial_code": "+972"
     },
     {
         "name": "Italy",
-        "dialCode": "+39",
-        "isoCode": "IT",
-        "flag": "https://www.countryflags.io/IT/flat/64.png"
-    },
-    {
-        "name": "Ivory Coast / Cote d'Ivoire",
-        "dialCode": "+225",
-        "isoCode": "CI",
-        "flag": "https://www.countryflags.io/CI/flat/64.png"
+        "code": "IT",
+        "dial_code": "+39"
     },
     {
         "name": "Jamaica",
-        "dialCode": "+1876",
-        "isoCode": "JM",
-        "flag": "https://www.countryflags.io/JM/flat/64.png"
+        "code": "JM",
+        "dial_code": "+1876"
     },
     {
         "name": "Japan",
-        "dialCode": "+81",
-        "isoCode": "JP",
-        "flag": "https://www.countryflags.io/JP/flat/64.png"
+        "code": "JP",
+        "dial_code": "+81"
     },
     {
         "name": "Jersey",
-        "dialCode": "+44",
-        "isoCode": "JE",
-        "flag": "https://www.countryflags.io/JE/flat/64.png"
+        "code": "JE",
+        "dial_code": "+44"
     },
     {
         "name": "Jordan",
-        "dialCode": "+962",
-        "isoCode": "JO",
-        "flag": "https://www.countryflags.io/JO/flat/64.png"
+        "code": "JO",
+        "dial_code": "+962"
     },
     {
         "name": "Kazakhstan",
-        "dialCode": "+77",
-        "isoCode": "KZ",
-        "flag": "https://www.countryflags.io/KZ/flat/64.png"
+        "code": "KZ",
+        "dial_code": "+7"
     },
     {
         "name": "Kenya",
-        "dialCode": "+254",
-        "isoCode": "KE",
-        "flag": "https://www.countryflags.io/KE/flat/64.png"
+        "code": "KE",
+        "dial_code": "+254"
     },
     {
         "name": "Kiribati",
-        "dialCode": "+686",
-        "isoCode": "KI",
-        "flag": "https://www.countryflags.io/KI/flat/64.png"
+        "code": "KI",
+        "dial_code": "+686"
     },
     {
-        "name": "Korea, Democratic People's Republic of Korea",
-        "dialCode": "+850",
-        "isoCode": "KP",
-        "flag": "https://www.countryflags.io/KP/flat/64.png"
+        "name": "North Korea",
+        "code": "KP",
+        "dial_code": "+850"
     },
     {
-        "name": "Korea, Republic of South Korea",
-        "dialCode": "+82",
-        "isoCode": "KR",
-        "flag": "https://www.countryflags.io/KR/flat/64.png"
+        "name": "South Korea",
+        "code": "KR",
+        "dial_code": "+82"
     },
     {
         "name": "Kosovo",
-        "dialCode": "+383",
-        "isoCode": "XK",
-        "flag": "https://www.countryflags.io/XK/flat/64.png"
+        "code": "XK",
+        "dial_code": "+383"
     },
     {
         "name": "Kuwait",
-        "dialCode": "+965",
-        "isoCode": "KW",
-        "flag": "https://www.countryflags.io/KW/flat/64.png"
+        "code": "KW",
+        "dial_code": "+965"
     },
     {
         "name": "Kyrgyzstan",
-        "dialCode": "+996",
-        "isoCode": "KG",
-        "flag": "https://www.countryflags.io/KG/flat/64.png"
+        "code": "KG",
+        "dial_code": "+996"
     },
     {
-        "name": "Laos",
-        "dialCode": "+856",
-        "isoCode": "LA",
-        "flag": "https://www.countryflags.io/LA/flat/64.png"
+        "name": "Lao People's Democratic Republic",
+        "code": "LA",
+        "dial_code": "+856"
     },
     {
         "name": "Latvia",
-        "dialCode": "+371",
-        "isoCode": "LV",
-        "flag": "https://www.countryflags.io/LV/flat/64.png"
+        "code": "LV",
+        "dial_code": "+371"
     },
     {
         "name": "Lebanon",
-        "dialCode": "+961",
-        "isoCode": "LB",
-        "flag": "https://www.countryflags.io/LB/flat/64.png"
+        "code": "LB",
+        "dial_code": "+961"
     },
     {
         "name": "Lesotho",
-        "dialCode": "+266",
-        "isoCode": "LS",
-        "flag": "https://www.countryflags.io/LS/flat/64.png"
+        "code": "LS",
+        "dial_code": "+266"
     },
     {
         "name": "Liberia",
-        "dialCode": "+231",
-        "isoCode": "LR",
-        "flag": "https://www.countryflags.io/LR/flat/64.png"
+        "code": "LR",
+        "dial_code": "+231"
     },
     {
         "name": "Libya",
-        "dialCode": "+218",
-        "isoCode": "LY",
-        "flag": "https://www.countryflags.io/LY/flat/64.png"
+        "code": "LY",
+        "dial_code": "+218"
     },
     {
         "name": "Liechtenstein",
-        "dialCode": "+423",
-        "isoCode": "LI",
-        "flag": "https://www.countryflags.io/LI/flat/64.png"
+        "code": "LI",
+        "dial_code": "+423"
     },
     {
         "name": "Lithuania",
-        "dialCode": "+370",
-        "isoCode": "LT",
-        "flag": "https://www.countryflags.io/LT/flat/64.png"
+        "code": "LT",
+        "dial_code": "+370"
     },
     {
         "name": "Luxembourg",
-        "dialCode": "+352",
-        "isoCode": "LU",
-        "flag": "https://www.countryflags.io/LU/flat/64.png"
+        "code": "LU",
+        "dial_code": "+352"
     },
     {
-        "name": "Macau",
-        "dialCode": "+853",
-        "isoCode": "MO",
-        "flag": "https://www.countryflags.io/MO/flat/64.png"
+        "name": "Macao",
+        "code": "MO",
+        "dial_code": "+853"
+    },
+    {
+        "name": "North Macedonia, Republic of",
+        "code": "MK",
+        "dial_code": "+389"
     },
     {
         "name": "Madagascar",
-        "dialCode": "+261",
-        "isoCode": "MG",
-        "flag": "https://www.countryflags.io/MG/flat/64.png"
+        "code": "MG",
+        "dial_code": "+261"
     },
     {
         "name": "Malawi",
-        "dialCode": "+265",
-        "isoCode": "MW",
-        "flag": "https://www.countryflags.io/MW/flat/64.png"
+        "code": "MW",
+        "dial_code": "+265"
     },
     {
         "name": "Malaysia",
-        "dialCode": "+60",
-        "isoCode": "MY",
-        "flag": "https://www.countryflags.io/MY/flat/64.png"
+        "code": "MY",
+        "dial_code": "+60"
     },
     {
         "name": "Maldives",
-        "dialCode": "+960",
-        "isoCode": "MV",
-        "flag": "https://www.countryflags.io/MV/flat/64.png"
+        "code": "MV",
+        "dial_code": "+960"
     },
     {
         "name": "Mali",
-        "dialCode": "+223",
-        "isoCode": "ML",
-        "flag": "https://www.countryflags.io/ML/flat/64.png"
+        "code": "ML",
+        "dial_code": "+223"
     },
     {
         "name": "Malta",
-        "dialCode": "+356",
-        "isoCode": "MT",
-        "flag": "https://www.countryflags.io/MT/flat/64.png"
+        "code": "MT",
+        "dial_code": "+356"
     },
     {
         "name": "Marshall Islands",
-        "dialCode": "+692",
-        "isoCode": "MH",
-        "flag": "https://www.countryflags.io/MH/flat/64.png"
+        "code": "MH",
+        "dial_code": "+692"
     },
     {
         "name": "Martinique",
-        "dialCode": "+596",
-        "isoCode": "MQ",
-        "flag": "https://www.countryflags.io/MQ/flat/64.png"
+        "code": "MQ",
+        "dial_code": "+596"
     },
     {
         "name": "Mauritania",
-        "dialCode": "+222",
-        "isoCode": "MR",
-        "flag": "https://www.countryflags.io/MR/flat/64.png"
+        "code": "MR",
+        "dial_code": "+222"
     },
     {
         "name": "Mauritius",
-        "dialCode": "+230",
-        "isoCode": "MU",
-        "flag": "https://www.countryflags.io/MU/flat/64.png"
+        "code": "MU",
+        "dial_code": "+230"
     },
     {
         "name": "Mayotte",
-        "dialCode": "+262",
-        "isoCode": "YT",
-        "flag": "https://www.countryflags.io/YT/flat/64.png"
+        "code": "YT",
+        "dial_code": "+262"
     },
     {
         "name": "Mexico",
-        "dialCode": "+52",
-        "isoCode": "MX",
-        "flag": "https://www.countryflags.io/MX/flat/64.png"
+        "code": "MX",
+        "dial_code": "+52"
     },
     {
-        "name": "Micronesia, Federated States of Micronesia",
-        "dialCode": "+691",
-        "isoCode": "FM",
-        "flag": "https://www.countryflags.io/FM/flat/64.png"
+        "name": "Micronesia, Federated States of",
+        "code": "FM",
+        "dial_code": "+691"
     },
     {
-        "name": "Moldova",
-        "dialCode": "+373",
-        "isoCode": "MD",
-        "flag": "https://www.countryflags.io/MD/flat/64.png"
+        "name": "Moldova, Republic of",
+        "code": "MD",
+        "dial_code": "+373"
     },
     {
         "name": "Monaco",
-        "dialCode": "+377",
-        "isoCode": "MC",
-        "flag": "https://www.countryflags.io/MC/flat/64.png"
+        "code": "MC",
+        "dial_code": "+377"
     },
     {
         "name": "Mongolia",
-        "dialCode": "+976",
-        "isoCode": "MN",
-        "flag": "https://www.countryflags.io/MN/flat/64.png"
+        "code": "MN",
+        "dial_code": "+976"
     },
     {
         "name": "Montenegro",
-        "dialCode": "+382",
-        "isoCode": "ME",
-        "flag": "https://www.countryflags.io/ME/flat/64.png"
+        "code": "ME",
+        "dial_code": "+382"
     },
     {
         "name": "Montserrat",
-        "dialCode": "+1664",
-        "isoCode": "MS",
-        "flag": "https://www.countryflags.io/MS/flat/64.png"
+        "code": "MS",
+        "dial_code": "+1664"
     },
     {
         "name": "Morocco",
-        "dialCode": "+212",
-        "isoCode": "MA",
-        "flag": "https://www.countryflags.io/MA/flat/64.png"
+        "code": "MA",
+        "dial_code": "+212"
     },
     {
         "name": "Mozambique",
-        "dialCode": "+258",
-        "isoCode": "MZ",
-        "flag": "https://www.countryflags.io/MZ/flat/64.png"
+        "code": "MZ",
+        "dial_code": "+258"
     },
     {
         "name": "Myanmar",
-        "dialCode": "+95",
-        "isoCode": "MM",
-        "flag": "https://www.countryflags.io/MM/flat/64.png"
+        "code": "MM",
+        "dial_code": "+95"
     },
     {
         "name": "Namibia",
-        "dialCode": "+264",
-        "isoCode": "NA",
-        "flag": "https://www.countryflags.io/NA/flat/64.png"
+        "code": "NA",
+        "dial_code": "+264"
     },
     {
         "name": "Nauru",
-        "dialCode": "+674",
-        "isoCode": "NR",
-        "flag": "https://www.countryflags.io/NR/flat/64.png"
+        "code": "NR",
+        "dial_code": "+674"
     },
     {
         "name": "Nepal",
-        "dialCode": "+977",
-        "isoCode": "NP",
-        "flag": "https://www.countryflags.io/NP/flat/64.png"
+        "code": "NP",
+        "dial_code": "+977"
     },
     {
         "name": "Netherlands",
-        "dialCode": "+31",
-        "isoCode": "NL",
-        "flag": "https://www.countryflags.io/NL/flat/64.png"
+        "code": "NL",
+        "dial_code": "+31"
     },
     {
         "name": "Netherlands Antilles",
-        "dialCode": "+599",
-        "isoCode": "AN",
-        "flag": "https://www.countryflags.io/AN/flat/64.png"
+        "code": "AN",
+        "dial_code": "+599"
     },
     {
         "name": "New Caledonia",
-        "dialCode": "+687",
-        "isoCode": "NC",
-        "flag": "https://www.countryflags.io/NC/flat/64.png"
+        "code": "NC",
+        "dial_code": "+687"
     },
     {
         "name": "New Zealand",
-        "dialCode": "+64",
-        "isoCode": "NZ",
-        "flag": "https://www.countryflags.io/NZ/flat/64.png"
+        "code": "NZ",
+        "dial_code": "+64"
     },
     {
         "name": "Nicaragua",
-        "dialCode": "+505",
-        "isoCode": "NI",
-        "flag": "https://www.countryflags.io/NI/flat/64.png"
+        "code": "NI",
+        "dial_code": "+505"
     },
     {
         "name": "Niger",
-        "dialCode": "+227",
-        "isoCode": "NE",
-        "flag": "https://www.countryflags.io/NE/flat/64.png"
+        "code": "NE",
+        "dial_code": "+227"
     },
     {
         "name": "Nigeria",
-        "dialCode": "+234",
-        "isoCode": "NG",
-        "flag": "https://www.countryflags.io/NG/flat/64.png"
+        "code": "NG",
+        "dial_code": "+234"
     },
     {
         "name": "Niue",
-        "dialCode": "+683",
-        "isoCode": "NU",
-        "flag": "https://www.countryflags.io/NU/flat/64.png"
+        "code": "NU",
+        "dial_code": "+683"
     },
     {
         "name": "Norfolk Island",
-        "dialCode": "+672",
-        "isoCode": "NF",
-        "flag": "https://www.countryflags.io/NF/flat/64.png"
-    },
-    {
-        "name": "North Macedonia",
-        "dialCode": "+389",
-        "isoCode": "MK",
-        "flag": "https://www.countryflags.io/MK/flat/64.png"
+        "code": "NF",
+        "dial_code": "+672"
     },
     {
         "name": "Northern Mariana Islands",
-        "dialCode": "+1670",
-        "isoCode": "MP",
-        "flag": "https://www.countryflags.io/MP/flat/64.png"
+        "code": "MP",
+        "dial_code": "+1670"
     },
     {
         "name": "Norway",
-        "dialCode": "+47",
-        "isoCode": "NO",
-        "flag": "https://www.countryflags.io/NO/flat/64.png"
+        "code": "NO",
+        "dial_code": "+47"
     },
     {
         "name": "Oman",
-        "dialCode": "+968",
-        "isoCode": "OM",
-        "flag": "https://www.countryflags.io/OM/flat/64.png"
+        "code": "OM",
+        "dial_code": "+968"
     },
     {
         "name": "Pakistan",
-        "dialCode": "+92",
-        "isoCode": "PK",
-        "flag": "https://www.countryflags.io/PK/flat/64.png"
+        "code": "PK",
+        "dial_code": "+92"
     },
     {
         "name": "Palau",
-        "dialCode": "+680",
-        "isoCode": "PW",
-        "flag": "https://www.countryflags.io/PW/flat/64.png"
+        "code": "PW",
+        "dial_code": "+680"
     },
     {
         "name": "Palestine",
-        "dialCode": "+970",
-        "isoCode": "PS",
-        "flag": "https://www.countryflags.io/PS/flat/64.png"
+        "code": "PS",
+        "dial_code": "+970"
     },
     {
         "name": "Panama",
-        "dialCode": "+507",
-        "isoCode": "PA",
-        "flag": "https://www.countryflags.io/PA/flat/64.png"
+        "code": "PA",
+        "dial_code": "+507"
     },
     {
         "name": "Papua New Guinea",
-        "dialCode": "+675",
-        "isoCode": "PG",
-        "flag": "https://www.countryflags.io/PG/flat/64.png"
+        "code": "PG",
+        "dial_code": "+675"
     },
     {
         "name": "Paraguay",
-        "dialCode": "+595",
-        "isoCode": "PY",
-        "flag": "https://www.countryflags.io/PY/flat/64.png"
+        "code": "PY",
+        "dial_code": "+595"
     },
     {
         "name": "Peru",
-        "dialCode": "+51",
-        "isoCode": "PE",
-        "flag": "https://www.countryflags.io/PE/flat/64.png"
+        "code": "PE",
+        "dial_code": "+51"
     },
     {
         "name": "Philippines",
-        "dialCode": "+63",
-        "isoCode": "PH",
-        "flag": "https://www.countryflags.io/PH/flat/64.png"
+        "code": "PH",
+        "dial_code": "+63"
     },
     {
         "name": "Pitcairn",
-        "dialCode": "+872",
-        "isoCode": "PN",
-        "flag": "https://www.countryflags.io/PN/flat/64.png"
+        "code": "PN",
+        "dial_code": "+64"
     },
     {
         "name": "Poland",
-        "dialCode": "+48",
-        "isoCode": "PL",
-        "flag": "https://www.countryflags.io/PL/flat/64.png"
+        "code": "PL",
+        "dial_code": "+48"
     },
     {
         "name": "Portugal",
-        "dialCode": "+351",
-        "isoCode": "PT",
-        "flag": "https://www.countryflags.io/PT/flat/64.png"
+        "code": "PT",
+        "dial_code": "+351"
     },
     {
         "name": "Puerto Rico",
-        "dialCode": "+1939",
-        "isoCode": "PR",
-        "flag": "https://www.countryflags.io/PR/flat/64.png"
+        "code": "PR",
+        "dial_code": "+1939"
+    },
+    {
+        "name": "Puerto Rico",
+        "code": "PR",
+        "dial_code": "+1787"
     },
     {
         "name": "Qatar",
-        "dialCode": "+974",
-        "isoCode": "QA",
-        "flag": "https://www.countryflags.io/QA/flat/64.png"
-    },
-    {
-        "name": "Reunion",
-        "dialCode": "+262",
-        "isoCode": "RE",
-        "flag": "https://www.countryflags.io/RE/flat/64.png"
+        "code": "QA",
+        "dial_code": "+974"
     },
     {
         "name": "Romania",
-        "dialCode": "+40",
-        "isoCode": "RO",
-        "flag": "https://www.countryflags.io/RO/flat/64.png"
+        "code": "RO",
+        "dial_code": "+40"
     },
     {
         "name": "Russia",
-        "dialCode": "+7",
-        "isoCode": "RU",
-        "flag": "https://www.countryflags.io/RU/flat/64.png"
+        "code": "RU",
+        "dial_code": "+7"
     },
     {
         "name": "Rwanda",
-        "dialCode": "+250",
-        "isoCode": "RW",
-        "flag": "https://www.countryflags.io/RW/flat/64.png"
+        "code": "RW",
+        "dial_code": "+250"
     },
     {
-        "name": "Saint Barthelemy",
-        "dialCode": "+590",
-        "isoCode": "BL",
-        "flag": "https://www.countryflags.io/BL/flat/64.png"
+        "name": "Reunion",
+        "code": "RE",
+        "dial_code": "+262"
     },
     {
-        "name": "Saint Helena, Ascension and Tristan Da Cunha",
-        "dialCode": "+290",
-        "isoCode": "SH",
-        "flag": "https://www.countryflags.io/SH/flat/64.png"
+        "name": "Saint Barthélemy",
+        "code": "BL",
+        "dial_code": "+590"
+    },
+    {
+        "name": "Saint Helena",
+        "code": "SH",
+        "dial_code": "+290"
     },
     {
         "name": "Saint Kitts and Nevis",
-        "dialCode": "+1869",
-        "isoCode": "KN",
-        "flag": "https://www.countryflags.io/KN/flat/64.png"
+        "code": "KN",
+        "dial_code": "+1869"
     },
     {
         "name": "Saint Lucia",
-        "dialCode": "+1758",
-        "isoCode": "LC",
-        "flag": "https://www.countryflags.io/LC/flat/64.png"
+        "code": "LC",
+        "dial_code": "+1758"
     },
     {
-        "name": "Saint Martin",
-        "dialCode": "+590",
-        "isoCode": "MF",
-        "flag": "https://www.countryflags.io/MF/flat/64.png"
+        "name": "Saint Martin (French part)",
+        "code": "MF",
+        "dial_code": "+590"
     },
     {
         "name": "Saint Pierre and Miquelon",
-        "dialCode": "+508",
-        "isoCode": "PM",
-        "flag": "https://www.countryflags.io/PM/flat/64.png"
+        "code": "PM",
+        "dial_code": "+508"
     },
     {
         "name": "Saint Vincent and the Grenadines",
-        "dialCode": "+1784",
-        "isoCode": "VC",
-        "flag": "https://www.countryflags.io/VC/flat/64.png"
+        "code": "VC",
+        "dial_code": "+1784"
     },
     {
         "name": "Samoa",
-        "dialCode": "+685",
-        "isoCode": "WS",
-        "flag": "https://www.countryflags.io/WS/flat/64.png"
+        "code": "WS",
+        "dial_code": "+685"
     },
     {
         "name": "San Marino",
-        "dialCode": "+378",
-        "isoCode": "SM",
-        "flag": "https://www.countryflags.io/SM/flat/64.png"
+        "code": "SM",
+        "dial_code": "+378"
     },
     {
         "name": "Sao Tome and Principe",
-        "dialCode": "+239",
-        "isoCode": "ST",
-        "flag": "https://www.countryflags.io/ST/flat/64.png"
+        "code": "ST",
+        "dial_code": "+239"
     },
     {
         "name": "Saudi Arabia",
-        "dialCode": "+966",
-        "isoCode": "SA",
-        "flag": "https://www.countryflags.io/SA/flat/64.png"
+        "code": "SA",
+        "dial_code": "+966"
     },
     {
         "name": "Senegal",
-        "dialCode": "+221",
-        "isoCode": "SN",
-        "flag": "https://www.countryflags.io/SN/flat/64.png"
+        "code": "SN",
+        "dial_code": "+221"
     },
     {
         "name": "Serbia",
-        "dialCode": "+381",
-        "isoCode": "RS",
-        "flag": "https://www.countryflags.io/RS/flat/64.png"
+        "code": "RS",
+        "dial_code": "+381"
     },
     {
         "name": "Seychelles",
-        "dialCode": "+248",
-        "isoCode": "SC",
-        "flag": "https://www.countryflags.io/SC/flat/64.png"
+        "code": "SC",
+        "dial_code": "+248"
     },
     {
         "name": "Sierra Leone",
-        "dialCode": "+232",
-        "isoCode": "SL",
-        "flag": "https://www.countryflags.io/SL/flat/64.png"
+        "code": "SL",
+        "dial_code": "+232"
     },
     {
         "name": "Singapore",
-        "dialCode": "+65",
-        "isoCode": "SG",
-        "flag": "https://www.countryflags.io/SG/flat/64.png"
-    },
-    {
-        "name": "Sint Maarten",
-        "dialCode": "+1721",
-        "isoCode": "SX",
-        "flag": "https://www.countryflags.io/SX/flat/64.png"
+        "code": "SG",
+        "dial_code": "+65"
     },
     {
         "name": "Slovakia",
-        "dialCode": "+421",
-        "isoCode": "SK",
-        "flag": "https://www.countryflags.io/SK/flat/64.png"
+        "code": "SK",
+        "dial_code": "+421"
     },
     {
         "name": "Slovenia",
-        "dialCode": "+386",
-        "isoCode": "SI",
-        "flag": "https://www.countryflags.io/SI/flat/64.png"
+        "code": "SI",
+        "dial_code": "+386"
     },
     {
         "name": "Solomon Islands",
-        "dialCode": "+677",
-        "isoCode": "SB",
-        "flag": "https://www.countryflags.io/SB/flat/64.png"
+        "code": "SB",
+        "dial_code": "+677"
     },
     {
-        "name": "Somalia",
-        "dialCode": "+252",
-        "isoCode": "SO",
-        "flag": "https://www.countryflags.io/SO/flat/64.png"
+        "name": "Somali",
+        "code": "SO",
+        "dial_code": "+252"
     },
     {
         "name": "South Africa",
-        "dialCode": "+27",
-        "isoCode": "ZA",
-        "flag": "https://www.countryflags.io/ZA/flat/64.png"
-    },
-    {
-        "name": "South Georgia and the South Sandwich Islands",
-        "dialCode": "+500",
-        "isoCode": "GS",
-        "flag": "https://www.countryflags.io/GS/flat/64.png"
+        "code": "ZA",
+        "dial_code": "+27"
     },
     {
         "name": "South Sudan",
-        "dialCode": "+211",
-        "isoCode": "SS",
-        "flag": "https://www.countryflags.io/SS/flat/64.png"
+        "code": "SS",
+        "dial_code": "+211"
+    },
+    {
+        "name": "South Georgia and the South Sandwich Islands",
+        "code": "GS",
+        "dial_code": "+500"
     },
     {
         "name": "Spain",
-        "dialCode": "+34",
-        "isoCode": "ES",
-        "flag": "https://www.countryflags.io/ES/flat/64.png"
+        "code": "ES",
+        "dial_code": "+34"
     },
     {
         "name": "Sri Lanka",
-        "dialCode": "+94",
-        "isoCode": "LK",
-        "flag": "https://www.countryflags.io/LK/flat/64.png"
+        "code": "LK",
+        "dial_code": "+94"
     },
     {
         "name": "Sudan",
-        "dialCode": "+249",
-        "isoCode": "SD",
-        "flag": "https://www.countryflags.io/SD/flat/64.png"
+        "code": "SD",
+        "dial_code": "+249"
     },
     {
         "name": "Suriname",
-        "dialCode": "+597",
-        "isoCode": "SR",
-        "flag": "https://www.countryflags.io/SR/flat/64.png"
+        "code": "SR",
+        "dial_code": "+597"
     },
     {
         "name": "Svalbard and Jan Mayen",
-        "dialCode": "+47",
-        "isoCode": "SJ",
-        "flag": "https://www.countryflags.io/SJ/flat/64.png"
+        "code": "SJ",
+        "dial_code": "+47"
+    },
+    {
+        "name": "Eswatini",
+        "code": "SZ",
+        "dial_code": "+268"
     },
     {
         "name": "Sweden",
-        "dialCode": "+46",
-        "isoCode": "SE",
-        "flag": "https://www.countryflags.io/SE/flat/64.png"
+        "code": "SE",
+        "dial_code": "+46"
     },
     {
         "name": "Switzerland",
-        "dialCode": "+41",
-        "isoCode": "CH",
-        "flag": "https://www.countryflags.io/CH/flat/64.png"
+        "code": "CH",
+        "dial_code": "+41"
     },
     {
         "name": "Syrian Arab Republic",
-        "dialCode": "+963",
-        "isoCode": "SY",
-        "flag": "https://www.countryflags.io/SY/flat/64.png"
+        "code": "SY",
+        "dial_code": "+963"
     },
     {
         "name": "Taiwan",
-        "dialCode": "+886",
-        "isoCode": "TW",
-        "flag": "https://www.countryflags.io/TW/flat/64.png"
+        "code": "TW",
+        "dial_code": "+886"
     },
     {
         "name": "Tajikistan",
-        "dialCode": "+992",
-        "isoCode": "TJ",
-        "flag": "https://www.countryflags.io/TJ/flat/64.png"
+        "code": "TJ",
+        "dial_code": "+992"
     },
     {
-        "name": "Tanzania, United Republic of Tanzania",
-        "dialCode": "+255",
-        "isoCode": "TZ",
-        "flag": "https://www.countryflags.io/TZ/flat/64.png"
+        "name": "Tanzania, United Republic of",
+        "code": "TZ",
+        "dial_code": "+255"
     },
     {
         "name": "Thailand",
-        "dialCode": "+66",
-        "isoCode": "TH",
-        "flag": "https://www.countryflags.io/TH/flat/64.png"
+        "code": "TH",
+        "dial_code": "+66"
     },
     {
         "name": "Timor-Leste",
-        "dialCode": "+670",
-        "isoCode": "TL",
-        "flag": "https://www.countryflags.io/TL/flat/64.png"
+        "code": "TL",
+        "dial_code": "+670"
     },
     {
         "name": "Togo",
-        "dialCode": "+228",
-        "isoCode": "TG",
-        "flag": "https://www.countryflags.io/TG/flat/64.png"
+        "code": "TG",
+        "dial_code": "+228"
     },
     {
         "name": "Tokelau",
-        "dialCode": "+690",
-        "isoCode": "TK",
-        "flag": "https://www.countryflags.io/TK/flat/64.png"
+        "code": "TK",
+        "dial_code": "+690"
     },
     {
         "name": "Tonga",
-        "dialCode": "+676",
-        "isoCode": "TO",
-        "flag": "https://www.countryflags.io/TO/flat/64.png"
+        "code": "TO",
+        "dial_code": "+676"
     },
     {
         "name": "Trinidad and Tobago",
-        "dialCode": "+1868",
-        "isoCode": "TT",
-        "flag": "https://www.countryflags.io/TT/flat/64.png"
+        "code": "TT",
+        "dial_code": "+1868"
     },
     {
         "name": "Tunisia",
-        "dialCode": "+216",
-        "isoCode": "TN",
-        "flag": "https://www.countryflags.io/TN/flat/64.png"
+        "code": "TN",
+        "dial_code": "+216"
     },
     {
         "name": "Turkey",
-        "dialCode": "+90",
-        "isoCode": "TR",
-        "flag": "https://www.countryflags.io/TR/flat/64.png"
+        "code": "TR",
+        "dial_code": "+90"
     },
     {
         "name": "Turkmenistan",
-        "dialCode": "+993",
-        "isoCode": "TM",
-        "flag": "https://www.countryflags.io/TM/flat/64.png"
+        "code": "TM",
+        "dial_code": "+993"
     },
     {
         "name": "Turks and Caicos Islands",
-        "dialCode": "+1649",
-        "isoCode": "TC",
-        "flag": "https://www.countryflags.io/TC/flat/64.png"
+        "code": "TC",
+        "dial_code": "+1649"
     },
     {
         "name": "Tuvalu",
-        "dialCode": "+688",
-        "isoCode": "TV",
-        "flag": "https://www.countryflags.io/TV/flat/64.png"
+        "code": "TV",
+        "dial_code": "+688"
     },
     {
         "name": "Uganda",
-        "dialCode": "+256",
-        "isoCode": "UG",
-        "flag": "https://www.countryflags.io/UG/flat/64.png"
+        "code": "UG",
+        "dial_code": "+256"
     },
     {
         "name": "Ukraine",
-        "dialCode": "+380",
-        "isoCode": "UA",
-        "flag": "https://www.countryflags.io/UA/flat/64.png"
+        "code": "UA",
+        "dial_code": "+380"
     },
     {
         "name": "United Arab Emirates",
-        "dialCode": "+971",
-        "isoCode": "AE",
-        "flag": "https://www.countryflags.io/AE/flat/64.png"
+        "code": "AE",
+        "dial_code": "+971"
     },
     {
         "name": "United Kingdom",
-        "dialCode": "+44",
-        "isoCode": "GB",
-        "flag": "https://www.countryflags.io/GB/flat/64.png"
+        "code": "GB",
+        "dial_code": "+44"
     },
     {
-        "name": "United States",
-        "dialCode": "+1",
-        "isoCode": "US",
-        "flag": "https://www.countryflags.io/US/flat/64.png"
+        "name": "United States of America",
+        "code": "US",
+        "dial_code": "+1"
     },
     {
         "name": "Uruguay",
-        "dialCode": "+598",
-        "isoCode": "UY",
-        "flag": "https://www.countryflags.io/UY/flat/64.png"
+        "code": "UY",
+        "dial_code": "+598"
     },
     {
         "name": "Uzbekistan",
-        "dialCode": "+998",
-        "isoCode": "UZ",
-        "flag": "https://www.countryflags.io/UZ/flat/64.png"
+        "code": "UZ",
+        "dial_code": "+998"
     },
     {
         "name": "Vanuatu",
-        "dialCode": "+678",
-        "isoCode": "VU",
-        "flag": "https://www.countryflags.io/VU/flat/64.png"
+        "code": "VU",
+        "dial_code": "+678"
     },
     {
-        "name": "Venezuela, Bolivarian Republic of Venezuela",
-        "dialCode": "+58",
-        "isoCode": "VE",
-        "flag": "https://www.countryflags.io/VE/flat/64.png"
+        "name": "Venezuela",
+        "code": "VE",
+        "dial_code": "+58"
     },
     {
         "name": "Vietnam",
-        "dialCode": "+84",
-        "isoCode": "VN",
-        "flag": "https://www.countryflags.io/VN/flat/64.png"
+        "code": "VN",
+        "dial_code": "+84"
     },
     {
         "name": "Virgin Islands, British",
-        "dialCode": "+1284",
-        "isoCode": "VG",
-        "flag": "https://www.countryflags.io/VG/flat/64.png"
+        "code": "VG",
+        "dial_code": "+1284"
     },
     {
         "name": "Virgin Islands, U.S.",
-        "dialCode": "+1340",
-        "isoCode": "VI",
-        "flag": "https://www.countryflags.io/VI/flat/64.png"
+        "code": "VI",
+        "dial_code": "+1340"
     },
     {
         "name": "Wallis and Futuna",
-        "dialCode": "+681",
-        "isoCode": "WF",
-        "flag": "https://www.countryflags.io/WF/flat/64.png"
+        "code": "WF",
+        "dial_code": "+681"
     },
     {
         "name": "Yemen",
-        "dialCode": "+967",
-        "isoCode": "YE",
-        "flag": "https://www.countryflags.io/YE/flat/64.png"
+        "code": "YE",
+        "dial_code": "+967"
     },
     {
         "name": "Zambia",
-        "dialCode": "+260",
-        "isoCode": "ZM",
-        "flag": "https://www.countryflags.io/ZM/flat/64.png"
+        "code": "ZM",
+        "dial_code": "+260"
     },
     {
         "name": "Zimbabwe",
-        "dialCode": "+263",
-        "isoCode": "ZW",
-        "flag": "https://www.countryflags.io/ZW/flat/64.png"
+        "code": "ZW",
+        "dial_code": "+263"
     }
 ]

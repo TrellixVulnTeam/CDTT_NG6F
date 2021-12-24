@@ -162,9 +162,8 @@
   import countryJson from '@/utils/country/index.json'
   interface IListCountry {
     name: string
-    dialCode: string
-    isoCode: string
-    flag: string
+    dial_code: string
+    code: string
   }
   @Component
   export default class KycFilter extends Vue {
@@ -381,8 +380,8 @@
       let fnumber = _event.target.value
       if (fnumber.length > 0) {
         fnumber = fnumber.replaceAll(',', '')
-          fnumber = this.$options.filters?.numberWithCommas(fnumber)
-          _event.target.value = fnumber
+        fnumber = this.$options.filters?.numberWithCommas(fnumber)
+        _event.target.value = fnumber
       }
     }
     onlyNumber(event: KeyboardEvent, type: string): void {
@@ -434,11 +433,11 @@
     disableTime(time: Date, type: string): any {
       if (type === 'from-to') {
         if (this.filterException.fromDate) {
-          return time.getTime()/1000 < new Date(this.filterException.fromDate).getTime()/1000-7*60*60;
+          return time.getTime() / 1000 < new Date(this.filterException.fromDate).getTime() / 1000 - 7 * 60 * 60
         }
       } else {
         if (this.filterException.toDate) {
-          return time.getTime()/1000 > new Date(this.filterException.toDate).getTime()/1000-7*60*60;
+          return time.getTime() / 1000 > new Date(this.filterException.toDate).getTime() / 1000 - 7 * 60 * 60
         }
       }
     }

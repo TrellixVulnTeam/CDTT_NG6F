@@ -41,7 +41,7 @@
   import { AuthRepository } from '@/services/repositories/auth'
 
   import { Component, Vue } from 'vue-property-decorator'
-  import { trim, filter } from 'lodash'
+  import { filter } from 'lodash'
   const apiAuth: AuthRepository = getRepository('auth')
 
   const bcAuth = namespace('beAuth')

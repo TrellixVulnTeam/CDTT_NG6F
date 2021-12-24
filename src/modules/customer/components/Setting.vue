@@ -302,9 +302,8 @@
   const bcAuth = namespace('beAuth')
   interface IListCountry {
     name: string
-    dialCode: string
-    isoCode: string
-    flag: string
+    dial_code: string
+    code: string
   }
   @Component({ components: {} })
   export default class CustomerBonus extends Mixins(PopupMixin) {
@@ -374,7 +373,7 @@
       if (query) {
         const currentCountry = filter(
           this.listCountry,
-          country => trim(country.isoCode).toUpperCase().includes(query.toUpperCase()) || trim(country.name).toUpperCase().includes(query.toUpperCase())
+          country => trim(country.code).toUpperCase().includes(query.toUpperCase()) || trim(country.name).toUpperCase().includes(query.toUpperCase())
         )
         if (currentCountry.length > 0) {
           this.listCountry = currentCountry
@@ -774,7 +773,7 @@
       await this.getData()
       this.language = window.localStorage.getItem('bc-lang')!
       this.selectLanguage = this.language
-      const currentCountry = filter(this.listCountry, country => country.isoCode === 'VN')[0]
+      const currentCountry = filter(this.listCountry, country => country.code === 'VN')[0]
       this.form.country = currentCountry.name
       this.get2Fa()
     }
@@ -802,7 +801,7 @@
       })
     }
     handleSelectCountry(country: string): void {
-      this.phoneDefault = filter(this.listCountry, item => item.name === country)[0].dialCode
+      this.phoneDefault = filter(this.listCountry, item => item.name === country)[0].dial_code
     }
 
     handleChangeLanguage(): void {
