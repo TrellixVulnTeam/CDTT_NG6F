@@ -14,7 +14,7 @@
                 <el-date-picker
                   class="w-100"
                   format="MM/dd/yyyy"
-                  value-format="yyyy-MM-dd"
+                  value-format="timestamp"
                   :placeholder="$t('label.from-date')"
                   v-model="filter.fromCreatedAt"
                   type="date"
@@ -295,9 +295,12 @@
 
     handleApply(): void {
       this.query = { ...this.query, ...this.filter, page: 1 }
-      // if (this.filter.fromCreatedAt) {
-      //   this.query.fromCreatedAt = this.$options.filters?.formatReferral(this.filter.fromCreatedAt)
-      // }
+      if (this.filter.fromCreatedAt) {
+        this.query.fromCreatedAt = this.$options.filters?.formatReferral(this.filter.fromCreatedAt)
+      }
+      if (this.filter.toCreatedAt) {
+        this.query.toCreatedAt = this.$options.filters?.formatReferral(this.filter.toCreatedAt)
+      }
       this.handleGetListReferral()
       this.isVisible = false
     }
