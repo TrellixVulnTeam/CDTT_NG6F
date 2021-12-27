@@ -284,8 +284,8 @@
       this.query = {
         ...this.query,
         ...filter,
-        page:1,
-        limit:10
+        page: 1,
+        limit: 10
       }
       this.debounceInit()
     }

@@ -232,7 +232,7 @@
         }
       } else {
         if (this.form.toDate) {
-          return time.getTime() / 1000 > new Date(this.form.toDate).getTime() / 1000 - 7 * 60 * 60
+          return time.getTime() / 1000 > new Date(this.form.toDate).getTime() / 1000 
         }
       }
     }

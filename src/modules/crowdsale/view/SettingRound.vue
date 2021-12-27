@@ -245,7 +245,7 @@
         }
       } else {
         if (this.query.toDate) {
-          return time.getTime() / 1000 > new Date(this.query.toDate).getTime() / 1000 - 7 * 60 * 60
+          return time.getTime() / 1000 > new Date(this.query.toDate).getTime() / 1000 
         }
       }
     }
