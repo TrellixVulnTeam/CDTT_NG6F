@@ -298,6 +298,8 @@
     toCreatedAt = ''
     handleApply(): void {
       this.query = { ...this.query, ...this.filter, page: 1 }
+      this.fromCreatedAt = ''
+      this.toCreatedAt = ''
       if (this.filter.fromCreatedAt) {
         this.fromCreatedAt = this.$options.filters?.formatReferral(this.filter.fromCreatedAt)
       }
