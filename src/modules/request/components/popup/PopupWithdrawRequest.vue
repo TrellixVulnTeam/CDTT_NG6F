@@ -173,7 +173,6 @@
       this.tabActive = tab.id
     }
     handleOpen(): void {
-
       if (this.data.userId) {
         this.getUserInfo(this.data.userId)
       }

@@ -260,6 +260,8 @@
     }
 
     debounceInit = debounce(() => {
+      this.query.page = 1
+      this.query.limit = 10
       this.init()
     }, 500)
 
@@ -336,6 +338,8 @@
     fromDate = ''
     toDate = ''
     handleApply(): void {
+      this.query.page = 1
+      this.query.limit = 10
       if (this.query.fromDate) {
         this.fromDate = this.$options.filters?.formatReferral(this.query.fromDate)
       }
