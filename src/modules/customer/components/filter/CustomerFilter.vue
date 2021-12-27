@@ -266,7 +266,7 @@
         }
       } else {
         if (this.filter.toCreatedAt) {
-          return time.getTime() / 1000 > new Date(this.filter.toCreatedAt).getTime() / 1000 - 7 * 60 * 60
+          return time.getTime() / 1000 > new Date(this.filter.toCreatedAt).getTime() / 1000 
         }
       }
     }
@@ -350,6 +350,7 @@
         fromCreatedAt: fromDate,
         toCreatedAt: toDate
       }
+      console.log('test', filter)
       this.$emit('filter', filter)
       this.isVisible = false
     }
