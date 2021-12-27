@@ -189,8 +189,18 @@
     }
 
     searchText = debounce((value: string) => {
+      let fromDate = ''
+      let toDate = ''
+      if (this.filter.fromCreatedAt) {
+        fromDate = this.$options.filters?.formatReferral(this.filter.fromCreatedAt)
+      }
+      if (this.filter.toCreatedAt) {
+        toDate = this.$options.filters?.formatReferral(this.filter.toCreatedAt + 86399000)
+      }
       this.$emit('filter', {
         ...this.filter,
+        fromCreatedAt: fromDate,
+        toCreatedAt: toDate,
         search: trim(value)
       })
     }, 500)
@@ -308,7 +318,21 @@
     handleSort(command: number): void {
       this.sortActive = command
       this.filter.orderBy = command
-      this.$emit('filter', this.filter)
+
+      let fromDate = ''
+      let toDate = ''
+      if (this.filter.fromCreatedAt) {
+        fromDate = this.$options.filters?.formatReferral(this.filter.fromCreatedAt)
+      }
+      if (this.filter.toCreatedAt) {
+        toDate = this.$options.filters?.formatReferral(this.filter.toCreatedAt + 86399000)
+      }
+      this.$emit('filter', {
+        ...this.filter,
+        fromCreatedAt: fromDate,
+        toCreatedAt: toDate,
+        orderBy: command
+      })
     }
 
     handleApply(): void {
@@ -320,11 +344,7 @@
       if (this.filter.toCreatedAt) {
         toDate = this.$options.filters?.formatReferral(this.filter.toCreatedAt + 86399000)
       }
-      // this.filter = {
-      //   ...this.filter,
-      //   fromCreatedAt:fromDate,
-      //   toCreatedAt:toDate
-      // }
+
       const filter = {
         ...this.filter,
         fromCreatedAt: fromDate,

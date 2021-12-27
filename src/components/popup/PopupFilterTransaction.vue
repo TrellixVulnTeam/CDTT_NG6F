@@ -310,7 +310,7 @@
         status: null,
         bonusType: null
       }
-      
+
       this.errorType = ''
       // this.setOpenPopup({
       //   popupName: 'popup-filter-transaction',
@@ -349,8 +349,8 @@
         if (this.filter.toAmount) {
           _toAmount = this.filter.toAmount.replaceAll(',', '')
         }
-            let fromDate = ''
-      let toDate = ''
+        let fromDate = ''
+        let toDate = ''
         if (this.filter.fromDate) {
           fromDate = this.$options.filters?.formatReferral(this.filter.fromDate)
         }
