@@ -355,6 +355,7 @@
       this.emptyDefault = false
       this.tabActive = index
       this.sortActive = 'CREATED_AT'
+      ;(this.fromDate = ''), (this.toDate = '')
       this.query = {
         search: this.query.search,
         limit: 10,
