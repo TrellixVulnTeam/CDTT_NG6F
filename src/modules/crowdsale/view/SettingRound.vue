@@ -275,7 +275,6 @@
           fromDate: this.fromDate,
           toDate: this.toDate
         }
-        console.log('ôp', this.query)
         if (!this.listRound.length) {
           this.listener = leadsRef.once('value', async function (snapshot) {
             _this.listRound = snapshot.val()
@@ -344,7 +343,6 @@
         this.toDate = this.$options.filters?.formatReferral(this.query.toDate + 86399000)
       }
 
-      console.log('qêuueu', this.query)
       this.init()
       this.isVisible = false
     }

@@ -400,8 +400,6 @@
     }
     handleRowClick(row: Record<string, any>): void {
       this.dataProp = row.row
-      console.log('row', this.dataProp)
-
       this.setOpenPopup({
         popupName: 'popup-withdraw-request',
         isOpen: true

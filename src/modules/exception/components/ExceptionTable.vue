@@ -168,8 +168,6 @@
     }
 
     handleRowClick(row: Record<string, any>): void {
-      console.log('coppi', this.coppy)
-      console.log('row', row)
       this.$emit('coppy', this.coppy)
       this.$emit('rowClick', row)
     }

@@ -256,8 +256,6 @@
 
     async handleSubmit(): Promise<void> {
       let form2: any = { ...this.form }
-      let fromDate = ''
-      let toDate = ''
       if (this.form.fromAmount) {
         form2.fromAmount = this.form.fromAmount.replaceAll(',', '')
       }
@@ -280,7 +278,6 @@
       //   toDate
       // }
       this.$emit('apply', form2)
-      console.log('form2', form2)
       this.setOpenPopup({
         popupName: 'popup-filter-crowdsale',
         isOpen: false

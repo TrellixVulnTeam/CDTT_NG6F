@@ -712,7 +712,6 @@
       }
     }
     async handleContinue(): Promise<void> {
-      console.log('this.checkEvent ', this.checkEvent)
       if (this.form.country !== '' && this.form.phone !== '') {
         const params = {
           countryCode: this.phoneDefault,

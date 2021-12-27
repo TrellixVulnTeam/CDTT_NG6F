@@ -481,7 +481,6 @@
       } else {
         this.errorType = ''
       }
-      console.log('gfdgdfg', this.errorType)
       this.isVisible = true
       this.listApprove = [...this.listApproveBy]
     }
@@ -513,7 +512,6 @@
     tabActive = ''
     handleChangeTab(value: string): void {
       this.tabActive = value
-      console.log('vao')
       ;(this.filterException.search = ''),
         (this.filterException.currency = ''),
         (this.filterException.fromDate = ''),
