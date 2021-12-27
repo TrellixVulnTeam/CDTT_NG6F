@@ -266,7 +266,7 @@
     async init(firstTime = false): Promise<void> {
       try {
         this.isLoading = true
-        const leadsRef = firebase.ref('crowd-sales')
+        const leadsRef = firebase.database().ref('crowd-sales')
         // eslint-disable-next-line @typescript-eslint/no-this-alias
         let _this = this
 
