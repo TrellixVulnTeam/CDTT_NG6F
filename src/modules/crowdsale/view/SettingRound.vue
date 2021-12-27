@@ -340,6 +340,8 @@
     handleApply(): void {
       this.query.page = 1
       this.query.limit = 10
+      this.fromDate = ''
+      this.toDate = ''
       if (this.query.fromDate) {
         this.fromDate = this.$options.filters?.formatReferral(this.query.fromDate)
       }

@@ -307,6 +307,8 @@
     fromDate = ''
     toDate = ''
     handleApply(): void {
+      this.fromDate = ''
+      this.toDate = ''
       this.query = { ...this.query, ...this.filter, page: 1 }
       if (this.filter.fromDate) {
         this.fromDate = this.$options.filters?.formatReferral(this.filter.fromDate)
