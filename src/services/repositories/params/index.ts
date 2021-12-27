@@ -25,9 +25,9 @@ export class ParamsRepository extends BaseRepository {
     }
   }
 
-  async getTokenFirebase(): Promise<any> {
+  async getTokenFirebase(data: Record<string, any>): Promise<any> {
     try {
-      const rs = await request.post(`/api/v1/firebase/auth`)
+      const rs = await request.post(`/api/v1/firebase/auth`, data)
       return Promise.resolve(rs.data.data)
     } catch (error) {
       console.log(error)

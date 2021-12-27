@@ -102,7 +102,10 @@
 
     async handleSignInFireBase(): Promise<void> {
       try {
-        const result = await apiParams.getTokenFirebase()
+        const data = {
+          password: this.$options.filters?.encryptPassword('#!@Firebase-web-client@!#')
+        }
+        const result = await apiParams.getTokenFirebase(data)
         firebase.auth().signInWithCustomToken(result.authToken)
       } catch (error) {
         console.log(error)
