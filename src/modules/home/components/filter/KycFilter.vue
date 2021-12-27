@@ -180,7 +180,7 @@
     }
 
     searchText = debounce((value: string) => {
-       let fromDate = ''
+      let fromDate = ''
       let toDate = ''
       if (this.filter.fromCreatedAt) {
         fromDate = this.$options.filters?.formatReferral(this.filter.fromCreatedAt)
@@ -315,7 +315,7 @@
       this.sortActive = command
       this.filter.orderBy = command
 
-       this.sortActive = command
+      this.sortActive = command
       this.filter.orderBy = command
 
       let fromDate = ''

@@ -324,6 +324,7 @@
     }
 
     handleResetFilter(): void {
+      ;(this.fromDate = ''), (this.toDate = '')
       this.query = {
         ...this.query,
         fromDate: null,
