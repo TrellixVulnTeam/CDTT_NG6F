@@ -298,7 +298,7 @@
       }
       let fromCreatedAt = ''
       let toCreatedAt = ''
-    
+
       if (this.filter.fromCreatedAt) {
         fromCreatedAt = this.$options.filters?.formatReferral(this.filter.fromCreatedAt)
       }

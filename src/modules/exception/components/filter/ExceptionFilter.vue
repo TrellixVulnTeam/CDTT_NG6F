@@ -369,11 +369,26 @@
       if (this.filterException.currency) {
         _currency = this.filterException.currency.join(',')
       }
+      let fromDate = ''
+      let toDate = ''
+      if (this.filterException.fromDate) {
+        fromDate = this.$options.filters?.formatReferral(this.filterException.fromDate)
+      }
+      if (this.filterException.toDate) {
+        toDate = this.$options.filters?.formatReferral(this.filterException.toDate + 86399000)
+      }
       this.$emit('filterException', {
         ...this.filterException,
+        fromDate: fromDate,
+        toDate: toDate,
         search: trim(value),
         currency: _currency
       })
+      // this.$emit('filterException', {
+      //   ...this.filterException,
+      //   search: trim(value),
+      //   currency: _currency
+      // })
     }, 500)
     numberFormat(event: FocusEvent): void {
       const _event: any = event
@@ -514,7 +529,21 @@
     handleSort(command: string): void {
       this.sortActive = command
       this.filterException.orderBy = command
-      this.$emit('filterException', this.filterException)
+
+      let fromDate = ''
+      let toDate = ''
+      if (this.filterException.fromDate) {
+        fromDate = this.$options.filters?.formatReferral(this.filterException.fromDate)
+      }
+      if (this.filterException.toDate) {
+        toDate = this.$options.filters?.formatReferral(this.filterException.toDate + 86399000)
+      }
+      this.$emit('filterException', {
+        ...this.filterException,
+        fromDate: fromDate,
+        toDate: toDate,
+        orderBy: command
+      })
     }
 
     handleApply(): void {
