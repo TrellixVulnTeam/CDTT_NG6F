@@ -369,11 +369,26 @@
       if (this.filterException.currency) {
         _currency = this.filterException.currency.join(',')
       }
+      let fromDate = ''
+      let toDate = ''
+      if (this.filterException.fromDate) {
+        fromDate = this.$options.filters?.formatReferral(this.filterException.fromDate)
+      }
+      if (this.filterException.toDate) {
+        toDate = this.$options.filters?.formatReferral(this.filterException.toDate + 86399000)
+      }
       this.$emit('filterException', {
         ...this.filterException,
+        fromDate: fromDate,
+        toDate: toDate,
         search: trim(value),
         currency: _currency
       })
+      // this.$emit('filterException', {
+      //   ...this.filterException,
+      //   search: trim(value),
+      //   currency: _currency
+      // })
     }, 500)
     numberFormat(event: FocusEvent): void {
       const _event: any = event
@@ -437,7 +452,7 @@
         }
       } else {
         if (this.filterException.toDate) {
-          return time.getTime() / 1000 > new Date(this.filterException.toDate).getTime() / 1000 - 7 * 60 * 60
+          return time.getTime() / 1000 > new Date(this.filterException.toDate).getTime() / 1000 
         }
       }
     }
@@ -466,7 +481,6 @@
       } else {
         this.errorType = ''
       }
-      console.log('gfdgdfg', this.errorType)
       this.isVisible = true
       this.listApprove = [...this.listApproveBy]
     }
@@ -498,7 +512,6 @@
     tabActive = ''
     handleChangeTab(value: string): void {
       this.tabActive = value
-      console.log('vao')
       ;(this.filterException.search = ''),
         (this.filterException.currency = ''),
         (this.filterException.fromDate = ''),
@@ -514,7 +527,21 @@
     handleSort(command: string): void {
       this.sortActive = command
       this.filterException.orderBy = command
-      this.$emit('filterException', this.filterException)
+
+      let fromDate = ''
+      let toDate = ''
+      if (this.filterException.fromDate) {
+        fromDate = this.$options.filters?.formatReferral(this.filterException.fromDate)
+      }
+      if (this.filterException.toDate) {
+        toDate = this.$options.filters?.formatReferral(this.filterException.toDate + 86399000)
+      }
+      this.$emit('filterException', {
+        ...this.filterException,
+        fromDate: fromDate,
+        toDate: toDate,
+        orderBy: command
+      })
     }
 
     handleApply(): void {

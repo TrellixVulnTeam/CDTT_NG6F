@@ -163,6 +163,8 @@
     }
     getFilter(form: any): void {
       this.dataProp = form
+      this.query.limit = 10
+      this.query.page = 1
       this.getDataTable()
     }
     getDataTable(): void {
@@ -205,6 +207,8 @@
     }
     async init(): Promise<void> {
       this.loadingTable = true
+      this.query.page = 1
+      this.query.limit = 10
       await this.getDataTable()
     }
     created(): void {

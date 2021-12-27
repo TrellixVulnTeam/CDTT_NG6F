@@ -255,7 +255,7 @@
           </div>
         </div>
       </div>
-      <hr class="hr1" />
+      <hr class="hr2" />
       <div class="be-flex jc-space-between align-center">
         <div class="text1">{{ $t('customer.setting.status') }}</div>
         <div class="be-flex">
@@ -279,7 +279,7 @@
           </div>
         </div>
       </div>
-      <hr class="hr1" />
+      <hr class="hr3" />
     </div>
   </div>
 </template>
@@ -712,7 +712,6 @@
       }
     }
     async handleContinue(): Promise<void> {
-      console.log('this.checkEvent ', this.checkEvent)
       if (this.form.country !== '' && this.form.phone !== '') {
         const params = {
           countryCode: this.phoneDefault,
@@ -915,6 +914,17 @@
   }
   .hr1 {
     border: 1px solid #dbdbdb;
+    margin-bottom: 13px;
+  }
+  .hr3 {
+    border: 1px solid #dbdbdb;
+    margin-top: 14px;
+    margin-bottom: 13px;
+  }
+  .hr2 {
+    border: 1px solid #dbdbdb;
+    margin-top: 15px;
+    margin-bottom: 15px;
   }
   .text1 {
     color: #0a0b0d;

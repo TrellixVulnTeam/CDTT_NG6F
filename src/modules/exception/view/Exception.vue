@@ -105,7 +105,6 @@
           page: this.query.page,
           total: null
         }
-        console.log('params', params)
         const result = await api.getListException(this.tabActive, params)
         if (this.$route.name === 'ExceptionWithdraw') {
           this.totalAmount = result.totalAmount
