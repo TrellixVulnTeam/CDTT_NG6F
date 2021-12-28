@@ -137,7 +137,8 @@
     queryApprove = {
       page: 1,
       limit: 20,
-      search: ''
+      search: '',
+      roles: 'SUPERADMIN,ADMIN,SUPPORT'
     }
 
     sorts: Array<Record<string, any>> = [
@@ -238,7 +239,7 @@
         }
       } else {
         if (this.filter.toCreatedAt) {
-          return time.getTime() / 1000 > new Date(this.filter.toCreatedAt).getTime() / 1000 
+          return time.getTime() / 1000 > new Date(this.filter.toCreatedAt).getTime() / 1000
         }
       }
     }
@@ -292,7 +293,8 @@
       this.queryApprove = {
         page: 1,
         limit: 20,
-        search: ''
+        search: '',
+        roles: 'SUPERADMIN,ADMIN,SUPPORT'
       }
 
       if (this.filter.search) {

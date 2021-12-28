@@ -273,7 +273,7 @@
         }
       } else {
         if (this.filter.toCreatedAt) {
-          return time.getTime() / 1000 > new Date(this.filter.toCreatedAt).getTime() / 1000 
+          return time.getTime() / 1000 > new Date(this.filter.toCreatedAt).getTime() / 1000
         }
       }
     }
