@@ -56,9 +56,13 @@
   import BasePageLoading from '../page-loading/BasePageLoading.vue'
   import EventBus from '@/utils/eventBus'
   import { namespace } from 'vuex-class'
+  import { ParamsRepository } from '@/services/repositories/params'
+  import getRepository from '@/services'
+  import firebase from '@/utils/firebase'
 
   const bcAuth = namespace('beAuth')
   const beBase = namespace('beBase')
+  const apiParams: ParamsRepository = getRepository('params')
 
   @Component({
     components: { MainSidebar, MainHeader, BasePageLoading }
@@ -69,12 +73,17 @@
 
     isLoading = false
     selectLanguage = ''
+    timing: any = null
 
     async created(): Promise<void> {
       try {
         this.isLoading = true
         this.selectLanguage = window.localStorage.getItem('bc-lang')!
         await this.getInfo()
+        this.handleSignInFireBase()
+        this.timing = setInterval(() => {
+          this.handleSignInFireBase()
+        }, 3600000)
         setTimeout(() => {
           this.isLoading = false
         }, 500)
@@ -90,6 +99,18 @@
     // handleRedirectRoute():void{
 
     // }
+
+    async handleSignInFireBase(): Promise<void> {
+      try {
+        const data = {
+          password: this.$options.filters?.encryptPassword('#!@Firebase-web-client@!#')
+        }
+        const result = await apiParams.getTokenFirebase(data)
+        firebase.auth().signInWithCustomToken(result.authToken)
+      } catch (error) {
+        console.log(error)
+      }
+    }
 
     handleChangeLanguage(lang: string): void {
       this.$i18n.locale = lang

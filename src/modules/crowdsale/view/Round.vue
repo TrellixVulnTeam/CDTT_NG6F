@@ -52,14 +52,14 @@
     created(): void {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const _this = this
-      const crowdSaleRef = firebase.ref('crowd-sales')
+      const crowdSaleRef = firebase.database().ref('crowd-sales')
       this.listener = crowdSaleRef.on('value', function (snapshot) {
         _this.listRound = snapshot.val()
       })
     }
 
     destroyed(): void {
-      const crowdSaleRef = firebase.ref('crowd-sales')
+      const crowdSaleRef = firebase.database().ref('crowd-sales')
       crowdSaleRef.off('value', this.listener)
     }
     getGroupName(groupName: string): void {
