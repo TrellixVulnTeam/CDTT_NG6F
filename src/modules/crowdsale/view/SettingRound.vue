@@ -204,7 +204,7 @@
       page: 1,
       limit: 1000,
       search: '',
-      roles: 'ADMIN,ACCOUNTANT'
+      roles: 'SUPERADMIN,ADMIN,ACCOUNTANT'
     }
 
     get getPaginationInfo(): any {
@@ -245,7 +245,7 @@
         }
       } else {
         if (this.query.toDate) {
-          return time.getTime() / 1000 > new Date(this.query.toDate).getTime() / 1000 
+          return time.getTime() / 1000 > new Date(this.query.toDate).getTime() / 1000
         }
       }
     }
