@@ -245,7 +245,7 @@
         }
       } else {
         if (this.query.toDate) {
-          return time.getTime() / 1000 > new Date(this.query.toDate).getTime() / 1000 - 7 * 60 * 60
+          return time.getTime() / 1000 > new Date(this.query.toDate).getTime() / 1000 
         }
       }
     }
@@ -260,13 +260,15 @@
     }
 
     debounceInit = debounce(() => {
+      this.query.page = 1
+      this.query.limit = 10
       this.init()
     }, 500)
 
     async init(firstTime = false): Promise<void> {
       try {
         this.isLoading = true
-        const leadsRef = firebase.ref('crowd-sales')
+        const leadsRef = firebase.database().ref('crowd-sales')
         // eslint-disable-next-line @typescript-eslint/no-this-alias
         let _this = this
 
@@ -275,7 +277,6 @@
           fromDate: this.fromDate,
           toDate: this.toDate
         }
-        console.log('ôp', this.query)
         if (!this.listRound.length) {
           this.listener = leadsRef.once('value', async function (snapshot) {
             _this.listRound = snapshot.val()
@@ -324,6 +325,7 @@
     }
 
     handleResetFilter(): void {
+      ;(this.fromDate = ''), (this.toDate = '')
       this.query = {
         ...this.query,
         fromDate: null,
@@ -336,6 +338,10 @@
     fromDate = ''
     toDate = ''
     handleApply(): void {
+      this.query.page = 1
+      this.query.limit = 10
+      this.fromDate = ''
+      this.toDate = ''
       if (this.query.fromDate) {
         this.fromDate = this.$options.filters?.formatReferral(this.query.fromDate)
       }
@@ -343,7 +349,6 @@
         this.toDate = this.$options.filters?.formatReferral(this.query.toDate + 86399000)
       }
 
-      console.log('qêuueu', this.query)
       this.init()
       this.isVisible = false
     }
@@ -352,6 +357,7 @@
       this.emptyDefault = false
       this.tabActive = index
       this.sortActive = 'CREATED_AT'
+      ;(this.fromDate = ''), (this.toDate = '')
       this.query = {
         search: this.query.search,
         limit: 10,

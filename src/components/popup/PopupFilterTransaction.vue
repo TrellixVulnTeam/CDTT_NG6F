@@ -170,7 +170,7 @@
         }
       } else {
         if (this.filter.toDate) {
-          return time.getTime() / 1000 > new Date(this.filter.toDate).getTime() / 1000 - 7 * 60 * 60
+          return time.getTime() / 1000 > new Date(this.filter.toDate).getTime() / 1000 
         }
       }
     }
@@ -310,7 +310,7 @@
         status: null,
         bonusType: null
       }
-      
+
       this.errorType = ''
       // this.setOpenPopup({
       //   popupName: 'popup-filter-transaction',
@@ -349,8 +349,8 @@
         if (this.filter.toAmount) {
           _toAmount = this.filter.toAmount.replaceAll(',', '')
         }
-            let fromDate = ''
-      let toDate = ''
+        let fromDate = ''
+        let toDate = ''
         if (this.filter.fromDate) {
           fromDate = this.$options.filters?.formatReferral(this.filter.fromDate)
         }

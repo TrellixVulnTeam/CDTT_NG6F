@@ -302,7 +302,6 @@
         toBalanceAmount: this.filterBalance.toBalanceAmount.replaceAll(',', ''),
         toLockedAmount: this.filterBalance.toLockedAmount.replaceAll(',', '')
       }
-      console.log('data', filters)
       this.$emit('filterBalance', filters)
     }
 

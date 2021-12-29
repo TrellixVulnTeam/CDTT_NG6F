@@ -27,12 +27,28 @@
             </div>
             <div class="be-flex jc-space-between row">
               <el-form-item class="be-flex-item mr-40" :label="$t('label.from-date')">
-                <el-date-picker class="w-100" format="MM/dd/yyyy" :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateStart')" value-format="timestamp" v-model="filter.fromCreatedAt" type="date" :picker-options="pickerOption2">
+                <el-date-picker
+                  class="w-100"
+                  format="MM/dd/yyyy"
+                  :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateStart')"
+                  value-format="timestamp"
+                  v-model="filter.fromCreatedAt"
+                  type="date"
+                  :picker-options="pickerOption2"
+                >
                 </el-date-picker>
               </el-form-item>
 
               <el-form-item class="be-flex-item" :label="$t('label.to-date')">
-                <el-date-picker class="w-100" format="MM/dd/yyyy" :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateEnd')" value-format="timestamp" v-model="filter.toCreatedAt" type="date" :picker-options="pickerOption">
+                <el-date-picker
+                  class="w-100"
+                  format="MM/dd/yyyy"
+                  :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateEnd')"
+                  value-format="timestamp"
+                  v-model="filter.toCreatedAt"
+                  type="date"
+                  :picker-options="pickerOption"
+                >
                 </el-date-picker>
               </el-form-item>
             </div>
@@ -164,10 +180,24 @@
     }
 
     searchText = debounce((value: string) => {
+      let fromDate = ''
+      let toDate = ''
+      if (this.filter.fromCreatedAt) {
+        fromDate = this.$options.filters?.formatReferral(this.filter.fromCreatedAt)
+      }
+      if (this.filter.toCreatedAt) {
+        toDate = this.$options.filters?.formatReferral(this.filter.toCreatedAt + 86399000)
+      }
       this.$emit('filter', {
         ...this.filter,
+        fromCreatedAt: fromDate,
+        toCreatedAt: toDate,
         search: trim(value)
       })
+      // this.$emit('filter', {
+      //   ...this.filter,
+      //   search: trim(value)
+      // })
     }, 500)
 
     created(): void {
@@ -208,7 +238,7 @@
         }
       } else {
         if (this.filter.toCreatedAt) {
-          return time.getTime() / 1000 > new Date(this.filter.toCreatedAt).getTime() / 1000 - 7 * 60 * 60
+          return time.getTime() / 1000 > new Date(this.filter.toCreatedAt).getTime() / 1000 
         }
       }
     }
@@ -284,7 +314,25 @@
     handleSort(command: string): void {
       this.sortActive = command
       this.filter.orderBy = command
-      this.$emit('filter', this.filter)
+
+      this.sortActive = command
+      this.filter.orderBy = command
+
+      let fromDate = ''
+      let toDate = ''
+      if (this.filter.fromCreatedAt) {
+        fromDate = this.$options.filters?.formatReferral(this.filter.fromCreatedAt)
+      }
+      if (this.filter.toCreatedAt) {
+        toDate = this.$options.filters?.formatReferral(this.filter.toCreatedAt + 86399000)
+      }
+      this.$emit('filter', {
+        ...this.filter,
+        fromCreatedAt: fromDate,
+        toCreatedAt: toDate,
+        orderBy: command
+      })
+      // this.$emit('filter', this.filter)
     }
 
     handleApply(): void {
@@ -308,7 +356,7 @@
       }
       this.$emit('filter', filter)
 
-this.isVisible = false
+      this.isVisible = false
     }
 
     handleReset(): void {

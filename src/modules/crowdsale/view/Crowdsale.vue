@@ -147,7 +147,7 @@
       this.handleTurnOnFirebase()
     }
     handleTurnOnFirebase(): void {
-      const leadsRef = firebase.ref('crowd-sales')
+      const leadsRef = firebase.database().ref('crowd-sales')
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       let _this = this
       this.listener = leadsRef.on('value', function (snapshot) {
@@ -169,7 +169,7 @@
       })
     }
     handleGetRoundNext(): void {
-      const leadsRef = firebase.ref('crowd-sales')
+      const leadsRef = firebase.database().ref('crowd-sales')
       leadsRef.off('value', this.listener)
 
       /**
@@ -250,7 +250,7 @@
         //case round cuối và hết hạn
         if (distance <= 0 && _this.isEndOn && _this.getIsEndRound) {
           clearInterval(_this.timing)
-          const leadsRef = firebase.ref('crowd-sales')
+          const leadsRef = firebase.database().ref('crowd-sales')
           leadsRef.off('value', _this.listener)
           _this.isLoading = false
           return
@@ -271,7 +271,7 @@
     }
 
     destroyed(): void {
-      const leadsRef = firebase.ref('crowd-sales')
+      const leadsRef = firebase.database().ref('crowd-sales')
       leadsRef.off('value', this.listener)
     }
 

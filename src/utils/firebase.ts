@@ -1,7 +1,7 @@
 import * as firebase from 'firebase'
 import 'firebase/database'
 const config = {
-  apiKey: process.env.VUE_APP_FIREBASE_KEY,
+  apiKey: 'AIzaSyDnd6_cM8bruxBU-EDsgfRmd5DmxnZpBME',
   authDomain: 'blockchain-lynkey-test.firebaseapp.com',
   databaseURL: 'https://blockchain-lynkey-test-default-rtdb.asia-southeast1.firebasedatabase.app',
   projectId: 'blockchain-lynkey-test',
@@ -12,4 +12,4 @@ const config = {
 }
 firebase.default.initializeApp(config)
 
-export default firebase.default.database()
+export default firebase.default

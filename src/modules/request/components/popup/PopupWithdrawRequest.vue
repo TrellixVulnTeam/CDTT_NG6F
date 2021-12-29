@@ -173,8 +173,6 @@
       this.tabActive = tab.id
     }
     handleOpen(): void {
-      console.log('data', this.data)
-
       if (this.data.userId) {
         this.getUserInfo(this.data.userId)
       }
@@ -188,10 +186,6 @@
           .then((res: any) => {
             this.loading = false
             this.summaryAccount = res.summary
-            console.log('1', this.summaryAccount.balance)
-            console.log('2', this.summaryAccount.closeBalance)
-            // console.log('value', this.data.amount + this.data.transactionFee)
-            console.log('limitAmount', this.data.isLimitAmount)
             if (this.summaryAccount.balance !== this.summaryAccount.closeBalance && this.data.isLimitAmount == '0') {
               this.checkWarning = 'NOTMATCHED'
             } else if (this.summaryAccount.balance !== this.summaryAccount.closeBalance && this.data.isLimitAmount == '1') {

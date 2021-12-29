@@ -273,7 +273,7 @@
         }
       } else {
         if (this.filter.toCreatedAt) {
-          return time.getTime() / 1000 > new Date(this.filter.toCreatedAt).getTime() / 1000 - 7 * 60 * 60
+          return time.getTime() / 1000 > new Date(this.filter.toCreatedAt).getTime() / 1000 
         }
       }
     }
@@ -298,7 +298,7 @@
       }
       let fromCreatedAt = ''
       let toCreatedAt = ''
-    
+
       if (this.filter.fromCreatedAt) {
         fromCreatedAt = this.$options.filters?.formatReferral(this.filter.fromCreatedAt)
       }

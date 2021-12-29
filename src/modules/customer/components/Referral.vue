@@ -249,7 +249,7 @@
         }
       } else {
         if (this.filter.toCreatedAt) {
-          return time.getTime() / 1000 > new Date(this.filter.toCreatedAt).getTime() / 1000 - 7 * 60 * 60
+          return time.getTime() / 1000 > new Date(this.filter.toCreatedAt).getTime() / 1000 
         }
       }
     }
@@ -298,6 +298,8 @@
     toCreatedAt = ''
     handleApply(): void {
       this.query = { ...this.query, ...this.filter, page: 1 }
+      this.fromCreatedAt = ''
+      this.toCreatedAt = ''
       if (this.filter.fromCreatedAt) {
         this.fromCreatedAt = this.$options.filters?.formatReferral(this.filter.fromCreatedAt)
       }
