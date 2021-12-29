@@ -170,7 +170,7 @@
         }
       } else {
         if (this.filter.toDate) {
-          return time.getTime() / 1000 > new Date(this.filter.toDate).getTime() / 1000 
+          return time.getTime() / 1000 > new Date(this.filter.toDate).getTime() / 1000
         }
       }
     }
