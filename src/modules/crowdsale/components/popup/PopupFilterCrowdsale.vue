@@ -119,6 +119,9 @@
             ></el-input>
             <div class="dolar fw-400 fs-16">$</div>
           </el-form-item>
+          <div v-if="errorType === 'amount'" class="error-amount">
+            <p>{{ $t('notify.amount-invalid') }}</p>
+          </div>
         </div>
       </el-form>
     </div>
@@ -304,8 +307,21 @@
         event.preventDefault()
       }
     }
+    errorType = ''
+    checkValid(): boolean {
+      let toAmount = parseFloat(this.form.toAmount.replaceAll(',', ''))
+      let fromAmount = parseFloat(this.form.fromAmount.replaceAll(',', ''))
+      if (fromAmount > toAmount) {
+        this.errorType = 'amount'
+        return false
+      } else {
+        this.errorType = ''
+        return true
+      }
+    }
 
     numberFormat(event: FocusEvent): void {
+      this.checkValid()
       const _event: any = event
       let fnumber = _event.target.value
       if (fnumber.length > 0) {
@@ -373,13 +389,13 @@
       .box-input-2,
       .box-input-3 {
         margin-bottom: 24px;
-
         .box-input {
           width: 256px;
         }
       }
 
       .box-input-3 {
+        position: relative;
         .box-input {
           position: relative;
         }
@@ -417,7 +433,20 @@
         background: #dbdbdb;
       }
     }
+    .error-amount {
+      position: absolute;
+      bottom: -25px;
+      left: 0;
 
+      p {
+        font-family: Open Sans;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 20px;
+        color: #cf202f;
+      }
+    }
     .footer {
       display: flex;
       justify-content: flex-end;

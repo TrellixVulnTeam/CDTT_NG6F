@@ -54,7 +54,9 @@
                 clearable
                 @keyup.native="numberFormat($event)"
                 @blur="clickOutSide"
-              ></el-input>
+              >
+                <div class="prefix" slot="prefix">$</div>
+              </el-input>
               <div class="line"></div>
               <el-input
                 v-model="filter.toAmount"
@@ -63,7 +65,9 @@
                 clearable
                 @keyup.native="numberFormat($event)"
                 @blur="clickOutSide"
-              ></el-input>
+              >
+                <div class="prefix" slot="prefix">$</div>
+              </el-input>
             </div>
             <div v-if="errorType === 'amount'" class="error-amount">
               <p>{{ $t('notify.amount-invalid') }}</p>
@@ -484,6 +488,14 @@
       line-height: 20px;
       color: #cf202f;
     }
+  }
+  .prefix {
+    height: 100%;
+    font-size: 16px;
+    color: #0a0b0d;
+    position: absolute;
+    left: 8px;
+    top: 11px;
   }
   .footer {
     button[disabled] {
