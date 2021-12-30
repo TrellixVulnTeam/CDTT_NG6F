@@ -452,7 +452,7 @@
         }
       } else {
         if (this.filterException.toDate) {
-          return time.getTime() / 1000 > new Date(this.filterException.toDate).getTime() / 1000 
+          return time.getTime() / 1000 > new Date(this.filterException.toDate).getTime() / 1000
         }
       }
     }

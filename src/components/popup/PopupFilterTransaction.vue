@@ -170,7 +170,7 @@
         }
       } else {
         if (this.filter.toDate) {
-          return time.getTime() / 1000 > new Date(this.filter.toDate).getTime() / 1000 
+          return time.getTime() / 1000 > new Date(this.filter.toDate).getTime() / 1000
         }
       }
     }
@@ -320,8 +320,8 @@
     }
 
     checkValid(): boolean {
-      let toAmount = parseInt(this.filter.toAmount.replaceAll(',', ''))
-      let fromAmount = parseInt(this.filter.fromAmount.replaceAll(',', ''))
+      let toAmount = parseFloat(this.filter.toAmount.replaceAll(',', ''))
+      let fromAmount = parseFloat(this.filter.fromAmount.replaceAll(',', ''))
       if (fromAmount > toAmount) {
         this.errorType = 'amount'
         return false

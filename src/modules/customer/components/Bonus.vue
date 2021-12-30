@@ -44,7 +44,7 @@
                   </el-date-picker>
                 </el-form-item>
               </div>
-              <div class="be-flex jc-space-between row">
+              <div class="be-flex jc-space-between row" style='position: relative'>
                 <el-form-item class="be-flex-item mr-40 form-item-line" :label="$t('label.trans-amount')">
                   <el-input
                     v-model="filter.fromAmount"
@@ -66,6 +66,9 @@
                     <div class="prefix" slot="prefix">$</div>
                   </el-input>
                 </el-form-item>
+                <div v-if="errorType === 'amount'" class="error-amount">
+                  <p>{{ $t('notify.amount-invalid') }}</p>
+                </div>
               </div>
             </el-form>
           </div>
@@ -169,6 +172,7 @@
       status: '',
       transactionType: ''
     }
+    errorType = ''
     query: Record<string, any> = {
       page: 1,
       limit: 10,
@@ -229,7 +233,17 @@
     created(): void {
       this.handleGetListBonus()
     }
-
+    checkValid(): boolean {
+      let toAmount = parseFloat(this.filter.toAmount.replaceAll(',', ''))
+      let fromAmount = parseFloat(this.filter.fromAmount.replaceAll(',', ''))
+      if (fromAmount > toAmount) {
+        this.errorType = 'amount'
+        return false
+      } else {
+        this.errorType = ''
+        return true
+      }
+    }
     get pickerOption(): any {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const _this = this
@@ -257,7 +271,7 @@
         }
       } else {
         if (this.filter.toDate) {
-          return time.getTime() / 1000 > new Date(this.filter.toDate).getTime() / 1000 
+          return time.getTime() / 1000 > new Date(this.filter.toDate).getTime() / 1000
         }
       }
     }
@@ -398,6 +412,7 @@
     }
 
     numberFormat(event: FocusEvent): void {
+      this.checkValid()
       const _event: any = event
       let fnumber = _event.target.value
       if (fnumber.length > 0) {
@@ -443,5 +458,19 @@
     position: absolute;
     left: 8px;
     top: 4px;
+  }
+  .error-amount {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    p {
+      font-family: Open Sans;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 20px;
+      color: #cf202f;
+    }
   }
 </style>
