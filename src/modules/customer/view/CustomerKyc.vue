@@ -118,9 +118,6 @@
           const routeName = this.$route.name!
           this.query.type = this.objType[routeName]
         }
-        // const name = this.$route.name!
-        // this.query.type = this.objType[name]
-        // console.log('1212', this.query)
         const result = await apiCustomer.getListCustomer({ ...this.query, total: null })
         this.data = result.content || []
         this.query.total = result.totalElements
@@ -169,7 +166,6 @@
     }
 
     handleFilter(filter: Record<string, any>): void {
-      console.log('query', filter)
       this.query = {
         ...this.query,
         ...filter,
