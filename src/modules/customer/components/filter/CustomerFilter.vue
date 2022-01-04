@@ -344,13 +344,14 @@
       if (this.filter.toCreatedAt) {
         toDate = this.$options.filters?.formatReferral(this.filter.toCreatedAt + 86399000)
       }
-
+      
+      console.log('abc',this.filter)
       const filter = {
         ...this.filter,
         fromCreatedAt: fromDate,
-        toCreatedAt: toDate
+        toCreatedAt: toDate,
       }
-      console.log('test', filter)
+      console.log('test1', filter)
       this.$emit('filter', filter)
       this.isVisible = false
     }
