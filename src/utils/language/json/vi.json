@@ -304,6 +304,15 @@
       "verified": "Đã xác minh",
       "locked": "Bị khóa"
     },
+    "tabFilter": {
+      "filter": "Filter",
+      "sort": "Sort by",
+      "all-status": "All status",
+      "kyc-processing": "KYC",
+      "not-verified": "NOT_VERIFIED",
+      "verified": "VERIFIED",
+      "locked": "LOCKED"
+    },
     "sort": {
       "date": "Ngày tạo",
       "country": "Quốc gia",
