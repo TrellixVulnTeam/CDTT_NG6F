@@ -224,16 +224,16 @@
     handleShowPopper(): void {
       switch (this.$route.name) {
         case 'CustomerVerified':
-          this.filter.type = this.$i18n.t('kyc.filter.verified') as string
+          this.filter.type = this.$i18n.t('kyc.tabFilter.verified') as string
           break
         case 'CustomerLocked':
-          this.filter.type = this.$i18n.t('kyc.filter.locked') as string
+          this.filter.type = this.$i18n.t('kyc.tabFilter.locked') as string
           break
         case 'CustomerNotVerified':
-          this.filter.type = this.$i18n.t('kyc.filter.not-verified') as string
+          this.filter.type = this.$i18n.t('kyc.tabFilter.not-verified') as string
           break
         case 'CustomerProcessing':
-          this.filter.type = this.$i18n.t('kyc.filter.kyc-processing') as string
+          this.filter.type = this.$i18n.t('kyc.tabFilter.kyc-processing') as string
           break
       }
       this.isVisible = true
@@ -345,12 +345,12 @@
         toDate = this.$options.filters?.formatReferral(this.filter.toCreatedAt + 86399000)
       }
 
+      console.log('trrr', this.filter)
       const filter = {
         ...this.filter,
         fromCreatedAt: fromDate,
         toCreatedAt: toDate
       }
-      console.log('test', filter)
       this.$emit('filter', filter)
       this.isVisible = false
     }

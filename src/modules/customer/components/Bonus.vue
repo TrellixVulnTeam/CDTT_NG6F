@@ -44,7 +44,7 @@
                   </el-date-picker>
                 </el-form-item>
               </div>
-              <div class="be-flex jc-space-between row" style='position: relative'>
+              <div class="be-flex jc-space-between row" style="position: relative">
                 <el-form-item class="be-flex-item mr-40 form-item-line" :label="$t('label.trans-amount')">
                   <el-input
                     v-model="filter.fromAmount"
