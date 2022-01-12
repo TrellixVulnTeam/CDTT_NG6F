@@ -80,7 +80,7 @@
         : type === 'usdc'
         ? 'amount-usdc'
         : type === 'busd'
-        ? 'icon-busd'
+        ? 'amount-busd'
         : 'amount-locker'
     }
 

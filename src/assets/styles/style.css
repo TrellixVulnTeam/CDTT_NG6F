@@ -51,5 +51,11 @@
   color: var(--bc-amount-lin);
 }
 .amount-usdc{
-  color: var(--bc-text-primary);
+  color: var(--bc-amount-usdc);
 }
+.amount-busd{
+   color: var(--bc-amount-busd);
+ }
+.amount-bnb{
+    color: var(--bc-amount-bnb);
+  }
