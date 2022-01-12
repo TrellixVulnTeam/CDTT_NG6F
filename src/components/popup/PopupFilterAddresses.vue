@@ -11,7 +11,7 @@
               <template>
                 <div class="be-flex wallet-item">
                   <base-icon :icon="renderIconAsset(wallet.currency)" size="24" />
-                  <span class="d-ib" style="margin-left: 10px">{{ formatCurrencyName(wallet.currencyName) }}</span>
+                  <span class="d-ib" style="margin-left: 10px">{{ wallet.currencyName }}</span>
                   <span class="d-ib" style="margin-left: 4px">({{ wallet.currency.toUpperCase() }})</span>
                 </div>
               </template>
@@ -193,6 +193,8 @@
           return 'icon-usdc'
         case 'USDT':
           return 'icon-usdt'
+        case 'BUSD':
+          return 'icon-busd'
 
         default:
           return 'icon-lin'

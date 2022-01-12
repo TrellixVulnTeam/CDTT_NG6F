@@ -53,7 +53,7 @@
                   <template>
                     <div class="be-flex wallet-item">
                       <base-icon :icon="renderIcon(item.currency)" size="24" />
-                      <span class="d-ib" style="margin-left: 10px">{{ formatCurrencyName(item.currencyName) }}</span>
+                      <span class="d-ib" style="margin-left: 10px">{{ item.currencyName }}</span>
                       <span class="d-ib" style="margin-left: 4px">({{ item.currency.toUpperCase() }})</span>
                     </div>
                   </template>
