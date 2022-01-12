@@ -320,7 +320,9 @@
       "email": "email",
       "national": "NATIONALITY",
       "date": "CREATED DATE",
-      "status": "kyc status"
+      "status": "kyc status",
+      "approve-at": "Approved date",
+      "reject-at": "Rejected date"
     },
     "popup": {
       "title": "KYC DETAIL",
@@ -349,8 +351,19 @@
       "verified": "Verified",
       "locked": "Locked"
     },
+    "tabFilter": {
+      "filter": "Filter",
+      "sort": "Sort by",
+      "all-status": "All status",
+      "kyc-processing": "KYC",
+      "not-verified": "NOT_VERIFIED",
+      "verified": "VERIFIED",
+      "locked": "LOCKED"
+    },
     "sort": {
       "date": "Created date",
+      "approve-at": "Approved date",
+      "reject-at": "Rejected date",
       "country": "Nationality",
       "transaction": "Transaction",
       "full-name": "Full name"
@@ -410,7 +423,8 @@
       "bonus-first-trans": "Bonus first transaction",
       "bonus-affilicate": "Bonus affiliate",
       "bonus-big-backer": "Bonus big backer",
-      "bonus-early-backer": "Bonus early backer"
+      "bonus-early-backer": "Bonus early backer",
+      "bonus-sign-up-referral": "Bonus sign up referral"
     },
     "select": {
       "accepted": "Accepted",
@@ -492,6 +506,7 @@
       "bonus-affiliate": "Bonus affiliate",
       "bonus-big-backer": "Bonus big backer",
       "bonus-early-backer": "Bonus early backer",
+      "bonus-sign-up-referral": "Bonus sign up referral",
       "DATE": "DATE",
       "CUSTOMER": "CUSTOMER",
       "STATUS": "STATUS",
@@ -554,6 +569,7 @@
     "BNB": "BNB",
     "USDT": "USDT",
     "USDC": "USDC",
+    "BUSD": "BUSD",
     "deposit": "Deposit",
     "withdraw": "Withdraw",
     "transfer": "Transfer",
@@ -677,7 +693,8 @@
         "usdt-wallet": "USDT Wallet",
         "usdc-wallet": "USDC Wallet",
         "lynk-wallet": "LYNK Wallet",
-        "clm-wallet": "CLM Wallet"
+        "clm-wallet": "CLM Wallet",
+        "busd-wallet": "BUSD Wallet"
       },
       "crow-type": {
         "withdraw": "Withdraw",
@@ -685,6 +702,7 @@
         "transfer": "Transfer",
         "crowdsale": "Crowdsale",
         "bonus-early-backers": "Bonus early backer",
+        "bonus-sign-up-referral": "Bonus sign up referral",
         "bonus-big-backers": "Bonus big backer",
         "bonus-affiliate": "Bonus affiliate",
         "bonus-first-trans": "Bonus first transaction",
@@ -759,6 +777,7 @@
         "Bnb": "BNB Wallet",
         "Usdt": "Tether Wallet",
         "Usdc": "USDC Wallet",
+        "busd": "BUSD Wallet",
         "Cleverme": "CleverMe Wallet",
         "amount": "Amount",
         "available": "Available Amount",

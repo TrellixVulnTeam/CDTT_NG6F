@@ -212,6 +212,13 @@
         symbol: 'bnb',
         icon: 'icon-bnb',
         disabled: true
+      },
+      {
+        id: 4,
+        name: 'BUSD',
+        symbol: 'busd',
+        icon: 'icon-busd',
+        disabled: true
       }
     ]
 

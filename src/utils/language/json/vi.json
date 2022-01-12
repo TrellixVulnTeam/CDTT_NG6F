@@ -275,7 +275,9 @@
       "national": "quốc gia",
       "date": "ngày tạo",
       "status": "trạng thái KYC",
-      "role": "Quyền"
+      "role": "Quyền",
+      "approve-at": "Ngày duyệt",
+      "reject-at": "Ngày từ chối"
     },
     "popup": {
       "title": "CHI TIẾT KYC",
@@ -304,8 +306,19 @@
       "verified": "Đã xác minh",
       "locked": "Bị khóa"
     },
+    "tabFilter": {
+      "filter": "Filter",
+      "sort": "Sort by",
+      "all-status": "All status",
+      "kyc-processing": "KYC",
+      "not-verified": "NOT_VERIFIED",
+      "verified": "VERIFIED",
+      "locked": "LOCKED"
+    },
     "sort": {
       "date": "Ngày tạo",
+      "approve-at": "Ngày duyệt",
+      "reject-at": "Ngày từ chối",
       "country": "Quốc gia",
       "transaction": "Giao dịch",
       "full-name": "Họ tên"
@@ -364,7 +377,8 @@
       "bonus-first-trans": "Thưởng giao dịch đầu tiên",
       "bonus-affilicate": "Thưởng giới thiệu",
       "bonus-big-backer": "Thưởng nhà đầu tư lớn",
-      "bonus-early-backer": "Thưởng nhà đầu tư sớm"
+      "bonus-early-backer": "Thưởng nhà đầu tư sớm",
+      "bonus-sign-up-referral": "Thưởng giới thiệu đăng ký"
     },
     "select": {
       "accepted": "Xác nhận",
@@ -441,6 +455,7 @@
       "bonus-affiliate": "Thưởng giới thiệu",
       "bonus-big-backer": "Thưởng nhà đầu tư lớn",
       "bonus-early-backer": "Thưởng nhà đầu tư sớm",
+      "bonus-sign-up-referral": "Thưởng giới thiệu đăng ký",
       "DATE": "DATE",
       "CUSTOMER": "KHÁCH HÀNG",
       "STATUS": "STATUS",
@@ -507,6 +522,7 @@
     "BNB": "BNB",
     "USDT": "USDT",
     "USDC": "USDC",
+    "BUSD": "BUSD",
     "deposit": "Nạp",
     "withdraw": "Rút",
     "transfer": "Chuyển",
@@ -662,6 +678,7 @@
         "Bnb": "Ví BNB",
         "Usdt": "Ví USDT",
         "Usdc": "Ví USDC",
+        "busd": "Ví BUSD",
         "Cleverme": "Ví CleverMe",
         "amount": "Số lượng",
         "available": "Số lượng có sẵn",
@@ -747,7 +764,8 @@
         "usdt-wallet": "Ví USDT",
         "usdc-wallet": "Ví USDC",
         "lynk-wallet": "Ví LYNK",
-        "clm-wallet": "Ví CLM"
+        "clm-wallet": "Ví CLM",
+        "busd-wallet": "Ví BUSD"
       },
       "crow-type": {
         "withdraw": "Rút",
@@ -759,7 +777,8 @@
         "bonus-affiliate": "Thưởng giới thiệu",
         "bonus-first-trans": "Thưởng giao dịch đầu tiên",
         "bonus-crowdsale": "Thưởng crowdsale",
-        "bonus-sign-up": "Thưởng đăng ký"
+        "bonus-sign-up": "Thưởng đăng ký",
+        "bonus-sign-up-referral": "Thưởng giới thiệu đăng ký"
       }
     }
   },

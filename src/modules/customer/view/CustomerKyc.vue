@@ -118,9 +118,6 @@
           const routeName = this.$route.name!
           this.query.type = this.objType[routeName]
         }
-        const name = this.$route.name!
-        this.query.type = this.objType[name]
-        // console.log('1212', this.objType[name])
         const result = await apiCustomer.getListCustomer({ ...this.query, total: null })
         this.data = result.content || []
         this.query.total = result.totalElements

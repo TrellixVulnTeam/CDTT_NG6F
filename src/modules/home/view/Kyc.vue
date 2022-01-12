@@ -108,7 +108,8 @@
     async init(): Promise<void> {
       try {
         this.isLoading = true
-        const result = await apiKyc.getListKyc({ ...this.query, total: null })
+        const name = this.$route.name!
+        const result = await apiKyc.getListKyc({ ...this.query, total: null }, name)
         this.data = result.content || []
         this.query.total = result.totalElements
         this.isLoading = false
@@ -119,6 +120,7 @@
     }
 
     handleChangeTab(tab: Record<string, any>): void {
+      // this.data = []
       this.$router.push({ name: tab.routeName }).then(() => {
         this.query.kycStatus = this.kycStatus[tab.title]
         this.resetQuery()

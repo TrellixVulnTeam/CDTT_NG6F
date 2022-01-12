@@ -6,8 +6,11 @@ export class KycRepository extends BaseRepository {
     super('api/v1/user')
   }
 
-  async getListKyc(params: Record<string, any>): Promise<any> {
+  async getListKyc(params: Record<string, any>, name: string): Promise<any> {
     try {
+      if (params.orderBy === 'CREATED_AT' && name !== 'KycPending') {
+        params.orderBy = 'APPROVED_AT'
+      }
       const rs = await request.get(`${this.prefix}/settings/kyc-requests`, { params })
       return Promise.resolve(rs.data.data)
     } catch (error) {

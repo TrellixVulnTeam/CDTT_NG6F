@@ -231,6 +231,8 @@
         ? 'icon-bnb'
         : type === 'usdc'
         ? 'icon-usdc'
+        : type === 'busd'
+        ? 'icon-busd'
         : 'icon-lynk'
     }
 

@@ -21,9 +21,10 @@
         <el-table-column :label="$t('kyc.table.email')" prop="email" width="300"> </el-table-column>
         <el-table-column :label="$t('kyc.table.national')" prop="nationality" width="140"> </el-table-column>
 
-        <el-table-column :label="$t('kyc.table.date')" prop="createdAt" width="200">
+        <el-table-column :label="getLabel" prop="createdAt" width="200">
           <template slot-scope="scope">
-            <span>{{ scope.row.createdAt | formatDateHourMs }}</span>
+            <span v-if="getRouteName === 'KycPending'">{{ scope.row.createdAt | formatDateHourMs }}</span>
+            <span v-else>{{ scope.row.approvedAt | formatDateHourMs }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('kyc.table.status')" prop="kycStatus" align="center" width="160">
@@ -46,6 +47,21 @@
 
     get getPaginationInfo(): any {
       return this.$t('paging.customers')
+    }
+
+    get getRouteName(): string {
+      return this.$route.name!
+    }
+
+    get getLabel(): string {
+      const routeName = this.$route.name!
+      if (routeName === 'KycPending') {
+        return this.$t('kyc.table.date') as string
+      }
+      if (routeName === 'KycVerified') {
+        return this.$t('kyc.table.approve-at') as string
+      }
+      return this.$t('kyc.table.reject-at') as string
     }
 
     checkType(type: string): string {

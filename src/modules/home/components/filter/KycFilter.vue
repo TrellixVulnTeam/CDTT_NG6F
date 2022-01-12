@@ -202,13 +202,14 @@
     }, 500)
 
     created(): void {
-      EventBus.$on('changeLang', () => {
-        console.log('a', window.localStorage.getItem('bc-lang'))
-        forEach(this.sorts, elm => {
-          elm.label = this.$i18n.t(elm.i18n)
-        })
-        this.$forceUpdate()
-      })
+      // EventBus.$on('changeLang', () => {
+      //   console.log('a', window.localStorage.getItem('bc-lang'))
+      //   forEach(this.sorts, elm => {
+      //     elm.label = this.$i18n.t(elm.i18n)
+      //   })
+      //   this.$forceUpdate()
+      // })
+      this.handleChangeTextSort()
       EventBus.$on('changeTabKyc', this.handleChangeTab)
       this.$emit('filter', this.filter)
     }
@@ -246,6 +247,20 @@
     destroyed(): void {
       EventBus.$off('changeLang')
       // EventBus.$off('changeTab')
+    }
+
+    handleChangeTextSort(): void {
+      const routeName = this.$route.name!
+
+      if (routeName === 'KycPending') {
+        this.sorts[0].label = this.$i18n.t('kyc.sort.date')
+      }
+      if (routeName === 'KycVerified') {
+        this.sorts[0].label = this.$i18n.t('kyc.sort.approve-at')
+      }
+      if (routeName === 'KycRejected') {
+        this.sorts[0].label = this.$i18n.t('kyc.sort.reject-at')
+      }
     }
 
     handleShowPopper(): void {
@@ -288,7 +303,7 @@
 
     handleChangeTab(): void {
       console.log('change tab')
-
+      this.handleChangeTextSort()
       this.sortActive = 'CREATED_AT'
       this.queryApprove = {
         page: 1,

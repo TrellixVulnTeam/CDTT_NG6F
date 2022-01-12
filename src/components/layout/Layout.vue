@@ -80,7 +80,7 @@
         this.isLoading = true
         this.selectLanguage = window.localStorage.getItem('bc-lang')!
         await this.getInfo()
-        this.handleSignInFireBase()
+        await this.handleSignInFireBase()
         this.timing = setInterval(() => {
           this.handleSignInFireBase()
         }, 3600000)
@@ -100,15 +100,16 @@
 
     // }
 
-    async handleSignInFireBase(): Promise<void> {
+    async handleSignInFireBase(): Promise<any> {
       try {
         const data = {
           password: this.$options.filters?.encryptPassword('#!@Firebase-web-client@!#')
         }
         const result = await apiParams.getTokenFirebase(data)
-        firebase.auth().signInWithCustomToken(result.authToken)
+        await firebase.auth().signInWithCustomToken(result.authToken)
+        return Promise.resolve()
       } catch (error) {
-        console.log(error)
+        return Promise.reject(error)
       }
     }
 

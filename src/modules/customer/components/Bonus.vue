@@ -44,7 +44,7 @@
                   </el-date-picker>
                 </el-form-item>
               </div>
-              <div class="be-flex jc-space-between row" style='position: relative'>
+              <div class="be-flex jc-space-between row" style="position: relative">
                 <el-form-item class="be-flex-item mr-40 form-item-line" :label="$t('label.trans-amount')">
                   <el-input
                     v-model="filter.fromAmount"
@@ -389,7 +389,8 @@
           return this.$t('customer.table.bonus-affilicate')
         case 'BONUS_BIG_BACKER':
           return this.$t('customer.table.bonus-big-backer')
-
+        case 'BONUS_SIGN_UP_REFERRAL':
+          return this.$i18n.t('customer.table.bonus-sign-up-referral')
         default:
           return this.$t('customer.table.bonus-early-backer')
       }

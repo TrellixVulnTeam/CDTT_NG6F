@@ -86,8 +86,23 @@ export function convertAmountDecimal(amount: string | number, currency: string):
     USDT: 2,
     BNB: 5,
     ETH: 8,
-    BTC: 8
+    BTC: 8,
+    BUSD: 2,
+    PERCENT: 2
   }
+
+  if (!amount) {
+    if (currency === 'PERCENT') {
+      return '0'
+    }
+    amount = 0 // case amount = null | ''
+    return amount.toLocaleString('en-US', { minimumFractionDigits: objConvert[currency] })
+  }
+
+  if (amount >= 100 && currency === 'PERCENT') {
+    return '100'
+  }
+
   amount = amount.toString()
   if (includes(amount, '.')) {
     const afterDot = amount.substr(amount.indexOf('.'))

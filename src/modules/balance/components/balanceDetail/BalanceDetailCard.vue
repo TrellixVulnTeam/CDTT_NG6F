@@ -61,6 +61,8 @@
         ? (this.$i18n.t('balance.popup.wallet.bnb-wallet') as string)
         : type === 'usdc'
         ? (this.$i18n.t('balance.popup.wallet.usdc-wallet') as string)
+        : type === 'busd'
+        ? (this.$i18n.t('balance.popup.wallet.busd-wallet') as string)
         : (this.$i18n.t('balance.popup.wallet.clm-wallet') as string)
     }
 
@@ -77,6 +79,8 @@
         ? 'amount-bnb'
         : type === 'usdc'
         ? 'amount-usdc'
+        : type === 'busd'
+        ? 'icon-busd'
         : 'amount-locker'
     }
 
@@ -95,6 +99,8 @@
         ? 'icon-bnb'
         : type === 'usdc'
         ? 'icon-usdc'
+        : type === 'busd'
+        ? 'icon-busd'
         : 'icon-locker'
     }
   }
