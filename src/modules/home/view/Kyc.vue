@@ -120,6 +120,7 @@
     }
 
     handleChangeTab(tab: Record<string, any>): void {
+      // this.data = []
       this.$router.push({ name: tab.routeName }).then(() => {
         this.query.kycStatus = this.kycStatus[tab.title]
         this.resetQuery()

@@ -275,7 +275,9 @@
       "national": "quốc gia",
       "date": "ngày tạo",
       "status": "trạng thái KYC",
-      "role": "Quyền"
+      "role": "Quyền",
+      "approve-at": "Ngày duyệt",
+      "reject-at": "Ngày từ chối"
     },
     "popup": {
       "title": "CHI TIẾT KYC",
@@ -315,6 +317,8 @@
     },
     "sort": {
       "date": "Ngày tạo",
+      "approve-at": "Ngày duyệt",
+      "reject-at": "Ngày từ chối",
       "country": "Quốc gia",
       "transaction": "Giao dịch",
       "full-name": "Họ tên"

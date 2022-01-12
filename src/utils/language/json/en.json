@@ -320,7 +320,9 @@
       "email": "email",
       "national": "NATIONALITY",
       "date": "CREATED DATE",
-      "status": "kyc status"
+      "status": "kyc status",
+      "approve-at": "Approved date",
+      "reject-at": "Rejected date"
     },
     "popup": {
       "title": "KYC DETAIL",
@@ -360,6 +362,8 @@
     },
     "sort": {
       "date": "Created date",
+      "approve-at": "Approved date",
+      "reject-at": "Rejected date",
       "country": "Nationality",
       "transaction": "Transaction",
       "full-name": "Full name"
