@@ -54,6 +54,11 @@ const balanceRouters: RouteConfig[] = [
                 path: 'USDC',
                 name: 'BalanceUsdc',
                 component: () => import('../view/Balance.vue')
+              },
+              {
+                path: 'BUSD',
+                name: 'BalanceBusd',
+                component: () => import('../view/Balance.vue')
               }
             ]
           }

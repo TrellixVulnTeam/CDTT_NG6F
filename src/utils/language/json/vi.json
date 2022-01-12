@@ -373,7 +373,8 @@
       "bonus-first-trans": "Thưởng giao dịch đầu tiên",
       "bonus-affilicate": "Thưởng giới thiệu",
       "bonus-big-backer": "Thưởng nhà đầu tư lớn",
-      "bonus-early-backer": "Thưởng nhà đầu tư sớm"
+      "bonus-early-backer": "Thưởng nhà đầu tư sớm",
+      "bonus-sign-up-referral": "Thưởng giới thiệu đăng ký"
     },
     "select": {
       "accepted": "Xác nhận",
@@ -450,6 +451,7 @@
       "bonus-affiliate": "Thưởng giới thiệu",
       "bonus-big-backer": "Thưởng nhà đầu tư lớn",
       "bonus-early-backer": "Thưởng nhà đầu tư sớm",
+      "bonus-sign-up-referral": "Thưởng giới thiệu đăng ký",
       "DATE": "DATE",
       "CUSTOMER": "KHÁCH HÀNG",
       "STATUS": "STATUS",
@@ -516,6 +518,7 @@
     "BNB": "BNB",
     "USDT": "USDT",
     "USDC": "USDC",
+    "BUSD": "BUSD",
     "deposit": "Nạp",
     "withdraw": "Rút",
     "transfer": "Chuyển",
@@ -756,7 +759,8 @@
         "usdt-wallet": "Ví USDT",
         "usdc-wallet": "Ví USDC",
         "lynk-wallet": "Ví LYNK",
-        "clm-wallet": "Ví CLM"
+        "clm-wallet": "Ví CLM",
+        "busd-wallet": "Ví BUSD"
       },
       "crow-type": {
         "withdraw": "Rút",
@@ -768,7 +772,8 @@
         "bonus-affiliate": "Thưởng giới thiệu",
         "bonus-first-trans": "Thưởng giao dịch đầu tiên",
         "bonus-crowdsale": "Thưởng crowdsale",
-        "bonus-sign-up": "Thưởng đăng ký"
+        "bonus-sign-up": "Thưởng đăng ký",
+        "bonus-sign-up-referral": "Thưởng giới thiệu đăng ký"
       }
     }
   },

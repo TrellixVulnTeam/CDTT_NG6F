@@ -157,6 +157,8 @@
           return 'icon-usdc'
         case 'USDT':
           return 'icon-usdt'
+        case 'BUSD':
+          return 'icon-busd'
 
         default:
           return 'icon-lin'

@@ -117,6 +117,8 @@
           return 'icon-usdc'
         case 'USDT':
           return 'icon-usdt'
+        case 'BUSD':
+          return 'icon-busd'
 
         default:
           return 'icon-lin'
@@ -137,6 +139,8 @@
           return 'USDC'
         case 'USDT':
           return 'Tether'
+        case 'BUSD':
+          return 'Binance USD'
 
         default:
           return 'LynKey'

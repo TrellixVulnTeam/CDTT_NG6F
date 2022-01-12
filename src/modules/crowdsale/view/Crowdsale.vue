@@ -44,7 +44,7 @@
         <el-progress type="line" :percentage="progressbar" :stroke-width="20" color="#129961" :show-text="false"></el-progress>
         <div class="bottom">
           <div class="box1 box">
-            <p class="fw-600 fs-18 price">{{ (roundCurrent && roundCurrent.percentageSold * 1000) / 10 }}%</p>
+            <p class="fw-600 fs-18 price">{{ ((roundCurrent && roundCurrent.percentageSold * 1000) / 10) | convertAmountDecimal('PERCENT') }}%</p>
             <p class="fw-400 fs-14">{{ $t('crowdsale.completed') }}</p>
           </div>
           <div class="line"></div>

@@ -389,7 +389,8 @@
           return this.$t('customer.table.bonus-affilicate')
         case 'BONUS_BIG_BACKER':
           return this.$t('customer.table.bonus-big-backer')
-
+        case 'BONUS_SIGN_UP_REFERRAL':
+          return this.$i18n.t('customer.table.bonus-sign-up-referral')
         default:
           return this.$t('customer.table.bonus-early-backer')
       }

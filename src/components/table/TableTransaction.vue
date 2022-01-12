@@ -108,6 +108,8 @@
           return this.$i18n.t('transaction.table.bonus-big-backer')
         case 'BONUS_EARLY_BACKER':
           return this.$i18n.t('transaction.table.bonus-early-backer')
+        case 'BONUS_SIGN_UP_REFERRAL':
+          return this.$i18n.t('transaction.table.bonus-sign-up-referral')
 
         default:
           return this.$i18n.t('transaction.table.sell')

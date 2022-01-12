@@ -98,7 +98,7 @@ export function convertAmountDecimal(amount: string | number, currency: string):
     return amount.toLocaleString('en-US', { minimumFractionDigits: objConvert[currency] })
   }
 
-  if (amount === 100 && currency === 'PERCENT') {
+  if (amount >= 100 && currency === 'PERCENT') {
     return '100'
   }
 

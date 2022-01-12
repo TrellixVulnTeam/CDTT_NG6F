@@ -125,6 +125,11 @@
         id: 6,
         title: 'USDC',
         routeName: 'BalanceUsdc'
+      },
+      {
+        id: 7,
+        title: 'BUSD',
+        routeName: 'BalanceBusd'
       }
     ]
     titlePending = ''
