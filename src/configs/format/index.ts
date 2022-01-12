@@ -87,6 +87,7 @@ export function convertAmountDecimal(amount: string | number, currency: string):
     BNB: 5,
     ETH: 8,
     BTC: 8,
+    BUSD: 2,
     PERCENT: 2
   }
 
