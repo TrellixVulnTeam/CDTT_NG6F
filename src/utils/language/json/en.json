@@ -777,6 +777,7 @@
         "Bnb": "BNB Wallet",
         "Usdt": "Tether Wallet",
         "Usdc": "USDC Wallet",
+        "busd": "BUSD Wallet",
         "Cleverme": "CleverMe Wallet",
         "amount": "Amount",
         "available": "Available Amount",

@@ -192,6 +192,8 @@
           return this.$t('request.popup.account.Usdt')
         case 'USDC':
           return this.$t('request.popup.account.Usdc')
+        case 'BUSD':
+          return this.$t('request.popup.account.busd')
         default:
           return this.$t('request.popup.account.Cleverme')
       }
@@ -210,6 +212,8 @@
           return 'amount-usdt'
         case 'USDC':
           return 'amount-usdc'
+        case 'BUSD':
+          return 'amount-busd'
         default:
           return 'amount-clm'
       }
