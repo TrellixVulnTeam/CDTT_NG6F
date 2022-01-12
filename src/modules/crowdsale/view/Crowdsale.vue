@@ -16,15 +16,15 @@
           <div class="mini-ellipse">
             <p v-if="getStatus === 1" class="fw-600 fs-24 percentageSold" style="margin-bottom: 2px; margin-top: 24px">
               <span v-if="roundCurrent && roundCurrent.percentageSold"> {{ ((roundCurrent && roundCurrent.percentageSold * 1000) / 10) | convertAmountDecimal('PERCENT') }}%</span>
-              <span>0%</span>
+              <span v-else>0%</span>
             </p>
             <p v-if="getStatus !== 1 && isFinish" class="fw-600 fs-24 percentageSold percentageSoldFinish" style="margin-bottom: 2px; margin-top: 24px">
               <span v-if="roundCurrent && roundCurrent.percentageSold"> {{ ((roundCurrent && roundCurrent.percentageSold * 1000) / 10) | convertAmountDecimal('PERCENT') }}%</span>
-              <span>0%</span>
+              <span v-else>0%</span>
             </p>
             <p v-if="getStatus !== 1 && !isFinish" class="fw-600 fs-24 percentageSold percentageSoldUpcoming" style="margin-bottom: 2px; margin-top: 24px">
               <span v-if="roundCurrent && roundCurrent.percentageSold"> {{ ((roundCurrent && roundCurrent.percentageSold * 1000) / 10) | convertAmountDecimal('PERCENT') }}%</span>
-              <span>0%</span>
+              <span v-else>0%</span>
             </p>
             <p class="fw-400 fs-12" style="color: #5b616e">
               {{ $t('crowdsale.of') }} <span class="fw-600">{{ (roundCurrent && roundCurrent.totalAmount) / 1000000 }}M</span>
