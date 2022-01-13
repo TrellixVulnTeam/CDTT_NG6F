@@ -152,7 +152,7 @@
     errorType = ''
 
     showChoseCurrency(name: string, type: string): string {
-      return formatType(name) + '(' + type + ')'
+      return name + ' (' + type + ')'
     }
 
     convertListNetwork(listAssetNetwork: Array<Record<string, any>>): Array<Record<string, any>> {
