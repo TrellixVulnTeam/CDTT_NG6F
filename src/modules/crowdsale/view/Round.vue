@@ -35,6 +35,7 @@
         <el-table-column :label="this.$t('crowdsale.progress2')" prop="percentageSold" align="right" width="160">
           <template slot-scope="scope">
             <span>{{ ((scope.row.percentageSold * 1000) / 10) | convertAmountDecimal('PERCENT') }}%</span>
+            <!-- <span v-else>0%</span> -->
           </template>
         </el-table-column>
       </base-table>
