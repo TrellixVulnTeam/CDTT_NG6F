@@ -238,7 +238,9 @@
           const url = window.URL.createObjectURL(new Blob([response.data]))
           const link = document.createElement('a')
           link.href = url
-          link.setAttribute('download', `Danh_sach.xlsx`)
+          const date = new Date()
+          const time = `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}_${date.getHours()}.${date.getMinutes()}.${date.getSeconds()}`
+          link.setAttribute('download', `crowdsate_transaction_${time}.xlsx`)
           document.body.appendChild(link)
           link.click()
           this.isLoadingBtn = false
