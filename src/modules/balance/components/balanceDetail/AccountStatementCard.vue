@@ -35,7 +35,7 @@
             <span v-else style="color: #cf202f; font-size: 16px">{{ scope.row.debitAmountDisplay }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('balance.popup.balance')" align="right" prop="balanceDisplay"> </el-table-column>
+        <el-table-column :label="$t('balance.popup.balance')" align="right" prop="balanceDisplay"></el-table-column>
         <el-table-column :label="$t('balance.popup.status')" align="center" width="144" prop="status">
           <template slot-scope="scope">
             <span v-if="scope.row.status !== 'FAILED'" :class="checkType(scope.row.status)">{{ checkStatus(scope.row.status) }}</span>
@@ -45,7 +45,9 @@
       </base-table>
     </div>
     <div class="total be-flex">
-      <div class="total-title" v-bind:style="language === 'vi' ? 'width:204px' : 'width:186px'">{{ $t('balance.popup.total') }}</div>
+      <div class="total-title" v-bind:style="language === 'vi' ? 'width:204px' : 'width:186px'">
+        {{ $t('balance.popup.total') }}
+      </div>
       <p class="credit" v-if="summary.totalCreditAmount === '0'">0 {{ this.tabActiveFilter.toUpperCase() }}</p>
       <p class="credit" v-else>+ {{ summary.totalCreditAmount | numberWithCommas }} {{ this.tabActiveFilter.toUpperCase() }}</p>
       <p v-if="summary.totalDebitAmount === '0'">0 {{ this.tabActiveFilter.toUpperCase() }}</p>
@@ -63,6 +65,7 @@
   import { Component, Prop, Vue } from 'vue-property-decorator'
   import { formatType } from '@/configs'
   import { namespace } from 'vuex-class'
+
   const beBase = namespace('beBase')
   @Component
   export default class AccountStatementCard extends Vue {
@@ -72,16 +75,19 @@
     @Prop({}) isLoading!: boolean
     @Prop({ required: true }) tabActiveFilter!: string
     @beBase.State('coinMain') coinMain!: string
+
     get getPaginationInfo(): any {
       return this.$t('paging.transaction')
     }
+
     language = ''
+
     created() {
       if (window.localStorage.getItem('bc-lang')) {
         this.language = window.localStorage.getItem('bc-lang') as string
-        console.log(this.language)
       }
     }
+
     checkType(type: string): string {
       return type === 'Not verified' ? 'status-not-verified' : type === 'PENDING' ? 'status-pending' : type === 'SUCCESS' ? 'status-verified' : 'status-rejected'
     }
@@ -89,6 +95,7 @@
     getDataSelectTab(): void {
       console.log('1')
     }
+
     checkRowType(type: string) {
       switch (type) {
         case 'WITHDRAW':
@@ -113,6 +120,7 @@
           return this.$i18n.t('balance.popup.crow-type.bonus-sign-up')
       }
     }
+
     checkStatus(status: string): any {
       switch (status) {
         case 'SUCCESS':
@@ -145,6 +153,7 @@
 <style scoped lang="scss">
   .wallet-table-balance {
     padding-bottom: 24px;
+
     &__above {
       border-bottom: 1px solid var(--bc-border-primary);
 
@@ -199,25 +208,30 @@
       background-color: #f3f2f1;
       padding: 12px 16px;
       margin: 0 24px;
+
       p {
         font-size: 16px;
         color: #0a0b0d;
         font-weight: 600;
       }
+
       p:last-of-type {
         margin-right: 144px;
       }
     }
+
     .total {
       margin: 0 24px;
       background-color: #f3f2f1;
       padding: 12px 16px;
+
       .total-title {
         width: 188px;
         font-size: 16px;
         color: #0a0b0d;
         font-weight: 600;
       }
+
       p {
         width: 194px;
         font-size: 16px;
@@ -227,23 +241,28 @@
         word-wrap: break-word;
         word-break: break-word;
       }
+
       .credit {
         width: 186px !important;
       }
+
       p:last-of-type {
         margin-right: 144px;
       }
     }
+
     .ending-balance {
       margin: 8px 24px 0 24px;
       border-radius: 4px;
       background-color: #0151fc;
       padding: 12px 16px;
+
       p {
         font-size: 16px;
         color: #ffffff;
         font-weight: 600;
       }
+
       p:last-of-type {
         margin-right: 144px;
       }
