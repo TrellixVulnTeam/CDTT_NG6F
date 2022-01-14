@@ -230,6 +230,8 @@
       const params = {
         ...this.query,
         ...this.dataProp,
+        country: null,
+        total: null,
         zoneId: timeZone
       }
       api
