@@ -25,6 +25,11 @@
     width: 120px;
     padding: 8px;
     font-weight: 400;
+    &:focus {
+        color: var(--bc-btn-text);
+        border-color: var(--bc-btn-border);
+        background-color: var(--bc-bg-white);
+    }
     &:hover {
         color: var(--bc-btn-default-text-hover);
         border-color: var(--bc-btn-default-border-hover);

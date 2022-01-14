@@ -138,7 +138,8 @@
     "add-deposit": "Nạp",
     "delete-user": "Xóa nhân viên",
     "save": "Lưu",
-    "delete": "Xóa"
+    "delete": "Xóa",
+    "export-excel": "Tải file excel"
   },
   "scan": {
     "qrcode": "QUÉT QR CODE"
