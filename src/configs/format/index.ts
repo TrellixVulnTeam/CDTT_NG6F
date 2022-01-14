@@ -333,8 +333,10 @@ export function convert_datetime(timestamp: number) {
   )
 }
 export function convertToLocalDate(utcTime: any) {
-  const time: number = new Date(utcTime).getTime() / 1000 + 7 * 60 * 60
-  return convert_datetime(time)
+  if (utcTime !== '') {
+    const time: number = new Date(utcTime).getTime() / 1000 + 7 * 60 * 60
+    return convert_datetime(time)
+  } else return ''
 }
 
 export function formatReferral(value: number): any {
