@@ -26,7 +26,13 @@
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-      <el-button :loading="isLoadingBtn" class="btn-default btn-close btn-h-40 ml-auto be-flex align-center" style="width: auto !important" @click="handleExport">
+      <el-button
+        v-if="getRoleExport"
+        :loading="isLoadingBtn"
+        class="btn-default btn-close btn-h-40 ml-auto be-flex align-center"
+        style="width: auto !important"
+        @click="handleExport"
+      >
         <div class="be-flex align-center">
           <base-icon icon="icon-excel" style="display: inline-flex" size="22" />
           <span style="padding-left: 5px">{{ $t('button.export-excel') }}</span>
@@ -122,6 +128,11 @@
     get getPaginationInfo(): any {
       return this.$t('paging.crowdsale')
     }
+
+    get getRoleExport(): boolean {
+      return this.checkPemission('crowd-sale', ['export'])
+    }
+
     indexMethod(index: number): number {
       return (this.query.page - 1) * this.query.limit + index + 1
     }
