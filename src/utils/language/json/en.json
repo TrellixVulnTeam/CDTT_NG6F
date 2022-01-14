@@ -170,7 +170,8 @@
     "add-deposit": "Deposit",
     "delete-user": "Delete User",
     "save": "Save",
-    "delete": "Delete"
+    "delete": "Delete",
+    "export-excel":"Export"
   },
   "deposit": {
     "lynkey": "DEPOSIT LYNKEY",

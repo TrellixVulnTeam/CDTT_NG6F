@@ -78,4 +78,15 @@ export class CrowdsaleRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+  async exportTransaction(params: Record<string, any>): Promise<any> {
+    try {
+      const rs = await request.get(`${this.prefix}/crowdsales-transactions/export`, {
+        params,
+        responseType: 'blob'
+      })
+      return Promise.resolve(rs)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
 }

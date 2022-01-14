@@ -26,6 +26,18 @@
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
+      <el-button
+        v-if="getRoleExport"
+        :loading="isLoadingBtn"
+        class="btn-default btn-close btn-h-40 ml-auto be-flex align-center"
+        style="width: auto !important"
+        @click="handleExport"
+      >
+        <div class="be-flex align-center">
+          <base-icon icon="icon-excel" style="display: inline-flex" size="22" />
+          <span style="padding-left: 5px">{{ $t('button.export-excel') }}</span>
+        </div>
+      </el-button>
     </div>
     <div class="table">
       <base-table
@@ -112,9 +124,15 @@
     loadingTable = true
     orderBy = 'TRANSACTION_DATE'
     dataTable: any = []
+    isLoadingBtn = false
     get getPaginationInfo(): any {
       return this.$t('paging.crowdsale')
     }
+
+    get getRoleExport(): boolean {
+      return this.checkPemission('crowd-sale', ['export'])
+    }
+
     indexMethod(index: number): number {
       return (this.query.page - 1) * this.query.limit + index + 1
     }
@@ -203,6 +221,8 @@
     @Watch('query.search')
     handleSearch(search: any): void {
       this.loadingTable = true
+      this.query.page = 1
+      this.query.limit = 10
       this.getDataTable()
     }
     async init(): Promise<void> {
@@ -213,6 +233,34 @@
     }
     created(): void {
       this.init()
+    }
+
+    handleExport(): void {
+      this.isLoadingBtn = true
+      const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+      const params = {
+        ...this.query,
+        ...this.dataProp,
+        country: null,
+        total: null,
+        zoneId: timeZone
+      }
+      api
+        .exportTransaction(params)
+        .then(response => {
+          const url = window.URL.createObjectURL(new Blob([response.data]))
+          const link = document.createElement('a')
+          link.href = url
+          const date = new Date()
+          const time = `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}_${date.getHours()}.${date.getMinutes()}.${date.getSeconds()}`
+          link.setAttribute('download', `crowdsate_transaction_${time}.xlsx`)
+          document.body.appendChild(link)
+          link.click()
+          this.isLoadingBtn = false
+        })
+        .catch(() => {
+          this.isLoadingBtn = false
+        })
     }
   }
 </script>

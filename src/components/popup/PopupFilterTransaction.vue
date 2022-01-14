@@ -208,14 +208,14 @@
       },
       {
         id: 4,
-        name: 'BNB',
+        name: 'Binance',
         symbol: 'bnb',
         icon: 'icon-bnb',
         disabled: true
       },
       {
         id: 4,
-        name: 'BUSD',
+        name: 'Binance USD',
         symbol: 'busd',
         icon: 'icon-busd',
         disabled: true

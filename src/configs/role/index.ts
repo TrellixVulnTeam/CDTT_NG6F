@@ -63,7 +63,7 @@ export const ROLE_DEFINE: UserRoleInterface[] = [
     roles: [
       {
         module: 'crowd-sale',
-        roles: ['all']
+        roles: ['view']
       },
       {
         module: 'kyc',
@@ -186,7 +186,7 @@ export const ROLE_DEFINE: UserRoleInterface[] = [
     roles: [
       {
         module: 'crowd-sale',
-        roles: ['view']
+        roles: ['view', 'export']
       },
       {
         module: 'kyc',
