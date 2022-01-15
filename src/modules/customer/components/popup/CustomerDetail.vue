@@ -61,7 +61,7 @@
           <customer-address v-if="tabActive === 2" :userId="detailRow.userId" />
           <customer-balance v-if="tabActive === 3" :userId="detailRow.userId" />
           <customer-transaction v-if="tabActive === 4" :userId="detailRow.userId" />
-          <vesting-list v-if="tabActive === 5" />
+          <vesting-list v-if="tabActive === 5" :userId="detailRow.userId"/>
           <customer-referral v-if="tabActive === 6" :userId="detailRow.userId" />
           <customer-bonus v-if="tabActive === 7" :userId="detailRow.userId" />
           <statistic v-if="tabActive === 8" :userId="detailRow.userId" />
