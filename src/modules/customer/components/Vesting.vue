@@ -128,7 +128,7 @@
   @Component
   export default class VestingList extends Vue {
     // @Prop({ required: true, type: Array, default: [] }) listRound!: Array<Record<string, any>>
-    @beAuth.State('user') user!: Record<string, any>
+    @Prop({ required: true, type: Number, default: 0 }) userId!: number
     @beBase.State('coinMain') coinMain!: string
 
     tabActive = 0
@@ -189,7 +189,7 @@
     async handleGetVestingOfRound(): Promise<void> {
       try {
         this.isLoading = true
-        const result = await apiWallet.getInfoVesting({ userId: this.user.userId, roundId: this.listRound[this.tabActive].id })
+        const result = await apiWallet.getInfoVesting({ userId: this.userId, roundId: this.listRound[this.tabActive].id })
         if (result) {
           this.round = result.round
           this.vestingList = result.vestingList
