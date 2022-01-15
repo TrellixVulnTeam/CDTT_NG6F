@@ -300,34 +300,23 @@ export function formatType(type: string | null): string {
     return strTotal
   } else return ''
 }
-export function convert_datetime(timestamp: number) {
-  const months_arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
-  const date = new Date(timestamp * 1000)
-  // var year = date.getFullYear();
-  // var month = months_arr[date.getMonth()];
-  // var day = date.getDate();
-  // var hours = date.getHours();
-  // var minutes = "0" + date.getMinutes();
-  // var convdataTime = day + ' thg ' + month + ', ' + year + ' - ' + hours + ':' + minutes.substr(-2)
-  // let convdataTime=Moment.getDate(timestamp,"dd thg mm, yyyy",false)+", "+Moment.getTime(timestamp,"hh:mm",false)
-  return (
-    (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
-    '/' +
-    (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
-    '/' +
-    date.getFullYear() +
-    ' ' +
-    (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) +
-    ':' +
-    (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) +
-    ':' +
-    (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds())
-  )
-}
-export function convertToLocalDate(utcTime: any) {
-  if (utcTime !== '') {
+export function convertToLocalDate(utcTime: string|number) {
+  if (utcTime) {
     const time: number = new Date(utcTime).getTime() / 1000 + 7 * 60 * 60
-    return convert_datetime(time)
+    const date = new Date(time * 1000)
+    return (
+      (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+      '/' +
+      (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
+      '/' +
+      date.getFullYear() +
+      ' ' +
+      (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) +
+      ':' +
+      (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) +
+      ':' +
+      (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds())
+    )
   } else return ''
 }
 

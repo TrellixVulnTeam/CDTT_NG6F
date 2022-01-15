@@ -93,6 +93,13 @@
       "deposit": "Deposit",
       "withdraw": "Withdraw",
       "buy": "Buy"
+    },
+    "vesting": {
+      "period": "PERIOD",
+      "date": "VESTING DATE",
+      "percentage": "PERCENTAGE",
+      "release-amount": "RELEASE AMOUNT",
+      "status": "status"
     }
   },
   "leftMenu": {
@@ -576,7 +583,8 @@
     "transfer": "Transfer",
     "member-active": "Active",
     "member-inactive": "Inactive",
-    "crowdsales": "Crowdsale"
+    "crowdsales": "Crowdsale",
+    "vesting": "Vesting"
   },
   "status": {
     "pending": "Pending",

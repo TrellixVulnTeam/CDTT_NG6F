@@ -10,7 +10,8 @@ import { RequestRepository } from './repositories/request'
 import { TransactionRepository } from './repositories/transaction'
 import { ExceptionRepository } from './repositories/exception'
 import { MemberRepository } from './repositories/member'
-type RepositoryName = 'verify' | 'auth' | 'setting' | 'kyc' | 'params' | 'customer' | 'crowdsale' | 'balance' | 'request' | 'transaction' | 'exception' | 'member'
+import WalletRepository from '@/services/repositories/wallet'
+type RepositoryName = 'verify' | 'auth' | 'setting' | 'kyc' | 'params' | 'customer' | 'crowdsale' | 'balance' | 'request' | 'transaction' | 'exception' | 'member' | 'wallet'
 
 export default function getRepository(name: RepositoryName): any {
   switch (name) {
@@ -38,6 +39,8 @@ export default function getRepository(name: RepositoryName): any {
       return new ExceptionRepository()
     case 'member':
       return new MemberRepository()
+    case 'wallet':
+      return new WalletRepository()
     default:
       return null
   }

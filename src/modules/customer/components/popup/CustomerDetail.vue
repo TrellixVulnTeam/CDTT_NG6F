@@ -61,10 +61,11 @@
           <customer-address v-if="tabActive === 2" :userId="detailRow.userId" />
           <customer-balance v-if="tabActive === 3" :userId="detailRow.userId" />
           <customer-transaction v-if="tabActive === 4" :userId="detailRow.userId" />
-          <customer-referral v-if="tabActive === 5" :userId="detailRow.userId" />
-          <customer-bonus v-if="tabActive === 6" :userId="detailRow.userId" />
-          <statistic v-if="tabActive === 7" :userId="detailRow.userId" />
-          <setting v-if="tabActive === 8" :userId="detailRow.userId" :dataDetail="detailRow" :summary="summary" />
+          <vesting-list v-if="tabActive === 5" />
+          <customer-referral v-if="tabActive === 6" :userId="detailRow.userId" />
+          <customer-bonus v-if="tabActive === 7" :userId="detailRow.userId" />
+          <statistic v-if="tabActive === 8" :userId="detailRow.userId" />
+          <setting v-if="tabActive === 9" :userId="detailRow.userId" :dataDetail="detailRow" :summary="summary" />
         </div>
       </div>
     </div>
@@ -83,6 +84,7 @@
   import CustomerBonus from '../Bonus.vue'
   import Statistic from '@/modules/customer/components/Statistic.vue'
   import Setting from '@/modules/customer/components/Setting.vue'
+  import VestingList from '@/modules/customer/components/Vesting.vue'
   import { CustomerRepository } from '@/services/repositories/customer'
   import getRepository from '@/services'
 
@@ -113,7 +115,8 @@
       CustomerAddress,
       CustomerBonus,
       Statistic,
-      Setting
+      Setting,
+      VestingList
     }
   })
   export default class CustomerDetail extends Mixins(PopupMixin) {
@@ -146,18 +149,22 @@
       },
       {
         id: 5,
-        title: 'referral'
+        title: 'vesting'
       },
       {
         id: 6,
-        title: 'bonus'
+        title: 'referral'
       },
       {
         id: 7,
-        title: 'statistics'
+        title: 'bonus'
       },
       {
         id: 8,
+        title: 'statistics'
+      },
+      {
+        id: 9,
         title: 'setting'
       }
     ]
