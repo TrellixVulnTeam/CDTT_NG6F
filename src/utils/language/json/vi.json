@@ -107,6 +107,8 @@
     "balance": "Balance",
     "withdrawal-request": "Withdrawal Request",
     "transactions": "Transactions",
+    "released": "released",
+    "left": "left",
     "table": {
       "transaction": "TRANSACTION ID",
       "date": "date",
