@@ -97,6 +97,36 @@
     "exception": "Ngoại lệ",
     "member": "Nhân sự"
   },
+  "wallet": {
+    "Linkey": "LynKey Wallet",
+    "Ethereum": "Ethereum Wallet",
+    "Bitcoin": "Bitcoin Wallet",
+    "lock": "Locked Amount",
+    "paginationInfo": "transactions",
+    "paginationInfoRq": "requests",
+    "balance": "Balance",
+    "withdrawal-request": "Withdrawal Request",
+    "transactions": "Transactions",
+    "table": {
+      "transaction": "TRANSACTION ID",
+      "date": "date",
+      "type": "type",
+      "status": "status",
+      "amount": "amount"
+    },
+    "button": {
+      "deposit": "Deposit",
+      "withdraw": "Withdraw",
+      "buy": "Buy"
+    },
+    "vesting": {
+      "period": "PERIOD",
+      "date": "VESTING DATE",
+      "percentage": "PERCENTAGE",
+      "release-amount": "RELEASE AMOUNT",
+      "status": "status"
+    }
+  },
   "footer": {
     "terms": "Các điều khoản và điều kiện"
   },
@@ -529,7 +559,8 @@
     "transfer": "Chuyển",
     "member-active": "Hoạt động",
     "member-inactive": "Không hoạt động",
-    "crowdsales": "Crowdsale"
+    "crowdsales": "Crowdsale",
+    "vesting": "Vesting"
   },
   "status": {
     "pending": "Đang chờ",
