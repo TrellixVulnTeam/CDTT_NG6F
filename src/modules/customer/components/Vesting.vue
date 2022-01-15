@@ -1,5 +1,5 @@
 <template>
-  <div class="vesting-list">
+  <div id="vesting" class="vesting-list">
     <div class="be-flex round-tab">
       <div
         v-for="(round, index) in listRound"
@@ -24,7 +24,7 @@
           :class="item.status === 'RELEASED' ? 'round-release' : 'round-lock'"
           class="progress-item"
         >
-          <el-tooltip class="item" effect="dark" :content="item.transactionDate | formatMMDDYYWithoutHours" placement="top">
+          <el-tooltip class="item" effect="dark" :content="item.transactionDate | formatMMDDYY" placement="top">
             <span> {{ (item.vestingPercentage * 1000) / 10 }}%</span>
           </el-tooltip>
         </div>
@@ -32,11 +32,11 @@
       <div class="be-flex jc-space-between below">
         <div class="be-flex align-center text-desc">
           <base-icon icon="icon-mark" size="20" />
-          <span>{{ getFromDate.transactionDate | formatMMDDYYWithoutHours }}</span>
+          <span>{{ getFromDate.transactionDate | formatMMDDYY }}</span>
         </div>
         <div class="be-flex align-center text-desc">
           <base-icon icon="icon-flag" size="20" />
-          <span>{{ getToDate.transactionDate | formatMMDDYYWithoutHours }}</span>
+          <span>{{ getToDate.transactionDate | formatMMDDYY }}</span>
         </div>
       </div>
     </div>
@@ -174,7 +174,7 @@
     }
 
     async created(): Promise<any> {
-      await this.getListRound();
+      await this.getListRound()
       await this.handleGetVestingOfRound()
     }
     async getListRound(): Promise<void> {
@@ -250,6 +250,17 @@
 </script>
 
 <style scoped lang="scss">
+  ::v-deep#vesting {
+    .el-table__footer-wrapper tbody td,
+    .el-table__header-wrapper tbody td {
+      background-color: var(--bc-tab-active);
+    }
+    .el-table__footer-wrapper {
+      .has-gutter tr td .cell {
+        color: #ffffff !important;
+      }
+    }
+  }
   .vesting-list {
     padding: 24px;
     .round-tab {
@@ -280,7 +291,8 @@
         border-radius: 40px;
         overflow: hidden;
         .progress-item {
-          padding: 8px 20px;
+          cursor: pointer;
+          //padding: 4px 2px;
           text-align: center;
           position: relative;
           font-size: 12px;
