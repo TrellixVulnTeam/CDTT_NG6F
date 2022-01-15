@@ -285,7 +285,7 @@
       margin-top: 52px;
       .above {
         margin-bottom: 8px;
-        padding: 0 16px;
+        //padding: 0 16px;
       }
       .progress-bar {
         border-radius: 40px;
