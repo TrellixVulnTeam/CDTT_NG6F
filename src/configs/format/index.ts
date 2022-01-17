@@ -186,6 +186,21 @@ export function formatMMDDYY(value: string | number): any {
   )
 }
 
+export function formatDateMMDDYY(value: string | number): any {
+  if (!value) {
+    return ''
+  }
+  const date = new Date(value)
+  return (
+    (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+    '/' +
+    (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
+    '/' +
+    date.getFullYear() +
+    ' '
+  )
+}
+
 export function formatMMDDYYWithoutHour(value: string | number): any {
   if (!value) {
     return ''

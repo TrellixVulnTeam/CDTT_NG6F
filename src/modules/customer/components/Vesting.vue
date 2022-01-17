@@ -24,7 +24,7 @@
           :class="item.status === 'RELEASED' ? 'round-release' : 'round-lock'"
           class="progress-item"
         >
-          <el-tooltip class="item" effect="dark" :content="item.transactionDate | formatMMDDYY" placement="top">
+          <el-tooltip class="item" effect="dark" :content="item.transactionDate | formatDateMMDDYY" placement="top">
             <span> {{ (item.vestingPercentage * 1000) / 10 }}%</span>
           </el-tooltip>
         </div>
@@ -32,11 +32,11 @@
       <div class="be-flex jc-space-between below">
         <div class="be-flex align-center text-desc">
           <base-icon icon="icon-mark" size="20" />
-          <span>{{ getFromDate.transactionDate | formatMMDDYY }}</span>
+          <span>{{ getFromDate.transactionDate | formatDateMMDDYY }}</span>
         </div>
         <div class="be-flex align-center text-desc">
           <base-icon icon="icon-flag" size="20" />
-          <span>{{ getToDate.transactionDate | formatMMDDYY }}</span>
+          <span>{{ getToDate.transactionDate | formatDateMMDDYY }}</span>
         </div>
       </div>
     </div>
@@ -262,7 +262,7 @@
     }
   }
   .vesting-list {
-    padding: 24px;
+    padding: 24px 8px;
     .round-tab {
       width: fit-content;
       margin: 0 auto;
@@ -297,6 +297,9 @@
           position: relative;
           font-size: 12px;
           color: #5b616e;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
         .round-release {
           background-color: #129961;
