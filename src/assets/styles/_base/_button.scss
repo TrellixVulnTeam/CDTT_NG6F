@@ -43,6 +43,11 @@
     border: 1px solid transparent;
     width: 120px;
     padding: 8px;
+    &:focus {
+        color: var(--bc-color-white);
+        border-color: transparent;
+        background-color: var(--bc-btn-bg-default);
+    }
     &:hover {
         background-color: var(--bc-btn-bg-default-hover);
         color: var(--bc-color-white);

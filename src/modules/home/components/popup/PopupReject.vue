@@ -40,11 +40,19 @@
     checkList = []
     reason = ''
     isLoading = false
+    isStopDbClick = false
 
     handleReject(): void {
+      if (this.isStopDbClick) {
+        return
+      }
+      this.isStopDbClick = true
       if (!this.checkList.length) {
         let message: any = this.$t('notify.no-select-reject')
         this.$message.warning({ message, duration: 5000 })
+        setTimeout(() => {
+          this.isStopDbClick = false
+        }, 1000)
         return
       }
       const data = {
@@ -52,6 +60,9 @@
         reason: this.reason
       }
       this.$emit('reject', data)
+      setTimeout(() => {
+        this.isStopDbClick = false
+      }, 1000)
       this.handleClose()
     }
 
