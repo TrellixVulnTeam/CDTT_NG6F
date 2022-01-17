@@ -10,7 +10,7 @@
         @rowClick="handleRowClick"
         class="base-table table-wallet"
       >
-        <el-table-column label="#" type="index" :index="indexMethod" align="center" width="70" />
+        <el-table-column label="#" type="index" :index="indexMethod" align="center" width="80" />
         <el-table-column :label="$t('kyc.table.fullName')" min-width="200">
           <template slot-scope="scope">
             <div class="be-flex align-center">
