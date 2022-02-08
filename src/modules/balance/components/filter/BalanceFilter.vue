@@ -199,7 +199,7 @@
     @Watch('filterBalance.toAvailableAmount') watchToAmount(value: string | number): void {
       const a = value.toString().replaceAll(',', '')
       const b = this.filterBalance.fromAvailableAmount.toString().replaceAll(',', '')
-      if (parseFloat(a) > parseFloat(b) || value == '') {
+      if (parseFloat(a) >= parseFloat(b) || value == '') {
         this.checkAvailabelAmout = false
       } else {
         this.checkAvailabelAmout = true
@@ -208,7 +208,7 @@
     @Watch('filterBalance.toLockedAmount') watchLocked(value: string | number): void {
       const a = value.toString().replaceAll(',', '')
       const b = this.filterBalance.fromLockedAmount.toString().replaceAll(',', '')
-      if (parseFloat(a) > parseFloat(b) || value == '') {
+      if (parseFloat(a) >= parseFloat(b) || value == '') {
         this.checkLockedAmount = false
       } else {
         this.checkLockedAmount = true
@@ -217,7 +217,7 @@
     @Watch('filterBalance.toBalanceAmount') watchBalance(value: string | number): void {
       const a = value.toString().replaceAll(',', '')
       const b = this.filterBalance.fromBalanceAmount.toString().replaceAll(',', '')
-      if (parseFloat(a) > parseFloat(b) || value == '') {
+      if (parseFloat(a) >= parseFloat(b) || value == '') {
         this.checkBalance = false
       } else {
         this.checkBalance = true

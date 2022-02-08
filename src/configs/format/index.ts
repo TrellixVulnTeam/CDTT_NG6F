@@ -192,12 +192,7 @@ export function formatDateMMDDYY(value: string | number): any {
   }
   const date = new Date(value)
   return (
-    (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
-    '/' +
-    (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
-    '/' +
-    date.getFullYear() +
-    ' '
+    (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '/' + (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + '/' + date.getFullYear() + ' '
   )
 }
 
@@ -315,7 +310,7 @@ export function formatType(type: string | null): string {
     return strTotal
   } else return ''
 }
-export function convertToLocalDate(utcTime: string|number) {
+export function convertToLocalDate(utcTime: string | number) {
   if (utcTime) {
     const time: number = new Date(utcTime).getTime() / 1000 + 7 * 60 * 60
     const date = new Date(time * 1000)
