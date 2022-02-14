@@ -333,6 +333,8 @@
         page: 1,
         limit: 10
       }
+      console.log('query',this.query);
+      
       this.debounceInit()
     }
 
