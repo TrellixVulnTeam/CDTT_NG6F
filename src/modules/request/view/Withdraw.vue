@@ -62,7 +62,6 @@
                 v-model="filter.toAmount"
                 :placeholder="$t('request.filter.planceOder3')"
                 class="box-input-request-date"
-                clearable
                 @keypress.native="onlyNumber($event)"
                 @keyup.native="numberFormat($event)"
                 @blur="clickOutSide"
