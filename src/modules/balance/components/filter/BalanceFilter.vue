@@ -41,13 +41,23 @@
                 <!-- <el-input :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateStart')" clearable></el-input> -->
                 <el-row class="flex_line">
                   <el-col :span="11">
-                    <el-input v-model="filterBalance.fromLockedAmount" @keypress.native="onlyNumber($event)" @keyup.native="numberFormat($event)" type="text" :placeholder="$t('placeholder.from')"
+                    <el-input
+                      v-model="filterBalance.fromLockedAmount"
+                      @keypress.native="onlyNumber($event)"
+                      @keyup.native="numberFormat($event)"
+                      type="text"
+                      :placeholder="$t('placeholder.from')"
                       ><div class="prefix" slot="prefix">$</div></el-input
                     >
                   </el-col>
                   <!-- <span class="dash"><i class="el-icon-minus icon-dash"></i></span> -->
                   <el-col :span="11" style="float: right">
-                    <el-input v-model="filterBalance.toLockedAmount" @keypress.native="onlyNumber($event)" @keyup.native="numberFormat($event)" type="text" :placeholder="$t('placeholder.to')"
+                    <el-input
+                      v-model="filterBalance.toLockedAmount"
+                      @keypress.native="onlyNumber($event)"
+                      @keyup.native="numberFormat($event)"
+                      type="text"
+                      :placeholder="$t('placeholder.to')"
                       ><div class="prefix" slot="prefix">$</div></el-input
                     >
                   </el-col>
@@ -251,9 +261,18 @@ export default class KycFilter extends Vue {
   }
   searchText = debounce((value: string) => {
     console.log('3', this.filterBalance)
-    this.$emit('filterBalance', {
+    const filters = {
       ...this.filterBalance,
+      fromAvailableAmount: this.filterBalance.fromAvailableAmount.replaceAll(',', ''),
+      fromBalanceAmount: this.filterBalance.fromBalanceAmount.replaceAll(',', ''),
+      fromLockedAmount: this.filterBalance.fromLockedAmount.replaceAll(',', ''),
+      toAvailableAmount: this.filterBalance.toAvailableAmount.replaceAll(',', ''),
+      toBalanceAmount: this.filterBalance.toBalanceAmount.replaceAll(',', ''),
+      toLockedAmount: this.filterBalance.toLockedAmount.replaceAll(',', ''),
       search: trim(value)
+    }
+    this.$emit('filterBalance', {
+      filters
     })
   }, 500)
   numberFormat(event: FocusEvent): void {
@@ -318,7 +337,7 @@ export default class KycFilter extends Vue {
   }
 
   resetFilter(): void {
-     (this.filterBalance.toBalanceAmount = ''), (this.filterBalance.fromBalanceAmount = ''), (this.filterBalance.toLockedAmount = '')
+    ;(this.filterBalance.toBalanceAmount = ''), (this.filterBalance.fromBalanceAmount = ''), (this.filterBalance.toLockedAmount = '')
     this.filterBalance.fromLockedAmount = ''
     this.filterBalance.toAvailableAmount = ''
     this.filterBalance.fromAvailableAmount = ''
@@ -340,7 +359,16 @@ export default class KycFilter extends Vue {
   handleSort(command: string): void {
     this.sortActive = command
     this.filterBalance.orderBy = command
-    this.$emit('filterBalance', this.filterBalance)
+    const filters = {
+      ...this.filterBalance,
+      fromAvailableAmount: this.filterBalance.fromAvailableAmount.replaceAll(',', ''),
+      fromBalanceAmount: this.filterBalance.fromBalanceAmount.replaceAll(',', ''),
+      fromLockedAmount: this.filterBalance.fromLockedAmount.replaceAll(',', ''),
+      toAvailableAmount: this.filterBalance.toAvailableAmount.replaceAll(',', ''),
+      toBalanceAmount: this.filterBalance.toBalanceAmount.replaceAll(',', ''),
+      toLockedAmount: this.filterBalance.toLockedAmount.replaceAll(',', '')
+    }
+    this.$emit('filterBalance', filters)
   }
 
   handleApply(): void {
@@ -364,7 +392,7 @@ export default class KycFilter extends Vue {
   }
   search = ''
   handleReset(): void {
-     (this.filterBalance.toBalanceAmount = ''), (this.filterBalance.fromBalanceAmount = ''), (this.filterBalance.toLockedAmount = '')
+    ;(this.filterBalance.toBalanceAmount = ''), (this.filterBalance.fromBalanceAmount = ''), (this.filterBalance.toLockedAmount = '')
     this.filterBalance.fromLockedAmount = ''
     this.filterBalance.toAvailableAmount = ''
     this.filterBalance.fromAvailableAmount = ''
