@@ -318,7 +318,7 @@ export default class KycFilter extends Vue {
   }
 
   resetFilter(): void {
-    ;(this.search = ''), (this.filterBalance.toBalanceAmount = ''), (this.filterBalance.fromBalanceAmount = ''), (this.filterBalance.toLockedAmount = '')
+     (this.filterBalance.toBalanceAmount = ''), (this.filterBalance.fromBalanceAmount = ''), (this.filterBalance.toLockedAmount = '')
     this.filterBalance.fromLockedAmount = ''
     this.filterBalance.toAvailableAmount = ''
     this.filterBalance.fromAvailableAmount = ''
@@ -364,7 +364,7 @@ export default class KycFilter extends Vue {
   }
   search = ''
   handleReset(): void {
-    ;(this.search = ''), (this.filterBalance.toBalanceAmount = ''), (this.filterBalance.fromBalanceAmount = ''), (this.filterBalance.toLockedAmount = '')
+     (this.filterBalance.toBalanceAmount = ''), (this.filterBalance.fromBalanceAmount = ''), (this.filterBalance.toLockedAmount = '')
     this.filterBalance.fromLockedAmount = ''
     this.filterBalance.toAvailableAmount = ''
     this.filterBalance.fromAvailableAmount = ''
