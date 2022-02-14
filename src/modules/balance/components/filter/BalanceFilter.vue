@@ -41,13 +41,13 @@
                 <!-- <el-input :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateStart')" clearable></el-input> -->
                 <el-row class="flex_line">
                   <el-col :span="11">
-                    <el-input v-model="filterBalance.fromLockedAmount" @keyup.native="numberFormat($event)" type="text" :placeholder="$t('placeholder.from')"
+                    <el-input v-model="filterBalance.fromLockedAmount" @keypress.native="onlyNumber($event)" @keyup.native="numberFormat($event)" type="text" :placeholder="$t('placeholder.from')"
                       ><div class="prefix" slot="prefix">$</div></el-input
                     >
                   </el-col>
                   <!-- <span class="dash"><i class="el-icon-minus icon-dash"></i></span> -->
                   <el-col :span="11" style="float: right">
-                    <el-input v-model="filterBalance.toLockedAmount" @keyup.native="numberFormat($event)" type="text" :placeholder="$t('placeholder.to')"
+                    <el-input v-model="filterBalance.toLockedAmount" @keypress.native="onlyNumber($event)" @keyup.native="numberFormat($event)" type="text" :placeholder="$t('placeholder.to')"
                       ><div class="prefix" slot="prefix">$</div></el-input
                     >
                   </el-col>
