@@ -54,6 +54,7 @@
                 clearable
                 @keyup.native="numberFormat($event)"
                 @blur="clickOutSide"
+                type="number"
               >
                 <div class="prefix" slot="prefix">$</div>
               </el-input>
@@ -63,6 +64,7 @@
                 :placeholder="$t('request.filter.planceOder3')"
                 class="box-input-request-date"
                 clearable
+                type="number"
                 @keyup.native="numberFormat($event)"
                 @blur="clickOutSide"
               >

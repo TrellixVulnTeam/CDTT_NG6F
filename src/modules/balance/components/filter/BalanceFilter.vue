@@ -1,6 +1,6 @@
 <template>
   <div class="pb-24 pt-24 be-flex align-center kyc-filter">
-    <el-input v-model="filterBalance.search" class="input-search" :placeholder="$t('placeholder.search')">
+    <el-input v-model="search" class="input-search" :placeholder="$t('placeholder.search')">
       <span slot="prefix" class="prefix-search">
         <base-icon icon="icon-search" size="24" />
       </span>
@@ -13,12 +13,12 @@
               <el-form-item class="be-flex-item mr-40" :label="$t('label.available-amount')">
                 <el-row class="flex_line">
                   <el-col :span="11">
-                    <el-input v-model="filterBalance.fromAvailableAmount" @keyup.native="numberFormat($event)" type="text" :placeholder="$t('placeholder.from')"
+                    <el-input v-model="filterBalance.fromAvailableAmount" @keyup.native="numberFormat($event)" type="number" :placeholder="$t('placeholder.from')"
                       ><div class="prefix" slot="prefix">$</div></el-input
                     >
                   </el-col>
                   <el-col :span="11" style="float: right">
-                    <el-input v-model="filterBalance.toAvailableAmount" @keyup.native="numberFormat($event)" type="text" :placeholder="$t('placeholder.to')"
+                    <el-input v-model="filterBalance.toAvailableAmount" @keyup.native="numberFormat($event)" type="number" :placeholder="$t('placeholder.to')"
                       ><div class="prefix" slot="prefix">$</div></el-input
                     >
                   </el-col>
@@ -31,13 +31,13 @@
                 <!-- <el-input :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateStart')" clearable></el-input> -->
                 <el-row class="flex_line">
                   <el-col :span="11">
-                    <el-input v-model="filterBalance.fromLockedAmount" @keyup.native="numberFormat($event)" type="text" :placeholder="$t('placeholder.from')"
+                    <el-input v-model="filterBalance.fromLockedAmount" @keyup.native="numberFormat($event)" type="number" :placeholder="$t('placeholder.from')"
                       ><div class="prefix" slot="prefix">$</div></el-input
                     >
                   </el-col>
                   <!-- <span class="dash"><i class="el-icon-minus icon-dash"></i></span> -->
                   <el-col :span="11" style="float: right">
-                    <el-input v-model="filterBalance.toLockedAmount" @keyup.native="numberFormat($event)" type="text" :placeholder="$t('placeholder.to')"
+                    <el-input v-model="filterBalance.toLockedAmount" @keyup.native="numberFormat($event)" type="number" :placeholder="$t('placeholder.to')"
                       ><div class="prefix" slot="prefix">$</div></el-input
                     >
                   </el-col>
@@ -50,13 +50,13 @@
                 <!-- <el-input :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateStart')" clearable></el-input> -->
                 <el-row class="flex_line">
                   <el-col :span="11">
-                    <el-input v-model="filterBalance.fromBalanceAmount" @keyup.native="numberFormat($event)" type="text" :placeholder="$t('placeholder.from')"
+                    <el-input v-model="filterBalance.fromBalanceAmount" @keyup.native="numberFormat($event)" type="number" :placeholder="$t('placeholder.from')"
                       ><div class="prefix" slot="prefix">$</div></el-input
                     >
                   </el-col>
                   <!-- <span class="dash"><i class="el-icon-minus icon-dash"></i></span> -->
                   <el-col :span="11" style="float: right">
-                    <el-input v-model="filterBalance.toBalanceAmount" @keyup.native="numberFormat($event)" type="text" :placeholder="$t('placeholder.to')"
+                    <el-input v-model="filterBalance.toBalanceAmount" @keyup.native="numberFormat($event)" type="number" :placeholder="$t('placeholder.to')"
                       ><div class="prefix" slot="prefix">$</div></el-input
                     >
                   </el-col>
@@ -118,14 +118,13 @@
   export default class KycFilter extends Vue {
     @Prop({ required: true, type: Array, default: [] }) listApproveBy!: Array<Record<string, any>>
     filterBalance = {
-      search: '',
       toBalanceAmount: '',
       fromBalanceAmount: '',
       toLockedAmount: '',
       fromLockedAmount: '',
       toAvailableAmount: '',
       fromAvailableAmount: '',
-      orderBy: ''
+      orderBy: '3'
     }
     loading = false
     listApprove: Array<Record<string, any>> = []
@@ -223,7 +222,7 @@
         this.checkBalance = true
       }
     }
-    @Watch('filterBalance.search') handleSearch(value: string): void {
+    @Watch('search') handleSearch(value: string): void {
       this.searchText(value)
     }
     @Watch('filterBalance.fromAvailableAmount') availabelAmount(value: string): void {
@@ -231,6 +230,7 @@
       // this.filterBalance.fromAvailableAmount = "$ " + value
     }
     searchText = debounce((value: string) => {
+      console.log('3', this.filterBalance)
       this.$emit('filterBalance', {
         ...this.filterBalance,
         search: trim(value)
@@ -290,8 +290,8 @@
     }
 
     resetFilter(): void {
+      this.search =''
       this.filterBalance = {
-        search: '',
         toBalanceAmount: '',
         fromBalanceAmount: '',
         toLockedAmount: '',
@@ -303,7 +303,7 @@
     }
 
     handleChangeTab(): void {
-      ;(this.filterBalance.search = ''),
+      ;(this.search = ''),
         (this.filterBalance.toBalanceAmount = ''),
         (this.filterBalance.fromBalanceAmount = ''),
         (this.filterBalance.toLockedAmount = ''),
@@ -326,6 +326,7 @@
         console.log('validate')
       } else {
         this.isVisible = false
+        console.log('a', this.filterBalance)
         const filters = {
           ...this.filterBalance,
           fromAvailableAmount: this.filterBalance.fromAvailableAmount.replaceAll(',', ''),
@@ -338,11 +339,10 @@
         this.$emit('filterBalance', filters)
       }
     }
-
+    search = ''
     handleReset(): void {
       this.filterBalance = {
-        search: '',
-        orderBy: '',
+        orderBy: '3',
         toBalanceAmount: '',
         fromBalanceAmount: '',
         toLockedAmount: '',
@@ -350,8 +350,10 @@
         toAvailableAmount: '',
         fromAvailableAmount: ''
       }
-      this.$emit('filterBalance', this.filterBalance)
-      this.isVisible = false
+      console.log('thanh', this.filterBalance);
+      
+      // this.$emit('filterBalance', this.filterBalance)
+      // this.isVisible = false
     }
   }
 </script>
