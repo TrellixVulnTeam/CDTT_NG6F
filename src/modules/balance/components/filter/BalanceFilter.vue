@@ -271,9 +271,7 @@ export default class KycFilter extends Vue {
       toLockedAmount: this.filterBalance.toLockedAmount.replaceAll(',', ''),
       search: trim(value)
     }
-    this.$emit('filterBalance', {
-      filters
-    })
+    this.$emit('filterBalance',filters)
   }, 500)
   numberFormat(event: FocusEvent): void {
     const _event: any = event
