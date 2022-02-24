@@ -270,25 +270,27 @@
     }
 
     handleChangeTab(tab: Record<string, any>): void {
-      // console.log('tab', tab.title)
-      this.$router.push({ name: tab.routeName })
-      // this.query.tabBalance = this.kycStatus[tab.title]
-      this.tabActive = tab.title
-      this.query.page = 1
-      this.query.limit = 10
-      this.query.orderBy = 1
-      this.query.toBalanceAmount = ''
-      ;(this.query.fromBalanceAmount = ''),
-        (this.query.toLockedAmount = ''),
-        (this.query.fromLockedAmount = ''),
-        (this.query.toAvailableAmount = ''),
-        (this.query.fromAvailableAmount = ''),
-        (this.query.search = '')
-      this.query.orderBy = '3'
-      this.init()
-      this.resetQuery()
-      EventBus.$emit('selectTabBalance')
-      EventBus.$emit('changeTab', this.tabActive)
+      console.log('tab', tab.title, this.$route.name, this.tabActive)
+      if (tab.title != this.tabActive) {
+        this.$router.push({ name: tab.routeName })
+        // this.query.tabBalance = this.kycStatus[tab.title]
+        this.tabActive = tab.title
+        this.query.page = 1
+        this.query.limit = 10
+        this.query.orderBy = 3
+        this.query.toBalanceAmount = ''
+        ;(this.query.fromBalanceAmount = ''),
+          (this.query.toLockedAmount = ''),
+          (this.query.fromLockedAmount = ''),
+          (this.query.toAvailableAmount = ''),
+          (this.query.fromAvailableAmount = ''),
+          (this.query.search = '')
+        // this.query.orderBy = '3'
+        this.init()
+        this.resetQuery()
+        EventBus.$emit('selectTabBalance')
+        EventBus.$emit('changeTab', this.tabActive)
+      }
     }
 
     destroyed(): void {
@@ -302,7 +304,7 @@
         page: 1,
         limit: 10,
         search: '',
-        orderBy: '1'
+        orderBy: 3
       }
     }
 
@@ -331,6 +333,8 @@
         page: 1,
         limit: 10
       }
+      console.log('query',this.query);
+      
       this.debounceInit()
     }
 

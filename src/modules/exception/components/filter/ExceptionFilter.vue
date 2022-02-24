@@ -364,7 +364,7 @@
     @Watch('filterException.toAmount') watchToAmount(value: string | number): void {
       const a = value.toString().replaceAll(',', '')
       const b = this.filterException.fromAmount.toString().replaceAll(',', '')
-      if (parseFloat(a) > parseFloat(b) || value == '') {
+      if (parseFloat(a) >= parseFloat(b) || value == '') {
         this.errorType = ''
       } else {
         this.errorType = 'amount'
