@@ -1,6 +1,8 @@
 import request from '@/plugins/request'
 import { BaseRepository } from '@/services/base'
 import { IBodyApiVerify } from '@/interface'
+import DeviceDetector from 'device-detector-js'
+import FingerprintJS from '@fingerprintjs/fingerprintjs'
 
 export class AuthRepository extends BaseRepository {
   constructor() {
@@ -21,11 +23,46 @@ export class AuthRepository extends BaseRepository {
     }
   }
 
+  async getVisitorId(): Promise<string> {
+    try {
+      const fpPromise = FingerprintJS.load()
+      const fp = await fpPromise
+      const result = await fp.get()
+      return Promise.resolve(result.visitorId)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+
+  async getInfoDevice(): Promise<string> {
+    const deviceUuid = await this.getVisitorId()
+
+    const deviceDetector = new DeviceDetector()
+
+    const userAgent = window.navigator.userAgent
+    const appName = 'LynKey Wallet'
+    const appVersion = process.env.VUE_APP_VERSION
+
+    const device = deviceDetector.parse(userAgent)
+
+    const deviceType = device.device?.type
+    const deviceOs = device.os?.name
+    const deviceOsVersion = (device.os?.name as string) + ' ' + device.os?.version
+    const deviceName = (device.client?.name as string) + ' ' + device.client?.version
+
+    return `${appName}&space;${appVersion}&space;1.0.0&space;${deviceType}&space;${deviceOs}&space;${deviceName}&space;${deviceUuid}&space;${deviceOsVersion}`
+  }
+
   async login(data: Record<string, any>): Promise<any> {
     try {
+      const device = await this.getInfoDevice()
       delete request.defaults.headers.common['Authorization']
       data.employee = true
-      const result = await request.post(`${this.prefix}/login`, data)
+      const result = await request.post(`${this.prefix}/login`, data, {
+        headers: {
+          Device: device
+        }
+      })
       return Promise.resolve(result.data.data)
     } catch (error) {
       return Promise.reject(error)
@@ -52,11 +89,13 @@ export class AuthRepository extends BaseRepository {
   }
   async validateUser(data: Record<string, any>, captcha: string): Promise<any> {
     try {
+      const device = await this.getInfoDevice()
       data.employee = true
       delete request.defaults.headers.common['Authorization']
       const rs = await request.post(`${this.prefix}/validate`, data, {
         headers: {
-          'captcha-response': captcha
+          'captcha-response': captcha,
+          Device: device
         }
       })
       return Promise.resolve(rs.data.data)
