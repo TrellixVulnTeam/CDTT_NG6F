@@ -112,7 +112,7 @@ export const ROLE_DEFINE: UserRoleInterface[] = [
       },
       {
         module: 'customer',
-        roles: ['view', 'view-kyc-customer-detail', 'view-detail-customer']
+        roles: ['view', 'view-kyc-customer-detail', 'view-detail-customer', 'view-detail-device']
       },
       {
         module: 'balance',

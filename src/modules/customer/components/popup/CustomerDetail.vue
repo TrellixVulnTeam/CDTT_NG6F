@@ -66,7 +66,7 @@
           <customer-bonus v-if="tabActive === 7" :userId="detailRow.userId" />
           <statistic v-if="tabActive === 8" :userId="detailRow.userId" />
           <setting v-if="tabActive === 9" :userId="detailRow.userId" :dataDetail="detailRow" :summary="summary" />
-          <device v-if="tabActive === 10" :userId="detailRow.userId" />
+          <device v-if="tabActive === 10 && checkPemission('customer', ['view-detail-device'])" :userId="detailRow.userId" />
         </div>
       </div>
     </div>
