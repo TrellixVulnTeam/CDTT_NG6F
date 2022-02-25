@@ -180,7 +180,7 @@
     "delete-user": "Delete User",
     "save": "Save",
     "delete": "Delete",
-    "export-excel":"Export"
+    "export-excel": "Export"
   },
   "deposit": {
     "lynkey": "DEPOSIT LYNKEY",
@@ -434,7 +434,11 @@
       "bonus-affilicate": "Bonus affiliate",
       "bonus-big-backer": "Bonus big backer",
       "bonus-early-backer": "Bonus early backer",
-      "bonus-sign-up-referral": "Bonus sign up referral"
+      "bonus-sign-up-referral": "Bonus sign up referral",
+      "device-os": "Device OS",
+      "device-name": "Device Name",
+      "last-login": "Last login",
+      "2fa-status": "2FA status"
     },
     "select": {
       "accepted": "Accepted",
@@ -570,6 +574,7 @@
     "bonus": "Bonus",
     "statistics": "Statistics",
     "setting": "Settings",
+    "device": "Devices",
     "Transactions": "Transactions",
     "Round": "Round",
     "LYNK": "LYNK",

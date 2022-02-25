@@ -66,6 +66,7 @@
           <customer-bonus v-if="tabActive === 7" :userId="detailRow.userId" />
           <statistic v-if="tabActive === 8" :userId="detailRow.userId" />
           <setting v-if="tabActive === 9" :userId="detailRow.userId" :dataDetail="detailRow" :summary="summary" />
+          <device v-if="tabActive === 10" :userId="detailRow.userId" />
         </div>
       </div>
     </div>
@@ -85,10 +86,7 @@
   import Statistic from '@/modules/customer/components/Statistic.vue'
   import Setting from '@/modules/customer/components/Setting.vue'
   import VestingList from '@/modules/customer/components/Vesting.vue'
-  import { CustomerRepository } from '@/services/repositories/customer'
-  import getRepository from '@/services'
-
-  const apiCustomer: CustomerRepository = getRepository('customer')
+  import Device from '../Device.vue'
 
   export interface IStatistics {
     transactionType: string | null
@@ -116,7 +114,8 @@
       CustomerBonus,
       Statistic,
       Setting,
-      VestingList
+      VestingList,
+      Device
     }
   })
   export default class CustomerDetail extends Mixins(PopupMixin) {
@@ -166,6 +165,10 @@
       {
         id: 9,
         title: 'setting'
+      },
+      {
+        id: 10,
+        title: 'device'
       }
     ]
     tabActive = 0

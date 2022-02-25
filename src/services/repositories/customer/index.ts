@@ -199,4 +199,13 @@ export class CustomerRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+  async getListDevice(customerId: number): Promise<any> {
+    try {
+      const rs = await request.get(`api/v1/user-device/${customerId}`)
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      console.log(error)
+      return Promise.reject(error)
+    }
+  }
 }

@@ -411,7 +411,11 @@
       "bonus-affilicate": "Thưởng giới thiệu",
       "bonus-big-backer": "Thưởng nhà đầu tư lớn",
       "bonus-early-backer": "Thưởng nhà đầu tư sớm",
-      "bonus-sign-up-referral": "Thưởng giới thiệu đăng ký"
+      "bonus-sign-up-referral": "Thưởng giới thiệu đăng ký",
+      "device-os": "Hệ điều hành",
+      "device-name": "Tên thiết bị",
+      "last-login": "Lần đăng nhập cuối",
+      "2fa-status": "Trạng thái 2FA"
     },
     "select": {
       "accepted": "Xác nhận",
@@ -546,6 +550,7 @@
     "bonus": "Thưởng",
     "statistics": "Thống kê",
     "setting": "Cài đặt",
+    "device": "Thiết bị",
     "Transactions": "Giao dịch",
     "Round": "Vòng",
     "LYNK": "LYNK",
