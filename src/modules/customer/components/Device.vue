@@ -3,12 +3,12 @@
     <div class="table" v-loading="isLoading" :class="isLoading ? 'list-loading' : null">
       <base-table :data="listDevice" :showPagination="false" class="base-table table-wallet">
         <el-table-column label="#" :index="getIndex" type="index" width="50" />
-        <el-table-column :label="$t('customer.table.device-os')">
+        <el-table-column :label="$t('customer.table.device-os')" width="220">
           <template slot-scope="scope">
             <span class="d-ib">{{ scope.row.devicesOsVersion }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('customer.table.device-name')" width="220">
+        <el-table-column :label="$t('customer.table.device-name')">
           <template slot-scope="scope">
             <span class="d-ib">{{ scope.row.deviceName }}</span>
           </template>
