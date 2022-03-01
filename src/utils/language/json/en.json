@@ -155,6 +155,7 @@
     "from-amount": "From amount",
     "to-amount": "To amount",
     "select-type": "Select type",
+    "select-type-1": "Select type",
     "status": "Select status",
     "from": "From",
     "to": "To",
@@ -545,6 +546,19 @@
       "full-name": "Full name",
       "phone-number": "Phone number",
       "email": "Email"
+    },
+    "filter": {
+      "sign-up": "Bonus sign up",
+      "first-tran": "Bonus first transaction",
+      "bonus-crowdsale": "Bonus crowdsale",
+      "big-backer": "Bonus big backer",
+      "affitiate": "Bonus affiate",
+      "early-backer": "Bonus early backer",
+      "sign-up-ref": "Bonus sign up referral",
+      "crowdsale": "Crowdsale",
+      "deposit": "Deposit",
+      "transfer": "Transfer",
+      "withdraw": "Withdraw"
     }
   },
   "params": {

@@ -146,6 +146,7 @@
     "from-amount": "Từ",
     "to-amount": "Đến",
     "select-type": "Chọn trạng thái",
+    "select-type-1": "Chọn loại giao dịch",
     "status": "Chọn trạng thái",
     "from": "Từ",
     "to": "Tới",
@@ -521,6 +522,19 @@
       "full-name": "Tên đầy đủ",
       "phone-number": "Số điện thoại",
       "email": "Email"
+    },
+    "filter": {
+      "sign-up": "Thưởng đăng ký",
+      "first-tran": "Thưởng giao dịch đầu tiên",
+      "bonus-crowdsale": "Thưởng crowdsale",
+      "big-backer": "Thưởng nhà đầu tư lớn",
+      "affitiate": "Thưởng giới thiệu",
+      "early-backer": "Thưởng nhà đầu tư sớm",
+      "sign-up-ref": "Thưởng đăng ký giới thiệu",
+      "crowdsale": "Crowdsale",
+      "deposit": "Nạp",
+      "transfer": "Chuyển",
+      "withdraw": "Rút"
     }
   },
   "params": {

@@ -96,6 +96,11 @@
           </el-form-item>
         </div>
         <div v-else>
+          <el-form-item v-if="type === 'customer'" :label="$t('label.trans-type')">
+            <el-select v-model="filter.transactionType" :placeholder="$t('placeholder.select-type-1')" class="w-100" clearable>
+              <el-option v-for="(type, index) in listType" :key="index" :label="type.name" :value="type.value" />
+            </el-select>
+          </el-form-item>
           <el-form-item :label="$t('label.status')">
             <el-select v-model="filter.status" clearable class="w-100">
               <el-option v-for="status in listStatus" :key="status.id" :value="status.value" :label="status.label">
@@ -140,8 +145,67 @@
       fromAmount: '',
       toAmount: '',
       status: '',
-      bonusType: ''
+      bonusType: '',
+      transactionType: ''
     }
+
+    listType: Array<Record<string, any>> = [
+      {
+        id: 0,
+        name: this.$t('transaction.filter.sign-up'),
+        value: 'BONUS_SIGN_UP'
+      },
+      {
+        id: 1,
+        name: this.$t('transaction.filter.first-tran'),
+        value: 'BONUS_FIRST_TRANS'
+      },
+      {
+        id: 2,
+        name: this.$t('transaction.filter.bonus-crowdsale'),
+        value: 'BONUS_CROWDSALE'
+      },
+      {
+        id: 3,
+        name: this.$t('transaction.filter.big-backer'),
+        value: 'BONUS_BIG_BACKER'
+      },
+      {
+        id: 4,
+        name: this.$t('transaction.filter.affitiate'),
+        value: 'BONUS_AFFILIATE'
+      },
+      {
+        id: 5,
+        name: this.$t('transaction.filter.early-backer'),
+        value: 'BONUS_EARLY_BACKER'
+      },
+      {
+        id: 6,
+        name: this.$t('transaction.filter.sign-up-ref'),
+        value: 'BONUS_SIGN_UP_REFERRAL'
+      },
+      {
+        id: 7,
+        name: this.$t('transaction.filter.crowdsale'),
+        value: 'CROWDSALE'
+      },
+      {
+        id: 8,
+        name: this.$t('transaction.filter.deposit'),
+        value: 'DEPOSIT'
+      },
+      {
+        id: 9,
+        name: this.$t('transaction.filter.transfer'),
+        value: 'TRANSFER'
+      },
+      {
+        id: 10,
+        name: this.$t('transaction.filter.withdraw'),
+        value: 'WITHDRAW'
+      }
+    ]
 
     get pickerOption(): any {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
@@ -315,7 +379,8 @@
         fromAmount: '',
         toAmount: '',
         status: null,
-        bonusType: null
+        bonusType: null,
+        transactionType: ''
       }
 
       this.errorType = ''
