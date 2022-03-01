@@ -93,6 +93,9 @@ request.interceptors.response.use(
       if (data.status === 'INVALID_PASSWORD') {
         message = i18n.tc('notify.pass-invalid')
       }
+      if (data.status === 'INVALID_EMAIL') {
+        message = i18n.tc('notify.email-invalid')
+      }
       if (data.status === 'INVALID_CAPTCHA') {
         message = i18n.tc('notify.captcha-invalid')
       }

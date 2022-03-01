@@ -292,7 +292,8 @@
     "delete-buyer": "Xóa thành công",
     "incorrect-old-pass": "Mật khẩu cũ không chính xác",
     "choose-round": "Chọn tối thiểu 1 vòng",
-    "kyc-approved-already": "Yêu cầu KYC đã được duyệt bởi một tài khoản khác"
+    "kyc-approved-already": "Yêu cầu KYC đã được duyệt bởi một tài khoản khác",
+    "email-invalid": "Tài khoản không tồn tại, vui lòng kiểm tra địa chỉ email"
   },
   "logout": {
     "title": "Đăng xuất",

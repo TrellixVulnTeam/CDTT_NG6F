@@ -314,7 +314,8 @@
     "delete-buyer": "Deleted successfully",
     "incorrect-old-pass": "Incorrect old password",
     "choose-round": "Must choose at least 1 round",
-    "kyc-approved-already": "KYC request has been approved by another account"
+    "kyc-approved-already": "KYC request has been approved by another account",
+    "email-invalid": "Account does not exist, please check your email address"
   },
   "logout": {
     "title": "Sign out",
