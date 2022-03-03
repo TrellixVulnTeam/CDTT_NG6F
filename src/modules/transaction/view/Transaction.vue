@@ -281,9 +281,11 @@
 
     handleFilter(filter: Record<string, any>): void {
       let data = { ...filter }
+      const _transactionType = this.query.transactionType
       this.query = {
         ...this.query,
         ...filter,
+        transactionType: _transactionType,
         page: 1,
         limit: 10
       }
