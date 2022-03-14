@@ -127,7 +127,8 @@
     "balance": "Balance",
     "transaction": "Transaction",
     "exception": "Exception",
-    "member": "Members"
+    "member": "Members",
+    "report": "Report"
   },
   "footer": {
     "terms": "Terms and Conditions"

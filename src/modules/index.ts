@@ -6,6 +6,7 @@ import crowdsaleModule from './crowdsale'
 import balanceModule from './balance'
 import requestModule from './request'
 import MemberModule from './member'
+import ReportModule from './report'
 import transactionModule from '@/modules/transaction'
 import exceptionModule from '@/modules/exception'
 const listModules: Record<string, ModuleInterface> = {
@@ -17,7 +18,8 @@ const listModules: Record<string, ModuleInterface> = {
   requestModule,
   transactionModule,
   MemberModule,
-  exceptionModule
+  exceptionModule,
+  ReportModule
 }
 
 export default listModules

@@ -1,0 +1,37 @@
+import Layout from '@/components/layout/Layout.vue'
+import LayoutSecond from '@/components/layout/LayoutSecond.vue'
+import { RouteConfig } from 'vue-router'
+
+const reportRouters: RouteConfig[] = [
+    {
+        path: '/report',
+        name: 'Report',
+        component: Layout,
+        children: [
+            {
+                path: '/',
+                components: {
+                    default: LayoutSecond
+                },
+                children: [
+                    {
+                        path: 'user',
+                        name: 'ReportUser',
+                        component: () => import('../view/ReportKyc.vue')
+                    },
+                    {
+                        path: 'device',
+                        name: 'ReportDevice',
+                        component: () => import('../view/ReportKyc.vue')
+                    }
+                ]
+            },
+            {
+                path: '*',
+                redirect: '/report'
+            }
+        ]
+    }
+]
+
+export default reportRouters

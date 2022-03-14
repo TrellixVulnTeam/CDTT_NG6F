@@ -88,6 +88,8 @@
           return this.$t('header.exception')
         case '/member':
           return this.$t('header.member')
+        case '/report':
+          return this.$t('header.report')
         default:
           return this.$t('header.kyc')
       }

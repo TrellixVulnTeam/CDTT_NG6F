@@ -102,6 +102,18 @@
             </router-link>
           </li>
         </ul>
+
+        <ul class="module" v-if="checkPemission('report', ['view'])">
+          <li class="module-item" @click="isOpenPopup = false">
+            <router-link :to="{ name: 'Report' }" class="router_center">
+              <div class="sack_avatar">
+                <base-icon :icon="coinMain === 'LYNK' ? 'menu-report-active' : 'menu-report-clm'" class="menu-active" size="32" />
+                <base-icon icon="menu-report" class="menu" size="32" />
+                <p class="color-add-menu" style="font-size: 11px">{{ $t('leftMenu.report') }}</p>
+              </div>
+            </router-link>
+          </li>
+        </ul>
       </div>
 
       <el-button slot="reference" class="is-create-color is-white is-none-border icon-btn p-0 m-0 button-add" style="height: 100%; position: relative; width: 100%">
@@ -131,280 +143,280 @@
   </div>
 </template>
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator'
-  import { namespace } from 'vuex-class'
+import { Component, Vue } from 'vue-property-decorator'
+import { namespace } from 'vuex-class'
 
-  const beBase = namespace('beBase')
-  @Component({ components: {} })
-  export default class MainSidebar extends Vue {
-    @beBase.State('coinMain') coinMain!: string
+const beBase = namespace('beBase')
+@Component({ components: {} })
+export default class MainSidebar extends Vue {
+  @beBase.State('coinMain') coinMain!: string
 
-    isOpenPopup = false
-    isOpenPopupContract = false
-    searchModule = ''
-    moduleContract = [
-      {
-        id: 4,
-        name: 'Fee',
-        routerName: 'contract',
-        icon: 'icon-hop-dong',
-        title: 'Thu phí'
-      },
-      {
-        id: 5,
-        name: 'Brief',
-        routerName: 'pending',
-        icon: 'icon-ho-so',
-        title: 'Hồ sơ'
-      },
-      {
-        id: 6,
-        name: 'Lapse',
-        routerName: 'lapse',
-        icon: 'contractLaspe',
-        title: 'Mất hiệu lực'
-      }
-    ]
-    moreModules = [
-      {
-        id: 1,
-        name: 'Program',
-        routerName: 'programOrigin',
-        icon: 'program',
-        title: 'CTTĐ'
-      },
-      {
-        id: 2,
-        name: 'Employee',
-        routerName: 'employee',
-        icon: 'icon-KH',
-        title: 'Nhân sự'
-      },
-      {
-        id: 3,
-        name: 'Product',
-        routerName: 'productePage',
-        icon: 'product',
-        title: 'Sản phẩm'
-      },
-      // {
-      //   id: 4,
-      //   name: 'Deal',
-      //   routerName: 'deals',
-      //   icon: 'icon-luong',
-      //   title: 'Cơ hội'
-      // }
-      {
-        id: 5,
-        name: 'Offer',
-        routerName: 'offerOrigin',
-        icon: 'menu-offer',
-        title: 'CTƯĐ'
-      }
-    ]
-  }
+  isOpenPopup = false
+  isOpenPopupContract = false
+  searchModule = ''
+  moduleContract = [
+    {
+      id: 4,
+      name: 'Fee',
+      routerName: 'contract',
+      icon: 'icon-hop-dong',
+      title: 'Thu phí'
+    },
+    {
+      id: 5,
+      name: 'Brief',
+      routerName: 'pending',
+      icon: 'icon-ho-so',
+      title: 'Hồ sơ'
+    },
+    {
+      id: 6,
+      name: 'Lapse',
+      routerName: 'lapse',
+      icon: 'contractLaspe',
+      title: 'Mất hiệu lực'
+    }
+  ]
+  moreModules = [
+    {
+      id: 1,
+      name: 'Program',
+      routerName: 'programOrigin',
+      icon: 'program',
+      title: 'CTTĐ'
+    },
+    {
+      id: 2,
+      name: 'Employee',
+      routerName: 'employee',
+      icon: 'icon-KH',
+      title: 'Nhân sự'
+    },
+    {
+      id: 3,
+      name: 'Product',
+      routerName: 'productePage',
+      icon: 'product',
+      title: 'Sản phẩm'
+    },
+    // {
+    //   id: 4,
+    //   name: 'Deal',
+    //   routerName: 'deals',
+    //   icon: 'icon-luong',
+    //   title: 'Cơ hội'
+    // }
+    {
+      id: 5,
+      name: 'Offer',
+      routerName: 'offerOrigin',
+      icon: 'menu-offer',
+      title: 'CTƯĐ'
+    }
+  ]
+}
 </script>
 <style lang="scss" scoped>
-  .main-side-bar {
-    position: relative;
-    background: #ffffff;
-    height: 100vh;
-    width: 80px;
+.main-side-bar {
+  position: relative;
+  background: #ffffff;
+  height: 100vh;
+  width: 80px;
 
-    .style_router_home {
-      margin: 0px 10px 10px 10px;
+  .style_router_home {
+    margin: 0px 10px 10px 10px;
 
-      .style_avatar_home {
-        color: #ef7524;
-        text-align: center;
-      }
-    }
-
-    .setting {
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      margin-bottom: 38px;
-      color: #6b6b6b;
-    }
-
-    .style_avatar {
+    .style_avatar_home {
+      color: #ef7524;
       text-align: center;
-      line-height: 1;
-      font-size: 32px;
     }
+  }
 
-    .router_center {
-      text-align: center;
-      width: 100%;
-      height: 80px;
-      color: #6b6b6b;
+  .setting {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 38px;
+    color: #6b6b6b;
+  }
 
-      .sack_avatar {
-        padding: 12px 0;
+  .style_avatar {
+    text-align: center;
+    line-height: 1;
+    font-size: 32px;
+  }
 
-        p {
-          font-size: 10px;
-          margin-top: 3px;
-          color: var(--bc-color-grey190);
-          font-weight: 400;
-          line-height: 12px;
-        }
+  .router_center {
+    text-align: center;
+    width: 100%;
+    height: 80px;
+    color: #6b6b6b;
 
-        &:hover {
-          background: var(--bc-color-grey20);
-          color: var(--bc-theme-primary);
+    .sack_avatar {
+      padding: 12px 0;
 
-          p {
-            color: var(--bc-theme-primary) !important;
-          }
-
-          .span-icon {
-            color: var(--bc-theme-primary) !important;
-          }
-        }
+      p {
+        font-size: 10px;
+        margin-top: 3px;
+        color: var(--bc-color-grey190);
+        font-weight: 400;
+        line-height: 12px;
       }
 
       &:hover {
-        .menu-active {
-          display: block;
+        background: var(--bc-color-grey20);
+        color: var(--bc-theme-primary);
+
+        p {
+          color: var(--bc-theme-primary) !important;
         }
 
-        .menu {
-          display: none;
+        .span-icon {
+          color: var(--bc-theme-primary) !important;
         }
       }
     }
 
-    .router_setting {
-      position: absolute;
-      bottom: 0;
-      // margin-top: calc(100vh - 600px);
-    }
-
-    .filter_avatar {
-      opacity: 0.65;
-    }
-  }
-
-  a {
-    text-decoration: none;
-  }
-
-  .router-link-exact-active,
-  .router-link-active {
-    background: #e9e9e9;
-    width: 80px;
-
-    .sack_avatar {
-      color: var(--bc-theme-primary);
-
-      p {
-        color: var(--bc-theme-primary) !important;
-        font-weight: 600 !important;
+    &:hover {
+      .menu-active {
+        display: block;
       }
 
       .menu {
         display: none;
       }
+    }
+  }
 
-      .menu-active {
-        display: block;
-      }
+  .router_setting {
+    position: absolute;
+    bottom: 0;
+    // margin-top: calc(100vh - 600px);
+  }
+
+  .filter_avatar {
+    opacity: 0.65;
+  }
+}
+
+a {
+  text-decoration: none;
+}
+
+.router-link-exact-active,
+.router-link-active {
+  background: #e9e9e9;
+  width: 80px;
+
+  .sack_avatar {
+    color: var(--bc-theme-primary);
+
+    p {
+      color: var(--bc-theme-primary) !important;
+      font-weight: 600 !important;
     }
 
-    .child-item {
-      color: #f07525;
+    .menu {
+      display: none;
+    }
+
+    .menu-active {
+      display: block;
+    }
+  }
+
+  .child-item {
+    color: #f07525;
+    background: #e9e9e9;
+  }
+}
+
+.router-home {
+  margin-bottom: 0 !important;
+
+  .logo-home {
+    height: 100%;
+    padding-top: 0 !important;
+
+    .style_avatar_hom {
+      font-size: 40px;
+      display: block;
+    }
+
+    p {
+      margin-top: 6px !important;
+    }
+  }
+}
+
+.style_special {
+  margin-left: 11px;
+}
+
+.button-add {
+  // background: #f3f3f3;
+
+  &:hover {
+    background: var(--bc-color-grey20);
+    color: var(--bc-theme-primary);
+  }
+
+  &:focus {
+    border: none;
+    color: #6b6b6b !important;
+  }
+}
+
+.module {
+  list-style-type: none;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+
+  &-item {
+    color: #65676b;
+    text-align: center;
+    height: 68px;
+    cursor: pointer;
+    flex-basis: 32%;
+
+    &:hover {
+      color: #0078d4;
+      background: #e9e9e9;
+    }
+
+    &.menu-active {
+      color: #0078d4;
       background: #e9e9e9;
     }
   }
 
-  .router-home {
-    margin-bottom: 0 !important;
-
-    .logo-home {
-      height: 100%;
-      padding-top: 0 !important;
-
-      .style_avatar_hom {
-        font-size: 40px;
-        display: block;
-      }
-
-      p {
-        margin-top: 6px !important;
-      }
-    }
+  .child-item {
+    height: 100%;
   }
+}
 
-  .style_special {
-    margin-left: 11px;
-  }
+.module-item {
+  margin: 1px;
+}
 
-  .button-add {
-    // background: #f3f3f3;
-
-    &:hover {
-      background: var(--bc-color-grey20);
-      color: var(--bc-theme-primary);
-    }
-
-    &:focus {
-      border: none;
-      color: #6b6b6b !important;
-    }
-  }
-
-  .module {
-    list-style-type: none;
-    padding: 10px;
-    display: flex;
-    flex-wrap: wrap;
-
-    &-item {
-      color: #65676b;
-      text-align: center;
-      height: 68px;
-      cursor: pointer;
-      flex-basis: 32%;
-
-      &:hover {
-        color: #0078d4;
-        background: #e9e9e9;
-      }
-
-      &.menu-active {
-        color: #0078d4;
-        background: #e9e9e9;
-      }
-    }
-
-    .child-item {
-      height: 100%;
-    }
-  }
-
-  .module-item {
-    margin: 1px;
-  }
-
-  .menu-active {
-    display: none;
-  }
-  // ::v-deep .popper-add-menu {
-  //   display: flex !important;
-  // }
-  .popper-add-menu-content {
-    display: flex;
-  }
-  .module {
-    display: unset;
-    flex-wrap: unset;
-    padding: 12px;
-    width: 80px;
-  }
-  .color-add-menu {
-    color: var(--bc-color-grey190);
-  }
+.menu-active {
+  display: none;
+}
+// ::v-deep .popper-add-menu {
+//   display: flex !important;
+// }
+.popper-add-menu-content {
+  display: flex;
+}
+.module {
+  display: unset;
+  flex-wrap: unset;
+  padding: 12px;
+  width: 80px;
+}
+.color-add-menu {
+  color: var(--bc-color-grey190);
+}
 </style>
