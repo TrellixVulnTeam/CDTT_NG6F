@@ -439,6 +439,7 @@
       "bonus-sign-up-referral": "Bonus sign up referral",
       "device-os": "Device OS",
       "device-name": "Device Name",
+      "device-ver": "App Version",
       "last-login": "Last login",
       "2fa-status": "2FA status"
     },
