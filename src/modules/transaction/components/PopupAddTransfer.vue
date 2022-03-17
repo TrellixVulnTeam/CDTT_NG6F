@@ -51,7 +51,7 @@
               @keyup.native="numberFormat($event)"
               clearable
             >
-              <template slot="append">Lynk</template>
+              <template slot="append">LYNK</template>
             </el-input>
           </el-form-item>
         </div>

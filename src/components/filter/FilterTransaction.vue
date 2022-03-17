@@ -53,7 +53,7 @@
     filter: Record<string, any> = {
       search: '',
       keywordString: '',
-      orderBy: 0
+      orderBy: null
     }
     sorts: Array<Record<string, any>> = [
       {
@@ -69,7 +69,7 @@
         label: this.$i18n.t('customer.sort.status')
       }
     ]
-    sortActive = 0
+    sortActive = 1
 
     @Watch('filter.search') handleSearch(value: string): void {
       this.searchText(value)
@@ -99,7 +99,7 @@
       this.filter.search = ''
       this.filter.keywordString = ''
       this.filter.orderBy = 1
-      this.sortActive = 0
+      this.sortActive = 1
     }
     handleSort(command: number): void {
       this.sortActive = command

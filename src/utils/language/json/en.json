@@ -164,8 +164,8 @@
     "l-name": "Last name",
     "amount-deposit": "Amount USDT",
     "amount-available": "Amount available",
-    "vesting": "Vesting time",
-    "amount-lynk": "Amount Lynk"
+    "vesting": "Month",
+    "amount-lynk": "Amount LYNK"
   },
   "button": {
     "reset": "Reset",
@@ -517,6 +517,7 @@
       "total-deposit": "Total Deposit",
       "withdraw": "Withdraw",
       "total-withdraw": "Total Withdraw",
+      "total-crowdsale": "Total Crowdsale",
       "transfer": "Transfer",
       "total-transfer": "Total Transfer",
       "total-bonus": "Total Bonus",
@@ -619,7 +620,7 @@
     "transfer": "Transfer",
     "member-active": "Active",
     "member-inactive": "Inactive",
-    "crowdsales": "Crowdsale",
+    "crowdsale": "Crowdsale",
     "vesting": "Vesting"
   },
   "status": {

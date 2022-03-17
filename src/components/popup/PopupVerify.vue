@@ -105,7 +105,10 @@
       this.debounceFilter('handleResendCode')
     }
     async resendCode(): Promise<void> {
-      console.log('a')
+      apiCrowdsale.sendCodeAndGet2FA().then(() => {
+        let message: any = this.$t('notify.send-code')
+        this.$message.success({ message, duration: 5000 })
+      })
     }
 
     handleReset(): void {

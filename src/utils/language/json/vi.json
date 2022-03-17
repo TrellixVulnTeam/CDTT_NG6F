@@ -154,8 +154,8 @@
     "f-name": "Họ",
     "l-name": "Tên",
     "amount-deposit": "Số lượng USDT",
-    "vesting": "Thời gian vesting",
-    "amount-lynk": "Số lượng Lynk"
+    "vesting": "Số tháng",
+    "amount-lynk": "Số lượng LYNK"
   },
   "button": {
     "reset": "Làm lại",
@@ -514,6 +514,7 @@
       "total-transfer": "Tổng tiền chuyển",
       "total-bonus": "Tổng tiền thưởng",
       "total-withdraw": "Tổng tiền rút",
+      "total-crowdsale": "Tổng tiền Crowdsale",
       "locked": "Khóa"
     },
     "popup": {
@@ -594,7 +595,7 @@
     "transfer": "Chuyển",
     "member-active": "Hoạt động",
     "member-inactive": "Không hoạt động",
-    "crowdsales": "Crowdsale",
+    "crowdsale": "Crowdsale",
     "vesting": "Vesting"
   },
   "status": {
