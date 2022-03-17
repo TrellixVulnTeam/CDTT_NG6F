@@ -1,5 +1,5 @@
 <template>
-  <base-popup name="popup-base-verify" class="popup-verify" width="480px" :open="handleOpen" :close="handleClose" :isShowFooter="false">
+  <base-popup name="popup-base-verify" class="popup-verify" width="480px" :close="handleClose" :isShowFooter="false">
     <div slot="title">
       <span>{{ $t('transaction.popup.title-verification') }} </span>
     </div>
@@ -51,6 +51,7 @@
   export default class PopupVerify extends Mixins(PopupMixin) {
     @bcAuth.State('user') user!: Record<string, any>
     @Prop({ required: false, type: String, default: 'SMS' }) type!: string
+    @Prop({ required: false, type: String, default: '' }) transactionType!: string
     @Prop() data!: Record<string, any>
 
     form: Record<string, any> = {
@@ -122,19 +123,19 @@
         isOpen: false
       })
     }
-    handleOpen(): void {
-      console.log('a')
-    }
-    async verifiedPhoneWidthdrawTransfer(): Promise<void> {
-      console.log('a')
-    }
+
     handleSubmit(): void {
       this.debounceFilter('handleSubmit')
     }
     async submit(): Promise<void> {
       try {
         this.isLoading = true
-        await apiCrowdsale.transferToUser({ ...this.data, verificationCode: this.form.verificationCode })
+        let message = ''
+        if (this.transactionType === 'TRANSFER') {
+          await apiCrowdsale.transferToUser({ ...this.data, verificationCode: this.form.verificationCode })
+        }
+        message = this.$t('notify.transfer-success') as string
+        this.$message.success({ message, duration: 5000 })
         this.setOpenPopup({
           popupName: 'popup-base-verify',
           isOpen: false

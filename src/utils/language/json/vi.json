@@ -303,7 +303,10 @@
     "choose-round": "Chọn tối thiểu 1 vòng",
     "kyc-approved-already": "Yêu cầu KYC đã được duyệt bởi một tài khoản khác",
     "email-invalid": "Tài khoản không tồn tại, vui lòng kiểm tra địa chỉ email",
-    "invalid-amount": "Tài khoản gửi không đủ số dư"
+    "invalid-amount": "Tài khoản gửi không đủ số dư",
+    "transfer-success": "Chuyển khoản thành công",
+    "deposit-success": "Nạp thành công",
+    "crowdsale-success": "Crowdsale thành công"
   },
   "logout": {
     "title": "Đăng xuất",

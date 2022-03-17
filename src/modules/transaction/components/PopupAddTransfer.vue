@@ -56,7 +56,14 @@
           </el-form-item>
         </div>
         <el-form-item :label="$t('label.vesting')" class="be-flex-item" prop="vestingMonth">
-          <el-input v-model="form.vestingMonth" @input="handleInputVesting" :placeholder="$t('placeholder.vesting')" clearable> </el-input>
+          <el-input
+            v-model="form.vestingMonth"
+            @input="handleInputVesting"
+            @keypress.native="onlyNumber($event, 'vestingMonth')"
+            :placeholder="$t('placeholder.vesting')"
+            clearable
+          >
+          </el-input>
         </el-form-item>
       </el-form>
     </div>

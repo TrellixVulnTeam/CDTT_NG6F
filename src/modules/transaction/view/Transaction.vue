@@ -54,7 +54,7 @@
       <popup-add-deposit @reload="init" />
       <popup-add-crowdsale @confirm="handleConfirm" />
       <popup-add-transfer @confirm="handleConfirm" />
-      <popup-verify :type="type2Fa" :data="formData" @reload="init" />
+      <popup-verify :type="type2Fa" :data="formData" @reload="init" :transactionType="query.transactionType" />
     </div>
   </div>
 </template>
