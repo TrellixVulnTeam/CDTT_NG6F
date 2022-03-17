@@ -214,7 +214,8 @@
       this.limit += 20
       const params = {
         email: this.emailSearchUserTo,
-        limit: this.limit
+        limit: this.limit,
+        isTransferFund: 1
       }
       apiCrowdsale.findCustomerByEmail(params).then(res => {
         this.listCustomerUserTo = res
@@ -227,7 +228,8 @@
         this.limit = 20
         const params = {
           email: this.emailSearchUserTo,
-          limit: 20
+          limit: 20,
+          isTransferFund: 1
         }
         apiCrowdsale.findCustomerByEmail(params).then(res => {
           this.listCustomerUserTo = res
