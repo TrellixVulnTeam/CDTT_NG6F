@@ -28,7 +28,15 @@
           </div>
         </div>
       </div>
-      <filter-transaction @filter="handleFilter" :type="'transaction'" :showBtn="getShowBtn" ref="filter" @addDeposit="handleOpenAddDeposit" />
+      <filter-transaction
+        @filter="handleFilter"
+        :type="'transaction'"
+        :showBtn="getShowBtn"
+        :showBtnCrowdsale="showBtnCrowdsale"
+        ref="filter"
+        @addDeposit="handleOpenAddDeposit"
+        @addCrowdsale="handleOpenAddCrowdsale"
+      />
       <div class="table-transaction">
         <table-transaction
           v-loading="isLoading"
@@ -44,6 +52,8 @@
       <popup-filter-transaction @filter="handleFilter" :tab-active-filter="tabActive" :type="'transaction'" ref="popup-filter" />
       <transaction-detail :detail-row="detailRow" :tab-active-filter="tabActive" />
       <popup-add-deposit @reload="init" />
+      <popup-add-crowdsale @confirm="handleConfirm" />
+      <popup-verify />
     </div>
   </div>
 </template>
@@ -61,6 +71,8 @@
   import PopupFilterTransaction from '@/components/popup/PopupFilterTransaction.vue'
   import TransactionDetail from '@/modules/transaction/components/transactionDetail/TransactionDetail.vue'
   import PopupAddDeposit from '../components/PopupAddDeposit.vue'
+  import PopupAddCrowdsale from '../components/PopupAddCrowdsale.vue'
+  import PopupVerify from '@/components/popup/PopupVerify.vue'
 
   const api: TransactionRepository = getRepository('transaction')
 
@@ -76,7 +88,9 @@
       TableTransaction,
       FilterTransaction,
       TransactionDetail,
-      PopupAddDeposit
+      PopupAddDeposit,
+      PopupAddCrowdsale,
+      PopupVerify
     }
   })
   export default class Transaction extends Mixins(PopupMixin) {
@@ -85,6 +99,11 @@
         id: 1,
         title: 'deposit',
         routeName: 'TransactionDeposit'
+      },
+      {
+        id: 5,
+        title: 'crowdsales',
+        routeName: 'TransactionCrowdsale'
       },
       {
         id: 2,
@@ -126,6 +145,9 @@
 
     get getShowBtn(): boolean {
       return this.$route.name === 'TransactionDeposit' && this.checkPemission('transaction', ['add-deposit'])
+    }
+    get showBtnCrowdsale(): boolean {
+      return this.$route.name === 'TransactionCrowdsale'
     }
 
     async created(): Promise<void> {
@@ -299,6 +321,19 @@
     handleOpenAddDeposit(): void {
       this.setOpenPopup({
         popupName: 'popup-add-deposit',
+        isOpen: true
+      })
+    }
+    handleOpenAddCrowdsale(): void {
+      this.setOpenPopup({
+        popupName: 'popup-add-crowdsale',
+        isOpen: true
+      })
+    }
+
+    handleConfirm(): void {
+      this.setOpenPopup({
+        popupName: 'popup-base-verify',
         isOpen: true
       })
     }

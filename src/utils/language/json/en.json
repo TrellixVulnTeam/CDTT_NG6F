@@ -162,7 +162,8 @@
     "email": "Email",
     "f-name": "First name",
     "l-name": "Last name",
-    "amount-deposit": "Amount USDT"
+    "amount-deposit": "Amount USDT",
+    "amount-available": "Amount available"
   },
   "button": {
     "reset": "Reset",
@@ -178,6 +179,7 @@
     "add-member-1": "Add Member",
     "add-buyer": "Add Buyer",
     "add-deposit": "Deposit",
+    "add-crowdsale": "Crowdsale",
     "delete-user": "Delete User",
     "save": "Save",
     "delete": "Delete",
@@ -255,7 +257,8 @@
     "created-date": "Created date",
     "new-password": "New password",
     "round": "Round",
-    "amount": "Amount"
+    "amount": "Amount",
+    "amount-available": "Amount available"
   },
   "buy-lyn": {
     "title": "BUY LYN"
@@ -535,7 +538,9 @@
       "title-filter": "Filter",
       "transaction-detail": "Transaction Details",
       "customer-info": "Customer Info",
-      "add-deposit": "Deposit"
+      "add-deposit": "Deposit",
+      "add-crowdsale": "Crowdsale",
+      "title-verification": "VERIFICATION"
     },
     "detail": {
       "transaction-id": "Transaction ID",
@@ -937,6 +942,17 @@
   "verified": {
     "titlePopup": "VERIFICATION",
     "titleContent3": "Enter the 6-digit code we sent to your email",
-    "resendCodeMess": "Resend code successfully"
+    "resendCodeMess": "Resend code successfully",
+    "titleContent": "Enter the 6-digit code from your authenticator app",
+    "titleContent2": "Enter the 6-digit code we texted to your phone number",
+    "miniTitle": "Enter 2-step authentication code:",
+    "placeholder": "Verification code",
+    "submit": "Submit",
+    "contact": "Didn’t receive any verification code?",
+    "resendCode": "Resend code",
+    "titleSetupPin": "SET UP A PIN",
+    "wrong-verified": "Please enter verified code",
+    "changeStatusPinSuccess": "Change PIN status successfully",
+    "changeStatusPinError": "PIN status change failed"
   }
 }

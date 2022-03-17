@@ -26,8 +26,11 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <button v-if="showBtn" type="button" class="btn-default-bg text-sm ml-auto add-member" @click="handleAddDeposit">
+    <button v-if="showBtn" type="button" class="btn-default-bg text-sm ml-auto add-member" @click="handleClickButton('addDeposit')">
       <span>{{ $t('button.add-deposit') }}</span>
+    </button>
+    <button v-if="showBtnCrowdsale" type="button" class="btn-default-bg text-sm ml-auto add-member" @click="handleClickButton('addCrowdsale')">
+      <span>{{ $t('button.add-crowdsale') }}</span>
     </button>
   </div>
 </template>
@@ -42,6 +45,7 @@
   export default class FilterTransaction extends Mixins(PopupMixin) {
     @Prop({ required: true, type: String, default: 'customer' }) type!: string
     @Prop({ required: true, type: Boolean, default: false }) showBtn!: boolean
+    @Prop({ required: true, type: Boolean, default: false }) showBtnCrowdsale!: boolean
     filter: Record<string, any> = {
       search: '',
       keywordString: '',
@@ -111,8 +115,8 @@
         })
       }
     }
-    handleAddDeposit(): void {
-      this.$emit('addDeposit')
+    handleClickButton(type: string): void {
+      this.$emit(type)
     }
   }
 </script>

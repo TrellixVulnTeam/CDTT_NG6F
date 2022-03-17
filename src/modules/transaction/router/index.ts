@@ -34,6 +34,11 @@ const transactionRouters: RouteConfig[] = [
             path: 'Bonus',
             name: 'TransactionBonus',
             component: () => import('../view/Transaction.vue')
+          },
+          {
+            path: 'crowdsale',
+            name: 'TransactionCrowdsale',
+            component: () => import('../view/Transaction.vue')
           }
         ]
       },
