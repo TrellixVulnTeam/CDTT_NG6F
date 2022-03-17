@@ -15,8 +15,8 @@
         <base-icon v-if="type && type == 'EMAIL'" icon="verify-email" size="80"></base-icon>
         <div class="ml-1 w-100 input-code">
           <el-form :model="form" :rules="rules" ref="form-verify" @submit.prevent.native="handleSubmit">
-            <el-form-item prop="code" :label="`${$t('verify.label')}`" class="no-require-label">
-              <el-input type="text" v-model.trim="form.code" maxlength="6" :placeholder="`${$t('verify.placeholder')}`" />
+            <el-form-item prop="verificationCode" :label="`${$t('verify.label')}`" class="no-require-label">
+              <el-input type="text" v-model.trim="form.verificationCode" maxlength="6" :placeholder="`${$t('verify.placeholder')}`" />
             </el-form-item>
           </el-form>
         </div>
@@ -41,33 +41,25 @@
   import PopupMixin from '@/mixins/popup'
 
   import getRepository from '@/services'
-  import WalletRepository from '@/services/repositories/wallet'
-  import { SettingRepository } from '@/services/repositories/setting'
-  import { AuthRepository } from '@/services/repositories/auth'
+  import { CrowdsaleRepository } from '@/services/repositories/crowdsale'
+
   import debounce from 'lodash/debounce'
   import { namespace } from 'vuex-class'
   const bcAuth = namespace('beAuth')
-  const api: SettingRepository = getRepository('setting')
-  const apiAuth: AuthRepository = getRepository('auth')
-  const apiLyn: WalletRepository = getRepository('wallet')
+  const apiCrowdsale: CrowdsaleRepository = getRepository('crowdsale')
   @Component
   export default class PopupVerify extends Mixins(PopupMixin) {
     @bcAuth.State('user') user!: Record<string, any>
     @Prop({ required: false, type: String, default: 'SMS' }) type!: string
-    // @Prop() typeAction!: any
     @Prop() data!: Record<string, any>
-    @Prop() dataWithdraw!: Record<string, any>
-    @Prop() dataTransfer!: Record<string, any>
-    @Prop({ required: false, type: String, default: 'TRANSFER' }) typeAction!: string
-    @Prop() phoneVerified!: any
 
     form: Record<string, any> = {
-      code: ''
+      verificationCode: ''
     }
     isLoading = false
     success: any = 0
     rules: Record<string, any> = {
-      code: [
+      verificationCode: [
         {
           required: true,
           message: this.$t('verify.wrong-code'),
@@ -76,7 +68,7 @@
       ]
     }
     get getDisableBtn(): boolean {
-      return this.form.code.length !== 6
+      return this.form.verificationCode.length !== 6
     }
 
     get getIcon(): string {
@@ -117,36 +109,39 @@
     }
 
     handleReset(): void {
-      this.type = ''
-      this.typeAction = ''
-      this.form.code = ''
-      // this.form = {
-      //   code: ''
-      // }
+      this.form.verificationCode = ''
       this.success = 0
     }
     async handleClose(): Promise<void> {
-      this.form.code = ''
-      console.log('a')
+      this.form.verificationCode = ''
+      this.setOpenPopup({
+        popupName: 'popup-base-verify',
+        isOpen: false
+      })
     }
     handleOpen(): void {
       console.log('a')
     }
     async verifiedPhoneWidthdrawTransfer(): Promise<void> {
-      const data = {
-        email: this.$store.state.beAuth.user.email,
-        type: 'SMS',
-        reason: ''
-      }
-      api.resendCode(data).then(res => {
-        console.log('res 1')
-      })
+      console.log('a')
     }
     handleSubmit(): void {
       this.debounceFilter('handleSubmit')
     }
     async submit(): Promise<void> {
-      console.log('a')
+      try {
+        this.isLoading = true
+        await apiCrowdsale.transferToUser({ ...this.data, verificationCode: this.form.verificationCode })
+        this.setOpenPopup({
+          popupName: 'popup-base-verify',
+          isOpen: false
+        })
+        this.isLoading = false
+        this.$emit('reload')
+      } catch (error) {
+        this.isLoading = false
+        console.log(error)
+      }
     }
   }
 </script>

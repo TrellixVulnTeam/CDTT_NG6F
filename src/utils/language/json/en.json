@@ -163,7 +163,9 @@
     "f-name": "First name",
     "l-name": "Last name",
     "amount-deposit": "Amount USDT",
-    "amount-available": "Amount available"
+    "amount-available": "Amount available",
+    "vesting": "Vesting time",
+    "amount-lynk": "Amount Lynk"
   },
   "button": {
     "reset": "Reset",
@@ -180,6 +182,7 @@
     "add-buyer": "Add Buyer",
     "add-deposit": "Deposit",
     "add-crowdsale": "Crowdsale",
+    "add-transfer": "Transfer",
     "delete-user": "Delete User",
     "save": "Save",
     "delete": "Delete",
@@ -258,7 +261,10 @@
     "new-password": "New password",
     "round": "Round",
     "amount": "Amount",
-    "amount-available": "Amount available"
+    "amount-available": "Amount available",
+    "from": "From",
+    "to": "To",
+    "vesting": "Vesting time"
   },
   "buy-lyn": {
     "title": "BUY LYN"
@@ -319,7 +325,8 @@
     "incorrect-old-pass": "Incorrect old password",
     "choose-round": "Must choose at least 1 round",
     "kyc-approved-already": "KYC request has been approved by another account",
-    "email-invalid": "Account does not exist, please check your email address"
+    "email-invalid": "Account does not exist, please check your email address",
+    "invalid-amount": "The transfer account does not have enough balance"
   },
   "logout": {
     "title": "Sign out",
@@ -540,7 +547,8 @@
       "customer-info": "Customer Info",
       "add-deposit": "Deposit",
       "add-crowdsale": "Crowdsale",
-      "title-verification": "VERIFICATION"
+      "title-verification": "VERIFICATION",
+      "add-transfer": "Transfer"
     },
     "detail": {
       "transaction-id": "Transaction ID",
@@ -905,7 +913,9 @@
       "firstname": "Please enter first name",
       "lastname": "Please enter last name",
       "lastnameLength": "Minimum 2 characters",
-      "firstnameLength": "Minimum 2 characters"
+      "firstnameLength": "Minimum 2 characters",
+      "wrong-lynk": "Please enter amount Lynk",
+      "wrong-vesting": "Please enter vesting month"
     }
   },
   "exception": {

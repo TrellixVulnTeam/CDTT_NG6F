@@ -26,11 +26,14 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <button v-if="showBtn" type="button" class="btn-default-bg text-sm ml-auto add-member" @click="handleClickButton('addDeposit')">
+    <button v-if="showBtn" type="button" class="btn-default-bg text-sm ml-auto add-member" @click="handleClickButton('popup-add-deposit')">
       <span>{{ $t('button.add-deposit') }}</span>
     </button>
-    <button v-if="showBtnCrowdsale" type="button" class="btn-default-bg text-sm ml-auto add-member" @click="handleClickButton('addCrowdsale')">
+    <button v-if="showBtnCrowdsale" type="button" class="btn-default-bg text-sm ml-auto add-member" @click="handleClickButton('popup-add-crowdsale')">
       <span>{{ $t('button.add-crowdsale') }}</span>
+    </button>
+    <button v-if="showBtnTransfer" type="button" class="btn-default-bg text-sm ml-auto add-member" @click="handleClickButton('popup-add-transfer')">
+      <span>{{ $t('button.add-transfer') }}</span>
     </button>
   </div>
 </template>
@@ -46,6 +49,7 @@
     @Prop({ required: true, type: String, default: 'customer' }) type!: string
     @Prop({ required: true, type: Boolean, default: false }) showBtn!: boolean
     @Prop({ required: true, type: Boolean, default: false }) showBtnCrowdsale!: boolean
+    @Prop({ required: true, type: Boolean, default: false }) showBtnTransfer!: boolean
     filter: Record<string, any> = {
       search: '',
       keywordString: '',
@@ -115,8 +119,8 @@
         })
       }
     }
-    handleClickButton(type: string): void {
-      this.$emit(type)
+    handleClickButton(popupName: string): void {
+      this.$emit('clickButton', popupName)
     }
   }
 </script>

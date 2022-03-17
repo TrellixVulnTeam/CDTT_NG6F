@@ -33,9 +33,9 @@
         :type="'transaction'"
         :showBtn="getShowBtn"
         :showBtnCrowdsale="showBtnCrowdsale"
+        :showBtnTransfer="showBtnTransfer"
         ref="filter"
-        @addDeposit="handleOpenAddDeposit"
-        @addCrowdsale="handleOpenAddCrowdsale"
+        @clickButton="handleClickButton"
       />
       <div class="table-transaction">
         <table-transaction
@@ -53,7 +53,8 @@
       <transaction-detail :detail-row="detailRow" :tab-active-filter="tabActive" />
       <popup-add-deposit @reload="init" />
       <popup-add-crowdsale @confirm="handleConfirm" />
-      <popup-verify />
+      <popup-add-transfer @confirm="handleConfirm" />
+      <popup-verify :type="type2Fa" :data="formData" @reload="init" />
     </div>
   </div>
 </template>
@@ -66,15 +67,19 @@
   import getRepository from '@/services'
   import { debounce } from 'lodash'
   import { TransactionRepository } from '@/services/repositories/transaction'
+  import { CrowdsaleRepository } from '@/services/repositories/crowdsale'
+
   import TableTransaction from '@/components/table/TableTransaction.vue'
   import FilterTransaction from '@/components/filter/FilterTransaction.vue'
   import PopupFilterTransaction from '@/components/popup/PopupFilterTransaction.vue'
   import TransactionDetail from '@/modules/transaction/components/transactionDetail/TransactionDetail.vue'
   import PopupAddDeposit from '../components/PopupAddDeposit.vue'
   import PopupAddCrowdsale from '../components/PopupAddCrowdsale.vue'
+  import PopupAddTransfer from '../components/PopupAddTransfer.vue'
   import PopupVerify from '@/components/popup/PopupVerify.vue'
 
   const api: TransactionRepository = getRepository('transaction')
+  const apiCrowdsale: CrowdsaleRepository = getRepository('crowdsale')
 
   interface IDataCard {
     numOfTransaction: number | null
@@ -90,7 +95,8 @@
       TransactionDetail,
       PopupAddDeposit,
       PopupAddCrowdsale,
-      PopupVerify
+      PopupVerify,
+      PopupAddTransfer
     }
   })
   export default class Transaction extends Mixins(PopupMixin) {
@@ -142,12 +148,17 @@
       total: 10
     }
     listApproveBy: Record<string, any>[] = []
+    type2Fa = ''
+    formData: Record<string, any> = {}
 
     get getShowBtn(): boolean {
       return this.$route.name === 'TransactionDeposit' && this.checkPemission('transaction', ['add-deposit'])
     }
     get showBtnCrowdsale(): boolean {
       return this.$route.name === 'TransactionCrowdsale'
+    }
+    get showBtnTransfer(): boolean {
+      return this.$route.name === 'TransactionTransfer' && this.checkPemission('transaction', ['add-transfer'])
     }
 
     async created(): Promise<void> {
@@ -318,23 +329,21 @@
       this.init()
     }, 300)
 
-    handleOpenAddDeposit(): void {
+    handleClickButton(popupName: string): void {
       this.setOpenPopup({
-        popupName: 'popup-add-deposit',
-        isOpen: true
-      })
-    }
-    handleOpenAddCrowdsale(): void {
-      this.setOpenPopup({
-        popupName: 'popup-add-crowdsale',
+        popupName,
         isOpen: true
       })
     }
 
-    handleConfirm(): void {
-      this.setOpenPopup({
-        popupName: 'popup-base-verify',
-        isOpen: true
+    handleConfirm(form: Record<string, any>): void {
+      apiCrowdsale.sendCodeAndGet2FA().then(res => {
+        this.formData = form
+        this.type2Fa = res.type
+        this.setOpenPopup({
+          popupName: 'popup-base-verify',
+          isOpen: true
+        })
       })
     }
   }

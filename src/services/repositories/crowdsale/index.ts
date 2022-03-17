@@ -89,4 +89,28 @@ export class CrowdsaleRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+  async getListUserFrom(params: Record<string, any>): Promise<any> {
+    try {
+      const rs = await request.get(`${this.prefix}/transfer/transferUsers`, { params })
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+  async transferToUser(data: Record<string, any>): Promise<any> {
+    try {
+      const rs = await request.post(`${this.prefix}/transfer/transferForTeam`, data)
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+  async sendCodeAndGet2FA(): Promise<any> {
+    try {
+      const rs = await request.post(`/main/api/v2/transfer/sendcode?isEmployee=true`)
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
 }

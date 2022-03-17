@@ -123,6 +123,9 @@ request.interceptors.response.use(
       if (data.status === 'ACCOUNT_ALREADY_EXISTS') {
         message = i18n.tc('notify.account-exist')
       }
+      if (data.status === 'INVALID_AMOUNT') {
+        message = i18n.tc('notify.invalid-amount')
+      }
       if (data.status === 'Invalid verification code') {
         message = i18n.tc('notify.verify-fail')
       }

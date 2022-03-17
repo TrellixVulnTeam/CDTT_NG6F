@@ -239,6 +239,8 @@
           setTimeout(() => {
             this.numClick = 0
           }, 1000)
+        } else {
+          this.numClick = 0
         }
       })
     }

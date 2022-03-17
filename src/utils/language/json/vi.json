@@ -153,7 +153,9 @@
     "email": "Email",
     "f-name": "Họ",
     "l-name": "Tên",
-    "amount-deposit": "Số lượng USDT"
+    "amount-deposit": "Số lượng USDT",
+    "vesting": "Thời gian vesting",
+    "amount-lynk": "Số lượng Lynk"
   },
   "button": {
     "reset": "Làm lại",
@@ -169,6 +171,8 @@
     "add-member-1": "Thêm nhân viên",
     "add-buyer": "Thêm người mua",
     "add-deposit": "Nạp",
+    "add-crowdsale": "Crowdsale",
+    "add-transfer": "Chuyển",
     "delete-user": "Xóa nhân viên",
     "save": "Lưu",
     "delete": "Xóa",
@@ -238,7 +242,10 @@
     "network": "Loại mạng",
     "created-date": "Ngày tạo",
     "amount": "Số lượng",
-    "amount-available": "Số lượng có sẵn"
+    "amount-available": "Số lượng có sẵn",
+    "from": "Từ",
+    "to": "Đến",
+    "vesting": "Thời gian vesting"
   },
   "validate": {
     "length": " Độ dài tối thiểu 8 ký tự",
@@ -295,7 +302,8 @@
     "incorrect-old-pass": "Mật khẩu cũ không chính xác",
     "choose-round": "Chọn tối thiểu 1 vòng",
     "kyc-approved-already": "Yêu cầu KYC đã được duyệt bởi một tài khoản khác",
-    "email-invalid": "Tài khoản không tồn tại, vui lòng kiểm tra địa chỉ email"
+    "email-invalid": "Tài khoản không tồn tại, vui lòng kiểm tra địa chỉ email",
+    "invalid-amount": "Tài khoản gửi không đủ số dư"
   },
   "logout": {
     "title": "Đăng xuất",
@@ -514,7 +522,8 @@
       "customer-info": "Chi tiết người dùng",
       "add-deposit": "nạp",
       "add-crowdsale": "Crowdsale",
-      "title-verification": "Xác thực"
+      "title-verification": "Xác thực",
+      "add-transfer": "Chuyển"
     },
     "detail": {
       "transaction-id": "Mã giao dịch",
@@ -878,7 +887,9 @@
       "firstname": "Vui lòng nhập họ",
       "lastname": "Vui lòng nhập tên",
       "lastnameLength": "Nhập tối thiểu 2 ký tự",
-      "firstnameLength": "Nhập tối thiểu 2 ký tự"
+      "firstnameLength": "Nhập tối thiểu 2 ký tự",
+      "wrong-lynk": "Vui lòng nhập số lượng Lynk",
+      "wrong-vesting": "Vui lòng nhập số tháng vesting"
     }
   },
   "exception": {
