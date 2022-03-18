@@ -34,7 +34,7 @@
         </el-form-item>
 
         <div class="be-flex jc-space-between">
-          <el-form-item :label="$t('label.amount')" class="be-flex-item" :class="invalidAmount ? 'is-error' : null" prop="amount">
+          <el-form-item :label="$t('label.paid-amount')" class="be-flex-item" :class="invalidAmount ? 'is-error' : null" prop="amount">
             <el-input
               v-model="form.amount"
               @input="handleInputAmount"
@@ -66,7 +66,7 @@
         <div class="btn-right">
           <el-button class="btn-default btn-close btn-h-40 mr-16" @click="handleCancel">{{ $t('button.cancel') }}</el-button>
           <button type="button" class="btn-default-bg text-sm ml-auto add-member" @click="handleSubmit">
-            <span>{{ $t('button.save') }}</span>
+            <span>{{ $t('button.buy') }}</span>
           </button>
         </div>
       </div>

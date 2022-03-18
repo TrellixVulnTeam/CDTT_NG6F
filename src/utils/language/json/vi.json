@@ -171,14 +171,16 @@
     "add-member-1": "Thêm nhân viên",
     "add-buyer": "Thêm người mua",
     "add-deposit": "Nạp",
-    "add-crowdsale": "Crowdsale",
+    "add-crowdsale": "Mua LYNK",
     "add-transfer": "Chuyển",
     "delete-user": "Xóa nhân viên",
     "save": "Lưu",
     "delete": "Xóa",
     "export-excel": "Tải file excel",
     "change-table": "Bảng",
-    "change-chart": "Biểu đồ"
+    "change-chart": "Biểu đồ",
+    "buy": "Mua",
+    "transfer": "Chuyển"
   },
   "scan": {
     "qrcode": "QUÉT QR CODE"
@@ -246,6 +248,7 @@
     "network": "Loại mạng",
     "created-date": "Ngày tạo",
     "amount": "Số lượng",
+    "paid-amount": "Số tiền",
     "amount-available": "Số lượng có sẵn",
     "from": "Từ",
     "to": "Đến",
@@ -308,9 +311,9 @@
     "kyc-approved-already": "Yêu cầu KYC đã được duyệt bởi một tài khoản khác",
     "email-invalid": "Tài khoản không tồn tại, vui lòng kiểm tra địa chỉ email",
     "invalid-amount": "Tài khoản gửi không đủ số dư",
-    "transfer-success": "Chuyển khoản thành công",
+    "transfer-success": "Chuyển thành công",
     "deposit-success": "Nạp thành công",
-    "crowdsale-success": "Crowdsale thành công",
+    "crowdsale-success": "Mua LYNK thành công",
     "invalid-paid-to-usd-exchange-rate": "Tỷ giá đã thay đổi, vui lòng kiểm tra và thực hiện lại",
     "invalid-exchange-rate": "Tỷ giá quy đổi USD không hợp lệ",
     "invalid-paid-amount": "Số tiền thanh toán không hợp lệ",
@@ -540,7 +543,7 @@
       "transaction-detail": "Chi tiết giao dịch",
       "customer-info": "Chi tiết người dùng",
       "add-deposit": "nạp",
-      "add-crowdsale": "Crowdsale",
+      "add-crowdsale": "Mua lynk",
       "title-verification": "Xác thực",
       "add-transfer": "Chuyển"
     },

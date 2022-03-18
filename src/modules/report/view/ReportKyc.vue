@@ -13,39 +13,33 @@
     </div>
     <report-filter />
     <report-table v-if="this.$route.name == 'ReportUser'" />
-    <div v-else>aaaa</div>
+    <report-chart v-else />
+    <!-- <div v-else>aaaa</div> -->
   </div>
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator'
-  import ReportTable from '../components/ReportTable.vue'
-  import ReportFilter from '../components/filter/ReportFilter.vue'
-  import getRepository from '@/services'
-  import ReportRepository from '@/services/repositories/report'
-
-  const api: ReportRepository = getRepository('report')
-  @Component({ components: { ReportTable, ReportFilter } })
-  export default class BOCustomer extends Vue {
-    tabs: Array<Record<string, any>> = [
-      {
-        id: 1,
-        title: 'user',
-        routeName: 'ReportUser'
-      },
-      {
-        id: 2,
-        title: 'device',
-        routeName: 'ReportDevice'
-      }
-    ]
-    tabActive = 'device'
-
-    objType: Record<string, any> = {
-      ReportUser: 'USER',
-      ReportDevice: 'DEVICE'
+import { Component, Vue } from 'vue-property-decorator'
+import ReportTable from '../components/ReportTable.vue'
+import ReportFilter from '../components/filter/ReportFilter.vue'
+import getRepository from '@/services'
+import ReportRepository from '@/services/repositories/report'
+import ReportChart from './../components/chart/ReportChart.vue'
+const api: ReportRepository = getRepository('report')
+@Component({ components: { ReportTable, ReportFilter, ReportChart } })
+export default class BOCustomer extends Vue {
+  tabs: Array<Record<string, any>> = [
+    {
+      id: 1,
+      title: 'user',
+      routeName: 'ReportUser'
+    },
+    {
+      id: 2,
+      title: 'device',
+      routeName: 'ReportDevice'
     }
-
+  ]
     handleChangeTab(tab): void {
       console.log('tab', this.$route.name)
       this.$router.push({ name: tab.routeName }).then(() => {

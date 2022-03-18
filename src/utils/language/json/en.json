@@ -164,7 +164,7 @@
     "f-name": "First name",
     "l-name": "Last name",
     "amount-deposit": "Amount USDT",
-    "amount-available": "Amount available",
+    "amount-available": "Available amount",
     "vesting": "Month",
     "amount-lynk": "Amount LYNK"
   },
@@ -182,14 +182,16 @@
     "add-member-1": "Add Member",
     "add-buyer": "Add Buyer",
     "add-deposit": "Deposit",
-    "add-crowdsale": "Crowdsale",
+    "add-crowdsale": "Buy LYNK",
     "add-transfer": "Transfer",
     "delete-user": "Delete User",
     "save": "Save",
     "delete": "Delete",
     "export-excel": "Export",
     "change-table": "Table",
-    "change-chart": "Chart"
+    "change-chart": "Chart",
+    "buy": "Buy",
+    "transfer": "Transfer"
   },
   "deposit": {
     "lynkey": "DEPOSIT LYNKEY",
@@ -266,13 +268,14 @@
     "new-password": "New password",
     "round": "Round",
     "amount": "Amount",
-    "amount-available": "Amount available",
+    "paid-amount": "Pay amount",
+    "amount-available": "Available amount",
     "from": "From",
     "to": "To",
     "vesting": "Vesting time"
   },
   "buy-lyn": {
-    "title": "BUY LYN"
+    "title": "BUY LYNK"
   },
   "validate": {
     "length": "Minimum 8 characters",
@@ -334,7 +337,7 @@
     "invalid-amount": "The transfer account does not have enough balance",
     "transfer-success": "Transfer successfully",
     "deposit-success": "Deposit successfully",
-    "crowdsale-success": "Crowdsale successfully",
+    "crowdsale-success": "Buy successfully",
     "invalid-paid-to-usd-exchange-rate": "Invalid paid to USD exchange rate",
     "invalid-exchange-rate": "Invalid token to USD exchange rate",
     "invalid-paid-amount": "Invalid paid amount",
@@ -566,7 +569,7 @@
       "transaction-detail": "Transaction Details",
       "customer-info": "Customer Info",
       "add-deposit": "Deposit",
-      "add-crowdsale": "Crowdsale",
+      "add-crowdsale": "Buy lynk",
       "title-verification": "VERIFICATION",
       "add-transfer": "Transfer"
     },
