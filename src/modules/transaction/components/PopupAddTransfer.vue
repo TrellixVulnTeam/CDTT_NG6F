@@ -72,7 +72,7 @@
         <div class="btn-right">
           <el-button class="btn-default btn-close btn-h-40 mr-16" @click="handleCancel">{{ $t('button.cancel') }}</el-button>
           <button type="button" class="btn-default-bg text-sm ml-auto add-member" @click="handleSubmit">
-            <span>{{ $t('button.save') }}</span>
+            <span>{{ $t('button.transfer') }}</span>
           </button>
         </div>
       </div>
