@@ -19,13 +19,13 @@
       </div>
     </el-button>
     <el-button class="btn-default btn-close btn-h-40 ml-auto be-flex align-center" style="width: auto !important" @click="handleExport">
-      <div class="be-flex align-center">
+      <div class="be-flex align-center" @click="viewTable('table')">
         <!-- <base-icon icon="icon-table" style="display: inline-flex" size="22" /> -->
         <span style="padding-left: 5px">{{ $t('button.change-table') }}</span>
       </div>
     </el-button>
     <el-button class="btn-default btn-close btn-h-40 ml-auto be-flex align-center" style="width: auto !important" @click="handleExport">
-      <div class="be-flex align-center">
+      <div class="be-flex align-center" @click="viewChart('chart')">
         <!-- <base-icon icon="icon-chart" style="display: inline-flex" size="22" /> -->
         <span style="padding-left: 5px">{{ $t('button.change-chart') }}</span>
       </div>
@@ -115,7 +115,12 @@
       EventBus.$off('filterReport')
       EventBus.$off('filterByDay')
     }
-
+    viewTable(value: string): void {
+      EventBus.$emit('changeView', value)
+    }
+    viewChart(value: string): void {
+      EventBus.$emit('changeView', value)
+    }
     created(): void {
       this.lang = window.localStorage.getItem('bc-lang')!
       // EventBus.$on('changeTabMember', this.handleChangeTab)

@@ -12,8 +12,8 @@
       </div>
     </div>
     <report-filter />
-    <report-table v-if="this.$route.name == 'ReportUser'" />
-    <report-chart v-else />
+    <report-table v-if="this.$route.name == 'ReportUser' && this.viewType == 'table'" />
+    <report-chart v-else-if="this.$route.name == 'ReportUser' && this.viewType == 'chart'" />
     <!-- <div v-else>aaaa</div> -->
   </div>
 </template>
@@ -25,6 +25,7 @@
   import getRepository from '@/services'
   import ReportRepository from '@/services/repositories/report'
   import ReportChart from './../components/chart/ReportChart.vue'
+  import EventBus from '@/utils/eventBus'
   const api: ReportRepository = getRepository('report')
   @Component({ components: { ReportTable, ReportFilter, ReportChart } })
   export default class BOCustomer extends Vue {
@@ -47,28 +48,15 @@
         // EventBus.$emit('changeTabMember')
       })
     }
-
+    viewType = 'table'
     async created(): Promise<void> {
-      // console.log('vao')
-      // const params: any = {
-      //   fromDate: '2323e',
-      //   toDate: '',
-      //   page: '',
-      //   size: '',
-      //   search: '',
-      //   sort: ''
-      // }
-      // const result = await api.getListReport(params)
-
-      // console.log('result', result)
-      // if (!this.checkPemission('customer', ['view'])) {
-      //   const routeName = MODULE_WITH_ROUTENAME[this.listModuleCanView[0].module]
-      //   this.$router.push({ name: routeName })
-      //   return
-      // }
+      EventBus.$on('changeView', this.changeView)
 
       const name = this.$route.name!
-      // this.query.status = this.objType[name]
+    }
+    changeView(value: string): void {
+      console.log('value', value)
+      this.viewType = value
     }
   }
 </script>

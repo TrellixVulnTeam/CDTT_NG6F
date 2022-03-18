@@ -28,10 +28,10 @@
         <div class="detail-title">
           <p>Biểu đồ đăng nhập hệ thống</p>
         </div>
-        <div class="detail-line">
+        <!-- <div class="detail-line">
           <base-icon class="icon" icon="menu-member" size="40" />
           <p>Số lần đăng nhập</p>
-        </div>
+        </div> -->
 
         <div class="line-chart bg-white">
           <line-chart />
