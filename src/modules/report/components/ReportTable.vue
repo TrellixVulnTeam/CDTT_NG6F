@@ -28,31 +28,7 @@
         <el-table-column :label="$t('report.table.accessTime')" prop="totalLogin" align="center" width="200"></el-table-column>
       </base-table>
     </div>
-    <div class="chart">
-      <div class="cards">
-        <div class="card">
-          <div class="card-title">
-            <base-icon icon="menu-member" size="40" />
-            <p>User</p>
-          </div>
-          <div class="card-value">30</div>
-        </div>
-        <div class="card">
-          <div class="card-title">
-            <base-icon icon="menu-member" size="40" />
-            <p>User</p>
-          </div>
-          <div class="card-value">30</div>
-        </div>
-        <div class="card">
-          <div class="card-title">
-            <base-icon icon="menu-member" size="40" />
-            <p>User</p>
-          </div>
-          <div class="card-value">30</div>
-        </div>
-      </div>
-    </div>
+    <!-- <report-chart /> -->
   </div>
 </template>
 
@@ -61,9 +37,9 @@ import { Component, Prop, Vue, Mixins } from 'vue-property-decorator'
 import getRepository from '@/services'
 import ReportRepository from '@/services/repositories/report'
 import EventBus from '@/utils/eventBus'
-
+// import ReportChart from './chart/ReportChart.vue'
 const api: ReportRepository = getRepository('report')
-@Component
+@Component({ components: {  } })
 export default class ReportTable extends Vue {
   // @Prop({ required: true, type: Object, default: {} }) query!: Record<string, any>
   @Prop({ required: true, type: Array, default: [] }) data!: Array<Record<string, any>>
@@ -142,20 +118,29 @@ img {
     align-items: center;
     justify-content: space-around;
     .card {
+      color: #fff;
       margin: 12px 12px;
-      width: 33%;
+      width: 33.33333%;
       display: flex;
       flex-direction: column;
       box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
+      border-radius: 15px;
+      background: linear-gradient(90deg, #e13635, #eb6651 80%, #eb6651);
       .card-title {
         margin: 12px 12px;
         display: flex;
         flex-direction: row-reverse;
         justify-content: space-between;
         align-items: center;
+        p {
+          font-size: 14.26px;
+        }
       }
       .card-value {
-        margin: 12px 12pxtssx;
+        margin: 12px 12px;
+        font-size: 30px;
+        line-height: 48px;
+        font-weight: 700;
       }
     }
   }
