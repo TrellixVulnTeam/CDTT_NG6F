@@ -337,7 +337,7 @@
             description: '',
             transactionCode: null
           }
-          this.handleCancel()
+          // this.handleCancel()
           this.$emit('confirm', this.form)
           setTimeout(() => {
             this.numClick = 0

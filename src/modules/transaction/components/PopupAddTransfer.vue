@@ -290,7 +290,7 @@
           const _amount = Number(this.form.amount.replaceAll(',', ''))
           const _form = { ...this.form, amount: _amount }
           apiCrowdsale.transferToUser(_form).then(() => {
-            this.handleCancel()
+            // this.handleCancel()
             this.$emit('confirm', _form)
             setTimeout(() => {
               this.numClick = 0

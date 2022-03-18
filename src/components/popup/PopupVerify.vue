@@ -152,14 +152,14 @@
           popupName: 'popup-base-verify',
           isOpen: false
         })
-        // this.setOpenPopup({
-        //   popupName: 'popup-add-crowdsale',
-        //   isOpen: false
-        // })
-        // this.setOpenPopup({
-        //   popupName: 'popup-add-transfer',
-        //   isOpen: false
-        // })
+        this.setOpenPopup({
+          popupName: 'popup-add-crowdsale',
+          isOpen: false
+        })
+        this.setOpenPopup({
+          popupName: 'popup-add-transfer',
+          isOpen: false
+        })
         this.isLoading = false
         this.$emit('reload')
       } catch (error) {

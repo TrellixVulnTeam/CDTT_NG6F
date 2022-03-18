@@ -316,7 +316,9 @@
     "invalid-token-address": "Địa chỉ nhận không hợp lệ",
     "invalid-asset-balance": "Số dư không hợp lệ",
     "code-validation-failed": "Xác thực mã không thành công",
-    "min-to-buy-crowdsale": " Số tiền tối thiểu là {amount}$"
+    "min-to-buy-crowdsale": " Số tiền tối thiểu là {amount}$",
+    "vesting-invalid": "Tháng vesting phải lớn hơn 0",
+    "amount-transfer-invalid": "Số lượng phải lớn hơn 0"
   },
   "logout": {
     "title": "Đăng xuất",

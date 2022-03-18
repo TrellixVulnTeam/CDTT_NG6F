@@ -103,7 +103,16 @@ request.interceptors.response.use(
 
         message = i18n.t('notify.min-to-buy-crowdsale', { amount: _amount })
       }
+      // mã lỗi transfer
 
+      if (data.message === 'Vesting month must be higher zero.') {
+        message = i18n.tc('notify.vesting-invalid')
+      }
+      if (data.message === 'Amount must be higher zero.') {
+        message = i18n.tc('notify.amount-transfer-invalid')
+      }
+
+      // end
       if (data.message === 'User not exits') {
         message = i18n.tc('notify.user-exits')
       }

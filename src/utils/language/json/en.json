@@ -339,7 +339,9 @@
     "invalid-token-address": "invalid token address",
     "invalid-asset-balance": "invalid asset balance",
     "code-validation-failed": "Code validation failed",
-    "min-to-buy-crowdsale": "Minimum amount is {amount}$"
+    "min-to-buy-crowdsale": "Minimum amount is {amount}$",
+    "vesting-invalid": "Vesting month must be higher zero",
+    "amount-transfer-invalid": "Amount must be higher zero"
   },
   "logout": {
     "title": "Sign out",
