@@ -799,6 +799,6 @@
 <style scoped lang="scss">
   #chartdiv {
     width: 100%;
-    height: 350px;
+    height: 500px;
   }
 </style>
