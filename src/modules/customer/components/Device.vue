@@ -13,12 +13,17 @@
             <span class="d-ib">{{ scope.row.deviceName }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('customer.table.last-login')" width="220">
+        <el-table-column :label="$t('customer.table.device-ver')" width="130">
+          <template slot-scope="scope">
+            <span class="d-ib">{{ scope.row.appVersion }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('customer.table.last-login')" width="200">
           <template slot-scope="scope">
             <span class="d-ib">{{ scope.row.lastLogin | formatDateHourMs }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('customer.table.2fa-status')" width="150">
+        <el-table-column :label="$t('customer.table.2fa-status')" width="150" align="center">
           <template slot-scope="scope">
             <span class="text-base">{{ scope.row.twoFactorStatus }} </span>
           </template>

@@ -1,13 +1,31 @@
 <template>
-  <base-popup name="popup-add-deposit" class="popup-member" width="480px" :close="handleClose" :open="handleOpen">
+  <base-popup name="popup-add-transfer" class="popup-member" width="480px" :close="handleClose" :open="handleOpen">
     <div class="title-popup" slot="title">
-      <span>{{ $t('transaction.popup.add-deposit') }}</span>
+      <span>{{ $t('transaction.popup.add-transfer') }}</span>
     </div>
     <div class="content" v-loading="isLoading">
       <el-form class="form-item" :model="form" :rules="rules" ref="setting-round-member" autocomplete="off">
-        <el-form-item :label="$t('label.email')" :class="isEmailFailed ? 'is-error' : null" prop="email">
+        <el-form-item :label="$t('label.from')" :class="isEmailFailed ? 'is-error' : null" prop="fromUser">
           <el-select
-            v-model="form.email"
+            v-model="form.fromUser"
+            class="w-100"
+            filterable
+            remote
+            clearable
+            reserve-keyword
+            :placeholder="$t('placeholder.email')"
+            :remote-method="handleGetUserFrom"
+            @clear="handleClearEmail"
+          >
+            <div v-infinite-scroll="loadMoreUserFrom" infinite-scroll-delay="500">
+              <el-option v-for="item in listCustomerUserFrom" :key="item.id" :label="item.username" :value="item.username"> </el-option>
+            </div>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item :label="$t('label.to')" :class="isEmailFailed ? 'is-error' : null" prop="toUserId">
+          <el-select
+            v-model="form.toUserId"
             class="w-100"
             filterable
             remote
@@ -18,11 +36,9 @@
             @clear="handleClearEmail"
           >
             <div v-infinite-scroll="loadMoreCustomer" infinite-scroll-delay="500">
-              <el-option v-for="item in listCustomer" :key="item.id" :label="item.email" :value="item.email"> </el-option>
+              <el-option v-for="item in listCustomerUserTo" :key="item.id" :label="item.email" :value="item.userId"> </el-option>
             </div>
           </el-select>
-          <!-- <el-input v-model="form.email" autocomplete="new-password" :readonly="false" :placeholder="$t('placeholder.email')" clearable @input="handleFindCustomer" /> -->
-          <!-- <small class="small" v-if="isEmailFailed">{{ $t('notify.not-find-customer') }}</small> -->
         </el-form-item>
 
         <div class="be-flex jc-space-between">
@@ -30,15 +46,25 @@
             <el-input
               v-model="form.amount"
               @input="handleInputAmount"
-              :placeholder="$t('placeholder.amount-deposit')"
+              :placeholder="$t('placeholder.amount-lynk')"
               @keypress.native="onlyNumber($event, 'amount')"
               @keyup.native="numberFormat($event)"
               clearable
             >
-              <template slot="append">USDT</template>
+              <template slot="append">LYNK</template>
             </el-input>
           </el-form-item>
         </div>
+        <el-form-item :label="$t('label.vesting')" class="be-flex-item" prop="vestingMonth">
+          <el-input
+            v-model="form.vestingMonth"
+            @input="handleInputVesting"
+            @keypress.native="onlyNumber($event, 'vestingMonth')"
+            :placeholder="$t('placeholder.vesting')"
+            clearable
+          >
+          </el-input>
+        </el-form-item>
       </el-form>
     </div>
     <div class="footer" slot="footer">
@@ -55,11 +81,10 @@
 </template>
 
 <script lang="ts">
-  import { Component, Mixins, Watch } from 'vue-property-decorator'
+  import { Component, Mixins } from 'vue-property-decorator'
 
   import PopupMixin from '@/mixins/popup'
   import { CrowdsaleRepository } from '@/services/repositories/crowdsale'
-  import { TransactionRepository } from '@/services/repositories/transaction'
   import getRepository from '@/services'
   import { namespace } from 'vuex-class'
   import { trim, includes } from 'lodash'
@@ -67,23 +92,28 @@
   const crowdsaleBo = namespace('crowdsaleBo')
 
   const apiCrowdsale: CrowdsaleRepository = getRepository('crowdsale')
-  const apiTransaction: TransactionRepository = getRepository('transaction')
 
   @Component({
     components: {}
   })
-  export default class PopupAddDeposit extends Mixins(PopupMixin) {
+  export default class PopupAddTransfer extends Mixins(PopupMixin) {
     @crowdsaleBo.State('roundCurrent') roundCurrent!: Record<string, any>
 
     form = {
-      email: '',
+      fromUser: '',
+      toUserId: '',
       amount: '',
-      currency: 'USDT'
+      vestingMonth: ''
     }
     listRoundChecked: number[] = []
+    tabAmount: number[] = [25, 50, 75, 100]
+    tabActive: any = null
 
-    listCustomer: Record<string, any>[] = []
-    listCustomerClone: Record<string, any>[] = []
+    listCustomerUserTo: Record<string, any>[] = []
+    listCustomerUserToClone: Record<string, any>[] = []
+
+    listCustomerUserFrom: Record<string, any>[] = []
+    listCustomerUserFromClone: Record<string, any>[] = []
 
     isLoading = false
     isEmailFailed = false
@@ -93,10 +123,18 @@
     numClick = 0
 
     limit = 20
-    emailSearch = ''
+    emailSearchUserTo = ''
+    emailSearchUserFrom = ''
 
     rules: Record<string, any> = {
-      email: [
+      fromUser: [
+        {
+          required: true,
+          message: this.$t('member.validate.wrong-email'),
+          trigger: 'blur'
+        }
+      ],
+      toUserId: [
         {
           required: true,
           message: this.$t('member.validate.wrong-email'),
@@ -106,21 +144,22 @@
       amount: [
         {
           required: true,
-          message: this.$t('member.validate.wrong-deposit'),
+          message: this.$t('member.validate.wrong-lynk'),
+          trigger: 'blur'
+        }
+      ],
+      vestingMonth: [
+        {
+          required: true,
+          message: this.$t('member.validate.wrong-vesting'),
           trigger: 'blur'
         }
       ]
     }
 
-    // @Watch('form.email') watchEmail(email: string): void {
-    //   if (email === '') {
-    //     this.isEmailFailed = false
-    //   }
-    // }
-
     handleCancel(): void {
       this.setOpenPopup({
-        popupName: 'popup-add-deposit',
+        popupName: 'popup-add-transfer',
         isOpen: false
       })
     }
@@ -128,16 +167,19 @@
     handleOpen(): void {
       this.isEmailFailed = false
       this.handleFindCustomer(' ', true)
+      this.handleGetUserFrom(' ', true)
     }
 
     handleClose(): void {
       this.listRoundChecked = []
       this.isNotChooseRound = false
       this.form = {
-        email: '',
+        fromUser: '',
+        toUserId: '',
         amount: '',
-        currency: 'USDT'
+        vestingMonth: ''
       }
+      this.tabActive = null
       //@ts-ignore
       this.$refs['setting-round-member'].clearValidate()
     }
@@ -145,6 +187,10 @@
     handleInputAmount(): void {
       //@ts-ignore
       this.$refs['setting-round-member']?.fields.find(f => f.prop == 'amount').clearValidate()
+    }
+    handleInputVesting(): void {
+      //@ts-ignore
+      this.$refs['setting-round-member']?.fields.find(f => f.prop == 'vestingMonth').clearValidate()
     }
     // handleFindCustomer(): void {
     //   this.debouneFindCustomer(this)
@@ -167,39 +213,73 @@
     loadMoreCustomer(): void {
       this.limit += 20
       const params = {
-        email: this.emailSearch,
-        limit: this.limit
+        email: this.emailSearchUserTo,
+        limit: this.limit,
+        isTransferFund: 1
       }
       apiCrowdsale.findCustomerByEmail(params).then(res => {
-        this.listCustomer = res
+        this.listCustomerUserTo = res
       })
     }
 
     handleFindCustomer(query: string, isFirst = false): void {
       if (query !== '') {
-        this.emailSearch = trim(query)
+        this.emailSearchUserTo = trim(query)
         this.limit = 20
         const params = {
-          email: this.emailSearch,
-          limit: 20
+          email: this.emailSearchUserTo,
+          limit: 20,
+          isTransferFund: 1
         }
         apiCrowdsale.findCustomerByEmail(params).then(res => {
-          this.listCustomer = res
+          this.listCustomerUserTo = res
           if (isFirst) {
-            this.listCustomerClone = res
+            this.listCustomerUserToClone = res
           }
         })
       } else {
         this.limit = 20
-        this.emailSearch = ''
-        this.listCustomer = [...this.listCustomerClone]
+        this.emailSearchUserTo = ''
+        this.listCustomerUserTo = [...this.listCustomerUserToClone]
       }
     }
 
     handleClearEmail(): void {
-      this.listCustomer = [...this.listCustomerClone]
+      this.listCustomerUserTo = [...this.listCustomerUserToClone]
       this.limit = 20
-      this.emailSearch = ''
+      this.emailSearchUserTo = ''
+    }
+
+    handleGetUserFrom(query: string, isFirst = false): void {
+      if (query !== '') {
+        this.emailSearchUserFrom = trim(query)
+        this.limit = 20
+        const params = {
+          email: this.emailSearchUserFrom,
+          limit: 20
+        }
+        apiCrowdsale.getListUserFrom(params).then(res => {
+          this.listCustomerUserFrom = res
+          if (isFirst) {
+            this.listCustomerUserFromClone = res
+          }
+        })
+      } else {
+        this.limit = 20
+        this.emailSearchUserFrom = ''
+        this.listCustomerUserFrom = [...this.listCustomerUserFromClone]
+      }
+    }
+
+    loadMoreUserFrom(): void {
+      this.limit += 20
+      const params = {
+        email: this.emailSearchUserFrom,
+        limit: this.limit
+      }
+      apiCrowdsale.getListUserFrom(params).then(res => {
+        this.listCustomerUserFrom = res
+      })
     }
 
     handleSubmit(): void {
@@ -207,10 +287,11 @@
       //@ts-ignore
       this.$refs['setting-round-member']?.validate(valid => {
         if (valid && this.numClick === 1) {
-          const amount = this.form.amount.replaceAll(',', '')
-          apiTransaction.addDeposit({ ...this.form, amount }).then(() => {
-            this.handleCancel()
-            this.$emit('reload')
+          const _amount = Number(this.form.amount.replaceAll(',', ''))
+          const _form = { ...this.form, amount: _amount }
+          apiCrowdsale.transferToUser(_form).then(() => {
+            // this.handleCancel()
+            this.$emit('confirm', _form)
             setTimeout(() => {
               this.numClick = 0
             }, 1000)
@@ -368,5 +449,28 @@
     position: absolute;
     top: 100%;
     left: 0;
+  }
+  .tab-amount {
+    .amount-item {
+      padding: 4px 0;
+      flex: 1;
+      text-align: center;
+      margin-right: 8px;
+      background-color: #f3f2f1;
+      border-radius: 4px;
+      border: 1px solid transparent;
+      &:last-child {
+        margin-right: 0;
+      }
+      &:hover {
+        // border: 1px solid var(--bc-tab-buy-border);
+        color: var(--bc-text-tab-buy);
+        background: var(--bc-bg-tab-hover);
+      }
+    }
+    .active {
+      background: var(--bc-tab-active);
+      color: #fff;
+    }
   }
 </style>

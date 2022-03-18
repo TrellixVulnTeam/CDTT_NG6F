@@ -28,7 +28,15 @@
           </div>
         </div>
       </div>
-      <filter-transaction @filter="handleFilter" :type="'transaction'" :showBtn="getShowBtn" ref="filter" @addDeposit="handleOpenAddDeposit" />
+      <filter-transaction
+        @filter="handleFilter"
+        :type="'transaction'"
+        :showBtn="getShowBtn"
+        :showBtnCrowdsale="showBtnCrowdsale"
+        :showBtnTransfer="showBtnTransfer"
+        ref="filter"
+        @clickButton="handleClickButton"
+      />
       <div class="table-transaction">
         <table-transaction
           v-loading="isLoading"
@@ -44,6 +52,9 @@
       <popup-filter-transaction @filter="handleFilter" :tab-active-filter="tabActive" :type="'transaction'" ref="popup-filter" />
       <transaction-detail :detail-row="detailRow" :tab-active-filter="tabActive" />
       <popup-add-deposit @reload="init" />
+      <popup-add-crowdsale @confirm="handleConfirm" />
+      <popup-add-transfer @confirm="handleConfirm" />
+      <popup-verify :type="type2Fa" :data="formData" @reload="init" :transactionType="query.transactionType" />
     </div>
   </div>
 </template>
@@ -56,13 +67,22 @@
   import getRepository from '@/services'
   import { debounce } from 'lodash'
   import { TransactionRepository } from '@/services/repositories/transaction'
+  import { CrowdsaleRepository } from '@/services/repositories/crowdsale'
+
   import TableTransaction from '@/components/table/TableTransaction.vue'
   import FilterTransaction from '@/components/filter/FilterTransaction.vue'
   import PopupFilterTransaction from '@/components/popup/PopupFilterTransaction.vue'
   import TransactionDetail from '@/modules/transaction/components/transactionDetail/TransactionDetail.vue'
   import PopupAddDeposit from '../components/PopupAddDeposit.vue'
+  import PopupAddCrowdsale from '../components/PopupAddCrowdsale.vue'
+  import PopupAddTransfer from '../components/PopupAddTransfer.vue'
+  import PopupVerify from '@/components/popup/PopupVerify.vue'
 
   const api: TransactionRepository = getRepository('transaction')
+  const apiCrowdsale: CrowdsaleRepository = getRepository('crowdsale')
+
+  import { namespace } from 'vuex-class'
+  const bcAuth = namespace('beAuth')
 
   interface IDataCard {
     numOfTransaction: number | null
@@ -76,15 +96,25 @@
       TableTransaction,
       FilterTransaction,
       TransactionDetail,
-      PopupAddDeposit
+      PopupAddDeposit,
+      PopupAddCrowdsale,
+      PopupVerify,
+      PopupAddTransfer
     }
   })
   export default class Transaction extends Mixins(PopupMixin) {
+    @bcAuth.State('user') user!: Record<string, any>
+
     tabs: Array<Record<string, any>> = [
       {
         id: 1,
         title: 'deposit',
         routeName: 'TransactionDeposit'
+      },
+      {
+        id: 5,
+        title: 'crowdsale',
+        routeName: 'TransactionCrowdsale'
       },
       {
         id: 2,
@@ -123,9 +153,17 @@
       total: 10
     }
     listApproveBy: Record<string, any>[] = []
+    type2Fa = ''
+    formData: Record<string, any> = {}
 
     get getShowBtn(): boolean {
       return this.$route.name === 'TransactionDeposit' && this.checkPemission('transaction', ['add-deposit'])
+    }
+    get showBtnCrowdsale(): boolean {
+      return this.$route.name === 'TransactionCrowdsale' && this.checkPemission('transaction', ['add-crowdsale'])
+    }
+    get showBtnTransfer(): boolean {
+      return this.$route.name === 'TransactionTransfer' && this.checkPemission('transaction', ['add-transfer'])
     }
 
     async created(): Promise<void> {
@@ -139,7 +177,7 @@
           this.tabActive = value.title
         }
       })
-      this.init().then()
+      this.init()
     }
 
     propDataTable: Record<string, any>[] = []
@@ -166,6 +204,9 @@
         const deposit = result.summary.filter(item => {
           return item.transactionType === 'DEPOSIT'
         })
+        const crowdsale = result.summary.filter(item => {
+          return item.transactionType === 'CROWDSALE'
+        })
         const withdraw = result.summary.filter(item => {
           return item.transactionType === 'WITHDRAW'
         })
@@ -176,7 +217,7 @@
           return item.transactionType === 'BONUS'
         })
 
-        this.dataHeaderCard = [...deposit, ...withdraw, ...transfer, ...bonus]
+        this.dataHeaderCard = [...deposit, ...crowdsale, ...withdraw, ...transfer, ...bonus]
 
         this.query.total = result.transactions.totalElements
         this.isLoading = false
@@ -196,6 +237,8 @@
           return this.$i18n.t(`transaction.table.total-transfer`) as string
         case 'WITHDRAW':
           return this.$i18n.t(`transaction.table.total-withdraw`) as string
+        default:
+          return this.$i18n.t(`transaction.table.total-crowdsale`) as string
       }
     }
 
@@ -209,6 +252,8 @@
           return 'icon-swap-2'
         case 'WITHDRAW':
           return 'icon-upload'
+        default:
+          return 'icon-crowdsale'
       }
     }
 
@@ -229,6 +274,7 @@
       if (refs2) {
         refs2.handleReset()
       }
+
       this.init()
 
       // EventBus.$emit('selectTabBalance')
@@ -296,11 +342,37 @@
       this.init()
     }, 300)
 
-    handleOpenAddDeposit(): void {
+    handleClickButton(popupName: string): void {
       this.setOpenPopup({
-        popupName: 'popup-add-deposit',
+        popupName,
         isOpen: true
       })
+    }
+
+    async handleConfirm(form: Record<string, any>): Promise<void> {
+      this.formData = form
+      if (this.query.transactionType === 'CROWDSALE') {
+        const params: Record<string, any> = {
+          email: this.user.email,
+          userType: 'EMPLOYEE'
+        }
+        const apiSendcode = apiCrowdsale.sendCodeBuyCrowdsale()
+        const apiGet2FA = apiCrowdsale.get2FABuyCrowdsale(params)
+        const result = await Promise.all([apiSendcode, apiGet2FA])
+        this.type2Fa = result[1]
+        this.setOpenPopup({
+          popupName: 'popup-base-verify',
+          isOpen: true
+        })
+      } else {
+        apiCrowdsale.sendCodeAndGet2FATransfer().then(res => {
+          this.type2Fa = res.type
+          this.setOpenPopup({
+            popupName: 'popup-base-verify',
+            isOpen: true
+          })
+        })
+      }
     }
   }
 </script>
@@ -324,7 +396,7 @@
     }
 
     .items-card {
-      width: calc(100% / 4 - 50px);
+      width: calc(100% / 5 - 50px);
       background-color: #ffffff;
       box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
       border-radius: 8px;

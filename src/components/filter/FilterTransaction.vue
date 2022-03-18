@@ -26,8 +26,14 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <button v-if="showBtn" type="button" class="btn-default-bg text-sm ml-auto add-member" @click="handleAddDeposit">
+    <button v-if="showBtn" type="button" class="btn-default-bg text-sm ml-auto add-member" @click="handleClickButton('popup-add-deposit')">
       <span>{{ $t('button.add-deposit') }}</span>
+    </button>
+    <button v-if="showBtnCrowdsale" type="button" class="btn-default-bg text-sm ml-auto add-member" @click="handleClickButton('popup-add-crowdsale')">
+      <span>{{ $t('button.add-crowdsale') }}</span>
+    </button>
+    <button v-if="showBtnTransfer" type="button" class="btn-default-bg text-sm ml-auto add-member" @click="handleClickButton('popup-add-transfer')">
+      <span>{{ $t('button.add-transfer') }}</span>
     </button>
   </div>
 </template>
@@ -42,10 +48,12 @@
   export default class FilterTransaction extends Mixins(PopupMixin) {
     @Prop({ required: true, type: String, default: 'customer' }) type!: string
     @Prop({ required: true, type: Boolean, default: false }) showBtn!: boolean
+    @Prop({ required: true, type: Boolean, default: false }) showBtnCrowdsale!: boolean
+    @Prop({ required: true, type: Boolean, default: false }) showBtnTransfer!: boolean
     filter: Record<string, any> = {
       search: '',
       keywordString: '',
-      orderBy: 0
+      orderBy: null
     }
     sorts: Array<Record<string, any>> = [
       {
@@ -61,7 +69,7 @@
         label: this.$i18n.t('customer.sort.status')
       }
     ]
-    sortActive = 0
+    sortActive = 1
 
     @Watch('filter.search') handleSearch(value: string): void {
       this.searchText(value)
@@ -91,7 +99,7 @@
       this.filter.search = ''
       this.filter.keywordString = ''
       this.filter.orderBy = 1
-      this.sortActive = 0
+      this.sortActive = 1
     }
     handleSort(command: number): void {
       this.sortActive = command
@@ -111,8 +119,8 @@
         })
       }
     }
-    handleAddDeposit(): void {
-      this.$emit('addDeposit')
+    handleClickButton(popupName: string): void {
+      this.$emit('clickButton', popupName)
     }
   }
 </script>

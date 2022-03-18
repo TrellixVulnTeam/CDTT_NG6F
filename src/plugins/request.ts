@@ -4,6 +4,7 @@ import Cookies from 'js-cookie'
 // import store from '../store'
 import i18n from '@/utils/language'
 import { includes } from 'lodash'
+import { formatNumber } from '@/configs/format'
 
 // const isAlreadyFetchingAccessToken = false
 // const subscribers: any[] = []
@@ -70,7 +71,48 @@ request.interceptors.response.use(
       // return retryOriginalRequest
     }
     if (data.statusCode === 400) {
-      let message = ''
+      let message: any = ''
+      //  mã lỗi buy crowdsale
+      if (data.status === 'INVALID_ASSET_BALANCES') {
+        message = i18n.tc('notify.invalid-asset-balance')
+      }
+      if (data.status === 'INVALID_TOKEN_ADDRESS') {
+        message = i18n.tc('notify.invalid-token-address')
+      }
+      if (data.status === 'INVALID_TOKEN_AMOUNT') {
+        message = i18n.tc('notify.invalid-token-amount')
+      }
+      if (data.status === 'INVALID_PAID_ADDRESS') {
+        message = i18n.tc('notify.invalid-paid-address')
+      }
+      if (data.status === 'INVALID_PAID_AMOUNT') {
+        message = i18n.tc('notify.invalid-paid-amount')
+      }
+      if (data.status === 'INVALID_TOKEN_TO_USD_EXCHANGE_RATE') {
+        message = i18n.tc('notify.invalid-exchange-rate')
+      }
+      if (data.status === 'INVALID_PAID_TO_USD_EXCHANGE_RATE') {
+        message = i18n.tc('notify.invalid-paid-to-usd-exchange-rate')
+      }
+      if (data.status === 'CODE_VALIDATION_FAILED') {
+        message = i18n.tc('notify.code-validation-failed')
+      }
+      if (data.status === 'INVALID_MIN_TO_BUY_CROWDSALE') {
+        const amount = data.message.replace(/[^0-9]/g, '')
+        const _amount = formatNumber(amount)
+
+        message = i18n.t('notify.min-to-buy-crowdsale', { amount: _amount })
+      }
+      // mã lỗi transfer
+
+      if (data.message === 'Vesting month must be higher zero.') {
+        message = i18n.tc('notify.vesting-invalid')
+      }
+      if (data.message === 'Amount must be higher zero.') {
+        message = i18n.tc('notify.amount-transfer-invalid')
+      }
+
+      // end
       if (data.message === 'User not exits') {
         message = i18n.tc('notify.user-exits')
       }
@@ -122,6 +164,9 @@ request.interceptors.response.use(
       }
       if (data.status === 'ACCOUNT_ALREADY_EXISTS') {
         message = i18n.tc('notify.account-exist')
+      }
+      if (data.status === 'INVALID_AMOUNT') {
+        message = i18n.tc('notify.invalid-amount')
       }
       if (data.status === 'Invalid verification code') {
         message = i18n.tc('notify.verify-fail')

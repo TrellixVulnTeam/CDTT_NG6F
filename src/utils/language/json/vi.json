@@ -153,7 +153,9 @@
     "email": "Email",
     "f-name": "Họ",
     "l-name": "Tên",
-    "amount-deposit": "Số lượng USDT"
+    "amount-deposit": "Số lượng USDT",
+    "vesting": "Số tháng",
+    "amount-lynk": "Số lượng LYNK"
   },
   "button": {
     "reset": "Làm lại",
@@ -169,6 +171,8 @@
     "add-member-1": "Thêm nhân viên",
     "add-buyer": "Thêm người mua",
     "add-deposit": "Nạp",
+    "add-crowdsale": "Crowdsale",
+    "add-transfer": "Chuyển",
     "delete-user": "Xóa nhân viên",
     "save": "Lưu",
     "delete": "Xóa",
@@ -191,6 +195,7 @@
     "buyer": "người mua"
   },
   "label": {
+    "invalid-amount": "Số lượng không hợp lệ",
     "buy-from": "Chọn ví",
     "pay-amount": "Số tiền",
     "receive": "Thực nhận",
@@ -240,7 +245,11 @@
     "asset": "Loại ví",
     "network": "Loại mạng",
     "created-date": "Ngày tạo",
-    "amount": "Số lượng"
+    "amount": "Số lượng",
+    "amount-available": "Số lượng có sẵn",
+    "from": "Từ",
+    "to": "Đến",
+    "vesting": "Thời gian vesting"
   },
   "validate": {
     "length": " Độ dài tối thiểu 8 ký tự",
@@ -297,7 +306,22 @@
     "incorrect-old-pass": "Mật khẩu cũ không chính xác",
     "choose-round": "Chọn tối thiểu 1 vòng",
     "kyc-approved-already": "Yêu cầu KYC đã được duyệt bởi một tài khoản khác",
-    "email-invalid": "Tài khoản không tồn tại, vui lòng kiểm tra địa chỉ email"
+    "email-invalid": "Tài khoản không tồn tại, vui lòng kiểm tra địa chỉ email",
+    "invalid-amount": "Tài khoản gửi không đủ số dư",
+    "transfer-success": "Chuyển khoản thành công",
+    "deposit-success": "Nạp thành công",
+    "crowdsale-success": "Crowdsale thành công",
+    "invalid-paid-to-usd-exchange-rate": "Tỷ giá đã thay đổi, vui lòng kiểm tra và thực hiện lại",
+    "invalid-exchange-rate": "Tỷ giá quy đổi USD không hợp lệ",
+    "invalid-paid-amount": "Số tiền thanh toán không hợp lệ",
+    "invalid-paid-address": "Địa chỉ thanh toán không hợp lệ",
+    "invalid-token-amount": "Số tiền nhận không hợp lệ",
+    "invalid-token-address": "Địa chỉ nhận không hợp lệ",
+    "invalid-asset-balance": "Số dư không hợp lệ",
+    "code-validation-failed": "Xác thực mã không thành công",
+    "min-to-buy-crowdsale": " Số tiền tối thiểu là {amount}$",
+    "vesting-invalid": "Tháng vesting phải lớn hơn 0",
+    "amount-transfer-invalid": "Số lượng phải lớn hơn 0"
   },
   "logout": {
     "title": "Đăng xuất",
@@ -419,6 +443,7 @@
       "bonus-sign-up-referral": "Thưởng giới thiệu đăng ký",
       "device-os": "Hệ điều hành",
       "device-name": "Tên thiết bị",
+      "device-ver": "Phiên bản",
       "last-login": "Lần đăng nhập cuối",
       "2fa-status": "Trạng thái 2FA"
     },
@@ -507,13 +532,17 @@
       "total-transfer": "Tổng tiền chuyển",
       "total-bonus": "Tổng tiền thưởng",
       "total-withdraw": "Tổng tiền rút",
+      "total-crowdsale": "Tổng tiền Crowdsale",
       "locked": "Khóa"
     },
     "popup": {
       "title-filter": "Bộ lọc",
       "transaction-detail": "Chi tiết giao dịch",
       "customer-info": "Chi tiết người dùng",
-      "add-deposit": "nạp"
+      "add-deposit": "nạp",
+      "add-crowdsale": "Crowdsale",
+      "title-verification": "Xác thực",
+      "add-transfer": "Chuyển"
     },
     "detail": {
       "transaction-id": "Mã giao dịch",
@@ -584,9 +613,8 @@
     "transfer": "Chuyển",
     "member-active": "Hoạt động",
     "member-inactive": "Không hoạt động",
-    "crowdsales": "Crowdsale",
-    "vesting": "Vesting",
-    "user": "Người dùng"
+    "crowdsale": "Crowdsale",
+    "vesting": "Vesting"
   },
   "status": {
     "pending": "Đang chờ",
@@ -878,7 +906,9 @@
       "firstname": "Vui lòng nhập họ",
       "lastname": "Vui lòng nhập tên",
       "lastnameLength": "Nhập tối thiểu 2 ký tự",
-      "firstnameLength": "Nhập tối thiểu 2 ký tự"
+      "firstnameLength": "Nhập tối thiểu 2 ký tự",
+      "wrong-lynk": "Vui lòng nhập số lượng LYNK",
+      "wrong-vesting": "Vui lòng nhập số tháng vesting"
     }
   },
   "exception": {

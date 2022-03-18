@@ -163,7 +163,10 @@
     "email": "Email",
     "f-name": "First name",
     "l-name": "Last name",
-    "amount-deposit": "Amount USDT"
+    "amount-deposit": "Amount USDT",
+    "amount-available": "Amount available",
+    "vesting": "Month",
+    "amount-lynk": "Amount LYNK"
   },
   "button": {
     "reset": "Reset",
@@ -179,6 +182,8 @@
     "add-member-1": "Add Member",
     "add-buyer": "Add Buyer",
     "add-deposit": "Deposit",
+    "add-crowdsale": "Crowdsale",
+    "add-transfer": "Transfer",
     "delete-user": "Delete User",
     "save": "Save",
     "delete": "Delete",
@@ -210,6 +215,7 @@
     "buyer": "buyers"
   },
   "label": {
+    "invalid-amount": "Invalid amount",
     "buy-from": "Buy from",
     "pay-amount": "Pay amount",
     "receive": "Receive",
@@ -259,7 +265,11 @@
     "created-date": "Created date",
     "new-password": "New password",
     "round": "Round",
-    "amount": "Amount"
+    "amount": "Amount",
+    "amount-available": "Amount available",
+    "from": "From",
+    "to": "To",
+    "vesting": "Vesting time"
   },
   "buy-lyn": {
     "title": "BUY LYN"
@@ -320,7 +330,22 @@
     "incorrect-old-pass": "Incorrect old password",
     "choose-round": "Must choose at least 1 round",
     "kyc-approved-already": "KYC request has been approved by another account",
-    "email-invalid": "Account does not exist, please check your email address"
+    "email-invalid": "Account does not exist, please check your email address",
+    "invalid-amount": "The transfer account does not have enough balance",
+    "transfer-success": "Transfer successfully",
+    "deposit-success": "Deposit successfully",
+    "crowdsale-success": "Crowdsale successfully",
+    "invalid-paid-to-usd-exchange-rate": "Invalid paid to USD exchange rate",
+    "invalid-exchange-rate": "Invalid token to USD exchange rate",
+    "invalid-paid-amount": "Invalid paid amount",
+    "invalid-paid-address": "Invalid paid address",
+    "invalid-token-amount": "Invalid token amount",
+    "invalid-token-address": "Invalid token address",
+    "invalid-asset-balance": "Invalid asset balance",
+    "code-validation-failed": "Code validation failed",
+    "min-to-buy-crowdsale": "Minimum amount is {amount}$",
+    "vesting-invalid": "Vesting month must be higher zero",
+    "amount-transfer-invalid": "Amount must be higher zero"
   },
   "logout": {
     "title": "Sign out",
@@ -443,6 +468,7 @@
       "bonus-sign-up-referral": "Bonus sign up referral",
       "device-os": "Device OS",
       "device-name": "Device Name",
+      "device-ver": "App Version",
       "last-login": "Last login",
       "2fa-status": "2FA status"
     },
@@ -510,6 +536,7 @@
       "total-deposit": "Total Deposit",
       "withdraw": "Withdraw",
       "total-withdraw": "Total Withdraw",
+      "total-crowdsale": "Total Crowdsale",
       "transfer": "Transfer",
       "total-transfer": "Total Transfer",
       "total-bonus": "Total Bonus",
@@ -538,7 +565,10 @@
       "title-filter": "Filter",
       "transaction-detail": "Transaction Details",
       "customer-info": "Customer Info",
-      "add-deposit": "Deposit"
+      "add-deposit": "Deposit",
+      "add-crowdsale": "Crowdsale",
+      "title-verification": "VERIFICATION",
+      "add-transfer": "Transfer"
     },
     "detail": {
       "transaction-id": "Transaction ID",
@@ -610,7 +640,7 @@
     "transfer": "Transfer",
     "member-active": "Active",
     "member-inactive": "Inactive",
-    "crowdsales": "Crowdsale",
+    "crowdsale": "Crowdsale",
     "vesting": "Vesting"
   },
   "status": {
@@ -904,7 +934,9 @@
       "firstname": "Please enter first name",
       "lastname": "Please enter last name",
       "lastnameLength": "Minimum 2 characters",
-      "firstnameLength": "Minimum 2 characters"
+      "firstnameLength": "Minimum 2 characters",
+      "wrong-lynk": "Please enter amount LYNK",
+      "wrong-vesting": "Please enter vesting month"
     }
   },
   "exception": {
