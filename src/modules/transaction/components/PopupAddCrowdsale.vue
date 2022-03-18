@@ -15,6 +15,7 @@
             reserve-keyword
             :placeholder="$t('placeholder.email')"
             :remote-method="handleFindCustomer"
+            @change="handleSelectUser"
             @clear="handleClearEmail"
           >
             <div v-infinite-scroll="loadMoreCustomer" infinite-scroll-delay="500">
@@ -26,11 +27,14 @@
         </el-form-item>
 
         <el-form-item :label="$t('label.amount-available')" class="be-flex-item" prop="amountAvailable">
-          <el-input v-model="getAmountAvailable" @input="handleInputAmount" :placeholder="$t('placeholder.amount-available')" disabled> </el-input>
+          <el-input v-model="getAmountAvailable" :placeholder="$t('placeholder.amount-available')" disabled> </el-input>
+          <div class="prefix prefix--amount">
+            <span style="color: #5b616e">USDT</span>
+          </div>
         </el-form-item>
 
         <div class="be-flex jc-space-between">
-          <el-form-item :label="$t('label.amount')" class="be-flex-item" prop="amount">
+          <el-form-item :label="$t('label.amount')" class="be-flex-item" :class="invalidAmount ? 'is-error' : null" prop="amount">
             <el-input
               v-model="form.amount"
               @input="handleInputAmount"
@@ -41,6 +45,7 @@
             >
               <template slot="append">USDT</template>
             </el-input>
+            <div v-if="invalidAmount" class="error">{{ $t('label.invalid-amount') }}</div>
           </el-form-item>
         </div>
         <div class="be-flex jc-space-between mb-24 tab-amount">
@@ -48,6 +53,12 @@
             <span>{{ tab }}%</span>
           </div>
         </div>
+        <el-form-item :label="$t('label.receive')" class="be-flex-item" prop="amountAvailable">
+          <el-input v-model="getTokenAmount" :placeholder="$t('placeholder.amount-available')" disabled> </el-input>
+          <div class="prefix prefix--amount">
+            <span style="color: #5b616e">LYNK</span>
+          </div>
+        </el-form-item>
       </el-form>
     </div>
     <div class="footer" slot="footer">
@@ -64,31 +75,59 @@
 </template>
 
 <script lang="ts">
-  import { Component, Mixins } from 'vue-property-decorator'
+  import { Component, Mixins, Watch } from 'vue-property-decorator'
 
   import PopupMixin from '@/mixins/popup'
   import { CrowdsaleRepository } from '@/services/repositories/crowdsale'
-  import { TransactionRepository } from '@/services/repositories/transaction'
   import getRepository from '@/services'
   import { namespace } from 'vuex-class'
-  import { trim, includes } from 'lodash'
+  import { trim, includes, filter } from 'lodash'
+  import { CustomerRepository } from '@/services/repositories/customer'
+
+  const apiCustomer: CustomerRepository = getRepository('customer')
+  const apiCrowdsale: CrowdsaleRepository = getRepository('crowdsale')
 
   const crowdsaleBo = namespace('crowdsaleBo')
 
-  const apiCrowdsale: CrowdsaleRepository = getRepository('crowdsale')
-  const apiTransaction: TransactionRepository = getRepository('transaction')
-
+  interface IExchangeRate {
+    oneSourceToTarget?: number
+    oneSourceToUsd?: number
+    oneTargetToSource?: number
+    oneTargetToUsd?: number
+    sourceNetwork?: string
+    targetNetwork?: string
+  }
+  interface IForm {
+    email?: string
+    amount?: string
+    userId?: number
+    tokenAmount?: number
+    tokenAddress?: string
+    tokenCurrency?: string
+    tokenNetwork?: string
+    tokenUsdExchangeRate?: number
+    paidAddress?: string
+    paidCurrency?: string
+    paidNetwork?: string
+    paidAmount?: number
+    paidUsdExchangeRate?: number
+    paidTokenExchangeRate?: number
+    description?: string
+    isExternal?: number
+    transactionCode?: string | null
+    verificationCode?: string
+  }
   @Component({
     components: {}
   })
   export default class PopupAddCrowdsale extends Mixins(PopupMixin) {
     @crowdsaleBo.State('roundCurrent') roundCurrent!: Record<string, any>
 
-    form = {
+    form: IForm = {
       email: '',
       amount: '',
-      currency: 'USDT',
-      amountAvailable: 10000
+      userId: 0,
+      tokenAmount: 0
     }
     listRoundChecked: number[] = []
     tabAmount: number[] = [25, 50, 75, 100]
@@ -106,6 +145,12 @@
 
     limit = 20
     emailSearch = ''
+
+    exchangeRate: IExchangeRate = {}
+    timing: any = null
+    balance: Record<string, any> = {}
+    balanceLynk: Record<string, any> = {}
+    invalidAmount = false
 
     rules: Record<string, any> = {
       email: [
@@ -125,10 +170,23 @@
     }
 
     get getAmountAvailable(): string {
-      if (this.form.amountAvailable) {
-        return this.$options.filters?.convertAmountDecimal(this.form.amountAvailable, 'USDT')
+      if (this.balance.available) {
+        return this.$options.filters?.convertAmountDecimal(this.balance.available, 'USDT')
       }
       return '0'
+    }
+    get getTokenAmount(): string {
+      if (this.form.tokenAmount) {
+        return this.$options.filters?.convertAmountDecimal(this.form.tokenAmount, 'LYNK')
+      }
+      return '0'
+    }
+
+    @Watch('form.amount') watchAmount(amount: string): void {
+      if (this.form.userId) {
+        const _amount = Number(amount.replaceAll(',', ''))
+        this.invalidAmount = _amount > this.balance.available
+      }
     }
 
     handleCancel(): void {
@@ -141,16 +199,22 @@
     handleOpen(): void {
       this.isEmailFailed = false
       this.handleFindCustomer(' ', true)
+      this.handleGetExchangeRate()
+      this.timing = setInterval(this.handleGetExchangeRate, 30000)
     }
 
     handleClose(): void {
+      clearInterval(this.timing)
+      this.invalidAmount = false
       this.listRoundChecked = []
       this.isNotChooseRound = false
+      this.balance = {}
       this.form = {
         ...this.form,
         email: '',
         amount: '',
-        currency: 'USDT'
+        userId: 0,
+        tokenAmount: 0
       }
       this.tabActive = null
       //@ts-ignore
@@ -161,35 +225,23 @@
       if (this.tabActive === tab) {
         this.tabActive = null
         this.form.amount = ''
+        this.form.tokenAmount = 0
       } else {
         this.tabActive = tab
-
-        const amount = (tab * this.form.amountAvailable) / 100
+        const amount = (tab * this.balance.available) / 100
         this.form.amount = this.$options.filters?.convertAmountDecimal(amount, 'USDT')
+        this.form.tokenAmount = amount * this.exchangeRate.oneSourceToTarget!
       }
     }
 
     handleInputAmount(): void {
-      //@ts-ignore
-      this.$refs['setting-round-member']?.fields.find(f => f.prop == 'amount').clearValidate()
+      if (this.form.userId) {
+        //@ts-ignore
+        this.$refs['setting-round-member']?.fields.find(f => f.prop == 'amount').clearValidate()
+        const _amount = Number(this.form.amount!.replaceAll(',', ''))
+        this.form.tokenAmount = _amount * this.exchangeRate.oneSourceToTarget!
+      }
     }
-    // handleFindCustomer(): void {
-    //   this.debouneFindCustomer(this)
-    // }
-
-    // debouneFindCustomer = debounce(_this => {
-    //   //@ts-ignore
-    //   _this.$refs['setting-round-member']?.fields.find(f => f.prop == 'email').clearValidate()
-    //   if (_this.form.email) {
-    //     apiCrowdsale.findCustomerByEmail(_this.form.email).then(res => {
-    //       if (res) {
-    //         _this.isEmailFailed = false
-    //       } else {
-    //         _this.isEmailFailed = true
-    //       }
-    //     })
-    //   }
-    // }, 500)
 
     loadMoreCustomer(): void {
       this.limit += 20
@@ -227,15 +279,62 @@
       this.listCustomer = [...this.listCustomerClone]
       this.limit = 20
       this.emailSearch = ''
+      this.form.tokenAmount = 0
+      this.form.amount = ''
+    }
+
+    handleSelectUser(email: string): void {
+      this.form.amount = ''
+      this.form.tokenAmount = 0
+      this.tabActive = null
+      const user = filter(this.listCustomer, user => user.email === email)[0]
+      this.form.userId = user ? user.userId : 0
+      if (user) {
+        this.handleGetListBalance(user.userId)
+      }
+    }
+
+    async handleGetListBalance(userId): Promise<void> {
+      try {
+        const result = await apiCustomer.getlistBalance(userId, {})
+        this.balance = filter(result, elm => elm.asset === 'USDT')[0]
+        this.balanceLynk = filter(result, elm => elm.asset === 'LYNK')[0]
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    async handleGetExchangeRate(): Promise<void> {
+      try {
+        this.exchangeRate = await apiCrowdsale.getExchangeRateTwoCoin()
+      } catch (error) {
+        console.log(error)
+      }
     }
 
     handleSubmit(): void {
       this.numClick += 1
       //@ts-ignore
       this.$refs['setting-round-member']?.validate(valid => {
-        if (valid && this.numClick === 1) {
+        if (valid && this.numClick === 1 && !this.invalidAmount) {
+          this.form = {
+            ...this.form,
+            tokenAddress: this.balanceLynk.address,
+            tokenCurrency: 'LYNK',
+            tokenNetwork: this.balanceLynk.network,
+            tokenUsdExchangeRate: this.exchangeRate.oneTargetToUsd,
+            paidAddress: this.balance.address,
+            paidCurrency: 'USDT',
+            paidNetwork: this.balance.network,
+            paidAmount: Number(this.form.amount?.replaceAll(',', '')),
+            paidUsdExchangeRate: this.exchangeRate.oneSourceToUsd,
+            paidTokenExchangeRate: this.exchangeRate.oneSourceToTarget,
+            isExternal: 0,
+            description: '',
+            transactionCode: null
+          }
           this.handleCancel()
-          this.$emit('confirm')
+          this.$emit('confirm', this.form)
           setTimeout(() => {
             this.numClick = 0
           }, 1000)
@@ -415,5 +514,19 @@
       background: var(--bc-tab-active);
       color: #fff;
     }
+  }
+  .prefix {
+    position: absolute;
+    z-index: 10;
+  }
+  .prefix--amount {
+    right: 13px;
+    top: 41%;
+  }
+  .error {
+    position: absolute;
+    color: var(--bc-required);
+    font-size: 12px;
+    margin-top: -10px;
   }
 </style>

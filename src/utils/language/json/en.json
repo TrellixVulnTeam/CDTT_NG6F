@@ -211,6 +211,7 @@
     "buyer": "buyers"
   },
   "label": {
+    "invalid-amount": "Invalid amount",
     "buy-from": "Buy from",
     "pay-amount": "Pay amount",
     "receive": "Receive",
@@ -329,7 +330,16 @@
     "invalid-amount": "The transfer account does not have enough balance",
     "transfer-success": "Transfer successfully",
     "deposit-success": "Deposit successfully",
-    "crowdsale-success": "Crowdsale successfully"
+    "crowdsale-success": "Crowdsale successfully",
+    "invalid-paid-to-usd-exchange-rate": "Invalid paid to USD exchange rate",
+    "invalid-exchange-rate": "Invalid token to USD exchange rate",
+    "invalid-paid-amount": "invalid paid amount",
+    "invalid-paid-address": "invalid paid address",
+    "invalid-token-amount": "invalid token amount",
+    "invalid-token-address": "invalid token address",
+    "invalid-asset-balance": "invalid asset balance",
+    "code-validation-failed": "Code validation failed",
+    "min-to-buy-crowdsale": "Minimum amount is {amount}$"
   },
   "logout": {
     "title": "Sign out",
@@ -918,7 +928,7 @@
       "lastname": "Please enter last name",
       "lastnameLength": "Minimum 2 characters",
       "firstnameLength": "Minimum 2 characters",
-      "wrong-lynk": "Please enter amount Lynk",
+      "wrong-lynk": "Please enter amount LYNK",
       "wrong-vesting": "Please enter vesting month"
     }
   },

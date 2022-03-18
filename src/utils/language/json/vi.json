@@ -192,6 +192,7 @@
     "buyer": "người mua"
   },
   "label": {
+    "invalid-amount": "Số lượng không hợp lệ",
     "buy-from": "Chọn ví",
     "pay-amount": "Số tiền",
     "receive": "Thực nhận",
@@ -306,7 +307,16 @@
     "invalid-amount": "Tài khoản gửi không đủ số dư",
     "transfer-success": "Chuyển khoản thành công",
     "deposit-success": "Nạp thành công",
-    "crowdsale-success": "Crowdsale thành công"
+    "crowdsale-success": "Crowdsale thành công",
+    "invalid-paid-to-usd-exchange-rate": "Tỷ giá đã thay đổi, vui lòng kiểm tra và thực hiện lại",
+    "invalid-exchange-rate": "Tỷ giá quy đổi USD không hợp lệ",
+    "invalid-paid-amount": "Số tiền thanh toán không hợp lệ",
+    "invalid-paid-address": "Địa chỉ thanh toán không hợp lệ",
+    "invalid-token-amount": "Số tiền nhận không hợp lệ",
+    "invalid-token-address": "Địa chỉ nhận không hợp lệ",
+    "invalid-asset-balance": "Số dư không hợp lệ",
+    "code-validation-failed": "Xác thực mã không thành công",
+    "min-to-buy-crowdsale": " Số tiền tối thiểu là {amount}$"
   },
   "logout": {
     "title": "Đăng xuất",
@@ -892,7 +902,7 @@
       "lastname": "Vui lòng nhập tên",
       "lastnameLength": "Nhập tối thiểu 2 ký tự",
       "firstnameLength": "Nhập tối thiểu 2 ký tự",
-      "wrong-lynk": "Vui lòng nhập số lượng Lynk",
+      "wrong-lynk": "Vui lòng nhập số lượng LYNK",
       "wrong-vesting": "Vui lòng nhập số tháng vesting"
     }
   },

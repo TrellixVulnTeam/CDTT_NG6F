@@ -106,10 +106,18 @@
       this.debounceFilter('handleResendCode')
     }
     async resendCode(): Promise<void> {
-      apiCrowdsale.sendCodeAndGet2FA().then(() => {
-        let message: any = this.$t('notify.send-code')
-        this.$message.success({ message, duration: 5000 })
-      })
+      let message = ''
+      if (this.transactionType === 'TRANSFER') {
+        apiCrowdsale.sendCodeAndGet2FATransfer().then(() => {
+          message = this.$t('notify.send-code') as string
+          this.$message.success({ message, duration: 5000 })
+        })
+      } else {
+        apiCrowdsale.sendCodeBuyCrowdsale().then(() => {
+          message = this.$t('notify.send-code') as string
+          this.$message.success({ message, duration: 5000 })
+        })
+      }
     }
 
     handleReset(): void {
@@ -133,13 +141,25 @@
         let message = ''
         if (this.transactionType === 'TRANSFER') {
           await apiCrowdsale.transferToUser({ ...this.data, verificationCode: this.form.verificationCode })
+          message = this.$t('notify.transfer-success') as string
+        } else {
+          await apiCrowdsale.buyCrowdsale({ ...this.data, verificationCode: this.form.verificationCode })
+          message = this.$t('notify.crowdsale-success') as string
         }
-        message = this.$t('notify.transfer-success') as string
+
         this.$message.success({ message, duration: 5000 })
         this.setOpenPopup({
           popupName: 'popup-base-verify',
           isOpen: false
         })
+        // this.setOpenPopup({
+        //   popupName: 'popup-add-crowdsale',
+        //   isOpen: false
+        // })
+        // this.setOpenPopup({
+        //   popupName: 'popup-add-transfer',
+        //   isOpen: false
+        // })
         this.isLoading = false
         this.$emit('reload')
       } catch (error) {

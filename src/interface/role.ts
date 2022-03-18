@@ -10,6 +10,7 @@ export type RoleActions =
   | 'add-deposit'
   | 'export'
   | 'add-transfer'
+  | 'add-crowdsale'
 
 //view-kyc-customer-detail: quyền xem tab kyc trong popup detail customer
 //view-detail-customer: quyền xem chi tiết customer
@@ -17,6 +18,7 @@ export type RoleActions =
 //export : quyền export excel
 // add-transfer: quyền transfer module transaction
 // add-deposit: quyền deposit module transaction
+// add-crowdsale: quyền buy crowdsale module transaction
 
 export type UserRoles = ROLE_TYPE[keyof ROLE_TYPE]
 

@@ -81,6 +81,9 @@
   const api: TransactionRepository = getRepository('transaction')
   const apiCrowdsale: CrowdsaleRepository = getRepository('crowdsale')
 
+  import { namespace } from 'vuex-class'
+  const bcAuth = namespace('beAuth')
+
   interface IDataCard {
     numOfTransaction: number | null
     totalAmount: number | null
@@ -100,6 +103,8 @@
     }
   })
   export default class Transaction extends Mixins(PopupMixin) {
+    @bcAuth.State('user') user!: Record<string, any>
+
     tabs: Array<Record<string, any>> = [
       {
         id: 1,
@@ -155,7 +160,7 @@
       return this.$route.name === 'TransactionDeposit' && this.checkPemission('transaction', ['add-deposit'])
     }
     get showBtnCrowdsale(): boolean {
-      return this.$route.name === 'TransactionCrowdsale'
+      return this.$route.name === 'TransactionCrowdsale' && this.checkPemission('transaction', ['add-crowdsale'])
     }
     get showBtnTransfer(): boolean {
       return this.$route.name === 'TransactionTransfer' && this.checkPemission('transaction', ['add-transfer'])
@@ -344,15 +349,30 @@
       })
     }
 
-    handleConfirm(form: Record<string, any>): void {
-      apiCrowdsale.sendCodeAndGet2FA().then(res => {
-        this.formData = form
-        this.type2Fa = res.type
+    async handleConfirm(form: Record<string, any>): Promise<void> {
+      this.formData = form
+      if (this.query.transactionType === 'CROWDSALE') {
+        const params: Record<string, any> = {
+          email: this.user.email,
+          userType: 'EMPLOYEE'
+        }
+        const apiSendcode = apiCrowdsale.sendCodeBuyCrowdsale()
+        const apiGet2FA = apiCrowdsale.get2FABuyCrowdsale(params)
+        const result = await Promise.all([apiSendcode, apiGet2FA])
+        this.type2Fa = result[1]
         this.setOpenPopup({
           popupName: 'popup-base-verify',
           isOpen: true
         })
-      })
+      } else {
+        apiCrowdsale.sendCodeAndGet2FATransfer().then(res => {
+          this.type2Fa = res.type
+          this.setOpenPopup({
+            popupName: 'popup-base-verify',
+            isOpen: true
+          })
+        })
+      }
     }
   }
 </script>
