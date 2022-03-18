@@ -18,13 +18,13 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('kyc.table.email')" prop="email" width="330"> </el-table-column>
+        <el-table-column :label="$t('kyc.table.email')" prop="email" width="330"></el-table-column>
         <el-table-column :label="$t('kyc.table.role')" prop="roles" width="230">
           <template slot-scope="scope">
             <span>{{ getRole(scope.row.roles) }}</span>
           </template>
         </el-table-column>
-
+        
         <el-table-column :label="$t('kyc.table.date')" prop="createdDate" width="200">
           <template slot-scope="scope">
             <span>{{ scope.row.createdAt | formatDateHourMs }}</span>

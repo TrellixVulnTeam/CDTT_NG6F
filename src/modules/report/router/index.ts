@@ -6,6 +6,7 @@ const reportRouters: RouteConfig[] = [
     {
         path: '/report',
         name: 'Report',
+        redirect: { name: 'ReportUser' },
         component: Layout,
         children: [
             {

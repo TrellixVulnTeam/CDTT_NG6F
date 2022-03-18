@@ -103,248 +103,248 @@
   </div>
 </template>
 <script lang="ts">
-  import { Mixins, Component, Watch } from 'vue-property-decorator'
-  import PopupMixin from '@/mixins/popup'
-  import PopupFilterCrowdsale from '../components/popup/PopupFilterCrowdsale.vue'
-  import getRepository from '@/services'
-  import { CrowdsaleRepository } from '@/services/repositories/crowdsale'
+import { Mixins, Component, Watch } from 'vue-property-decorator'
+import PopupMixin from '@/mixins/popup'
+import PopupFilterCrowdsale from '../components/popup/PopupFilterCrowdsale.vue'
+import getRepository from '@/services'
+import { CrowdsaleRepository } from '@/services/repositories/crowdsale'
 
-  const api: CrowdsaleRepository = getRepository('crowdsale')
-  @Component({ components: { PopupFilterCrowdsale } })
-  export default class BOCrowdsaleTransaction extends Mixins(PopupMixin) {
-    query: any = {
-      search: '',
-      limit: 10,
-      page: 1,
-      orderBy: 1,
-      total: 0
-    }
-
-    dataProp: any = {}
-    loadingTable = true
-    orderBy = 'TRANSACTION_DATE'
-    dataTable: any = []
-    isLoadingBtn = false
-    get getPaginationInfo(): any {
-      return this.$t('paging.crowdsale')
-    }
-
-    get getRoleExport(): boolean {
-      return this.checkPemission('crowd-sale', ['export'])
-    }
-
-    indexMethod(index: number): number {
-      return (this.query.page - 1) * this.query.limit + index + 1
-    }
-    handleSizeChange(value: number): void {
-      this.query.limit = value
-      this.query.page = 1
-      this.loadingTable = true
-      this.getDataTable()
-    }
-    handleCurrentChange(value: number): void {
-      this.query.page = value
-      this.loadingTable = true
-      this.getDataTable()
-    }
-    handleOpenPopupFilter(): void {
-      this.setOpenPopup({
-        popupName: 'popup-filter-crowdsale',
-        isOpen: true
-      })
-    }
-    sorts: Array<Record<string, any>> = [
-      {
-        command: 'TRANSACTION_DATE',
-        label: this.$i18n.t('crowdsale.transactionDate'),
-        divided: false,
-        i18n: 'crowdsale.transactionDate'
-      },
-      {
-        command: 'TRANSACTION_AMOUNT',
-        label: this.$i18n.t('crowdsale.transactionAmount'),
-        divided: false,
-        i18n: 'crowdsale.transactionAmount'
-      }
-    ]
-    sortActive = 'TRANSACTION_DATE'
-    handleSort(command: string): void {
-      this.sortActive = command
-      if (command == 'TRANSACTION_DATE') {
-        this.query.orderBy = 1
-      } else {
-        this.query.orderBy = 2
-      }
-      this.loadingTable = true
-      this.getDataTable()
-      this.orderBy = command
-    }
-    getFilter(form: any): void {
-      this.dataProp = form
-      this.query.limit = 10
-      this.query.page = 1
-      this.getDataTable()
-    }
-    getDataTable(): void {
-      let params: any = { ...this.query }
-      if (this.dataProp.roundId) {
-        params.roundId = this.dataProp.roundId
-      }
-      if (this.dataProp.countryName) {
-        params.countryName = this.dataProp.countryName
-      }
-      if (this.dataProp.paidWallet) {
-        params.paidWallet = this.dataProp.paidWallet
-      }
-      if (this.dataProp.currency) {
-        params.currency = this.dataProp.currency
-      }
-      if (this.dataProp.fromDate) {
-        params.fromDate = this.dataProp.fromDate
-      }
-      if (this.dataProp.toDate) {
-        params.toDate = this.dataProp.toDate
-      }
-      if (this.dataProp.fromAmount) {
-        params.fromAmount = this.dataProp.fromAmount
-      }
-      if (this.dataProp.toAmount) {
-        params.toAmount = this.dataProp.toAmount
-      }
-
-      api.getDataTable(params).then((res: any) => {
-        this.loadingTable = false
-        this.dataTable = res.content
-        this.query.total = res.totalElements
-      })
-    }
-    @Watch('query.search')
-    handleSearch(search: any): void {
-      this.loadingTable = true
-      this.query.page = 1
-      this.query.limit = 10
-      this.getDataTable()
-    }
-    async init(): Promise<void> {
-      this.loadingTable = true
-      this.query.page = 1
-      this.query.limit = 10
-      await this.getDataTable()
-    }
-    created(): void {
-      this.init()
-    }
-
-    handleExport(): void {
-      this.isLoadingBtn = true
-      const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
-      const params = {
-        ...this.query,
-        ...this.dataProp,
-        country: null,
-        total: null,
-        zoneId: timeZone
-      }
-      api
-        .exportTransaction(params)
-        .then(response => {
-          const url = window.URL.createObjectURL(new Blob([response.data]))
-          const link = document.createElement('a')
-          link.href = url
-          const date = new Date()
-          const time = `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}_${date.getHours()}.${date.getMinutes()}.${date.getSeconds()}`
-          link.setAttribute('download', `crowdsate_transaction_${time}.xlsx`)
-          document.body.appendChild(link)
-          link.click()
-          this.isLoadingBtn = false
-        })
-        .catch(() => {
-          this.isLoadingBtn = false
-        })
-    }
+const api: CrowdsaleRepository = getRepository('crowdsale')
+@Component({ components: { PopupFilterCrowdsale } })
+export default class BOCrowdsaleTransaction extends Mixins(PopupMixin) {
+  query: any = {
+    search: '',
+    limit: 10,
+    page: 1,
+    orderBy: 1,
+    total: 0
   }
+
+  dataProp: any = {}
+  loadingTable = true
+  orderBy = 'TRANSACTION_DATE'
+  dataTable: any = []
+  isLoadingBtn = false
+  get getPaginationInfo(): any {
+    return this.$t('paging.crowdsale')
+  }
+
+  get getRoleExport(): boolean {
+    return this.checkPemission('crowd-sale', ['export'])
+  }
+
+  indexMethod(index: number): number {
+    return (this.query.page - 1) * this.query.limit + index + 1
+  }
+  handleSizeChange(value: number): void {
+    this.query.limit = value
+    this.query.page = 1
+    this.loadingTable = true
+    this.getDataTable()
+  }
+  handleCurrentChange(value: number): void {
+    this.query.page = value
+    this.loadingTable = true
+    this.getDataTable()
+  }
+  handleOpenPopupFilter(): void {
+    this.setOpenPopup({
+      popupName: 'popup-filter-crowdsale',
+      isOpen: true
+    })
+  }
+  sorts: Array<Record<string, any>> = [
+    {
+      command: 'TRANSACTION_DATE',
+      label: this.$i18n.t('crowdsale.transactionDate'),
+      divided: false,
+      i18n: 'crowdsale.transactionDate'
+    },
+    {
+      command: 'TRANSACTION_AMOUNT',
+      label: this.$i18n.t('crowdsale.transactionAmount'),
+      divided: false,
+      i18n: 'crowdsale.transactionAmount'
+    }
+  ]
+  sortActive = 'TRANSACTION_DATE'
+  handleSort(command: string): void {
+    this.sortActive = command
+    if (command == 'TRANSACTION_DATE') {
+      this.query.orderBy = 1
+    } else {
+      this.query.orderBy = 2
+    }
+    this.loadingTable = true
+    this.getDataTable()
+    this.orderBy = command
+  }
+  getFilter(form: any): void {
+    this.dataProp = form
+    this.query.limit = 10
+    this.query.page = 1
+    this.getDataTable()
+  }
+  getDataTable(): void {
+    let params: any = { ...this.query }
+    if (this.dataProp.roundId) {
+      params.roundId = this.dataProp.roundId
+    }
+    if (this.dataProp.countryName) {
+      params.countryName = this.dataProp.countryName
+    }
+    if (this.dataProp.paidWallet) {
+      params.paidWallet = this.dataProp.paidWallet
+    }
+    if (this.dataProp.currency) {
+      params.currency = this.dataProp.currency
+    }
+    if (this.dataProp.fromDate) {
+      params.fromDate = this.dataProp.fromDate
+    }
+    if (this.dataProp.toDate) {
+      params.toDate = this.dataProp.toDate
+    }
+    if (this.dataProp.fromAmount) {
+      params.fromAmount = this.dataProp.fromAmount
+    }
+    if (this.dataProp.toAmount) {
+      params.toAmount = this.dataProp.toAmount
+    }
+
+    api.getDataTable(params).then((res: any) => {
+      this.loadingTable = false
+      this.dataTable = res.content
+      this.query.total = res.totalElements
+    })
+  }
+  @Watch('query.search')
+  handleSearch(search: any): void {
+    this.loadingTable = true
+    this.query.page = 1
+    this.query.limit = 10
+    this.getDataTable()
+  }
+  async init(): Promise<void> {
+    this.loadingTable = true
+    this.query.page = 1
+    this.query.limit = 10
+    await this.getDataTable()
+  }
+  created(): void {
+    this.init()
+  }
+
+  handleExport(): void {
+    this.isLoadingBtn = true
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+    const params = {
+      ...this.query,
+      ...this.dataProp,
+      country: null,
+      total: null,
+      zoneId: timeZone
+    }
+    api
+      .exportTransaction(params)
+      .then(response => {
+        const url = window.URL.createObjectURL(new Blob([response.data]))
+        const link = document.createElement('a')
+        link.href = url
+        const date = new Date()
+        const time = `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}_${date.getHours()}.${date.getMinutes()}.${date.getSeconds()}`
+        link.setAttribute('download', `crowdsate_transaction_${time}.xlsx`)
+        document.body.appendChild(link)
+        link.click()
+        this.isLoadingBtn = false
+      })
+      .catch(() => {
+        this.isLoadingBtn = false
+      })
+  }
+}
 </script>
 <style scoped lang="scss">
-  .bo-crowdsale-transaction {
-    .box-filter {
-      margin-bottom: 24px;
-    }
-    .box-search {
-      .input-search {
-        width: 400px;
-        margin-right: 29px;
-        .prefix-search {
-          margin-top: 9px;
-          margin-left: 3px;
-        }
-      }
-    }
-    .btn-filter,
-    .sort {
-      margin-right: 27.5px;
-      color: var(--bc-text-primary);
-      .span-icon {
-        color: var(--bc-text-primary) !important;
-      }
-    }
-    .dropdown-sort {
-      min-width: 250px !important;
-    }
-    .table {
-      .table-crowdsale {
-        .box-status-tabel {
-          width: 80px;
-          height: 24px;
-          background: #e4f9e2;
-          color: #129961;
-          border-radius: 4px;
-          margin: 0 auto;
-        }
-        .failed {
-          background: #fff3e2;
-          color: #dd7d00;
-        }
-        .locked {
-          background: #fbedee;
-          color: #cf202f;
-        }
-        .text-paid {
-          color: #cf202f;
-        }
-        .text-amount {
-          color: #129961;
-        }
-        .avi {
-          color: #5b616e;
-        }
+.bo-crowdsale-transaction {
+  .box-filter {
+    margin-bottom: 24px;
+  }
+  .box-search {
+    .input-search {
+      width: 400px;
+      margin-right: 29px;
+      .prefix-search {
+        margin-top: 9px;
+        margin-left: 3px;
       }
     }
   }
-  ::v-deep .sort {
-    &:hover {
-      .el-dropdown-selfdefine {
-        color: var(--bc-theme-primary);
-        .span-icon {
-          color: var(--bc-theme-primary) !important;
-        }
-      }
+  .btn-filter,
+  .sort {
+    margin-right: 27.5px;
+    color: var(--bc-text-primary);
+    .span-icon {
+      color: var(--bc-text-primary) !important;
     }
-
-    .sort-title {
-      &:focus {
-        color: var(--bc-theme-primary);
-        .span-icon {
-          color: var(--bc-theme-primary) !important;
-        }
+  }
+  .dropdown-sort {
+    min-width: 250px !important;
+  }
+  .table {
+    .table-crowdsale {
+      .box-status-tabel {
+        width: 80px;
+        height: 24px;
+        background: #e4f9e2;
+        color: #129961;
+        border-radius: 4px;
+        margin: 0 auto;
+      }
+      .failed {
+        background: #fff3e2;
+        color: #dd7d00;
+      }
+      .locked {
+        background: #fbedee;
+        color: #cf202f;
+      }
+      .text-paid {
+        color: #cf202f;
+      }
+      .text-amount {
+        color: #129961;
+      }
+      .avi {
+        color: #5b616e;
       }
     }
   }
-  .btn-filter {
-    &:hover {
-      color: var(--bc-theme-primary) !important;
+}
+::v-deep .sort {
+  &:hover {
+    .el-dropdown-selfdefine {
+      color: var(--bc-theme-primary);
       .span-icon {
         color: var(--bc-theme-primary) !important;
       }
     }
   }
+
+  .sort-title {
+    &:focus {
+      color: var(--bc-theme-primary);
+      .span-icon {
+        color: var(--bc-theme-primary) !important;
+      }
+    }
+  }
+}
+.btn-filter {
+  &:hover {
+    color: var(--bc-theme-primary) !important;
+    .span-icon {
+      color: var(--bc-theme-primary) !important;
+    }
+  }
+}
 </style>

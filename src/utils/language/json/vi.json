@@ -172,12 +172,15 @@
     "delete-user": "Xóa nhân viên",
     "save": "Lưu",
     "delete": "Xóa",
-    "export-excel": "Tải file excel"
+    "export-excel": "Tải file excel",
+    "change-table": "Bảng",
+    "change-chart": "Biểu đồ"
   },
   "scan": {
     "qrcode": "QUÉT QR CODE"
   },
   "paging": {
+    "user": "Người dùng",
     "show": "Hiển thị",
     "customers": "khách hàng",
     "transaction": "giao dịch",
@@ -582,7 +585,8 @@
     "member-active": "Hoạt động",
     "member-inactive": "Không hoạt động",
     "crowdsales": "Crowdsale",
-    "vesting": "Vesting"
+    "vesting": "Vesting",
+    "user": "Người dùng"
   },
   "status": {
     "pending": "Đang chờ",
@@ -912,5 +916,20 @@
     "titlePopup": "Xác minh",
     "titleContent3": "Nhập mã gồm 6 chữ số mà chúng tôi đã gửi đến email của bạn",
     "resendCodeMess": "Gửi lại mã thành công"
+  },
+  "report": {
+    "table": {
+      "member": "Nhân sự",
+      "email": "Email",
+      "device": "Thiết bị",
+      "accessTime": "Số lần đăng nhập"
+    },
+    "filter": {
+      "last7Days": "7 ngày gần đây",
+      "yesterday": "Hôm qua",
+      "last30Days": "30 ngày gần đây",
+      "last90Days": "90 ngày gần đây",
+      "last14Days": "14 ngày gần đây"
+    }
   }
 }

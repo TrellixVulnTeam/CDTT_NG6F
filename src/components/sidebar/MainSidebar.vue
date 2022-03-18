@@ -103,7 +103,7 @@
           </li>
         </ul>
 
-        <ul class="module" v-if="checkPemission('report', ['view'])">
+        <ul class="module">
           <li class="module-item" @click="isOpenPopup = false">
             <router-link :to="{ name: 'Report' }" class="router_center">
               <div class="sack_avatar">

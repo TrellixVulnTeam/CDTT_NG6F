@@ -182,7 +182,9 @@
     "delete-user": "Delete User",
     "save": "Save",
     "delete": "Delete",
-    "export-excel": "Export"
+    "export-excel": "Export",
+    "change-table": "Table",
+    "change-chart": "Chart"
   },
   "deposit": {
     "lynkey": "DEPOSIT LYNKEY",
@@ -196,6 +198,7 @@
     "qrcode": "SCAN QR CODE"
   },
   "paging": {
+    "user": "user",
     "show": "Show",
     "customers": "customers",
     "transaction": "transactions",
@@ -591,6 +594,7 @@
     "statistics": "Statistics",
     "setting": "Settings",
     "device": "Devices",
+    "user": "Users",
     "Transactions": "Transactions",
     "Round": "Round",
     "LYNK": "LYNK",
@@ -938,5 +942,20 @@
     "titlePopup": "VERIFICATION",
     "titleContent3": "Enter the 6-digit code we sent to your email",
     "resendCodeMess": "Resend code successfully"
+  },
+  "report": {
+    "table": {
+      "member": "Members",
+      "email": "Email",
+      "device": "Device",
+      "accessTime": "Access times"
+    },
+    "filter": {
+      "last7Days": "Last 7 days",
+      "yesterday": "Yesterday",
+      "last30Days": "Last 30 days",
+      "last90Days": "Last 90 days",
+      "last14Days": "Last 14 days"
+    }
   }
 }
