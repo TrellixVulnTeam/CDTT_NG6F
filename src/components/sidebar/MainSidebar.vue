@@ -143,280 +143,280 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import { namespace } from 'vuex-class'
+  import { Component, Vue } from 'vue-property-decorator'
+  import { namespace } from 'vuex-class'
 
-const beBase = namespace('beBase')
-@Component({ components: {} })
-export default class MainSidebar extends Vue {
-  @beBase.State('coinMain') coinMain!: string
+  const beBase = namespace('beBase')
+  @Component({ components: {} })
+  export default class MainSidebar extends Vue {
+    @beBase.State('coinMain') coinMain!: string
 
-  isOpenPopup = false
-  isOpenPopupContract = false
-  searchModule = ''
-  moduleContract = [
-    {
-      id: 4,
-      name: 'Fee',
-      routerName: 'contract',
-      icon: 'icon-hop-dong',
-      title: 'Thu phí'
-    },
-    {
-      id: 5,
-      name: 'Brief',
-      routerName: 'pending',
-      icon: 'icon-ho-so',
-      title: 'Hồ sơ'
-    },
-    {
-      id: 6,
-      name: 'Lapse',
-      routerName: 'lapse',
-      icon: 'contractLaspe',
-      title: 'Mất hiệu lực'
-    }
-  ]
-  moreModules = [
-    {
-      id: 1,
-      name: 'Program',
-      routerName: 'programOrigin',
-      icon: 'program',
-      title: 'CTTĐ'
-    },
-    {
-      id: 2,
-      name: 'Employee',
-      routerName: 'employee',
-      icon: 'icon-KH',
-      title: 'Nhân sự'
-    },
-    {
-      id: 3,
-      name: 'Product',
-      routerName: 'productePage',
-      icon: 'product',
-      title: 'Sản phẩm'
-    },
-    // {
-    //   id: 4,
-    //   name: 'Deal',
-    //   routerName: 'deals',
-    //   icon: 'icon-luong',
-    //   title: 'Cơ hội'
-    // }
-    {
-      id: 5,
-      name: 'Offer',
-      routerName: 'offerOrigin',
-      icon: 'menu-offer',
-      title: 'CTƯĐ'
-    }
-  ]
-}
+    isOpenPopup = false
+    isOpenPopupContract = false
+    searchModule = ''
+    moduleContract = [
+      {
+        id: 4,
+        name: 'Fee',
+        routerName: 'contract',
+        icon: 'icon-hop-dong',
+        title: 'Thu phí'
+      },
+      {
+        id: 5,
+        name: 'Brief',
+        routerName: 'pending',
+        icon: 'icon-ho-so',
+        title: 'Hồ sơ'
+      },
+      {
+        id: 6,
+        name: 'Lapse',
+        routerName: 'lapse',
+        icon: 'contractLaspe',
+        title: 'Mất hiệu lực'
+      }
+    ]
+    moreModules = [
+      {
+        id: 1,
+        name: 'Program',
+        routerName: 'programOrigin',
+        icon: 'program',
+        title: 'CTTĐ'
+      },
+      {
+        id: 2,
+        name: 'Employee',
+        routerName: 'employee',
+        icon: 'icon-KH',
+        title: 'Nhân sự'
+      },
+      {
+        id: 3,
+        name: 'Product',
+        routerName: 'productePage',
+        icon: 'product',
+        title: 'Sản phẩm'
+      },
+      // {
+      //   id: 4,
+      //   name: 'Deal',
+      //   routerName: 'deals',
+      //   icon: 'icon-luong',
+      //   title: 'Cơ hội'
+      // }
+      {
+        id: 5,
+        name: 'Offer',
+        routerName: 'offerOrigin',
+        icon: 'menu-offer',
+        title: 'CTƯĐ'
+      }
+    ]
+  }
 </script>
 <style lang="scss" scoped>
-.main-side-bar {
-  position: relative;
-  background: #ffffff;
-  height: 100vh;
-  width: 80px;
+  .main-side-bar {
+    position: relative;
+    background: #ffffff;
+    height: 100vh;
+    width: 80px;
 
-  .style_router_home {
-    margin: 0px 10px 10px 10px;
+    .style_router_home {
+      margin: 0px 10px 10px 10px;
 
-    .style_avatar_home {
-      color: #ef7524;
-      text-align: center;
+      .style_avatar_home {
+        color: #ef7524;
+        text-align: center;
+      }
     }
-  }
 
-  .setting {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    margin-bottom: 38px;
-    color: #6b6b6b;
-  }
+    .setting {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-bottom: 38px;
+      color: #6b6b6b;
+    }
 
-  .style_avatar {
-    text-align: center;
-    line-height: 1;
-    font-size: 32px;
-  }
+    .style_avatar {
+      text-align: center;
+      line-height: 1;
+      font-size: 32px;
+    }
 
-  .router_center {
-    text-align: center;
-    width: 100%;
-    height: 80px;
-    color: #6b6b6b;
+    .router_center {
+      text-align: center;
+      width: 100%;
+      height: 80px;
+      color: #6b6b6b;
 
-    .sack_avatar {
-      padding: 12px 0;
+      .sack_avatar {
+        padding: 12px 0;
 
-      p {
-        font-size: 10px;
-        margin-top: 3px;
-        color: var(--bc-color-grey190);
-        font-weight: 400;
-        line-height: 12px;
+        p {
+          font-size: 10px;
+          margin-top: 3px;
+          color: var(--bc-color-grey190);
+          font-weight: 400;
+          line-height: 12px;
+        }
+
+        &:hover {
+          background: var(--bc-color-grey20);
+          color: var(--bc-theme-primary);
+
+          p {
+            color: var(--bc-theme-primary) !important;
+          }
+
+          .span-icon {
+            color: var(--bc-theme-primary) !important;
+          }
+        }
       }
 
       &:hover {
-        background: var(--bc-color-grey20);
-        color: var(--bc-theme-primary);
-
-        p {
-          color: var(--bc-theme-primary) !important;
+        .menu-active {
+          display: block;
         }
 
-        .span-icon {
-          color: var(--bc-theme-primary) !important;
+        .menu {
+          display: none;
         }
       }
     }
 
-    &:hover {
-      .menu-active {
-        display: block;
+    .router_setting {
+      position: absolute;
+      bottom: 0;
+      // margin-top: calc(100vh - 600px);
+    }
+
+    .filter_avatar {
+      opacity: 0.65;
+    }
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  .router-link-exact-active,
+  .router-link-active {
+    background: #e9e9e9;
+    width: 80px;
+
+    .sack_avatar {
+      color: var(--bc-theme-primary);
+
+      p {
+        color: var(--bc-theme-primary) !important;
+        font-weight: 600 !important;
       }
 
       .menu {
         display: none;
       }
+
+      .menu-active {
+        display: block;
+      }
+    }
+
+    .child-item {
+      color: #f07525;
+      background: #e9e9e9;
     }
   }
 
-  .router_setting {
-    position: absolute;
-    bottom: 0;
-    // margin-top: calc(100vh - 600px);
-  }
+  .router-home {
+    margin-bottom: 0 !important;
 
-  .filter_avatar {
-    opacity: 0.65;
-  }
-}
+    .logo-home {
+      height: 100%;
+      padding-top: 0 !important;
 
-a {
-  text-decoration: none;
-}
+      .style_avatar_hom {
+        font-size: 40px;
+        display: block;
+      }
 
-.router-link-exact-active,
-.router-link-active {
-  background: #e9e9e9;
-  width: 80px;
-
-  .sack_avatar {
-    color: var(--bc-theme-primary);
-
-    p {
-      color: var(--bc-theme-primary) !important;
-      font-weight: 600 !important;
-    }
-
-    .menu {
-      display: none;
-    }
-
-    .menu-active {
-      display: block;
+      p {
+        margin-top: 6px !important;
+      }
     }
   }
 
-  .child-item {
-    color: #f07525;
-    background: #e9e9e9;
-  }
-}
-
-.router-home {
-  margin-bottom: 0 !important;
-
-  .logo-home {
-    height: 100%;
-    padding-top: 0 !important;
-
-    .style_avatar_hom {
-      font-size: 40px;
-      display: block;
-    }
-
-    p {
-      margin-top: 6px !important;
-    }
-  }
-}
-
-.style_special {
-  margin-left: 11px;
-}
-
-.button-add {
-  // background: #f3f3f3;
-
-  &:hover {
-    background: var(--bc-color-grey20);
-    color: var(--bc-theme-primary);
+  .style_special {
+    margin-left: 11px;
   }
 
-  &:focus {
-    border: none;
-    color: #6b6b6b !important;
-  }
-}
-
-.module {
-  list-style-type: none;
-  padding: 10px;
-  display: flex;
-  flex-wrap: wrap;
-
-  &-item {
-    color: #65676b;
-    text-align: center;
-    height: 68px;
-    cursor: pointer;
-    flex-basis: 32%;
+  .button-add {
+    // background: #f3f3f3;
 
     &:hover {
-      color: #0078d4;
-      background: #e9e9e9;
+      background: var(--bc-color-grey20);
+      color: var(--bc-theme-primary);
     }
 
-    &.menu-active {
-      color: #0078d4;
-      background: #e9e9e9;
+    &:focus {
+      border: none;
+      color: #6b6b6b !important;
     }
   }
 
-  .child-item {
-    height: 100%;
+  .module {
+    list-style-type: none;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+
+    &-item {
+      color: #65676b;
+      text-align: center;
+      height: 68px;
+      cursor: pointer;
+      flex-basis: 32%;
+
+      &:hover {
+        color: #0078d4;
+        background: #e9e9e9;
+      }
+
+      &.menu-active {
+        color: #0078d4;
+        background: #e9e9e9;
+      }
+    }
+
+    .child-item {
+      height: 100%;
+    }
   }
-}
 
-.module-item {
-  margin: 1px;
-}
+  .module-item {
+    margin: 1px;
+  }
 
-.menu-active {
-  display: none;
-}
-// ::v-deep .popper-add-menu {
-//   display: flex !important;
-// }
-.popper-add-menu-content {
-  display: flex;
-}
-.module {
-  display: unset;
-  flex-wrap: unset;
-  padding: 12px;
-  width: 80px;
-}
-.color-add-menu {
-  color: var(--bc-color-grey190);
-}
+  .menu-active {
+    display: none;
+  }
+  // ::v-deep .popper-add-menu {
+  //   display: flex !important;
+  // }
+  .popper-add-menu-content {
+    display: flex;
+  }
+  .module {
+    display: unset;
+    flex-wrap: unset;
+    padding: 12px;
+    width: 80px;
+  }
+  .color-add-menu {
+    color: var(--bc-color-grey190);
+  }
 </style>

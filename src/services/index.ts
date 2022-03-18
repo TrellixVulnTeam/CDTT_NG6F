@@ -12,7 +12,21 @@ import { ExceptionRepository } from './repositories/exception'
 import { MemberRepository } from './repositories/member'
 import ReportRepository from './repositories/report'
 import WalletRepository from '@/services/repositories/wallet'
-type RepositoryName = 'verify' | 'auth' | 'setting' | 'kyc' | 'params' | 'customer' | 'crowdsale' | 'balance' | 'request' | 'transaction' | 'exception' | 'member' | 'wallet' | 'report'
+type RepositoryName =
+  | 'verify'
+  | 'auth'
+  | 'setting'
+  | 'kyc'
+  | 'params'
+  | 'customer'
+  | 'crowdsale'
+  | 'balance'
+  | 'request'
+  | 'transaction'
+  | 'exception'
+  | 'member'
+  | 'wallet'
+  | 'report'
 
 export default function getRepository(name: RepositoryName): any {
   switch (name) {

@@ -50,141 +50,141 @@
   </el-container>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import MainSidebar from '../sidebar/MainSidebar.vue'
-import MainHeader from '../header/MainHeader.vue'
-import BasePageLoading from '../page-loading/BasePageLoading.vue'
-import EventBus from '@/utils/eventBus'
-import { namespace } from 'vuex-class'
-import { ParamsRepository } from '@/services/repositories/params'
-import getRepository from '@/services'
-import firebase from '@/utils/firebase'
+  import { Component, Vue } from 'vue-property-decorator'
+  import MainSidebar from '../sidebar/MainSidebar.vue'
+  import MainHeader from '../header/MainHeader.vue'
+  import BasePageLoading from '../page-loading/BasePageLoading.vue'
+  import EventBus from '@/utils/eventBus'
+  import { namespace } from 'vuex-class'
+  import { ParamsRepository } from '@/services/repositories/params'
+  import getRepository from '@/services'
+  import firebase from '@/utils/firebase'
 
-const bcAuth = namespace('beAuth')
-const beBase = namespace('beBase')
-const apiParams: ParamsRepository = getRepository('params')
+  const bcAuth = namespace('beAuth')
+  const beBase = namespace('beBase')
+  const apiParams: ParamsRepository = getRepository('params')
 
-@Component({
-  components: { MainSidebar, MainHeader, BasePageLoading }
-})
-export default class Layout extends Vue {
-  @beBase.State('urlSystem') urlSystem!: Record<string, any>
-  @bcAuth.Action('getInfo') getInfo!: () => Promise<any>
+  @Component({
+    components: { MainSidebar, MainHeader, BasePageLoading }
+  })
+  export default class Layout extends Vue {
+    @beBase.State('urlSystem') urlSystem!: Record<string, any>
+    @bcAuth.Action('getInfo') getInfo!: () => Promise<any>
 
-  isLoading = false
-  selectLanguage = ''
-  timing: any = null
+    isLoading = false
+    selectLanguage = ''
+    timing: any = null
 
-  async created(): Promise<void> {
-    try {
-      this.isLoading = true
-      this.selectLanguage = window.localStorage.getItem('bc-lang')!
-      // await this.getInfo()
-      setTimeout(() => {
-         this.getInfo()
-      }, 500)
-      await this.handleSignInFireBase()
-      this.timing = setInterval(() => {
-        this.handleSignInFireBase()
-      }, 3600000)
-      setTimeout(() => {
+    async created(): Promise<void> {
+      try {
+        this.isLoading = true
+        this.selectLanguage = window.localStorage.getItem('bc-lang')!
+        // await this.getInfo()
+        setTimeout(() => {
+          this.getInfo()
+        }, 500)
+        await this.handleSignInFireBase()
+        this.timing = setInterval(() => {
+          this.handleSignInFireBase()
+        }, 3600000)
+        setTimeout(() => {
+          this.isLoading = false
+        }, 500)
+      } catch (error) {
         this.isLoading = false
-      }, 500)
-    } catch (error) {
-      this.isLoading = false
-      console.log(error)
-    }
-  }
-  get getIcon(): string {
-    return this.selectLanguage === 'vi' ? 'flag-vn' : 'flag-usa'
-  }
-
-  // handleRedirectRoute():void{
-
-  // }
-
-  async handleSignInFireBase(): Promise<any> {
-    try {
-      const data = {
-        password: this.$options.filters?.encryptPassword('#!@Firebase-web-client@!#')
+        console.log(error)
       }
-      const result = await apiParams.getTokenFirebase(data)
-      await firebase.auth().signInWithCustomToken(result.authToken)
-      return Promise.resolve()
-    } catch (error) {
-      return Promise.reject(error)
+    }
+    get getIcon(): string {
+      return this.selectLanguage === 'vi' ? 'flag-vn' : 'flag-usa'
+    }
+
+    // handleRedirectRoute():void{
+
+    // }
+
+    async handleSignInFireBase(): Promise<any> {
+      try {
+        const data = {
+          password: this.$options.filters?.encryptPassword('#!@Firebase-web-client@!#')
+        }
+        const result = await apiParams.getTokenFirebase(data)
+        await firebase.auth().signInWithCustomToken(result.authToken)
+        return Promise.resolve()
+      } catch (error) {
+        return Promise.reject(error)
+      }
+    }
+
+    handleChangeLanguage(lang: string): void {
+      this.$i18n.locale = lang
+      window.localStorage.setItem('bc-lang', lang)
+      // EventBus.$emit('changeLang')
+      location.reload()
+    }
+    handleClickTerm(): void {
+      window.open(`${this.urlSystem['system.token.terms']}`)
     }
   }
-
-  handleChangeLanguage(lang: string): void {
-    this.$i18n.locale = lang
-    window.localStorage.setItem('bc-lang', lang)
-    // EventBus.$emit('changeLang')
-    location.reload()
-  }
-  handleClickTerm(): void {
-    window.open(`${this.urlSystem['system.token.terms']}`)
-  }
-}
 </script>
 <style lang="scss" scoped>
-.main-layout {
-  position: relative;
-  height: 100vh;
-  .sidebar-left {
-    border-right: 1px solid #ccc;
-    height: 100%;
-    overflow: hidden;
-    background-color: #e9e9e9;
+  .main-layout {
     position: relative;
-  }
-  .main-content {
-    .main-header {
-      padding: 0px;
+    height: 100vh;
+    .sidebar-left {
+      border-right: 1px solid #ccc;
+      height: 100%;
+      overflow: hidden;
+      background-color: #e9e9e9;
+      position: relative;
     }
-    .main-center {
-      padding: 24px 24px 0 24px;
-      background-color: #f6f8fc;
-      border-top: 1px solid #d2d0ce;
+    .main-content {
+      .main-header {
+        padding: 0px;
+      }
+      .main-center {
+        padding: 24px 24px 0 24px;
+        background-color: #f6f8fc;
+        border-top: 1px solid #d2d0ce;
+      }
     }
-  }
-  .sidebar-right {
-    padding-top: 15px;
-    border-left: 1px solid hsl(0deg 0% 100% / 10%);
-    overflow: hidden;
-  }
-}
-.show-player {
-  .sidebar-left {
-    height: calc(100vh - 90px);
-  }
-  .main-content {
-    height: calc(100vh - 90px);
-  }
-  .sidebar-right {
-    height: calc(100vh - 90px);
-  }
-}
-.main-footer {
-  border-top: 1px solid var(--bc-border-primary);
-  padding: 0 24px;
-}
-.footer-right {
-  .suffix {
-    .flag-usa {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      left: 7px;
-      display: block;
-    }
-    .flag-vn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      left: 6px;
-      display: block;
+    .sidebar-right {
+      padding-top: 15px;
+      border-left: 1px solid hsl(0deg 0% 100% / 10%);
+      overflow: hidden;
     }
   }
-}
+  .show-player {
+    .sidebar-left {
+      height: calc(100vh - 90px);
+    }
+    .main-content {
+      height: calc(100vh - 90px);
+    }
+    .sidebar-right {
+      height: calc(100vh - 90px);
+    }
+  }
+  .main-footer {
+    border-top: 1px solid var(--bc-border-primary);
+    padding: 0 24px;
+  }
+  .footer-right {
+    .suffix {
+      .flag-usa {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 7px;
+        display: block;
+      }
+      .flag-vn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 6px;
+        display: block;
+      }
+    }
+  }
 </style>

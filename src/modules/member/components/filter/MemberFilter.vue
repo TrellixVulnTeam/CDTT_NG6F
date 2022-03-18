@@ -147,7 +147,7 @@
       } else {
         this.$emit('filter', {
           ...this.filter,
-          
+
           orderBy: 3
         })
         this.filter = {

@@ -24,7 +24,7 @@
             <span>{{ getRole(scope.row.roles) }}</span>
           </template>
         </el-table-column>
-        
+
         <el-table-column :label="$t('kyc.table.date')" prop="createdDate" width="200">
           <template slot-scope="scope">
             <span>{{ scope.row.createdAt | formatDateHourMs }}</span>

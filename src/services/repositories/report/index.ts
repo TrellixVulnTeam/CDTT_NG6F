@@ -23,5 +23,4 @@ export default class ReportRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
-
 }

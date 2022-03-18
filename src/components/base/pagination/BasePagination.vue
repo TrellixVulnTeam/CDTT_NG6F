@@ -28,27 +28,27 @@
   </div>
 </template>
 <script lang="ts">
-import { PaginationInterface } from '@/interface'
-import { Component, Prop, Vue } from 'vue-property-decorator'
+  import { PaginationInterface } from '@/interface'
+  import { Component, Prop, Vue } from 'vue-property-decorator'
 
-@Component({ components: {} })
-export default class BasePagination extends Vue {
-  @Prop({ required: true, type: Object }) table!: PaginationInterface
-  @Prop({ required: true, type: String }) info!: string
+  @Component({ components: {} })
+  export default class BasePagination extends Vue {
+    @Prop({ required: true, type: Object }) table!: PaginationInterface
+    @Prop({ required: true, type: String }) info!: string
 
-  handleSizeChange(val: number): void {
-    this.$emit('sizeChange', val)
+    handleSizeChange(val: number): void {
+      this.$emit('sizeChange', val)
+    }
+
+    handleCurrentChange(val: number): void {
+      this.$emit('currentChange', val)
+    }
   }
-
-  handleCurrentChange(val: number): void {
-    this.$emit('currentChange', val)
-  }
-}
 </script>
 <style lang="scss" scoped>
-.base-pagination {
-  .info {
-    color: #5b616e;
+  .base-pagination {
+    .info {
+      color: #5b616e;
+    }
   }
-}
 </style>

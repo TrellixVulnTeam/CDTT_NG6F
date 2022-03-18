@@ -234,13 +234,13 @@
       }
     }
     onlyNumber(event: KeyboardEvent): void {
-    let keyCode = event.keyCode ? event.keyCode : event.which
-    //if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
-    // 46 is dot
-    if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
-      event.preventDefault()
+      let keyCode = event.keyCode ? event.keyCode : event.which
+      //if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
+      // 46 is dot
+      if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
+        event.preventDefault()
+      }
     }
-  }
     checkValid(): boolean {
       let toAmount = parseFloat(this.filter.toAmount.replaceAll(',', ''))
       let fromAmount = parseFloat(this.filter.fromAmount.replaceAll(',', ''))
