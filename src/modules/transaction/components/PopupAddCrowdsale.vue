@@ -307,6 +307,10 @@
     async handleGetExchangeRate(): Promise<void> {
       try {
         this.exchangeRate = await apiCrowdsale.getExchangeRateTwoCoin()
+        if (this.form.amount && this.form.userId) {
+          const _amount = Number(this.form.amount!.replaceAll(',', ''))
+          this.form.tokenAmount = _amount * this.exchangeRate.oneSourceToTarget!
+        }
       } catch (error) {
         console.log(error)
       }
