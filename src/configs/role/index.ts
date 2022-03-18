@@ -85,7 +85,7 @@ export const ROLE_DEFINE: UserRoleInterface[] = [
       },
       {
         module: 'transaction',
-        roles: ['view', 'add-transfer', 'add-deposit', 'add-crowdsale']
+        roles: ['view', 'add-deposit']
       },
       {
         module: 'exception',
