@@ -95,7 +95,8 @@
     "balance": "Số dư",
     "transaction": "Giao dịch",
     "exception": "Ngoại lệ",
-    "member": "Nhân sự"
+    "member": "Nhân sự",
+    "report": "Báo cáo"
   },
   "wallet": {
     "Linkey": "LynKey Wallet",
@@ -601,6 +602,7 @@
     "statistics": "Thống kê",
     "setting": "Cài đặt",
     "device": "Thiết bị",
+    "user": "Nhân sự",
     "Transactions": "Giao dịch",
     "Round": "Vòng",
     "LYNK": "LYNK",
