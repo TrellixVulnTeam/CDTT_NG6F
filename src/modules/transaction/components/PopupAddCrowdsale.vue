@@ -320,7 +320,7 @@
       this.numClick += 1
       //@ts-ignore
       this.$refs['setting-round-member']?.validate(valid => {
-        if (valid && this.numClick === 1 && !this.invalidAmount) {
+        if (valid && this.numClick === 1 && !this.invalidAmount && this.form.amount !== '0') {
           this.form = {
             ...this.form,
             tokenAddress: this.balanceLynk.address,
@@ -343,6 +343,9 @@
             this.numClick = 0
           }, 1000)
         } else {
+          if (this.form.amount === '0') {
+            this.invalidAmount = true
+          }
           this.numClick = 0
         }
       })
