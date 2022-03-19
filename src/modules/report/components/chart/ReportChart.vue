@@ -40,7 +40,7 @@
         </div> -->
 
         <div class="line-chart bg-white">
-          <line-chart  :dataChart="this.dataChart"/>
+          <line-chart :dataChart="this.dataChart" :lines="lines" />
         </div>
       </div>
     </div>
@@ -51,7 +51,16 @@
   import { Component, Vue } from 'vue-property-decorator'
   import LineChart from './lineChart.vue'
   @Component({ components: { LineChart } })
-  export default class ReportChart extends Vue {}
+  export default class ReportChart extends Vue {
+    dataChart = []
+    lines: Array<Record<string, any>> = [
+      {
+        label: 'Web',
+        color: '#E34537',
+        key: 'value'
+      }
+    ]
+  }
 </script>
 
 <style lang="scss" scoped>

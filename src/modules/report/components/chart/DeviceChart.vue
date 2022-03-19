@@ -34,7 +34,7 @@
         </div> -->
 
         <div class="line-chart bg-white">
-          <line-chart />
+          <line-chart :lines="lines" />
         </div>
       </div>
     </div>
@@ -45,7 +45,20 @@
   import { Component, Vue } from 'vue-property-decorator'
   import LineChart from './lineChart.vue'
   @Component({ components: { LineChart } })
-  export default class DeviceChart extends Vue {}
+  export default class DeviceChart extends Vue {
+    lines: Array<Record<string, any>> = [
+      {
+        label: 'Web',
+        color: '#E34537',
+        key: 'web'
+      },
+      {
+        label: 'Android',
+        color: '#1068da',
+        key: 'android'
+      }
+    ]
+  }
 </script>
 
 <style lang="scss" scoped>
