@@ -204,9 +204,9 @@
         const deposit = result.summary.filter(item => {
           return item.transactionType === 'DEPOSIT'
         })
-        const crowdsale = result.summary.filter(item => {
-          return item.transactionType === 'CROWDSALE'
-        })
+        // const crowdsale = result.summary.filter(item => {
+        //   return item.transactionType === 'CROWDSALE'
+        // })
         const withdraw = result.summary.filter(item => {
           return item.transactionType === 'WITHDRAW'
         })
@@ -217,7 +217,7 @@
           return item.transactionType === 'BONUS'
         })
 
-        this.dataHeaderCard = [...deposit, ...crowdsale, ...withdraw, ...transfer, ...bonus]
+        this.dataHeaderCard = [...deposit, ...withdraw, ...transfer, ...bonus]
 
         this.query.total = result.transactions.totalElements
         this.isLoading = false
@@ -396,7 +396,7 @@
     }
 
     .items-card {
-      width: calc(100% / 5 - 50px);
+      width: calc(100% / 4 - 50px);
       background-color: #ffffff;
       box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
       border-radius: 8px;
