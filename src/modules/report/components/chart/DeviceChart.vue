@@ -1,33 +1,27 @@
 <template>
-  <div class="report-chart bg-white">
+  <div class="device-chart bg-white">
     <div class="chart w-100">
       <div class="cards bg-white">
         <div class="card">
           <div class="card-title">
             <base-icon icon="menu-member" size="40" />
-            <p>User</p>
+            <p>Web</p>
           </div>
-          <div class="card-value">
-            <p>{{ this.dataChart.totalUser }}</p>
-          </div>
+          <div class="card-value"><p>28</p></div>
         </div>
         <div class="card">
           <div class="card-title">
             <base-icon icon="menu-member" size="40" />
-            <p>Số người đăng nhập</p>
+            <p>Android</p>
           </div>
-          <div class="card-value">
-            <p>{{ this.dataChart.totalUserLogin }}</p>
-          </div>
+          <div class="card-value"><p>33</p></div>
         </div>
         <div class="card">
           <div class="card-title">
             <base-icon icon="menu-member" size="40" />
-            <p>Tỉ lệ đăng nhập</p>
+            <p>IOS</p>
           </div>
-          <div class="card-value">
-            <p>{{ this.dataChart.percentUserLogin }}%</p>
-          </div>
+          <div class="card-value"><p>84%</p></div>
         </div>
       </div>
       <div class="detail wallet-table bg-white">
@@ -40,7 +34,7 @@
         </div> -->
 
         <div class="line-chart bg-white">
-          <line-chart  :dataChart="this.dataChart"/>
+          <line-chart />
         </div>
       </div>
     </div>
@@ -51,11 +45,11 @@
   import { Component, Vue } from 'vue-property-decorator'
   import LineChart from './lineChart.vue'
   @Component({ components: { LineChart } })
-  export default class ReportChart extends Vue {}
+  export default class DeviceChart extends Vue {}
 </script>
 
 <style lang="scss" scoped>
-  .report-chart {
+  .device-chart {
     padding: 0 25px;
     .chart {
       .cards {
@@ -79,7 +73,7 @@
             justify-content: space-between;
             align-items: center;
             p {
-              font-size: 14.26px;
+              font-size: 20px;
             }
           }
           .card-value {

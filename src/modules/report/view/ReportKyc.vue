@@ -1,5 +1,5 @@
 <template>
-  <div class="w-100 bo-kyc" style="100vh">
+  <div class="w-100 bo-kyc bg-white" style="100vh">
     <div class="bg-white wallet-header">
       <div class="be-flex align-center jc-space-between wallet-header__above">
         <div class="wallet-header__above-tabs be-flex">
@@ -13,8 +13,10 @@
     </div>
     <report-filter />
     <report-table v-if="this.$route.name == 'ReportUser' && this.viewType == 'table'" />
-    <report-chart v-else-if="this.$route.name == 'ReportUser' && this.viewType == 'chart'" />
-    <!-- <div v-else>aaaa</div> -->
+    <report-chart v-else-if="this.$route.name == 'ReportUser' && this.viewType == 'chart'" :dataChart="dataChart" />
+
+    <device-table v-else-if="this.$route.name == 'ReportDevice' && this.viewType == 'table'" />
+    <device-chart v-else-if="this.$route.name == 'ReportDevice' && this.viewType == 'chart'" />
   </div>
 </template>
 
@@ -26,8 +28,10 @@
   import ReportRepository from '@/services/repositories/report'
   import ReportChart from './../components/chart/ReportChart.vue'
   import EventBus from '@/utils/eventBus'
+  import DeviceTable from './../components/DeviceTable.vue'
+  import DeviceChart from '../components/chart/DeviceChart.vue'
   const api: ReportRepository = getRepository('report')
-  @Component({ components: { ReportTable, ReportFilter, ReportChart } })
+  @Component({ components: { ReportTable, ReportFilter, ReportChart, DeviceTable, DeviceChart } })
   export default class BOCustomer extends Vue {
     tabs: Array<Record<string, any>> = [
       {
@@ -41,6 +45,24 @@
         routeName: 'ReportDevice'
       }
     ]
+    dataHeader: any = {}
+    dataChart: any = []
+    async getDataChart(): Promise<void> {
+      const params = {
+        fromDate: '2022-03-04 08:12:17',
+        toDate: '2022-03-14 08:12:17'
+      }
+      const result = await api.getDataChart(params)
+      console.log('result', result)
+      this.dataHeader = {
+        percentUserLogin: result.percentUserLogin,
+        totalUserLogin: result.totalUserLogin,
+        totalUser: result.totalUser
+      }
+      this.dataChart = result
+      // this.responseList = result.content
+      // this.query.total = result.totalElements
+    }
     handleChangeTab(tab): void {
       console.log('tab', this.$route.name)
       this.$router.push({ name: tab.routeName }).then(() => {
@@ -51,7 +73,7 @@
     viewType = 'table'
     async created(): Promise<void> {
       EventBus.$on('changeView', this.changeView)
-
+      this.getDataChart()
       const name = this.$route.name!
     }
     changeView(value: string): void {

@@ -11,7 +11,7 @@
         class="base-table table-wallet"
       >
         <el-table-column label="#" type="index" :index="indexMethod" align="center" width="80" />
-        <el-table-column :label="$t('report.table.member')" width="530">
+        <el-table-column :label="$t('report.table.member')" min-width="200">
           <template class="flex-center-vert" slot-scope="scope">
             <div class="abc">
               <span prop="totalLogin"
@@ -23,12 +23,10 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('report.table.email')" prop="username" min-width="200"> </el-table-column>
         <el-table-column :label="$t('report.table.device')" prop="device" width="400"> </el-table-column>
         <el-table-column :label="$t('report.table.accessTime')" prop="totalLogin" align="center" width="200"></el-table-column>
       </base-table>
     </div>
-    <!-- <report-chart /> -->
   </div>
 </template>
 
@@ -37,10 +35,9 @@
   import getRepository from '@/services'
   import ReportRepository from '@/services/repositories/report'
   import EventBus from '@/utils/eventBus'
-  // import ReportChart from './chart/ReportChart.vue'
   const api: ReportRepository = getRepository('report')
   @Component({ components: {} })
-  export default class ReportTable extends Vue {
+  export default class DeviceTable extends Vue {
     // @Prop({ required: true, type: Object, default: {} }) query!: Record<string, any>
     @Prop({ required: true, type: Array, default: [] }) data!: Array<Record<string, any>>
     query: Record<string, any> = {
@@ -89,12 +86,11 @@
       EventBus.$on('filterReport', this.handleFilterReport)
       EventBus.$on('filterByDay', this.handleFilterByDay)
     }
-    handleFilterByDay(value: string | number): void {
-      console.log('value', value)
+    handleFilterByDay(value: string | number) {
+      console.log('value')
     }
     handleFilterReport(value: any): void {
       console.log('value', value)
-      this.query.orderBy = 'LAST_LOGIN'
       this.query.search = value.search
       this.getListUser()
       // this.query.searchd =

@@ -8,8 +8,25 @@
   import * as am4charts from '@amcharts/amcharts4/charts'
   import am4themes_animated from '@amcharts/amcharts4/themes/animated'
 
+  import getRepository from '@/services'
+  import ReportRepository from '@/services/repositories/report'
+  const api: ReportRepository = getRepository('report')
   @Component
   export default class lineChart extends Vue {
+    @Prop() dataChart!: any
+    created(): void {
+      console.log("dataChart", this.dataChart?.numOfUserLoginByDay)
+    }
+    async getDataChart(): Promise<void> {
+      const params = {
+        fromDate: '2022-03-04 08:12:17',
+        toDate: '2022-03-14 08:12:17'
+      }
+      const result = await api.getDataChart(params)
+      console.log('result', result)
+      // this.responseList = result.content
+      // this.query.total = result.totalElements
+    }
     mounted(): void {
       am4core.useTheme(am4themes_animated)
       let chart = am4core.create('chartdiv', am4charts.XYChart)
