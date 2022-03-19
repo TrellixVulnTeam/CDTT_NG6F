@@ -644,6 +644,7 @@
     "member-active": "Active",
     "member-inactive": "Inactive",
     "crowdsale": "Crowdsale",
+    "crowdsales": "Crowdsale",
     "vesting": "Vesting"
   },
   "status": {
