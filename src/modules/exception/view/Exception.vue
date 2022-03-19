@@ -63,7 +63,7 @@
       },
       {
         id: 3,
-        title: 'crowdsales',
+        title: 'crowdsale',
         routeName: 'ExceptionCrowdsale'
       }
     ]
