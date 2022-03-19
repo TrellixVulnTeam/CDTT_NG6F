@@ -13,10 +13,9 @@
   const api: ReportRepository = getRepository('report')
   @Component
   export default class lineChart extends Vue {
-    @Prop() dataChart!: any
     @Prop({ required: true, type: Array, default: () => [] }) lines!: Array<Record<string, any>>
 
-    data = []
+    data: any = []
     async getDataChart(): Promise<void> {
       const params = {
         fromDate: '2022-03-04 08:12:17',
@@ -24,12 +23,24 @@
       }
       const result = await api.getDataChart(params)
       this.data = result.numOfUserLoginByDay
+      // for (let i = 0; i <= this.data.length; i++) {
+      //   console.log('this', this.data[i])
+      //   const a = {
+      //     ios: 20,
+      //     web: 30,
+      //     android: 40
+      //   }
+      //   this.data[i] = {
+      //     ...this.data[i],
+      //     ...a
+      //   }
+      // }
       this.renderChart()
       // this.responseList = result.content
       // this.query.total = result.totalElements
     }
 
-    created() {
+    created(): void {
       this.getDataChart()
     }
 

@@ -40,7 +40,7 @@
         </div> -->
 
         <div class="line-chart bg-white">
-          <line-chart :dataChart="this.dataChart" :lines="lines" />
+          <line-chart :dataLine="this.dataChart.numOfUserLoginByDay" :lines="lines" />
         </div>
       </div>
     </div>
@@ -48,18 +48,22 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator'
+  import { Component, Vue, Prop } from 'vue-property-decorator'
   import LineChart from './lineChart.vue'
   @Component({ components: { LineChart } })
   export default class ReportChart extends Vue {
-    dataChart = []
+    @Prop({ required: true, type: Array, default: [] }) dataChart!: Array<Record<string, any>>
+    // dataChart = []
     lines: Array<Record<string, any>> = [
       {
-        label: 'Web',
+        label: 'Số lần đăng nhập',
         color: '#E34537',
         key: 'value'
       }
     ]
+    created(): void {
+      console.log('dataaa', this.dataChart)
+    }
   }
 </script>
 

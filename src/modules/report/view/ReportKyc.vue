@@ -60,6 +60,7 @@
         totalUser: result.totalUser
       }
       this.dataChart = result
+      console.log('h', this.dataChart)
       // this.responseList = result.content
       // this.query.total = result.totalElements
     }

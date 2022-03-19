@@ -50,12 +50,17 @@
       {
         label: 'Web',
         color: '#E34537',
-        key: 'web'
+        key: 'value'
       },
       {
         label: 'Android',
         color: '#1068da',
-        key: 'android'
+        key: 'value'
+      },
+      {
+        label: 'IOS',
+        color: '#efefef',
+        key: 'value'
       }
     ]
   }
