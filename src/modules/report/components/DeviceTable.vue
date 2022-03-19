@@ -31,151 +31,151 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Mixins } from 'vue-property-decorator'
-import getRepository from '@/services'
-import ReportRepository from '@/services/repositories/report'
-import EventBus from '@/utils/eventBus'
-const api: ReportRepository = getRepository('report')
-@Component({ components: {} })
-export default class DeviceTable extends Vue {
-  // @Prop({ required: true, type: Object, default: {} }) query!: Record<string, any>
-  @Prop({ required: true, type: Array, default: [] }) data!: Array<Record<string, any>>
-  query: Record<string, any> = {
-    search: '',
-    limit: 10,
-    page: 1,
-    orderBy: '',
-    total: 0
-  }
-  get getPaginationInfo(): any {
-    return this.$t('paging.user')
-  }
-  indexMethod(index: number): number {
-    return (this.query.page - 1) * this.query.limit + index + 1
-  }
-  handleCurrentChange(value: number): void {
-    console.log('size', value)
-    this.query.page = value
-    this.getListUser()
-  }
-  handleSizeChange(value: number): void {
-    console.log('size', value)
-    this.query.page = 1
-    this.query.limit = value
-    this.getListUser()
-
-    // this.$emit('sizeChange', value)
-  }
-  responseList: Array<Record<string, any>> = []
-
-  async getListUser(): Promise<void> {
-    const params = {
-      ...this.query,
-      total: '',
-      fromDate: '2022-01-04 08:12:17',
-      toDate: '2022-12-11 08:12:17'
+  import { Component, Prop, Vue, Mixins } from 'vue-property-decorator'
+  import getRepository from '@/services'
+  import ReportRepository from '@/services/repositories/report'
+  import EventBus from '@/utils/eventBus'
+  const api: ReportRepository = getRepository('report')
+  @Component({ components: {} })
+  export default class DeviceTable extends Vue {
+    // @Prop({ required: true, type: Object, default: {} }) query!: Record<string, any>
+    @Prop({ required: true, type: Array, default: [] }) data!: Array<Record<string, any>>
+    query: Record<string, any> = {
+      search: '',
+      limit: 10,
+      page: 1,
+      orderBy: '',
+      total: 0
     }
-    console.log('params', params)
-    const result = await api.getListReport(params)
-    this.responseList = result.content
-    this.query.total = result.totalElements
-  }
-  async created(): Promise<void> {
-    this.getListUser()
+    get getPaginationInfo(): any {
+      return this.$t('paging.user')
+    }
+    indexMethod(index: number): number {
+      return (this.query.page - 1) * this.query.limit + index + 1
+    }
+    handleCurrentChange(value: number): void {
+      console.log('size', value)
+      this.query.page = value
+      this.getListUser()
+    }
+    handleSizeChange(value: number): void {
+      console.log('size', value)
+      this.query.page = 1
+      this.query.limit = value
+      this.getListUser()
 
-    EventBus.$on('filterReport', this.handleFilterReport)
-    EventBus.$on('filterByDay', this.handleFilterByDay)
+      // this.$emit('sizeChange', value)
+    }
+    responseList: Array<Record<string, any>> = []
+
+    async getListUser(): Promise<void> {
+      const params = {
+        ...this.query,
+        total: '',
+        fromDate: '2022-01-04 08:12:17',
+        toDate: '2022-12-11 08:12:17'
+      }
+      console.log('params', params)
+      const result = await api.getListUserReport(params)
+      this.responseList = result.content
+      this.query.total = result.totalElements
+    }
+    async created(): Promise<void> {
+      this.getListUser()
+
+      EventBus.$on('filterReport', this.handleFilterReport)
+      EventBus.$on('filterByDay', this.handleFilterByDay)
+    }
+    handleFilterByDay(value: string | number) {
+      console.log('value')
+    }
+    handleFilterReport(value: any): void {
+      console.log('value', value)
+      this.query.search = value.search
+      this.getListUser()
+      // this.query.searchd =
+    }
   }
-  handleFilterByDay(value: string | number) {
-    console.log('value')
-  }
-  handleFilterReport(value: any): void {
-    console.log('value', value)
-    this.query.search = value.search
-    this.getListUser()
-    // this.query.searchd =
-  }
-}
 </script>
 
 <style lang="scss" scoped>
-.abc {
-  display: flex;
-  align-items: center;
-}
-img {
-  width: 30px;
-  border-radius: 50%;
-  height: 30px;
-  margin-right: 10px;
-}
-.wallet-table {
-  .cards {
+  .abc {
     display: flex;
     align-items: center;
-    justify-content: space-around;
-    .card {
-      color: #fff;
-      margin: 12px 12px;
-      width: 33.33333%;
+  }
+  img {
+    width: 30px;
+    border-radius: 50%;
+    height: 30px;
+    margin-right: 10px;
+  }
+  .wallet-table {
+    .cards {
       display: flex;
-      flex-direction: column;
-      box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
-      border-radius: 15px;
-      background: linear-gradient(90deg, #e13635, #eb6651 80%, #eb6651);
-      .card-title {
+      align-items: center;
+      justify-content: space-around;
+      .card {
+        color: #fff;
         margin: 12px 12px;
+        width: 33.33333%;
         display: flex;
-        flex-direction: row-reverse;
-        justify-content: space-between;
-        align-items: center;
-        p {
-          font-size: 14.26px;
+        flex-direction: column;
+        box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
+        border-radius: 15px;
+        background: linear-gradient(90deg, #e13635, #eb6651 80%, #eb6651);
+        .card-title {
+          margin: 12px 12px;
+          display: flex;
+          flex-direction: row-reverse;
+          justify-content: space-between;
+          align-items: center;
+          p {
+            font-size: 14.26px;
+          }
+        }
+        .card-value {
+          margin: 12px 12px;
+          font-size: 30px;
+          line-height: 48px;
+          font-weight: 700;
         }
       }
-      .card-value {
-        margin: 12px 12px;
-        font-size: 30px;
-        line-height: 48px;
-        font-weight: 700;
-      }
     }
-  }
-  &__above {
-    border-bottom: 1px solid var(--bc-border-primary);
-    &-tabs {
-      .tab-item {
-        padding: 16px 12px;
-        position: relative;
-        &:hover {
+    &__above {
+      border-bottom: 1px solid var(--bc-border-primary);
+      &-tabs {
+        .tab-item {
+          padding: 16px 12px;
+          position: relative;
+          &:hover {
+            color: var(--bc-tab-active);
+          }
+        }
+        .tab-active {
           color: var(--bc-tab-active);
+          font-weight: 600;
+          &::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--bc-tab-active);
+          }
         }
       }
-      .tab-active {
-        color: var(--bc-tab-active);
-        font-weight: 600;
-        &::after {
-          content: '';
-          position: absolute;
-          width: 100%;
-          height: 2px;
-          bottom: 0;
-          left: 0;
-          background-color: var(--bc-tab-active);
+    }
+    &__below {
+      padding: 0 24px;
+      .table-wallet {
+        .amount-decrease {
+          color: var(--bc-status-error);
+        }
+        .amount-increase {
+          color: var(--bc-status-success);
         }
       }
     }
   }
-  &__below {
-    padding: 0 24px;
-    .table-wallet {
-      .amount-decrease {
-        color: var(--bc-status-error);
-      }
-      .amount-increase {
-        color: var(--bc-status-success);
-      }
-    }
-  }
-}
 </style>

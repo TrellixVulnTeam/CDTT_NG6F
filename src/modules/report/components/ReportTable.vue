@@ -79,7 +79,7 @@
         toDate: '2022-12-11 08:12:17'
       }
       console.log('params', params)
-      const result = await api.getListReport(params)
+      const result = await api.getListUserReport(params)
       this.responseList = result.content
       this.query.total = result.totalElements
     }
@@ -89,11 +89,12 @@
       EventBus.$on('filterReport', this.handleFilterReport)
       EventBus.$on('filterByDay', this.handleFilterByDay)
     }
-    handleFilterByDay(value: string | number) {
-      console.log('value')
+    handleFilterByDay(value: string | number): void {
+      console.log('value', value)
     }
     handleFilterReport(value: any): void {
       console.log('value', value)
+      this.query.orderBy = 'LAST_LOGIN'
       this.query.search = value.search
       this.getListUser()
       // this.query.searchd =
