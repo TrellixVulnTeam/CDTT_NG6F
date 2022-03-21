@@ -39,7 +39,7 @@
         timezone: new Date().getTimezoneOffset() / -60 > 0 ? '+' + new Date().getTimezoneOffset() / -60 : '-' + new Date().getTimezoneOffset() / -60
       }
       const result = await api.getDataChart(params)
-
+      EventBus.$emit('dataHeaderUser', result)
       this.data = result.numOfUserLoginByDay
       this.renderChart()
     }

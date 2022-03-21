@@ -8,7 +8,7 @@
             <p>{{ $t('report.card.user') }}</p>
           </div>
           <div class="card-value">
-            <p>{{ this.dataChart.totalUser }}</p>
+            <p>{{ this.dataHeader.totalUser }}</p>
           </div>
         </div>
         <div class="card number-of-user">
@@ -17,7 +17,7 @@
             <p>{{ $t('report.card.totalUserLogin') }}</p>
           </div>
           <div class="card-value">
-            <p>{{ this.dataChart.totalUserLogin }}</p>
+            <p>{{ this.dataHeader.totalUserLogin }}</p>
           </div>
         </div>
         <div class="card percentage-login">
@@ -26,7 +26,7 @@
             <p>{{ $t('report.card.percentUserLogin') }}</p>
           </div>
           <div class="card-value">
-            <p>{{ this.dataChart.percentUserLogin }}%</p>
+            <p>{{ this.dataHeader.percentUserLogin }}%</p>
           </div>
         </div>
       </div>
@@ -40,7 +40,7 @@
         </div> -->
 
         <div class="line-chart bg-white">
-          <line-chart  :lines="lines" />
+          <line-chart :lines="lines" />
         </div>
       </div>
     </div>
@@ -72,81 +72,86 @@
     }
 
     created(): void {
+      EventBus.$on('dataHeaderUser', this.getdataHeaderUser)
       // this.getDataChart()
       console.log('hhh', this.dataChart)
     }
- 
-}
+    dataHeader: any = {}
+    getdataHeaderUser(value: any) {
+      this.dataHeader = value
+      console.log('fdfd', value)
+    }
+  }
 </script>
 
 <style lang="scss" scoped>
-.report-chart {
-  padding: 0 25px;
-  .chart {
-    .cards {
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      border-radius: 15px;
-      .card {
-        color: #fff;
-        margin: 12px 12px;
-        width: 33.33333%;
-        display: flex;
-        flex-direction: column;
-        box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
-        border-radius: 15px;
-        .card-title {
-          margin: 12px 12px;
-          display: flex;
-          flex-direction: row-reverse;
-          justify-content: space-between;
-          align-items: center;
-          p {
-            font-size: 20px;
-            padding-left: 12px;
-          }
-        }
-        .card-value {
-          margin: 12px 12px;
-          font-size: 30px;
-          line-height: 48px;
-          font-weight: 700;
-          p {
-            padding-left: 12px;
-          }
-        }
-      }
-      .user {
-        background: linear-gradient(90deg, #e13635, #eb6651 80%, #eb6651);
-      }
-      .number-of-user {
-        background: linear-gradient(90deg, #0f68da, #0f68da 30%, #318bff);
-      }
-      .percentage-login {
-        background-image: linear-gradient(90deg, #3f9d2e, #4fc43a);
-      }
-    }
-    .detail {
-      margin: 12px;
-      box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
-      .detail-title {
-        p {
-          font-size: 18px;
-          padding: 10px;
-          color: #363636;
-          font-weight: 600;
-        }
-      }
-      .detail-line {
+  .report-chart {
+    padding: 0 25px;
+    .chart {
+      .cards {
         display: flex;
         align-items: center;
-        justify-content: center;
-        .icon {
-          padding-right: 10px;
+        justify-content: space-around;
+        border-radius: 15px;
+        .card {
+          color: #fff;
+          margin: 12px 12px;
+          width: 33.33333%;
+          display: flex;
+          flex-direction: column;
+          box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
+          border-radius: 15px;
+          .card-title {
+            margin: 12px 12px;
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: space-between;
+            align-items: center;
+            p {
+              font-size: 20px;
+              padding-left: 12px;
+            }
+          }
+          .card-value {
+            margin: 12px 12px;
+            font-size: 30px;
+            line-height: 48px;
+            font-weight: 700;
+            p {
+              padding-left: 12px;
+            }
+          }
+        }
+        .user {
+          background: linear-gradient(90deg, #e13635, #eb6651 80%, #eb6651);
+        }
+        .number-of-user {
+          background: linear-gradient(90deg, #0f68da, #0f68da 30%, #318bff);
+        }
+        .percentage-login {
+          background-image: linear-gradient(90deg, #3f9d2e, #4fc43a);
+        }
+      }
+      .detail {
+        margin: 12px;
+        box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
+        .detail-title {
+          p {
+            font-size: 18px;
+            padding: 10px;
+            color: #363636;
+            font-weight: 600;
+          }
+        }
+        .detail-line {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          .icon {
+            padding-right: 10px;
+          }
         }
       }
     }
   }
-}
 </style>

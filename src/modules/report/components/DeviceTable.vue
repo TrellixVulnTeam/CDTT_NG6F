@@ -73,7 +73,7 @@
       this.responseList = result.content
       this.query.total = result.totalElements
     }
-checkTimeFromDate(day: number): string {
+    checkTimeFromDate(day: number): string {
       const time = new Date(Date.now() - day * 24 * 60 * 60 * 1000).setHours(0, 0, 0)
       return this.formatTimestampFromDate(time)
     }
@@ -132,7 +132,7 @@ checkTimeFromDate(day: number): string {
       EventBus.$on('filterByDay', this.handleFilterByDay)
     }
 
-     handleFilterByDay(value: string | number): void {
+    handleFilterByDay(value: string | number): void {
       console.log('2323', this.checkTime(2))
       if (value == 'yesterday') {
         this.query.fromDate = this.checkTimeFromDate(1)
