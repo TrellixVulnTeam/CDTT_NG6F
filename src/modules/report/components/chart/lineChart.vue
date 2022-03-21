@@ -10,7 +10,7 @@
   import forEach from 'lodash/forEach'
   import getRepository from '@/services'
   import ReportRepository from '@/services/repositories/report'
-
+  import { sortBy } from 'lodash'
   import EventBus from '@/utils/eventBus'
 
   const api: ReportRepository = getRepository('report')
@@ -19,6 +19,38 @@
     @Prop({ required: true, type: Array, default: () => [] }) lines!: Array<Record<string, any>>
 
     data: any = []
+    chartData: any = []
+    chartReportData() {
+      const resultWeb: any = []
+      for (let i = 0; i < this.chartData.numOfWebLoginByDay.length; i++) {
+        resultWeb.push({
+          date: this.chartData.numOfWebLoginByDay[i].date,
+          value: this.chartData.numOfWebLoginByDay[i].value,
+          key:'Web'
+        })
+      }
+      const resultAndroid: any = []
+      for (let i = 0; i < this.chartData.numOfAndroidLoginByDay.length; i++) {
+        resultAndroid.push({
+          date: this.chartData.numOfAndroidLoginByDay[i].date,
+          value: this.chartData.numOfAndroidLoginByDay[i].value,
+          key:'Android'
+        })
+      }
+      const resultIos: any = []
+      for (let i = 0; i < this.chartData.numOfIOSLoginByDay.length; i++) {
+        resultIos.push({
+          date: this.chartData.numOfIOSLoginByDay[i].date,
+          value: this.chartData.numOfIOSLoginByDay[i].value,
+          key:'Ios'
+        })
+      }
+
+      const result = [...resultWeb, ...resultAndroid, ...resultIos]
+      return sortBy(result, o => {
+        return o.date
+      })
+    }
     async getDataChart(): Promise<void> {
       const params = {
         fromDate: this.query.fromDate,
@@ -26,18 +58,35 @@
         timezone: new Date().getTimezoneOffset() / -60
       }
       const result = await api.getDataChart(params)
+      
       this.data = result.numOfUserLoginByDay
       this.renderChart()
-      // this.responseList = result.content
-      // this.query.total = result.totalElements
+    }
+    async getDataChartDevice(): Promise<void> {
+      const params = {
+        fromDate: this.query.fromDate,
+        toDate: this.query.toDate,
+        timezone: new Date().getTimezoneOffset() / -60
+      }
+      const result = await api.getDataChartDevice(params)
+      this.chartData = result
+      this.data = this.chartReportData()
+
+      console.log('this.chartReportData()', this.chartReportData())
+      this.renderChart()
     }
     query: Record<string, any> = {
       fromDate: this.checkTime(7),
       toDate: this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
     }
+
     async created(): Promise<void> {
       EventBus.$on('filterByDay', this.handleFilterByDay)
-      this.getDataChart()
+      if (this.$route.name == 'ReportUser') {
+        this.getDataChart()
+      } else {
+        this.getDataChartDevice()
+      }
     }
     checkTime(day: number): string {
       const time = new Date(Date.now() - day * 24 * 60 * 60 * 1000).setHours(0, 0, 0)

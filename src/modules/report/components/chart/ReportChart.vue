@@ -70,12 +70,10 @@
       fromDate: '',
       toDate: ''
     }
-    
+
     created(): void {
       // this.getDataChart()
     }
-  
-   
   }
 </script>
 

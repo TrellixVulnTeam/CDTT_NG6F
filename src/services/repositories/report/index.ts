@@ -22,4 +22,20 @@ export default class ReportRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+  async getListDeviceReport(params?: Record<string, any>): Promise<Record<string, any>> {
+    try {
+      const result = await request.get(`${this.prefix}/report/device/list`, { params })
+      return Promise.resolve(result.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+  async getDataChartDevice(params?: Record<string, any>): Promise<Record<string, any>> {
+    try {
+      const result = await request.get(`${this.prefix}/report/device/chart`, { params })
+      return Promise.resolve(result.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
 }

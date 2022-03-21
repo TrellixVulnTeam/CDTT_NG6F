@@ -16,7 +16,7 @@
     <report-chart v-else-if="this.$route.name == 'ReportUser' && this.viewType == 'chart'" :dataChart="dataChart" />
 
     <device-table v-else-if="this.$route.name == 'ReportDevice' && this.viewType == 'table'" />
-    <device-chart v-else-if="this.$route.name == 'ReportDevice' && this.viewType == 'chart'" />
+    <device-chart v-else-if="this.$route.name == 'ReportDevice' && this.viewType == 'chart'" :dataChart="dataChart" />
   </div>
 </template>
 
@@ -49,8 +49,8 @@
     dataChart: any = []
     async getDataChart(): Promise<void> {
       const params = {
-        fromDate: '2022-03-04 08:12:17',
-        toDate: '2022-03-14 08:12:17'
+        fromDate: '',
+        toDate: ''
       }
       const result = await api.getDataChart(params)
       console.log('result', result)
@@ -61,13 +61,31 @@
       }
       this.dataChart = result
     }
+    async getDataChartDevice(): Promise<void> {
+      const params = {
+        fromDate: '',
+        toDate: ''
+      }
+      const result = await api.getDataChartDevice(params)
+      console.log('result', result)
+      this.dataHeader = {
+        percentUserLogin: result.percentUserLogin,
+        totalUserLogin: result.totalUserLogin,
+        totalUser: result.totalUser
+      }
+      this.dataChart = result
+    }
 
     handleChangeTab(tab): void {
+      this.viewType = 'table'
       console.log('tab', this.$route.name)
       this.$router.push({ name: tab.routeName }).then(() => {
         // this.resetQuery()
         // EventBus.$emit('changeTabMember')
       })
+      if (tab == 'ReportDevice') {
+        this.getDataChartDevice()
+      }
     }
     viewType = 'table'
     async created(): Promise<void> {
