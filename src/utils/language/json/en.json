@@ -205,7 +205,7 @@
     "qrcode": "SCAN QR CODE"
   },
   "paging": {
-    "user": "user",
+    "user": "users",
     "show": "Show",
     "customers": "customers",
     "transaction": "transactions",
@@ -981,10 +981,12 @@
   },
   "report": {
     "table": {
+      "fullName": "Full name",
       "member": "Members",
       "email": "Email",
       "device": "Device",
-      "accessTime": "Access times"
+      "totalLogin": "Total login",
+      "lastTimeLogin": "Last login"
     },
     "filter": {
       "last7Days": "Last 7 days",

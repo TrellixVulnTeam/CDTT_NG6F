@@ -955,10 +955,12 @@
   },
   "report": {
     "table": {
+      "fullName": "Họ tên",
       "member": "Nhân sự",
       "email": "Email",
       "device": "Thiết bị",
-      "accessTime": "Số lần đăng nhập"
+      "totalLogin": "Số lần đăng nhập",
+      "lastTimeLogin": "Lần đăng nhập cuối"
     },
     "filter": {
       "last7Days": "7 ngày gần đây",

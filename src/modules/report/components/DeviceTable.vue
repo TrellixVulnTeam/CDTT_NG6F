@@ -10,217 +10,212 @@
         @rowClick="handleRowClick"
         class="base-table table-wallet"
       >
-        <el-table-column label="#" type="index" :index="indexMethod" align="center" width="80" />
+        <el-table-column label="#" type="index" :index="indexMethod" align="center" width="100" />
         <el-table-column :label="$t('report.table.member')" min-width="200">
           <template class="flex-center-vert" slot-scope="scope">
-            <div class="abc">
-              <span prop="totalLogin"
-                ><img
-                  src="https://scontent.fhan5-3.fna.fbcdn.net/v/t39.30808-6/260223685_885672385457979_8716466637580782529_n.jpg?stp=dst-jpg_s960x960&_nc_cat=106&ccb=1-5&_nc_sid=8631f5&_nc_ohc=ObpK-qhpmeAAX-ZawbM&_nc_ht=scontent.fhan5-3.fna&oh=00_AT_UwgP8xglUupsJAUyHTJbId1LO9xC_2xCQM6zYkrxUAQ&oe=6237359D"
-                  alt="gang-world"
-              /></span>
+            <div>
               <span>{{ scope.row.fullName }}</span>
             </div>
           </template>
         </el-table-column>
         <el-table-column :label="$t('report.table.device')" prop="device" width="400"> </el-table-column>
-        <el-table-column :label="$t('report.table.accessTime')" prop="totalLogin" align="center" width="200"></el-table-column>
+        <el-table-column :label="$t('report.table.totalLogin')" prop="totalLogin" align="right" width="200"></el-table-column>
       </base-table>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-  import { Component, Prop, Vue, Mixins } from 'vue-property-decorator'
-  import getRepository from '@/services'
-  import ReportRepository from '@/services/repositories/report'
-  import EventBus from '@/utils/eventBus'
-  import { forEach, sortBy, findIndex, find } from 'lodash'
-  const api: ReportRepository = getRepository('report')
-  @Component({ components: {} })
-  export default class DeviceTable extends Vue {
-    @Prop({ required: true, type: Array, default: [] }) data!: Array<Record<string, any>>
-    query: Record<string, any> = {
-      search: '',
-      limit: 10,
-      page: 1,
-      orderBy: 'LAST_LOGIN',
-      total: 0
-    }
-    get getPaginationInfo(): any {
-      return this.$t('paging.user')
-    }
-    indexMethod(index: number): number {
-      return (this.query.page - 1) * this.query.limit + index + 1
-    }
-    handleCurrentChange(value: number): void {
-      console.log('size', value)
-      this.query.page = value
-      this.getListDevice()
-    }
-    handleSizeChange(value: number): void {
-      console.log('size', value)
-      this.query.page = 1
-      this.query.limit = value
-      this.getListDevice()
+import { Component, Prop, Vue, Mixins } from 'vue-property-decorator'
+import getRepository from '@/services'
+import ReportRepository from '@/services/repositories/report'
+import EventBus from '@/utils/eventBus'
+import { forEach, sortBy, findIndex, find } from 'lodash'
+const api: ReportRepository = getRepository('report')
+@Component({ components: {} })
+export default class DeviceTable extends Vue {
+  @Prop({ required: true, type: Array, default: [] }) data!: Array<Record<string, any>>
+  query: Record<string, any> = {
+    search: '',
+    limit: 10,
+    page: 1,
+    orderBy: 'LAST_LOGIN',
+    total: 0
+  }
+  get getPaginationInfo(): any {
+    return this.$t('paging.user')
+  }
+  indexMethod(index: number): number {
+    return (this.query.page - 1) * this.query.limit + index + 1
+  }
+  handleCurrentChange(value: number): void {
+    console.log('size', value)
+    this.query.page = value
+    this.getListDevice()
+  }
+  handleSizeChange(value: number): void {
+    console.log('size', value)
+    this.query.page = 1
+    this.query.limit = value
+    this.getListDevice()
 
-      // this.$emit('sizeChange', value)
-    }
-    responseList: Array<Record<string, any>> = []
+    // this.$emit('sizeChange', value)
+  }
+  responseList: Array<Record<string, any>> = []
 
-    async getListDevice(): Promise<void> {
-      const params = {
-        ...this.query,
-        total: ''
-      }
-      console.log('params', params)
-      const result = await api.getListDeviceReport(params)
-      this.responseList = result.content
-      this.query.total = result.totalElements
+  async getListDevice(): Promise<void> {
+    const params = {
+      ...this.query,
+      total: ''
     }
+    console.log('params', params)
+    const result = await api.getListDeviceReport(params)
+    this.responseList = result.content
+    this.query.total = result.totalElements
+  }
 
-    async created(): Promise<void> {
+  async created(): Promise<void> {
+    this.query.fromDate = this.checkTime(7)
+    this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
+    this.getListDevice()
+    // this.getFromDateTodate()
+    EventBus.$on('filterReport', this.handleFilterReport)
+    EventBus.$on('filterByDay', this.handleFilterByDay)
+  }
+
+  handleFilterByDay(value: string | number): void {
+    console.log('value123', value)
+    if (value == 'yesterday') {
+      this.query.fromDate = this.checkTime(1)
+      this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
+    } else if (value == 'last7Days') {
       this.query.fromDate = this.checkTime(7)
       this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
-      this.getListDevice()
-      // this.getFromDateTodate()
-      EventBus.$on('filterReport', this.handleFilterReport)
-      EventBus.$on('filterByDay', this.handleFilterByDay)
+    } else if (value == 'last14Days') {
+      this.query.fromDate = this.checkTime(14)
+      this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
+    } else if (value == 'last30Days') {
+      this.query.fromDate = this.checkTime(30)
+      this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
+    } else if (value == 'last90Days') {
+      this.query.fromDate = this.checkTime(90)
+      this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
     }
-
-    handleFilterByDay(value: string | number): void {
-      console.log('value123', value)
-      if (value == 'yesterday') {
-        this.query.fromDate = this.checkTime(1)
-        this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
-      } else if (value == 'last7Days') {
-        this.query.fromDate = this.checkTime(7)
-        this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
-      } else if (value == 'last14Days') {
-        this.query.fromDate = this.checkTime(14)
-        this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
-      } else if (value == 'last30Days') {
-        this.query.fromDate = this.checkTime(30)
-        this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
-      } else if (value == 'last90Days') {
-        this.query.fromDate = this.checkTime(90)
-        this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
-      }
-      this.getListDevice()
-    }
-    checkTime(day: number): string {
-      const time = new Date(Date.now() - day * 24 * 60 * 60 * 1000).setHours(0, 0, 0)
-      return this.formatTimestamp(time)
-    }
-    formatTimestamp(value: number): string {
-      if (!value) {
-        return ''
-      }
-      const gmt = new Date().getTimezoneOffset() / -60
-      const ago = value - gmt * 60 * 60 * 1000
-      const date = new Date(ago)
-      return (
-        date.getFullYear() +
-        '-' +
-        (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
-        '-' +
-        (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
-        ' ' +
-        (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) +
-        ':' +
-        (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) +
-        ':' +
-        (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds())
-      )
-    }
-    handleFilterReport(value: any): void {
-      console.log('value', value)
-      this.query.orderBy = 'LAST_LOGIN'
-      this.query.search = value.search
-      this.getListDevice()
-      // this.query.searchd =
-    }
+    this.getListDevice()
   }
+  checkTime(day: number): string {
+    const time = new Date(Date.now() - day * 24 * 60 * 60 * 1000).setHours(0, 0, 0)
+    return this.formatTimestamp(time)
+  }
+  formatTimestamp(value: number): string {
+    if (!value) {
+      return ''
+    }
+    const gmt = new Date().getTimezoneOffset() / -60
+    const ago = value - gmt * 60 * 60 * 1000
+    const date = new Date(ago)
+    return (
+      date.getFullYear() +
+      '-' +
+      (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+      '-' +
+      (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
+      ' ' +
+      (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) +
+      ':' +
+      (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) +
+      ':' +
+      (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds())
+    )
+  }
+  handleFilterReport(value: any): void {
+    console.log('value', value)
+    this.query.orderBy = 'LAST_LOGIN'
+    this.query.search = value.search
+    this.getListDevice()
+    // this.query.searchd =
+  }
+}
 </script>
 
 <style lang="scss" scoped>
-  .abc {
+.abc {
+  display: flex;
+  align-items: center;
+}
+img {
+  width: 30px;
+  border-radius: 50%;
+  height: 30px;
+  margin-right: 10px;
+}
+.wallet-table {
+  .cards {
     display: flex;
     align-items: center;
-  }
-  img {
-    width: 30px;
-    border-radius: 50%;
-    height: 30px;
-    margin-right: 10px;
-  }
-  .wallet-table {
-    .cards {
+    justify-content: space-around;
+    .card {
+      color: #fff;
+      margin: 12px 12px;
+      width: 33.33333%;
       display: flex;
-      align-items: center;
-      justify-content: space-around;
-      .card {
-        color: #fff;
+      flex-direction: column;
+      box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
+      border-radius: 15px;
+
+      .card-title {
         margin: 12px 12px;
-        width: 33.33333%;
         display: flex;
-        flex-direction: column;
-        box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
-        border-radius: 15px;
-        background: linear-gradient(90deg, #e13635, #eb6651 80%, #eb6651);
-        .card-title {
-          margin: 12px 12px;
-          display: flex;
-          flex-direction: row-reverse;
-          justify-content: space-between;
-          align-items: center;
-          p {
-            font-size: 14.26px;
-          }
-        }
-        .card-value {
-          margin: 12px 12px;
-          font-size: 30px;
-          line-height: 48px;
-          font-weight: 700;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        align-items: center;
+        p {
+          font-size: 14.26px;
         }
       }
+      .card-value {
+        margin: 12px 12px;
+        font-size: 30px;
+        line-height: 48px;
+        font-weight: 700;
+      }
     }
-    &__above {
-      border-bottom: 1px solid var(--bc-border-primary);
-      &-tabs {
-        .tab-item {
-          padding: 16px 12px;
-          position: relative;
-          &:hover {
-            color: var(--bc-tab-active);
-          }
-        }
-        .tab-active {
+  }
+  &__above {
+    border-bottom: 1px solid var(--bc-border-primary);
+    &-tabs {
+      .tab-item {
+        padding: 16px 12px;
+        position: relative;
+        &:hover {
           color: var(--bc-tab-active);
-          font-weight: 600;
-          &::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            bottom: 0;
-            left: 0;
-            background-color: var(--bc-tab-active);
-          }
         }
       }
-    }
-    &__below {
-      padding: 0 24px;
-      .table-wallet {
-        .amount-decrease {
-          color: var(--bc-status-error);
-        }
-        .amount-increase {
-          color: var(--bc-status-success);
+      .tab-active {
+        color: var(--bc-tab-active);
+        font-weight: 600;
+        &::after {
+          content: '';
+          position: absolute;
+          width: 100%;
+          height: 2px;
+          bottom: 0;
+          left: 0;
+          background-color: var(--bc-tab-active);
         }
       }
     }
   }
+  &__below {
+    padding: 0 24px;
+    .table-wallet {
+      .amount-decrease {
+        color: var(--bc-status-error);
+      }
+      .amount-increase {
+        color: var(--bc-status-success);
+      }
+    }
+  }
+}
 </style>
