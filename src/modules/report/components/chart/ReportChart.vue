@@ -4,8 +4,8 @@
       <div class="cards bg-white">
         <div class="card user">
           <div class="card-title">
-            <base-icon icon="menu-member" size="40" />
-            <p>User</p>
+            <base-icon icon="user2" size="40" />
+            <p>{{ $t('report.card.user') }}</p>
           </div>
           <div class="card-value">
             <p>{{ this.dataChart.totalUser }}</p>
@@ -13,8 +13,8 @@
         </div>
         <div class="card number-of-user">
           <div class="card-title">
-            <base-icon icon="menu-member" size="40" />
-            <p>Số người đăng nhập</p>
+            <base-icon icon="user-login" size="40" />
+            <p>{{ $t('report.card.totalUserLogin') }}</p>
           </div>
           <div class="card-value">
             <p>{{ this.dataChart.totalUserLogin }}</p>
@@ -22,8 +22,8 @@
         </div>
         <div class="card percentage-login">
           <div class="card-title">
-            <base-icon icon="menu-member" size="40" />
-            <p>Tỉ lệ đăng nhập</p>
+            <base-icon icon="chart-report" size="40" />
+            <p>{{ $t('report.card.percentUserLogin') }}</p>
           </div>
           <div class="card-value">
             <p>{{ this.dataChart.percentUserLogin }}%</p>
@@ -102,7 +102,8 @@ export default class ReportChart extends Vue {
           justify-content: space-between;
           align-items: center;
           p {
-            font-size: 14.26px;
+            font-size: 20px;
+            padding-left: 12px;
           }
         }
         .card-value {
@@ -110,6 +111,9 @@ export default class ReportChart extends Vue {
           font-size: 30px;
           line-height: 48px;
           font-weight: 700;
+          p {
+            padding-left: 12px;
+          }
         }
       }
       .user {

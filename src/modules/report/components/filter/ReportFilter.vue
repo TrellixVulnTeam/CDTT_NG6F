@@ -21,13 +21,13 @@
     <el-button class="btn-default btn-close btn-h-40 ml-auto be-flex align-center" style="width: auto !important" @click="handleExport">
       <div class="be-flex align-center" @click="viewTable('table')">
         <!-- <base-icon icon="icon-table" style="display: inline-flex" size="22" /> -->
-
+        <base-icon icon="list-solid" style="display: inline-flex" size="22" />
         <span style="padding-left: 5px">{{ $t('button.change-table') }}</span>
       </div>
     </el-button>
     <el-button class="btn-default btn-close btn-h-40 ml-auto be-flex align-center" style="width: auto !important" @click="handleExport">
       <div class="be-flex align-center" @click="viewChart('chart')">
-        <i class="el-icon-s-marketing"></i>
+        <base-icon icon="chart-line-solid" style="display: inline-flex" size="22" />
         <span style="padding-left: 5px">{{ $t('button.change-chart') }}</span>
       </div>
     </el-button>

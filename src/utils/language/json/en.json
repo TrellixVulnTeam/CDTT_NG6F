@@ -994,6 +994,11 @@
       "last30Days": "Last 30 days",
       "last90Days": "Last 90 days",
       "last14Days": "Last 14 days"
+    },
+    "card": {
+      "user": "User",
+      "totalUserLogin": "Total user login",
+      "percentUserLogin": "Percent user login"
     }
   }
 }

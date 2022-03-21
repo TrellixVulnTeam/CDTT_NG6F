@@ -4,7 +4,7 @@
       <div class="cards bg-white">
         <div class="card web">
           <div class="card-title">
-            <base-icon icon="menu-member" size="40" />
+            <base-icon icon="web" size="40" />
             <p>Web</p>
           </div>
           <div class="card-value">
@@ -13,7 +13,7 @@
         </div>
         <div class="card android">
           <div class="card-title">
-            <base-icon icon="menu-member" size="40" />
+            <base-icon icon="android" size="40" />
             <p>Android</p>
           </div>
           <div class="card-value">
@@ -22,7 +22,7 @@
         </div>
         <div class="card ios">
           <div class="card-title">
-            <base-icon icon="menu-member" size="40" />
+            <base-icon icon="apple" size="40" />
             <p>IOS</p>
           </div>
           <div class="card-value">
@@ -101,6 +101,7 @@ export default class DeviceChart extends Vue {
           align-items: center;
           p {
             font-size: 20px;
+            padding-left: 12px;
           }
         }
         .card-value {
@@ -108,6 +109,9 @@ export default class DeviceChart extends Vue {
           font-size: 30px;
           line-height: 48px;
           font-weight: 700;
+          p {
+            padding-left: 12px;
+          }
         }
       }
       .web {
