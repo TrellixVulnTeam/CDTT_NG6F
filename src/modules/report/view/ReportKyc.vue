@@ -60,10 +60,8 @@
         totalUser: result.totalUser
       }
       this.dataChart = result
-      console.log('h', this.dataChart)
-      // this.responseList = result.content
-      // this.query.total = result.totalElements
     }
+
     handleChangeTab(tab): void {
       console.log('tab', this.$route.name)
       this.$router.push({ name: tab.routeName }).then(() => {
@@ -73,9 +71,13 @@
     }
     viewType = 'table'
     async created(): Promise<void> {
+      EventBus.$on('filterByDay', this.handleFilterByDay)
       EventBus.$on('changeView', this.changeView)
       this.getDataChart()
       const name = this.$route.name!
+    }
+    handleFilterByDay(value: string | number): void {
+      console.log('p', value)
     }
     changeView(value: string): void {
       console.log('value', value)

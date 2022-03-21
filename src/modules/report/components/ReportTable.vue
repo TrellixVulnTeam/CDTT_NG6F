@@ -47,7 +47,7 @@
       search: '',
       limit: 10,
       page: 1,
-      orderBy: '',
+      orderBy: 'LAST_LOGIN',
       total: 0
     }
     get getPaginationInfo(): any {
@@ -74,23 +74,68 @@
     async getListUser(): Promise<void> {
       const params = {
         ...this.query,
-        total: '',
-        fromDate: '2022-01-04 08:12:17',
-        toDate: '2022-12-11 08:12:17'
+        total: ''
+        // fromDate: '2022-01-04 08:12:17',
+        // toDate: '2022-12-11 08:12:17'
       }
       console.log('params', params)
       const result = await api.getListUserReport(params)
       this.responseList = result.content
       this.query.total = result.totalElements
     }
-    async created(): Promise<void> {
-      this.getListUser()
 
+    async created(): Promise<void> {
+      this.query.fromDate = this.checkTime(7)
+      this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
+      this.getListUser()
+      // this.getFromDateTodate()
       EventBus.$on('filterReport', this.handleFilterReport)
       EventBus.$on('filterByDay', this.handleFilterByDay)
     }
     handleFilterByDay(value: string | number): void {
-      console.log('value', value)
+      console.log('value123', value)
+      if (value == 'yesterday') {
+        this.query.fromDate = this.checkTime(1)
+        this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
+      } else if (value == 'last7Days') {
+        this.query.fromDate = this.checkTime(7)
+        this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
+      } else if (value == 'last14Days') {
+        this.query.fromDate = this.checkTime(14)
+        this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
+      } else if (value == 'last30Days') {
+        this.query.fromDate = this.checkTime(30)
+        this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
+      } else if (value == 'last90Days') {
+        this.query.fromDate = this.checkTime(90)
+        this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
+      }
+      this.getListUser()
+    }
+    checkTime(day: number): string {
+      const time = new Date(Date.now() - day * 24 * 60 * 60 * 1000).setHours(0, 0, 0)
+      return this.formatTimestamp(time)
+    }
+    formatTimestamp(value: number): string {
+      if (!value) {
+        return ''
+      }
+      const gmt = new Date().getTimezoneOffset() / -60
+      const ago = value - gmt * 60 * 60 * 1000
+      const date = new Date(ago)
+      return (
+        date.getFullYear() +
+        '-' +
+        (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+        '-' +
+        (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
+        ' ' +
+        (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) +
+        ':' +
+        (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) +
+        ':' +
+        (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds())
+      )
     }
     handleFilterReport(value: any): void {
       console.log('value', value)

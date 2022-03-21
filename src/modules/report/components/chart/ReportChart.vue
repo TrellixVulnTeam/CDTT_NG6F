@@ -50,6 +50,11 @@
 <script lang="ts">
   import { Component, Vue, Prop } from 'vue-property-decorator'
   import LineChart from './lineChart.vue'
+  import EventBus from '@/utils/eventBus'
+  import getRepository from '@/services'
+  import ReportRepository from '@/services/repositories/report'
+  // import ReportChart from './chart/ReportChart.vue'
+  const api: ReportRepository = getRepository('report')
   @Component({ components: { LineChart } })
   export default class ReportChart extends Vue {
     @Prop({ required: true, type: Array, default: [] }) dataChart!: Array<Record<string, any>>
@@ -61,9 +66,16 @@
         key: 'value'
       }
     ]
-    created(): void {
-      console.log('dataaa', this.dataChart)
+    query: Record<string, any> = {
+      fromDate: '',
+      toDate: ''
     }
+    
+    created(): void {
+      // this.getDataChart()
+    }
+  
+   
   }
 </script>
 

@@ -44,7 +44,7 @@
     @Prop({ required: true }) isChangeTab!: boolean
     filter = {
       search: '',
-      filter: 'last7Days',
+      date: 'last7Days',
       orderBy: 3
     }
     lang = 'en'
@@ -82,12 +82,14 @@
       this.searchText(value)
     }
 
-    @Watch('filter.date') handleFilter(value: string): void {
-      // this.filterItem(value)
-      console.log('value', value)
+    // @Watch('filter.date') handleFilter(value: string): void {
+    //   // this.filterItem(value)
+    //   console.log('value', value)
+    //   EventBus.$emit('filterByDay', value)
+    // }
+    handleSeclectFilter(value: string): void {
       EventBus.$emit('filterByDay', value)
     }
-
     // get getRoleExport(): boolean {
     //   return this.checkPemission('crowd-sale', ['export'])
     // }
@@ -131,7 +133,7 @@
     resetFilter(): void {
       this.filter = {
         search: '',
-        filter: 'last7Days',
+        date: 'last7Days',
         orderBy: 3
       }
     }

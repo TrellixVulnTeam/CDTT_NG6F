@@ -10,6 +10,9 @@
   import forEach from 'lodash/forEach'
   import getRepository from '@/services'
   import ReportRepository from '@/services/repositories/report'
+
+  import EventBus from '@/utils/eventBus'
+
   const api: ReportRepository = getRepository('report')
   @Component
   export default class lineChart extends Vue {
@@ -23,27 +26,65 @@
       }
       const result = await api.getDataChart(params)
       this.data = result.numOfUserLoginByDay
-      // for (let i = 0; i <= this.data.length; i++) {
-      //   console.log('this', this.data[i])
-      //   const a = {
-      //     ios: 20,
-      //     web: 30,
-      //     android: 40
-      //   }
-      //   this.data[i] = {
-      //     ...this.data[i],
-      //     ...a
-      //   }
-      // }
       this.renderChart()
       // this.responseList = result.content
       // this.query.total = result.totalElements
     }
-
-    created(): void {
+    query: Record<string, any> = {
+      fromDate: '',
+      toDate: ''
+    }
+    async created(): Promise<void> {
+      EventBus.$on('filterByDay', this.handleFilterByDay)
       this.getDataChart()
     }
-
+    checkTime(day: number): string {
+      const time = new Date(Date.now() - day * 24 * 60 * 60 * 1000).setHours(0, 0, 0)
+      return this.formatTimestamp(time)
+    }
+    formatTimestamp(value: number): string {
+      if (!value) {
+        return ''
+      }
+      const gmt = new Date().getTimezoneOffset() / -60
+      const ago = value - gmt * 60 * 60 * 1000
+      const date = new Date(ago)
+      return (
+        date.getFullYear() +
+        '-' +
+        (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+        '-' +
+        (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
+        ' ' +
+        (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) +
+        ':' +
+        (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) +
+        ':' +
+        (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds())
+      )
+    }
+    handleFilterByDay(value: string | number): void {
+      console.log('2323', value)
+      if (value == 'yesterday') {
+        this.query.fromDate = this.checkTime(1)
+        this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
+      } else if (value == 'last7Days') {
+        this.query.fromDate = this.checkTime(7)
+        this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
+      } else if (value == 'last14Days') {
+        this.query.fromDate = this.checkTime(14)
+        this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
+      } else if (value == 'last30Days') {
+        this.query.fromDate = this.checkTime(30)
+        this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
+      } else if (value == 'last90Days') {
+        this.query.fromDate = this.checkTime(90)
+        this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
+      }
+      this.getDataChart()
+      // console.log("query", this.query)
+      // this.getListUser()
+    }
     renderChart(): void {
       am4core.useTheme(am4themes_animated)
       let chart = am4core.create('chartdiv', am4charts.XYChart)
