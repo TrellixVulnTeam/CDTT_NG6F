@@ -2,28 +2,28 @@
   <div class="report-chart bg-white">
     <div class="chart w-100">
       <div class="cards bg-white">
-        <div class="card">
+        <div class="card user">
           <div class="card-title">
-            <base-icon icon="menu-member" size="40" />
-            <p>User</p>
+            <base-icon icon="user2" size="40" />
+            <p>{{ $t('report.card.user') }}</p>
           </div>
           <div class="card-value">
             <p>{{ this.dataChart.totalUser }}</p>
           </div>
         </div>
-        <div class="card">
+        <div class="card number-of-user">
           <div class="card-title">
-            <base-icon icon="menu-member" size="40" />
-            <p>Số người đăng nhập</p>
+            <base-icon icon="user-login" size="40" />
+            <p>{{ $t('report.card.totalUserLogin') }}</p>
           </div>
           <div class="card-value">
             <p>{{ this.dataChart.totalUserLogin }}</p>
           </div>
         </div>
-        <div class="card">
+        <div class="card percentage-login">
           <div class="card-title">
-            <base-icon icon="menu-member" size="40" />
-            <p>Tỉ lệ đăng nhập</p>
+            <base-icon icon="chart-report" size="40" />
+            <p>{{ $t('report.card.percentUserLogin') }}</p>
           </div>
           <div class="card-value">
             <p>{{ this.dataChart.percentUserLogin }}%</p>
@@ -75,65 +75,78 @@
       // this.getDataChart()
       console.log('hhh', this.dataChart)
     }
-  }
+ 
+}
 </script>
 
 <style lang="scss" scoped>
-  .report-chart {
-    padding: 0 25px;
-    .chart {
-      .cards {
+.report-chart {
+  padding: 0 25px;
+  .chart {
+    .cards {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      border-radius: 15px;
+      .card {
+        color: #fff;
+        margin: 12px 12px;
+        width: 33.33333%;
         display: flex;
-        align-items: center;
-        justify-content: space-around;
+        flex-direction: column;
+        box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
         border-radius: 15px;
-        .card {
-          color: #fff;
+        .card-title {
           margin: 12px 12px;
-          width: 33.33333%;
           display: flex;
-          flex-direction: column;
-          box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
-          border-radius: 15px;
-          background: linear-gradient(90deg, #e13635, #eb6651 80%, #eb6651);
-          .card-title {
-            margin: 12px 12px;
-            display: flex;
-            flex-direction: row-reverse;
-            justify-content: space-between;
-            align-items: center;
-            p {
-              font-size: 14.26px;
-            }
+          flex-direction: row-reverse;
+          justify-content: space-between;
+          align-items: center;
+          p {
+            font-size: 20px;
+            padding-left: 12px;
           }
-          .card-value {
-            margin: 12px 12px;
-            font-size: 30px;
-            line-height: 48px;
-            font-weight: 700;
+        }
+        .card-value {
+          margin: 12px 12px;
+          font-size: 30px;
+          line-height: 48px;
+          font-weight: 700;
+          p {
+            padding-left: 12px;
           }
         }
       }
-      .detail {
-        margin: 12px;
-        box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
-        .detail-title {
-          p {
-            font-size: 18px;
-            padding: 10px;
-            color: #363636;
-            font-weight: 600;
-          }
+      .user {
+        background: linear-gradient(90deg, #e13635, #eb6651 80%, #eb6651);
+      }
+      .number-of-user {
+        background: linear-gradient(90deg, #0f68da, #0f68da 30%, #318bff);
+      }
+      .percentage-login {
+        background-image: linear-gradient(90deg, #3f9d2e, #4fc43a);
+      }
+    }
+    .detail {
+      margin: 12px;
+      box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
+      .detail-title {
+        p {
+          font-size: 18px;
+          padding: 10px;
+          color: #363636;
+          font-weight: 600;
         }
-        .detail-line {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          .icon {
-            padding-right: 10px;
-          }
+      }
+      .detail-line {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .icon {
+          padding-right: 10px;
         }
       }
     }
   }
+}
 </style>

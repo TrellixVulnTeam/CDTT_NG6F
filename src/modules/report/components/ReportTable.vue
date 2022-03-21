@@ -10,22 +10,21 @@
         @rowClick="handleRowClick"
         class="base-table table-wallet"
       >
-        <el-table-column label="#" type="index" :index="indexMethod" align="center" width="80" />
-        <el-table-column :label="$t('report.table.member')" width="530">
+        <el-table-column label="#" type="index" :index="indexMethod" align="center" width="100" />
+        <el-table-column :label="$t('report.table.fullName')" min-width="200">
           <template class="flex-center-vert" slot-scope="scope">
-            <div class="abc">
-              <span prop="totalLogin"
-                ><img
-                  src="https://scontent.fhan5-3.fna.fbcdn.net/v/t39.30808-6/260223685_885672385457979_8716466637580782529_n.jpg?stp=dst-jpg_s960x960&_nc_cat=106&ccb=1-5&_nc_sid=8631f5&_nc_ohc=ObpK-qhpmeAAX-ZawbM&_nc_ht=scontent.fhan5-3.fna&oh=00_AT_UwgP8xglUupsJAUyHTJbId1LO9xC_2xCQM6zYkrxUAQ&oe=6237359D"
-                  alt="gang-world"
-              /></span>
+            <div>
               <span>{{ scope.row.fullName }}</span>
             </div>
           </template>
         </el-table-column>
         <el-table-column :label="$t('report.table.email')" prop="username" min-width="200"> </el-table-column>
-        <el-table-column :label="$t('report.table.device')" prop="device" width="400"> </el-table-column>
-        <el-table-column :label="$t('report.table.accessTime')" prop="totalLogin" align="center" width="200"></el-table-column>
+        <el-table-column :label="$t('report.table.lastTimeLogin')" prop="lastLoginDate" width="200">
+          <template slot-scope="scope">
+            <span>{{ scope.row.lastLoginDate | formatDateHourMs }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('report.table.totalLogin')" prop="totalLogin" align="right" width="200"></el-table-column>
       </base-table>
     </div>
     <!-- <report-chart /> -->

@@ -955,10 +955,12 @@
   },
   "report": {
     "table": {
+      "fullName": "Họ tên",
       "member": "Nhân sự",
       "email": "Email",
       "device": "Thiết bị",
-      "accessTime": "Số lần đăng nhập"
+      "totalLogin": "Số lần đăng nhập",
+      "lastTimeLogin": "Lần đăng nhập cuối"
     },
     "filter": {
       "last7Days": "7 ngày gần đây",
@@ -966,6 +968,11 @@
       "last30Days": "30 ngày gần đây",
       "last90Days": "90 ngày gần đây",
       "last14Days": "14 ngày gần đây"
+    },
+    "card": {
+      "user": "Người dùng",
+      "totalUserLogin": "Số người đăng nhập",
+      "percentUserLogin": "Tỉ lệ đăng nhập"
     }
   }
 }
