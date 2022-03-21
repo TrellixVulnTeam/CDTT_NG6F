@@ -21,35 +21,16 @@
     data: any = []
     chartData: any = []
     chartReportData() {
-      const resultWeb: any = []
+      const result: any = []
       for (let i = 0; i < this.chartData.numOfWebLoginByDay.length; i++) {
-        resultWeb.push({
+        result.push({
           date: this.chartData.numOfWebLoginByDay[i].date,
-          value: this.chartData.numOfWebLoginByDay[i].value,
-          key:'Web'
+          Web: this.chartData.numOfWebLoginByDay[i].value,
+          Android: this.chartData.numOfAndroidLoginByDay[i].value,
+          IOS: this.chartData.numOfIOSLoginByDay[i].value
         })
       }
-      const resultAndroid: any = []
-      for (let i = 0; i < this.chartData.numOfAndroidLoginByDay.length; i++) {
-        resultAndroid.push({
-          date: this.chartData.numOfAndroidLoginByDay[i].date,
-          value: this.chartData.numOfAndroidLoginByDay[i].value,
-          key:'Android'
-        })
-      }
-      const resultIos: any = []
-      for (let i = 0; i < this.chartData.numOfIOSLoginByDay.length; i++) {
-        resultIos.push({
-          date: this.chartData.numOfIOSLoginByDay[i].date,
-          value: this.chartData.numOfIOSLoginByDay[i].value,
-          key:'Ios'
-        })
-      }
-
-      const result = [...resultWeb, ...resultAndroid, ...resultIos]
-      return sortBy(result, o => {
-        return o.date
-      })
+      return result
     }
     async getDataChart(): Promise<void> {
       const params = {
@@ -58,7 +39,7 @@
         timezone: new Date().getTimezoneOffset() / -60
       }
       const result = await api.getDataChart(params)
-      
+
       this.data = result.numOfUserLoginByDay
       this.renderChart()
     }
