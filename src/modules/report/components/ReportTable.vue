@@ -83,7 +83,56 @@
       this.responseList = result.content
       this.query.total = result.totalElements
     }
-
+    checkTimeFromDate(day: number): string {
+      const time = new Date(Date.now() - day * 24 * 60 * 60 * 1000).setHours(0, 0, 0)
+      return this.formatTimestampFromDate(time)
+    }
+    checkTimeToDate(): string {
+      const time = new Date(Date.now()).setHours(0, 0, 0)
+      return this.formatTimestampToDate(time)
+    }
+    formatTimestampToDate(value: number): string {
+      if (!value) {
+        return ''
+      }
+      // const gmt = new Date().getTimezoneOffset() / -60
+      // const ago = value - gmt * 60 * 60 * 1000
+      const date = new Date(value)
+      return (
+        date.getFullYear() +
+        '-' +
+        (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+        '-' +
+        (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
+        ' ' +
+        '23' +
+        ':' +
+        '59' +
+        ':' +
+        '59'
+      )
+    }
+    formatTimestampFromDate(value: number): string {
+      if (!value) {
+        return ''
+      }
+      // const gmt = new Date().getTimezoneOffset() / -60
+      // const ago = value - gmt * 60 * 60 * 1000
+      const date = new Date(value)
+      return (
+        date.getFullYear() +
+        '-' +
+        (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+        '-' +
+        (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
+        ' ' +
+        '00' +
+        ':' +
+        '00' +
+        ':' +
+        '00'
+      )
+    }
     async created(): Promise<void> {
       this.query.fromDate = this.checkTime(7)
       this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
@@ -93,7 +142,6 @@
       EventBus.$on('filterByDay', this.handleFilterByDay)
     }
     handleFilterByDay(value: string | number): void {
-      console.log('value123', value)
       if (value == 'yesterday') {
         this.query.fromDate = this.checkTime(1)
         this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)

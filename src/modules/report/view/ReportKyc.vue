@@ -13,7 +13,7 @@
     </div>
     <report-filter />
     <report-table v-if="this.$route.name == 'ReportUser' && this.viewType == 'table'" />
-    <report-chart v-else-if="this.$route.name == 'ReportUser' && this.viewType == 'chart'" :dataChart="dataChart" />
+    <report-chart v-else-if="this.$route.name == 'ReportUser' && this.viewType == 'chart'" :dataChart="dataChart"  />
 
     <device-table v-else-if="this.$route.name == 'ReportDevice' && this.viewType == 'table'" />
     <device-chart v-else-if="this.$route.name == 'ReportDevice' && this.viewType == 'chart'" :dataChartDevice="dataChartDevice" />
@@ -46,7 +46,7 @@
       }
     ]
     dataHeader: any = {}
-    dataChart: any = []
+    dataChart: any = {}
     dataChartDevice: any = {}
     async getDataChart(): Promise<void> {
       const params = {
@@ -54,13 +54,10 @@
         toDate: ''
       }
       const result = await api.getDataChart(params)
-      console.log('result', result)
-      this.dataHeader = {
-        percentUserLogin: result.percentUserLogin,
-        totalUserLogin: result.totalUserLogin,
-        totalUser: result.totalUser
-      }
+      
+    
       this.dataChart = result
+      console.log('2121',result)
     }
     async getDataChartDevice(): Promise<void> {
       const params = {
@@ -69,11 +66,7 @@
       }
       const result = await api.getDataChartDevice(params)
       console.log('result', result)
-      this.dataHeader = {
-        percentUserLogin: result.percentUserLogin,
-        totalUserLogin: result.totalUserLogin,
-        totalUser: result.totalUser
-      }
+     
       this.dataChartDevice = result
     }
 

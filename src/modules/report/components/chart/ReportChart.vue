@@ -40,7 +40,7 @@
         </div> -->
 
         <div class="line-chart bg-white">
-          <line-chart :dataLine="this.dataChart.numOfUserLoginByDay" :lines="lines" />
+          <line-chart  :lines="lines" />
         </div>
       </div>
     </div>
@@ -73,6 +73,7 @@
 
     created(): void {
       // this.getDataChart()
+      console.log('hhh', this.dataChart)
     }
   }
 </script>
