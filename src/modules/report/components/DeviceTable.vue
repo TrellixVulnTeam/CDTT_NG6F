@@ -87,7 +87,7 @@
       EventBus.$on('filterReport', this.handleFilterReport)
       EventBus.$on('filterByDay', this.handleFilterByDay)
     }
-  
+
     handleFilterByDay(value: string | number): void {
       console.log('value123', value)
       if (value == 'yesterday') {

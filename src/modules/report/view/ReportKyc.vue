@@ -16,7 +16,7 @@
     <report-chart v-else-if="this.$route.name == 'ReportUser' && this.viewType == 'chart'" :dataChart="dataChart" />
 
     <device-table v-else-if="this.$route.name == 'ReportDevice' && this.viewType == 'table'" />
-    <device-chart v-else-if="this.$route.name == 'ReportDevice' && this.viewType == 'chart'" :dataChart="dataChart" />
+    <device-chart v-else-if="this.$route.name == 'ReportDevice' && this.viewType == 'chart'" :dataChartDevice="dataChartDevice" />
   </div>
 </template>
 
@@ -47,6 +47,7 @@
     ]
     dataHeader: any = {}
     dataChart: any = []
+    dataChartDevice: any = {}
     async getDataChart(): Promise<void> {
       const params = {
         fromDate: '',
@@ -73,7 +74,7 @@
         totalUserLogin: result.totalUserLogin,
         totalUser: result.totalUser
       }
-      this.dataChart = result
+      this.dataChartDevice = result
     }
 
     handleChangeTab(tab): void {

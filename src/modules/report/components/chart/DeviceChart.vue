@@ -7,26 +7,32 @@
             <base-icon icon="menu-member" size="40" />
             <p>Web</p>
           </div>
-          <div class="card-value"><p>28</p></div>
+          <div class="card-value">
+            <p>{{ this.dataChartDevice.totalWebLogin }}</p>
+          </div>
         </div>
         <div class="card">
           <div class="card-title">
             <base-icon icon="menu-member" size="40" />
             <p>Android</p>
           </div>
-          <div class="card-value"><p>33</p></div>
+          <div class="card-value">
+            <p>{{ this.dataChartDevice.totalAndroidLogin }}</p>
+          </div>
         </div>
         <div class="card">
           <div class="card-title">
             <base-icon icon="menu-member" size="40" />
             <p>IOS</p>
           </div>
-          <div class="card-value"><p>84%</p></div>
+          <div class="card-value">
+            <p>{{ this.dataChartDevice.totalIOSLogin }}</p>
+          </div>
         </div>
       </div>
       <div class="detail wallet-table bg-white">
         <div class="detail-title">
-          <p>Biểu đồ đăng nhập hệ thống</p>
+          <p>Biểu đồ thiết bị sử dụng</p>
         </div>
         <!-- <div class="detail-line">
           <base-icon class="icon" icon="menu-member" size="40" />
@@ -42,10 +48,11 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator'
+  import { Component, Vue, Prop } from 'vue-property-decorator'
   import LineChart from './lineChart.vue'
   @Component({ components: { LineChart } })
   export default class DeviceChart extends Vue {
+    @Prop({ required: true, type: Array, default: [] }) dataChartDevice!: Array<Record<string, any>>
     lines: Array<Record<string, any>> = [
       {
         label: 'Web',
@@ -63,6 +70,9 @@
         key: 'IOS'
       }
     ]
+    created(): void {
+      console.log('abc', this.dataChartDevice)
+    }
   }
 </script>
 
