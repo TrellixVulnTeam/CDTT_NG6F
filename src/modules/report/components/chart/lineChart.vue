@@ -21,8 +21,9 @@
     data: any = []
     async getDataChart(): Promise<void> {
       const params = {
-        fromDate: '2022-03-04 08:12:17',
-        toDate: '2022-03-14 08:12:17'
+        fromDate: this.query.fromDate,
+        toDate: this.query.toDate,
+        timezone: new Date().getTimezoneOffset() / -60
       }
       const result = await api.getDataChart(params)
       this.data = result.numOfUserLoginByDay
@@ -31,8 +32,8 @@
       // this.query.total = result.totalElements
     }
     query: Record<string, any> = {
-      fromDate: '',
-      toDate: ''
+      fromDate: this.checkTime(7),
+      toDate: this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
     }
     async created(): Promise<void> {
       EventBus.$on('filterByDay', this.handleFilterByDay)
