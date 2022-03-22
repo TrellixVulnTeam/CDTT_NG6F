@@ -18,6 +18,7 @@
             </div>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('report.table.email')" prop="username" min-width="200"> </el-table-column>
         <el-table-column :label="$t('report.table.device')" prop="device" width="400"> </el-table-column>
         <el-table-column :label="$t('report.table.totalLogin')" prop="totalLogin" align="right" width="200"></el-table-column>
       </base-table>

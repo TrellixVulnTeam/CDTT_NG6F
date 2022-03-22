@@ -214,7 +214,8 @@
     "request": "requests",
     "balance": "balance",
     "member": "members",
-    "buyer": "buyers"
+    "buyer": "buyers",
+    "times": "times"
   },
   "label": {
     "invalid-amount": "Invalid amount",
@@ -994,6 +995,10 @@
       "last30Days": "Last 30 days",
       "last90Days": "Last 90 days",
       "last14Days": "Last 14 days"
+    },
+    "chart": {
+      "systemLoginChart": "System login chart",
+      "deviceUsageChart": "Device usage chart"
     },
     "card": {
       "user": "User",

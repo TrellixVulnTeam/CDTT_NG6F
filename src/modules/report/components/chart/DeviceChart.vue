@@ -4,7 +4,7 @@
       <div class="cards bg-white">
         <div class="card web">
           <div class="card-title">
-            <base-icon icon="web" size="40" />
+            <base-icon class="icon" icon="web" size="40" />
             <p>Web</p>
           </div>
           <div class="card-value">
@@ -13,7 +13,7 @@
         </div>
         <div class="card android">
           <div class="card-title">
-            <base-icon icon="android" size="40" />
+            <base-icon class="icon" icon="android" size="40" />
             <p>Android</p>
           </div>
           <div class="card-value">
@@ -22,7 +22,7 @@
         </div>
         <div class="card ios">
           <div class="card-title">
-            <base-icon icon="apple" size="40" />
+            <base-icon class="icon" icon="apple" size="40" />
             <p>IOS</p>
           </div>
           <div class="card-value">
@@ -32,7 +32,7 @@
       </div>
       <div class="detail wallet-table bg-white">
         <div class="detail-title">
-          <p>Biểu đồ thiết bị sử dụng</p>
+          <p>{{ $t('report.chart.deviceUsageChart') }}</p>
         </div>
         <!-- <div class="detail-line">
           <base-icon class="icon" icon="menu-member" size="40" />
