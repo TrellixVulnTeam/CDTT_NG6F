@@ -175,24 +175,24 @@ export default class KycFilter extends Vue {
           color: var(--bc-theme-primary) !important;
         }
       }
-    }
 
-    .sort-title {
-      &:focus {
-        color: var(--bc-theme-primary);
-        .span-icon {
-          color: var(--bc-theme-primary) !important;
+      .sort-title {
+        &:focus {
+          color: var(--bc-theme-primary);
+          .span-icon {
+            color: var(--bc-theme-primary) !important;
+          }
         }
       }
     }
-  }
 
-  ::v-deep .filter-role {
-    .el-select {
-      .el-input__inner {
-        height: 48px;
-        width: 140px;
-        font-size: 16px;
+    ::v-deep .filter-role {
+      .el-select {
+        .el-input__inner {
+          height: 48px;
+          width: 140px;
+          font-size: 16px;
+        }
       }
     }
   }
