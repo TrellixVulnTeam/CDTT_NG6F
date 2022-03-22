@@ -50,7 +50,7 @@ export default class ReportTable extends Vue {
     total: 0
   }
   get getPaginationInfo(): any {
-    return this.$t('paging.user')
+    return this.$t('paging.times')
   }
   indexMethod(index: number): number {
     return (this.query.page - 1) * this.query.limit + index + 1

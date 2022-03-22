@@ -18,16 +18,16 @@
         <span style="padding-left: 5px">{{ $t('button.export-excel') }}</span>
       </div>
     </el-button>
-    <el-button class="btn-default btn-close btn-h-40 ml-auto be-flex align-center" style="width: auto !important" @click="handleExport">
-      <div class="be-flex align-center" @click="viewTable('table')">
+    <el-button class="btn-default btn-close btn-h-40 ml-auto be-flex align-center button" style="width: auto !important" @click="handleExport">
+      <div class="be-flex align-center" @click="viewTable('table')" :class="active">
         <!-- <base-icon icon="icon-table" style="display: inline-flex" size="22" /> -->
-        <base-icon icon="list-solid" style="display: inline-flex" size="22" />
+        <base-icon icon="list2" style="display: inline-flex" />
         <span style="padding-left: 5px">{{ $t('button.change-table') }}</span>
       </div>
     </el-button>
-    <el-button class="btn-default btn-close btn-h-40 ml-auto be-flex align-center" style="width: auto !important" @click="handleExport">
-      <div class="be-flex align-center" @click="viewChart('chart')">
-        <base-icon icon="chart-line-solid" style="display: inline-flex" size="22" />
+    <el-button class="btn-default btn-close btn-h-40 ml-auto be-flex align-center button" style="width: auto !important" @click="handleExport">
+      <div class="be-flex align-center" @click="viewChart('chart')" :class="active">
+        <base-icon icon="chart2" style="display: inline-flex" size="20" />
         <span style="padding-left: 5px">{{ $t('button.change-chart') }}</span>
       </div>
     </el-button>
@@ -151,7 +151,9 @@ export default class KycFilter extends Vue {
 .kyc-filter {
   background-color: #fff;
   padding: 24px;
-
+  .button {
+    height: 46px;
+  }
   .input-search {
     width: 400px;
     margin-right: 30px;
@@ -162,7 +164,9 @@ export default class KycFilter extends Vue {
     cursor: pointer;
     color: #0a0b0d;
   }
-
+  .active {
+    --bc-text-hyperlink: #0151fc;
+  }
   ::v-deep .sort {
     &:hover {
       .el-dropdown-selfdefine {

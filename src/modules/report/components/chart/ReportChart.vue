@@ -4,7 +4,7 @@
       <div class="cards bg-white">
         <div class="card user">
           <div class="card-title">
-            <base-icon icon="user2" size="40" />
+            <base-icon class="icon" icon="user2" size="40" />
             <p>{{ $t('report.card.user') }}</p>
           </div>
           <div class="card-value">
@@ -13,7 +13,7 @@
         </div>
         <div class="card number-of-user">
           <div class="card-title">
-            <base-icon icon="user-login" size="40" />
+            <base-icon class="icon" icon="user-login" size="40" />
             <p>{{ $t('report.card.totalUserLogin') }}</p>
           </div>
           <div class="card-value">
@@ -22,7 +22,7 @@
         </div>
         <div class="card percentage-login">
           <div class="card-title">
-            <base-icon icon="chart-report" size="40" />
+            <base-icon class="icon" icon="chart-report" size="40" />
             <p>{{ $t('report.card.percentUserLogin') }}</p>
           </div>
           <div class="card-value">
@@ -32,7 +32,7 @@
       </div>
       <div class="detail wallet-table bg-white">
         <div class="detail-title">
-          <p>Biểu đồ đăng nhập hệ thống</p>
+          <p>{{ $t('report.chart.systemLoginChart') }}</p>
         </div>
         <!-- <div class="detail-line">
           <base-icon class="icon" icon="menu-member" size="40" />
@@ -101,6 +101,9 @@ export default class ReportChart extends Vue {
           flex-direction: row-reverse;
           justify-content: space-between;
           align-items: center;
+          .icon {
+            padding-right: 12px;
+          }
           p {
             font-size: 20px;
             padding-left: 12px;
