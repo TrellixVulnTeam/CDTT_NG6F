@@ -998,7 +998,8 @@
     },
     "chart": {
       "systemLoginChart": "System login chart",
-      "deviceUsageChart": "Device usage chart"
+      "deviceUsageChart": "Device usage chart",
+      "loginTimes": "Login times"
     },
     "card": {
       "user": "User",

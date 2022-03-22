@@ -972,7 +972,8 @@
     },
     "chart": {
       "systemLoginChart": "Biểu đồ đăng nhập hệ thống",
-      "deviceUsageChart": "Biểu đồ thiết bị sử dụng"
+      "deviceUsageChart": "Biểu đồ thiết bị sử dụng",
+      "loginTimes": "Số lần đăng nhập"
     },
     "card": {
       "user": "Người dùng",
