@@ -8,7 +8,8 @@
             <p>Web</p>
           </div>
           <div class="card-value">
-            <p>{{ this.dataChartDevice.totalWebLogin }}</p>
+            <p>30</p>
+            <p>20%</p>
           </div>
         </div>
         <div class="card android">
@@ -18,6 +19,7 @@
           </div>
           <div class="card-value">
             <p>{{ this.dataChartDevice.totalAndroidLogin }}</p>
+            <p>%</p>
           </div>
         </div>
         <div class="card ios">
@@ -27,6 +29,7 @@
           </div>
           <div class="card-value">
             <p>{{ this.dataChartDevice.totalIOSLogin }}</p>
+            <p>%</p>
           </div>
         </div>
       </div>
@@ -108,13 +111,14 @@ export default class DeviceChart extends Vue {
           }
         }
         .card-value {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
           margin: 12px 12px;
           font-size: 30px;
           line-height: 48px;
           font-weight: 700;
-          p {
-            padding-left: 12px;
-          }
+          padding: 0 12px;
         }
       }
       .web {

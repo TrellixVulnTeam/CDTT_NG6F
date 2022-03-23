@@ -78,11 +78,12 @@ export default class BOCustomer extends Vue {
   }
 
   handleChangeTab(tab): void {
-    this.viewType = 'chart'
+    this.viewType = ''
     console.log('tab', this.$route.name)
     this.$router.push({ name: tab.routeName }).then(() => {
       // this.resetQuery()
       // EventBus.$emit('changeTabMember')
+      this.viewType = 'chart'
     })
     if (tab == 'ReportDevice') {
       this.getDataChartDevice()
