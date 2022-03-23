@@ -163,13 +163,15 @@ export default class KycFilter extends Vue {
 <style scoped lang="scss">
 .kyc-filter {
   background-color: #fff;
-  padding: 24px;
-  .button {
-    height: 46px;
-  }
+  padding: 24px 36px;
+
   .input-search {
     width: 400px;
     margin-right: 30px;
+  }
+
+  .button {
+    height: 46px;
   }
   .hidden {
     display: none;
@@ -178,37 +180,14 @@ export default class KycFilter extends Vue {
     color: var(--bc-btn-default-text-hover);
     border-color: var(--bc-btn-default-border-hover);
   }
-  .sort {
-    margin-left: 30px;
-    cursor: pointer;
-    color: #0a0b0d;
-  }
-  ::v-deep .sort {
-    &:hover {
-      .el-dropdown-selfdefine {
-        color: var(--bc-theme-primary);
-        .span-icon {
-          color: var(--bc-theme-primary) !important;
-        }
-      }
 
-      .sort-title {
-        &:focus {
-          color: var(--bc-theme-primary);
-          .span-icon {
-            color: var(--bc-theme-primary) !important;
-          }
-        }
-      }
-    }
-
-    ::v-deep .filter-role {
-      .el-select {
-        .el-input__inner {
-          height: 48px;
-          width: 170px;
-          font-size: 16px;
-        }
+  ::v-deep .filter-role {
+    .el-select {
+      width: 170px;
+      .el-input__inner {
+        height: 48px;
+        width: 170px;
+        font-size: 16px;
       }
     }
   }
