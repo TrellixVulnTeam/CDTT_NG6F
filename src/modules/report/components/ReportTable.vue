@@ -7,7 +7,6 @@
         :paginationInfo="getPaginationInfo"
         @sizeChange="handleSizeChange"
         @currentChange="handleCurrentChange"
-        @rowClick="handleRowClick"
         class="base-table table-wallet"
       >
         <el-table-column label="#" type="index" :index="indexMethod" align="center" width="100" />
