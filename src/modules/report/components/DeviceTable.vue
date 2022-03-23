@@ -11,7 +11,7 @@
         class="base-table table-wallet"
       >
         <el-table-column label="#" type="index" :index="indexMethod" align="center" width="100" />
-        <el-table-column :label="$t('report.table.member')" min-width="200">
+        <el-table-column :label="$t('report.table.fullName')" min-width="200">
           <template class="flex-center-vert" slot-scope="scope">
             <div>
               <span>{{ scope.row.fullName }}</span>

@@ -23,7 +23,7 @@
         <div class="card ios">
           <div class="card-title">
             <base-icon class="icon" icon="apple" size="40" />
-            <p>IOS</p>
+            <p>iOS</p>
           </div>
           <div class="card-value">
             <p>{{ this.dataChartDevice.totalIOSLogin }}</p>
@@ -65,8 +65,8 @@ export default class DeviceChart extends Vue {
       key: 'Android'
     },
     {
-      label: 'IOS',
-      color: '#000',
+      label: 'iOS',
+      color: '#3f9d2e',
       key: 'IOS'
     }
   ]

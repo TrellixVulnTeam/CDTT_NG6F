@@ -47,7 +47,7 @@ export default class BOCustomer extends Vue {
   ]
   dataHeader: any = {}
   dataChart: any = []
-  dataChartDevice: any = {}
+  dataChartDevice: any = []
   async getDataChart(): Promise<void> {
     const params = {
       fromDate: '',
