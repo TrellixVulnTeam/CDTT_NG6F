@@ -47,7 +47,7 @@ export default class BOCustomer extends Vue {
   ]
   dataHeader: any = {}
   dataChart: any = []
-  dataChartDevice: any = {}
+  dataChartDevice: any = []
   async getDataChart(): Promise<void> {
     const params = {
       fromDate: '',
@@ -78,7 +78,6 @@ export default class BOCustomer extends Vue {
   }
 
   handleChangeTab(tab): void {
-    this.viewType = 'chart'
     console.log('tab', this.$route.name)
     this.$router.push({ name: tab.routeName }).then(() => {
       // this.resetQuery()

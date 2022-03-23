@@ -206,7 +206,7 @@ export default class KycFilter extends Vue {
       .el-select {
         .el-input__inner {
           height: 48px;
-          width: 140px;
+          width: 170px;
           font-size: 16px;
         }
       }
