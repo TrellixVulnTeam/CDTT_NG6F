@@ -51,120 +51,120 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
-import LineChart from './lineChart.vue'
-import EventBus from '@/utils/eventBus'
-@Component({ components: { LineChart } })
-export default class DeviceChart extends Vue {
-  @Prop({ required: true, type: Array, default: [] }) dataChartDevice!: Array<Record<string, any>>
-  lines: Array<Record<string, any>> = [
-    {
-      label: 'Web',
-      color: '#E34537',
-      key: 'Web'
-    },
-    {
-      label: 'Android',
-      color: '#1068da',
-      key: 'Android'
-    },
-    {
-      label: 'iOS',
-      color: '#3f9d2e',
-      key: 'IOS'
+  import { Component, Vue, Prop } from 'vue-property-decorator'
+  import LineChart from './lineChart.vue'
+  import EventBus from '@/utils/eventBus'
+  @Component({ components: { LineChart } })
+  export default class DeviceChart extends Vue {
+    @Prop({ required: true, type: Array, default: [] }) dataChartDevice!: Array<Record<string, any>>
+    lines: Array<Record<string, any>> = [
+      {
+        label: 'Web',
+        color: '#E34537',
+        key: 'Web'
+      },
+      {
+        label: 'Android',
+        color: '#1068da',
+        key: 'Android'
+      },
+      {
+        label: 'iOS',
+        color: '#3f9d2e',
+        key: 'IOS'
+      }
+    ]
+    created(): void {
+      EventBus.$on('dataHeaderDevice', this.getDataHeader)
     }
-  ]
-  created(): void {
-    EventBus.$on('dataHeaderDevice', this.getDataHeader)
+    getDataHeader(value: any): void {
+      this.dataChartDevice = value
+      console.log('vla', value)
+    }
   }
-  getDataHeader(value: any): void {
-    this.dataChartDevice = value
-    console.log('vla', value)
-  }
-}
 </script>
 
 <style lang="scss" scoped>
-.device-chart {
-  padding: 0 24px;
-  .chart {
-    .cards {
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      border-radius: 15px;
-      .card {
-        color: #fff;
-        margin: 0px 12px 12px;
-        width: 33.33333%;
-        display: flex;
-        flex-direction: column;
-        box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
-        border-radius: 15px;
-        .card-title {
-          margin: 12px 12px;
-          display: flex;
-          flex-direction: row-reverse;
-          justify-content: space-between;
-          align-items: center;
-          p {
-            font-size: 20px;
-            padding-left: 12px;
-          }
-          .icon {
-            padding-right: 12px;
-          }
-        }
-        .card-value {
-          display: flex;
-          flex-direction: row;
-          justify-content: space-between;
-          margin: 12px 12px;
-          font-size: 30px;
-          line-height: 48px;
-          font-weight: 700;
-          padding: 0 12px;
-        }
-      }
-      .web {
-        background: linear-gradient(90deg, #e13635, #eb6651 80%, #eb6651);
-      }
-      .android {
-        background: linear-gradient(90deg, #0f68da, #0f68da 30%, #318bff);
-      }
-      .ios {
-        background-image: linear-gradient(90deg, #3f9d2e, #4fc43a);
-      }
-    }
-    .detail {
-      margin: 12px;
-      box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
-      .detail-title {
-        p {
-          font-size: 18px;
-          padding: 10px;
-          color: #363636;
-          font-weight: 600;
-        }
-      }
-      .detail-line {
+  .device-chart {
+    padding: 0 24px;
+    .chart {
+      .cards {
         display: flex;
         align-items: center;
-        justify-content: center;
-        .icon {
-          padding-right: 10px;
+        justify-content: space-around;
+        border-radius: 15px;
+        .card {
+          color: #fff;
+          margin: 0px 12px 12px;
+          width: 33.33333%;
+          display: flex;
+          flex-direction: column;
+          box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
+          border-radius: 15px;
+          .card-title {
+            margin: 12px 12px;
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: space-between;
+            align-items: center;
+            p {
+              font-size: 20px;
+              padding-left: 12px;
+            }
+            .icon {
+              padding-right: 12px;
+            }
+          }
+          .card-value {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin: 12px 12px;
+            font-size: 30px;
+            line-height: 48px;
+            font-weight: 700;
+            padding: 0 12px;
+          }
+        }
+        .web {
+          background: linear-gradient(90deg, #e13635, #eb6651 80%, #eb6651);
+        }
+        .android {
+          background: linear-gradient(90deg, #0f68da, #0f68da 30%, #318bff);
+        }
+        .ios {
+          background-image: linear-gradient(90deg, #3f9d2e, #4fc43a);
+        }
+      }
+      .detail {
+        margin: 12px;
+        box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
+        .detail-title {
+          p {
+            font-size: 18px;
+            padding: 10px;
+            color: #363636;
+            font-weight: 600;
+          }
+        }
+        .detail-line {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          .icon {
+            padding-right: 10px;
+          }
         }
       }
     }
   }
-}
-.web {
-  background: linear-gradient(90deg, #e13635, #eb6651 80%, #eb6651);
-}
-.android {
-  background: linear-gradient(90deg, #0f68da, #0f68da 30%, #318bff);
-}
-.ios {
-  background-image: linear-gradient(90deg, #3f9d2e, #4fc43a);
-}
+  .web {
+    background: linear-gradient(90deg, #e13635, #eb6651 80%, #eb6651);
+  }
+  .android {
+    background: linear-gradient(90deg, #0f68da, #0f68da 30%, #318bff);
+  }
+  .ios {
+    background-image: linear-gradient(90deg, #3f9d2e, #4fc43a);
+  }
 </style>
