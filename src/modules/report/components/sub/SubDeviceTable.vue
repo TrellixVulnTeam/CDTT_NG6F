@@ -91,10 +91,10 @@ export default class SubDeviceTable extends Vue {
       display: block;
     }
     span:nth-child(1) {
-      flex-basis: 525px;
+      flex-basis: 500px;
     }
     span:nth-child(2) {
-      flex-basis: 570px;
+      flex-basis: 550px;
       text-align: left;
       display: block;
     }
