@@ -3,7 +3,7 @@
     <div v-for="(item, key) in data" :key="key" class="item">
       <span>{{ item.createdAt | formatDateHourMs }}</span>
 
-      <span>{{ item.device }}</span>
+      <span>{{ item.devicesOsVersion }}</span>
 
       <span>{{ item.deviceName }}</span>
     </div>

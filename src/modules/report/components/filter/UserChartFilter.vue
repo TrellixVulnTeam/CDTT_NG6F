@@ -173,7 +173,8 @@
       const time = `${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}_${date.getHours()}${date.getMinutes()}${date.getSeconds()}`
       // delete this.params.newAuditStatus
       const params = {
-        ...this.query
+        ...this.query,
+        orderBy: 'LAST_NAME'
       }
       await api
         ?.exportExcel(params)

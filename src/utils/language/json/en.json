@@ -1002,7 +1002,7 @@
       "loginTimes": "Login times"
     },
     "card": {
-      "user": "User",
+      "user": "Users",
       "totalUserLogin": "Total user login",
       "percentUserLogin": "Percent user login"
     }
