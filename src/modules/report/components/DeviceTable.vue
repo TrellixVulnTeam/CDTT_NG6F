@@ -1,6 +1,6 @@
 <template>
   <div class="w-100 bg-white wallet-table">
-    <div class="wallet-table__below">
+    <!-- <div class="wallet-table__below">
       <base-table
         :data="responseList"
         :table="query"
@@ -21,49 +21,19 @@
         <el-table-column :label="$t('report.table.device')" prop="device" width="330"> </el-table-column>
         <el-table-column :label="$t('report.table.totalLogin')" prop="totalLogin" align="right" width="200"></el-table-column>
       </base-table>
-    </div>
-    <div>
-      <base-tree-table
-        :data="detailList"
-        :isLoading="isLoading"
+    </div> -->
+    <div class="wallet-table__below">
+      <base-table
+        :data="responseList"
         :table="query"
-        :showPagination="true"
-        :default-expand-all="false"
-        sumText="Tổng"
         :paginationInfo="getPaginationInfo"
-        rowKey="id"
-        class="table-text-body-bold table-expanded table-width-background custom-table custom-table-height"
         @sizeChange="handleSizeChange"
         @currentChange="handleCurrentChange"
-        @filterChange="handleFiltersChange"
-        @expand-change="handleExpandChange"
-        emptyText="Không có dữ liệu báo cáo"
+        class="base-table table-wallet device-table"
       >
-        <el-table-column type="expand" width="40px" align="right">
-          <template slot-scope="props">
-            <base-tree-table
-              :data="props.row.childrens"
-              :isLoading="isLoading"
-              :table="table"
-              :showPagination="false"
-              :showTableHeader="false"
-              sumText="Tổng"
-              paginationInfo="khu vực"
-              rowKey="id"
-              class="table-text-body-normal table-no-background table-child-table custom-table"
-            >
-              <el-table-column label="#" type="index" :index="indexMethod" align="center" width="100" />
-              <el-table-column :label="$t('report.table.fullName')" min-width="200">
-                <template class="flex-center-vert" slot-scope="scope">
-                  <div>
-                    <span>{{ scope.row.fullName }}</span>
-                  </div>
-                </template>
-              </el-table-column>
-              <el-table-column :label="$t('report.table.email')" prop="username" min-width="220"> </el-table-column>
-              <el-table-column :label="$t('report.table.device')" prop="device" width="330"> </el-table-column>
-              <el-table-column :label="$t('report.table.totalLogin')" prop="totalLogin" align="right" width="200"></el-table-column>
-            </base-tree-table>
+        <el-table-column type="expand">
+          <template slot-scope="scope">
+            <sub-device-table :id="scope.row.userId" :deviceType="scope.row.device" :propDataQuery="propDataQuery" />
           </template>
         </el-table-column>
         <el-table-column label="#" type="index" :index="indexMethod" align="center" width="100" />
@@ -77,19 +47,21 @@
         <el-table-column :label="$t('report.table.email')" prop="username" min-width="220"> </el-table-column>
         <el-table-column :label="$t('report.table.device')" prop="device" width="330"> </el-table-column>
         <el-table-column :label="$t('report.table.totalLogin')" prop="totalLogin" align="right" width="200"></el-table-column>
-      </base-tree-table>
+      </base-table>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue, Mixins } from 'vue-property-decorator'
-import getRepository from '@/services'
-import ReportRepository from '@/services/repositories/report'
+import SubDeviceTable from './sub/SubDeviceTable.vue'
+
 import EventBus from '@/utils/eventBus'
 import { size, sortBy, findIndex, find } from 'lodash'
+import getRepository from '@/services'
+import ReportRepository from '@/services/repositories/report'
 const api: ReportRepository = getRepository('report')
-@Component({ components: {} })
+@Component({ components: { SubDeviceTable } })
 export default class DeviceTable extends Vue {
   @Prop({ required: true, type: Array, default: [] }) data!: Array<Record<string, any>>
   query: Record<string, any> = {
@@ -99,6 +71,7 @@ export default class DeviceTable extends Vue {
     orderBy: 'LAST_NAME',
     total: 0
   }
+  propDataQuery: any = {}
   get getPaginationInfo(): any {
     return this.$t('paging.times')
   }
@@ -150,6 +123,7 @@ export default class DeviceTable extends Vue {
       ...this.query,
       total: ''
     }
+    this.propDataQuery = params
     console.log('params', params)
     const result = await api.getListDeviceReport(params)
     this.responseList = result.content
