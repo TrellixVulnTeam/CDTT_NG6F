@@ -38,4 +38,12 @@ export default class ReportRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+  async getDeviceListByUserID(params?: Record<string, any>): Promise<Record<string, any>> {
+    try {
+      const result = await request.get(`${this.prefix}/report/device/list/detail`, { params })
+      return Promise.resolve(result.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
 }

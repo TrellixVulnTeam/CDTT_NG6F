@@ -8,8 +8,8 @@
             <p>Web</p>
           </div>
           <div class="card-value">
-            <p>30</p>
-            <p>20%</p>
+            <p>{{ this.dataChartDevice.totalWebLogin }}</p>
+            <p>{{ this.dataChartDevice.percentWebLogin }}%</p>
           </div>
         </div>
         <div class="card android">
@@ -19,7 +19,7 @@
           </div>
           <div class="card-value">
             <p>{{ this.dataChartDevice.totalAndroidLogin }}</p>
-            <p>%</p>
+            <p>{{ this.dataChartDevice.percentAndroidLogin }}%</p>
           </div>
         </div>
         <div class="card ios">
@@ -29,7 +29,7 @@
           </div>
           <div class="card-value">
             <p>{{ this.dataChartDevice.totalIOSLogin }}</p>
-            <p>%</p>
+            <p>{{ this.dataChartDevice.percentIOSLogin }}%</p>
           </div>
         </div>
       </div>
@@ -53,6 +53,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import LineChart from './lineChart.vue'
+import EventBus from '@/utils/eventBus'
 @Component({ components: { LineChart } })
 export default class DeviceChart extends Vue {
   @Prop({ required: true, type: Array, default: [] }) dataChartDevice!: Array<Record<string, any>>
@@ -74,14 +75,18 @@ export default class DeviceChart extends Vue {
     }
   ]
   created(): void {
-    console.log('abc', this.dataChartDevice)
+    EventBus.$on('dataHeaderDevice', this.getDataHeader)
+  }
+  getDataHeader(value: any): void {
+    this.dataChartDevice = value
+    console.log('vla', value)
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .device-chart {
-  padding: 0 25px;
+  padding: 0 24px;
   .chart {
     .cards {
       display: flex;
@@ -90,7 +95,7 @@ export default class DeviceChart extends Vue {
       border-radius: 15px;
       .card {
         color: #fff;
-        margin: 12px 12px;
+        margin: 0px 12px 12px;
         width: 33.33333%;
         display: flex;
         flex-direction: column;
