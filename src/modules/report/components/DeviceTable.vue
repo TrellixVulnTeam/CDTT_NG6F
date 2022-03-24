@@ -83,282 +83,280 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Mixins } from 'vue-property-decorator'
-import getRepository from '@/services'
-import ReportRepository from '@/services/repositories/report'
-import EventBus from '@/utils/eventBus'
-import { size, sortBy, findIndex, find } from 'lodash'
-const api: ReportRepository = getRepository('report')
-@Component({ components: {} })
-export default class DeviceTable extends Vue {
-  @Prop({ required: true, type: Array, default: [] }) data!: Array<Record<string, any>>
-  query: Record<string, any> = {
-    search: '',
-    limit: 10,
-    page: 1,
-    orderBy: 'LAST_NAME',
-    total: 0
-  }
-  get getPaginationInfo(): any {
-    return this.$t('paging.times')
-  }
-  indexMethod(index: number): number {
-    return (this.query.page - 1) * this.query.limit + index + 1
-  }
-  handleCurrentChange(value: number): void {
-    console.log('size', value)
-    this.query.page = value
-    this.getListDevice()
-  }
-  handleSizeChange(value: number): void {
-    console.log('size', value)
-    this.query.page = 1
-    this.query.limit = value
-    this.getListDevice()
+  import { Component, Prop, Vue, Mixins } from 'vue-property-decorator'
+  import getRepository from '@/services'
+  import ReportRepository from '@/services/repositories/report'
+  import EventBus from '@/utils/eventBus'
+  import { size, sortBy, findIndex, find } from 'lodash'
+  const api: ReportRepository = getRepository('report')
+  @Component({ components: {} })
+  export default class DeviceTable extends Vue {
+    @Prop({ required: true, type: Array, default: [] }) data!: Array<Record<string, any>>
+    query: Record<string, any> = {
+      search: '',
+      limit: 10,
+      page: 1,
+      orderBy: 'LAST_NAME',
+      total: 0
+    }
+    get getPaginationInfo(): any {
+      return this.$t('paging.times')
+    }
+    indexMethod(index: number): number {
+      return (this.query.page - 1) * this.query.limit + index + 1
+    }
+    handleCurrentChange(value: number): void {
+      console.log('size', value)
+      this.query.page = value
+      this.getListDevice()
+    }
+    handleSizeChange(value: number): void {
+      console.log('size', value)
+      this.query.page = 1
+      this.query.limit = value
+      this.getListDevice()
 
-    // this.$emit('sizeChange', value)
-  }
-  responseList: Array<Record<string, any>> = []
-  detailList: Array<Record<string, any>> = []
-  async handleExpandChange(data: { row: any; expandedRows: any[] }): Promise<void> {
-    console.log('abc')
+      // this.$emit('sizeChange', value)
+    }
+    responseList: Array<Record<string, any>> = []
+    detailList: Array<Record<string, any>> = []
+    async handleExpandChange(data: { row: any; expandedRows: any[] }): Promise<void> {
+      console.log('abc')
 
-    // try {
-    //   if (size(data.row.childrens) === 0) {
-    //     const result = await this.reportRes?.getPl9defghReport(
-    //       {
-    //         type: 'PL9D',
-    //         zone: 'branch',
-    //         areaId: data.row.area_id
-    //       },
-    //       {
-    //         ...this.filters,
-    //         year: this.filters.year,
-    //         month: this.filters.month,
-    //         limit: 10000,
-    //         page: 1
-    //       }
-    //     )
-    //     data.row.childrens = result?.contents || []
-    //   }
-    // } catch (error) {
-    //   console.log(error)
-    // }
-  }
-  async getListDevice(): Promise<void> {
-    const params = {
-      ...this.query,
-      total: ''
+      // try {
+      //   if (size(data.row.childrens) === 0) {
+      //     const result = await this.reportRes?.getPl9defghReport(
+      //       {
+      //         type: 'PL9D',
+      //         zone: 'branch',
+      //         areaId: data.row.area_id
+      //       },
+      //       {
+      //         ...this.filters,
+      //         year: this.filters.year,
+      //         month: this.filters.month,
+      //         limit: 10000,
+      //         page: 1
+      //       }
+      //     )
+      //     data.row.childrens = result?.contents || []
+      //   }
+      // } catch (error) {
+      //   console.log(error)
+      // }
     }
-    console.log('params', params)
-    const result = await api.getListDeviceReport(params)
-    this.responseList = result.content
-    this.query.total = result.totalElements
-  }
-  async getDetailDeviceList(): Promise<void> {
-    const params = {
-      ...this.query,
-      userId: 11,
-      deviceType: 'Android'
+    async getListDevice(): Promise<void> {
+      const params = {
+        ...this.query,
+        total: ''
+      }
+      console.log('params', params)
+      const result = await api.getListDeviceReport(params)
+      this.responseList = result.content
+      this.query.total = result.totalElements
     }
-    console.log('123', params)
-    const result = await api.getDeviceListByUserID(params)
-    this.detailList = result.content
-  }
-  checkTimeFromDate(day: number): string {
-    const time = new Date(Date.now() - day * 24 * 60 * 60 * 1000).setHours(0, 0, 0)
-    return this.formatTimestampFromDate(time)
-  }
-  checkTimeToDate(): string {
-    const time = new Date(Date.now()).setHours(0, 0, 0)
-    return this.formatTimestampToDate(time)
-  }
-  formatTimestampToDate(value: number): string {
-    if (!value) {
-      return ''
+    async getDetailDeviceList(): Promise<void> {
+      const params = {
+        ...this.query,
+        userId: 11,
+        deviceType: 'Android'
+      }
+      console.log('123', params)
+      const result = await api.getDeviceListByUserID(params)
+      this.detailList = result.content
     }
-    // const gmt = new Date().getTimezoneOffset() / -60
-    // const ago = value - gmt * 60 * 60 * 1000
-    const date = new Date(value)
-    return (
-      date.getFullYear() +
-      '-' +
-      (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
-      '-' +
-      (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
-      ' ' +
-      '23' +
-      ':' +
-      '59' +
-      ':' +
-      '59'
-    )
-  }
-  formatTimestampFromDate(value: number): string {
-    if (!value) {
-      return ''
+    checkTimeFromDate(day: number): string {
+      const time = new Date(Date.now() - day * 24 * 60 * 60 * 1000).setHours(0, 0, 0)
+      return this.formatTimestampFromDate(time)
     }
-    // const gmt = new Date().getTimezoneOffset() / -60
-    // const ago = value - gmt * 60 * 60 * 1000
-    const date = new Date(value)
-    return (
-      date.getFullYear() +
-      '-' +
-      (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
-      '-' +
-      (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
-      ' ' +
-      '00' +
-      ':' +
-      '00' +
-      ':' +
-      '00'
-    )
-  }
-  async created(): Promise<void> {
-    this.query.fromDate = this.checkTime(7)
-    this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
-    this.getListDevice()
-    this.getDetailDeviceList()
-    // this.getFromDateTodate()
-    EventBus.$on('deviceTableSearch', this.handleFilterReport)
-    EventBus.$on('deviceTableFilter', this.handleFilterByDay)
-  }
+    checkTimeToDate(): string {
+      const time = new Date(Date.now()).setHours(0, 0, 0)
+      return this.formatTimestampToDate(time)
+    }
+    formatTimestampToDate(value: number): string {
+      if (!value) {
+        return ''
+      }
+      // const gmt = new Date().getTimezoneOffset() / -60
+      // const ago = value - gmt * 60 * 60 * 1000
+      const date = new Date(value)
+      return (
+        date.getFullYear() +
+        '-' +
+        (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+        '-' +
+        (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
+        ' ' +
+        '23' +
+        ':' +
+        '59' +
+        ':' +
+        '59'
+      )
+    }
+    formatTimestampFromDate(value: number): string {
+      if (!value) {
+        return ''
+      }
+      const date = new Date(value)
+      return (
+        date.getFullYear() +
+        '-' +
+        (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+        '-' +
+        (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
+        ' ' +
+        '00' +
+        ':' +
+        '00' +
+        ':' +
+        '00'
+      )
+    }
+    async created(): Promise<void> {
+      this.query.fromDate = this.checkTime(7)
+      this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
+      this.getListDevice()
+      this.getDetailDeviceList()
+      // this.getFromDateTodate()
+      EventBus.$on('deviceTableSearch', this.handleFilterReport)
+      EventBus.$on('deviceTableFilter', this.handleFilterByDay)
+    }
 
-  handleFilterByDay(value: string | number): void {
-    console.log('2323', this.checkTime(2))
-    if (value == 'yesterday') {
-      this.query.fromDate = this.checkTimeFromDate(1)
-      this.query.toDate = this.checkTimeToDate()
-    } else if (value == 'last7Days') {
-      this.query.fromDate = this.checkTimeFromDate(7)
-      this.query.toDate = this.checkTimeToDate()
-    } else if (value == 'last14Days') {
-      this.query.fromDate = this.checkTimeFromDate(14)
-      this.query.toDate = this.checkTimeToDate()
-    } else if (value == 'last30Days') {
-      this.query.fromDate = this.checkTimeFromDate(30)
-      this.query.toDate = this.checkTimeToDate()
-    } else if (value == 'last90Days') {
-      this.query.fromDate = this.checkTimeFromDate(90)
-      this.query.toDate = this.checkTimeToDate()
+    handleFilterByDay(value: string | number): void {
+      console.log('2323', this.checkTime(2))
+      if (value == 'yesterday') {
+        this.query.fromDate = this.checkTimeFromDate(1)
+        this.query.toDate = this.checkTimeToDate()
+      } else if (value == 'last7Days') {
+        this.query.fromDate = this.checkTimeFromDate(7)
+        this.query.toDate = this.checkTimeToDate()
+      } else if (value == 'last14Days') {
+        this.query.fromDate = this.checkTimeFromDate(14)
+        this.query.toDate = this.checkTimeToDate()
+      } else if (value == 'last30Days') {
+        this.query.fromDate = this.checkTimeFromDate(30)
+        this.query.toDate = this.checkTimeToDate()
+      } else if (value == 'last90Days') {
+        this.query.fromDate = this.checkTimeFromDate(90)
+        this.query.toDate = this.checkTimeToDate()
+      }
+      // console.log('query', this.query)
+      this.getListDevice()
     }
-    // console.log('query', this.query)
-    this.getListDevice()
-  }
-  checkTime(day: number): string {
-    const time = new Date(Date.now() - day * 24 * 60 * 60 * 1000).setHours(0, 0, 0)
-    return this.formatTimestamp(time)
-  }
-  formatTimestamp(value: number): string {
-    if (!value) {
-      return ''
+    checkTime(day: number): string {
+      const time = new Date(Date.now() - day * 24 * 60 * 60 * 1000).setHours(0, 0, 0)
+      return this.formatTimestamp(time)
     }
-    const gmt = new Date().getTimezoneOffset() / -60
-    const ago = value - gmt * 60 * 60 * 1000
-    const date = new Date(ago)
-    return (
-      date.getFullYear() +
-      '-' +
-      (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
-      '-' +
-      (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
-      ' ' +
-      (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) +
-      ':' +
-      (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) +
-      ':' +
-      (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds())
-    )
+    formatTimestamp(value: number): string {
+      if (!value) {
+        return ''
+      }
+      const gmt = new Date().getTimezoneOffset() / -60
+      const ago = value - gmt * 60 * 60 * 1000
+      const date = new Date(ago)
+      return (
+        date.getFullYear() +
+        '-' +
+        (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+        '-' +
+        (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
+        ' ' +
+        (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) +
+        ':' +
+        (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) +
+        ':' +
+        (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds())
+      )
+    }
+    handleFilterReport(value: any): void {
+      console.log('value', value)
+      this.query.orderBy = 'LAST_LOGIN'
+      this.query.search = value.search
+      this.getListDevice()
+      // this.query.searchd =
+    }
   }
-  handleFilterReport(value: any): void {
-    console.log('value', value)
-    this.query.orderBy = 'LAST_LOGIN'
-    this.query.search = value.search
-    this.getListDevice()
-    // this.query.searchd =
-  }
-}
 </script>
 
 <style lang="scss" scoped>
-.abc {
-  display: flex;
-  align-items: center;
-}
-img {
-  width: 30px;
-  border-radius: 50%;
-  height: 30px;
-  margin-right: 10px;
-}
-.wallet-table {
-  .cards {
+  .abc {
     display: flex;
     align-items: center;
-    justify-content: space-around;
-    .card {
-      color: #fff;
-      margin: 12px 12px;
-      width: 33.33333%;
+  }
+  img {
+    width: 30px;
+    border-radius: 50%;
+    height: 30px;
+    margin-right: 10px;
+  }
+  .wallet-table {
+    .cards {
       display: flex;
-      flex-direction: column;
-      box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
-      border-radius: 15px;
-      background: linear-gradient(90deg, #e13635, #eb6651 80%, #eb6651);
-      .card-title {
+      align-items: center;
+      justify-content: space-around;
+      .card {
+        color: #fff;
         margin: 12px 12px;
+        width: 33.33333%;
         display: flex;
-        flex-direction: row-reverse;
-        justify-content: space-between;
-        align-items: center;
-        p {
-          font-size: 14.26px;
+        flex-direction: column;
+        box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
+        border-radius: 15px;
+        background: linear-gradient(90deg, #e13635, #eb6651 80%, #eb6651);
+        .card-title {
+          margin: 12px 12px;
+          display: flex;
+          flex-direction: row-reverse;
+          justify-content: space-between;
+          align-items: center;
+          p {
+            font-size: 14.26px;
+          }
+        }
+        .card-value {
+          margin: 12px 12px;
+          font-size: 30px;
+          line-height: 48px;
+          font-weight: 700;
         }
       }
-      .card-value {
-        margin: 12px 12px;
-        font-size: 30px;
-        line-height: 48px;
-        font-weight: 700;
-      }
     }
-  }
-  &__above {
-    border-bottom: 1px solid var(--bc-border-primary);
-    &-tabs {
-      .tab-item {
-        padding: 16px 12px;
-        position: relative;
-        &:hover {
+    &__above {
+      border-bottom: 1px solid var(--bc-border-primary);
+      &-tabs {
+        .tab-item {
+          padding: 16px 12px;
+          position: relative;
+          &:hover {
+            color: var(--bc-tab-active);
+          }
+        }
+        .tab-active {
           color: var(--bc-tab-active);
+          font-weight: 600;
+          &::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--bc-tab-active);
+          }
         }
       }
-      .tab-active {
-        color: var(--bc-tab-active);
-        font-weight: 600;
-        &::after {
-          content: '';
-          position: absolute;
-          width: 100%;
-          height: 2px;
-          bottom: 0;
-          left: 0;
-          background-color: var(--bc-tab-active);
+    }
+    &__below {
+      padding: 0 24px;
+      .table-wallet {
+        .amount-decrease {
+          color: var(--bc-status-error);
+        }
+        .amount-increase {
+          color: var(--bc-status-success);
         }
       }
     }
   }
-  &__below {
-    padding: 0 24px;
-    .table-wallet {
-      .amount-decrease {
-        color: var(--bc-status-error);
-      }
-      .amount-increase {
-        color: var(--bc-status-success);
-      }
-    }
-  }
-}
 </style>

@@ -45,151 +45,151 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
-import EventBus from '@/utils/eventBus'
-import { forEach, trim, debounce } from 'lodash'
+  import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+  import EventBus from '@/utils/eventBus'
+  import { forEach, trim, debounce } from 'lodash'
 
-@Component
-export default class KycFilter extends Vue {
-  @Prop({ required: true }) isChangeTab!: boolean
-  filter = {
-    search: '',
-    date: 'last7Days',
-    orderBy: 3
-  }
-  lang = 'en'
-  loading = false
-  queryApprove = {
-    page: 1,
-    limit: 20,
-    search: ''
-  }
-
-  listFilter: Record<string, any>[] = [
-    {
-      value: 'last7Days',
-      label: this.$i18n.t('report.filter.last7Days')
-    },
-    {
-      value: 'yesterday',
-      label: this.$i18n.t('report.filter.yesterday')
-    },
-    {
-      value: 'last14Days',
-      label: this.$i18n.t('report.filter.last14Days')
-    },
-    {
-      value: 'last30Days',
-      label: this.$i18n.t('report.filter.last30Days')
-    },
-    {
-      value: 'last90Days',
-      label: this.$i18n.t('report.filter.last90Days')
-    }
-  ]
-
-  @Watch('filter.search') handleSearch(value: string): void {
-    this.searchText(value)
-  }
-
-  // @Watch('filter.date') handleFilter(value: string): void {
-  //   // this.filterItem(value)
-  //   console.log('value', value)
-  //   EventBus.$emit('filterByDay', value)
-  // }
-  handleSeclectFilter(value: string): void {
-    EventBus.$emit('filterByDay', value)
-  }
-  // get getRoleExport(): boolean {
-  //   return this.checkPemission('crowd-sale', ['export'])
-  // }
-
-  filterItem = (value: string) => {
-    console.log('filter', value)
-    const params = {
-      ...this.filter,
-      filter: value
-    }
-    EventBus.$emit('filterByDay', params)
-  }
-  searchText = debounce((value: string) => {
-    // console.log('SEARCH', value)
-    // this.$emit('filter', {
-    //   ...this.filter,..
-    //   search: trim(value)
-    // })
-    const params = {
-      ...this.filter,
-      search: trim(value)
-    }
-    EventBus.$emit('filterReport', params)
-  }, 500)
-  destroyed(): void {
-    EventBus.$off('filterReport')
-    EventBus.$off('filterByDay')
-  }
-  viewType = 'chart'
-  viewTable(value: string): void {
-    this.viewType = 'table'
-    EventBus.$emit('changeView', value)
-  }
-  viewChart(value: string): void {
-    this.viewType = 'chart'
-    EventBus.$emit('changeView', value)
-  }
-  created(): void {
-    this.lang = window.localStorage.getItem('bc-lang')!
-    // EventBus.$on('changeTabMember', this.handleChangeTab)
-    this.$emit('filter', this.filter)
-  }
-
-  resetFilter(): void {
-    this.filter = {
+  @Component
+  export default class KycFilter extends Vue {
+    @Prop({ required: true }) isChangeTab!: boolean
+    filter = {
       search: '',
       date: 'last7Days',
       orderBy: 3
     }
-  }
-
-  handleReset(): void {
-    this.filter = {
-      ...this.filter
+    lang = 'en'
+    loading = false
+    queryApprove = {
+      page: 1,
+      limit: 20,
+      search: ''
     }
-    this.$emit('filter', this.filter)
+
+    listFilter: Record<string, any>[] = [
+      {
+        value: 'last7Days',
+        label: this.$i18n.t('report.filter.last7Days')
+      },
+      {
+        value: 'yesterday',
+        label: this.$i18n.t('report.filter.yesterday')
+      },
+      {
+        value: 'last14Days',
+        label: this.$i18n.t('report.filter.last14Days')
+      },
+      {
+        value: 'last30Days',
+        label: this.$i18n.t('report.filter.last30Days')
+      },
+      {
+        value: 'last90Days',
+        label: this.$i18n.t('report.filter.last90Days')
+      }
+    ]
+
+    @Watch('filter.search') handleSearch(value: string): void {
+      this.searchText(value)
+    }
+
+    // @Watch('filter.date') handleFilter(value: string): void {
+    //   // this.filterItem(value)
+    //   console.log('value', value)
+    //   EventBus.$emit('filterByDay', value)
+    // }
+    handleSeclectFilter(value: string): void {
+      EventBus.$emit('filterByDay', value)
+    }
+    // get getRoleExport(): boolean {
+    //   return this.checkPemission('crowd-sale', ['export'])
+    // }
+
+    filterItem = (value: string) => {
+      console.log('filter', value)
+      const params = {
+        ...this.filter,
+        filter: value
+      }
+      EventBus.$emit('filterByDay', params)
+    }
+    searchText = debounce((value: string) => {
+      // console.log('SEARCH', value)
+      // this.$emit('filter', {
+      //   ...this.filter,..
+      //   search: trim(value)
+      // })
+      const params = {
+        ...this.filter,
+        search: trim(value)
+      }
+      EventBus.$emit('filterReport', params)
+    }, 500)
+    destroyed(): void {
+      EventBus.$off('filterReport')
+      EventBus.$off('filterByDay')
+    }
+    viewType = 'chart'
+    viewTable(value: string): void {
+      this.viewType = 'table'
+      EventBus.$emit('changeView', value)
+    }
+    viewChart(value: string): void {
+      this.viewType = 'chart'
+      EventBus.$emit('changeView', value)
+    }
+    created(): void {
+      this.lang = window.localStorage.getItem('bc-lang')!
+      // EventBus.$on('changeTabMember', this.handleChangeTab)
+      this.$emit('filter', this.filter)
+    }
+
+    resetFilter(): void {
+      this.filter = {
+        search: '',
+        date: 'last7Days',
+        orderBy: 3
+      }
+    }
+
+    handleReset(): void {
+      this.filter = {
+        ...this.filter
+      }
+      this.$emit('filter', this.filter)
+    }
   }
-}
 </script>
 
 <style scoped lang="scss">
-.kyc-filter {
-  background-color: #fff;
-  padding: 24px;
+  .kyc-filter {
+    background-color: #fff;
+    padding: 24px;
 
-  .input-search {
-    width: 400px;
-    margin-right: 30px;
-  }
+    .input-search {
+      width: 400px;
+      margin-right: 30px;
+    }
 
-  .button {
-    height: 46px;
-  }
-  .hidden {
-    display: none;
-  }
-  .active {
-    color: var(--bc-btn-default-text-hover);
-    border-color: var(--bc-btn-default-border-hover);
-  }
+    .button {
+      height: 46px;
+    }
+    .hidden {
+      display: none;
+    }
+    .active {
+      color: var(--bc-btn-default-text-hover);
+      border-color: var(--bc-btn-default-border-hover);
+    }
 
-  ::v-deep .filter-role {
-    .el-select {
-      width: 170px;
-      .el-input__inner {
-        height: 48px;
+    ::v-deep .filter-role {
+      .el-select {
         width: 170px;
-        font-size: 16px;
+        .el-input__inner {
+          height: 48px;
+          width: 170px;
+          font-size: 16px;
+        }
       }
     }
   }
-}
 </style>

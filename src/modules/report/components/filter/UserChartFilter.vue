@@ -7,7 +7,7 @@
         </el-select>
       </div>
     </div>
-    <el-button class="btn-default btn-close btn-h-40 ml-auto be-flex align-center" style="width: auto !important">
+    <el-button class="btn-default btn-close btn-h-40 ml-auto be-flex align-center" @click="handleExportExcel" style="width: auto !important">
       <div class="be-flex align-center">
         <base-icon icon="icon-excel" style="display: inline-flex" size="22" />
         <span style="padding-left: 5px">{{ $t('button.export-excel') }}</span>
@@ -29,104 +29,200 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
-import EventBus from '@/utils/eventBus'
-import { forEach, trim, debounce } from 'lodash'
+  import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+  import EventBus from '@/utils/eventBus'
+  import { forEach, trim, debounce } from 'lodash'
+  import getRepository from '@/services'
+  import ReportRepository from '@/services/repositories/report'
 
-@Component
-export default class UserChartFilter extends Vue {
-  @Prop({ required: true }) checkView!: boolean
-  filter = {
-    search: '',
-    date: 'last7Days',
-    orderBy: 3
-  }
-  lang = 'en'
-  loading = false
-  queryApprove = {
-    page: 1,
-    limit: 20,
-    search: ''
-  }
-
-  listFilter: Record<string, any>[] = [
-    {
-      value: 'last7Days',
-      label: this.$i18n.t('report.filter.last7Days')
-    },
-    {
-      value: 'yesterday',
-      label: this.$i18n.t('report.filter.yesterday')
-    },
-    {
-      value: 'last14Days',
-      label: this.$i18n.t('report.filter.last14Days')
-    },
-    {
-      value: 'last30Days',
-      label: this.$i18n.t('report.filter.last30Days')
-    },
-    {
-      value: 'last90Days',
-      label: this.$i18n.t('report.filter.last90Days')
-    }
-  ]
-
-  handleSeclectFilter(value: string): void {
-    EventBus.$emit('filterUserchart', value)
-  }
-
-  destroyed(): void {
-    EventBus.$off('filterUserchart')
-  }
-  viewType = 'chart'
-  changeView(value: string): void {
-    this.viewType = value
-    this.$forceUpdate()
-    EventBus.$emit('changeView', value)
-  }
-  created(): void {
-    console.log('check', this.checkView)
-  }
-  resetFilter(): void {
-    this.filter = {
+  const api: ReportRepository = getRepository('report')
+  @Component
+  export default class UserChartFilter extends Vue {
+    @Prop({ required: true }) checkView!: boolean
+    filter = {
       search: '',
       date: 'last7Days',
       orderBy: 3
     }
-  }
+    lang = 'en'
+    loading = false
 
-  handleReset(): void {
-    this.filter = {
-      ...this.filter
+    listFilter: Record<string, any>[] = [
+      {
+        value: 'last7Days',
+        label: this.$i18n.t('report.filter.last7Days')
+      },
+      {
+        value: 'yesterday',
+        label: this.$i18n.t('report.filter.yesterday')
+      },
+      {
+        value: 'last14Days',
+        label: this.$i18n.t('report.filter.last14Days')
+      },
+      {
+        value: 'last30Days',
+        label: this.$i18n.t('report.filter.last30Days')
+      },
+      {
+        value: 'last90Days',
+        label: this.$i18n.t('report.filter.last90Days')
+      }
+    ]
+
+    handleSeclectFilter(value: string): void {
+      EventBus.$emit('filterUserchart', value)
+      if (value == 'yesterday') {
+        this.query.fromDate = this.checkTimeFromDate(1)
+        this.query.toDate = this.checkTimeToDate()
+      } else if (value == 'last7Days') {
+        this.query.fromDate = this.checkTimeFromDate(7)
+        this.query.toDate = this.checkTimeToDate()
+      } else if (value == 'last14Days') {
+        this.query.fromDate = this.checkTimeFromDate(14)
+        this.query.toDate = this.checkTimeToDate()
+      } else if (value == 'last30Days') {
+        this.query.fromDate = this.checkTimeFromDate(30)
+        this.query.toDate = this.checkTimeToDate()
+      } else if (value == 'last90Days') {
+        this.query.fromDate = this.checkTimeFromDate(90)
+        this.query.toDate = this.checkTimeToDate()
+      }
     }
-    this.$emit('filter', this.filter)
+
+    destroyed(): void {
+      EventBus.$off('filterUserchart')
+    }
+    viewType = 'chart'
+    changeView(value: string): void {
+      this.viewType = value
+      this.$forceUpdate()
+      EventBus.$emit('changeView', value)
+    }
+    created(): void {
+      console.log('check', this.checkView)
+    }
+    resetFilter(): void {
+      this.filter = {
+        search: '',
+        date: 'last7Days',
+        orderBy: 3
+      }
+    }
+    isExcelLoading = false
+    fileName = 'user'
+    query: any = {
+      fromDate: this.checkTimeFromDate(7),
+      toDate: this.checkTimeToDate(),
+      timezone: new Date().getTimezoneOffset() / -60 > 0 ? '+' + new Date().getTimezoneOffset() / -60 : '-' + new Date().getTimezoneOffset() / -60,
+      orderBy: 'LAST_LOGIN'
+    }
+    checkTimeFromDate(day: number): string {
+      const time = new Date(Date.now() - day * 24 * 60 * 60 * 1000).setHours(0, 0, 0)
+      return this.formatTimestampFromDate(time)
+    }
+    checkTimeToDate(): string {
+      const time = new Date(Date.now()).setHours(0, 0, 0)
+      return this.formatTimestampToDate(time)
+    }
+    formatTimestampToDate(value: number): string {
+      if (!value) {
+        return ''
+      }
+      // const gmt = new Date().getTimezoneOffset() / -60
+      // const ago = value - gmt * 60 * 60 * 1000
+      const date = new Date(value)
+      return (
+        date.getFullYear() +
+        '-' +
+        (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+        '-' +
+        (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
+        ' ' +
+        '23' +
+        ':' +
+        '59' +
+        ':' +
+        '59'
+      )
+    }
+    formatTimestampFromDate(value: number): string {
+      if (!value) {
+        return ''
+      }
+      const date = new Date(value)
+      return (
+        date.getFullYear() +
+        '-' +
+        (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+        '-' +
+        (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
+        ' ' +
+        '00' +
+        ':' +
+        '00' +
+        ':' +
+        '00'
+      )
+    }
+    
+    async handleExportExcel(): Promise<void> {
+      this.isExcelLoading = true
+      let response: any
+      const date = new Date()
+      const time = `${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}_${date.getHours()}${date.getMinutes()}${date.getSeconds()}`
+      // delete this.params.newAuditStatus
+      const params = {
+        ...this.query
+      }
+      await api
+        ?.exportExcel(params)
+        .then(data => {
+          response = data
+          console.log('res',data);
+          const url = window.URL.createObjectURL(new Blob([response.data]))
+          const link = document.createElement('a')
+          link.href = url
+          link.setAttribute('download', `Report_${this.fileName}_${time}.xlsx`)
+          document.body.appendChild(link)
+          link.click()
+          this.isExcelLoading = false
+        })
+        .catch(() => {
+          this.isExcelLoading = false
+        })
+    }
+    handleReset(): void {
+      this.filter = {
+        ...this.filter
+      }
+      this.$emit('filter', this.filter)
+    }
   }
-}
 </script>
 
 <style scoped lang="scss">
-.kyc-filter {
-  background-color: #fff;
-  padding: 24px 36px 12px 36px;
+  .kyc-filter {
+    background-color: #fff;
+    padding: 24px 36px 12px 36px;
 
-  .button {
-    height: 46px;
-  }
-  .active {
-    color: var(--bc-btn-default-text-hover);
-    border-color: var(--bc-btn-default-border-hover);
-  }
+    .button {
+      height: 46px;
+    }
+    .active {
+      color: var(--bc-btn-default-text-hover);
+      border-color: var(--bc-btn-default-border-hover);
+    }
 
-  ::v-deep .filter-role {
-    .el-select {
-      width: 170px;
-      .el-input__inner {
-        height: 48px;
+    ::v-deep .filter-role {
+      .el-select {
         width: 170px;
-        font-size: 16px;
+        .el-input__inner {
+          height: 48px;
+          width: 170px;
+          font-size: 16px;
+        }
       }
     }
   }
-}
 </style>
