@@ -22,6 +22,63 @@
         <el-table-column :label="$t('report.table.totalLogin')" prop="totalLogin" align="right" width="200"></el-table-column>
       </base-table>
     </div>
+    <div>
+      <base-tree-table
+        :data="detailList"
+        :isLoading="isLoading"
+        :table="query"
+        :showPagination="true"
+        :default-expand-all="false"
+        sumText="Tổng"
+        :paginationInfo="getPaginationInfo"
+        rowKey="id"
+        class="table-text-body-bold table-expanded table-width-background custom-table custom-table-height"
+        @sizeChange="handleSizeChange"
+        @currentChange="handleCurrentChange"
+        @filterChange="handleFiltersChange"
+        @expand-change="handleExpandChange"
+        emptyText="Không có dữ liệu báo cáo"
+      >
+        <el-table-column type="expand" width="40px" align="right">
+          <template slot-scope="props">
+            <base-tree-table
+              :data="props.row.childrens"
+              :isLoading="isLoading"
+              :table="table"
+              :showPagination="false"
+              :showTableHeader="false"
+              sumText="Tổng"
+              paginationInfo="khu vực"
+              rowKey="id"
+              class="table-text-body-normal table-no-background table-child-table custom-table"
+            >
+              <el-table-column label="#" type="index" :index="indexMethod" align="center" width="100" />
+              <el-table-column :label="$t('report.table.fullName')" min-width="200">
+                <template class="flex-center-vert" slot-scope="scope">
+                  <div>
+                    <span>{{ scope.row.fullName }}</span>
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column :label="$t('report.table.email')" prop="username" min-width="220"> </el-table-column>
+              <el-table-column :label="$t('report.table.device')" prop="device" width="330"> </el-table-column>
+              <el-table-column :label="$t('report.table.totalLogin')" prop="totalLogin" align="right" width="200"></el-table-column>
+            </base-tree-table>
+          </template>
+        </el-table-column>
+        <el-table-column label="#" type="index" :index="indexMethod" align="center" width="100" />
+        <el-table-column :label="$t('report.table.fullName')" min-width="200">
+          <template class="flex-center-vert" slot-scope="scope">
+            <div>
+              <span>{{ scope.row.fullName }}</span>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('report.table.email')" prop="username" min-width="220"> </el-table-column>
+        <el-table-column :label="$t('report.table.device')" prop="device" width="330"> </el-table-column>
+        <el-table-column :label="$t('report.table.totalLogin')" prop="totalLogin" align="right" width="200"></el-table-column>
+      </base-tree-table>
+    </div>
   </div>
 </template>
 
@@ -30,7 +87,7 @@ import { Component, Prop, Vue, Mixins } from 'vue-property-decorator'
 import getRepository from '@/services'
 import ReportRepository from '@/services/repositories/report'
 import EventBus from '@/utils/eventBus'
-import { forEach, sortBy, findIndex, find } from 'lodash'
+import { size, sortBy, findIndex, find } from 'lodash'
 const api: ReportRepository = getRepository('report')
 @Component({ components: {} })
 export default class DeviceTable extends Vue {
@@ -62,7 +119,32 @@ export default class DeviceTable extends Vue {
     // this.$emit('sizeChange', value)
   }
   responseList: Array<Record<string, any>> = []
+  detailList: Array<Record<string, any>> = []
+  async handleExpandChange(data: { row: any; expandedRows: any[] }): Promise<void> {
+    console.log('abc')
 
+    // try {
+    //   if (size(data.row.childrens) === 0) {
+    //     const result = await this.reportRes?.getPl9defghReport(
+    //       {
+    //         type: 'PL9D',
+    //         zone: 'branch',
+    //         areaId: data.row.area_id
+    //       },
+    //       {
+    //         ...this.filters,
+    //         year: this.filters.year,
+    //         month: this.filters.month,
+    //         limit: 10000,
+    //         page: 1
+    //       }
+    //     )
+    //     data.row.childrens = result?.contents || []
+    //   }
+    // } catch (error) {
+    //   console.log(error)
+    // }
+  }
   async getListDevice(): Promise<void> {
     const params = {
       ...this.query,
@@ -72,6 +154,16 @@ export default class DeviceTable extends Vue {
     const result = await api.getListDeviceReport(params)
     this.responseList = result.content
     this.query.total = result.totalElements
+  }
+  async getDetailDeviceList(): Promise<void> {
+    const params = {
+      ...this.query,
+      userId: 11,
+      deviceType: 'Android'
+    }
+    console.log('123', params)
+    const result = await api.getDeviceListByUserID(params)
+    this.detailList = result.content
   }
   checkTimeFromDate(day: number): string {
     const time = new Date(Date.now() - day * 24 * 60 * 60 * 1000).setHours(0, 0, 0)
@@ -127,9 +219,10 @@ export default class DeviceTable extends Vue {
     this.query.fromDate = this.checkTime(7)
     this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
     this.getListDevice()
+    this.getDetailDeviceList()
     // this.getFromDateTodate()
-    EventBus.$on('filterReport', this.handleFilterReport)
-    EventBus.$on('filterByDay', this.handleFilterByDay)
+    EventBus.$on('deviceTableSearch', this.handleFilterReport)
+    EventBus.$on('deviceTableFilter', this.handleFilterByDay)
   }
 
   handleFilterByDay(value: string | number): void {
@@ -150,9 +243,8 @@ export default class DeviceTable extends Vue {
       this.query.fromDate = this.checkTimeFromDate(90)
       this.query.toDate = this.checkTimeToDate()
     }
-    // this.getDataChart()
-    // console.log("query", this.query)
-    // this.getListUser()
+    // console.log('query', this.query)
+    this.getListDevice()
   }
   checkTime(day: number): string {
     const time = new Date(Date.now() - day * 24 * 60 * 60 * 1000).setHours(0, 0, 0)

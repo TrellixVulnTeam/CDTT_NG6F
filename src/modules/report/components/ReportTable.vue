@@ -136,10 +136,10 @@ export default class ReportTable extends Vue {
     this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
     this.getListUser()
     // this.getFromDateTodate()
-    EventBus.$on('filterReport', this.handleFilterReport)
-    EventBus.$on('filterByDay', this.handleFilterByDay)
+    EventBus.$on('filterUserTable', this.handleFilterUserTable)
+    EventBus.$on('filterUserTableByDay', this.handleFilterUserTableByDay)
   }
-  handleFilterByDay(value: string | number): void {
+  handleFilterUserTableByDay(value: string | number): void {
     if (value == 'yesterday') {
       this.query.fromDate = this.checkTime(1)
       this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
@@ -183,7 +183,7 @@ export default class ReportTable extends Vue {
       (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds())
     )
   }
-  handleFilterReport(value: any): void {
+  handleFilterUserTable(value: any): void {
     console.log('value', value)
     this.query.orderBy = 'LAST_LOGIN'
     this.query.search = value.search

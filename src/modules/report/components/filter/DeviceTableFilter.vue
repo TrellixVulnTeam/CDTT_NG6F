@@ -1,6 +1,6 @@
 <template>
   <div class="pb-24 pt-24 be-flex align-center kyc-filter">
-    <el-input v-model="filter.search" class="input-search" :placeholder="$t('placeholder.search')" :class="this.viewType == 'chart' ? 'hidden' : null">
+    <el-input v-model="filter.search" class="input-search" :placeholder="$t('placeholder.search')">
       <span slot="prefix" class="prefix-search">
         <base-icon icon="icon-search" size="24" />
       </span>
@@ -18,23 +18,13 @@
         <span style="padding-left: 5px">{{ $t('button.export-excel') }}</span>
       </div>
     </el-button>
-    <el-button
-      class="btn-default btn-close btn-h-40 ml-auto be-flex align-center button"
-      style="width: auto !important"
-      @click="viewChart('chart')"
-      :class="this.viewType == 'chart' ? 'active' : null"
-    >
+    <el-button class="btn-default btn-close btn-h-40 ml-auto be-flex align-center button" style="width: auto !important" @click="viewChart('chart')">
       <div class="be-flex align-center">
         <base-icon icon="chart2" style="display: inline-flex" size="20" />
         <span style="padding-left: 5px">{{ $t('button.change-chart') }}</span>
       </div>
     </el-button>
-    <el-button
-      class="btn-default btn-close btn-h-40 ml-auto be-flex align-center button"
-      style="width: auto !important"
-      @click="viewTable('table')"
-      :class="this.viewType == 'table' ? 'active' : null"
-    >
+    <el-button class="active btn-default btn-close btn-h-40 ml-auto be-flex align-center button" style="width: auto !important" @click="viewTable('table')">
       <div class="be-flex align-center">
         <!-- <base-icon icon="icon-table" style="display: inline-flex" size="22" /> -->
         <base-icon icon="list2" style="display: inline-flex" />
@@ -50,7 +40,7 @@ import EventBus from '@/utils/eventBus'
 import { forEach, trim, debounce } from 'lodash'
 
 @Component
-export default class KycFilter extends Vue {
+export default class DeviceTableFilter extends Vue {
   @Prop({ required: true }) isChangeTab!: boolean
   filter = {
     search: '',
@@ -92,26 +82,10 @@ export default class KycFilter extends Vue {
     this.searchText(value)
   }
 
-  // @Watch('filter.date') handleFilter(value: string): void {
-  //   // this.filterItem(value)
-  //   console.log('value', value)
-  //   EventBus.$emit('filterByDay', value)
-  // }
   handleSeclectFilter(value: string): void {
-    EventBus.$emit('filterByDay', value)
+    EventBus.$emit('deviceTableFilter', value)
   }
-  // get getRoleExport(): boolean {
-  //   return this.checkPemission('crowd-sale', ['export'])
-  // }
 
-  filterItem = (value: string) => {
-    console.log('filter', value)
-    const params = {
-      ...this.filter,
-      filter: value
-    }
-    EventBus.$emit('filterByDay', params)
-  }
   searchText = debounce((value: string) => {
     // console.log('SEARCH', value)
     // this.$emit('filter', {
@@ -122,11 +96,11 @@ export default class KycFilter extends Vue {
       ...this.filter,
       search: trim(value)
     }
-    EventBus.$emit('filterReport', params)
+    EventBus.$emit('deviceTableSearch', params)
   }, 500)
   destroyed(): void {
-    EventBus.$off('filterReport')
-    EventBus.$off('filterByDay')
+    EventBus.$off('deviceTableSearch')
+    EventBus.$off('deviceTableFilter')
   }
   viewType = 'chart'
   viewTable(value: string): void {
@@ -172,9 +146,6 @@ export default class KycFilter extends Vue {
 
   .button {
     height: 46px;
-  }
-  .hidden {
-    display: none;
   }
   .active {
     color: var(--bc-btn-default-text-hover);

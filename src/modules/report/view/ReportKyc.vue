@@ -11,10 +11,14 @@
         </div>
       </div>
     </div>
-    <report-filter />
+    <!-- <report-filter /> -->
+    <user-chart-filter v-if="this.$route.name == 'ReportUser' && this.viewType == 'chart'" />
+    <user-table-filter v-if="this.$route.name == 'ReportUser' && this.viewType == 'table'" />\
+
+    <device-chart-filter v-if="this.$route.name == 'ReportDevice' && this.viewType == 'chart'" />
+    <device-table-filter v-if="this.$route.name == 'ReportDevice' && this.viewType == 'table'" />
     <report-table v-if="this.$route.name == 'ReportUser' && this.viewType == 'table'" />
     <report-chart v-else-if="this.$route.name == 'ReportUser' && this.viewType == 'chart'" :dataChart="dataChart" />
-
     <device-table v-else-if="this.$route.name == 'ReportDevice' && this.viewType == 'table'" />
     <device-chart v-else-if="this.$route.name == 'ReportDevice' && this.viewType == 'chart'" :dataChartDevice="dataChartDevice" />
   </div>
@@ -30,8 +34,12 @@ import ReportChart from './../components/chart/ReportChart.vue'
 import EventBus from '@/utils/eventBus'
 import DeviceTable from './../components/DeviceTable.vue'
 import DeviceChart from '../components/chart/DeviceChart.vue'
+import UserTableFilter from '../components/filter/UserTableFIlter.vue'
+import UserChartFilter from '../components/filter/UserChartFilter.vue'
+import DeviceChartFilter from '../components/filter/DeviceChartFilter.vue'
+import DeviceTableFilter from '../components/filter/DeviceTableFilter.vue'
 const api: ReportRepository = getRepository('report')
-@Component({ components: { ReportTable, ReportFilter, ReportChart, DeviceTable, DeviceChart } })
+@Component({ components: { ReportTable, ReportFilter, ReportChart, DeviceTable, DeviceChart, UserTableFilter, UserChartFilter, DeviceChartFilter, DeviceTableFilter } })
 export default class BOCustomer extends Vue {
   tabs: Array<Record<string, any>> = [
     {
@@ -89,16 +97,12 @@ export default class BOCustomer extends Vue {
   }
   viewType = 'chart'
   async created(): Promise<void> {
-    EventBus.$on('filterByDay', this.handleFilterByDay)
     EventBus.$on('changeView', this.changeView)
-    this.getDataChart()
-    const name = this.$route.name!
   }
   handleFilterByDay(value: string | number): void {
     console.log('p', value)
   }
   changeView(value: string): void {
-    console.log('value', value)
     this.viewType = value
   }
 }
