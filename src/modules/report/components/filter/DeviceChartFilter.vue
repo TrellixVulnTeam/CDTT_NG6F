@@ -1,5 +1,5 @@
 <template>
-  <div class="pb-24 pt-24 be-flex align-center kyc-filter">
+  <div class="be-flex align-center kyc-filter">
     <div class="be-flex align-center">
       <div class="filter-role">
         <el-select v-model="filter.date" @change="handleSeclectFilter" popper-class="popper-select-role">
@@ -123,13 +123,8 @@ export default class DeviceChartFilter extends Vue {
 
 <style scoped lang="scss">
 .kyc-filter {
+  padding: 24px 36px;
   background-color: #fff;
-  padding:0 36px;
-
-  .input-search {
-    width: 400px;
-    margin-right: 30px;
-  }
 
   .button {
     height: 46px;

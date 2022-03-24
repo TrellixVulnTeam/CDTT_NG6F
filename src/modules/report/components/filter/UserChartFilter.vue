@@ -108,12 +108,7 @@ export default class UserChartFilter extends Vue {
 <style scoped lang="scss">
 .kyc-filter {
   background-color: #fff;
-  padding: 0 36px;
-
-  .input-search {
-    width: 400px;
-    margin-right: 30px;
-  }
+  padding: 24px 36px 12px 36px;
 
   .button {
     height: 46px;
