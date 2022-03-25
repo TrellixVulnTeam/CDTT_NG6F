@@ -224,7 +224,7 @@ export default class DeviceChartFilter extends Vue {
 
 <style scoped lang="scss">
 .kyc-filter {
-  padding: 24px;
+  padding: 24px 12px 24px 12px;
   background-color: #fff;
 
   .button {
