@@ -185,7 +185,7 @@
     }
     handleFilterUserTable(value: any): void {
       console.log('value', value)
-      this.query.orderBy = 'LAST_LOGIN'
+      this.query.orderBy = 'LAST_NAME'
       this.query.search = value.search
       this.getListUser()
       // this.query.searchd =

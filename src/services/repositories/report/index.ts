@@ -38,7 +38,7 @@ export default class ReportRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
-  
+
   async getDeviceListByUserID(params?: Record<string, any>): Promise<Record<string, any>> {
     try {
       const result = await request.get(`${this.prefix}/report/device/list/detail`, { params })
@@ -48,7 +48,6 @@ export default class ReportRepository extends BaseRepository {
     }
   }
 
-  
   async exportExcel(params: Record<string, any>): Promise<any> {
     try {
       const rs = await request.get(`${this.prefix}/report/user/export`, {

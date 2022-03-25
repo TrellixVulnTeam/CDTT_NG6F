@@ -46,7 +46,9 @@ export default class SubDeviceTable extends Vue {
   }
   created(): void {
     console.log('id', this.propDataQuery)
-    this.getDetailDeviceList()
+    if (this.propDataQuery) {
+      this.getDetailDeviceList()
+    }
   }
   //   query: any = {
   //     fromDate: '2021-03-04 08:12:17',
@@ -107,10 +109,6 @@ export default class SubDeviceTable extends Vue {
       width: 21.3%;
       width: 330px;
       text-align: left;
-      display: block;
-    }
-    span:last-child {
-      flex: 1;
       display: block;
     }
   }
