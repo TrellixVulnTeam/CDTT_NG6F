@@ -96,18 +96,15 @@ export default class SubDeviceTable extends Vue {
       display: block;
     }
     span:nth-child(1) {
-      min-width: 200px;
       width: 37.7%;
     }
     span:nth-child(2) {
-      min-width: 220px;
       width: 41%;
       text-align: left;
       display: block;
     }
     span:nth-child(3) {
       width: 21.3%;
-      width: 330px;
       text-align: left;
       display: block;
     }
