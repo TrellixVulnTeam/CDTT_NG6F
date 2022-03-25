@@ -1,5 +1,5 @@
 <template>
-  <div class="w-100 bg-white wallet-table">
+  <div class="w-100 bg-white wallet-table user-table">
     <div class="wallet-table__below">
       <base-table
         :data="responseList"
@@ -31,247 +31,249 @@
 </template>
 
 <script lang="ts">
-  import { Component, Prop, Vue, Mixins } from 'vue-property-decorator'
-  import getRepository from '@/services'
-  import ReportRepository from '@/services/repositories/report'
-  import EventBus from '@/utils/eventBus'
-  // import ReportChart from './chart/ReportChart.vue'
-  const api: ReportRepository = getRepository('report')
-  @Component({ components: {} })
-  export default class ReportTable extends Vue {
-    // @Prop({ required: true, type: Object, default: {} }) query!: Record<string, any>
-    @Prop({ required: true, type: Array, default: [] }) data!: Array<Record<string, any>>
-    query: Record<string, any> = {
-      search: '',
-      limit: 10,
-      page: 1,
-      orderBy: 'LAST_NAME',
-      total: 0
-    }
-    get getPaginationInfo(): any {
-      return this.$t('paging.user')
-    }
-    indexMethod(index: number): number {
-      return (this.query.page - 1) * this.query.limit + index + 1
-    }
-    handleCurrentChange(value: number): void {
-      console.log('size', value)
-      this.query.page = value
-      this.getListUser()
-    }
-    handleSizeChange(value: number): void {
-      console.log('size', value)
-      this.query.page = 1
-      this.query.limit = value
-      this.getListUser()
+import { Component, Prop, Vue, Mixins } from 'vue-property-decorator'
+import getRepository from '@/services'
+import ReportRepository from '@/services/repositories/report'
+import EventBus from '@/utils/eventBus'
+// import ReportChart from './chart/ReportChart.vue'
+const api: ReportRepository = getRepository('report')
+@Component({ components: {} })
+export default class ReportTable extends Vue {
+  // @Prop({ required: true, type: Object, default: {} }) query!: Record<string, any>
+  @Prop({ required: true, type: Array, default: [] }) data!: Array<Record<string, any>>
+  query: Record<string, any> = {
+    search: '',
+    limit: 10,
+    page: 1,
+    orderBy: 'LAST_NAME',
+    total: 0
+  }
+  get getPaginationInfo(): any {
+    return this.$t('paging.user')
+  }
+  indexMethod(index: number): number {
+    return (this.query.page - 1) * this.query.limit + index + 1
+  }
+  handleCurrentChange(value: number): void {
+    console.log('size', value)
+    this.query.page = value
+    this.getListUser()
+  }
+  handleSizeChange(value: number): void {
+    console.log('size', value)
+    this.query.page = 1
+    this.query.limit = value
+    this.getListUser()
 
-      // this.$emit('sizeChange', value)
-    }
-    responseList: Array<Record<string, any>> = []
+    // this.$emit('sizeChange', value)
+  }
+  responseList: Array<Record<string, any>> = []
 
-    async getListUser(): Promise<void> {
-      const params = {
-        ...this.query,
-        total: ''
-        // fromDate: '2022-01-04 08:12:17',
-        // toDate: '2022-12-11 08:12:17'
-      }
-      console.log('params', params)
-      const result = await api.getListUserReport(params)
-      this.responseList = result.content
-      this.query.total = result.totalElements
+  async getListUser(): Promise<void> {
+    const params = {
+      ...this.query,
+      total: ''
+      // fromDate: '2022-01-04 08:12:17',
+      // toDate: '2022-12-11 08:12:17'
     }
-    checkTimeFromDate(day: number): string {
-      const time = new Date(Date.now() - day * 24 * 60 * 60 * 1000).setHours(0, 0, 0)
-      return this.formatTimestampFromDate(time)
+    console.log('params', params)
+    const result = await api.getListUserReport(params)
+    this.responseList = result.content
+    this.query.total = result.totalElements
+  }
+  checkTimeFromDate(day: number): string {
+    const time = new Date(Date.now() - day * 24 * 60 * 60 * 1000).setHours(0, 0, 0)
+    return this.formatTimestampFromDate(time)
+  }
+  checkTimeToDate(): string {
+    const time = new Date(Date.now()).setHours(0, 0, 0)
+    return this.formatTimestampToDate(time)
+  }
+  formatTimestampToDate(value: number): string {
+    if (!value) {
+      return ''
     }
-    checkTimeToDate(): string {
-      const time = new Date(Date.now()).setHours(0, 0, 0)
-      return this.formatTimestampToDate(time)
+    // const gmt = new Date().getTimezoneOffset() / -60
+    // const ago = value - gmt * 60 * 60 * 1000
+    const date = new Date(value)
+    return (
+      date.getFullYear() +
+      '-' +
+      (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+      '-' +
+      (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
+      ' ' +
+      '23' +
+      ':' +
+      '59' +
+      ':' +
+      '59'
+    )
+  }
+  formatTimestampFromDate(value: number): string {
+    if (!value) {
+      return ''
     }
-    formatTimestampToDate(value: number): string {
-      if (!value) {
-        return ''
-      }
-      // const gmt = new Date().getTimezoneOffset() / -60
-      // const ago = value - gmt * 60 * 60 * 1000
-      const date = new Date(value)
-      return (
-        date.getFullYear() +
-        '-' +
-        (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
-        '-' +
-        (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
-        ' ' +
-        '23' +
-        ':' +
-        '59' +
-        ':' +
-        '59'
-      )
-    }
-    formatTimestampFromDate(value: number): string {
-      if (!value) {
-        return ''
-      }
-      // const gmt = new Date().getTimezoneOffset() / -60
-      // const ago = value - gmt * 60 * 60 * 1000
-      const date = new Date(value)
-      return (
-        date.getFullYear() +
-        '-' +
-        (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
-        '-' +
-        (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
-        ' ' +
-        '00' +
-        ':' +
-        '00' +
-        ':' +
-        '00'
-      )
-    }
-    async created(): Promise<void> {
+    // const gmt = new Date().getTimezoneOffset() / -60
+    // const ago = value - gmt * 60 * 60 * 1000
+    const date = new Date(value)
+    return (
+      date.getFullYear() +
+      '-' +
+      (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+      '-' +
+      (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
+      ' ' +
+      '00' +
+      ':' +
+      '00' +
+      ':' +
+      '00'
+    )
+  }
+  async created(): Promise<void> {
+    this.query.fromDate = this.checkTime(7)
+    this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
+    this.getListUser()
+    // this.getFromDateTodate()
+    EventBus.$on('filterUserTable', this.handleFilterUserTable)
+    EventBus.$on('filterUserTableByDay', this.handleFilterUserTableByDay)
+  }
+  handleFilterUserTableByDay(value: string | number): void {
+    if (value == 'yesterday') {
+      this.query.fromDate = this.checkTime(1)
+      this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
+    } else if (value == 'last7Days') {
       this.query.fromDate = this.checkTime(7)
       this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
-      this.getListUser()
-      // this.getFromDateTodate()
-      EventBus.$on('filterUserTable', this.handleFilterUserTable)
-      EventBus.$on('filterUserTableByDay', this.handleFilterUserTableByDay)
+    } else if (value == 'last14Days') {
+      this.query.fromDate = this.checkTime(14)
+      this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
+    } else if (value == 'last30Days') {
+      this.query.fromDate = this.checkTime(30)
+      this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
+    } else if (value == 'last90Days') {
+      this.query.fromDate = this.checkTime(90)
+      this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
     }
-    handleFilterUserTableByDay(value: string | number): void {
-      this.query.page = 1
-      if (value == 'yesterday') {
-        this.query.fromDate = this.checkTime(1)
-        this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
-      } else if (value == 'last7Days') {
-        this.query.fromDate = this.checkTime(7)
-        this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
-      } else if (value == 'last14Days') {
-        this.query.fromDate = this.checkTime(14)
-        this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
-      } else if (value == 'last30Days') {
-        this.query.fromDate = this.checkTime(30)
-        this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
-      } else if (value == 'last90Days') {
-        this.query.fromDate = this.checkTime(90)
-        this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
-      }
-      this.getListUser()
-    }
-    checkTime(day: number): string {
-      const time = new Date(Date.now() - day * 24 * 60 * 60 * 1000).setHours(0, 0, 0)
-      return this.formatTimestamp(time)
-    }
-    formatTimestamp(value: number): string {
-      if (!value) {
-        return ''
-      }
-      const gmt = new Date().getTimezoneOffset() / -60
-      const ago = value - gmt * 60 * 60 * 1000
-      const date = new Date(ago)
-      return (
-        date.getFullYear() +
-        '-' +
-        (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
-        '-' +
-        (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
-        ' ' +
-        (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) +
-        ':' +
-        (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) +
-        ':' +
-        (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds())
-      )
-    }
-    handleFilterUserTable(value: any): void {
-      console.log('value', value)
-      this.query.orderBy = 'LAST_NAME'
-      this.query.search = value.search
-      this.getListUser()
-      // this.query.searchd =
-    }
+    this.getListUser()
   }
+  checkTime(day: number): string {
+    const time = new Date(Date.now() - day * 24 * 60 * 60 * 1000).setHours(0, 0, 0)
+    return this.formatTimestamp(time)
+  }
+  formatTimestamp(value: number): string {
+    if (!value) {
+      return ''
+    }
+    const gmt = new Date().getTimezoneOffset() / -60
+    const ago = value - gmt * 60 * 60 * 1000
+    const date = new Date(ago)
+    return (
+      date.getFullYear() +
+      '-' +
+      (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+      '-' +
+      (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
+      ' ' +
+      (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) +
+      ':' +
+      (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) +
+      ':' +
+      (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds())
+    )
+  }
+  handleFilterUserTable(value: any): void {
+    console.log('value', value)
+    this.query.orderBy = 'LAST_NAME'
+    this.query.search = value.search
+    this.getListUser()
+    // this.query.searchd =
+  }
+}
 </script>
 
 <style lang="scss" scoped>
-  .abc {
+.abc {
+  display: flex;
+  align-items: center;
+}
+img {
+  width: 30px;
+  border-radius: 50%;
+  height: 30px;
+  margin-right: 10px;
+}
+.user-table {
+  width: 1777px;
+}
+.wallet-table {
+  .cards {
     display: flex;
     align-items: center;
-  }
-  img {
-    width: 30px;
-    border-radius: 50%;
-    height: 30px;
-    margin-right: 10px;
-  }
-  .wallet-table {
-    .cards {
+    justify-content: space-around;
+    .card {
+      color: #fff;
+      margin: 12px 12px;
+      width: 33.33333%;
       display: flex;
-      align-items: center;
-      justify-content: space-around;
-      .card {
-        color: #fff;
+      flex-direction: column;
+      box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
+      border-radius: 15px;
+      background: linear-gradient(90deg, #e13635, #eb6651 80%, #eb6651);
+      .card-title {
         margin: 12px 12px;
-        width: 33.33333%;
         display: flex;
-        flex-direction: column;
-        box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
-        border-radius: 15px;
-        background: linear-gradient(90deg, #e13635, #eb6651 80%, #eb6651);
-        .card-title {
-          margin: 12px 12px;
-          display: flex;
-          flex-direction: row-reverse;
-          justify-content: space-between;
-          align-items: center;
-          p {
-            font-size: 14.26px;
-          }
-        }
-        .card-value {
-          margin: 12px 12px;
-          font-size: 30px;
-          line-height: 48px;
-          font-weight: 700;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        align-items: center;
+        p {
+          font-size: 14.26px;
         }
       }
+      .card-value {
+        margin: 12px 12px;
+        font-size: 30px;
+        line-height: 48px;
+        font-weight: 700;
+      }
     }
-    &__above {
-      border-bottom: 1px solid var(--bc-border-primary);
-      &-tabs {
-        .tab-item {
-          padding: 16px 12px;
-          position: relative;
-          &:hover {
-            color: var(--bc-tab-active);
-          }
-        }
-        .tab-active {
+  }
+  &__above {
+    border-bottom: 1px solid var(--bc-border-primary);
+    &-tabs {
+      .tab-item {
+        padding: 16px 12px;
+        position: relative;
+        &:hover {
           color: var(--bc-tab-active);
-          font-weight: 600;
-          &::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            bottom: 0;
-            left: 0;
-            background-color: var(--bc-tab-active);
-          }
         }
       }
-    }
-    &__below {
-      padding: 0 24px;
-      .table-wallet {
-        .amount-decrease {
-          color: var(--bc-status-error);
-        }
-        .amount-increase {
-          color: var(--bc-status-success);
+      .tab-active {
+        color: var(--bc-tab-active);
+        font-weight: 600;
+        &::after {
+          content: '';
+          position: absolute;
+          width: 100%;
+          height: 2px;
+          bottom: 0;
+          left: 0;
+          background-color: var(--bc-tab-active);
         }
       }
     }
   }
+  &__below {
+    padding: 0 24px;
+    .table-wallet {
+      .amount-decrease {
+        color: var(--bc-status-error);
+      }
+      .amount-increase {
+        color: var(--bc-status-success);
+      }
+    }
+  }
+}
 </style>
