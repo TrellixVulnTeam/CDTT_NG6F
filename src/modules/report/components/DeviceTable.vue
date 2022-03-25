@@ -221,6 +221,7 @@ export default class DeviceTable extends Vue {
       this.query.fromDate = this.checkTime(90)
       this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
     }
+    this.query.page =1 
     // console.log('query', this.query)
     this.getListDevice()
   }
