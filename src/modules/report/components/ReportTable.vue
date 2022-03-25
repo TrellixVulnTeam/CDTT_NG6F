@@ -185,9 +185,11 @@ export default class ReportTable extends Vue {
     )
   }
   handleFilterUserTable(value: any): void {
-    console.log('value', value)
+    
+    this.query.page = 1
     this.query.orderBy = 'LAST_NAME'
     this.query.search = value.search
+     console.log('value', this.query)
     this.getListUser()
     // this.query.searchd =
   }

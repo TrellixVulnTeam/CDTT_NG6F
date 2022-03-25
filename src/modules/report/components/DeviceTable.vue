@@ -252,6 +252,7 @@ export default class DeviceTable extends Vue {
   }
   handleFilterReport(value: any): void {
     console.log('value', value)
+    this.query.page =1 
     this.query.orderBy = 'LAST_NAME'
     this.query.search = value.search
     this.getListDevice()
