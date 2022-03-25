@@ -78,6 +78,7 @@ export default class SubDeviceTable extends Vue {
 .sub-device-table {
   .pagination {
     margin: 0 12px;
+    font-size: 14px;
   }
   .item {
     display: flex;
@@ -92,6 +93,7 @@ export default class SubDeviceTable extends Vue {
       border-bottom: none;
     }
     span {
+      color: #363636;
       word-break: break-word;
       display: block;
     }
