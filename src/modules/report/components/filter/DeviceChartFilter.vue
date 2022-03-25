@@ -55,12 +55,12 @@
 
     listFilter: Record<string, any>[] = [
       {
-        value: 'last7Days',
-        label: this.$i18n.t('report.filter.last7Days')
-      },
-      {
         value: 'yesterday',
         label: this.$i18n.t('report.filter.yesterday')
+      },
+      {
+        value: 'last7Days',
+        label: this.$i18n.t('report.filter.last7Days')
       },
       {
         value: 'last14Days',

@@ -60,12 +60,12 @@
 
     listFilter: Record<string, any>[] = [
       {
-        value: 'last7Days',
-        label: this.$i18n.t('report.filter.last7Days')
-      },
-      {
         value: 'yesterday',
         label: this.$i18n.t('report.filter.yesterday')
+      },
+      {
+        value: 'last7Days',
+        label: this.$i18n.t('report.filter.last7Days')
       },
       {
         value: 'last14Days',
@@ -203,7 +203,7 @@
         ?.exportExcel(params)
         .then(data => {
           response = data
-          console.log('res',data);
+          console.log('res', data)
           const url = window.URL.createObjectURL(new Blob([response.data]))
           const link = document.createElement('a')
           link.href = url
