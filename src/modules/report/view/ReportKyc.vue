@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator'
+  import { Component, Vue, Watch } from 'vue-property-decorator'
   import ReportTable from '../components/ReportTable.vue'
   import ReportFilter from '../components/filter/ReportFilter.vue'
   import getRepository from '@/services'
@@ -85,8 +85,13 @@
       }
       this.dataChartDevice = result
     }
+    @Watch('$route.name') handleSearch(): void {
+      this.viewType = 'chart'
+    }
 
     handleChangeTab(tab): void {
+      this.viewType == 'chart'
+      this.$forceUpdate()
       console.log('tab', this.$route.name)
       this.$router.push({ name: tab.routeName }).then(() => {
         // this.resetQuery()

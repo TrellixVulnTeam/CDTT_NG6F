@@ -138,7 +138,7 @@
       fromDate: this.checkTimeFromDate(7),
       toDate: this.checkTimeToDate(),
       timezone: new Date().getTimezoneOffset() / -60 > 0 ? '+' + new Date().getTimezoneOffset() / -60 : '-' + new Date().getTimezoneOffset() / -60,
-      orderBy: 'LAST_LOGIN'
+      orderBy: 'LAST_NAME'
     }
     checkTimeFromDate(day: number): string {
       const time = new Date(Date.now() - day * 24 * 60 * 60 * 1000).setHours(0, 0, 0)

@@ -202,20 +202,24 @@
     handleFilterByDay(value: string | number): void {
       console.log('2323', this.checkTime(2))
       if (value == 'yesterday') {
-        this.query.fromDate = this.checkTimeFromDate(1)
-        this.query.toDate = this.checkTimeToDate()
+        // this.query.fromDate = this.checkTimeFromDate(1)
+        // this.query.toDate = this.checkTimeToDate()
+        this.query.fromDate = this.checkTime(1)
+        this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
       } else if (value == 'last7Days') {
-        this.query.fromDate = this.checkTimeFromDate(7)
-        this.query.toDate = this.checkTimeToDate()
+        // this.query.fromDate = this.checkTimeFromDate(7)
+        // this.query.toDate = this.checkTimeToDate()
+        this.query.fromDate = this.checkTime(7)
+        this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
       } else if (value == 'last14Days') {
-        this.query.fromDate = this.checkTimeFromDate(14)
-        this.query.toDate = this.checkTimeToDate()
+        this.query.fromDate = this.checkTime(14)
+        this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
       } else if (value == 'last30Days') {
-        this.query.fromDate = this.checkTimeFromDate(30)
-        this.query.toDate = this.checkTimeToDate()
+        this.query.fromDate = this.checkTime(30)
+        this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
       } else if (value == 'last90Days') {
-        this.query.fromDate = this.checkTimeFromDate(90)
-        this.query.toDate = this.checkTimeToDate()
+        this.query.fromDate = this.checkTime(90)
+        this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
       }
       // console.log('query', this.query)
       this.getListDevice()
@@ -247,7 +251,7 @@
     }
     handleFilterReport(value: any): void {
       console.log('value', value)
-      this.query.orderBy = 'LAST_LOGIN'
+      this.query.orderBy = 'LAST_NAME'
       this.query.search = value.search
       this.getListDevice()
       // this.query.searchd =

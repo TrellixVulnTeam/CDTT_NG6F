@@ -46,7 +46,10 @@
     }
     created(): void {
       console.log('id', this.propDataQuery)
-      this.getDetailDeviceList()
+      if(this.propDataQuery){
+ this.getDetailDeviceList()
+      }
+     
     }
     //   query: any = {
     //     fromDate: '2021-03-04 08:12:17',
