@@ -47,28 +47,28 @@ export default class UserChartFilter extends Vue {
   lang = 'en'
   loading = false
 
-    listFilter: Record<string, any>[] = [
-      {
-        value: 'yesterday',
-        label: this.$i18n.t('report.filter.yesterday')
-      },
-      {
-        value: 'last7Days',
-        label: this.$i18n.t('report.filter.last7Days')
-      },
-      {
-        value: 'last14Days',
-        label: this.$i18n.t('report.filter.last14Days')
-      },
-      {
-        value: 'last30Days',
-        label: this.$i18n.t('report.filter.last30Days')
-      },
-      {
-        value: 'last90Days',
-        label: this.$i18n.t('report.filter.last90Days')
-      }
-    ]
+  listFilter: Record<string, any>[] = [
+    {
+      value: 'yesterday',
+      label: this.$i18n.t('report.filter.yesterday')
+    },
+    {
+      value: 'last7Days',
+      label: this.$i18n.t('report.filter.last7Days')
+    },
+    {
+      value: 'last14Days',
+      label: this.$i18n.t('report.filter.last14Days')
+    },
+    {
+      value: 'last30Days',
+      label: this.$i18n.t('report.filter.last30Days')
+    },
+    {
+      value: 'last90Days',
+      label: this.$i18n.t('report.filter.last90Days')
+    }
+  ]
 
   handleSeclectFilter(value: string): void {
     EventBus.$emit('filterUserchart', value)
@@ -205,8 +205,7 @@ export default class UserChartFilter extends Vue {
 <style scoped lang="scss">
 .kyc-filter {
   background-color: #fff;
-    padding: 24px 12px 12px 12px;
-
+  padding: 24px 24px 12px 24px;
   .button {
     height: 46px;
   }

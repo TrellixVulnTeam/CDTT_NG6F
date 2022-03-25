@@ -95,6 +95,7 @@ export default class SubDeviceTable extends Vue {
     span {
       word-break: break-word;
       display: block;
+      color: #363636;
     }
     span:nth-child(1) {
       width: 37.7%;

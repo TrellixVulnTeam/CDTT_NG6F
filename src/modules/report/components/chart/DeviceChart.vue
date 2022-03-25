@@ -86,6 +86,7 @@ export default class DeviceChart extends Vue {
 
 <style lang="scss" scoped>
 .device-chart {
+  padding: 0 12px;
   .chart {
     .cards {
       display: flex;

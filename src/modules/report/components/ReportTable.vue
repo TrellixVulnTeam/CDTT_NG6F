@@ -204,6 +204,9 @@ img {
   height: 30px;
   margin-right: 10px;
 }
+.user-table {
+  width: 1777px;
+}
 .wallet-table {
   .cards {
     display: flex;

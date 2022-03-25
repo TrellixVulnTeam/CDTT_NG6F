@@ -86,6 +86,7 @@ export default class ReportChart extends Vue {
 
 <style lang="scss" scoped>
 .report-chart {
+  padding: 0 12px;
   .chart {
     .cards {
       display: flex;
