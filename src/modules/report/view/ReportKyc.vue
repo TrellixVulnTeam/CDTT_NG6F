@@ -14,7 +14,6 @@
 
     <user-chart-filter v-if="this.$route.name == 'ReportUser' && this.viewType == 'chart'" />
     <user-table-filter v-if="this.$route.name == 'ReportUser' && this.viewType == 'table'" />
-
     <device-chart-filter v-if="this.$route.name == 'ReportDevice' && this.viewType == 'chart'" />
     <device-table-filter v-if="this.$route.name == 'ReportDevice' && this.viewType == 'table'" />
 
