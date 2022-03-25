@@ -77,7 +77,7 @@ export default class SubDeviceTable extends Vue {
 <style lang="scss" scoped>
 .sub-device-table {
   .pagination {
-    margin: 0 12px;
+    margin: 0 20px;
     font-size: 14px;
   }
   .item {
