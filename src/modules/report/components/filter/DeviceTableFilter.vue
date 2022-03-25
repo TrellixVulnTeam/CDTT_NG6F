@@ -59,7 +59,7 @@
     }
 
     listFilter: Record<string, any>[] = [
-     {
+      {
         value: 'yesterday',
         label: this.$i18n.t('report.filter.yesterday')
       },
@@ -106,6 +106,7 @@
     }
 
     searchText = debounce((value: string) => {
+      this.query.search = trim(value)
       // console.log('SEARCH', value)
       // this.$emit('filter', {
       //   ...this.filter,..

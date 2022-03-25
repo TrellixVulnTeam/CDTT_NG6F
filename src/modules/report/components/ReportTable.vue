@@ -140,6 +140,7 @@
       EventBus.$on('filterUserTableByDay', this.handleFilterUserTableByDay)
     }
     handleFilterUserTableByDay(value: string | number): void {
+      this.query.page = 1
       if (value == 'yesterday') {
         this.query.fromDate = this.checkTime(1)
         this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)

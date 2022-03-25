@@ -48,7 +48,7 @@
     loading = false
 
     listFilter: Record<string, any>[] = [
-     {
+      {
         value: 'yesterday',
         label: this.$i18n.t('report.filter.yesterday')
       },

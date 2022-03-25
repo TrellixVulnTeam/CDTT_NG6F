@@ -201,6 +201,7 @@
 
     handleFilterByDay(value: string | number): void {
       console.log('2323', this.checkTime(2))
+      this.query.page = 1
       if (value == 'yesterday') {
         // this.query.fromDate = this.checkTimeFromDate(1)
         // this.query.toDate = this.checkTimeToDate()

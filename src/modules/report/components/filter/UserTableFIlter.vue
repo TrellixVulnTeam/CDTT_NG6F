@@ -109,6 +109,7 @@
     // }
 
     searchText = debounce((value: string) => {
+      this.query.search = trim(value)
       // console.log('SEARCH', value)
       // this.$emit('filter', {
       //   ...this.filter,..
@@ -199,6 +200,8 @@
         ...this.query,
         orderBy: 'LAST_NAME'
       }
+      console.log('this.q', this.query);
+      
       await api
         ?.exportExcel(params)
         .then(data => {
