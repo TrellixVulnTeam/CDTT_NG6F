@@ -79,10 +79,13 @@ export default class SubDeviceTable extends Vue {
   }
   .item {
     display: flex;
-    justify-content: center;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
     padding: 15px;
     border-bottom: 1px solid #eee;
     margin-left: 143px;
+    margin-right: 143px;
     &:last-child {
       border-bottom: none;
     }
@@ -91,15 +94,18 @@ export default class SubDeviceTable extends Vue {
       display: block;
     }
     span:nth-child(1) {
-      flex-basis: 500px;
+      min-width: 200px;
+      width: 37.7%;
     }
     span:nth-child(2) {
-      flex-basis: 550px;
+      min-width: 220px;
+      width: 41%;
       text-align: left;
       display: block;
     }
     span:nth-child(3) {
-      flex-basis: 192px;
+      width: 21.3%;
+      width: 330px;
       text-align: left;
       display: block;
     }

@@ -45,7 +45,7 @@
           </template>
         </el-table-column>
         <el-table-column :label="$t('report.table.email')" prop="username" min-width="220"> </el-table-column>
-        <el-table-column :label="$t('report.table.device')" prop="device" width="330"> </el-table-column>
+        <el-table-column :label="$t('report.table.device')" prop="device" min-width="100"> </el-table-column>
         <el-table-column :label="$t('report.table.totalLogin')" prop="totalLogin" align="right" width="200"></el-table-column>
       </base-table>
     </div>
