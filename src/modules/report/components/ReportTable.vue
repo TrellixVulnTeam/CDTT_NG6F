@@ -218,6 +218,7 @@ export default class ReportTable extends Vue {
       this.query.fromDate = this.checkTime(90)
       this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
     }
+    this.query.page =1 
     this.getListUser()
   }
   checkTime(day: number): string {
@@ -246,9 +247,11 @@ export default class ReportTable extends Vue {
     )
   }
   handleFilterUserTable(value: any): void {
-    console.log('value', value)
+    
+    this.query.page = 1
     this.query.orderBy = 'LAST_NAME'
     this.query.search = value.search
+     console.log('value', this.query)
     this.getListUser()
     // this.query.searchd =
   }
