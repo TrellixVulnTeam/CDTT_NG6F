@@ -46,11 +46,6 @@
     }
     getDataChartDevice(): void {
       try {
-        // if (this.isLoading) {
-        //   return
-        // }
-        // this.isLoading = true
-
         const params = {
           fromDate: this.query.fromDate,
           toDate: this.query.toDate,
@@ -63,7 +58,6 @@
 
           console.log('this.chartReportData()', this.chartReportData())
           this.renderChart()
-          // this.isLoading = false
         })
       } catch (error) {
         this.isLoading = false
@@ -75,20 +69,13 @@
     }
 
     async created(): Promise<void> {
-      EventBus.$on('filterUserchart', this.handleFilterUserChart)
       EventBus.$on('filterDeviceChart', this.handleFilterDeviceChart)
-      if (this.$route.name == 'ReportUser') {
-        this.handleFilterUserChart('last7Days')
-      } else {
-        this.handleFilterDeviceChart('last7Days')
-      }
+      this.handleFilterDeviceChart('last7Days')
     }
 
     destroyed(): void {
       console.log('destroyed')
-
-      // EventBus.$off('filterUserchart')
-      // EventBus.$off('filterDeviceChart')
+      EventBus.$off('filterDeviceChart')
     }
     checkTime(day: number): string {
       const time = new Date(Date.now() - day * 24 * 60 * 60 * 1000).setHours(0, 0, 0)
@@ -165,25 +152,7 @@
         (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds())
       )
     }
-    handleFilterUserChart(value: string | number): void {
-      if (value == 'yesterday') {
-        this.query.fromDate = this.checkTimeFromDate(1)
-        this.query.toDate = this.checkTimeToDate()
-      } else if (value == 'last7Days') {
-        this.query.fromDate = this.checkTimeFromDate(7)
-        this.query.toDate = this.checkTimeToDate()
-      } else if (value == 'last14Days') {
-        this.query.fromDate = this.checkTimeFromDate(14)
-        this.query.toDate = this.checkTimeToDate()
-      } else if (value == 'last30Days') {
-        this.query.fromDate = this.checkTimeFromDate(30)
-        this.query.toDate = this.checkTimeToDate()
-      } else if (value == 'last90Days') {
-        this.query.fromDate = this.checkTimeFromDate(90)
-        this.query.toDate = this.checkTimeToDate()
-      }
-      this.getDataChart()
-    }
+
     handleFilterDeviceChart(value: string | number): void {
       if (value == 'yesterday') {
         this.query.fromDate = this.checkTimeFromDate(1)

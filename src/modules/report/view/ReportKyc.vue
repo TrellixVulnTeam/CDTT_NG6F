@@ -39,7 +39,19 @@
   import DeviceChartFilter from '../components/filter/DeviceChartFilter.vue'
   import DeviceTableFilter from '../components/filter/DeviceTableFilter.vue'
   const api: ReportRepository = getRepository('report')
-  @Component({ components: { ReportTable, ReportFilter, ReportChart, DeviceTable, DeviceChart, UserTableFilter, UserChartFilter, DeviceChartFilter, DeviceTableFilter } })
+  @Component({
+    components: {
+      ReportTable,
+      ReportFilter,
+      ReportChart,
+      DeviceTable,
+      DeviceChart,
+      UserTableFilter,
+      UserChartFilter,
+      DeviceChartFilter,
+      DeviceTableFilter
+    }
+  })
   export default class BOCustomer extends Vue {
     tabs: Array<Record<string, any>> = [
       {
