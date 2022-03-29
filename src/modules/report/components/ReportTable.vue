@@ -67,7 +67,69 @@ export default class ReportTable extends Vue {
 
     // this.$emit('sizeChange', value)
   }
-  responseList: Array<Record<string, any>> = []
+  responseList: Array<Record<string, any>> = [
+    {
+      fullName: "lamvb",
+      username: "lamvb@gmail.com",
+      lastLoginDate: "03/29/2021 13:11:24",
+      totalLogin: "2"
+    },
+    {
+      fullName: "lamvb",
+      username: "lamvb@gmail.com",
+      lastLoginDate: "03/29/2021 13:11:24",
+      totalLogin: "2"
+    },
+    {
+      fullName: "lamvb",
+      username: "lamvb@gmail.com",
+      lastLoginDate: "03/29/2021 13:11:24",
+      totalLogin: "2"
+    },
+    {
+      fullName: "lamvb",
+      username: "lamvb@gmail.com",
+      lastLoginDate: "03/29/2021 13:11:24",
+      totalLogin: "2"
+    },
+    {
+      fullName: "lamvb",
+      username: "lamvb@gmail.com",
+      lastLoginDate: "03/29/2021 13:11:24",
+      totalLogin: "2"
+    },
+    {
+      fullName: "lamvb",
+      username: "lamvb@gmail.com",
+      lastLoginDate: "03/29/2021 13:11:24",
+      totalLogin: "2"
+    },
+    {
+      fullName: "lamvb",
+      username: "lamvb@gmail.com",
+      lastLoginDate: "03/29/2021 13:11:24",
+      totalLogin: "2"
+    },
+    {
+      fullName: "lamvb",
+      username: "lamvb@gmail.com",
+      lastLoginDate: "03/29/2021 13:11:24",
+      totalLogin: "2"
+    },
+    {
+      fullName: "lamvb",
+      username: "lamvb@gmail.com",
+      lastLoginDate: "03/29/2021 13:11:24",
+      totalLogin: "2"
+    },
+    {
+      fullName: "lamvb",
+      username: "lamvb@gmail.com",
+      lastLoginDate: "03/29/2021 13:11:24",
+      totalLogin: "2"
+    },
+    
+  ]
 
   async getListUser(): Promise<void> {
     const params = {
