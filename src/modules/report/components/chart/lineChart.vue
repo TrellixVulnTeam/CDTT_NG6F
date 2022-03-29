@@ -187,7 +187,7 @@
     renderChart(): void {
       am4core.useTheme(am4themes_animated)
       let chart = am4core.create('chartdiv', am4charts.XYChart)
-
+      chart.paddingRight = 30
       // Add data
       chart.data = this.data
 
@@ -195,7 +195,8 @@
       let dateAxis = chart.xAxes.push(new am4charts.DateAxis())
       dateAxis.renderer.grid.template.location = 0
       dateAxis.renderer.minGridDistance = 50
-
+      dateAxis.startLocation = 0.5
+      dateAxis.endLocation = 0.5
       let valueAxis = chart.yAxes.push(new am4charts.ValueAxis())
 
       // Create series

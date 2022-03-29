@@ -17,7 +17,7 @@
             <p>{{ $t('report.card.totalUserLogin') }}</p>
           </div>
           <div class="card-value">
-            <p>{{ this.dataHeader.totalUserLogin }}</p>
+            <p>{{ this.dataHeader.totalUserLogin | formatNumber }}</p>
           </div>
         </div>
         <div class="card percentage-login">

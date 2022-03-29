@@ -8,7 +8,7 @@
             <p>Web</p>
           </div>
           <div class="card-value">
-            <p>{{ this.dataChartDevice.totalWebLogin }}</p>
+            <p>{{ this.dataChartDevice.totalWebLogin | formatNumber }}</p>
             <p>{{ this.dataChartDevice.percentWebLogin }}%</p>
           </div>
         </div>
@@ -18,7 +18,7 @@
             <p>Android</p>
           </div>
           <div class="card-value">
-            <p>{{ this.dataChartDevice.totalAndroidLogin }}</p>
+            <p>{{ this.dataChartDevice.totalAndroidLogin | formatNumber }}</p>
             <p>{{ this.dataChartDevice.percentAndroidLogin }}%</p>
           </div>
         </div>
@@ -28,7 +28,7 @@
             <p>iOS</p>
           </div>
           <div class="card-value">
-            <p>{{ this.dataChartDevice.totalIOSLogin }}</p>
+            <p>{{ this.dataChartDevice.totalIOSLogin | formatNumber }}</p>
             <p>{{ this.dataChartDevice.percentIOSLogin }}%</p>
           </div>
         </div>
