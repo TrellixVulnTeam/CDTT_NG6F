@@ -91,7 +91,56 @@ export default class DeviceTable extends Vue {
 
     // this.$emit('sizeChange', value)
   }
-  responseList: Array<Record<string, any>> = []
+  responseList: Array<Record<string, any>> = [
+    {
+      fullName: "lamvb",
+      username: "lamvb@gmail.com",
+      device: "",
+      totalLogin: "2"
+    },
+    {
+      fullName: "lamvb",
+      username: "lamvb@gmail.com",
+      device: "",
+      totalLogin: "2"
+    },
+    {
+      fullName: "lamvb",
+      username: "lamvb@gmail.com",
+      device: "",
+      totalLogin: "2"
+    },
+    {
+      fullName: "lamvb",
+      username: "lamvb@gmail.com",
+      device: "",
+      totalLogin: "2"
+    },
+    {
+      fullName: "lamvb",
+      username: "lamvb@gmail.com",
+      device: "",
+      totalLogin: "2"
+    },
+    {
+      fullName: "lamvb",
+      username: "lamvb@gmail.com",
+      device: "",
+      totalLogin: "2"
+    },
+    {
+      fullName: "lamvb",
+      username: "lamvb@gmail.com",
+      device: "",
+      totalLogin: "2"
+    },
+    {
+      fullName: "lamvb",
+      username: "lamvb@gmail.com",
+      device: "",
+      totalLogin: "2"
+    }
+  ]
   detailList: Array<Record<string, any>> = []
   async handleExpandChange(data: { row: any; expandedRows: any[] }): Promise<void> {
     console.log('abc')
