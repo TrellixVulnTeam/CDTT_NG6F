@@ -196,6 +196,7 @@
     viewTable(value: string): void {
       this.viewType = 'table'
       EventBus.$emit('changeView', value)
+      this.$emit('dataFilter', value)
     }
     viewChart(value: string): void {
       this.viewType = 'chart'

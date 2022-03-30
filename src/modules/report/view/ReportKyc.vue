@@ -12,8 +12,8 @@
       </div>
     </div>
 
-    <user-chart-filter v-if="this.$route.name == 'ReportUser' && this.viewType == 'chart'" />
-    <user-table-filter v-if="this.$route.name == 'ReportUser' && this.viewType == 'table'" />
+    <user-chart-filter v-if="this.$route.name == 'ReportUser' && this.viewType == 'chart'" @emitFilterUserTable="getDataFilterUserTable" />
+    <user-table-filter :propFilterUserTable="propFilterUserTable" v-if="this.$route.name == 'ReportUser' && this.viewType == 'table'" />
     <device-chart-filter v-if="this.$route.name == 'ReportDevice' && this.viewType == 'chart'" />
     <device-table-filter v-if="this.$route.name == 'ReportDevice' && this.viewType == 'table'" />
 
@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue, Watch } from 'vue-property-decorator'
+  import { Component, Emit, Vue, Watch } from 'vue-property-decorator'
   import ReportTable from '../components/ReportTable.vue'
   import ReportFilter from '../components/filter/ReportFilter.vue'
   import getRepository from '@/services'
@@ -39,6 +39,9 @@
   import DeviceChartFilter from '../components/filter/DeviceChartFilter.vue'
   import DeviceTableFilter from '../components/filter/DeviceTableFilter.vue'
   const api: ReportRepository = getRepository('report')
+  // @Emit(event?: string | number) try() {
+  //     return this.propFilter
+  //   }
   @Component({
     components: {
       ReportTable,
@@ -115,6 +118,12 @@
     viewType = 'chart'
     async created(): Promise<void> {
       EventBus.$on('changeView', this.changeView)
+    }
+
+    propFilterUserTable: any = {}
+    getDataFilterUserTable(value: any): void {
+      console.log('filterUser', value)
+      this.propFilterUserTable = value
     }
     handleFilterByDay(value: string | number): void {
       console.log('p', value)
