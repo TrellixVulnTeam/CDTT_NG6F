@@ -57,6 +57,7 @@
   @Component({ components: { LineChartDevice } })
   export default class DeviceChart extends Vue {
     @Prop({ required: true, type: Array, default: [] }) dataChartDevice!: Array<Record<string, any>>
+    @Prop({ required: true }) propFilterDevice!: any
     lines: Array<Record<string, any>> = [
       {
         label: 'Web',

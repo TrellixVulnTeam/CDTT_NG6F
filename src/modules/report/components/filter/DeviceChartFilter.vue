@@ -13,13 +13,13 @@
         <span style="padding-left: 5px">{{ $t('button.export-excel') }}</span>
       </div>
     </el-button>
-    <el-button class="active btn-default btn-close btn-h-40 ml-auto be-flex align-center button" style="width: auto !important" @click="viewChart('chart')">
+    <el-button class="active btn-default btn-close btn-h-40 ml-auto be-flex align-center button" style="width: auto !important" @click="changView('chart')">
       <div class="be-flex align-center">
         <base-icon icon="chart2" style="display: inline-flex" size="20" />
         <span style="padding-left: 5px">{{ $t('button.change-chart') }}</span>
       </div>
     </el-button>
-    <el-button class="btn-default btn-close btn-h-40 ml-auto be-flex align-center button" style="width: auto !important" @click="viewTable('table')">
+    <el-button class="btn-default btn-close btn-h-40 ml-auto be-flex align-center button" style="width: auto !important" @click="changeView('table')">
       <div class="be-flex align-center">
         <!-- <base-icon icon="icon-table" style="display: inline-flex" size="22" /> -->
         <base-icon icon="list2" style="display: inline-flex" />
@@ -40,6 +40,7 @@
   @Component
   export default class DeviceChartFilter extends Vue {
     @Prop({ required: true }) isChangeTab!: boolean
+    @Prop({ required: true }) propFilterDevice!: any
     filter = {
       search: '',
       date: 'last7Days',
@@ -101,7 +102,7 @@
       fromDate: this.checkTimeFromDate(7),
       toDate: this.checkTimeToDate(),
       timezone: new Date().getTimezoneOffset() / -60 > 0 ? '+' + new Date().getTimezoneOffset() / -60 : '-' + new Date().getTimezoneOffset() / -60,
-      orderBy: 'LAST_NAME'
+      orderBy: 'LAST_LOGIN'
     }
     checkTimeFromDate(day: number): string {
       const time = new Date(Date.now() - day * 24 * 60 * 60 * 1000).setHours(0, 0, 0)
@@ -161,7 +162,7 @@
       // delete this.params.newAuditStatus
       const params = {
         ...this.query,
-        orderBy: 'LAST_NAME'
+        orderBy: 'LAST_LOGIN'
       }
       await api
         ?.exportExcelDevice(params)
@@ -193,18 +194,16 @@
       EventBus.$off('filterDeviceChart')
     }
     viewType = 'chart'
-    viewTable(value: string): void {
-      this.viewType = 'table'
-      EventBus.$emit('changeView', value)
-      this.$emit('dataFilter', value)
-    }
-    viewChart(value: string): void {
-      this.viewType = 'chart'
+    changeView(value: string): void {
+      this.viewType = value
+      this.$forceUpdate()
+      this.$emit('emitFilterDevice', this.filter)
       EventBus.$emit('changeView', value)
     }
     created(): void {
       this.lang = window.localStorage.getItem('bc-lang')!
       // EventBus.$on('changeTabMember', this.handleChangeTab)
+      this.propFilterDevice.date ? (this.filter.date = this.propFilterDevice.date) : (this.filter.date = 'last7Days')
       this.$emit('filter', this.filter)
     }
 

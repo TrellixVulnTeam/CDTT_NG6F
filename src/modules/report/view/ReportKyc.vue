@@ -12,24 +12,17 @@
       </div>
     </div>
 
-    <user-chart-filter
-      v-if="this.$route.name == 'ReportUser' && this.viewType == 'chart'"
-      :propFilterUser="propFilterUser"
-      @emitFilterUserTable="getDataFilterUserTable"
-    />
-    <user-table-filter
-      :propFilterUser="propFilterUser"
-      v-if="this.$route.name == 'ReportUser' && this.viewType == 'table'"
-      @emitFilterUserChartnew="getDataFilterUserTable"
-    />
-    <device-chart-filter v-if="this.$route.name == 'ReportDevice' && this.viewType == 'chart'" />
-    <device-table-filter v-if="this.$route.name == 'ReportDevice' && this.viewType == 'table'" />
+    <user-chart-filter v-if="this.$route.name == 'ReportUser' && this.viewType == 'chart'" :propFilterUser="propFilterUser" @emitFilterUserTable="getDataFilterUserTable" />
+    <user-table-filter :propFilterUser="propFilterUser" v-if="this.$route.name == 'ReportUser' && this.viewType == 'table'" @emitFilterUserChartnew="getDataFilterUserTable" />
+
+    <device-chart-filter v-if="this.$route.name == 'ReportDevice' && this.viewType == 'chart'" @emitFilterDevie="getDataFilterDevice" />
+    <device-table-filter v-if="this.$route.name == 'ReportDevice' && this.viewType == 'table'" @emitFilterDiviceChartNew="getDataFilterDeviceTable" />
 
     <report-table :propFilterUser="propFilterUser" v-if="this.$route.name == 'ReportUser' && this.viewType == 'table'" />
     <report-chart v-else-if="this.$route.name == 'ReportUser' && this.viewType == 'chart'" :dataChart="dataChart" :propFilterUser="propFilterUser" />
 
-    <device-table v-else-if="this.$route.name == 'ReportDevice' && this.viewType == 'table'" />
-    <device-chart v-else-if="this.$route.name == 'ReportDevice' && this.viewType == 'chart'" :dataChartDevice="dataChartDevice" />
+    <device-table v-else-if="this.$route.name == 'ReportDevice' && this.viewType == 'table'" :propFilterDevice="propFilterDevice" />
+    <device-chart v-else-if="this.$route.name == 'ReportDevice' && this.viewType == 'chart'" :dataChartDevice="dataChartDevice" :propFilterDevice="propFilterDevice" />
   </div>
 </template>
 
@@ -130,15 +123,14 @@
     }
 
     propFilterUser: any = {}
+    propFilterDevice: any = {}
     getDataFilterUserTable(value: any): void {
       console.log('filterUser', value)
       this.propFilterUser = value
     }
-    propFilterUserChart: any = {}
-    getDataFilterUserChart(value: any): void {
-      this.propFilterUserChart = value
+    getDataFilterDevice(value: any): void {
+      this.propFilterDevice = value
     }
-
     handleFilterByDay(value: string | number): void {
       console.log('p', value)
     }

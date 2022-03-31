@@ -17,7 +17,7 @@
   @Component
   export default class lineChart extends Vue {
     @Prop({ required: true, type: Array, default: () => [] }) lines!: Array<Record<string, any>>
-
+    @Prop({ required: true }) propFilterDevice!: any
     isLoading = false
     data: any = []
     chartData: any = []
@@ -71,6 +71,8 @@
     async created(): Promise<void> {
       EventBus.$on('filterDeviceChart', this.handleFilterDeviceChart)
       this.handleFilterDeviceChart('last7Days')
+
+      this.propFilterDevice.date ? this.handleFilterDeviceChart(this.propFilterDevice.date) : this.handleFilterDeviceChart('last7Days')
     }
 
     destroyed(): void {

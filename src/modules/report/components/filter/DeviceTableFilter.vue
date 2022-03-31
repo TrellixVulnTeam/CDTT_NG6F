@@ -45,7 +45,8 @@
   @Component
   export default class DeviceTableFilter extends Vue {
     @Prop({ required: true }) isChangeTab!: boolean
-    @Prop({ required: true }) propFilter!: string
+    // @Prop({ required: true }) propFilter!: string
+    @Prop({ required: true }) propFilterDevice!: any
     filter = {
       search: '',
       date: 'last7Days',
@@ -122,7 +123,7 @@
       fromDate: this.checkTimeFromDate(7),
       toDate: this.checkTimeToDate(),
       timezone: new Date().getTimezoneOffset() / -60 > 0 ? '+' + new Date().getTimezoneOffset() / -60 : '-' + new Date().getTimezoneOffset() / -60,
-      orderBy: 'LAST_NAME'
+      orderBy: 'LAST_LOGIN'
     }
     checkTimeFromDate(day: number): string {
       const time = new Date(Date.now() - day * 24 * 60 * 60 * 1000).setHours(0, 0, 0)
@@ -182,7 +183,7 @@
       // delete this.params.newAuditStatus
       const params = {
         ...this.query,
-        orderBy: 'LAST_NAME'
+        orderBy: 'LAST_LOGIN'
       }
       await api
         ?.exportExcelDevice(params)
@@ -208,14 +209,16 @@
     viewType = 'chart'
     viewTable(value: string): void {
       this.viewType = 'table'
-      this.propFilter
+      this.$emit('emitFilterUserTable', this.filter)
       EventBus.$emit('changeView', value)
     }
     viewChart(value: string): void {
       this.viewType = 'chart'
+      this.$emit('emitFilterUserChartnew', this.filter)
       EventBus.$emit('changeView', value)
     }
     created(): void {
+      this.filter.date = this.propFilterDevice.date
       this.lang = window.localStorage.getItem('bc-lang')!
       // EventBus.$on('changeTabMember', this.handleChangeTab)
       this.$emit('filter', this.filter)

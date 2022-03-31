@@ -46,7 +46,7 @@
       search: '',
       limit: 10,
       page: 1,
-      orderBy: 'LAST_NAME',
+      orderBy: 'LAST_LOGIN',
       total: 0
     }
     get getPaginationInfo(): any {
@@ -258,7 +258,7 @@
     }
     handleFilterUserTable(value: any): void {
       this.query.page = 1
-      this.query.orderBy = 'LAST_NAME'
+      this.query.orderBy = 'LAST_LOGIN'
       this.query.search = value.search
       console.log('value', this.query)
       this.getListUser()

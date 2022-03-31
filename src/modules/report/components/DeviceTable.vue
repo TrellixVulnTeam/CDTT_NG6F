@@ -64,11 +64,12 @@
   @Component({ components: { SubDeviceTable } })
   export default class DeviceTable extends Vue {
     @Prop({ required: true, type: Array, default: [] }) data!: Array<Record<string, any>>
+    @Prop({ required: true }) propFilterDevice!: any
     query: Record<string, any> = {
       search: '',
       limit: 10,
       page: 1,
-      orderBy: 'LAST_NAME',
+      orderBy: 'LAST_LOGIN',
       total: 0
     }
     propDataQuery: any = {}
@@ -239,10 +240,19 @@
       )
     }
     async created(): Promise<void> {
-      this.query.fromDate = this.checkTime(7)
-      this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
-      this.getListDevice()
-      this.getDetailDeviceList()
+      // this.query.fromDate = this.checkTime(7)
+      // this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
+      // this.getListDevice()
+      // this.getDetailDeviceList()
+      if (this.propFilterDevice.date) {
+        await this.handleFilterByDay(this.propFilterDevice.date)
+        await this.getDetailDeviceList()
+      } else {
+        this.query.fromDate = this.checkTime(7)
+        this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
+        await this.getListDevice()
+        await this.getDetailDeviceList()
+      }
       // this.getFromDateTodate()
       EventBus.$on('deviceTableSearch', this.handleFilterReport)
       EventBus.$on('deviceTableFilter', this.handleFilterByDay)
@@ -302,7 +312,7 @@
     handleFilterReport(value: any): void {
       console.log('value', value)
       this.query.page = 1
-      this.query.orderBy = 'LAST_NAME'
+      this.query.orderBy = 'LAST_LOGIN'
       this.query.search = value.search
       this.getListDevice()
       // this.query.searchd =
