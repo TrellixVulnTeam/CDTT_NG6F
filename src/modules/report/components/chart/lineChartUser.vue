@@ -15,8 +15,9 @@
 
   const api: ReportRepository = getRepository('report')
   @Component
-  export default class lineChart extends Vue {
+  export default class lineChartUser extends Vue {
     @Prop({ required: true, type: Array, default: () => [] }) lines!: Array<Record<string, any>>
+    @Prop({ required: true }) propFilterUser!: any
 
     isLoading = false
     data: any = []
@@ -44,52 +45,50 @@
       this.data = result.numOfUserLoginByDay
       this.renderChart()
     }
-    getDataChartDevice(): void {
-      try {
-        // if (this.isLoading) {
-        //   return
-        // }
-        // this.isLoading = true
+    // getDataChartDevice(): void {
+    //   try {
+    //     // if (this.isLoading) {
+    //     //   return
+    //     // }
+    //     // this.isLoading = true
 
-        const params = {
-          fromDate: this.query.fromDate,
-          toDate: this.query.toDate,
-          timezone: new Date().getTimezoneOffset() / -60 > 0 ? '+' + new Date().getTimezoneOffset() / -60 : '-' + new Date().getTimezoneOffset() / -60
-        }
-        api.getDataChartDevice(params).then(result => {
-          this.chartData = result
-          this.data = this.chartReportData()
-          EventBus.$emit('dataHeaderDevice', result)
+    //     const params = {
+    //       fromDate: this.query.fromDate,
+    //       toDate: this.query.toDate,
+    //       timezone: new Date().getTimezoneOffset() / -60 > 0 ? '+' + new Date().getTimezoneOffset() / -60 : '-' + new Date().getTimezoneOffset() / -60
+    //     }
+    //     api.getDataChartDevice(params).then(result => {
+    //       this.chartData = result
+    //       this.data = this.chartReportData()
+    //       EventBus.$emit('dataHeaderDevice', result)
 
-          console.log('this.chartReportData()', this.chartReportData())
-          this.renderChart()
-          // this.isLoading = false
-        })
-      } catch (error) {
-        this.isLoading = false
-      }
-    }
+    //       console.log('this.chartReportData()', this.chartReportData())
+    //       this.renderChart()
+    //       // this.isLoading = false
+    //     })
+    //   } catch (error) {
+    //     this.isLoading = false
+    //   }
+    // }
     query: Record<string, any> = {
       fromDate: this.checkTimeFromDate(7),
       toDate: this.checkTimeToDate()
     }
 
     async created(): Promise<void> {
+      console.log('hh', this.propFilterUser)
+
       EventBus.$on('filterUserchart', this.handleFilterUserChart)
-      EventBus.$on('filterDeviceChart', this.handleFilterDeviceChart)
-      if (this.$route.name == 'ReportUser') {
-        this.handleFilterUserChart('last7Days')
-      } else {
-        this.handleFilterDeviceChart('last7Days')
-      }
+      // EventBus.$on('filterDeviceChart', this.handleFilterDeviceChart)
+      // if (this.$route.name == 'ReportUser') {
+      //   this.handleFilterUserChart('last7Days')
+      // } else {
+      //   this.handleFilterDeviceChart('last7Days')
+      // }
+      this.propFilterUser.date ? this.handleFilterUserChart(this.propFilterUser.date) : this.handleFilterUserChart('last7Days')
+      // this.handleFilterUserChart('last7Days')
     }
 
-    destroyed(): void {
-      console.log('destroyed')
-
-      // EventBus.$off('filterUserchart')
-      // EventBus.$off('filterDeviceChart')
-    }
     checkTime(day: number): string {
       const time = new Date(Date.now() - day * 24 * 60 * 60 * 1000).setHours(0, 0, 0)
       return this.formatTimestamp(time)
@@ -184,25 +183,25 @@
       }
       this.getDataChart()
     }
-    handleFilterDeviceChart(value: string | number): void {
-      if (value == 'yesterday') {
-        this.query.fromDate = this.checkTimeFromDate(1)
-        this.query.toDate = this.checkTimeToDate()
-      } else if (value == 'last7Days') {
-        this.query.fromDate = this.checkTimeFromDate(7)
-        this.query.toDate = this.checkTimeToDate()
-      } else if (value == 'last14Days') {
-        this.query.fromDate = this.checkTimeFromDate(14)
-        this.query.toDate = this.checkTimeToDate()
-      } else if (value == 'last30Days') {
-        this.query.fromDate = this.checkTimeFromDate(30)
-        this.query.toDate = this.checkTimeToDate()
-      } else if (value == 'last90Days') {
-        this.query.fromDate = this.checkTimeFromDate(90)
-        this.query.toDate = this.checkTimeToDate()
-      }
-      this.getDataChartDevice()
-    }
+    // handleFilterDeviceChart(value: string | number): void {
+    //   if (value == 'yesterday') {
+    //     this.query.fromDate = this.checkTimeFromDate(1)
+    //     this.query.toDate = this.checkTimeToDate()
+    //   } else if (value == 'last7Days') {
+    //     this.query.fromDate = this.checkTimeFromDate(7)
+    //     this.query.toDate = this.checkTimeToDate()
+    //   } else if (value == 'last14Days') {
+    //     this.query.fromDate = this.checkTimeFromDate(14)
+    //     this.query.toDate = this.checkTimeToDate()
+    //   } else if (value == 'last30Days') {
+    //     this.query.fromDate = this.checkTimeFromDate(30)
+    //     this.query.toDate = this.checkTimeToDate()
+    //   } else if (value == 'last90Days') {
+    //     this.query.fromDate = this.checkTimeFromDate(90)
+    //     this.query.toDate = this.checkTimeToDate()
+    //   }
+    //   this.getDataChartDevice()
+    // }
     renderChart(): void {
       am4core.useTheme(am4themes_animated)
       let chart = am4core.create('chartdiv', am4charts.XYChart)

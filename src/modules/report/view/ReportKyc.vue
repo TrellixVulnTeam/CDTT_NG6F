@@ -12,20 +12,22 @@
       </div>
     </div>
 
-    <user-chart-filter v-if="this.$route.name == 'ReportUser' && this.viewType == 'chart'" />
-    <user-table-filter v-if="this.$route.name == 'ReportUser' && this.viewType == 'table'" />
-    <device-chart-filter v-if="this.$route.name == 'ReportDevice' && this.viewType == 'chart'" />
-    <device-table-filter v-if="this.$route.name == 'ReportDevice' && this.viewType == 'table'" />
+    <user-chart-filter v-if="this.$route.name == 'ReportUser' && this.viewType == 'chart'" :propFilterUser="propFilterUser" @emitFilterUserTable="getDataFilterUserTable" />
+    <user-table-filter :propFilterUser="propFilterUser" v-if="this.$route.name == 'ReportUser' && this.viewType == 'table'" @emitFilterUserChartnew="getDataFilterUserTable" />
 
-    <report-table v-if="this.$route.name == 'ReportUser' && this.viewType == 'table'" />
-    <report-chart v-else-if="this.$route.name == 'ReportUser' && this.viewType == 'chart'" :dataChart="dataChart" />
-    <device-table v-else-if="this.$route.name == 'ReportDevice' && this.viewType == 'table'" />
-    <device-chart v-else-if="this.$route.name == 'ReportDevice' && this.viewType == 'chart'" :dataChartDevice="dataChartDevice" />
+    <device-chart-filter v-if="this.$route.name == 'ReportDevice' && this.viewType == 'chart'" @emitFilterDevie="getDataFilterDevice" />
+    <device-table-filter v-if="this.$route.name == 'ReportDevice' && this.viewType == 'table'" @emitFilterDiviceChartNew="getDataFilterDeviceTable" />
+
+    <report-table :propFilterUser="propFilterUser" v-if="this.$route.name == 'ReportUser' && this.viewType == 'table'" />
+    <report-chart v-else-if="this.$route.name == 'ReportUser' && this.viewType == 'chart'" :dataChart="dataChart" :propFilterUser="propFilterUser" />
+
+    <device-table v-else-if="this.$route.name == 'ReportDevice' && this.viewType == 'table'" :propFilterDevice="propFilterDevice" />
+    <device-chart v-else-if="this.$route.name == 'ReportDevice' && this.viewType == 'chart'" :dataChartDevice="dataChartDevice" :propFilterDevice="propFilterDevice" />
   </div>
 </template>
 
 <script lang="ts">
-  import { Component, Vue, Watch } from 'vue-property-decorator'
+  import { Component, Emit, Vue, Watch } from 'vue-property-decorator'
   import ReportTable from '../components/ReportTable.vue'
   import ReportFilter from '../components/filter/ReportFilter.vue'
   import getRepository from '@/services'
@@ -39,7 +41,22 @@
   import DeviceChartFilter from '../components/filter/DeviceChartFilter.vue'
   import DeviceTableFilter from '../components/filter/DeviceTableFilter.vue'
   const api: ReportRepository = getRepository('report')
-  @Component({ components: { ReportTable, ReportFilter, ReportChart, DeviceTable, DeviceChart, UserTableFilter, UserChartFilter, DeviceChartFilter, DeviceTableFilter } })
+  // @Emit(event?: string | number) try() {
+  //     return this.propFilter
+  //   }
+  @Component({
+    components: {
+      ReportTable,
+      ReportFilter,
+      ReportChart,
+      DeviceTable,
+      DeviceChart,
+      UserTableFilter,
+      UserChartFilter,
+      DeviceChartFilter,
+      DeviceTableFilter
+    }
+  })
   export default class BOCustomer extends Vue {
     tabs: Array<Record<string, any>> = [
       {
@@ -103,6 +120,16 @@
     viewType = 'chart'
     async created(): Promise<void> {
       EventBus.$on('changeView', this.changeView)
+    }
+
+    propFilterUser: any = {}
+    propFilterDevice: any = {}
+    getDataFilterUserTable(value: any): void {
+      console.log('filterUser', value)
+      this.propFilterUser = value
+    }
+    getDataFilterDevice(value: any): void {
+      this.propFilterDevice = value
     }
     handleFilterByDay(value: string | number): void {
       console.log('p', value)
