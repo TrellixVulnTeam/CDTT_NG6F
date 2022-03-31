@@ -12,13 +12,22 @@
       </div>
     </div>
 
-    <user-chart-filter v-if="this.$route.name == 'ReportUser' && this.viewType == 'chart'" @emitFilterUserTable="getDataFilterUserTable" />
-    <user-table-filter :propFilterUserTable="propFilterUserTable" v-if="this.$route.name == 'ReportUser' && this.viewType == 'table'" />
+    <user-chart-filter
+      v-if="this.$route.name == 'ReportUser' && this.viewType == 'chart'"
+      :propFilterUser="propFilterUser"
+      @emitFilterUserTable="getDataFilterUserTable"
+    />
+    <user-table-filter
+      :propFilterUser="propFilterUser"
+      v-if="this.$route.name == 'ReportUser' && this.viewType == 'table'"
+      @emitFilterUserChartnew="getDataFilterUserTable"
+    />
     <device-chart-filter v-if="this.$route.name == 'ReportDevice' && this.viewType == 'chart'" />
     <device-table-filter v-if="this.$route.name == 'ReportDevice' && this.viewType == 'table'" />
 
-    <report-table v-if="this.$route.name == 'ReportUser' && this.viewType == 'table'" />
-    <report-chart v-else-if="this.$route.name == 'ReportUser' && this.viewType == 'chart'" :dataChart="dataChart" />
+    <report-table :propFilterUser="propFilterUser" v-if="this.$route.name == 'ReportUser' && this.viewType == 'table'" />
+    <report-chart v-else-if="this.$route.name == 'ReportUser' && this.viewType == 'chart'" :dataChart="dataChart" :propFilterUser="propFilterUser" />
+
     <device-table v-else-if="this.$route.name == 'ReportDevice' && this.viewType == 'table'" />
     <device-chart v-else-if="this.$route.name == 'ReportDevice' && this.viewType == 'chart'" :dataChartDevice="dataChartDevice" />
   </div>
@@ -120,11 +129,16 @@
       EventBus.$on('changeView', this.changeView)
     }
 
-    propFilterUserTable: any = {}
+    propFilterUser: any = {}
     getDataFilterUserTable(value: any): void {
       console.log('filterUser', value)
-      this.propFilterUserTable = value
+      this.propFilterUser = value
     }
+    propFilterUserChart: any = {}
+    getDataFilterUserChart(value: any): void {
+      this.propFilterUserChart = value
+    }
+
     handleFilterByDay(value: string | number): void {
       console.log('p', value)
     }

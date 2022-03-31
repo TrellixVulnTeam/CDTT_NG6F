@@ -45,7 +45,7 @@
   @Component
   export default class UserTableFilter extends Vue {
     @Prop({ required: true }) checkView!: boolean
-    @Prop({ required: true }) propFilterUserTable!: any
+    @Prop({ required: true }) propFilterUser!: any
     filter = {
       search: '',
       date: 'last7Days',
@@ -134,6 +134,7 @@
     }
     viewChart(value: string): void {
       this.viewType = 'chart'
+      this.$emit('emitFilterUserChartnew', this.filter)
       EventBus.$emit('changeView', value)
     }
     fileName = 'user'
@@ -222,8 +223,8 @@
         })
     }
     created(): void {
-      this.filter.date = this.propFilterUserTable.date
-      console.log('filter.date', this.propFilterUserTable)
+      this.filter.date = this.propFilterUser.date
+      console.log('filter.date', this.propFilterUser)
 
       this.lang = window.localStorage.getItem('bc-lang')!
       // EventBus.$on('changeTabMember', this.handleChangeTab)

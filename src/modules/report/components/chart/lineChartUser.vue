@@ -17,6 +17,7 @@
   @Component
   export default class lineChartUser extends Vue {
     @Prop({ required: true, type: Array, default: () => [] }) lines!: Array<Record<string, any>>
+    @Prop({ required: true }) propFilterUser!: any
 
     isLoading = false
     data: any = []
@@ -75,6 +76,8 @@
     }
 
     async created(): Promise<void> {
+      console.log('hh', this.propFilterUser)
+
       EventBus.$on('filterUserchart', this.handleFilterUserChart)
       // EventBus.$on('filterDeviceChart', this.handleFilterDeviceChart)
       // if (this.$route.name == 'ReportUser') {
@@ -82,7 +85,8 @@
       // } else {
       //   this.handleFilterDeviceChart('last7Days')
       // }
-      this.handleFilterUserChart('last7Days')
+      this.propFilterUser.date ? this.handleFilterUserChart(this.propFilterUser.date) : this.handleFilterUserChart('last7Days')
+      // this.handleFilterUserChart('last7Days')
     }
 
     checkTime(day: number): string {

@@ -39,6 +39,7 @@
   @Component
   export default class UserChartFilter extends Vue {
     @Prop({ required: true }) checkView!: boolean
+    @Prop({ required: true }) propFilterUser!: any
     filter = {
       search: '',
       date: 'last7Days',
@@ -101,7 +102,12 @@
       EventBus.$emit('changeView', value)
     }
     created(): void {
-      console.log('check', this.checkView)
+      // this.filter.date = this.propFilterUser.date
+      // if(this.propFilterUser.date){
+
+      // }
+      this.propFilterUser.date ? (this.filter.date = this.propFilterUser.date) : (this.filter.date = 'last7Days')
+      console.log('filter.date', this.propFilterUser.date)
     }
     resetFilter(): void {
       this.filter = {

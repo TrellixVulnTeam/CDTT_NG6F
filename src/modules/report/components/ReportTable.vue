@@ -41,6 +41,7 @@
   export default class ReportTable extends Vue {
     // @Prop({ required: true, type: Object, default: {} }) query!: Record<string, any>
     @Prop({ required: true, type: Array, default: [] }) data!: Array<Record<string, any>>
+    @Prop({ required: true }) propFilterUser!: any
     query: Record<string, any> = {
       search: '',
       limit: 10,
@@ -193,14 +194,24 @@
       )
     }
     async created(): Promise<void> {
-      this.query.fromDate = this.checkTime(7)
-      this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
-      this.getListUser()
+      console.log('test prop', this.propFilterUser)
+      // this.query.fromDate = this.checkTime(7)
+      // this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
+      if (this.propFilterUser.date) {
+        await this.handleFilterUserTableByDay(this.propFilterUser.date)
+      } else {
+        this.query.fromDate = this.checkTime(7)
+        this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
+        await this.getListUser()
+      }
+
       // this.getFromDateTodate()
       EventBus.$on('filterUserTable', this.handleFilterUserTable)
       EventBus.$on('filterUserTableByDay', this.handleFilterUserTableByDay)
     }
     handleFilterUserTableByDay(value: string | number): void {
+      console.log('vao', value)
+
       if (value == 'yesterday') {
         this.query.fromDate = this.checkTime(1)
         this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)

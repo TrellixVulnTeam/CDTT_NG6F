@@ -40,7 +40,7 @@
         </div> -->
 
         <div class="line-chart bg-white">
-          <line-chart-user :lines="lines" />
+          <line-chart-user :lines="lines" :propFilterUser="this.propFilterUser" />
         </div>
       </div>
     </div>
@@ -57,6 +57,7 @@
   @Component({ components: { LineChartUser } })
   export default class ReportChart extends Vue {
     @Prop({ required: true, type: Array, default: [] }) dataChart!: Array<Record<string, any>>
+    @Prop({ required: true }) propFilterUser!: any
     // dataChart = []
     lines: Array<Record<string, any>> = [
       {
