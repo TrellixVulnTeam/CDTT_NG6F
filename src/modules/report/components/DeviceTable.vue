@@ -262,7 +262,6 @@
       console.log('1', value)
       this.query.orderBy = value
       this.getListDevice()
-      this.getDetailDeviceList()
     }
     handleFilterByDay(value: string | number): void {
       console.log('2323', this.checkTime(2))

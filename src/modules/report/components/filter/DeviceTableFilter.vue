@@ -87,12 +87,6 @@
       },
       {
         command: 2,
-        label: this.$i18n.t('report.sort.lastLogin'),
-        divided: false,
-        i18n: 'report.sort.lasLogin'
-      },
-      {
-        command: 3,
         label: this.$i18n.t('report.sort.deviceType'),
         divided: false,
         i18n: 'report.sort.deviceType'
@@ -102,15 +96,8 @@
     handleSort(command: number): void {
       this.sortActive = command
       this.sort.orderBy = command
-      let sortValue = ''
-      if (command == 1) {
-        sortValue = 'TOTAL_LOGIN'
-      } else if (command == 2) {
-        sortValue = 'LAST_LOGIN'
-      } else if (command == 3) {
-        sortValue = 'DEVICE_TYPE'
-      }
-      EventBus.$emit('sort', sortValue)
+
+      EventBus.$emit('sort', command == 1 ? 'TOTAL_LOGIN' : 'DEVICE_TYPE')
     }
     listFilter: Record<string, any>[] = [
       {
