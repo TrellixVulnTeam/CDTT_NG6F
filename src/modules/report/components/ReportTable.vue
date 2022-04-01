@@ -46,7 +46,7 @@
       search: '',
       limit: 10,
       page: 1,
-      orderBy: 'LAST_LOGIN',
+      orderBy: 'LAST_NAME',
       total: 0
     }
     get getPaginationInfo(): any {
@@ -208,6 +208,12 @@
       // this.getFromDateTodate()
       EventBus.$on('filterUserTable', this.handleFilterUserTable)
       EventBus.$on('filterUserTableByDay', this.handleFilterUserTableByDay)
+      EventBus.$on('sort', this.handleSortUser)
+    }
+    handleSortUser(value: string): void {
+      console.log('1', value)
+      this.query.orderBy = value
+      this.getListUser()
     }
     handleFilterUserTableByDay(value: string | number): void {
       console.log('vao', value)
@@ -258,7 +264,7 @@
     }
     handleFilterUserTable(value: any): void {
       this.query.page = 1
-      this.query.orderBy = 'LAST_LOGIN'
+      this.query.orderBy = 'LAST_NAME'
       this.query.search = value.search
       console.log('value', this.query)
       this.getListUser()

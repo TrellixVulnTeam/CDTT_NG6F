@@ -69,7 +69,7 @@
       search: '',
       limit: 10,
       page: 1,
-      orderBy: 'LAST_LOGIN',
+      orderBy: 'LAST_NAME',
       total: 0
     }
     propDataQuery: any = {}
@@ -256,8 +256,14 @@
       // this.getFromDateTodate()
       EventBus.$on('deviceTableSearch', this.handleFilterReport)
       EventBus.$on('deviceTableFilter', this.handleFilterByDay)
+      EventBus.$on('sort', this.handleSortDevice)
     }
-
+    handleSortDevice(value: string): void {
+      console.log('1', value)
+      this.query.orderBy = value
+      this.getListDevice()
+      this.getDetailDeviceList()
+    }
     handleFilterByDay(value: string | number): void {
       console.log('2323', this.checkTime(2))
       if (value == 'yesterday') {
@@ -312,7 +318,7 @@
     handleFilterReport(value: any): void {
       console.log('value', value)
       this.query.page = 1
-      this.query.orderBy = 'LAST_LOGIN'
+      this.query.orderBy = 'LAST_NAME'
       this.query.search = value.search
       this.getListDevice()
       // this.query.searchd =

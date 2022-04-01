@@ -6,6 +6,21 @@
           <el-option v-for="item in listFilter" :key="item.value" :label="item.label" :value="item.value"> </el-option>
         </el-select>
       </div>
+      <!-- <el-dropdown class="sort" trigger="click" @command="handleSort">
+        <span class="abicon sort-title" style="font-size: 16px">
+          <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}</span
+        >
+        <el-dropdown-menu class="header-downloadapp dropdown-sort" slot="dropdown">
+          <el-dropdown-item v-for="(value, index) in sorts" :key="index" :class="sortActive === value.command ? 'active' : null" :command="value.command" :divided="value.divided">
+            <span class="be-flex">
+              <span class="be-flex-item">
+                {{ value.label }}
+              </span>
+              <base-icon v-if="sortActive === value.command" icon="icon-tick-dropdown" size="16" />
+            </span>
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown> -->
     </div>
     <el-button class="btn-default btn-close btn-h-40 ml-auto be-flex align-center" @click="handleExportExcel" style="width: auto !important">
       <div class="be-flex align-center">
@@ -122,7 +137,7 @@
       fromDate: this.checkTimeFromDate(7),
       toDate: this.checkTimeToDate(),
       timezone: new Date().getTimezoneOffset() / -60 > 0 ? '+' + new Date().getTimezoneOffset() / -60 : '-' + new Date().getTimezoneOffset() / -60,
-      orderBy: 'LAST_LOGIN'
+      orderBy: 'LAST_NAME'
     }
     checkTimeFromDate(day: number): string {
       const time = new Date(Date.now() - day * 24 * 60 * 60 * 1000).setHours(0, 0, 0)
@@ -181,7 +196,7 @@
       // delete this.params.newAuditStatus
       const params = {
         ...this.query,
-        orderBy: 'LAST_LOGIN'
+        orderBy: 'LAST_NAME'
       }
       await api
         ?.exportExcel(params)
@@ -221,6 +236,21 @@
       border-color: var(--bc-btn-default-border-hover);
     }
 
+    ::v-deep .sort {
+      &:hover {
+        .el-dropdown-selfdefine {
+          color: var(--bc-theme-primary);
+          .span-icon {
+            color: var(--bc-theme-primary) !important;
+          }
+        }
+      }
+    }
+    .sort {
+      margin-left: 30px;
+      cursor: pointer;
+      color: #0a0b0d;
+    }
     ::v-deep .filter-role {
       .el-select {
         width: 170px;

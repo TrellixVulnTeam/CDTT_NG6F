@@ -1005,6 +1005,11 @@
       "user": "Users",
       "totalUserLogin": "Total user login",
       "percentUserLogin": "Percent user login"
+    },
+    "sort": {
+      "totalLogin": "Total login",
+      "lastLogin": "Last login",
+      "deviceType": "Device type"
     }
   }
 }

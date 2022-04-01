@@ -11,6 +11,21 @@
           <el-option v-for="item in listFilter" :key="item.value" :label="item.label" :value="item.value"> </el-option>
         </el-select>
       </div>
+      <el-dropdown class="sort" trigger="click" @command="handleSort">
+        <span class="abicon sort-title" style="font-size: 16px">
+          <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}</span
+        >
+        <el-dropdown-menu class="header-downloadapp dropdown-sort" slot="dropdown">
+          <el-dropdown-item v-for="(value, index) in sorts" :key="index" :class="sortActive === value.command ? 'active' : null" :command="value.command" :divided="value.divided">
+            <span class="be-flex">
+              <span class="be-flex-item">
+                {{ value.label }}
+              </span>
+              <base-icon v-if="sortActive === value.command" icon="icon-tick-dropdown" size="16" />
+            </span>
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
     </div>
     <el-button @click="handleExportExcel" class="btn-default btn-close btn-h-40 ml-auto be-flex align-center" style="width: auto !important">
       <div class="be-flex align-center">
@@ -59,7 +74,44 @@
       limit: 20,
       search: ''
     }
-
+    sort = {
+      sort: 'LAST_LOGIN',
+      orderBy: 1
+    }
+    sorts: Record<string, any>[] = [
+      {
+        command: 1,
+        label: this.$i18n.t('report.sort.totalLogin'),
+        divided: false,
+        i18n: 'report.sort.totalLogin'
+      },
+      {
+        command: 2,
+        label: this.$i18n.t('report.sort.lastLogin'),
+        divided: false,
+        i18n: 'report.sort.lasLogin'
+      },
+      {
+        command: 3,
+        label: this.$i18n.t('report.sort.deviceType'),
+        divided: false,
+        i18n: 'report.sort.deviceType'
+      }
+    ]
+    sortActive = 1
+    handleSort(command: number): void {
+      this.sortActive = command
+      this.sort.orderBy = command
+      let sortValue = ''
+      if (command == 1) {
+        sortValue = 'TOTAL_LOGIN'
+      } else if (command == 2) {
+        sortValue = 'LAST_LOGIN'
+      } else if (command == 3) {
+        sortValue = 'DEVICE_TYPE'
+      }
+      EventBus.$emit('sort', sortValue)
+    }
     listFilter: Record<string, any>[] = [
       {
         value: 'yesterday',
@@ -123,7 +175,7 @@
       fromDate: this.checkTimeFromDate(7),
       toDate: this.checkTimeToDate(),
       timezone: new Date().getTimezoneOffset() / -60 > 0 ? '+' + new Date().getTimezoneOffset() / -60 : '-' + new Date().getTimezoneOffset() / -60,
-      orderBy: 'LAST_LOGIN'
+      orderBy: 'LAST_NAME'
     }
     checkTimeFromDate(day: number): string {
       const time = new Date(Date.now() - day * 24 * 60 * 60 * 1000).setHours(0, 0, 0)
@@ -183,7 +235,7 @@
       // delete this.params.newAuditStatus
       const params = {
         ...this.query,
-        orderBy: 'LAST_LOGIN'
+        orderBy: 'LAST_NAME'
       }
       await api
         ?.exportExcelDevice(params)
@@ -259,6 +311,21 @@
       border-color: var(--bc-btn-default-border-hover);
     }
 
+    ::v-deep .filter-role {
+      .el-select {
+        width: 170px;
+        .el-input__inner {
+          height: 48px;
+          width: 170px;
+          font-size: 16px;
+        }
+      }
+    }
+    .sort {
+      margin-left: 30px;
+      cursor: pointer;
+      color: #0a0b0d;
+    }
     ::v-deep .filter-role {
       .el-select {
         width: 170px;

@@ -11,6 +11,21 @@
           <el-option v-for="item in listFilter" :key="item.value" :label="item.label" :value="item.value"> </el-option>
         </el-select>
       </div>
+      <el-dropdown class="sort" trigger="click" @command="handleSort">
+        <span class="abicon sort-title" style="font-size: 16px">
+          <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}</span
+        >
+        <el-dropdown-menu class="header-downloadapp dropdown-sort" slot="dropdown">
+          <el-dropdown-item v-for="(value, index) in sorts" :key="index" :class="sortActive === value.command ? 'active' : null" :command="value.command" :divided="value.divided">
+            <span class="be-flex">
+              <span class="be-flex-item">
+                {{ value.label }}
+              </span>
+              <base-icon v-if="sortActive === value.command" icon="icon-tick-dropdown" size="16" />
+            </span>
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
     </div>
     <el-button @click="handleExportExcel" class="btn-default btn-close btn-h-40 ml-auto be-flex align-center" style="width: auto !important">
       <div class="be-flex align-center">
@@ -51,6 +66,10 @@
       date: 'last7Days',
       orderBy: 3
     }
+    sort = {
+      sort: 'TOTAL_LOGIN',
+      orderBy: 1
+    }
     lang = 'en'
     loading = false
     queryApprove = {
@@ -59,6 +78,21 @@
       search: ''
     }
 
+    sorts: Array<Record<string, any>> = [
+      {
+        command: 1,
+        label: this.$i18n.t('report.sort.totalLogin'),
+        divided: false,
+        i18n: 'report.sort.totalLogin'
+      },
+      {
+        command: 2,
+        label: this.$i18n.t('report.sort.lastLogin'),
+        divided: false,
+        i18n: 'report.sort.lastLogin'
+      }
+    ]
+    sortActive = 1
     listFilter: Record<string, any>[] = [
       {
         value: 'yesterday',
@@ -125,6 +159,7 @@
     destroyed(): void {
       EventBus.$off('filterUserTable')
       EventBus.$off('filterUserTableByDay')
+      EventBus.$off('sort')
     }
     viewType = 'chart'
     viewTable(value: string): void {
@@ -142,7 +177,7 @@
       fromDate: this.checkTimeFromDate(7),
       toDate: this.checkTimeToDate(),
       timezone: new Date().getTimezoneOffset() / -60 > 0 ? '+' + new Date().getTimezoneOffset() / -60 : '-' + new Date().getTimezoneOffset() / -60,
-      orderBy: 'LAST_LOGIN'
+      orderBy: 'LAST_NAME'
     }
     checkTimeFromDate(day: number): string {
       const time = new Date(Date.now() - day * 24 * 60 * 60 * 1000).setHours(0, 0, 0)
@@ -151,6 +186,14 @@
     checkTimeToDate(): string {
       const time = new Date(Date.now()).setHours(0, 0, 0)
       return this.formatTimestampToDate(time)
+    }
+
+    handleSort(command: number): void {
+      this.sortActive = command
+      this.sort.orderBy = command
+
+      // if(command ==)
+      EventBus.$emit('sort', command == 1 ? 'TOTAL_LOGIN' : 'LAST_LOGIN')
     }
     formatTimestampToDate(value: number): string {
       if (!value) {
@@ -201,7 +244,7 @@
       // delete this.params.newAuditStatus
       const params = {
         ...this.query,
-        orderBy: 'LAST_LOGIN'
+        orderBy: 'LAST_NAME'
       }
       console.log('this.q', this.query)
 
@@ -258,15 +301,11 @@
       width: 400px;
       margin-right: 30px;
     }
-
-    .button {
-      height: 46px;
+    .sort {
+      margin-left: 30px;
+      cursor: pointer;
+      color: #0a0b0d;
     }
-    .active {
-      color: var(--bc-btn-default-text-hover);
-      border-color: var(--bc-btn-default-border-hover);
-    }
-
     ::v-deep .filter-role {
       .el-select {
         width: 170px;
@@ -274,6 +313,23 @@
           height: 48px;
           width: 170px;
           font-size: 16px;
+        }
+      }
+    }
+    .button {
+      height: 46px;
+    }
+    .active {
+      color: var(--bc-btn-default-text-hover);
+      border-color: var(--bc-btn-default-border-hover);
+    }
+    ::v-deep .sort {
+      &:hover {
+        .el-dropdown-selfdefine {
+          color: var(--bc-theme-primary);
+          .span-icon {
+            color: var(--bc-theme-primary) !important;
+          }
         }
       }
     }
