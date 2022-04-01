@@ -256,8 +256,14 @@
       // this.getFromDateTodate()
       EventBus.$on('deviceTableSearch', this.handleFilterReport)
       EventBus.$on('deviceTableFilter', this.handleFilterByDay)
+      EventBus.$on('sort', this.handleSortDevice)
     }
-
+    handleSortDevice(value: string): void {
+      console.log('1', value)
+      this.query.orderBy = value
+      this.getListDevice()
+      this.getDetailDeviceList()
+    }
     handleFilterByDay(value: string | number): void {
       console.log('2323', this.checkTime(2))
       if (value == 'yesterday') {

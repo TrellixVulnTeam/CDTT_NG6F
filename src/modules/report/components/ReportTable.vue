@@ -208,6 +208,12 @@
       // this.getFromDateTodate()
       EventBus.$on('filterUserTable', this.handleFilterUserTable)
       EventBus.$on('filterUserTableByDay', this.handleFilterUserTableByDay)
+      EventBus.$on('sort', this.handleSortUser)
+    }
+    handleSortUser(value: string): void {
+      console.log('1', value)
+      this.query.orderBy = value
+      this.getListUser()
     }
     handleFilterUserTableByDay(value: string | number): void {
       console.log('vao', value)

@@ -6,6 +6,21 @@
           <el-option v-for="item in listFilter" :key="item.value" :label="item.label" :value="item.value"> </el-option>
         </el-select>
       </div>
+      <!-- <el-dropdown class="sort" trigger="click" @command="handleSort">
+        <span class="abicon sort-title" style="font-size: 16px">
+          <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}</span
+        >
+        <el-dropdown-menu class="header-downloadapp dropdown-sort" slot="dropdown">
+          <el-dropdown-item v-for="(value, index) in sorts" :key="index" :class="sortActive === value.command ? 'active' : null" :command="value.command" :divided="value.divided">
+            <span class="be-flex">
+              <span class="be-flex-item">
+                {{ value.label }}
+              </span>
+              <base-icon v-if="sortActive === value.command" icon="icon-tick-dropdown" size="16" />
+            </span>
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown> -->
     </div>
     <el-button @click="handleExportExcel" class="btn-default btn-close btn-h-40 ml-auto be-flex align-center" style="width: auto !important">
       <div class="be-flex align-center">
@@ -237,6 +252,21 @@
       border-color: var(--bc-btn-default-border-hover);
     }
 
+    ::v-deep .filter-role {
+      .el-select {
+        width: 170px;
+        .el-input__inner {
+          height: 48px;
+          width: 170px;
+          font-size: 16px;
+        }
+      }
+    }
+    .sort {
+      margin-left: 30px;
+      cursor: pointer;
+      color: #0a0b0d;
+    }
     ::v-deep .filter-role {
       .el-select {
         width: 170px;
