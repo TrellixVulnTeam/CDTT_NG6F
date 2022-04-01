@@ -979,6 +979,11 @@
       "user": "Người dùng",
       "totalUserLogin": "Số người đăng nhập",
       "percentUserLogin": "Tỉ lệ đăng nhập"
+    },
+    "sort": {
+      "totalLogin": "Số lần đăng nhập",
+      "lastLogin": "Lần đăng nhập cuối cùng",
+      "deviceType": "Thiết bị"
     }
   }
 }

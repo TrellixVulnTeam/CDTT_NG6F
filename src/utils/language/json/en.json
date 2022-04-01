@@ -1007,7 +1007,7 @@
       "percentUserLogin": "Percent user login"
     },
     "sort": {
-      "loginTimes": "Login times",
+      "totalLogin": "Total login",
       "lastLogin": "Last login",
       "deviceType": "Device type"
     }

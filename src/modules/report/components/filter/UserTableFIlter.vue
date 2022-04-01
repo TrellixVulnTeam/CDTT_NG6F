@@ -81,9 +81,9 @@
     sorts: Array<Record<string, any>> = [
       {
         command: 1,
-        label: this.$i18n.t('report.sort.loginTimes'),
+        label: this.$i18n.t('report.sort.totalLogin'),
         divided: false,
-        i18n: 'report.sort.loginTimes'
+        i18n: 'report.sort.totalLogin'
       },
       {
         command: 2,
