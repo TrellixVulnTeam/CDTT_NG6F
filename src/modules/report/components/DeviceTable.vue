@@ -69,7 +69,7 @@
       search: '',
       limit: 10,
       page: 1,
-      orderBy: 'LAST_NAME',
+      orderBy: 'TOTAL_LOGIN',
       total: 0
     }
     propDataQuery: any = {}
@@ -317,7 +317,7 @@
     handleFilterReport(value: any): void {
       console.log('value', value)
       this.query.page = 1
-      this.query.orderBy = 'LAST_NAME'
+      this.query.orderBy = 'TOTAL_LOGIN '
       this.query.search = value.search
       this.getListDevice()
       // this.query.searchd =
