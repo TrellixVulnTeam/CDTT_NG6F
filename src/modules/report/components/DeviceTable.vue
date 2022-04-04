@@ -317,7 +317,7 @@
     handleFilterReport(value: any): void {
       console.log('value', value)
       this.query.page = 1
-      this.query.orderBy = 'TOTAL_LOGIN '
+      this.query.orderBy = 'TOTAL_LOGIN'
       this.query.search = value.search
       this.getListDevice()
       // this.query.searchd =
