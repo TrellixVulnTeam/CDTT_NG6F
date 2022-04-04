@@ -70,6 +70,8 @@
       sort: 'TOTAL_LOGIN',
       orderBy: 1
     }
+    current ='TOTAL_LOGIN'
+    
     lang = 'en'
     loading = false
     queryApprove = {
@@ -177,7 +179,7 @@
       fromDate: this.checkTimeFromDate(7),
       toDate: this.checkTimeToDate(),
       timezone: new Date().getTimezoneOffset() / -60 > 0 ? '+' + new Date().getTimezoneOffset() / -60 : '-' + new Date().getTimezoneOffset() / -60,
-      orderBy: 'TOTAL_LOGIN '
+      orderBy: ''
     }
     checkTimeFromDate(day: number): string {
       const time = new Date(Date.now() - day * 24 * 60 * 60 * 1000).setHours(0, 0, 0)
@@ -191,7 +193,12 @@
     handleSort(command: number): void {
       this.sortActive = command
       this.sort.orderBy = command
-
+      if(command ==1){
+        this.current = "TOTAL_LOGIN"
+      }
+      if(command ==2){
+        this.current = "LAST_LOGIN"
+      }
       // if(command ==)
       EventBus.$emit('sort', command == 1 ? 'TOTAL_LOGIN' : 'LAST_LOGIN')
     }
@@ -237,6 +244,7 @@
     }
     isExcelLoading = false
     async handleExportExcel(): Promise<void> {
+      console.log("this.current",this.current)
       this.isExcelLoading = true
       let response: any
       const date = new Date()
@@ -244,7 +252,10 @@
       // delete this.params.newAuditStatus
       const params = {
         ...this.query,
-        orderBy: 'TOTAL_LOGIN '
+        // ...this.query={
+        //   orderBy:this.current
+        // }
+        orderBy: this.current
       }
       console.log('this.q', this.query)
 
