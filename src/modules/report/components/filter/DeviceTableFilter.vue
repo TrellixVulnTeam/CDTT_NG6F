@@ -78,6 +78,7 @@
       sort: 'TOTAL_LOGIN',
       orderBy: 1
     }
+        current = 'TOTAL_LOGIN'
     sorts: Record<string, any>[] = [
       {
         command: 1,
@@ -96,6 +97,12 @@
     handleSort(command: number): void {
       this.sortActive = command
       this.sort.orderBy = command
+      if(command ==  1){
+        this.current = "TOTAL_LOGIN"
+      }
+      if(command == 2){
+        this.current = "DEVICE_TYPE"
+      }
 
       EventBus.$emit('sort', command == 1 ? 'TOTAL_LOGIN' : 'DEVICE_TYPE')
     }
@@ -214,6 +221,7 @@
     }
     isExcelLoading = false
     fileName = 'device'
+
     async handleExportExcel(): Promise<void> {
       this.isExcelLoading = true
       let response: any
@@ -222,7 +230,7 @@
       // delete this.params.newAuditStatus
       const params = {
         ...this.query,
-        orderBy: 'LAST_NAME'
+        orderBy: this.current
       }
       await api
         ?.exportExcelDevice(params)

@@ -70,8 +70,8 @@
       sort: 'TOTAL_LOGIN',
       orderBy: 1
     }
-    current ='TOTAL_LOGIN'
-    
+    current = 'TOTAL_LOGIN'
+
     lang = 'en'
     loading = false
     queryApprove = {
@@ -193,11 +193,11 @@
     handleSort(command: number): void {
       this.sortActive = command
       this.sort.orderBy = command
-      if(command ==1){
-        this.current = "TOTAL_LOGIN"
+      if (command == 1) {
+        this.current = 'TOTAL_LOGIN'
       }
-      if(command ==2){
-        this.current = "LAST_LOGIN"
+      if (command == 2) {
+        this.current = 'LAST_LOGIN'
       }
       // if(command ==)
       EventBus.$emit('sort', command == 1 ? 'TOTAL_LOGIN' : 'LAST_LOGIN')
@@ -244,7 +244,7 @@
     }
     isExcelLoading = false
     async handleExportExcel(): Promise<void> {
-      console.log("this.current",this.current)
+      console.log('this.current', this.current)
       this.isExcelLoading = true
       let response: any
       const date = new Date()
