@@ -240,6 +240,7 @@
       )
     }
     async created(): Promise<void> {
+      console.log("test prop device", this.propFilterDevice)
       // this.query.fromDate = this.checkTime(7)
       // this.query.toDate = this.formatTimestamp(new Date().setHours(0, 0, 0) + 86399000)
       // this.getListDevice()
@@ -264,7 +265,8 @@
       this.getListDevice()
     }
     handleFilterByDay(value: string | number): void {
-      console.log('2323', this.checkTime(2))
+      // console.log('2323', this.checkTime(2))
+      console.log("vao device", value)
       if (value == 'yesterday') {
         // this.query.fromDate = this.checkTimeFromDate(1)
         // this.query.toDate = this.checkTimeToDate()

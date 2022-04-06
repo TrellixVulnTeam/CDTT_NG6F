@@ -219,7 +219,8 @@
       this.lang = window.localStorage.getItem('bc-lang')!
       // EventBus.$on('changeTabMember', this.handleChangeTab)
       this.propFilterDevice.date ? (this.filter.date = this.propFilterDevice.date) : (this.filter.date = 'last7Days')
-      this.$emit('filter', this.filter)
+      console.log('filterDevice.date', this.propFilterDevice.date)
+      // this.$emit('filter', this.filter)
     }
 
     resetFilter(): void {

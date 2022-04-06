@@ -15,13 +15,13 @@
     <user-chart-filter v-if="this.$route.name == 'ReportUser' && this.viewType == 'chart'" :propFilterUser="propFilterUser" @emitFilterUserTable="getDataFilterUserTable" />
     <user-table-filter :propFilterUser="propFilterUser" v-if="this.$route.name == 'ReportUser' && this.viewType == 'table'" @emitFilterUserChartnew="getDataFilterUserTable" />
 
-    <device-chart-filter v-if="this.$route.name == 'ReportDevice' && this.viewType == 'chart'" @emitFilterDevie="getDataFilterDevice" />
-    <device-table-filter v-if="this.$route.name == 'ReportDevice' && this.viewType == 'table'" @emitFilterDiviceChartNew="getDataFilterDeviceTable" />
+    <device-chart-filter v-if="this.$route.name == 'ReportDevice' && this.viewType == 'chart'" :propFilterDevice="propFilterDevice" @emitFilterDevice="getDataFilterDevice" />
+    <device-table-filter :propFilterDevice="propFilterDevice" v-if="this.$route.name == 'ReportDevice' && this.viewType == 'table'" @emitFilterDiviceChartNew="getDataFilterDevice" />
 
     <report-table :propFilterUser="propFilterUser" v-if="this.$route.name == 'ReportUser' && this.viewType == 'table'" />
     <report-chart v-else-if="this.$route.name == 'ReportUser' && this.viewType == 'chart'" :dataChart="dataChart" :propFilterUser="propFilterUser" />
 
-    <device-table v-else-if="this.$route.name == 'ReportDevice' && this.viewType == 'table'" :propFilterDevice="propFilterDevice" />
+    <device-table :propFilterDevice="propFilterDevice" v-else-if="this.$route.name == 'ReportDevice' && this.viewType == 'table'" />
     <device-chart v-else-if="this.$route.name == 'ReportDevice' && this.viewType == 'chart'" :dataChartDevice="dataChartDevice" :propFilterDevice="propFilterDevice" />
   </div>
 </template>
@@ -41,9 +41,7 @@
   import DeviceChartFilter from '../components/filter/DeviceChartFilter.vue'
   import DeviceTableFilter from '../components/filter/DeviceTableFilter.vue'
   const api: ReportRepository = getRepository('report')
-  // @Emit(event?: string | number) try() {
-  //     return this.propFilter
-  //   }
+
   @Component({
     components: {
       ReportTable,
@@ -129,6 +127,7 @@
       this.propFilterUser = value
     }
     getDataFilterDevice(value: any): void {
+      console.log("filterDevice", value)
       this.propFilterDevice = value
     }
     handleFilterByDay(value: string | number): void {

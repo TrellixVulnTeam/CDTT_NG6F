@@ -43,7 +43,7 @@
         </div> -->
 
         <div class="line-chart bg-white">
-          <line-chart-device :lines="lines" />
+          <line-chart-device :lines="lines" :propFilterDevice="this.propFilterDevice" />
         </div>
       </div>
     </div>

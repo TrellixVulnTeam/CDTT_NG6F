@@ -79,12 +79,6 @@
       console.log('hh', this.propFilterUser)
 
       EventBus.$on('filterUserchart', this.handleFilterUserChart)
-      // EventBus.$on('filterDeviceChart', this.handleFilterDeviceChart)
-      // if (this.$route.name == 'ReportUser') {
-      //   this.handleFilterUserChart('last7Days')
-      // } else {
-      //   this.handleFilterDeviceChart('last7Days')
-      // }
       this.propFilterUser.date ? this.handleFilterUserChart(this.propFilterUser.date) : this.handleFilterUserChart('last7Days')
       // this.handleFilterUserChart('last7Days')
     }
