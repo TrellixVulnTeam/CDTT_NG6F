@@ -117,10 +117,6 @@
       EventBus.$emit('changeView', value)
     }
     created(): void {
-      // this.filter.date = this.propFilterUser.date
-      // if(this.propFilterUser.date){
-
-      // }
       this.propFilterUser.date ? (this.filter.date = this.propFilterUser.date) : (this.filter.date = 'last7Days')
       console.log('filter.date', this.propFilterUser.date)
     }

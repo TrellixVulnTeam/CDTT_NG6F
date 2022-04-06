@@ -69,8 +69,9 @@
     }
 
     async created(): Promise<void> {
+      console.log('propFilterDevice', this.propFilterDevice)
       EventBus.$on('filterDeviceChart', this.handleFilterDeviceChart)
-      this.handleFilterDeviceChart('last7Days')
+      // this.handleFilterDeviceChart('last7Days')
 
       this.propFilterDevice.date ? this.handleFilterDeviceChart(this.propFilterDevice.date) : this.handleFilterDeviceChart('last7Days')
     }

@@ -256,12 +256,14 @@
     viewType = 'chart'
     viewTable(value: string): void {
       this.viewType = 'table'
-      this.$emit('emitFilterUserTable', this.filter)
+      this.$emit('emitFilterDevice', this.filter)
       EventBus.$emit('changeView', value)
+      // console.log("filt");
+      
     }
     viewChart(value: string): void {
       this.viewType = 'chart'
-      this.$emit('emitFilterUserChartnew', this.filter)
+      this.$emit('emitFilterDiviceChartNew', this.filter)
       EventBus.$emit('changeView', value)
     }
     created(): void {
