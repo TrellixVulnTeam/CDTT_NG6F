@@ -140,18 +140,12 @@
         this.query.fromDate = this.checkTimeFromDate(90)
         this.query.toDate = this.checkTimeToDate()
       }
+      // this.propFilterUser = value
     }
-    // get getRoleExport(): boolean {
-    //   return this.checkPemission('crowd-sale', ['export'])
-    // }
+
 
     searchText = debounce((value: string) => {
       this.query.search = trim(value)
-      // console.log('SEARCH', value)
-      // this.$emit('filter', {
-      //   ...this.filter,..
-      //   search: trim(value)
-      // })
       const params = {
         ...this.filter,
         search: trim(value)
@@ -250,14 +244,32 @@
       const date = new Date()
       const time = `${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}_${date.getHours()}${date.getMinutes()}${date.getSeconds()}`
       // delete this.params.newAuditStatus
+
+      if (this.filter.date) {
+        const value = this.filter.date
+        if (value == 'yesterday') {
+          this.query.fromDate = this.checkTimeFromDate(1)
+          this.query.toDate = this.checkTimeToDate()
+        } else if (value == 'last7Days') {
+          this.query.fromDate = this.checkTimeFromDate(7)
+          this.query.toDate = this.checkTimeToDate()
+        } else if (value == 'last14Days') {
+          this.query.fromDate = this.checkTimeFromDate(14)
+          this.query.toDate = this.checkTimeToDate()
+        } else if (value == 'last30Days') {
+          this.query.fromDate = this.checkTimeFromDate(30)
+          this.query.toDate = this.checkTimeToDate()
+        } else if (value == 'last90Days') {
+          this.query.fromDate = this.checkTimeFromDate(90)
+          this.query.toDate = this.checkTimeToDate()
+        }
+      }
       const params = {
         ...this.query,
-        // ...this.query={
-        //   orderBy:this.current
-        // }
+        ...this.filter,
         orderBy: this.current
       }
-      console.log('this.q', this.query)
+      console.log('params', params)
 
       await api
         ?.exportExcel(params)
@@ -278,8 +290,8 @@
     }
     created(): void {
       this.filter.date = this.propFilterUser.date
-      console.log('filter.date', this.propFilterUser)
 
+      console.log('filter.date', this.propFilterUser)
       this.lang = window.localStorage.getItem('bc-lang')!
       // EventBus.$on('changeTabMember', this.handleChangeTab)
       this.$emit('filter', this.filter)

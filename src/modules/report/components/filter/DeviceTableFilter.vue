@@ -87,8 +87,7 @@
         i18n: 'report.sort.totalLogin'
       },
       {
-        command: 2,
-        label: this.$i18n.t('report.sort.deviceType'),
+        command: 2, 
         divided: false,
         i18n: 'report.sort.deviceType'
       }
@@ -151,6 +150,7 @@
         this.query.fromDate = this.checkTimeFromDate(90)
         this.query.toDate = this.checkTimeToDate()
       }
+      this.propFilterDevice = value
     }
     searchText = debounce((value: string) => {
       this.query.search = trim(value)
@@ -227,11 +227,31 @@
       let response: any
       const date = new Date()
       const time = `${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}_${date.getHours()}${date.getMinutes()}${date.getSeconds()}`
-      // delete this.params.newAuditStatus
+      if (this.filter.date) {
+        const value = this.filter.date
+        if (value == 'yesterday') {
+          this.query.fromDate = this.checkTimeFromDate(1)
+          this.query.toDate = this.checkTimeToDate()
+        } else if (value == 'last7Days') {
+          this.query.fromDate = this.checkTimeFromDate(7)
+          this.query.toDate = this.checkTimeToDate()
+        } else if (value == 'last14Days') {
+          this.query.fromDate = this.checkTimeFromDate(14)
+          this.query.toDate = this.checkTimeToDate()
+        } else if (value == 'last30Days') {
+          this.query.fromDate = this.checkTimeFromDate(30)
+          this.query.toDate = this.checkTimeToDate()
+        } else if (value == 'last90Days') {
+          this.query.fromDate = this.checkTimeFromDate(90)
+          this.query.toDate = this.checkTimeToDate()
+        }
+      }
       const params = {
         ...this.query,
+        ...this.filter,
         orderBy: this.current
       }
+      
       await api
         ?.exportExcelDevice(params)
         .then(data => {
