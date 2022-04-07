@@ -85,7 +85,7 @@
         label: this.$i18n.t('report.filter.last90Days')
       }
     ]
-
+    currentDate = ''
     handleSeclectFilter(value: string): void {
       EventBus.$emit('filterUserchart', value)
       if (value == 'yesterday') {
@@ -104,6 +104,8 @@
         this.query.fromDate = this.checkTimeFromDate(90)
         this.query.toDate = this.checkTimeToDate()
       }
+      this.currentDate = value
+      // this.propFilterUser = value
     }
 
     destroyed(): void {
@@ -190,10 +192,31 @@
       const date = new Date()
       const time = `${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}_${date.getHours()}${date.getMinutes()}${date.getSeconds()}`
       // delete this.params.newAuditStatus
+      if (this.filter.date) {
+        const value = this.filter.date
+        if (value == 'yesterday') {
+          this.query.fromDate = this.checkTimeFromDate(1)
+          this.query.toDate = this.checkTimeToDate()
+        } else if (value == 'last7Days') {
+          this.query.fromDate = this.checkTimeFromDate(7)
+          this.query.toDate = this.checkTimeToDate()
+        } else if (value == 'last14Days') {
+          this.query.fromDate = this.checkTimeFromDate(14)
+          this.query.toDate = this.checkTimeToDate()
+        } else if (value == 'last30Days') {
+          this.query.fromDate = this.checkTimeFromDate(30)
+          this.query.toDate = this.checkTimeToDate()
+        } else if (value == 'last90Days') {
+          this.query.fromDate = this.checkTimeFromDate(90)
+          this.query.toDate = this.checkTimeToDate()
+        }
+      }
       const params = {
         ...this.query,
+        ...this.filter,
         orderBy: 'TOTAL_LOGIN'
       }
+      
       await api
         ?.exportExcel(params)
         .then(data => {
