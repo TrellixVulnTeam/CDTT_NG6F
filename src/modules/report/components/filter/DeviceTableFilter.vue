@@ -88,6 +88,7 @@
       },
       {
         command: 2, 
+        label: this.$i18n.t('report.sort.deviceType'),
         divided: false,
         i18n: 'report.sort.deviceType'
       }
