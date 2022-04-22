@@ -1,8 +1,8 @@
 import { Module } from 'vuex'
-import memberKyc from './user'
+import report from './user'
 
-const MemberStores: Record<string, Module<any, any>> = {
-  memberKyc
+const ReportStores: Record<string, Module<any, any>> = {
+  report
 }
 
-export default MemberStores
+export default ReportStores

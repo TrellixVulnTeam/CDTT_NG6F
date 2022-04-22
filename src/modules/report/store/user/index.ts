@@ -10,11 +10,11 @@ const state: IAuth = {
   listReason: []
 }
 
-const memberKyc: Module<IAuth, unknown> = {
+const report: Module<IAuth, unknown> = {
   namespaced: true,
   state,
   actions,
   mutations
 }
 
-export default memberKyc
+export default report

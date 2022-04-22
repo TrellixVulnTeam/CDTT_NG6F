@@ -10,14 +10,18 @@
       </div>
     </div>
     <filter-metamart />
+    <tab-nft v-if="$route.name === 'Nft'" />
+    <tab-collection v-if="$route.name === 'Collection'" />
   </div>
 </template>
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
   import FilterMetamart from '../components/filter/FilterMetamart.vue'
+  import TabNft from '../components/TabNft.vue'
+  import TabCollection from '../components/TabCollection.vue'
 
-  @Component({ components: { FilterMetamart } })
+  @Component({ components: { FilterMetamart, TabNft, TabCollection } })
   export default class BOCustomer extends Vue {
     tabs: Array<Record<string, any>> = [
       {
@@ -50,7 +54,9 @@
 
     handleChangeTab(tab: Record<string, any>): void {
       this.isChangeTab = tab.id !== 1
-      this.$router.push({ name: tab.routeName })
+      this.$router.push({ name: tab.routeName }).catch(() => {
+        return
+      })
     }
   }
 </script>
