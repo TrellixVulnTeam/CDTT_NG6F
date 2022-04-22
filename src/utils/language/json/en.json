@@ -117,6 +117,7 @@
     "transaction": "Transaction",
     "member": "Members",
     "exception": "Exception",
+    "nft": "NFT",
     "more": "More"
   },
   "header": {
@@ -128,7 +129,8 @@
     "transaction": "Transaction",
     "exception": "Exception",
     "member": "Members",
-    "report": "Report"
+    "report": "Report",
+    "nft": "NFT"
   },
   "footer": {
     "terms": "Terms and Conditions"
@@ -646,7 +648,9 @@
     "member-inactive": "Inactive",
     "crowdsale": "Crowdsale",
     "crowdsales": "Crowdsale",
-    "vesting": "Vesting"
+    "vesting": "Vesting",
+    "metamart-nft": "NFT item",
+    "metamart-collection": "Collection"
   },
   "status": {
     "pending": "Pending",

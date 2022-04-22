@@ -85,6 +85,7 @@
     "transaction": "Giao dịch",
     "member": "Nhân sự",
     "exception": "Ngoại lệ",
+    "nft": "NFT",
     "more": "Thêm"
   },
   "header": {
@@ -96,7 +97,8 @@
     "transaction": "Giao dịch",
     "exception": "Ngoại lệ",
     "member": "Nhân sự",
-    "report": "Báo cáo"
+    "report": "Báo cáo",
+    "nft": "NFT"
   },
   "wallet": {
     "Linkey": "LynKey Wallet",
@@ -621,7 +623,9 @@
     "member-inactive": "Không hoạt động",
     "crowdsale": "Crowdsale",
     "crowdsales": "Crowdsale",
-    "vesting": "Vesting"
+    "vesting": "Vesting",
+    "metamart-nft": "NFT item",
+    "metamart-collection": "Collection"
   },
   "status": {
     "pending": "Đang chờ",
