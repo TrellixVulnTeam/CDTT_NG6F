@@ -9,18 +9,44 @@
         </div>
       </div>
     </div>
-    <filter-metamart />
-    <tab-nft v-if="$route.name === 'Nft'" />
-    <tab-collection v-if="$route.name === 'Collection'" />
+    <filter-metamart :tabs = "tabs" isChangeTab = "isChangeTab"/>
+    <tab-nft
+        v-if="$route.name === 'Nft'"
+        @sizeChange="handleSizeChange"
+        @pageChange="handlePageChange"
+        :nftProps="nftData"
+        :query="query"
+        v-loading="isLoading"
+    />
+    <tab-collection
+        v-if="$route.name === 'Collection'"
+        @sizeChange="handleSizeChange"
+        @pageChange="handlePageChange"
+        :query="query"
+        :data="collectionData"
+        v-loading="isLoading"
+    />
   </div>
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator'
-  import FilterMetamart from '../components/filter/FilterMetamart.vue'
-  import TabNft from '../components/TabNft.vue'
-  import TabCollection from '../components/TabCollection.vue'
+import {Component, Vue} from 'vue-property-decorator'
+import FilterMetamart from '../components/filter/FilterMetamart.vue'
+import TabNft from '../components/TabNft.vue'
+import TabCollection from '../components/TabCollection.vue'
+import axios from "axios";
+import {MODULE_WITH_ROUTENAME} from "@/configs/role";
+import {debounce} from "lodash";
 
+//Interface
+  interface IQuery {
+    page?: number
+    limit?: number,
+    sortBy?: string | null
+    orderBy?: string | null
+    total: number
+    type?: string | null | undefined
+  }
   @Component({ components: { FilterMetamart, TabNft, TabCollection } })
   export default class BOCustomer extends Vue {
     tabs: Array<Record<string, any>> = [
@@ -36,27 +62,92 @@
       }
     ]
 
-    tabActive = 'Pending'
     isLoading = false
     isChangeTab = false
-    isConflickClick = false
 
-    type = 'add'
+    collectionData: Array<Record<string, any>> = []
+    nftData: Array<Record<string, any>> = []
 
-    data: Array<Record<string, any>> = []
-
-    detailRow = {}
-
-    objType: Record<string, any> = {
-      MemberActive: 'ACTIVE',
-      MemberInactive: 'INACTIVE'
+    query: IQuery = {
+      page: 1,
+      limit: 10,
+      total: 20,
+      sortBy: 'name',
+      orderBy: 'desc',
+      type: null
+    }
+    // objType: Record<string, any> = {
+    //   Nft: 'Nft',
+    //   Collection: 'Collection'
+    // }
+    created(): void {
+      this.init();
+    }
+    async getNftItem(): Promise<void> {
+      try {
+        this.isLoading = true
+        const result = await axios.get(`https://627220cac455a64564bc4e6a.mockapi.io/api/nft/nftItem`, { params: { ...this.query, total: null } })
+        console.log("nft called", result)
+        this.nftData = result.data.items || []
+        this.query.total = result.data.count
+        this.isLoading = false
+      } catch (error) {
+        this.isLoading = false
+        console.log(error)
+      }
+    }
+    async getCollection(): Promise<void> {
+      try {
+        this.isLoading = true
+        const result = await axios.get(`https://626362ffc430dc560d2e80d3.mockapi.io/api/v1/CardCollection/`,{params: {...this.query, total:null}})
+        console.log("collection called",result)
+        this.collectionData = result.data.items || []
+        this.query.total = result.data.count
+        this.isLoading = false
+      } catch (error) {
+        this.isLoading = false
+        console.log(error)
+      }
     }
 
+    async init(): Promise<void> {
+      if(this.$route.name === "Nft")  await this.getNftItem();
+      if(this.$route.name === "Collection") await this.getCollection();
+    }
+
+    resetQuery(): void{
+      this.query={...this.query,
+        page: 1,
+        limit: 10
+      }
+    }
+
+
     handleChangeTab(tab: Record<string, any>): void {
+      console.log("tab", tab);
       this.isChangeTab = tab.id !== 1
-      this.$router.push({ name: tab.routeName }).catch(() => {
-        return
+      this.$router.push({ name: tab.routeName })
+          .then(()=> {
+            this.resetQuery();
+          })
+          .catch(() => {
+            return
       })
+      if(this.isChangeTab && tab.id === 2){
+        this.getCollection();
+      }else{
+        this.getNftItem();
+      }
+    }
+
+    //handleChangeSize
+    handleSizeChange(size: number): void {
+      this.query.limit = size
+      this.init();
+    }
+    handlePageChange(page: number): void{
+      this.query.page = page
+      this.init();
     }
   }
 </script>

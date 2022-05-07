@@ -26,7 +26,37 @@
     }
   }
 }
-.popper-filter-request-withdraw {
+
+.el-popper.popper-filter-nft{
+  //padding: 24px 24px 0 24px;
+  padding: 0;
+  .content{
+    padding: 24px 24px 0;
+    width: 518px;
+    .box{
+      .line {
+        width: 8px;
+        height: 2px;
+        background: #dbdbdb;
+      }
+    }
+    .box-input-created-date,
+    .box-input-price{
+      width: 240px;
+    }
+
+  }
+  .footer {
+    padding: 12px 24px;
+    border-top: 1px solid #d2d0ce;
+    .btn-default-bg {
+      width: 100px;
+    }
+  }
+}
+
+.popper-filter-request-withdraw,
+{
   padding: 24px 24px 0 24px;
   .content {
     .box {
@@ -49,7 +79,7 @@
     .el-select {
       width: 100%;
     }
-    .box-input-request-date {
+    .box-input-request-date{
       width: 240px;
       .el-input__prefix {
         top: 2px;
