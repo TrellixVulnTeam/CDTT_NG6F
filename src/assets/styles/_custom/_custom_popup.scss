@@ -10,3 +10,16 @@
 //         }
 //     }
 // }
+.popup-form {
+    .popup-content {
+        background-color: #F6F8FC;
+        padding: 24px !important; //cần xem lại
+    }
+    .el-dialog__footer {
+        display: none;
+    }
+}
+
+.el-dialog__footer {
+    display: block;
+}
