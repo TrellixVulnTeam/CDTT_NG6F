@@ -7,6 +7,7 @@
             <span class="text-base">{{ $t(`menu.${tab.title}`) }}</span>
           </div>
         </div>
+        <el-button type="primary" @click="handleOpen('popup-choosetype')" style="margin-right: 24px;">Create</el-button>
       </div>
     </div>
     <filter-metamart :tabs = "tabs" isChangeTab = "isChangeTab"/>
@@ -26,29 +27,35 @@
         :data="collectionData"
         v-loading="isLoading"
     />
+    <popup-choosetype @continues="handleToPopupform($event)"/>
+    <popup-form @collection="handleOpenCreate($event)"/>
+    <popup-create />
   </div>
 </template>
 
-<script lang="ts">
-import {Component, Vue} from 'vue-property-decorator'
-import FilterMetamart from '../components/filter/FilterMetamart.vue'
-import TabNft from '../components/TabNft.vue'
-import TabCollection from '../components/TabCollection.vue'
-import axios from "axios";
-import {MODULE_WITH_ROUTENAME} from "@/configs/role";
-import {debounce} from "lodash";
 
+<script lang="ts">
+  import { Component, Mixins, Vue } from 'vue-property-decorator'
+  import FilterMetamart from '../components/filter/FilterMetamart.vue'
+  import TabNft from '../components/TabNft.vue'
+  import TabCollection from '../components/TabCollection.vue'
+  import PopupForm from '../components/popup/PopupForm.vue'
+  import PopupChoosetype from '../components/popup/ChooseType.vue'
+  import PopupCreate from '../components/popup/PopupCreate.vue'
+  import PopupMixin from '@/mixins/popup'
+  import axios from "axios";
 //Interface
-  interface IQuery {
-    page?: number
-    limit?: number,
-    sortBy?: string | null
-    orderBy?: string | null
-    total: number
-    type?: string | null | undefined
-  }
-  @Component({ components: { FilterMetamart, TabNft, TabCollection } })
-  export default class BOCustomer extends Vue {
+interface IQuery {
+  page?: number
+  limit?: number,
+  sortBy?: string | null
+  orderBy?: string | null
+  total: number
+  type?: string | null | undefined
+}
+
+  @Component({ components: { FilterMetamart, TabNft, TabCollection, PopupChoosetype, PopupForm, PopupCreate } })
+  export default class BOCustomer extends Mixins(PopupMixin) {
     tabs: Array<Record<string, any>> = [
       {
         id: 1,
@@ -61,9 +68,6 @@ import {debounce} from "lodash";
         routeName: 'Collection'
       }
     ]
-
-    isLoading = false
-    isChangeTab = false
 
     collectionData: Array<Record<string, any>> = []
     nftData: Array<Record<string, any>> = []
@@ -109,6 +113,16 @@ import {debounce} from "lodash";
         console.log(error)
       }
     }
+    
+    tabActive = 'Pending'
+    isLoading = false
+    isChangeTab = false
+    isConflickClick = false
+    type = 'add'
+    isOpen = false
+    direction = ''
+    data: Array<Record<string, any>> = []
+
 
     async init(): Promise<void> {
       if(this.$route.name === "Nft")  await this.getNftItem();
@@ -149,6 +163,44 @@ import {debounce} from "lodash";
       this.query.page = page
       this.init();
     }
+    handleOpen(popupName: string) {
+      this.setOpenPopup({
+        popupName: popupName,
+        isOpen: true
+      })
+    }
+    handleToPopupform(direction: string):void {
+      console.log(direction)
+      if(direction === '2'){
+          this.setOpenPopup({
+          popupName: 'popup-choosetype',
+          isOpen: false
+        })
+        setTimeout(
+          () =>{
+            this.setOpenPopup({
+              popupName: 'popup-form',
+              isOpen: true
+            })
+          }, 200)
+        }  
+    }
+    handleOpenCreate(collection: string):void {
+      if(collection === '1'){
+          this.setOpenPopup({
+          popupName: 'popup-create',
+          isOpen: true
+      })
+    }}
+    handleCreateItem(isAllowed: boolean):void {
+      if(isAllowed){
+        this.setOpenPopup({
+          popupName: 'popup-form',
+          isOpen: false
+        })
+      }
+    }
+    
   }
 </script>
 
