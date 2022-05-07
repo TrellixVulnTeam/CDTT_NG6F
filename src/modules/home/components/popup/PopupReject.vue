@@ -18,6 +18,7 @@
       <span class="d-ib" style="padding-bottom: 8px">{{ $t('kyc.popup.reason') }}</span>
       <el-input type="textarea" :placeholder="$t('placeholder.reason')" maxlength="250" show-word-limit rows="4" v-model="reason" />
     </div>
+    
     <div class="footer" slot="footer">
       <div class="wrap-button">
         <div class="btn-right">

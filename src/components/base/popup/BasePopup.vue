@@ -102,6 +102,7 @@
     overflow: auto;
     padding: 24px;
     padding-bottom: 0;
+    // background-color: #F6F8FC; //demo ở đây
     @media screen and (max-height: 900px) {
       max-height: 70vh;
       // min-height: 75px;

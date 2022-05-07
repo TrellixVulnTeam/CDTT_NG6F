@@ -7,22 +7,30 @@
             <span class="text-base">{{ $t(`menu.${tab.title}`) }}</span>
           </div>
         </div>
+        <el-button type="primary" @click="handleOpen('popup-choosetype')" style="margin-right: 24px;">Create</el-button>
       </div>
     </div>
     <filter-metamart />
     <tab-nft v-if="$route.name === 'Nft'" />
     <tab-collection v-if="$route.name === 'Collection'" />
-  </div>
+    <popup-choosetype @continues="handleToPopupform($event)"/>
+    <popup-form @collection="handleOpenCreate($event)"/>
+    <popup-create /> 
+  </div> 
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator'
+  import { Component, Mixins, Vue } from 'vue-property-decorator'
   import FilterMetamart from '../components/filter/FilterMetamart.vue'
   import TabNft from '../components/TabNft.vue'
   import TabCollection from '../components/TabCollection.vue'
+  import PopupForm from '../components/popup/PopupForm.vue'
+  import PopupChoosetype from '../components/popup/ChooseType.vue'
+  import PopupCreate from '../components/popup/PopupCreate.vue'
+  import PopupMixin from '@/mixins/popup'
 
-  @Component({ components: { FilterMetamart, TabNft, TabCollection } })
-  export default class BOCustomer extends Vue {
+  @Component({ components: { FilterMetamart, TabNft, TabCollection, PopupChoosetype, PopupForm, PopupCreate } })
+  export default class BOCustomer extends Mixins(PopupMixin) {
     tabs: Array<Record<string, any>> = [
       {
         id: 1,
@@ -35,14 +43,14 @@
         routeName: 'Collection'
       }
     ]
-
+    
     tabActive = 'Pending'
     isLoading = false
     isChangeTab = false
     isConflickClick = false
-
     type = 'add'
-
+    isOpen = false
+    direction = ''
     data: Array<Record<string, any>> = []
 
     detailRow = {}
@@ -52,12 +60,51 @@
       MemberInactive: 'INACTIVE'
     }
 
+
     handleChangeTab(tab: Record<string, any>): void {
       this.isChangeTab = tab.id !== 1
       this.$router.push({ name: tab.routeName }).catch(() => {
         return
       })
     }
+    handleOpen(popupName: string) {
+      this.setOpenPopup({
+        popupName: popupName,
+        isOpen: true
+      })
+    }
+    handleToPopupform(direction: string):void {
+      console.log(direction)
+      if(direction === '2'){
+          this.setOpenPopup({
+          popupName: 'popup-choosetype',
+          isOpen: false
+        })
+        setTimeout(
+          () =>{
+            this.setOpenPopup({
+              popupName: 'popup-form',
+              isOpen: true
+            })
+          }, 200)
+        }  
+    }
+    handleOpenCreate(collection: string):void {
+      if(collection === '1'){
+          this.setOpenPopup({
+          popupName: 'popup-create',
+          isOpen: true
+      })
+    }}
+    handleCreateItem(isAllowed: boolean):void {
+      if(isAllowed){
+        this.setOpenPopup({
+          popupName: 'popup-form',
+          isOpen: false
+        })
+      }
+    }
+    
   }
 </script>
 

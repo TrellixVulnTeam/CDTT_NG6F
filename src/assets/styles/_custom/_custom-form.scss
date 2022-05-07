@@ -122,4 +122,23 @@
   }
 
 }
-
+// popup choose
+.popup-choose, .popup-form {
+  .el-radio__inner {
+    display: none;
+  }
+  .choise, .collection {
+    .el-radio.is-bordered.is-checked {
+      border: 2px solid #9D3EF2;
+    }
+  }
+}
+//popup-form 
+.popup-form {
+  .el-textarea {
+    .el-textarea__inner {
+      padding-top: 1.5px;
+      padding-bottom: 1.5px;
+    }
+  }
+}
