@@ -10,14 +10,29 @@
         <el-button type="primary" @click="handleOpen('popup-choosetype')" style="margin-right: 24px;">Create</el-button>
       </div>
     </div>
-    <filter-metamart />
-    <tab-nft v-if="$route.name === 'Nft'" />
-    <tab-collection v-if="$route.name === 'Collection'" />
+    <filter-metamart :tabs = "tabs" isChangeTab = "isChangeTab"/>
+    <tab-nft
+        v-if="$route.name === 'Nft'"
+        @sizeChange="handleSizeChange"
+        @pageChange="handlePageChange"
+        :nftProps="nftData"
+        :query="query"
+        v-loading="isLoading"
+    />
+    <tab-collection
+        v-if="$route.name === 'Collection'"
+        @sizeChange="handleSizeChange"
+        @pageChange="handlePageChange"
+        :query="query"
+        :data="collectionData"
+        v-loading="isLoading"
+    />
     <popup-choosetype @continues="handleToPopupform($event)"/>
     <popup-form @collection="handleOpenCreate($event)"/>
-    <popup-create /> 
-  </div> 
+    <popup-create />
+  </div>
 </template>
+
 
 <script lang="ts">
   import { Component, Mixins, Vue } from 'vue-property-decorator'
@@ -28,6 +43,16 @@
   import PopupChoosetype from '../components/popup/ChooseType.vue'
   import PopupCreate from '../components/popup/PopupCreate.vue'
   import PopupMixin from '@/mixins/popup'
+  import axios from "axios";
+//Interface
+interface IQuery {
+  page?: number
+  limit?: number,
+  sortBy?: string | null
+  orderBy?: string | null
+  total: number
+  type?: string | null | undefined
+}
 
   @Component({ components: { FilterMetamart, TabNft, TabCollection, PopupChoosetype, PopupForm, PopupCreate } })
   export default class BOCustomer extends Mixins(PopupMixin) {
@@ -43,6 +68,51 @@
         routeName: 'Collection'
       }
     ]
+
+    collectionData: Array<Record<string, any>> = []
+    nftData: Array<Record<string, any>> = []
+
+    query: IQuery = {
+      page: 1,
+      limit: 10,
+      total: 20,
+      sortBy: 'name',
+      orderBy: 'desc',
+      type: null
+    }
+    // objType: Record<string, any> = {
+    //   Nft: 'Nft',
+    //   Collection: 'Collection'
+    // }
+    created(): void {
+      this.init();
+    }
+    async getNftItem(): Promise<void> {
+      try {
+        this.isLoading = true
+        const result = await axios.get(`https://627220cac455a64564bc4e6a.mockapi.io/api/nft/nftItem`, { params: { ...this.query, total: null } })
+        console.log("nft called", result)
+        this.nftData = result.data.items || []
+        this.query.total = result.data.count
+        this.isLoading = false
+      } catch (error) {
+        this.isLoading = false
+        console.log(error)
+      }
+    }
+    async getCollection(): Promise<void> {
+      try {
+        this.isLoading = true
+        const result = await axios.get(`https://626362ffc430dc560d2e80d3.mockapi.io/api/v1/CardCollection/`,{params: {...this.query, total:null}})
+        console.log("collection called",result)
+        this.collectionData = result.data.items || []
+        this.query.total = result.data.count
+        this.isLoading = false
+      } catch (error) {
+        this.isLoading = false
+        console.log(error)
+      }
+    }
     
     tabActive = 'Pending'
     isLoading = false
@@ -53,19 +123,45 @@
     direction = ''
     data: Array<Record<string, any>> = []
 
-    detailRow = {}
 
-    objType: Record<string, any> = {
-      MemberActive: 'ACTIVE',
-      MemberInactive: 'INACTIVE'
+    async init(): Promise<void> {
+      if(this.$route.name === "Nft")  await this.getNftItem();
+      if(this.$route.name === "Collection") await this.getCollection();
+    }
+
+    resetQuery(): void{
+      this.query={...this.query,
+        page: 1,
+        limit: 10
+      }
     }
 
 
     handleChangeTab(tab: Record<string, any>): void {
+      console.log("tab", tab);
       this.isChangeTab = tab.id !== 1
-      this.$router.push({ name: tab.routeName }).catch(() => {
-        return
+      this.$router.push({ name: tab.routeName })
+          .then(()=> {
+            this.resetQuery();
+          })
+          .catch(() => {
+            return
       })
+      if(this.isChangeTab && tab.id === 2){
+        this.getCollection();
+      }else{
+        this.getNftItem();
+      }
+    }
+
+    //handleChangeSize
+    handleSizeChange(size: number): void {
+      this.query.limit = size
+      this.init();
+    }
+    handlePageChange(page: number): void{
+      this.query.page = page
+      this.init();
     }
     handleOpen(popupName: string) {
       this.setOpenPopup({

@@ -66,3 +66,15 @@
 .text-capitalize {
     text-transform: capitalize;
 }
+.text-overflow-1 {
+    @include break-word-webkit;
+    -webkit-line-clamp: 1;
+}
+.text-overflow-2 {
+    @include break-word-webkit;
+    -webkit-line-clamp: 2;
+}
+.text-overflow-3 {
+    @include break-word-webkit;
+    -webkit-line-clamp: 3;
+}
