@@ -274,6 +274,7 @@
     }
     p:last-child {
       flex: 1;
+      text-align: right;
     }
   }
   .status-fail {
