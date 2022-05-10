@@ -575,7 +575,8 @@
       "status": "Trạng thái",
       "full-name": "Tên đầy đủ",
       "phone-number": "Số điện thoại",
-      "email": "Email"
+      "email": "Email",
+      "reason": "Lý do"
     },
     "filter": {
       "sign-up": "Thưởng đăng ký",

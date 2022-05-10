@@ -9,12 +9,10 @@
         <div class="icon" :class="checkTypeStatusIcon(detailRow.status)">
           <base-icon :className="'icon-pending'" :icon="getIcon" size="64" />
         </div>
-        <p v-if="detailRow.transactionType === 'WITHDRAW'" :class="checkValueAmountDisplay(detailRow.amountWithoutFeeDisplay)">
-          -{{ detailRow.amountWithoutFeeDisplay }} {{ detailRow.currency }}
-        </p>
+        <p v-if="detailRow.transactionType === 'WITHDRAW'" :class="checkValueAmountDisplay(detailRow.amountDisplay)">-{{ detailRow.amountDisplay }} {{ detailRow.currency }}</p>
         <p v-else class="sub">-{{ detailRow.paidAmountDisplay }} {{ detailRow.currency }}</p>
 
-        <p v-if="detailRow.transactionType === 'WITHDRAW'" class="usd">~${{ detailRow.amountWithoutFeeToUsdDisplay }}</p>
+        <p v-if="detailRow.transactionType === 'WITHDRAW'" class="usd">~${{ detailRow.amountToUsdDisplay }}</p>
         <p v-else class="usd">~${{ detailRow.paidAmountToUsd }}</p>
       </div>
     </div>
@@ -93,6 +91,10 @@
           {{ checkTransactionStatusCrowdSale(detailRow.status) }}
         </p>
         <p v-else :class="detailRow.status == 'LOCKED' ? 'status-locked' : 'status-fail'">{{ checkTransactionStatus(detailRow.status) }}</p>
+      </div>
+      <div class="item be-flex reason">
+        <p>{{ $t('transaction.detail.reason') }}</p>
+        <p>{{ detailRow.description }}</p>
       </div>
     </div>
     <div class="customer-info" v-if="detailRow.transactionType === 'WITHDRAW'">
@@ -266,6 +268,14 @@
 </script>
 
 <style scoped lang="scss">
+  .reason {
+    p:first-child {
+      width: 20%;
+    }
+    p:last-child {
+      flex: 1;
+    }
+  }
   .status-fail {
     border-radius: 4px;
     font-size: 12px;

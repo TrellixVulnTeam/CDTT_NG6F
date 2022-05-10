@@ -600,7 +600,8 @@
       "status": "Status",
       "full-name": "Full name",
       "phone-number": "Phone number",
-      "email": "Email"
+      "email": "Email",
+      "reason": "Reason"
     },
     "filter": {
       "sign-up": "Bonus sign up",
