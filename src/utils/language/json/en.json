@@ -118,7 +118,8 @@
     "member": "Members",
     "exception": "Exception",
     "nft": "NFT",
-    "more": "More"
+    "more": "More",
+    "fee": "Fee"
   },
   "header": {
     "kyc": "KYC",
@@ -130,7 +131,8 @@
     "exception": "Exception",
     "member": "Members",
     "report": "Report",
-    "nft": "NFT"
+    "nft": "NFT",
+    "fee": "Fee"
   },
   "footer": {
     "terms": "Terms and Conditions"
@@ -801,6 +803,16 @@
         "bonus-sign-up": "Bonus sign up"
       }
     }
+  },
+  "fee": {
+    "total-withdraw": "Total Fee Withdraw",
+    "total-transfer": "Total Fee Transfer",
+    "total-trading": "Total Fee Trading NFT",
+    "total-exchange": "Total Fee Exchange",
+    "withdraw": "Withdraw",
+    "transfer": "Transfer",
+    "trading": "Trading NFT",
+    "exchange": "Exchange"
   },
   "request": {
     "withdraw": "Withdraw",

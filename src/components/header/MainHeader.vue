@@ -92,6 +92,8 @@
           return this.$t('header.report')
         case '/metamart':
           return this.$t('header.nft')
+        case '/fee':
+          return this.$t('header.fee')
         default:
           return this.$t('header.kyc')
       }
