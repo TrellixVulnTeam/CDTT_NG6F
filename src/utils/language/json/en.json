@@ -580,7 +580,10 @@
       "STATUS": "STATUS",
       "AMOUNT": "AMOUNT",
       "transactions": "transactions",
-      "locked": "Locked"
+      "locked": "Locked",
+      "nft-sale": "NFT Sale",
+      "nft-transfer": "NFT Transfer",
+      "royalties-fee": "Royalties Fee"
     },
     "popup": {
       "title-filter": "Filter",
@@ -798,7 +801,10 @@
         "bonus-affiliate": "Bonus affiliate",
         "bonus-first-trans": "Bonus first transaction",
         "bonus-crowdsale": "Bonus crowdsale",
-        "bonus-sign-up": "Bonus sign up"
+        "bonus-sign-up": "Bonus sign up",
+        "nft-sale": "NFT Sale",
+        "nft-transfer": "NFT Transfer",
+        "royalties-fee": "Royalties Fee"
       }
     }
   },
@@ -912,7 +918,10 @@
       "tranfer": "Transfer",
       "widthdraw": "Withdraw",
       "deposit": "Deposit",
-      "crowdsale": "Crowdsale"
+      "crowdsale": "Crowdsale",
+      "nft-sale": "NFT Sale",
+      "nft-transfer": "NFT Transfer",
+      "royalties-fee": "Royalties Fee"
     },
     "warning": {
       "notmatched": "Current Balance and Ending Balance are not matched.",

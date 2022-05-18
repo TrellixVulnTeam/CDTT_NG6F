@@ -118,6 +118,12 @@
           return this.$i18n.t('balance.popup.crow-type.bonus-crowdsale')
         case 'BONUS_SIGN_UP':
           return this.$i18n.t('balance.popup.crow-type.bonus-sign-up')
+        case 'NFT_SALE':
+          return this.$i18n.t('balance.popup.crow-type.nft-sale')
+        case 'NFT_TRANSFER':
+          return this.$i18n.t('balance.popup.crow-type.nft-transfer')
+        case 'ROYALTIES_FEE':
+          return this.$i18n.t('balance.popup.crow-type.royalties-fee')
       }
     }
 
