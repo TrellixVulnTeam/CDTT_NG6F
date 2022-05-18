@@ -11,16 +11,35 @@
     </div>
     <filter-metamart />
     <tab-nft v-if="$route.name === 'Nft'" />
-    <tab-collection v-if="$route.name === 'Collection'" />
+    <tab-collection
+        v-if="$route.name === 'Collection'"
+        @sizeChange="handleSizeChange"
+        @pageChange="handlePageChange"
+        :query="query"
+        :data="data"
+        v-loading="isLoading"
+    />
   </div>
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator'
-  import FilterMetamart from '../components/filter/FilterMetamart.vue'
-  import TabNft from '../components/TabNft.vue'
-  import TabCollection from '../components/TabCollection.vue'
+import {Component, Vue} from 'vue-property-decorator'
+import FilterMetamart from '../components/filter/FilterMetamart.vue'
+import TabNft from '../components/TabNft.vue'
+import TabCollection from '../components/TabCollection.vue'
+import axios from "axios";
+import {MODULE_WITH_ROUTENAME} from "@/configs/role";
+import {debounce} from "lodash";
 
+//Interface
+  interface IQuery {
+    page?: number
+    limit?: number,
+    sortBy?: string | null
+    orderBy?: string | null
+    total: number
+    type?: string | null | undefined
+  }
   @Component({ components: { FilterMetamart, TabNft, TabCollection } })
   export default class BOCustomer extends Vue {
     tabs: Array<Record<string, any>> = [
@@ -47,6 +66,44 @@
 
     detailRow = {}
 
+    query: IQuery = {
+      page: 1,
+      limit: 10,
+      total: 20,
+      sortBy: 'name',
+      orderBy: 'desc',
+      type: null
+    }
+    created(): void {
+      // if (!this.checkPemission('customer', ['view'])) {
+      //   const routeName = MODULE_WITH_ROUTENAME[this.listModuleCanView[0].module]
+      //   this.$router.push({ name: routeName })
+      //   return
+      // }
+
+      const name = this.$route.name!
+      this.query.type = this.objType[name]
+      this.init();
+    }
+    async init(): Promise<void> {
+      try {
+        this.isLoading = true
+        // if (!this.query.type) {
+        //   const routeName = this.$route.name!
+        //   this.query.type = this.objType[routeName]
+        // }
+        const result = await axios.get(`https://626362ffc430dc560d2e80d3.mockapi.io/api/v1/CardCollection/`,{params: {...this.query, total:null}})
+        //
+        console.log(result);
+        this.data = result.data.items || []
+        this.query.total = result.data.count
+        this.isLoading = false
+      } catch (error) {
+        this.isLoading = false
+        console.log(error)
+      }
+    }
+
     objType: Record<string, any> = {
       MemberActive: 'ACTIVE',
       MemberInactive: 'INACTIVE'
@@ -57,6 +114,19 @@
       this.$router.push({ name: tab.routeName }).catch(() => {
         return
       })
+      if(this.isChangeTab && tab.id === 2){
+        this.init()
+      }
+    }
+
+    //handleChangeSize
+    handleSizeChange(size: number): void {
+      this.query.limit = size
+      this.init();
+    }
+    handlePageChange(page: number): void{
+      this.query.page = page
+      this.init();
     }
   }
 </script>

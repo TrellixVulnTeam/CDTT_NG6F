@@ -256,7 +256,9 @@
     "amount-available": "Số lượng có sẵn",
     "from": "Từ",
     "to": "Đến",
-    "vesting": "Thời gian vesting"
+    "vesting": "Thời gian vesting",
+    "category": "Danh mục",
+    "placeholderCategory": "Chọn loại danh mục"
   },
   "validate": {
     "length": " Độ dài tối thiểu 8 ký tự",
@@ -504,6 +506,12 @@
       "deposit": "Nạp",
       "transfer": "Chuyển",
       "withdraw": "Rút"
+    }
+  },
+  "nft": {
+    "sort": {
+      "latest": "Ngày tạo muộn nhất",
+      "earliest": "Ngày tạo sớm nhất"
     }
   },
   "transaction": {

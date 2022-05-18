@@ -275,7 +275,9 @@
     "amount-available": "Available amount",
     "from": "From",
     "to": "To",
-    "vesting": "Vesting time"
+    "vesting": "Vesting time",
+    "category": "Category",
+    "placeholderCategory": "Choose Category"
   },
   "buy-lyn": {
     "title": "BUY LYNK"
@@ -529,6 +531,12 @@
       "deposit": "Deposit",
       "transfer": "Transfer",
       "withdraw": "Withdraw"
+    }
+  },
+  "nft": {
+    "sort": {
+      "latest": "Latest",
+      "earliest": "Earliest"
     }
   },
   "transaction": {
