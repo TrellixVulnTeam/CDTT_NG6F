@@ -555,7 +555,10 @@
       "total-bonus": "Tổng tiền thưởng",
       "total-withdraw": "Tổng tiền rút",
       "total-crowdsale": "Tổng tiền Crowdsale",
-      "locked": "Khóa"
+      "locked": "Khóa",
+      "nft-sale": "Mua bán NFT",
+      "nft-transfer": "Chuyển NFT",
+      "royalties-fee": "Phí bản quyền"
     },
     "popup": {
       "title-filter": "Bộ lọc",
@@ -835,7 +838,10 @@
       "tranfer": "Chuyển",
       "widthdraw": "Rút",
       "deposit": "Nạp",
-      "crowdsale": "Crowdsale"
+      "crowdsale": "Crowdsale",
+      "nft-sale": "Mua bán NFT",
+      "nft-transfer": "Chuyển NFT",
+      "royalties-fee": "Phí bản quyền"
     },
     "warning": {
       "notmatched": "Số dư Hiện tại và Số dư Cuối kỳ không khớp với nhau.",
@@ -891,7 +897,10 @@
         "bonus-first-trans": "Thưởng giao dịch đầu tiên",
         "bonus-crowdsale": "Thưởng crowdsale",
         "bonus-sign-up": "Thưởng đăng ký",
-        "bonus-sign-up-referral": "Thưởng giới thiệu đăng ký"
+        "bonus-sign-up-referral": "Thưởng giới thiệu đăng ký",
+        "nft-sale": "Mua bán NFT",
+        "nft-transfer": "Chuyển NFT",
+        "royalties-fee": "Phí bản quyền"
       }
     }
   },
