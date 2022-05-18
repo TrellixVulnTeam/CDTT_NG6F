@@ -1,42 +1,72 @@
 <template>
   <div class="pb-24 pt-24 be-flex align-center kyc-filter">
-    <el-input v-model="filter.search" class="input-search" :placeholder="$t('placeholder.search')">
+    <el-input v-model="filter.value.search" class="input-search" :placeholder="$t('placeholder.search')">
       <span slot="prefix" class="prefix-search">
         <base-icon icon="icon-search" size="24" />
       </span>
     </el-input>
     <div class="filter-item">
-      <el-popover >
+      <el-popover :value="isVisible" placement="bottom-start" width="568" trigger="click" popper-class="popper-filter-nft">
         <div class="content">
           <el-form>
             <div class="be-flex-column jc-space-between">
-              <el-form-item class="be-flex-item" :label="$t('label.category')">
-                <el-select v-model="filter.category" id-type :placeholder="$t('label.placeholderCategory')" class="w-100" clearable :disabled="isChangeTab">
+              <el-form-item class="be-flex-item" :label="$t('nft.filter.category')">
+                <el-select v-model="filter.value.category" id-type :placeholder="$t('nft.filter.placeholderCategory')" class="w-100" clearable >
                   <el-option v-for="(category, index) in listCategory" :key="index" :label="category.name" :value="category.name" />
                 </el-select>
               </el-form-item>
-              <div class="be-flex jc-space-between">
-                <el-form-item class="be-flex-item mr-40" :label="$t('label.create-date')">
+              <div v-if="this.$route.name === 'Nft'">
+                <el-form-item class="be-flex-item" :label="$t('nft.filter.saleType')">
+                  <el-select v-model="filter.value.saleType" id-type :placeholder="$t('nft.filter.placeholderSaleType')" class="w-100" clearable >
+                    <el-option v-for="(saleType, index) in listSaleType" :key="index" :label="saleType.name" :value="saleType.name" />
+                  </el-select>
+                </el-form-item>
+              </div>
+              <div class="be-flex jc-space-between align-center row box">
+                <el-form-item :label="$t('label.create-date')">
                   <el-date-picker
-                    class="w-100"
-                    format="MM/dd/yyyy"
-                    value-format="timestamp"
-                    :placeholder="$t('label.from-date')"
-                    v-model="filter.fromCreatedAt"
-                    type="date"
+                      class="box-input-created-date"
+                      format="MM/dd/yyyy"
+                      value-format="timestamp"
+                      :placeholder="$t('label.from-date')"
+                      v-model="filter.value.fromCreatedAt"
+                      type="date"
+                      clearable
                   >
                   </el-date-picker>
                 </el-form-item>
-                <el-form-item class="be-flex-item hide-label" label="1">
+                <div class="line"></div>
+                <el-form-item class="hide-label" label="1">
                   <el-date-picker
-                      class="w-100"
+                      class="box-input-created-date"
                       format="MM/dd/yyyy"
                       value-format="timestamp"
                       :placeholder="$t('label.to-date')"
-                      v-model="filter.toCreatedAt"
+                      v-model="filter.value.toCreatedAt"
                       type="date"
+                      clearable
                   >
                   </el-date-picker>
+                </el-form-item>
+              </div>
+              <div
+                  class="be-flex jc-space-between align-center row box"
+                  v-if="this.$route.name === 'Nft'"
+              >
+                <el-form-item :label="$t('nft.filter.priceRange')">
+                  <div>
+                    <el-input v-model="filter.value.fromPrice" size="24" type="number" clearable class="box-input-price">
+                      <div class="prefix" slot="prefix" style="margin: 3px 0 0 5px">$</div>
+                    </el-input>
+                  </div>
+                </el-form-item>
+                <div class="line"></div>
+                <el-form-item class="hide-label" label="1">
+                  <div>
+                    <el-input v-model="filter.value.toPrice" size="24" type="number" clearable class="box-input-price">
+                      <div class="prefix" slot="prefix" style="margin: 3px 0 0 5px">$</div>
+                    </el-input>
+                  </div>
                 </el-form-item>
               </div>
             </div>
@@ -56,9 +86,9 @@
           </span>
           {{ $t('kyc.filter.filter') }}
         </div>
-<!--        -->
-<!--        -->
-<!--        SORT BY-->
+        <!--        -->
+        <!--        -->
+        <!--        SORT BY-->
 
       </el-popover>
     </div>
@@ -83,55 +113,89 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator'
-  import BaseIcon from "@/components/base/icon/BaseIcon.vue";
-  @Component({
-    components: {BaseIcon}
-  })
-  export default class FilterMetamart extends Vue {
-    filter= {
+import {Component, Prop, Vue} from 'vue-property-decorator'
+import BaseIcon from "@/components/base/icon/BaseIcon.vue";
+@Component({
+  components: {BaseIcon}
+})
+export default class FilterMetamart extends Vue {
+  // @Prop({ required: true }) isChangeTab!: boolean
+  filter= {
+    value: {
       search: '',
       category: '',
+      saleType: '',
       fromCreatedAt: '',
       toCreatedAt: '',
-      orderBy: 'desc'
-    }
-    sortActive = 1
-    listCategory: Array<Record<any, any>> = [
-      {
-        id:0,
-        name: 'Real Estate'
-      },
-      {
-        id:1,
-        name: 'Tourism'
-      },
-      {
-        id:2,
-        name: 'Entertainment'
-      },
-      {
-        id:3,
-        name: 'Gallery'
-      }
-    ]
-
-    sorts: Array<Record<string, any>> = [
-      {
-        command: 1,
-        label: this.$i18n.t('nft.sort.latest'),
-        divided: false,
-        i18n: 'nft.sort.latest'
-      },
-      {
-        command: 2,
-        label: this.$i18n.t('nft.sort.earliest'),
-        divided: false,
-        i18n: 'nft.sort.earliest'
-      }
-    ]
-
+      fromPrice: '',
+      toPrice: ''
+    },
+    // isShow: {
+    //   saleType: false,
+    //   fromPrice: false,
+    //   toPrice: false
+    // }
   }
+
+  isVisible = false;
+  sortActive = 'LATEST'
+  listCategory: Array<Record<any, any>> = [
+    {
+      id:0,
+      name: 'Real Estate'
+    },
+    {
+      id:1,
+      name: 'Tourism'
+    },
+    {
+      id:2,
+      name: 'Entertainment'
+    },
+    {
+      id:3,
+      name: 'Gallery'
+    }
+  ]
+  listSaleType: Array<Record<any, any>> = [
+    {
+      id:0,
+      name: 'Buy now'
+    },
+    {
+      id:1,
+      name: 'Bid now'
+    },
+  ]
+
+  sorts: Array<Record<string, any>> = [
+    {
+      command: 'LATEST',
+      label: this.$i18n.t('nft.sort.latest'),
+      divided: false,
+      i18n: 'nft.sort.latest'
+    },
+    {
+      command: 'EARLIEST',
+      label: this.$i18n.t('nft.sort.earliest'),
+      divided: false,
+      i18n: 'nft.sort.earliest'
+    },
+    {
+      command: 'Price: High to low',
+      label: this.$i18n.t('nft.sort.price-highToLow'),
+      divided: false,
+      i18n: 'nft.sort.price-highToLow'
+    },
+    {
+      command: 'Price: Low to high',
+      label: this.$i18n.t('nft.sort.price-lowToHigh'),
+      divided: false,
+      i18n: 'nft.sort.price-lowToHigh'
+    }
+  ]
+
+}
 </script>
 
 <style scoped lang="scss">

@@ -536,7 +536,20 @@
   "nft": {
     "sort": {
       "latest": "Latest",
+<<<<<<< HEAD
       "earliest": "Earliest"
+=======
+      "earliest": "Earliest",
+      "price-highToLow": "Price: High to low",
+      "price-lowToHigh": "Price: Low to high"
+    },
+    "filter": {
+      "category": "Category",
+      "placeholderCategory": "Choose Category",
+      "saleType": "Sale Type",
+      "placeholderSaleType": "Choose Sale Type",
+      "priceRange": "Price range"
+>>>>>>> e759eb38ec86f8dcc64829194b40f8595548357d
     }
   },
   "transaction": {
@@ -593,7 +606,8 @@
       "status": "Status",
       "full-name": "Full name",
       "phone-number": "Phone number",
-      "email": "Email"
+      "email": "Email",
+      "reason": "Reason"
     },
     "filter": {
       "sign-up": "Bonus sign up",

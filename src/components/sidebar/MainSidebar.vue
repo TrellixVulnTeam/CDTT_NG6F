@@ -30,13 +30,13 @@
         <p>{{ $t('leftMenu.customer') }}</p>
       </div>
     </router-link>
-    <router-link :to="{ name: 'NftMain' }" class="router_center">
+    <!-- <router-link :to="{ name: 'NftMain' }" class="router_center">
       <div class="sack_avatar">
         <base-icon :icon="coinMain === 'LYNK' ? 'menu-metamart-active' : 'menu-metamart-clm'" class="menu-active" size="32" />
         <base-icon icon="menu-metamart" class="menu" size="32" />
         <p>{{ $t('leftMenu.nft') }}</p>
       </div>
-    </router-link>
+    </router-link> -->
     <router-link :to="{ name: 'MainBalance' }" v-if="checkPemission('balance', ['view'])" class="router_center">
       <div class="sack_avatar">
         <base-icon :icon="coinMain === 'LYNK' ? 'icon-wallet-bo-active' : 'icon-wallet-bo-active-clm'" class="menu-active" size="32" />

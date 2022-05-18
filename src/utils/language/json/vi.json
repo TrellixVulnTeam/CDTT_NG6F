@@ -511,7 +511,20 @@
   "nft": {
     "sort": {
       "latest": "Ngày tạo muộn nhất",
+<<<<<<< HEAD
       "earliest": "Ngày tạo sớm nhất"
+=======
+      "earliest": "Ngày tạo sớm nhất",
+      "price-highToLow": "Giá: Từ cao xuống thấp",
+      "price-lowToHigh": "Giá: Từ thấp lên cao"
+    },
+    "filter": {
+      "category": "Danh mục",
+      "placeholderCategory": "Chọn loại danh mục",
+      "saleType": "Kiểu bán",
+      "placeholderSaleType": "Chọn kiểu bán",
+      "priceRange": "Khoảng giá"
+>>>>>>> e759eb38ec86f8dcc64829194b40f8595548357d
     }
   },
   "transaction": {
@@ -568,7 +581,8 @@
       "status": "Trạng thái",
       "full-name": "Tên đầy đủ",
       "phone-number": "Số điện thoại",
-      "email": "Email"
+      "email": "Email",
+      "reason": "Lý do"
     },
     "filter": {
       "sign-up": "Thưởng đăng ký",

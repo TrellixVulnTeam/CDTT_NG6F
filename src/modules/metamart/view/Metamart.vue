@@ -7,195 +7,268 @@
             <span class="text-base">{{ $t(`menu.${tab.title}`) }}</span>
           </div>
         </div>
+        <el-button type="primary" @click="handleOpen('popup-choosetype')" style="margin-right: 24px;">Create</el-button>
       </div>
     </div>
-    <filter-metamart />
-    <tab-nft v-if="$route.name === 'Nft'" />
+    <filter-metamart :tabs = "tabs" isChangeTab = "isChangeTab"/>
+    <tab-nft
+        v-if="$route.name === 'Nft'"
+        @sizeChange="handleSizeChange"
+        @pageChange="handlePageChange"
+        :nftProps="nftData"
+        :query="query"
+        v-loading="isLoading"
+    />
     <tab-collection
         v-if="$route.name === 'Collection'"
         @sizeChange="handleSizeChange"
         @pageChange="handlePageChange"
         :query="query"
-        :data="data"
+        :data="collectionData"
         v-loading="isLoading"
     />
+    <popup-choosetype @continues="handleToPopupform($event)"/>
+    <popup-form @collection="handleOpenCreate($event)"/>
+    <popup-create />
   </div>
 </template>
 
+
 <script lang="ts">
-import {Component, Vue} from 'vue-property-decorator'
+import { Component, Mixins, Vue } from 'vue-property-decorator'
 import FilterMetamart from '../components/filter/FilterMetamart.vue'
 import TabNft from '../components/TabNft.vue'
 import TabCollection from '../components/TabCollection.vue'
+import PopupForm from '../components/popup/PopupForm.vue'
+import PopupChoosetype from '../components/popup/ChooseType.vue'
+import PopupCreate from '../components/popup/PopupCreate.vue'
+import PopupMixin from '@/mixins/popup'
 import axios from "axios";
-import {MODULE_WITH_ROUTENAME} from "@/configs/role";
-import {debounce} from "lodash";
-
 //Interface
-  interface IQuery {
-    page?: number
-    limit?: number,
-    sortBy?: string | null
-    orderBy?: string | null
-    total: number
-    type?: string | null | undefined
+interface IQuery {
+  page?: number
+  limit?: number,
+  sortBy?: string | null
+  orderBy?: string | null
+  total: number
+  type?: string | null | undefined
+}
+
+@Component({ components: { FilterMetamart, TabNft, TabCollection, PopupChoosetype, PopupForm, PopupCreate } })
+export default class BOCustomer extends Mixins(PopupMixin) {
+  tabs: Array<Record<string, any>> = [
+    {
+      id: 1,
+      title: 'metamart-nft',
+      routeName: 'Nft'
+    },
+    {
+      id: 2,
+      title: 'metamart-collection',
+      routeName: 'Collection'
+    }
+  ]
+
+  collectionData: Array<Record<string, any>> = []
+  nftData: Array<Record<string, any>> = []
+
+  query: IQuery = {
+    page: 1,
+    limit: 10,
+    total: 20,
+    sortBy: 'name',
+    orderBy: 'desc',
+    type: null
   }
-  @Component({ components: { FilterMetamart, TabNft, TabCollection } })
-  export default class BOCustomer extends Vue {
-    tabs: Array<Record<string, any>> = [
-      {
-        id: 1,
-        title: 'metamart-nft',
-        routeName: 'Nft'
-      },
-      {
-        id: 2,
-        title: 'metamart-collection',
-        routeName: 'Collection'
-      }
-    ]
+  // objType: Record<string, any> = {
+  //   Nft: 'Nft',
+  //   Collection: 'Collection'
+  // }
+  created(): void {
+    this.init();
+  }
+  async getNftItem(): Promise<void> {
+    try {
+      this.isLoading = true
+      const result = await axios.get(`https://627220cac455a64564bc4e6a.mockapi.io/api/nft/nftItem`, { params: { ...this.query, total: null } })
+      console.log("nft called", result)
+      this.nftData = result.data.items || []
+      this.query.total = result.data.count
+      this.isLoading = false
+    } catch (error) {
+      this.isLoading = false
+      console.log(error)
+    }
+  }
+  async getCollection(): Promise<void> {
+    try {
+      this.isLoading = true
+      const result = await axios.get(`https://626362ffc430dc560d2e80d3.mockapi.io/api/v1/CardCollection/`,{params: {...this.query, total:null}})
+      console.log("collection called",result)
+      this.collectionData = result.data.items || []
+      this.query.total = result.data.count
+      this.isLoading = false
+    } catch (error) {
+      this.isLoading = false
+      console.log(error)
+    }
+  }
 
-    tabActive = 'Pending'
-    isLoading = false
-    isChangeTab = false
-    isConflickClick = false
+  tabActive = 'Pending'
+  isLoading = false
+  isChangeTab = false
+  isConflickClick = false
+  type = 'add'
+  isOpen = false
+  direction = ''
+  data: Array<Record<string, any>> = []
 
-    type = 'add'
 
-    data: Array<Record<string, any>> = []
+  async init(): Promise<void> {
+    if(this.$route.name === "Nft")  await this.getNftItem();
+    if(this.$route.name === "Collection") await this.getCollection();
+  }
 
-    detailRow = {}
-
-    query: IQuery = {
+  resetQuery(): void{
+    this.query={...this.query,
       page: 1,
-      limit: 10,
-      total: 20,
-      sortBy: 'name',
-      orderBy: 'desc',
-      type: null
-    }
-    created(): void {
-      // if (!this.checkPemission('customer', ['view'])) {
-      //   const routeName = MODULE_WITH_ROUTENAME[this.listModuleCanView[0].module]
-      //   this.$router.push({ name: routeName })
-      //   return
-      // }
-
-      const name = this.$route.name!
-      this.query.type = this.objType[name]
-      this.init();
-    }
-    async init(): Promise<void> {
-      try {
-        this.isLoading = true
-        // if (!this.query.type) {
-        //   const routeName = this.$route.name!
-        //   this.query.type = this.objType[routeName]
-        // }
-        const result = await axios.get(`https://626362ffc430dc560d2e80d3.mockapi.io/api/v1/CardCollection/`,{params: {...this.query, total:null}})
-        //
-        console.log(result);
-        this.data = result.data.items || []
-        this.query.total = result.data.count
-        this.isLoading = false
-      } catch (error) {
-        this.isLoading = false
-        console.log(error)
-      }
-    }
-
-    objType: Record<string, any> = {
-      MemberActive: 'ACTIVE',
-      MemberInactive: 'INACTIVE'
-    }
-
-    handleChangeTab(tab: Record<string, any>): void {
-      this.isChangeTab = tab.id !== 1
-      this.$router.push({ name: tab.routeName }).catch(() => {
-        return
-      })
-      if(this.isChangeTab && tab.id === 2){
-        this.init()
-      }
-    }
-
-    //handleChangeSize
-    handleSizeChange(size: number): void {
-      this.query.limit = size
-      this.init();
-    }
-    handlePageChange(page: number): void{
-      this.query.page = page
-      this.init();
+      limit: 10
     }
   }
+
+
+  handleChangeTab(tab: Record<string, any>): void {
+    console.log("tab", tab);
+    this.isChangeTab = tab.id !== 1
+    this.$router.push({ name: tab.routeName })
+        .then(()=> {
+          this.resetQuery();
+        })
+        .catch(() => {
+          return
+        })
+    if(this.isChangeTab && tab.id === 2){
+      this.getCollection();
+    }else{
+      this.getNftItem();
+    }
+  }
+
+  //handleChangeSize
+  handleSizeChange(size: number): void {
+    this.query.limit = size
+    this.init();
+  }
+  handlePageChange(page: number): void{
+    this.query.page = page
+    this.init();
+  }
+  handleOpen(popupName: string) {
+    this.setOpenPopup({
+      popupName: popupName,
+      isOpen: true
+    })
+  }
+  handleToPopupform(direction: string):void {
+    console.log(direction)
+    if(direction === '2'){
+      this.setOpenPopup({
+        popupName: 'popup-choosetype',
+        isOpen: false
+      })
+      setTimeout(
+          () =>{
+            this.setOpenPopup({
+              popupName: 'popup-form',
+              isOpen: true
+            })
+          }, 200)
+    }
+  }
+  handleOpenCreate(collection: string):void {
+    if(collection === '1'){
+      this.setOpenPopup({
+        popupName: 'popup-create',
+        isOpen: true
+      })
+    }}
+  handleCreateItem(isAllowed: boolean):void {
+    if(isAllowed){
+      this.setOpenPopup({
+        popupName: 'popup-form',
+        isOpen: false
+      })
+    }
+  }
+
+}
 </script>
 
 <style scoped lang="scss">
-  .bo-metamart {
-    box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
-    border-radius: 4px;
-    .wallet-header {
-      &__above {
-        border-bottom: 1px solid var(--bc-border-primary);
-        &-tabs {
-          .tab-item {
-            padding: 16px 12px;
-            position: relative;
-            &:hover {
-              color: var(--bc-tab-active);
-            }
-            // .text-base {
-            //   color: #5b616e;
-            // }
-          }
-          .tab-active {
+.bo-metamart {
+  box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
+  border-radius: 4px;
+  .wallet-header {
+    &__above {
+      border-bottom: 1px solid var(--bc-border-primary);
+      &-tabs {
+        .tab-item {
+          padding: 16px 12px;
+          position: relative;
+          &:hover {
             color: var(--bc-tab-active);
-            font-weight: 600;
-            &::after {
-              content: '';
-              position: absolute;
-              width: 100%;
-              height: 2px;
-              bottom: 0;
-              left: 0;
-              background-color: var(--bc-tab-active);
-            }
           }
+          // .text-base {
+          //   color: #5b616e;
+          // }
         }
-      }
-
-      &__below {
-        padding: 24px;
-        &-amount {
-          .amount-wallet,
-          .amount-lock {
-            flex: 1;
-            .title {
-              margin-left: 16px;
-              .title-coin {
-                color: #201f1e;
-              }
-            }
-            .amount {
-              margin-top: 10px;
-
-              .amount-btc {
-                color: var(--bc-amount-btc);
-              }
-              .amount-lyn {
-                color: var(--bc-amount-lin);
-              }
-              .amount-lock {
-                color: var(--bc-amount-lock);
-              }
-            }
-          }
-          .amount-wallet {
-            border-right: 1px solid var(--bc-border-primary);
+        .tab-active {
+          color: var(--bc-tab-active);
+          font-weight: 600;
+          &::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--bc-tab-active);
           }
         }
       }
     }
+
+    &__below {
+      padding: 24px;
+      &-amount {
+        .amount-wallet,
+        .amount-lock {
+          flex: 1;
+          .title {
+            margin-left: 16px;
+            .title-coin {
+              color: #201f1e;
+            }
+          }
+          .amount {
+            margin-top: 10px;
+
+            .amount-btc {
+              color: var(--bc-amount-btc);
+            }
+            .amount-lyn {
+              color: var(--bc-amount-lin);
+            }
+            .amount-lock {
+              color: var(--bc-amount-lock);
+            }
+          }
+        }
+        .amount-wallet {
+          border-right: 1px solid var(--bc-border-primary);
+        }
+      }
+    }
   }
+}
 </style>
