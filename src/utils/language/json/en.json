@@ -1043,5 +1043,35 @@
       "lastLogin": "Last login",
       "deviceType": "Device type"
     }
+  },
+  "popup-fee": {
+    "title": "FILTER",
+    "date": "Transaction Date",
+    "amount": "Transaction Amount",
+    "fee": "Transaction Fee",
+    "status": "Status",
+    "reset": "Reset",
+    "continues": "Continues",
+    "placeholder": {
+      "date1": "From Date",
+      "date2": "To Date",
+      "amount1": "From Amount",
+      "amount2": "To Amount",
+      "fee1": "From Fee",
+      "fee2": "To Fee"
+    },
+    "pending": "Pending",
+    "process": "Process",
+    "success": "Success",
+    "alert": {
+      "amount": "From amount must be less than To amount",
+      "fee": "From fee must be less than To fee"
+    }
+  },
+  "fee-filter": {
+    "transaction-date": "Transaction Date",
+    "transaction-fee": "Transaction Fee",
+    "transaction-amount": "Transaction Amount",
+    "status": "Status"
   }
 }

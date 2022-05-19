@@ -66,7 +66,8 @@
         </div>
         <div class="w-100" style="background-color: red;">
 
-          <balance-filter @filterBalance="handleFilter" :listApproveBy="listApproveBy" />
+          <!-- <balance-filter @filterBalance="handleFilter" :listApproveBy="listApproveBy" /> -->
+          <fee-filter @filterFee="log([$event])"/>
           <balance-table
             v-loading="isLoading"
             @rowClick="handleRowClick"
@@ -88,7 +89,7 @@
   import { Component, Mixins, Watch } from 'vue-property-decorator'
   //@ts-ignore
   import BalanceTable from '../components/BalanceTable.vue'
-  import BalanceFilter from '../components/filter/BalanceFilter.vue'
+  // import BalanceFilter from '../components/filter/BalanceFilter.vue'
   import PopupMixin from '@/mixins/popup'
   import getRepository from '@/services'
   import { BalanceRepository } from '@/services/repositories/balance'
@@ -96,14 +97,14 @@
   import { debounce } from 'lodash'
 
   import BalanceDetail from '@/modules/balance/components/balanceDetail/BalanceDetail.vue'
-
+  import FeeFilter from '../components/filter/FeeFilter.vue'
   const api: BalanceRepository = getRepository('balance')
 
   import { namespace } from 'vuex-class'
 
   const beBase = namespace('beBase')
 
-  @Component({ components: { BalanceTable, BalanceFilter, BalanceDetail } })
+  @Component({ components: { BalanceTable, /* BalanceFilter, */ BalanceDetail, FeeFilter } })
   export default class BOKyc extends Mixins(PopupMixin) {
     @beBase.State('coinMain') coinMain!: string
 
@@ -341,7 +342,9 @@
         orderBy: 3
       }
     }
-
+    log(data:any):void {
+      console.log(data, "dddd")
+    }
     handlePageChange(page: number): void {
       this.query.page = page
       this.init()
