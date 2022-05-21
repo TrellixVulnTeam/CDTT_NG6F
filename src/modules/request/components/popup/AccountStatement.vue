@@ -62,7 +62,7 @@
           <template slot-scope="scope">
             <div class="box-type" style="margin-left: 6px">
               <p v-if="scope.row.transactionType == 'BONUS_SIGN_UP'" class="fw-400 fs-16" style="color: #0a0b0d">
-                {{ $t('request.transactiontype.sign-up') }}
+              {{ $t('request.transactiontype.sign-up') }}
               </p>
               <p v-else-if="scope.row.transactionType == 'BONUS_CROWDSALE'" class="fw-400 fs-16" style="color: #0a0b0d">
                 {{ $t('request.transactiontype.crowd-sale') }}
@@ -90,6 +90,15 @@
               </p>
               <p v-else-if="scope.row.transactionType == 'CROWDSALE'" class="fw-400 fs-16" style="color: #0a0b0d">
                 {{ $t('request.transactiontype.crowdsale') }}
+              </p>
+              <p v-else-if="scope.row.transactionType == 'NFT_SALE'" class="fw-400 fs-16" style="color: #0a0b0d">
+                {{ $t('request.transactiontype.nft-sale') }}
+              </p>
+              <p v-else-if="scope.row.transactionType == 'NFT_TRANSFER'" class="fw-400 fs-16" style="color: #0a0b0d">
+                {{ $t('request.transactiontype.nft-transfer') }}
+              </p>
+              <p v-else-if="scope.row.transactionType == 'ROYALTIES_FEE'" class="fw-400 fs-16" style="color: #0a0b0d">
+                {{ $t('request.transactiontype.royalties-fee') }}
               </p>
 
               <p class="fw-400 fs-14 text-color">{{ scope.row.transactionDate | formatMMDDYY }}</p>

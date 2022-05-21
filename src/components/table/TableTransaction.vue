@@ -48,12 +48,12 @@
       <template slot-scope="scope">
         <div v-if="type === 'customer'">
           <div v-if="scope.row.creditAmount" class="amount-increase">
-            <span>+{{ scope.row.creditAmount | convertAmountDecimal(scope.row.creditCurrency) }} {{ scope.row.creditCurrency }}</span>
-            <span class="d-block amount-exchange-small">~${{ (scope.row.creditAmount * scope.row.creditUsdExchangeRate) | convertAmountDecimal('USD') }}</span>
+            <span>+{{ scope.row.transactionAmount | convertAmountDecimal(scope.row.creditCurrency) }} {{ scope.row.creditCurrency }}</span>
+            <span class="d-block amount-exchange-small">~${{ (scope.row.transactionAmountToUsd * scope.row.creditUsdExchangeRate) | convertAmountDecimal('USD') }}</span>
           </div>
           <div v-else class="amount-decrease">
-            <span>-{{ scope.row.debitAmount | convertAmountDecimal(scope.row.debitCurrency) }} {{ scope.row.debitCurrency }}</span>
-            <span class="d-block amount-exchange-small">~${{ (scope.row.debitAmount * scope.row.debitUsdExchangeRate) | convertAmountDecimal('USD') }}</span>
+            <span>-{{ scope.row.transactionAmount | convertAmountDecimal(scope.row.debitCurrency) }} {{ scope.row.debitCurrency }}</span>
+            <span class="d-block amount-exchange-small">~${{ (scope.row.transactionAmountToUsd * scope.row.debitUsdExchangeRate) | convertAmountDecimal('USD') }}</span>
           </div>
         </div>
         <div v-else>
@@ -110,6 +110,12 @@
           return this.$i18n.t('transaction.table.bonus-early-backer')
         case 'BONUS_SIGN_UP_REFERRAL':
           return this.$i18n.t('transaction.table.bonus-sign-up-referral')
+        case 'NFT_SALE':
+          return this.$i18n.t('transaction.table.nft-sale')
+        case 'NFT_TRANSFER':
+          return this.$i18n.t('transaction.table.nft-transfer')
+        case 'ROYALTIES_FEE':
+          return this.$i18n.t('transaction.table.royalties-fee')
 
         default:
           return this.$i18n.t('transaction.table.sell')
