@@ -45,7 +45,7 @@
       </div>
     </router-link>
 
-    <router-link :to="{ name: 'Request' }" v-if="checkPemission('request', ['view'])" class="router_center">
+    <router-link :to="{ name: 'Request', params: {token: this.coinMain} }" v-if="checkPemission('request', ['view'])" class="router_center">
       <div class="sack_avatar">
         <base-icon :icon="coinMain === 'LYNK' ? 'menu-request-active' : 'menu-request-clm'" class="menu-active" size="32" />
         <base-icon icon="menu-request" class="menu" size="32" />
@@ -53,7 +53,7 @@
       </div>
     </router-link>
 
-    <router-link :to="{ name: 'Transaction' }" v-if="checkPemission('transaction', ['view'])" class="router_center">
+    <router-link :to="{ name: 'Transaction', params: {token: this.coinMain} }" v-if="checkPemission('transaction', ['view'])" class="router_center">
       <div class="sack_avatar">
         <base-icon :icon="coinMain === 'LYNK' ? 'menu-swap-active' : 'menu-swap-active-clm'" class="menu-active" size="32" />
         <base-icon icon="menu-swap-active-clm" class="menu" size="32" />
