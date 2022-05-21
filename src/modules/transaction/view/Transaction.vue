@@ -1,25 +1,39 @@
 <template>
   <div class="w-100 transaction">
-    <div class="container wallet-header be-flex" style="width: 100%">
-      <div v-for="(value, i) in dataHeaderCard" :key="i" class="items-card">
-        <div class="item be-flex top">
+
+    <div class="bg-white box-shadow" style="margin-bottom: 24px">
+      <div class="bg-white wallet-header">
+        <div class="be-flex align-center jc-space-between wallet-header__above">
+          <div class="wallet-header__above-tabs be-flex">
+            <div class="tab-item cursor" v-for="tab in getTabsHeader" :key="tab.id" :class="$route.params.token === tab.title ? 'tab-active' : null" @click="handleChangeTabsHeader(tab)">
+              <span class="text-base">{{ $t(`menu.${tab.title}`) }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container wallet-header be-flex" style="width: calc(100% - 48px); padding:24px 24px">
+        <div v-for="(value, i) in dataHeaderCard" :key="i" class="items-card">
+          <div class="item be-flex top">
           <span class="text1">
             {{ renderTitleCard(value.transactionType) }}
           </span>
-          <div>
-            <base-icon :icon="renderIconCard(value.transactionType)" size="24" />
+            <div>
+              <base-icon :icon="renderIconCard(value.transactionType)" size="24" />
+            </div>
           </div>
-        </div>
-        <div class="item">
-          <p class="number2">${{ value.totalAmount | convertAmountDecimal('USD') }}</p>
-        </div>
-        <div class="item-bottom">
-          <span class="text3">{{ value.numOfTransaction | formatNumber }} {{ $t(`transaction.table.transactions`) }}</span>
+          <div class="item">
+            <p class="number2">{{ 0 | convertAmountDecimal(tabHeaderActive) }}
+              <a class="tabActiveHeader">{{ tabHeaderActive }}</a>
+            </p>
+          </div>
+          <div class="item-bottom">
+            <span class="text3">~${{ value.totalAmount | convertAmountDecimal('USD') }}</span>
+          </div>
         </div>
       </div>
     </div>
-    <div class="w-100 bo-kyc">
-      <div class="bg-white wallet-header">
+    <div class="w-100 bo-kyc box-shadow">
+      <div class="bg-white wallet-header ">
         <div class="be-flex align-center jc-space-between wallet-header__above">
           <div class="wallet-header__above-tabs be-flex">
             <div class="tab-item cursor" v-for="tab in tabs" :key="tab.id" :class="$route.name === tab.routeName ? 'tab-active' : null" @click="handleChangeTab(tab)">
@@ -65,7 +79,7 @@
 
   import PopupMixin from '@/mixins/popup'
   import getRepository from '@/services'
-  import { debounce } from 'lodash'
+  import { debounce, filter } from 'lodash'
   import { TransactionRepository } from '@/services/repositories/transaction'
   import { CrowdsaleRepository } from '@/services/repositories/crowdsale'
 
@@ -77,13 +91,13 @@
   import PopupAddCrowdsale from '../components/PopupAddCrowdsale.vue'
   import PopupAddTransfer from '../components/PopupAddTransfer.vue'
   import PopupVerify from '@/components/popup/PopupVerify.vue'
-
+  import firebase from '@/utils/firebase'
   const api: TransactionRepository = getRepository('transaction')
   const apiCrowdsale: CrowdsaleRepository = getRepository('crowdsale')
 
   import { namespace } from 'vuex-class'
   const bcAuth = namespace('beAuth')
-
+  const beBase = namespace('beBase')
   interface IDataCard {
     numOfTransaction: number | null
     totalAmount: number | null
@@ -104,7 +118,7 @@
   })
   export default class Transaction extends Mixins(PopupMixin) {
     @bcAuth.State('user') user!: Record<string, any>
-
+    @beBase.State('coinMain') coinMain!: string
     tabs: Array<Record<string, any>> = [
       {
         id: 1,
@@ -132,7 +146,42 @@
         routeName: 'TransactionBonus'
       }
     ]
-    tabActive = 'deposit'
+
+    tabsHeader: Array<Record<string, any>> = [
+      {
+        id: 2,
+        title: 'BTC',
+        routeName: 'TransactionBtc'
+      },
+      {
+        id: 3,
+        title: 'ETH',
+        routeName: 'TransactionEth'
+      },
+      {
+        id: 4,
+        title: 'BNB',
+        routeName: 'TransactionBnb'
+      },
+      {
+        id: 5,
+        title: 'USDT',
+        routeName: 'TransactionUsdt'
+      },
+      {
+        id: 6,
+        title: 'USDC',
+        routeName: 'TransactionUsdc'
+      },
+      {
+        id: 7,
+        title: 'BUSD',
+        routeName: 'TransactionBusd'
+      }
+    ]
+
+    tabHeaderActive = ''
+    tabActive = ''
     isLoading = false
 
     dataHeaderCard: IDataCard[] = []
@@ -141,7 +190,7 @@
     query: any = {
       // userId: null,
       // keywordString: '',
-      currency: '',
+      currency: 'LYNK',
       transactionType: '',
       fromDate: '',
       toDate: '',
@@ -155,6 +204,27 @@
     listApproveBy: Record<string, any>[] = []
     type2Fa = ''
     formData: Record<string, any> = {}
+
+    get getTabsHeader(): Array<Record<string, any>> {
+      if (this.coinMain === 'LYNK') {
+        return [
+          {
+            id: 1,
+            title: 'LYNK',
+            routeName: 'TransactionLynk'
+          },
+          ...this.tabsHeader
+        ]
+      }
+      return [
+        {
+          id: 1,
+          title: 'CLM',
+          routeName: 'TransactionClm'
+        },
+        ...this.tabsHeader
+      ]
+    }
 
     get getShowBtn(): boolean {
       return this.$route.name === 'TransactionDeposit' && this.checkPemission('transaction', ['add-deposit'])
@@ -170,24 +240,32 @@
       // apiKyc.getListApprove({ page: 1, limit: 20 }).then(res => {
       //   this.listApproveBy = res.content || []
       // })
-      const name = this.$route.name
-      this.tabs.map((value, i) => {
-        if (value.routeName === name) {
-          this.query.transactionType = value.title.toUpperCase()
-          this.tabActive = value.title
-        }
-      })
-      this.init()
+      console.log('route', this.$route.path.split('/')[2])
+      this.tabHeaderActive = this.$route.path.split('/')[2]
+      this.tabActive = this.$route.path.split('/')[3]
+
+      // const name = this.$route.name
+      // console.log(name)
+      // this.tabs.map((value, i) => {
+      //   if (value.routeName === name) {
+      //     this.query.transactionType = value.title.toUpperCase()
+      //     this.tabActive = value.title
+      //   }
+      // })
+      await this.init()
     }
 
     propDataTable: Record<string, any>[] = []
 
     async init(): Promise<void> {
+      // console.log('tabactive', this.tabActive)
+      // console.log('tabHeaderActive', this.tabHeaderActive)
       try {
         this.isLoading = true
         const params = {
           ...this.query,
           // userId: this.query.userId,
+          transactionType: this.tabActive,
           orderBy: this.query.orderBy,
           limit: this.query.limit,
           page: this.query.page,
@@ -256,6 +334,17 @@
           return 'icon-crowdsale'
       }
     }
+    handleChangeTabsHeader(tab: Record<string, any>): void {
+      this.resetQuery()
+      this.$router.push({ params: {token: tab.title} })
+      // this.query.tabBalance = this.kycStatus[tab.title]
+      this.tabHeaderActive = tab.title
+      this.query.page = 1
+      this.query.limit = 10
+      this.query.orderBy = 1
+      this.query.currency = tab.title.toUpperCase();
+      this.init()
+    }
 
     handleChangeTab(tab: Record<string, any>): void {
       this.resetQuery()
@@ -266,6 +355,7 @@
       this.query.limit = 10
       this.query.orderBy = 1
       this.query.transactionType = tab.title.toUpperCase()
+      this.query.currency = this.tabHeaderActive
       let refs: any = this.$refs['popup-filter']
       if (refs) {
         refs.handleReset()
@@ -328,9 +418,11 @@
     handleFilter(filter: Record<string, any>): void {
       let data = { ...filter }
       const _transactionType = this.query.transactionType
+      const _currency = this.query.currency
       this.query = {
         ...this.query,
         ...filter,
+        currency: _currency,
         transactionType: _transactionType,
         page: 1,
         limit: 10
@@ -398,10 +490,11 @@
     .items-card {
       width: calc(100% / 4 - 50px);
       background-color: #ffffff;
-      box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
+      //box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1), 0px 1.6px 3.6px rgba(0, 0, 0, 0.13);
       border-radius: 8px;
+      border: 1px solid #dbdbdb !important;
       // margin-right: 24px;
-      margin-bottom: 24px;
+      //margin-bottom: 24px;
       padding: 16px;
       display: flex;
       flex-direction: column;
@@ -428,6 +521,11 @@
         color: #0a0b0d;
         word-break: break-all;
         margin: 8px 0;
+        .tabActiveHeader {
+          font-weight: 400;
+          font-size: 12px;
+          line-height: 16px;
+        }
       }
 
       .text3 {

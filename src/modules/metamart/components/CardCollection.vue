@@ -125,8 +125,8 @@ export default class CardCollection extends Vue {
             padding-left: 4px;
           }
           .asterisk-verified-icon{
-              position: relative;
-              margin: 0 0 0 4px;
+            position: relative;
+            margin: 0 0 0 4px;
             .tick-verified-icon{
               position: absolute;
               top: 50%;

@@ -25,13 +25,13 @@
               <div class="be-flex jc-space-between align-center row box">
                 <el-form-item :label="$t('label.create-date')">
                   <el-date-picker
-                    class="box-input-created-date"
-                    format="MM/dd/yyyy"
-                    value-format="timestamp"
-                    :placeholder="$t('label.from-date')"
-                    v-model="filter.value.fromCreatedAt"
-                    type="date"
-                    clearable
+                      class="box-input-created-date"
+                      format="MM/dd/yyyy"
+                      value-format="timestamp"
+                      :placeholder="$t('label.from-date')"
+                      v-model="filter.value.fromCreatedAt"
+                      type="date"
+                      clearable
                   >
                   </el-date-picker>
                 </el-form-item>
@@ -54,11 +54,11 @@
                   v-if="this.$route.name === 'Nft'"
               >
                 <el-form-item :label="$t('nft.filter.priceRange')">
-                    <div>
-                      <el-input v-model="filter.value.fromPrice" size="24" type="number" clearable class="box-input-price">
-                        <div class="prefix" slot="prefix" style="margin: 3px 0 0 5px">$</div>
-                      </el-input>
-                    </div>
+                  <div>
+                    <el-input v-model="filter.value.fromPrice" size="24" type="number" clearable class="box-input-price">
+                      <div class="prefix" slot="prefix" style="margin: 3px 0 0 5px">$</div>
+                    </el-input>
+                  </div>
                 </el-form-item>
                 <div class="line"></div>
                 <el-form-item class="hide-label" label="1">
@@ -86,9 +86,9 @@
           </span>
           {{ $t('kyc.filter.filter') }}
         </div>
-<!--        -->
-<!--        -->
-<!--        SORT BY-->
+        <!--        -->
+        <!--        -->
+        <!--        SORT BY-->
 
       </el-popover>
     </div>
@@ -114,88 +114,88 @@
 
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
-  import BaseIcon from "@/components/base/icon/BaseIcon.vue";
-  @Component({
-    components: {BaseIcon}
-  })
-  export default class FilterMetamart extends Vue {
-    // @Prop({ required: true }) isChangeTab!: boolean
-    filter= {
-      value: {
-        search: '',
-        category: '',
-        saleType: '',
-        fromCreatedAt: '',
-        toCreatedAt: '',
-        fromPrice: '',
-        toPrice: ''
-      },
-      // isShow: {
-      //   saleType: false,
-      //   fromPrice: false,
-      //   toPrice: false
-      // }
-    }
-
-    isVisible = false;
-    sortActive = 'LATEST'
-    listCategory: Array<Record<any, any>> = [
-      {
-        id:0,
-        name: 'Real Estate'
-      },
-      {
-        id:1,
-        name: 'Tourism'
-      },
-      {
-        id:2,
-        name: 'Entertainment'
-      },
-      {
-        id:3,
-        name: 'Gallery'
-      }
-    ]
-    listSaleType: Array<Record<any, any>> = [
-      {
-        id:0,
-        name: 'Buy now'
-      },
-      {
-        id:1,
-        name: 'Bid now'
-      },
-    ]
-
-    sorts: Array<Record<string, any>> = [
-      {
-        command: 'LATEST',
-        label: this.$i18n.t('nft.sort.latest'),
-        divided: false,
-        i18n: 'nft.sort.latest'
-      },
-      {
-        command: 'EARLIEST',
-        label: this.$i18n.t('nft.sort.earliest'),
-        divided: false,
-        i18n: 'nft.sort.earliest'
-      },
-      {
-        command: 'Price: High to low',
-        label: this.$i18n.t('nft.sort.price-highToLow'),
-        divided: false,
-        i18n: 'nft.sort.price-highToLow'
-      },
-      {
-        command: 'Price: Low to high',
-        label: this.$i18n.t('nft.sort.price-lowToHigh'),
-        divided: false,
-        i18n: 'nft.sort.price-lowToHigh'
-      }
-    ]
-
+import BaseIcon from "@/components/base/icon/BaseIcon.vue";
+@Component({
+  components: {BaseIcon}
+})
+export default class FilterMetamart extends Vue {
+  // @Prop({ required: true }) isChangeTab!: boolean
+  filter= {
+    value: {
+      search: '',
+      category: '',
+      saleType: '',
+      fromCreatedAt: '',
+      toCreatedAt: '',
+      fromPrice: '',
+      toPrice: ''
+    },
+    // isShow: {
+    //   saleType: false,
+    //   fromPrice: false,
+    //   toPrice: false
+    // }
   }
+
+  isVisible = false;
+  sortActive = 'LATEST'
+  listCategory: Array<Record<any, any>> = [
+    {
+      id:0,
+      name: 'Real Estate'
+    },
+    {
+      id:1,
+      name: 'Tourism'
+    },
+    {
+      id:2,
+      name: 'Entertainment'
+    },
+    {
+      id:3,
+      name: 'Gallery'
+    }
+  ]
+  listSaleType: Array<Record<any, any>> = [
+    {
+      id:0,
+      name: 'Buy now'
+    },
+    {
+      id:1,
+      name: 'Bid now'
+    },
+  ]
+
+  sorts: Array<Record<string, any>> = [
+    {
+      command: 'LATEST',
+      label: this.$i18n.t('nft.sort.latest'),
+      divided: false,
+      i18n: 'nft.sort.latest'
+    },
+    {
+      command: 'EARLIEST',
+      label: this.$i18n.t('nft.sort.earliest'),
+      divided: false,
+      i18n: 'nft.sort.earliest'
+    },
+    {
+      command: 'Price: High to low',
+      label: this.$i18n.t('nft.sort.price-highToLow'),
+      divided: false,
+      i18n: 'nft.sort.price-highToLow'
+    },
+    {
+      command: 'Price: Low to high',
+      label: this.$i18n.t('nft.sort.price-lowToHigh'),
+      divided: false,
+      i18n: 'nft.sort.price-lowToHigh'
+    }
+  ]
+
+}
 </script>
 
 <style scoped lang="scss">

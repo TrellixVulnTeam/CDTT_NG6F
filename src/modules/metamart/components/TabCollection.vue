@@ -23,32 +23,32 @@
 
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
-  import CardCollection from "@/modules/metamart/components/CardCollection.vue";
-  import BasePagination from "@/components/base/pagination/BasePagination.vue";
-  import {PaginationInterface} from "@/interface";
-  @Component({
-    components: {BasePagination, CardCollection}
-  })
-  export default class TabCollection extends Vue {
-    //Props
-    @Prop({ required: false, type: Boolean, default: true }) showPagination!: boolean
-    @Prop({ required: false, type: String, default: '' }) paginationInfo!: string
-    @Prop({ required: true, type: Array }) data!: Array<Record<string, any>>
-    @Prop({required: false, type: Object, default: () => {return {}}})query!: PaginationInterface;
+import CardCollection from "@/modules/metamart/components/CardCollection.vue";
+import BasePagination from "@/components/base/pagination/BasePagination.vue";
+import {PaginationInterface} from "@/interface";
+@Component({
+  components: {BasePagination, CardCollection}
+})
+export default class TabCollection extends Vue {
+  //Props
+  @Prop({ required: false, type: Boolean, default: true }) showPagination!: boolean
+  @Prop({ required: false, type: String, default: '' }) paginationInfo!: string
+  @Prop({ required: true, type: Array }) data!: Array<Record<string, any>>
+  @Prop({required: false, type: Object, default: () => {return {}}})query!: PaginationInterface;
 
-    // get getPaginationInfo(): any {
-    //   return this.$t('paging.customers')
-    // }
-    handleSizeChange(value: number): void {
-      this.query.limit = value
-      this.query.page = 1
-      this.$emit('sizeChange', value)
-    }
-    handleCurrentChange(value: number): void {
-      this.query.page = value
-      this.$emit('pageChange', value)
-    }
+  // get getPaginationInfo(): any {
+  //   return this.$t('paging.customers')
+  // }
+  handleSizeChange(value: number): void {
+    this.query.limit = value
+    this.query.page = 1
+    this.$emit('sizeChange', value)
   }
+  handleCurrentChange(value: number): void {
+    this.query.page = value
+    this.$emit('pageChange', value)
+  }
+}
 </script>
 
 <style scoped lang="scss">
