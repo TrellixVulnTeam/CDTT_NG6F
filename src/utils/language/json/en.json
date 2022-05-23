@@ -812,7 +812,14 @@
     "withdraw": "Withdraw",
     "transfer": "Transfer",
     "trading": "Trading NFT",
-    "exchange": "Exchange"
+    "exchange": "Exchange",
+    "table": {
+      "id": "Transaction ID",
+      "date": "Date",
+      "customer": "Customer",
+      "status": "Status",
+      "fee": "Fee"
+    }
   },
   "request": {
     "withdraw": "Withdraw",

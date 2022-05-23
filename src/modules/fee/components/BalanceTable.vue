@@ -93,6 +93,7 @@
       this.$emit('sizeChange', value)
     }
     handleCurrentChange(value: number): void {
+      console.log('change page')
       this.$emit('pageChange', value)
     }
 

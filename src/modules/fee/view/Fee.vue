@@ -58,8 +58,8 @@
     </div>
     <div class="w-100" style="height: 400px; background-color: white;">
         <div class="w-100 filter-header">
-          <span class="filter-type" v-for="type in filterTypes" :key="type.typeId"
-          :class="typeActive === type.typeId ? 'tab-active' : null" @click="handleChangeType(type.typeId)"
+          <span class="filter-type cursor" v-for="type in filterTypes" :key="type.typeId"
+          :class="typeActive.typeId === type.typeId ? 'tab-active' : null" @click="handleChangeType(type)"
           >
             {{type.title}}
           </span>
@@ -67,8 +67,17 @@
         <div class="w-100" style="background-color: red;">
 
           <!-- <balance-filter @filterBalance="handleFilter" :listApproveBy="listApproveBy" /> -->
-          <fee-filter @filterFee="log([$event])"/>
-          <balance-table
+          <fee-filter @filterFee="handleFilter($event)"/>
+          <!-- <balance-table
+            v-loading="isLoading"
+            @rowClick="handleRowClick"
+            @sizeChange="handleSizeChange"
+            @pageChange="handlePageChange"
+            :query="query"
+            :propTabActive="tabActive"
+            :data="propdataTable"
+          /> -->
+          <fee-table 
             v-loading="isLoading"
             @rowClick="handleRowClick"
             @sizeChange="handleSizeChange"
@@ -92,23 +101,30 @@
   // import BalanceFilter from '../components/filter/BalanceFilter.vue'
   import PopupMixin from '@/mixins/popup'
   import getRepository from '@/services'
-  import { BalanceRepository } from '@/services/repositories/balance'
+  // import { BalanceRepository } from '@/services/repositories/balance'
+  import { TransactionRepository } from '@/services/repositories/transaction'
   import EventBus from '@/utils/eventBus'
   import { debounce } from 'lodash'
 
-  import BalanceDetail from '@/modules/balance/components/balanceDetail/BalanceDetail.vue'
+  // import BalanceDetail from '@/modules/balance/components/balanceDetail/BalanceDetail.vue'
   import FeeFilter from '../components/filter/FeeFilter.vue'
-  const api: BalanceRepository = getRepository('balance')
+  import FeeTable from '../components/feeTable.vue'
+  // const api: BalanceRepository = getRepository('balance')
+  const api: TransactionRepository = getRepository('transaction')
 
   import { namespace } from 'vuex-class'
 
   const beBase = namespace('beBase')
 
-  @Component({ components: { BalanceTable, /* BalanceFilter, */ BalanceDetail, FeeFilter } })
-  export default class BOKyc extends Mixins(PopupMixin) {
+  @Component({ components: { /* BalanceTable, */ /* BalanceFilter, */ /* BalanceDetail, */ FeeFilter, FeeTable } })
+  export default class Fee extends Mixins(PopupMixin) {
     @beBase.State('coinMain') coinMain!: string
 
-    typeActive = 1
+    typeActive = {
+        typeId: 1,
+        title: this.$i18n.t('fee.withdraw')
+      }
+    currencyActive = 1
     filterTypes: Array<Record<string, any>> = [
       {
         typeId: 1,
@@ -168,13 +184,29 @@
 
     detailRow = {}
     dataDetail = {}
-    query: any = {
+    /* query: any = {
       search: '',
       orderBy: 3,
       page: 1,
       limit: 10,
       total: 10
+    } */
+
+     query: any = {
+      // userId: null,
+      // keywordString: '',
+      currency: '',
+      transactionType: '',
+      fromDate: '',
+      toDate: '',
+      fromAmount: '',
+      toAmount: '',
+      orderBy: '1',
+      page: 1,
+      limit: 10,
+      total: 10
     }
+    
     // numOfInvestor = ''
     numOfLyn = '728500'
     totalLynAvai = '109275'
@@ -190,6 +222,7 @@
 
     get getTab(): Array<Record<string, any>> {
       if (this.coinMain === 'LYNK') {
+        console.log(('aaa'))
         return [
           {
             id: 1,
@@ -221,12 +254,20 @@
       // })
       // const name = this.$route.name
       // this.query.kycStatus = name === 'KycPending' ? 'PENDING' : name === 'KycVerified' ? 'VERIFIED' : 'REJECTED'
+      // this.filterTypes.map((value, i) => {
+      //   if (value.routeName === name) {
+      //     this.query.transactionType = value.title.toUpperCase()
+      //     this.tabActive = value.title
+      //   }
+      // })
+      this.query.currency = this.tabActive
+      this.query.transactionType = this.typeActive.title
       this.init()
     }
 
     propdataTable: Record<string, any>[] = []
-
-    async init(): Promise<void> {
+    
+    /* async init(): Promise<void> {
       console.log('tabactive', this.tabActive)
       this.data = []
       this.propdataTable = []
@@ -284,6 +325,51 @@
         this.isLoading = false
         console.log(error)
       }
+    } */
+    async init(): Promise<void> {
+      try {
+        this.isLoading = true
+        const params = {
+          ...this.query,
+          // userId: this.query.userId,
+          orderBy: this.query.orderBy,
+          limit: this.query.limit,
+          page: this.query.page,
+          currency: this.query.currency,
+          fromDate: this.query.fromDate,
+          toDate: this.query.toDate,
+          fromAmount: this.query.fromAmount,
+          toAmount: this.query.toAmount,
+          total: null
+        }
+        const result = await api.getListTransaction('search', params)
+        console.log([result])
+        this.propdataTable = result.transactions.content
+
+        // const deposit = result.summary.filter(item => {
+        //   return item.transactionType === 'DEPOSIT'
+        // })
+        // const crowdsale = result.summary.filter(item => {
+        //   return item.transactionType === 'CROWDSALE'
+        // })
+        const withdraw = result.summary.filter(item => {
+          return item.transactionType === 'WITHDRAW'
+        })
+        const transfer = result.summary.filter(item => {
+          return item.transactionType === 'TRANSFER'
+        })
+        // const bonus = result.summary.filter(item => {
+        //   return item.transactionType === 'BONUS'
+        // })
+
+        // this.dataHeaderCard = [...deposit, ...withdraw, ...transfer, ...bonus]
+
+        this.query.total = result.transactions.totalElements
+        this.isLoading = false
+      } catch (error) {
+        this.isLoading = false
+        console.log(error)
+      }
     }
 
     async handleGetBalanceDetail(userId: number) {
@@ -301,11 +387,30 @@
         console.log(error)
       }
     }
-    handleChangeType(typeid: number): void {
-      this.typeActive = typeid
+    
+    handleChangeType(Type: any): void {
+      this.typeActive = Type
+      this.resetQuery()
+      // this.query.tabBalance = this.kycStatus[tab.title]
+      this.query.currency = this.tabActive
+      this.query.page = 1
+      this.query.limit = 10
+      this.query.orderBy = 1
+      this.query.transactionType = Type.title.toUpperCase()
+      // let refs: any = this.$refs['popup-filter']
+      // if (refs) {
+      //   refs.handleReset()
+      // }
+      // let refs2: any = this.$refs['filter']
+      // if (refs2) {
+      //   refs2.handleReset()
+      // }
+
+      this.init()
     }
-    handleChangeTab(tab: Record<string, any>): void {
-      console.log('tab', tab.title, this.$route.name, this.tabActive)
+    /* handleChangeTab(tab: Record<string, any>): void {
+      console.log('tab', tab.title, [this.$route], this.tabActive, Array.isArray(this.$router))
+      this.typeActive = 1
       if (tab.title != this.tabActive) {
         this.$router.push({ name: tab.routeName })
         // this.query.tabBalance = this.kycStatus[tab.title]
@@ -327,24 +432,72 @@
         EventBus.$emit('changeTab', this.tabActive)
       }
     }
+ */
+    handleChangeTab(tab: Record<string, any>): void {
+      this.typeActive = {
+        typeId: 1,
+        title: this.$i18n.t('fee.withdraw')
+      }
+      this.resetQuery()
+      this.$router.push({ name: tab.routeName })
+      // this.query.tabBalance = this.kycStatus[tab.title]
+      this.tabActive = tab.title
+      this.query.currency = tab.title
+      this.query.page = 1
+      this.query.limit = 10
+      this.query.orderBy = 1
+      // this.query.transactionType = tab.title.toUpperCase()
+      // let refs: any = this.$refs['popup-filter']
+      // if (refs) {
+      //   refs.handleReset()
+      // }
+      // let refs2: any = this.$refs['filter']
+      // if (refs2) {
+      //   refs2.handleReset()
+      // }
 
-    destroyed(): void {
-      EventBus.$off('selectTabBalance')
-      EventBus.$off('changeTab')
+      this.init()
+
+      // EventBus.$emit('selectTabBalance')
     }
 
+    // destroyed(): void {
+    //   EventBus.$off('selectTabBalance')
+    //   EventBus.$off('changeTab')
+    // }
+
+    // resetQuery(): void {
+    //   this.query = {
+    //     ...this.query,
+    //     page: 1,
+    //     limit: 10,
+    //     search: '',
+    //     orderBy: 3
+    //   }
+    // }
     resetQuery(): void {
       this.query = {
         ...this.query,
         page: 1,
         limit: 10,
-        search: '',
-        orderBy: 3
+        search: null,
+        orderBy: '1',
+        keywordString: null,
+        currency: null,
+        status: null,
+        fromDate: null,
+        toDate: null,
+        fromAmount: null,
+        toAmount: null,
+        bonusType: null
       }
     }
     log(data:any):void {
       console.log(data, "dddd")
     }
+    // handleFilter(filters: any): void {
+    //   console.log(filters)
+    // } 
     handlePageChange(page: number): void {
       this.query.page = page
       this.init()
@@ -364,9 +517,16 @@
     }
 
     handleFilter(filter: Record<string, any>): void {
+      console.log(filter)
       this.query = {
         ...this.query,
-        ...filter,
+        currency: '',
+        transactionType: this.typeActive.title,
+        fromDate: filter.fromDate,
+        toDate: filter.toDate,
+        fromAmount: filter.fromAmount,
+        toAmount: filter.toAmount,
+        orderBy: '1',
         page: 1,
         limit: 10
       }

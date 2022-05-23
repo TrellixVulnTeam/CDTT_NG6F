@@ -102,8 +102,8 @@
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('label.status')">
-            <el-select v-model="filter.status" clearable class="w-100">
-              <el-option v-for="status in listStatus" :key="status.id" :value="status.value" :label="status.label">
+            <el-select v-model="filter.status" clearable claslistStatuss="w-100">
+              <el-option v-for="status in " :key="status.id" :value="status.value" :label="status.label">
                 <template>
                   <span class="d-ib">{{ status.label }}</span>
                 </template>

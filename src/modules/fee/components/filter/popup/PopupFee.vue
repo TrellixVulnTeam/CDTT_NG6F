@@ -8,6 +8,8 @@
           <p class="content-block__title">{{popup_data.content.date.title}}</p>
           <div class="content-block__inputs">
               <el-date-picker :placeholder="popup_data.content.date.input.placeholder1" 
+                format="MM/dd/yyyy"
+                value-format="timestamp"
                 v-model="popup_data.content.date.input.value1" 
                 prefix-icon="el-icon-date"
                 type="date"
@@ -15,6 +17,8 @@
               ></el-date-picker>
               <span style="display:block; width: 8px; height: 2px; background-color: #dbdbdb"></span>
               <el-date-picker :placeholder="popup_data.content.date.input.placeholder2" 
+                format="MM/dd/yyyy"
+                value-format="timestamp"
                 v-model="popup_data.content.date.input.value2" 
                 prefix-icon="el-icon-date"
                 type="date"
@@ -150,19 +154,19 @@ import { times } from 'lodash'
                 title: this.$i18n.t('popup-fee.status'),
                 options: [
                     {
-                        value: "pending",
+                        value: "PENDING",
                         label: this.$i18n.t('popup-fee.pending')
                     },
                     {
-                        value: "process",
+                        value: "PROCESS",
                         label: this.$i18n.t('popup-fee.process')
                     },
                     {
-                        value: "success",
+                        value: "SUCCESS",
                         label: this.$i18n.t('popup-fee.success')
                     }
                 ],
-                value: 'success'
+                value: 'SUCCESS'
             }
         },
         footer: {
@@ -222,8 +226,8 @@ import { times } from 'lodash'
     }
     handleFilters():void {
         const filters = {
-            fromDate: this.popup_data.content.date.input.value1,
-            toDate: this.popup_data.content.date.input.value2,
+            fromDate : this.$options.filters?.formatReferral(this.popup_data.content.date.input.value1),
+            toDate : this.$options.filters?.formatReferral(this.popup_data.content.date.input.value2),
             fromAmount: this.popup_data.content.amount.input.value1,
             toAmount: this.popup_data.content.amount.input.value2,
             fromFee: this.popup_data.content.fee.input.value1,
