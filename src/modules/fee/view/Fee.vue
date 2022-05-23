@@ -91,24 +91,27 @@
       <!-- test -->
     <!-- <kyc-detail :detailRow="detailRow" @init="init" /> -->
     <balance-detail :detailRow="detailRow" :data="dataDetail" :tab-active-filter="tabActive" />
+    <fee-detail :detail-row="detailRow" :tab-active-filter="tabActive" />
+
   </div>
 </template>
 
 <script lang="ts">
   import { Component, Mixins, Watch } from 'vue-property-decorator'
   //@ts-ignore
-  import BalanceTable from '../components/BalanceTable.vue'
+  // import BalanceTable from '../components/BalanceTable.vue'
   // import BalanceFilter from '../components/filter/BalanceFilter.vue'
   import PopupMixin from '@/mixins/popup'
   import getRepository from '@/services'
   // import { BalanceRepository } from '@/services/repositories/balance'
   import { TransactionRepository } from '@/services/repositories/transaction'
-  import EventBus from '@/utils/eventBus'
+  // import EventBus from '@/utils/eventBus'
   import { debounce } from 'lodash'
 
   // import BalanceDetail from '@/modules/balance/components/balanceDetail/BalanceDetail.vue'
   import FeeFilter from '../components/filter/FeeFilter.vue'
   import FeeTable from '../components/feeTable.vue'
+  import FeeDetail from '../components/feeDetail/FeeDetail.vue'
   // const api: BalanceRepository = getRepository('balance')
   const api: TransactionRepository = getRepository('transaction')
 
@@ -116,31 +119,36 @@
 
   const beBase = namespace('beBase')
 
-  @Component({ components: { /* BalanceTable, */ /* BalanceFilter, */ /* BalanceDetail, */ FeeFilter, FeeTable } })
+  @Component({ components: { /* BalanceTable, */ /* BalanceFilter, */ /* BalanceDetail, */ FeeFilter, FeeTable, FeeDetail } })
   export default class Fee extends Mixins(PopupMixin) {
     @beBase.State('coinMain') coinMain!: string
 
     typeActive = {
         typeId: 1,
-        title: this.$i18n.t('fee.withdraw')
+        title: this.$i18n.t('fee.withdraw'),
+        value: this.$i18n.t('fee.value-withdraw')
       }
     currencyActive = 1
     filterTypes: Array<Record<string, any>> = [
       {
         typeId: 1,
-        title: this.$i18n.t('fee.withdraw')
+        title: this.$i18n.t('fee.withdraw'),
+        value: this.$i18n.t('fee.withdraw-value')
       },
       {
         typeId: 2,
-        title: this.$i18n.t('fee.transfer')
+        title: this.$i18n.t('fee.transfer'),
+        value: this.$i18n.t('fee.transfer-value')
       },
       {
         typeId: 3,
-        title: this.$i18n.t('fee.trading')
+        title: this.$i18n.t('fee.trading'),
+        value: this.$i18n.t('fee.trading-value')
       },
       {
         typeId: 4,
-        title: this.$i18n.t('fee.exchange')
+        title: this.$i18n.t('fee.exchange'),
+        value: this.$i18n.t('fee.exchange-value')
       }
     ] 
 
@@ -202,6 +210,7 @@
       fromAmount: '',
       toAmount: '',
       orderBy: '1',
+      status: '',
       page: 1,
       limit: 10,
       total: 10
@@ -261,7 +270,10 @@
       //   }
       // })
       this.query.currency = this.tabActive
-      this.query.transactionType = this.typeActive.title
+      this.query.status = 'SUCCESS'
+      // this.query.status = 'SUCCESS'
+      console.log('currency', this.tabActive)
+      this.query.transactionType = this.typeActive.value
       this.init()
     }
 
@@ -335,13 +347,15 @@
           orderBy: this.query.orderBy,
           limit: this.query.limit,
           page: this.query.page,
-          currency: this.query.currency,
+          currency: this.tabActive,
           fromDate: this.query.fromDate,
           toDate: this.query.toDate,
           fromAmount: this.query.fromAmount,
           toAmount: this.query.toAmount,
+          transactionType: this.query.transactionType,
           total: null
         }
+        console.log('params', params)
         const result = await api.getListTransaction('search', params)
         console.log([result])
         this.propdataTable = result.transactions.content
@@ -396,7 +410,7 @@
       this.query.page = 1
       this.query.limit = 10
       this.query.orderBy = 1
-      this.query.transactionType = Type.title.toUpperCase()
+      this.query.transactionType = Type.value
       // let refs: any = this.$refs['popup-filter']
       // if (refs) {
       //   refs.handleReset()
@@ -436,7 +450,8 @@
     handleChangeTab(tab: Record<string, any>): void {
       this.typeActive = {
         typeId: 1,
-        title: this.$i18n.t('fee.withdraw')
+        title: this.$i18n.t('fee.withdraw'),
+        value: this.$i18n.t('fee.withdraw-value')
       }
       this.resetQuery()
       this.$router.push({ name: tab.routeName })
@@ -484,7 +499,7 @@
         orderBy: '1',
         keywordString: null,
         currency: null,
-        status: null,
+        status: 'SUCCESS',
         fromDate: null,
         toDate: null,
         fromAmount: null,
@@ -511,13 +526,13 @@
     handleRowClick(row: Record<string, any>): void {
       this.detailRow = row
       this.setOpenPopup({
-        popupName: 'popup-balance-detail',
+        popupName: 'popup-fee-detail',
         isOpen: true
       })
     }
 
     handleFilter(filter: Record<string, any>): void {
-      console.log(filter)
+      console.log('filter', filter)
       this.query = {
         ...this.query,
         currency: '',
@@ -526,7 +541,8 @@
         toDate: filter.toDate,
         fromAmount: filter.fromAmount,
         toAmount: filter.toAmount,
-        orderBy: '1',
+        status: filter.status,
+        orderBy: filter.orderBy,
         page: 1,
         limit: 10
       }

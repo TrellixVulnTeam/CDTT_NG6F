@@ -14,6 +14,7 @@
                 prefix-icon="el-icon-date"
                 type="date"
                 class="input-small"
+                :picker-options="pickerOption2"
               ></el-date-picker>
               <span style="display:block; width: 8px; height: 2px; background-color: #dbdbdb"></span>
               <el-date-picker :placeholder="popup_data.content.date.input.placeholder2" 
@@ -23,6 +24,7 @@
                 prefix-icon="el-icon-date"
                 type="date"
                 class="input-small"
+                :picker-options="pickerOption"
               ></el-date-picker>
           </div>
       </div>
@@ -62,7 +64,7 @@
               @keyup.native="numberFormat($event, 'fee')"
               ></el-input>
           </div>
-          <p class="content-block__alert" v-if="this.error.fee === 'fee'">{{popup_data.content.amount.alert}}</p>
+          <p class="content-block__alert" v-if="this.error.fee === 'fee'">{{popup_data.content.fee.alert}}</p>
       </div>
       <div class="content-block">
           <p class="content-block__title">{{popup_data.content.status.title}}</p>
@@ -158,8 +160,8 @@ import { times } from 'lodash'
                         label: this.$i18n.t('popup-fee.pending')
                     },
                     {
-                        value: "PROCESS",
-                        label: this.$i18n.t('popup-fee.process')
+                        value: "PROCESSING",
+                        label: this.$i18n.t('popup-fee.processing')
                     },
                     {
                         value: "SUCCESS",
@@ -174,6 +176,38 @@ import { times } from 'lodash'
             btnContinues: this.$i18n.t('popup-fee.continues')
         }
     }
+    get pickerOption(): any {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const _this = this
+      return {
+        disabledDate(time: Date) {
+          return _this.disableTime(time, 'from-to')
+        }
+      }
+    }
+
+    get pickerOption2(): any {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const _this = this
+      return {
+        disabledDate(time: Date) {
+          return _this.disableTime(time, 'to-from')
+        }
+      }
+    }
+
+    disableTime(time: Date, type: string): any {
+      if (type === 'from-to') {
+        if (this.popup_data.content.date.input.value1) {
+          return time.getTime() / 1000 < new Date(this.popup_data.content.date.input.value1).getTime() / 1000 - 7 * 60 * 60
+        }
+      } else {
+        if (this.popup_data.content.date.input.value1) {
+          return time.getTime() / 1000 > new Date(this.popup_data.content.date.input.value1).getTime() / 1000
+        }
+      }
+    }
+
     onlyNumber(event: KeyboardEvent): void {
       let keyCode = event.keyCode ? event.keyCode : event.which
       //if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
@@ -214,7 +248,7 @@ import { times } from 'lodash'
         this.popup_data.content.amount.input.value2 = ''
         this.popup_data.content.fee.input.value1 = ''
         this.popup_data.content.fee.input.value2 = ''
-        this.popup_data.content.status.value = ''
+        this.popup_data.content.status.value = 'SUCCESS'
         this.checkValid('amount')
         this.checkValid('fee')
     }
@@ -305,6 +339,13 @@ import { times } from 'lodash'
     ::v-deep .el-textarea {
       .el-textarea__inner {
         color: var(--bc-text-primary);
+      }
+    }
+    .footer {
+      button[disabled] {
+        opacity: 0.2;
+        cursor: not-allowed;
+        background-color: var(--bc-btn-bg-default) !important;
       }
     }
   }

@@ -163,12 +163,6 @@
       },
       {
         command: '3',
-        label: this.$i18n.t('fee-filter.transaction-fee'),
-        divided: false,
-        i18n: 'fee-filter.transaction-fee'
-      },
-      {
-        command: '4',
         label: this.$i18n.t('fee-filter.status'),
         divided: false,
         i18n: 'fee-filter.status'
