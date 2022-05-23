@@ -66,8 +66,8 @@
           <template slot-scope="scope">
             <div v-if="scope.row.transactionType === 'CROWDSALE'">
               <div class="amount-increase">
-                <span style="color: #cf202f">-{{ scope.row.paidAmountDisplay }} {{ scope.row.paidCurrency }}</span>
-                <span class="d-block amount-exchange-small">~${{ scope.row.paidAmountToUsd }}</span>
+                <span style="color: #cf202f">-{{ scope.row.amountDisplay }} {{ scope.row.currency }}</span>
+                <span class="d-block amount-exchange-small">~${{ scope.row.amountToUsdDisplay }}</span>
               </div>
             </div>
 

@@ -149,7 +149,7 @@
   </div>
 </template>
 <script lang="ts">
-  import { Mixins, Component, Watch } from 'vue-property-decorator'
+import {Mixins, Component, Watch, Prop} from 'vue-property-decorator'
   import PopupMixin from '@/mixins/popup'
   import PopupWithdrawRequest from '../components/popup/PopupWithdrawRequest.vue'
   // import firebase from '@/utils/firebase'
@@ -158,8 +158,11 @@
 
   const api: RequestRepository = getRepository('request')
   @Component({ components: { PopupWithdrawRequest } })
+
   export default class BORequestWithdraw extends Mixins(PopupMixin) {
+    @Prop({ required: true, type: String, default: '' }) tabCoin!: string
     querry: any = {
+      currency: '',
       keywordString: '',
       limit: 10,
       page: 1,
@@ -297,7 +300,7 @@
     }
     async getDataTable(): Promise<void> {
       await api
-        .getDataTable(this.querry)
+        .getDataTable({...this.querry, currency: this.tabCoin})
         .then((res: any) => {
           this.loadingTable = false
           this.dataTable = res.content
@@ -316,6 +319,10 @@
     }
     @Watch('querry.keywordString')
     handleSearch(): void {
+      this.getDataTable()
+    }
+    @Watch('tabCoin')
+    handleChangeTabCoin(): void{
       this.getDataTable()
     }
     handleSort(command: string): void {

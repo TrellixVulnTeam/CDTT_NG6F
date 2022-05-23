@@ -16,30 +16,38 @@ const transactionRouters: RouteConfig[] = [
         },
         children: [
           {
-            path: 'Deposit',
-            name: 'TransactionDeposit',
-            component: () => import('../view/Transaction.vue')
-          },
-          {
-            path: 'Withdraw',
-            name: 'TransactionWithdraw',
-            component: () => import('../view/Transaction.vue')
-          },
-          {
-            path: 'Transfer',
-            name: 'TransactionTransfer',
-            component: () => import('../view/Transaction.vue')
-          },
-          {
-            path: 'Bonus',
-            name: 'TransactionBonus',
-            component: () => import('../view/Transaction.vue')
-          },
-          {
-            path: 'crowdsale',
-            name: 'TransactionCrowdsale',
-            component: () => import('../view/Transaction.vue')
+            path: ':token',
+            name: 'TransactionLynk',
+            component: () => import('../view/Transaction.vue'),
+            children: [
+              {
+                path: 'Deposit',
+                name: 'TransactionDeposit',
+                component: () => import('../view/Transaction.vue')
+              },
+              {
+                path: 'Withdraw',
+                name: 'TransactionWithdraw',
+                component: () => import('../view/Transaction.vue')
+              },
+              {
+                path: 'Transfer',
+                name: 'TransactionTransfer',
+                component: () => import('../view/Transaction.vue')
+              },
+              {
+                path: 'Bonus',
+                name: 'TransactionBonus',
+                component: () => import('../view/Transaction.vue')
+              },
+              {
+                path: 'crowdsale',
+                name: 'TransactionCrowdsale',
+                component: () => import('../view/Transaction.vue')
+              }
+            ]
           }
+
         ]
       },
       {

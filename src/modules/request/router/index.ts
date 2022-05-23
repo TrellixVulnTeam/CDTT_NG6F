@@ -5,6 +5,7 @@ import { RouteConfig } from 'vue-router'
 const requestRoute: RouteConfig[] = [
   {
     path: '/request',
+    name:'Request',
     component: Layout,
     children: [
       {
@@ -20,14 +21,21 @@ const requestRoute: RouteConfig[] = [
             component: () => import('../view/Request.vue'),
             children: [
               {
-                path: 'withdraw',
-                name: 'RequestWithdraw',
-                component: () => import('../view/Withdraw.vue')
-              },
-              {
-                path: 'transfer',
-                name: 'RequestTransfer',
-                component: () => import('../view/Transfer.vue')
+                path: ':token',
+                // redirect: { name: 'RequestWithdraw' },
+                component: () => import('../view/Request.vue'),
+                children: [
+                  {
+                    path: 'withdraw',
+                    name: 'RequestWithdraw',
+                    component: () => import('../view/Request.vue')
+                  },
+                  {
+                    path: 'transfer',
+                    name: 'RequestTransfer',
+                    component: () => import('../view/Request.vue')
+                  }
+                ]
               }
             ]
           }

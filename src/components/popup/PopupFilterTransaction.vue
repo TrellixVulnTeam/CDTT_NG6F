@@ -5,19 +5,19 @@
     </div>
     <div class="content">
       <el-form>
-        <el-form-item :label="$t('label.buy-token')">
-          <el-select v-model="filter.currency" multiple clearable class="w-100">
-            <el-option v-for="wallet in getListWallet" :key="wallet.id" :value="wallet.symbol" :label="wallet.name">
-              <template>
-                <div class="be-flex wallet-item">
-                  <base-icon :icon="wallet.icon" size="24" />
-                  <span class="d-ib" style="margin-left: 10px">{{ wallet.name }}</span>
-                  <span class="d-ib" style="margin-left: 4px">({{ wallet.symbol.toUpperCase() }})</span>
-                </div>
-              </template>
-            </el-option>
-          </el-select>
-        </el-form-item>
+<!--        <el-form-item :label="$t('label.buy-token')">-->
+<!--          <el-select v-model="filter.currency" multiple clearable class="w-100">-->
+<!--            <el-option v-for="wallet in getListWallet" :key="wallet.id" :value="wallet.symbol" :label="wallet.name">-->
+<!--              <template>-->
+<!--                <div class="be-flex wallet-item">-->
+<!--                  <base-icon :icon="wallet.icon" size="24" />-->
+<!--                  <span class="d-ib" style="margin-left: 10px">{{ wallet.name }}</span>-->
+<!--                  <span class="d-ib" style="margin-left: 4px">({{ wallet.symbol.toUpperCase() }})</span>-->
+<!--                </div>-->
+<!--              </template>-->
+<!--            </el-option>-->
+<!--          </el-select>-->
+<!--        </el-form-item>-->
         <div class="be-flex jc-space-between row">
           <el-form-item class="be-flex-item mr-40 form-item-line" :label="$t('label.trans-date')">
             <el-date-picker
