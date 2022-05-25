@@ -98,7 +98,8 @@
     "exception": "Ngoại lệ",
     "member": "Nhân sự",
     "report": "Báo cáo",
-    "nft": "NFT"
+    "nft": "NFT",
+    "fee": "Chi phí"
   },
   "wallet": {
     "Linkey": "LynKey Wallet",

@@ -76,7 +76,7 @@
         <p>{{ $t('leftMenu.exception') }}</p>
       </div>
     </router-link> -->
-
+    
     <el-popover
       trigger="hover"
       v-if="checkPemission('exception', ['view']) || checkPemission('member', ['view'])"
@@ -86,6 +86,18 @@
       style="min-width: 80px"
     >
       <div class="popper-add-menu-content">
+        <ul class="module" v-if="checkPemission('fee', ['view'])">
+          <li class="module-item" @click="isOpenPopup = false">
+            <router-link :to="{name: 'Fee'}" class="router_center">
+            <div class="sack_avatar">
+              <base-icon :icon="coinMain === 'LYNK' ? 'icon-wallet-bo-active' : 'icon-wallet-bo-active-clm'" class="menu-active" size="32" />
+              <base-icon icon="icon-wallet-bo" class="menu" size="32" />
+              <p class="color-add-menu" style="font-size: 11px">{{ $t('leftMenu.fee') }}</p>
+            </div>
+          </router-link>
+          </li>
+        </ul>
+
         <ul class="module" v-if="checkPemission('exception', ['view'])">
           <li class="module-item" @click="isOpenPopup = false">
             <router-link :to="{ name: 'Exception' }" class="router_center">
