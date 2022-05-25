@@ -19,9 +19,9 @@
             <base-icon icon="icon-download" size="19" />
           </div>
         </div>
-        <span class="number2"> {{ numOfLyn | formatNumber }} LYNK</span>
+        <span class="number2"> {{ withdraw.totalTransactionFee | formatNumber }} {{withdraw.currency}}</span>
         <div>
-          <span class="text3">~{{ totalLynAvai | formatNumber }} LYNK</span>
+          <span class="text3">~ ${{ withdraw.totalTransactionFeeUsd | formatNumber }}</span>
         </div>
       </div>
 
@@ -32,8 +32,8 @@
             <base-icon icon="icon-upload" size="19" />
           </div>
         </div>
-            <span class="number2"> {{ numOfLyn | formatNumber }} LYNK</span>
-            <span class="text3">~{{ totalLynAvai | formatNumber }} LYNK</span>
+            <span class="number2"> {{ transfer.totalTransactionFee | formatNumber }} {{transfer.currency}}</span>
+            <span class="text3">~ ${{ transfer.totalTransactionFeeUsd | formatNumber }}</span>
       </div>
       <div class="col-width col-margin">
         <div class="sack-banlance">
@@ -42,8 +42,8 @@
             <base-icon icon="icon-swap-2" size="19" />
           </div>
         </div>
-            <span class="number2"> {{ numOfLyn | formatNumber }} LYNK</span>
-            <span class="text3">~{{ totalLynAvai | formatNumber }} LYNK</span>
+            <span class="number2"> {{ numOfLyn | formatNumber }} {{withdraw.currency}}</span>
+            <span class="text3">~ ${{ totalLynAvai | formatNumber }} </span>
       </div>
       <div class="col-width col-margin">
         <div class="sack-banlance">
@@ -52,8 +52,8 @@
             <base-icon icon="icon-gift" size="19" />
           </div>
         </div>
-            <span class="number2"> {{ numOfLyn | formatNumber }} LYNK</span>
-            <span class="text3">~{{ totalLynAvai | formatNumber }} LYNK</span>
+            <span class="number2"> {{ numOfLyn | formatNumber }} {{withdraw.currency}}</span>
+            <span class="text3">~ ${{ totalLynAvai | formatNumber }} </span>
       </div>
     </div>
     <div class="w-100" style="height: 400px; background-color: white;">
@@ -104,7 +104,7 @@
   import PopupMixin from '@/mixins/popup'
   import getRepository from '@/services'
   // import { BalanceRepository } from '@/services/repositories/balance'
-  import { TransactionRepository } from '@/services/repositories/transaction'
+  import { FeeRepository } from '@/services/repositories/fee'
   // import EventBus from '@/utils/eventBus'
   import { debounce } from 'lodash'
 
@@ -113,9 +113,10 @@
   import FeeTable from '../components/feeTable.vue'
   import FeeDetail from '../components/feeDetail/FeeDetail.vue'
   // const api: BalanceRepository = getRepository('balance')
-  const api: TransactionRepository = getRepository('transaction')
+  const api: FeeRepository = getRepository('fee')
 
   import { namespace } from 'vuex-class'
+import { number } from '@amcharts/amcharts4/core'
 
   const beBase = namespace('beBase')
 
@@ -217,8 +218,8 @@
     }
     
     // numOfInvestor = ''
-    numOfLyn = '728500'
-    totalLynAvai = '109275'
+    numOfLyn = '0'
+    totalLynAvai = '0'
     // numOfUser = ''
     // totalAvailable = ''
     // totalBalance = ''
@@ -227,11 +228,12 @@
     // totalAvailableUSD = ''
     // totalLockedUSD = ''
     // totalBalanceUSD = ''
+    withdraw: any = {}
+    transfer: any = {}
     listApproveBy: Record<string, any>[] = []
 
     get getTab(): Array<Record<string, any>> {
       if (this.coinMain === 'LYNK') {
-        console.log(('aaa'))
         return [
           {
             id: 1,
@@ -251,9 +253,9 @@
       ]
     }
 
-    getListBalance(): void {
-      console.log('1')
-    }
+    // getListBalance(): void {
+    //   console.log('1')
+    // }
 
     created(): void {
       console.log('route', this.$route.path.split('/')[2])
@@ -271,8 +273,6 @@
       // })
       this.query.currency = this.tabActive
       this.query.status = 'SUCCESS'
-      // this.query.status = 'SUCCESS'
-      console.log('currency', this.tabActive)
       this.query.transactionType = this.typeActive.value
       this.init()
     }
@@ -355,23 +355,30 @@
           transactionType: this.query.transactionType,
           total: null
         }
-        console.log('params', params)
-        const result = await api.getListTransaction('search', params)
-        console.log([result])
+        const result = await api.getListFee('', params)
         this.propdataTable = result.transactions.content
-
+        console.log([result])
         // const deposit = result.summary.filter(item => {
         //   return item.transactionType === 'DEPOSIT'
         // })
         // const crowdsale = result.summary.filter(item => {
         //   return item.transactionType === 'CROWDSALE'
         // })
-        const withdraw = result.summary.filter(item => {
+        const summaryWithdraw = result.summary.filter(item => {
           return item.transactionType === 'WITHDRAW'
-        })
-        const transfer = result.summary.filter(item => {
+        })[0]
+        this.withdraw = {
+          ...summaryWithdraw,
+          currency: this.propdataTable[0].currency
+        }
+        const summaryTransfer = result.summary.filter(item => {
           return item.transactionType === 'TRANSFER'
-        })
+        })[0]
+        this.transfer = {
+          ...summaryTransfer,
+          currency: this.propdataTable[0].currency
+        }
+        console.log(this.withdraw, this.transfer)
         // const bonus = result.summary.filter(item => {
         //   return item.transactionType === 'BONUS'
         // })
@@ -386,21 +393,21 @@
       }
     }
 
-    async handleGetBalanceDetail(userId: number) {
-      try {
-        const params = {
-          ...this.query,
-          search: this.query.search,
-          orderBy: this.query.orderBy,
-          limit: this.query.limit,
-          page: this.query.page,
-          total: null
-        }
-      } catch (error) {
-        this.isLoading = false
-        console.log(error)
-      }
-    }
+    // async handleGetBalanceDetail(userId: number) {
+    //   try {
+    //     const params = {
+    //       ...this.query,
+    //       search: this.query.search,
+    //       orderBy: this.query.orderBy,
+    //       limit: this.query.limit,
+    //       page: this.query.page,
+    //       total: null
+    //     }
+    //   } catch (error) {
+    //     this.isLoading = false
+    //     console.log(error)
+    //   }
+    // }
     
     handleChangeType(Type: any): void {
       this.typeActive = Type
@@ -499,16 +506,13 @@
         orderBy: '1',
         keywordString: null,
         currency: null,
-        status: 'SUCCESS',
+        status: null,
         fromDate: null,
         toDate: null,
         fromAmount: null,
         toAmount: null,
         bonusType: null
       }
-    }
-    log(data:any):void {
-      console.log(data, "dddd")
     }
     // handleFilter(filters: any): void {
     //   console.log(filters)
@@ -532,7 +536,6 @@
     }
 
     handleFilter(filter: Record<string, any>): void {
-      console.log('filter', filter)
       this.query = {
         ...this.query,
         currency: '',
@@ -546,7 +549,6 @@
         page: 1,
         limit: 10
       }
-      console.log('query', this.query)
 
       this.debounceInit()
     }

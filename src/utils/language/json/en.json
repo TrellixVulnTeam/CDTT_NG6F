@@ -1081,8 +1081,12 @@
       "fee2": "To Fee"
     },
     "pending": "Pending",
-    "processing": "Processing",
+    "waiting": "Waiting",
     "success": "Success",
+    "expired": "Expired",
+    "reject": "Reject",
+    "failed": "Failed",
+    "locked":"Locked",
     "alert": {
       "amount": "From amount must be less than To amount",
       "fee": "From fee must be less than To fee"

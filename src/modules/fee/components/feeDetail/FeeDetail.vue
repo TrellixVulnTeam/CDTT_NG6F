@@ -17,8 +17,8 @@
       <div class="item be-flex">
         <p>{{ $t('transaction.detail.transaction-id') }}</p>
         <div class="be-flex align-center">
-          <p class="text-detail-2">{{ detailRow.transactionCode | formatTransactionCode(10) }}</p>
-          <span v-if="detailRow.transactionCode" style="margin-left: 8px" class="icon-copy" @click="handleCopyTransaction(detailRow.transactionCode)">
+          <p class="text-detail-2">{{ detailRow.transactionHash | formatTransactionCode(10) }}</p>
+          <span v-if="detailRow.transactionHash" style="margin-left: 8px" class="icon-copy" @click="handleCopyTransaction(detailRow.transactionCode)">
             <base-icon icon="icon-copy" size="24" />
           </span>
         </div>
@@ -120,7 +120,7 @@
     checkType(type: string): string {
       return type === 'PENDING'
         ? 'status status-pending'
-        : type === 'FAILED'
+        : (type === 'FAILED' || type === 'LOCKED')
         ? 'status status-error'
         : type === 'PROCESSING'
         ? 'status status-warning'

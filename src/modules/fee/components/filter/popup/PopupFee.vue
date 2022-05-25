@@ -102,7 +102,7 @@
 <script lang="ts">
   import { Component, Mixins } from 'vue-property-decorator'
   import PopupMixin from '@/mixins/popup'
-import { times } from 'lodash'
+  import { times } from 'lodash'
   // import { namespace } from 'vuex-class'
   // const bcKyc = namespace('bcKyc')
   @Component
@@ -156,16 +156,32 @@ import { times } from 'lodash'
                 title: this.$i18n.t('popup-fee.status'),
                 options: [
                     {
+                        value: "SUCCESS",
+                        label: this.$i18n.t('popup-fee.success')
+                    },
+                    {
                         value: "PENDING",
                         label: this.$i18n.t('popup-fee.pending')
                     },
                     {
-                        value: "PROCESSING",
-                        label: this.$i18n.t('popup-fee.processing')
+                        value: "EXPIRED",
+                        label: this.$i18n.t('popup-fee.expired')
                     },
                     {
-                        value: "SUCCESS",
-                        label: this.$i18n.t('popup-fee.success')
+                        value: "FAILED",
+                        label: this.$i18n.t('popup-fee.failed')
+                    },
+                    {
+                        value: "LOCKED",
+                        label: this.$i18n.t('popup-fee.locked')
+                    },
+                    {
+                        value: "REJECT",
+                        label: this.$i18n.t('popup-fee.reject')
+                    },
+                    {
+                        value: "WAITING",
+                        label: this.$i18n.t('popup-fee.waiting')
                     }
                 ],
                 value: 'SUCCESS'
@@ -176,6 +192,7 @@ import { times } from 'lodash'
             btnContinues: this.$i18n.t('popup-fee.continues')
         }
     }
+    $i18n: any
     get pickerOption(): any {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const _this = this

@@ -21,9 +21,9 @@
         <el-table-column :label="$t('transaction.table.trans-id')">
           <template slot-scope="scope">
             <div class="be-flex align-center">
-              <span v-if="type === 'customer'" class="d-ib mr-2">{{ scope.row.transactionCode | formatTransactionCode(6) }}</span>
-              <span v-else class="transaction-code d-ib mr-2">{{ scope.row.transactionCode | formatTransactionCode(10) }}</span>
-              <span v-if="scope.row.transactionCode" class="icon-copy" @click="handleCopyTransaction(scope.row)" ref="buttonCopy">
+              <span v-if="type === 'customer'" class="d-ib mr-2">{{ scope.row.transactionHash | formatTransactionCode(6) }}</span>
+              <span v-else class="transaction-code d-ib mr-2">{{ scope.row.transactionHash | formatTransactionCode(10) }}</span>
+              <span v-if="scope.row.transactionHash" class="icon-copy" @click.stop="handleCopyTransaction(scope.row)" ref="buttonCopy">
                 <base-icon icon="icon-copy" size="24" />
               </span>
             </div>
@@ -83,21 +83,22 @@
     @Prop({ required: true, type: Object, default: {} }) query!: Record<string, any>
     @Prop({ required: true, type: Array, default: [] }) data!: Array<Record<string, any>>
     @Prop() propTabActive!: string
+
     get getPaginationInfo(): any {
       return this.$t('paging.transaction')
     }
 
     
-    checkType(type: string): string {
-      return type === 'PENDING'
-        ? 'status status-pending'
-        : type === 'FAILED'
+    checkType(typeCheck: string): string {
+      const result = typeCheck === 'PENDING' ? 'status status-pending'
+        : (typeCheck === 'FAILED' || typeCheck === 'LOCKED')
         ? 'status status-error'
-        : type === 'PROCESSING'
+        : typeCheck === 'PROCESSING'
         ? 'status status-warning'
-        : type === 'REJECTED'
+        : typeCheck === 'REJECTED'
         ? 'status status-rejected'
         : 'status status-success'
+        return result
     }
     getDataSelectTab(): void {
       console.log('1')

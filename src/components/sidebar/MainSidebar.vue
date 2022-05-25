@@ -86,7 +86,7 @@
       style="min-width: 80px"
     >
       <div class="popper-add-menu-content">
-        <ul class="module" v-if="checkPemission('exception', ['view'])">
+        <ul class="module" v-if="checkPemission('fee', ['view'])">
           <li class="module-item" @click="isOpenPopup = false">
             <router-link :to="{name: 'Fee'}" class="router_center">
             <div class="sack_avatar">

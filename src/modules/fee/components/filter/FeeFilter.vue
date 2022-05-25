@@ -109,11 +109,11 @@
 
   import countryJson from '@/utils/country/index.json'
 
-  interface IListCountry {
-    name: string
-    dial_code: string
-    code: string
-  }
+  // interface IListCountry {
+  //   name: string
+  //   dial_code: string
+  //   code: string
+  // }
 
   @Component({ components: { PopupFee } })
   export default class FeeFilter extends Mixins(PopupMixin) {
@@ -169,24 +169,24 @@
       }
     ]
     sortActive = '1'
-    listCountry: IListCountry[] = countryJson
-    identificationType: Array<Record<string, any>> = [
-      {
-        id: 0,
-        type: 'Id Card',
-        value: 'ID_CARD'
-      },
-      {
-        id: 1,
-        type: 'Passport',
-        value: 'PASSPORT'
-      },
-      {
-        id: 2,
-        type: 'Driver’s License',
-        value: 'DRIVER_LICENSE'
-      }
-    ]
+    // listCountry: IListCountry[] = countryJson
+    // identificationType: Array<Record<string, any>> = [
+    //   {
+    //     id: 0,
+    //     type: 'Id Card',
+    //     value: 'ID_CARD'
+    //   },
+    //   {
+    //     id: 1,
+    //     type: 'Passport',
+    //     value: 'PASSPORT'
+    //   },
+    //   {
+    //     id: 2,
+    //     type: 'Driver’s License',
+    //     value: 'DRIVER_LICENSE'
+    //   }
+    // ]
     isVisible = false
 
     @Watch('filterFee.search') handleSearch(value: string): void {
@@ -223,13 +223,13 @@
         })
         this.$forceUpdate()
       })
-      EventBus.$on('selectTabBalance', this.handleChangeTab)
+      // EventBus.$on('selectTabBalance', this.handleChangeTab)
       this.$emit('filterFee', this.filterFee)
     }
 
     destroyed(): void {
       EventBus.$off('changeLang')
-      EventBus.$off('changeTab')
+      // EventBus.$off('changeTab')
     }
     handleCatchBark(filtersData: any):void {
       const filterFee = {
@@ -252,26 +252,26 @@
       this.listApprove = [...this.listApproveBy]
     }
 
-    handleSearchApprove(query: string): void {
-      if (query !== '') {
-        this.loading = true
-        this.queryApprove.page = 1
-        this.queryApprove.search = trim(query)
-        apiKyc.getListApprove(this.queryApprove).then(res => {
-          this.listApprove = res.content || []
-          this.loading = false
-        })
-      } else {
-        this.listApprove = this.listApproveBy
-      }
-    }
+    // handleSearchApprove(query: string): void {
+    //   if (query !== '') {
+    //     this.loading = true
+    //     this.queryApprove.page = 1
+    //     this.queryApprove.search = trim(query)
+    //     apiKyc.getListApprove(this.queryApprove).then(res => {
+    //       this.listApprove = res.content || []
+    //       this.loading = false
+    //     })
+    //   } else {
+    //     this.listApprove = this.listApproveBy
+    //   }
+    // }
 
-    loadMoreApprove(): void {
-      this.queryApprove.page += 1
-      apiKyc.getListApprove(this.queryApprove).then(res => {
-        this.listApprove = [...this.listApprove, ...res.content]
-      })
-    }
+    // loadMoreApprove(): void {
+    //   this.queryApprove.page += 1
+    //   apiKyc.getListApprove(this.queryApprove).then(res => {
+    //     this.listApprove = [...this.listApprove, ...res.content]
+    //   })
+    // }
 
     resetFilter(): void {
       this.filterFee = {
@@ -287,13 +287,13 @@
       }
     }
 
-    handleChangeTab(): void {
+    /* handleChangeTab(): void {
       this.filterFee.search = ''
       const params = {
         search: this.filterFee.search
       }
       // this.$emit('filterBalance', params);
-    }
+    } */
 
     handleSort(command: string): void {
       this.sortActive = command
