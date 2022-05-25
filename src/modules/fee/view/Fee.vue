@@ -19,7 +19,8 @@
             <base-icon icon="icon-download" size="19" />
           </div>
         </div>
-        <span class="number2"> {{ withdraw.totalTransactionFee | formatNumber }} {{withdraw.currency}}</span>
+        <span class="number2"> {{ withdraw.totalTransactionFee | formatNumber }} <span class="currency">{{withdraw.currency}} </span>
+        </span>
         <div>
           <span class="text3">~ ${{ withdraw.totalTransactionFeeUsd | formatNumber }}</span>
         </div>
@@ -32,7 +33,7 @@
             <base-icon icon="icon-upload" size="19" />
           </div>
         </div>
-            <span class="number2"> {{ transfer.totalTransactionFee | formatNumber }} {{transfer.currency}}</span>
+            <span class="number2"> {{ transfer.totalTransactionFee | formatNumber }} <span class="currency">{{withdraw.currency}} </span></span>
             <span class="text3">~ ${{ transfer.totalTransactionFeeUsd | formatNumber }}</span>
       </div>
       <div class="col-width col-margin">
@@ -42,7 +43,7 @@
             <base-icon icon="icon-swap-2" size="19" />
           </div>
         </div>
-            <span class="number2"> {{ numOfLyn | formatNumber }} {{withdraw.currency}}</span>
+            <span class="number2"> {{ numOfLyn | formatNumber }} <span class="currency">{{withdraw.currency}} </span></span>
             <span class="text3">~ ${{ totalLynAvai | formatNumber }} </span>
       </div>
       <div class="col-width col-margin">
@@ -52,7 +53,7 @@
             <base-icon icon="icon-gift" size="19" />
           </div>
         </div>
-            <span class="number2"> {{ numOfLyn | formatNumber }} {{withdraw.currency}}</span>
+            <span class="number2"> {{ numOfLyn | formatNumber }} <span class="currency">{{withdraw.currency}} </span></span>
             <span class="text3">~ ${{ totalLynAvai | formatNumber }} </span>
       </div>
     </div>
@@ -99,20 +100,14 @@
 <script lang="ts">
   import { Component, Mixins, Watch } from 'vue-property-decorator'
   //@ts-ignore
-  // import BalanceTable from '../components/BalanceTable.vue'
-  // import BalanceFilter from '../components/filter/BalanceFilter.vue'
   import PopupMixin from '@/mixins/popup'
   import getRepository from '@/services'
-  // import { BalanceRepository } from '@/services/repositories/balance'
   import { FeeRepository } from '@/services/repositories/fee'
   // import EventBus from '@/utils/eventBus'
   import { debounce } from 'lodash'
-
-  // import BalanceDetail from '@/modules/balance/components/balanceDetail/BalanceDetail.vue'
   import FeeFilter from '../components/filter/FeeFilter.vue'
   import FeeTable from '../components/feeTable.vue'
   import FeeDetail from '../components/feeDetail/FeeDetail.vue'
-  // const api: BalanceRepository = getRepository('balance')
   const api: FeeRepository = getRepository('fee')
 
   import { namespace } from 'vuex-class'
@@ -120,7 +115,7 @@ import { number } from '@amcharts/amcharts4/core'
 
   const beBase = namespace('beBase')
 
-  @Component({ components: { /* BalanceTable, */ /* BalanceFilter, */ /* BalanceDetail, */ FeeFilter, FeeTable, FeeDetail } })
+  @Component({ components: { FeeFilter, FeeTable, FeeDetail } })
   export default class Fee extends Mixins(PopupMixin) {
     @beBase.State('coinMain') coinMain!: string
 
@@ -193,23 +188,17 @@ import { number } from '@amcharts/amcharts4/core'
 
     detailRow = {}
     dataDetail = {}
-    /* query: any = {
-      search: '',
-      orderBy: 3,
-      page: 1,
-      limit: 10,
-      total: 10
-    } */
 
      query: any = {
-      // userId: null,
-      // keywordString: '',
+      keywordString: '',
       currency: '',
       transactionType: '',
       fromDate: '',
       toDate: '',
       fromAmount: '',
       toAmount: '',
+      fromTransactionFee: '',
+      toTransactionFee: '',
       orderBy: '1',
       status: '',
       page: 1,
@@ -220,14 +209,6 @@ import { number } from '@amcharts/amcharts4/core'
     // numOfInvestor = ''
     numOfLyn = '0'
     totalLynAvai = '0'
-    // numOfUser = ''
-    // totalAvailable = ''
-    // totalBalance = ''
-    // totalElement = ''
-    // totalLocked = ''
-    // totalAvailableUSD = ''
-    // totalLockedUSD = ''
-    // totalBalanceUSD = ''
     withdraw: any = {}
     transfer: any = {}
     listApproveBy: Record<string, any>[] = []
@@ -279,65 +260,7 @@ import { number } from '@amcharts/amcharts4/core'
 
     propdataTable: Record<string, any>[] = []
     
-    /* async init(): Promise<void> {
-      console.log('tabactive', this.tabActive)
-      this.data = []
-      this.propdataTable = []
-      try {
-        this.isLoading = true
-        const params = {
-          ...this.query,
-          search: this.query.search,
-          orderBy: this.query.orderBy,
-          limit: this.query.limit,
-          page: this.query.page,
-          total: null
-        }
-        const result = await api.getlistBalance(this.tabActive, params)
-        // test
-        console.log([result])
-        // test
-        this.data = result.balances || []
-        console.log('this.data', this.data)
-
-        this.query.total = result.totalElement
-        this.isLoading = false
-        if (this.data.length > 0) {
-          for (let i = 0; i < this.data.length; i++) {
-            let str = this.data[i].email
-            const email = str.split('@')
-            if (email[0].length > 6) {
-              const newEmail = email[0].substring(0, 6) + '...@' + email[1].substring(0, 10)
-              const dataItem = {
-                ...this.data[i],
-                email: newEmail
-              }
-              this.propdataTable.push(dataItem)
-            } else {
-              const newEmail = email[0] + '...@' + email[1].substring(0, 10)
-              const dataItem = {
-                ...this.data[i],
-                email: newEmail
-              }
-              this.propdataTable.push(dataItem)
-            }
-          }
-        }
-
-        // this.numOfInvestor = result.numOfInvestor
-        // this.numOfUser = result.numOfUser
-        // this.totalAvailable = result.totalAvailable
-        // this.totalBalance = result.totalBalance
-        // this.totalLocked = result.totalLocked
-        // this.totalBalance = result.totalBalance
-        // this.totalAvailableUSD = result.totalAvailableUSD
-        // this.totalLockedUSD = result.totalLockedUSD
-        // this.totalBalanceUSD = result.totalBalanceUSD
-      } catch (error) {
-        this.isLoading = false
-        console.log(error)
-      }
-    } */
+    
     async init(): Promise<void> {
       try {
         this.isLoading = true
@@ -358,12 +281,6 @@ import { number } from '@amcharts/amcharts4/core'
         const result = await api.getListFee('', params)
         this.propdataTable = result.transactions.content
         console.log([result])
-        // const deposit = result.summary.filter(item => {
-        //   return item.transactionType === 'DEPOSIT'
-        // })
-        // const crowdsale = result.summary.filter(item => {
-        //   return item.transactionType === 'CROWDSALE'
-        // })
         const summaryWithdraw = result.summary.filter(item => {
           return item.transactionType === 'WITHDRAW'
         })[0]
@@ -379,11 +296,6 @@ import { number } from '@amcharts/amcharts4/core'
           currency: this.propdataTable[0].currency
         }
         console.log(this.withdraw, this.transfer)
-        // const bonus = result.summary.filter(item => {
-        //   return item.transactionType === 'BONUS'
-        // })
-
-        // this.dataHeaderCard = [...deposit, ...withdraw, ...transfer, ...bonus]
 
         this.query.total = result.transactions.totalElements
         this.isLoading = false
@@ -393,21 +305,6 @@ import { number } from '@amcharts/amcharts4/core'
       }
     }
 
-    // async handleGetBalanceDetail(userId: number) {
-    //   try {
-    //     const params = {
-    //       ...this.query,
-    //       search: this.query.search,
-    //       orderBy: this.query.orderBy,
-    //       limit: this.query.limit,
-    //       page: this.query.page,
-    //       total: null
-    //     }
-    //   } catch (error) {
-    //     this.isLoading = false
-    //     console.log(error)
-    //   }
-    // }
     
     handleChangeType(Type: any): void {
       this.typeActive = Type
@@ -429,31 +326,7 @@ import { number } from '@amcharts/amcharts4/core'
 
       this.init()
     }
-    /* handleChangeTab(tab: Record<string, any>): void {
-      console.log('tab', tab.title, [this.$route], this.tabActive, Array.isArray(this.$router))
-      this.typeActive = 1
-      if (tab.title != this.tabActive) {
-        this.$router.push({ name: tab.routeName })
-        // this.query.tabBalance = this.kycStatus[tab.title]
-        this.tabActive = tab.title
-        this.query.page = 1
-        this.query.limit = 10
-        this.query.orderBy = 3
-        this.query.toBalanceAmount = ''
-        ;(this.query.fromBalanceAmount = ''),
-          (this.query.toLockedAmount = ''),
-          (this.query.fromLockedAmount = ''),
-          (this.query.toAvailableAmount = ''),
-          (this.query.fromAvailableAmount = ''),
-          (this.query.search = '')
-        // this.query.orderBy = '3'
-        this.init()
-        this.resetQuery()
-        EventBus.$emit('selectTabBalance')
-        EventBus.$emit('changeTab', this.tabActive)
-      }
-    }
- */
+    
     handleChangeTab(tab: Record<string, any>): void {
       this.typeActive = {
         typeId: 1,
@@ -502,7 +375,6 @@ import { number } from '@amcharts/amcharts4/core'
         ...this.query,
         page: 1,
         limit: 10,
-        search: null,
         orderBy: '1',
         keywordString: null,
         currency: null,
@@ -536,14 +408,18 @@ import { number } from '@amcharts/amcharts4/core'
     }
 
     handleFilter(filter: Record<string, any>): void {
+      console.log(filter)
       this.query = {
         ...this.query,
+        keywordString: filter.search,
         currency: '',
         transactionType: this.typeActive.title,
         fromDate: filter.fromDate,
         toDate: filter.toDate,
         fromAmount: filter.fromAmount,
         toAmount: filter.toAmount,
+        fromTransactionFee: filter.fromFee,
+        toTransactionFee: filter.toFee,
         status: filter.status,
         orderBy: filter.orderBy,
         page: 1,
@@ -560,6 +436,12 @@ import { number } from '@amcharts/amcharts4/core'
 </script>
 
 <style scoped lang="scss">
+  .currency {
+    width: auto;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+  }
   .container {
     text-align: justify;
     -ms-text-justify: distribute-all-lines;
