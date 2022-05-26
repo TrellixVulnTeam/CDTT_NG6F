@@ -47,7 +47,7 @@
         
         <el-table-column :label="$t('transaction.table.status')" :width="type !== 'customer' ? 144 : 120" align="center">
           <template slot-scope="scope">
-            <span class="text-xs" :class="checkType(scope.row.status)">{{ scope.row.status }}</span>
+            <span class="text-xs" :class="checkType(scope.row.status)" style="text-transform: capitalize;">{{ handleCapitalize(scope.row.status) }}</span>
           </template>
         </el-table-column>
 
@@ -65,7 +65,10 @@
             </div>
             <div v-else>
               <div class="amount-increase">
-                <span :class="checkValueFeeDisplay(scope.row.transactionFee)">{{ scope.row.transactionFeeDisplay }}</span>
+                <span :class="checkValueFeeDisplay(scope.row.transactionFee)">
+                  {{ scope.row.transactionFeeDisplay.index}}
+                  {{ scope.row.transactionFeeDisplay }}
+                </span>
                 <span class="d-block amount-exchange-small">~${{ scope.row.transactionFeeToUsd | convertAmountDecimal('USD') }}</span>
               </div>
             </div>
@@ -156,13 +159,14 @@
       this.$emit('copy', 'copy')
       let message: any = ''
       const el = document.createElement('input')
-      el.value = row.transactionCode
+      el.value = row.transactionHash
       document.body.appendChild(el)
       el.select()
       document.execCommand('copy')
       document.body.removeChild(el)
       message = this.$t('notify.copy')
       this.$message.success(message)
+      console.log('166',row)
     }
     indexMethod(index: number): number {
       return (this.query.page - 1) * this.query.limit + index + 1
@@ -178,6 +182,33 @@
 
     handleRowClick(row: Record<string, any>): void {
       this.$emit('rowClick', row.row)
+    }
+    handleCapitalize(status: string): string {
+      let result = ''
+      switch(status) {
+        case 'SUCCESS': 
+          result = 'Success'
+          break;
+        case 'PENDING':
+          result = 'Pending'
+          break;
+        case 'FAILED':
+          result = 'Failed'
+          break;
+        case 'WAITING':
+          result = 'Waiting'
+          break;
+        case 'REJECT':
+          result = 'Reject'
+          break;
+        case 'LOCKED':
+          result = 'Locked'
+          break;
+        case 'EXPIRED':
+          result = 'Expired'
+          break;
+      }
+      return result
     }
   }
 </script>

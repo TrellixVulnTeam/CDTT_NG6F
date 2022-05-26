@@ -108,6 +108,7 @@
   const apiKyc: KycRepository = getRepository('kyc')
 
   import countryJson from '@/utils/country/index.json'
+import { number } from '@amcharts/amcharts4/core'
 
   // interface IListCountry {
   //   name: string
@@ -118,6 +119,7 @@
   @Component({ components: { PopupFee } })
   export default class FeeFilter extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Array, default: [] }) listApproveBy!: Array<Record<string, any>>
+    @Prop({ required: true, type: Object, default: [] }) reseted!: Record<string, any>
     // filterBalance = {
     //   search: '',
     //   toBalanceAmount: '',
@@ -192,7 +194,16 @@
     @Watch('filterFee.search') handleSearch(value: string): void {
       this.searchText(value)
     }
-
+    @Watch('reseted') handleDeleteCache(value: Record<string, any>): void {
+      if(this.reseted.deleteCache === true)
+      {
+        this.handleReset()
+        this.sortActive = '1'
+        
+        console.log('delete Cache')
+        this.$emit('reseted')
+      }
+    }
     searchText = debounce((value: string) => {
       this.$emit('filterFee', {
         ...this.filterFee,
@@ -224,7 +235,7 @@
         this.$forceUpdate()
       })
       // EventBus.$on('selectTabBalance', this.handleChangeTab)
-      this.$emit('filterFee', this.filterFee)
+      // this.$emit('filterFee', this.filterFee)
     }
 
     destroyed(): void {
@@ -339,7 +350,7 @@
         fromFee: '',
         toFee: '',
         status: '',
-        orderBy: ''
+        orderBy: '1'
       }
       this.$emit('filterFee', this.filterFee)
       this.isVisible = false

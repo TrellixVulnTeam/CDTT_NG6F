@@ -86,7 +86,8 @@
     "member": "Nhân sự",
     "exception": "Ngoại lệ",
     "nft": "NFT",
-    "more": "Thêm"
+    "more": "Thêm",
+    "fee": "Chi phí"
   },
   "header": {
     "kyc": "KYC",
@@ -1015,5 +1016,60 @@
       "lastLogin": "Lần đăng nhập cuối cùng",
       "deviceType": "Thiết bị"
     }
+  },
+  "fee": {
+    "total-withdraw": "Tổng phí rút",
+    "total-transfer": "Tổng phí chuyển",
+    "total-trading": "Tổng phí giao dịch NFT",
+    "total-exchange": "Tổng phí trao đổi",
+    "withdraw": "Withdraw",
+    "withdraw-value": "WITHDRAW",
+    "transfer": "Transfer",
+    "transfer-value": "TRANSFER",
+    "trading": "Trading NFT",
+    "trading-value": "TRADIND",
+    "exchange": "Exchange",
+    "exchange-value": "EXCHANGE",
+    "table": {
+      "id": "Mã giao dịch",
+      "date": "Ngày giao dịch",
+      "customer": "Khách hàng",
+      "status": "Trạng thái",
+      "fee": "Chi phí"
+    }
+  },
+  "popup-fee": {
+    "title": "BỘ LỌC",
+    "date": "Ngày giao dịch",
+    "amount": "Số tiền giao dịch",
+    "fee": "Phí giao dịch",
+    "status": "Trạng thái",
+    "reset": "Đặt lại",
+    "continues": "Tiếp tục",
+    "placeholder": {
+      "date1": "Ngày bắt đầu",
+      "date2": "Ngày đến",
+      "amount1": "Số tiền bắt đầu",
+      "amount2": "Số tiền đến",
+      "fee1": "Từ phí",
+      "fee2": "Đến phí"
+    },
+    "pending": "Chưa xử lý",
+    "waiting": "Đang chờ",
+    "success": "Thành công",
+    "expired": "Hết hạn",
+    "reject": "Loại bỏ",
+    "failed": "Thất bại",
+    "locked":"Bị khoá",
+    "alert": {
+      "amount": "Sô tiền bắt đầu phải nhỏ hơn số tiền đến",
+      "fee": "Phí bắt đầu phải nhỏ hơn phí đến"
+    }
+  },
+  "fee-filter": {
+    "transaction-date": "Ngày giao dịch",
+    "transaction-fee": "Phí giao dịch",
+    "transaction-amount": "Số tiền giao dịch",
+    "status": "Trạng thái"
   }
 }
