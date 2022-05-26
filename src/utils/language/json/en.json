@@ -1071,7 +1071,7 @@
     "fee": "Transaction Fee",
     "status": "Status",
     "reset": "Reset",
-    "continues": "Continues",
+    "continues": "Continue",
     "placeholder": {
       "date1": "From Date",
       "date2": "To Date",

@@ -69,7 +69,7 @@
       <div class="content-block">
           <p class="content-block__title">{{popup_data.content.status.title}}</p>
           <div class="content-block__inputs">
-              <el-select v-model="popup_data.content.status.value" placeholder="Select" class="input-lg">
+              <el-select v-model="popup_data.content.status.value" placeholder="Select" class="input-lg" clearable>
                 <el-option
                 v-for="item in popup_data.content.status.options"
                 :key="item.value"
@@ -283,10 +283,10 @@
             toAmount: this.popup_data.content.amount.input.value2,
             fromFee: this.popup_data.content.fee.input.value1,
             toFee: this.popup_data.content.fee.input.value2,
-            status: this.popup_data.content.status.value
+            status: this.popup_data.content.status.value === '' ? null : this.popup_data.content.status.value
         }
+        console.log('288', filters)
         this.$emit('feeFilterBark', filters)
-        this.handleReset()
         this.handleClose()
     }
   }

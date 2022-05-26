@@ -18,7 +18,7 @@
         <p>{{ $t('transaction.detail.transaction-id') }}</p>
         <div class="be-flex align-center">
           <p class="text-detail-2">{{ detailRow.transactionHash | formatTransactionCode(10) }}</p>
-          <span v-if="detailRow.transactionHash" style="margin-left: 8px" class="icon-copy" @click="handleCopyTransaction(detailRow.transactionCode)">
+          <span v-if="detailRow.transactionHash" style="margin-left: 8px" class="icon-copy" @click="handleCopyTransaction(detailRow.transactionHash)">
             <base-icon icon="icon-copy" size="24" />
           </span>
         </div>
@@ -41,7 +41,14 @@
         <p>{{ $t('transaction.detail.to') }}</p>
         <div class="be-flex align-center">
           <base-icon :icon="renderIconCurrency(detailRow.currency)" size="20" />
-          <p class="text-detail-2" style="margin-left: 8px">{{ detailRow.toAddress | formatTransactionCode(10) }}</p>
+          <p class="text-detail-2" style="margin-left: 8px">
+            <span v-if="detailRow.toAddress.length > 25">
+              {{ detailRow.toAddress | formatTransactionCode(10) }}
+            </span>
+            <span v-else>
+              {{ detailRow.toAddress }}
+            </span>
+          </p>
           <span v-if="detailRow.toAddress" style="margin-left: 8px" class="icon-copy" @click="handleCopyTransaction(detailRow.toAddress)">
             <base-icon icon="icon-copy" size="24" />
           </span>
@@ -50,8 +57,8 @@
       <div v-if="checkFeeType(detailRow.transactionType)" class="item be-flex">
         <p>{{ $t('transaction.detail.fees') }}</p>
         <div class="be-flex">
-          <p v-if="detailRow.transactionFee > 0" class="add">{{ detailRow.transactionFee }} {{ detailRow.currency }}</p>
-          <p v-if="detailRow.transactionFee < 0" class="sub">{{ detailRow.transactionFee }} {{ detailRow.currency }}</p>
+          <p v-if="detailRow.transactionFee > 0" class="add">{{ detailRow.transactionFee | convertAmountDecimal(detailRow.currency) }} {{ detailRow.currency }}</p>
+          <p v-if="detailRow.transactionFee < 0" class="sub">{{ detailRow.transactionFee | convertAmountDecimal(detailRow.currency) }} {{ detailRow.currency }}</p>
           <p class="convert" style="margin-left: 4px">(~${{ detailRow.transactionFeeToUsd | convertAmountDecimal('USD') }})</p>
         </div>
       </div>
@@ -205,10 +212,10 @@
       }
     }
 
-    handleCopyTransaction(row: any): void {
+    handleCopyTransaction(code: string): void {
       let message: any = ''
       const el = document.createElement('input')
-      el.value = row
+      el.value = code
       document.body.appendChild(el)
       el.select()
       document.execCommand('copy')

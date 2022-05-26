@@ -19,10 +19,10 @@
             <base-icon icon="icon-download" size="19" />
           </div>
         </div>
-        <span class="number2"> {{ withdraw.totalTransactionFee | formatNumber }} <span class="currency">{{withdraw.currency}} </span>
+        <span class="number2"> {{ withdraw.totalTransactionFee | convertAmountDecimal(withdraw.currency) }} <span class="currency">{{withdraw.currency}} </span>
         </span>
         <div>
-          <span class="text3">~ ${{ withdraw.totalTransactionFeeUsd | formatNumber }}</span>
+          <span class="text3">~ ${{ withdraw.totalTransactionFeeUsd | convertAmountDecimal('USD') }}</span>
         </div>
       </div>
 
@@ -33,8 +33,8 @@
             <base-icon icon="icon-upload" size="19" />
           </div>
         </div>
-            <span class="number2"> {{ transfer.totalTransactionFee | formatNumber }} <span class="currency">{{withdraw.currency}} </span></span>
-            <span class="text3">~ ${{ transfer.totalTransactionFeeUsd | formatNumber }}</span>
+            <span class="number2"> {{ transfer.totalTransactionFee | convertAmountDecimal(transfer.currency) }} <span class="currency">{{transfer.currency}} </span></span>
+            <span class="text3">~ ${{ transfer.totalTransactionFeeUsd | convertAmountDecimal('USD') }}</span>
       </div>
       <div class="col-width col-margin">
         <div class="sack-banlance">
@@ -68,7 +68,7 @@
         <div class="w-100" style="background-color: red;">
 
           <!-- <balance-filter @filterBalance="handleFilter" :listApproveBy="listApproveBy" /> -->
-          <fee-filter @filterFee="handleFilter($event)"/>
+          <fee-filter @filterFee="handleFilter($event)" @reseted="handleNormalize" :reseted="{deleteCache: isChanged}"/>
           <!-- <balance-table
             v-loading="isLoading"
             @rowClick="handleRowClick"
@@ -183,6 +183,7 @@ import { number } from '@amcharts/amcharts4/core'
     titlePending = ''
     tabActive = ''
     isLoading = false
+    isChanged = false
 
     data: Array<Record<string, any>> = []
 
@@ -253,15 +254,16 @@ import { number } from '@amcharts/amcharts4/core'
       //   }
       // })
       this.query.currency = this.tabActive
-      this.query.status = 'SUCCESS'
-      this.query.transactionType = this.typeActive.value
-      this.init()
+      this.query.status = null
+      this.query.transactionType = this.typeActive.title
+      this.debounceInit()
     }
 
     propdataTable: Record<string, any>[] = []
     
     
-    async init(): Promise<void> {
+    async init(message: string): Promise<void> {
+      console.log(message)
       try {
         this.isLoading = true
         const params = {
@@ -324,7 +326,8 @@ import { number } from '@amcharts/amcharts4/core'
       //   refs2.handleReset()
       // }
 
-      this.init()
+      this.init('changeType')
+      this.isChanged = true
     }
     
     handleChangeTab(tab: Record<string, any>): void {
@@ -351,8 +354,8 @@ import { number } from '@amcharts/amcharts4/core'
       //   refs2.handleReset()
       // }
 
-      this.init()
-
+      this.init('changeTab')
+      this.isChanged = true
       // EventBus.$emit('selectTabBalance')
     }
 
@@ -391,12 +394,12 @@ import { number } from '@amcharts/amcharts4/core'
     // } 
     handlePageChange(page: number): void {
       this.query.page = page
-      this.init()
+      this.init('PageChange')
     }
 
     handleSizeChange(limit: number): void {
       this.query.limit = limit
-      this.init()
+      this.init('changeSize')
     }
 
     handleRowClick(row: Record<string, any>): void {
@@ -430,8 +433,12 @@ import { number } from '@amcharts/amcharts4/core'
     }
 
     debounceInit = debounce(() => {
-      this.init()
+      this.init('debouce')
     }, 300)
+    handleNormalize():void {
+      console.log('heard')
+      this.isChanged = false
+    }
   }
 </script>
 
