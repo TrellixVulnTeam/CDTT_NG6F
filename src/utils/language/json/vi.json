@@ -1022,20 +1022,30 @@
     "total-transfer": "Tổng phí chuyển",
     "total-trading": "Tổng phí giao dịch NFT",
     "total-exchange": "Tổng phí trao đổi",
-    "withdraw": "Withdraw",
-    "withdraw-value": "WITHDRAW",
-    "transfer": "Transfer",
-    "transfer-value": "TRANSFER",
-    "trading": "Trading NFT",
-    "trading-value": "TRADIND",
-    "exchange": "Exchange",
-    "exchange-value": "EXCHANGE",
+    "withdraw": "Rút",
+    "withdraw-value": "Withdraw",
+    "transfer": "Chuyển",
+    "transfer-value": "Transfer",
+    "trading": "Giao dịch NFT",
+    "trading-value": "Trading NFT",
+    "exchange": "Trao đổi",
+    "exchange-value": "Exchange",
     "table": {
       "id": "Mã giao dịch",
       "date": "Ngày giao dịch",
       "customer": "Khách hàng",
       "status": "Trạng thái",
       "fee": "Chi phí"
+    },
+    "status": {
+      "success": "Thành công",
+      "pending":"Chưa xử lý",
+      "reject": "Loại bỏ",
+      "failed": "Thất bại",
+      "processing": "Đang xử lý",
+      "locked": "Khoá",
+      "waiting": "Đang chờ",
+      "expired": "Đã hết hạn"
     }
   },
   "popup-fee": {
@@ -1055,12 +1065,10 @@
       "fee2": "Đến phí"
     },
     "pending": "Chưa xử lý",
-    "waiting": "Đang chờ",
     "success": "Thành công",
-    "expired": "Hết hạn",
     "reject": "Loại bỏ",
     "failed": "Thất bại",
-    "locked":"Bị khoá",
+    "processing":"Đang xử lý",
     "alert": {
       "amount": "Sô tiền bắt đầu phải nhỏ hơn số tiền đến",
       "fee": "Phí bắt đầu phải nhỏ hơn phí đến"
