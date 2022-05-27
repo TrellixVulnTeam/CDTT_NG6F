@@ -277,6 +277,7 @@
           total: null
         }
         const result = await api.getListTransaction('search', params)
+        console.log([result])
         this.propDataTable = result.transactions.content
 
         const deposit = result.summary.filter(item => {

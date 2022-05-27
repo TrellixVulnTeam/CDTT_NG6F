@@ -12,6 +12,7 @@ import { ExceptionRepository } from './repositories/exception'
 import { MemberRepository } from './repositories/member'
 import ReportRepository from './repositories/report'
 import WalletRepository from '@/services/repositories/wallet'
+import { FeeRepository } from './repositories/fee'
 type RepositoryName =
   | 'verify'
   | 'auth'
@@ -27,6 +28,7 @@ type RepositoryName =
   | 'member'
   | 'wallet'
   | 'report'
+  | 'fee'
 
 export default function getRepository(name: RepositoryName): any {
   switch (name) {
@@ -58,6 +60,8 @@ export default function getRepository(name: RepositoryName): any {
       return new WalletRepository()
     case 'report':
       return new ReportRepository()
+    case 'fee': 
+      return new FeeRepository()
     default:
       return null
   }

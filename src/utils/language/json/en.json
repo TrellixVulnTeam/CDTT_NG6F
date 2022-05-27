@@ -118,7 +118,8 @@
     "member": "Members",
     "exception": "Exception",
     "nft": "NFT",
-    "more": "More"
+    "more": "More",
+    "fee": "Fee"
   },
   "header": {
     "kyc": "KYC",
@@ -130,7 +131,8 @@
     "exception": "Exception",
     "member": "Members",
     "report": "Report",
-    "nft": "NFT"
+    "nft": "NFT",
+    "fee": "Fee"
   },
   "footer": {
     "terms": "Terms and Conditions"
@@ -808,6 +810,27 @@
       }
     }
   },
+  "fee": {
+    "total-withdraw": "Total Fee Withdraw",
+    "total-transfer": "Total Fee Transfer",
+    "total-trading": "Total Fee Trading NFT",
+    "total-exchange": "Total Fee Exchange",
+    "withdraw": "Withdraw",
+    "withdraw-value": "WITHDRAW",
+    "transfer": "Transfer",
+    "transfer-value": "TRANSFER",
+    "trading": "Trading NFT",
+    "trading-value": "TRADIND",
+    "exchange": "Exchange",
+    "exchange-value": "EXCHANGE",
+    "table": {
+      "id": "Transaction ID",
+      "date": "Date",
+      "customer": "Customer",
+      "status": "Status",
+      "fee": "Fee"
+    }
+  },
   "request": {
     "withdraw": "Withdraw",
     "transfer": "Transfer",
@@ -1040,5 +1063,39 @@
       "lastLogin": "Last login",
       "deviceType": "Device type"
     }
+  },
+  "popup-fee": {
+    "title": "FILTER",
+    "date": "Transaction Date",
+    "amount": "Transaction Amount",
+    "fee": "Transaction Fee",
+    "status": "Status",
+    "reset": "Reset",
+    "continues": "Continue",
+    "placeholder": {
+      "date1": "From Date",
+      "date2": "To Date",
+      "amount1": "From Amount",
+      "amount2": "To Amount",
+      "fee1": "From Fee",
+      "fee2": "To Fee"
+    },
+    "pending": "Pending",
+    "waiting": "Waiting",
+    "success": "Success",
+    "expired": "Expired",
+    "reject": "Reject",
+    "failed": "Failed",
+    "locked":"Locked",
+    "alert": {
+      "amount": "From amount must be less than To amount",
+      "fee": "From fee must be less than To fee"
+    }
+  },
+  "fee-filter": {
+    "transaction-date": "Transaction Date",
+    "transaction-fee": "Transaction Fee",
+    "transaction-amount": "Transaction Amount",
+    "status": "Status"
   }
 }
