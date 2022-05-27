@@ -80,7 +80,7 @@
         <span class="abicon sort-title" style="font-size: 16px">
           <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}</span
         >
-        <el-dropdown-menu class="header-downloadapp dropdown-sort" slot="dropdown">
+        <el-dropdown-menu class="header-downloadapp dropdown-sort" slot="dropdown" style="width: 230px;">
           <el-dropdown-item v-for="(value, index) in sorts" :key="index" :class="sortActive === value.command ? 'active' : null" :command="value.command" :divided="value.divided">
             <span class="be-flex">
               <span class="be-flex-item">
@@ -92,7 +92,7 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <popup-fee @feeFilterBark="handleCatchBark($event)"/>
+    <popup-fee @feeFilterBark="handleCatchBark($event)" :resetFilter="{deleteCache: isChanged}" @filterReseted="handleNormalize"/>
   </div>
 </template>
 
@@ -143,6 +143,7 @@ import { number } from '@amcharts/amcharts4/core'
     }
     popupFeeBark:any
     loading = false
+    isChanged = false
     listApprove: Array<Record<string, any>> = []
     queryApprove = {
       page: 1,
@@ -190,7 +191,9 @@ import { number } from '@amcharts/amcharts4/core'
     //   }
     // ]
     isVisible = false
-
+    get getSign(): any {
+      return {deleteCache: this.reseted.deleteCache}
+    }
     @Watch('filterFee.search') handleSearch(value: string): void {
       this.searchText(value)
     }
@@ -199,8 +202,8 @@ import { number } from '@amcharts/amcharts4/core'
       {
         this.handleReset()
         this.sortActive = '1'
-        
-        console.log('delete Cache')
+        this.isChanged = true
+        console.log('delete Cache', this.reseted)
         this.$emit('reseted')
       }
     }
@@ -354,6 +357,10 @@ import { number } from '@amcharts/amcharts4/core'
       }
       this.$emit('filterFee', this.filterFee)
       this.isVisible = false
+    }
+    handleNormalize():void {
+      console.log('heard 359')
+      this.isChanged = false
     }
   }
 </script>

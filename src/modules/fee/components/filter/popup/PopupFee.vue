@@ -100,7 +100,7 @@
 </template>
 
 <script lang="ts">
-  import { Component, Mixins } from 'vue-property-decorator'
+  import { Component, Mixins, Prop, Watch } from 'vue-property-decorator'
   import PopupMixin from '@/mixins/popup'
   import { times } from 'lodash'
   // import { namespace } from 'vuex-class'
@@ -113,6 +113,8 @@
     // isLoading = false
     // isStopDbClick = false
     //begin
+  @Prop({ required: true, type: Object, default: [] }) resetFilter!: Record<string, any>
+  
     error = {
         amount: '',
         fee: ''
@@ -164,24 +166,16 @@
                         label: this.$i18n.t('popup-fee.pending')
                     },
                     {
-                        value: "EXPIRED",
-                        label: this.$i18n.t('popup-fee.expired')
-                    },
-                    {
                         value: "FAILED",
                         label: this.$i18n.t('popup-fee.failed')
                     },
                     {
-                        value: "LOCKED",
-                        label: this.$i18n.t('popup-fee.locked')
-                    },
-                    {
-                        value: "REJECT",
+                        value: "REJECTED",
                         label: this.$i18n.t('popup-fee.reject')
                     },
                     {
-                        value: "WAITING",
-                        label: this.$i18n.t('popup-fee.waiting')
+                        value: "PROCESSING",
+                        label: this.$i18n.t('popup-fee.processing')
                     }
                 ],
                 value: 'SUCCESS'
@@ -210,6 +204,17 @@
         disabledDate(time: Date) {
           return _this.disableTime(time, 'to-from')
         }
+      }
+    }
+
+    @Watch('resetFilter') handleDeleteCache(value: Record<string, any>): void {
+      if(this.resetFilter.deleteCache === true)
+      {
+        this.handleReset()
+        
+        console.log('215 delete Cache')
+        this.$emit('filterReseted')
+
       }
     }
 
