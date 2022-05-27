@@ -80,7 +80,8 @@
 </template>
 
 <script lang="ts">
-  import { Component, Prop, Vue } from 'vue-property-decorator'
+  import { any } from '@amcharts/amcharts4/.internal/core/utils/Array'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 
   @Component
   export default class FeeTable extends Vue {
@@ -95,7 +96,7 @@
     
     checkType(typeCheck: string): string {
       const result = typeCheck === 'PENDING' ? 'status status-pending'
-        : (typeCheck === 'FAILED' || typeCheck === 'LOCKED')
+        : (typeCheck === 'FAILED' || typeCheck === 'LOCKED' || typeCheck === 'WAITING' || typeCheck === 'EXPIRED')
         ? 'status status-error'
         : typeCheck === 'PROCESSING'
         ? 'status status-warning'
@@ -184,28 +185,31 @@
       this.$emit('rowClick', row.row)
     }
     handleCapitalize(status: string): string {
-      let result = ''
+      let result: string | any = ''
       switch(status) {
         case 'SUCCESS': 
-          result = 'Success'
+          result = this.$i18n.t('fee.status.success')
           break;
         case 'PENDING':
-          result = 'Pending'
+          result = this.$i18n.t('fee.status.pending')
           break;
         case 'FAILED':
-          result = 'Failed'
-          break;
-        case 'WAITING':
-          result = 'Waiting'
+          result = this.$i18n.t('fee.status.failed')
           break;
         case 'REJECT':
-          result = 'Reject'
+          result =this.$i18n.t('fee.status.reject')
+          break;
+        case 'PROCESSING':
+          result = this.$i18n.t('fee.status.processing')
           break;
         case 'LOCKED':
-          result = 'Locked'
+          result = this.$i18n.t('fee.status.locked')
+          break;
+        case 'WAITING':
+          result =this.$i18n.t('fee.status.waiting')
           break;
         case 'EXPIRED':
-          result = 'Expired'
+          result = this.$i18n.t('fee.status.expired')
           break;
       }
       return result

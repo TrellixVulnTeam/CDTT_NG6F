@@ -16,7 +16,7 @@
             {{ $t(`fee.total-withdraw`) }}
           </span>
           <div>
-            <base-icon icon="icon-download" size="19" />
+            <base-icon icon="icon-download" size="32" />
           </div>
         </div>
         <span class="number2"> {{ withdraw.totalTransactionFee | convertAmountDecimal(withdraw.currency) }} <span class="currency">{{withdraw.currency}} </span>
@@ -30,7 +30,7 @@
         <div class="sack-banlance">
           <span class="text1">{{ $t(`fee.total-transfer`) }} </span>
           <div>
-            <base-icon icon="icon-upload" size="19" />
+            <base-icon icon="icon-upload" size="32" />
           </div>
         </div>
             <span class="number2"> {{ transfer.totalTransactionFee | convertAmountDecimal(transfer.currency) }} <span class="currency">{{transfer.currency}} </span></span>
@@ -40,21 +40,21 @@
         <div class="sack-banlance">
           <span class="text1">{{ $t(`fee.total-trading`) }}</span>
           <div>
-            <base-icon icon="icon-swap-2" size="19" />
+            <base-icon icon="icon-swap-2" size="32" />
           </div>
         </div>
-            <span class="number2"> {{ numOfLyn | formatNumber }} <span class="currency">{{withdraw.currency}} </span></span>
-            <span class="text3">~ ${{ totalLynAvai | formatNumber }} </span>
+            <span class="number2"> {{ numOfLyn | convertAmountDecimal(withdraw.currency) }} <span class="currency">{{withdraw.currency}} </span></span>
+            <span class="text3">~ ${{ totalLynAvai | convertAmountDecimal('USD') }} </span>
       </div>
       <div class="col-width col-margin">
         <div class="sack-banlance">
           <span class="text1"> {{ $t(`fee.total-exchange`) }}</span>
           <div>
-            <base-icon icon="icon-gift" size="19" />
+            <base-icon icon="icon-gift" size="32" />
           </div>
         </div>
-            <span class="number2"> {{ numOfLyn | formatNumber }} <span class="currency">{{withdraw.currency}} </span></span>
-            <span class="text3">~ ${{ totalLynAvai | formatNumber }} </span>
+            <span class="number2"> {{ numOfLyn | convertAmountDecimal(withdraw.currency) }} <span class="currency">{{withdraw.currency}} </span></span>
+            <span class="text3">~ ${{ totalLynAvai | convertAmountDecimal('USD') }} </span>
       </div>
     </div>
     <div class="w-100" style="height: 400px; background-color: white;">
@@ -91,7 +91,7 @@
     </div>
       <!-- test -->
     <!-- <kyc-detail :detailRow="detailRow" @init="init" /> -->
-    <balance-detail :detailRow="detailRow" :data="dataDetail" :tab-active-filter="tabActive" />
+    <!-- <balance-detail :detailRow="detailRow" :data="dataDetail" :tab-active-filter="tabActive" /> -->
     <fee-detail :detail-row="detailRow" :tab-active-filter="tabActive" />
 
   </div>
@@ -122,7 +122,7 @@ import { number } from '@amcharts/amcharts4/core'
     typeActive = {
         typeId: 1,
         title: this.$i18n.t('fee.withdraw'),
-        value: this.$i18n.t('fee.value-withdraw')
+        value: this.$i18n.t('fee.withdraw-value')
       }
     currencyActive = 1
     filterTypes: Array<Record<string, any>> = [
@@ -254,8 +254,8 @@ import { number } from '@amcharts/amcharts4/core'
       //   }
       // })
       this.query.currency = this.tabActive
-      this.query.status = null
-      this.query.transactionType = this.typeActive.title
+      this.query.status = 'SUCCESS'
+      this.query.transactionType = this.typeActive.value
       this.debounceInit()
     }
 
@@ -416,7 +416,7 @@ import { number } from '@amcharts/amcharts4/core'
         ...this.query,
         keywordString: filter.search,
         currency: '',
-        transactionType: this.typeActive.title,
+        transactionType: this.typeActive.value,
         fromDate: filter.fromDate,
         toDate: filter.toDate,
         fromAmount: filter.fromAmount,
