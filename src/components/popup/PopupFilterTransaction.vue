@@ -302,11 +302,11 @@
         label: 'Success',
         value: 'SUCCESS'
       },
-      {
-        id: 3,
-        label: 'Failed',
-        value: 'FAILED'
-      },
+      // {
+      //   id: 3,
+      //   label: 'Failed',
+      //   value: 'FAILED'
+      // },
       // {
       //   id: 4,
       //   label: 'Rejected',
