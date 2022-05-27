@@ -8,7 +8,7 @@
         <div class="icon" :class="checkTypeStatusIcon(detailRow.status)">
           <base-icon :className="'icon-pending'" :icon="checkTypeIcon(detailRow.transactionType, detailRow.status)" size="64" />
         </div>
-        <p :class="checkValueFeeDisplay(detailRow.transactionFee)">{{ detailRow.transactionFee.toFixed(8) }} {{detailRow.currency}}</p>
+        <p :class="checkValueFeeDisplay(detailRow.transactionFee)">{{ detailRow.transactionFee | convertAmountDecimal(detailRow.currency) }} {{detailRow.currency}}</p>
         <p class="usd">~${{ detailRow.transactionFeeToUsd | convertAmountDecimal('USD') }}</p>
       </div>
     </div>
@@ -118,7 +118,12 @@
           return this.$i18n.t('transaction.table.processing')
         case 'REJECTED':
           return this.$i18n.t('transaction.table.rejected')
-
+        case 'LOCKED':
+          return this.$i18n.t('transaction.table.locked')
+        case 'WAITING':
+          return this.$i18n.t('transaction.table.waiting')
+        case 'EXPIRED':
+          return this.$i18n.t('transaction.table.expired')
         default:
           return this.$i18n.t('transaction.table.failed')
       }
@@ -224,9 +229,20 @@
       this.$message.success(message)
     }
 
-    handleRenderTitleDetail(type: string | null | undefined): string {
+    handleRenderTitleDetail(type: string | null | undefined ): any {
       if (type) {
-        return type.replaceAll('_', ' ')
+        let typeCheck = type.replaceAll('_', ' ')
+        switch(typeCheck) {
+          case 'WITHDRAW':
+            return this.$i18n.t('fee.withdraw')
+          case 'TRANSFER':
+            return this.$i18n.t('fee.transfer')
+          case 'TRADING NFT':
+            return this.$i18n.t('fee.trading')
+          case 'EXCHANGE':
+            return this.$i18n.t('fee.exchange')
+        }
+        return typeCheck
       } else return ''
     }
   }
