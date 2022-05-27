@@ -8,7 +8,6 @@
           </div>
         </el-input>
       </div>
-
       <el-popover :value="isVisible" placement="bottom-start" width="518" trigger="click" popper-class="popper-filter-request-withdraw" @show="handleShowPopper">
         <!-- <el-button slot="reference">Click to activate</el-button> -->
         <div class="content">
@@ -24,7 +23,6 @@
               v-model="filter.fromDate"
               value-format="timestamp"
               format="MM/dd/yyyy"
-              clearable
               type="date"
               :placeholder="$t('request.filter.planceOder2')"
               class="box-input-request-date"
@@ -36,7 +34,6 @@
               v-model="filter.toDate"
               value-format="timestamp"
               format="MM/dd/yyyy"
-              clearable
               type="date"
               :placeholder="$t('request.filter.planceOder3')"
               class="box-input-request-date"
@@ -86,7 +83,6 @@
           <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="16" /> <span class="fs-16">{{ $t('crowdsale.filter') }}</span>
         </div>
       </el-popover>
-
       <el-dropdown class="cursor" trigger="click" @command="handleSort">
         <div class="sort be-flex align-center">
           <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="16" class="icon" /> <span class="fs-16">{{ $t('crowdsale.sortBy') }}</span>
@@ -299,12 +295,14 @@ import {Mixins, Component, Watch, Prop} from 'vue-property-decorator'
       }
     }
     async getDataTable(): Promise<void> {
+      this.loadingTable = true
       await api
         .getDataTable({...this.querry, currency: this.tabCoin})
         .then((res: any) => {
           this.loadingTable = false
-          this.dataTable = res.content
-          this.query.total = res.totalElements
+          this.dataTable = res.transactions.content
+          this.query.total = res.transactions.totalElements
+          this.$emit("summary", res.summaryRequest[0])
         })
         .catch(error => {
           console.log(error)
@@ -322,8 +320,28 @@ import {Mixins, Component, Watch, Prop} from 'vue-property-decorator'
       this.getDataTable()
     }
     @Watch('tabCoin')
-    handleChangeTabCoin(): void{
-      this.getDataTable()
+    handleChangeTabCoin(tab: Record<string, any>): void{
+      if(tab) {
+        this.resetQuery();
+        this.handleResetFilter();
+        this.getDataTable()
+      }
+
+    }
+    resetQuery(): void {
+      this.querry = {
+        ...this.querry,
+        currency: '',
+        keywordString: '',
+        limit: 10,
+        page: 1,
+        orderBy: 1,
+        fromDate: '',
+        toDate: '',
+        fromAmount: '',
+        toAmount: '',
+        status: ''
+      }
     }
     handleSort(command: string): void {
       this.sortActive = command
