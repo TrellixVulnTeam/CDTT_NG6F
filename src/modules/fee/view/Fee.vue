@@ -222,24 +222,9 @@ import { number } from '@amcharts/amcharts4/core'
       ]
     }
 
-    // getListBalance(): void {
-    //   console.log('1')
-    // }
-
     created(): void {
       console.log('route', this.$route.path.split('/')[2])
       this.tabActive = this.$route.path.split('/')[2]
-      // apiKyc.getListApprove({ page: 1, limit: 20 }).then(res => {
-      //   this.listApproveBy = res.content || []
-      // })
-      // const name = this.$route.name
-      // this.query.kycStatus = name === 'KycPending' ? 'PENDING' : name === 'KycVerified' ? 'VERIFIED' : 'REJECTED'
-      // this.filterTypes.map((value, i) => {
-      //   if (value.routeName === name) {
-      //     this.query.transactionType = value.title.toUpperCase()
-      //     this.tabActive = value.title
-      //   }
-      // })
       this.query.currency = this.tabActive
       this.query.status = 'SUCCESS'
       this.query.transactionType = this.typeActive.value
@@ -249,8 +234,7 @@ import { number } from '@amcharts/amcharts4/core'
     propdataTable: Record<string, any>[] = []
     
     
-    async init(message: string): Promise<void> {
-      console.log(message)
+    async init(): Promise<void> {
       try {
         this.isLoading = true
         const params = {
@@ -269,7 +253,6 @@ import { number } from '@amcharts/amcharts4/core'
         }
         const result = await api.getListFee('', params)
         this.propdataTable = result.transactions.content
-        console.log([result])
         const summaryWithdraw = result.summary.filter(item => {
           return item.transactionType === 'WITHDRAW'
         })[0]
@@ -284,7 +267,6 @@ import { number } from '@amcharts/amcharts4/core'
           ...summaryTransfer,
           currency: this.propdataTable[0].currency
         }
-        console.log(this.withdraw, this.transfer)
 
         this.query.total = result.transactions.totalElements
         this.isLoading = false
@@ -305,16 +287,7 @@ import { number } from '@amcharts/amcharts4/core'
       this.query.orderBy = 1
       this.query.transactionType = Type.value
 
-      // let refs: any = this.$refs['popup-filter']
-      // if (refs) {
-      //   refs.handleReset()
-      // }
-      // let refs2: any = this.$refs['filter']
-      // if (refs2) {
-      //   refs2.handleReset()
-      // }
-
-      this.init('changeType')
+      this.init()
       this.isChanged = true
     }
     
@@ -326,41 +299,16 @@ import { number } from '@amcharts/amcharts4/core'
       }
       this.resetQuery()
       this.$router.push({ name: tab.routeName })
-      // this.query.tabBalance = this.kycStatus[tab.title]
       this.tabActive = tab.title
       this.query.currency = tab.title
       this.query.page = 1
       this.query.limit = 10
       this.query.orderBy = 1
-      // this.query.transactionType = tab.title.toUpperCase()
-      // let refs: any = this.$refs['popup-filter']
-      // if (refs) {
-      //   refs.handleReset()
-      // }
-      // let refs2: any = this.$refs['filter']
-      // if (refs2) {
-      //   refs2.handleReset()
-      // }
 
-      this.init('changeTab')
+      this.init()
       this.isChanged = true
-      // EventBus.$emit('selectTabBalance')
     }
 
-    // destroyed(): void {
-    //   EventBus.$off('selectTabBalance')
-    //   EventBus.$off('changeTab')
-    // }
-
-    // resetQuery(): void {
-    //   this.query = {
-    //     ...this.query,
-    //     page: 1,
-    //     limit: 10,
-    //     search: '',
-    //     orderBy: 3
-    //   }
-    // }
     resetQuery(): void {
       this.query = {
         ...this.query,
@@ -377,17 +325,14 @@ import { number } from '@amcharts/amcharts4/core'
         bonusType: null
       }
     }
-    // handleFilter(filters: any): void {
-    //   console.log(filters)
-    // } 
     handlePageChange(page: number): void {
       this.query.page = page
-      this.init('PageChange')
+      this.init()
     }
 
     handleSizeChange(limit: number): void {
       this.query.limit = limit
-      this.init('changeSize')
+      this.init()
     }
 
     handleRowClick(row: Record<string, any>): void {
@@ -399,7 +344,6 @@ import { number } from '@amcharts/amcharts4/core'
     }
 
     handleFilter(filter: Record<string, any>): void {
-      console.log('416', filter)
       this.query = {
         ...this.query,
         keywordString: filter.search,
@@ -421,10 +365,9 @@ import { number } from '@amcharts/amcharts4/core'
     }
 
     debounceInit = debounce(() => {
-      this.init('debouce 424')
+      this.init()
     }, 300)
     handleNormalize():void {
-      console.log('heard')
       this.isChanged = false
     }
   }
@@ -506,8 +449,6 @@ import { number } from '@amcharts/amcharts4/core'
   }
 
   .text1 {
-    // margin-top: 16px;
-    // margin-left: 18px;
     font-weight: 400;
     font-size: 16px;
     line-height: 28px;
@@ -517,8 +458,6 @@ import { number } from '@amcharts/amcharts4/core'
   .number2 {
     width: 100%;
     margin: 8px 0;
-    //margin-left: 18px;
-    //margin-right: 18px;
     font-weight: 600;
     font-size: 24px;
     line-height: 24px;

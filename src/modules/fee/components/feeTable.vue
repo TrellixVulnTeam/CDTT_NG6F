@@ -11,13 +11,6 @@
         class="base-table table-wallet"
       >
         <el-table-column label="#" type="index" :index="indexMethod" align="center" width="80" />
-        <!-- <el-table-column :label="$t('kyc.table.fullName')" min-width="200">
-          <template slot-scope="scope">
-            <div class="be-flex align-center">
-              <span class="d-ib mr-2">{{ scope.row.fullName + '&nbsp;' + scope.row.lastName }}</span>
-            </div>
-          </template>
-        </el-table-column> -->
         <el-table-column :label="$t('transaction.table.trans-id')">
           <template slot-scope="scope">
             <div class="be-flex align-center">
@@ -124,21 +117,6 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
           return this.$t('status.rejected')
       }
     }
-    // checkTransactionStatus(status: string): any {
-    //   switch (status) {
-    //     case 'SUCCESS':
-    //       return this.$i18n.t('transaction.table.succsess')
-    //     case 'PENDING':
-    //       return this.$i18n.t('transaction.table.pending')
-    //     case 'PROCESSING':
-    //       return this.$i18n.t('transaction.table.processing')
-    //     case 'REJECTED':
-    //       return this.$i18n.t('transaction.table.rejected')
-
-    //     default:
-    //       return this.$i18n.t('transaction.table.failed')
-    //   }
-    // }
      checkValueAmountDisplay(value: string | null): string {
       if (value) {
         if (value.indexOf('+') !== -1) {
@@ -167,7 +145,6 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
       document.body.removeChild(el)
       message = this.$t('notify.copy')
       this.$message.success(message)
-      console.log('166',row)
     }
     indexMethod(index: number): number {
       return (this.query.page - 1) * this.query.limit + index + 1
@@ -177,7 +154,6 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
       this.$emit('sizeChange', value)
     }
     handleCurrentChange(value: number): void {
-      console.log('change page')
       this.$emit('pageChange', value)
     }
 
@@ -196,7 +172,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
         case 'FAILED':
           result = this.$i18n.t('fee.status.failed')
           break;
-        case 'REJECT':
+        case 'REJECTED':
           result =this.$i18n.t('fee.status.reject')
           break;
         case 'PROCESSING':

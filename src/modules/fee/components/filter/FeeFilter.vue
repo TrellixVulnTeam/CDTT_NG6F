@@ -130,12 +130,10 @@
         this.handleReset()
         this.sortActive = '1'
         this.isChanged = true
-        console.log('delete Cache', this.reseted)
         this.$emit('reseted')
       }
     }
     searchText = debounce((value: string) => {
-      console.log('138..........', value)
       this.$emit('filterFee', {
         ...this.filterFee,
         search: trim(value)
@@ -179,9 +177,7 @@
         ...filtersData,
         orderBy: this.filterFee.orderBy
       }
-      console.log('183.................')
       this.$emit('filterFee', filterFee)
-      console.log('255 filter fee',[filtersData])
       this.filterFee = filterFee
     }
     handleOpen():void {
@@ -214,7 +210,6 @@
       this.sortActive = command
       this.filterFee.orderBy = command
       this.$emit('filterFee', this.filterFee)
-      console.log('1')
     }
 
 
@@ -233,7 +228,6 @@
       this.isVisible = false
     }
     handleNormalize():void {
-      console.log('heard 359')
       this.isChanged = false
     }
   }
