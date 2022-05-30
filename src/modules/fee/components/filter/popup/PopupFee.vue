@@ -206,29 +206,27 @@
         }
       }
     }
-
-    @Watch('resetFilter') handleDeleteCache(value: Record<string, any>): void {
-      if(this.resetFilter.deleteCache === true)
-      {
-        this.handleReset()
-        
-        console.log('215 delete Cache')
-        this.$emit('filterReseted')
-
-      }
-    }
-
     disableTime(time: Date, type: string): any {
       if (type === 'from-to') {
         if (this.popup_data.content.date.input.value1) {
           return time.getTime() / 1000 < new Date(this.popup_data.content.date.input.value1).getTime() / 1000 - 7 * 60 * 60
         }
       } else {
-        if (this.popup_data.content.date.input.value1) {
-          return time.getTime() / 1000 > new Date(this.popup_data.content.date.input.value1).getTime() / 1000
+        if (this.popup_data.content.date.input.value2) {
+          return time.getTime() / 1000 > new Date(this.popup_data.content.date.input.value2).getTime() / 1000
         }
       }
     }
+
+    @Watch('resetFilter') handleDeleteCache(value: Record<string, any>): void {
+      if(this.resetFilter.deleteCache === true)
+      {
+        this.handleReset()
+        this.$emit('filterReseted')
+
+      }
+    }
+
 
     onlyNumber(event: KeyboardEvent): void {
       let keyCode = event.keyCode ? event.keyCode : event.which
@@ -241,13 +239,10 @@
         checkValid(field: string): boolean {
           let to = parseFloat(this.popup_data.content[field].input.value2.replaceAll(',', ''))
           let from = parseFloat(this.popup_data.content[field].input.value1.replaceAll(',', ''))
-          console.log('check', typeof from, to)
           if (from > to) {
             this.error[field] = field
-            console.log('greater', [this.error])
             return false
           } else {
-            console.log('failed', [this.error])
             this.error[field] = ''
             return true
           }
@@ -281,16 +276,23 @@
       })
     }
     handleFilters():void {
+        let fromDate = ''
+        let toDate = ''
+        if (this.popup_data.content.date.input.value1) {
+          fromDate = this.$options.filters?.formatReferral(this.popup_data.content.date.input.value1)
+        }
+        if (this.popup_data.content.date.input.value2) {
+          toDate = this.$options.filters?.formatReferral(this.popup_data.content.date.input.value2 + 86399000)
+        }
         const filters = {
-            fromDate : this.$options.filters?.formatReferral(this.popup_data.content.date.input.value1),
-            toDate : this.$options.filters?.formatReferral(this.popup_data.content.date.input.value2),
+            fromDate : fromDate,
+            toDate : toDate,
             fromAmount: this.popup_data.content.amount.input.value1,
             toAmount: this.popup_data.content.amount.input.value2,
             fromFee: this.popup_data.content.fee.input.value1,
             toFee: this.popup_data.content.fee.input.value2,
             status: this.popup_data.content.status.value === '' ? null : this.popup_data.content.status.value
         }
-        console.log('288', filters)
         this.$emit('feeFilterBark', filters)
         this.handleClose()
     }

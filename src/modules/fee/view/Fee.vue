@@ -1,4 +1,5 @@
 <template>
+<div class="fee">
   <div class="w-100 bo-kyc">
     <div class="bg-white wallet-header">
       <div class="be-flex align-center jc-space-between wallet-header__above">
@@ -57,31 +58,30 @@
             <span class="text3">~ ${{ totalLynAvai | convertAmountDecimal('USD') }} </span>
       </div>
     </div>
-    <div class="w-100" style="height: 400px; background-color: white;">
-        <div class="w-100 filter-header">
-          <span class="filter-type cursor" v-for="type in filterTypes" :key="type.typeId"
-          :class="typeActive.typeId === type.typeId ? 'tab-active' : null" @click="handleChangeType(type)"
-          >
-            {{type.title}}
-          </span>
-        </div>
-        <div class="w-100" style="background-color: red;">
-
-          <fee-filter @filterFee="handleFilter($event)" @reseted="handleNormalize" :reseted="{deleteCache: isChanged}"/>
-          <fee-table 
-            v-loading="isLoading"
-            @rowClick="handleRowClick"
-            @sizeChange="handleSizeChange"
-            @pageChange="handlePageChange"
-            :query="query"
-            :propTabActive="tabActive"
-            :data="propdataTable"
-          />
-        </div>
-    </div>
-    <fee-detail :detail-row="detailRow" :tab-active-filter="tabActive" />
-
   </div>
+  <div class="w-100 box-shadow" style="height: auto; background-color: white;">
+          <div class="w-100 filter-header">
+            <span class="filter-type cursor" v-for="type in filterTypes" :key="type.typeId"
+            :class="typeActive.typeId === type.typeId ? 'tab-active' : null" @click="handleChangeType(type)"
+            >
+              {{type.title}}
+            </span>
+          </div>
+          <div class="w-100" style="background-color: red;">
+            <fee-filter @filterFee="handleFilter($event)" @reseted="handleNormalize" :reseted="{deleteCache: isChanged}"/>
+            <fee-table 
+              v-loading="isLoading"
+              @rowClick="handleRowClick"
+              @sizeChange="handleSizeChange"
+              @pageChange="handlePageChange"
+              :query="query"
+              :propTabActive="tabActive"
+              :data="propdataTable"/>
+          </div>
+  </div>
+  <fee-detail :detail-row="detailRow" :tab-active-filter="tabActive" />
+</div>
+
 </template>
 
 <script lang="ts">
@@ -222,24 +222,9 @@ import { number } from '@amcharts/amcharts4/core'
       ]
     }
 
-    // getListBalance(): void {
-    //   console.log('1')
-    // }
-
     created(): void {
       console.log('route', this.$route.path.split('/')[2])
       this.tabActive = this.$route.path.split('/')[2]
-      // apiKyc.getListApprove({ page: 1, limit: 20 }).then(res => {
-      //   this.listApproveBy = res.content || []
-      // })
-      // const name = this.$route.name
-      // this.query.kycStatus = name === 'KycPending' ? 'PENDING' : name === 'KycVerified' ? 'VERIFIED' : 'REJECTED'
-      // this.filterTypes.map((value, i) => {
-      //   if (value.routeName === name) {
-      //     this.query.transactionType = value.title.toUpperCase()
-      //     this.tabActive = value.title
-      //   }
-      // })
       this.query.currency = this.tabActive
       this.query.status = 'SUCCESS'
       this.query.transactionType = this.typeActive.value
@@ -249,8 +234,7 @@ import { number } from '@amcharts/amcharts4/core'
     propdataTable: Record<string, any>[] = []
     
     
-    async init(message: string): Promise<void> {
-      console.log(message)
+    async init(): Promise<void> {
       try {
         this.isLoading = true
         const params = {
@@ -269,7 +253,6 @@ import { number } from '@amcharts/amcharts4/core'
         }
         const result = await api.getListFee('', params)
         this.propdataTable = result.transactions.content
-        console.log([result])
         const summaryWithdraw = result.summary.filter(item => {
           return item.transactionType === 'WITHDRAW'
         })[0]
@@ -284,7 +267,6 @@ import { number } from '@amcharts/amcharts4/core'
           ...summaryTransfer,
           currency: this.propdataTable[0].currency
         }
-        console.log(this.withdraw, this.transfer)
 
         this.query.total = result.transactions.totalElements
         this.isLoading = false
@@ -305,16 +287,7 @@ import { number } from '@amcharts/amcharts4/core'
       this.query.orderBy = 1
       this.query.transactionType = Type.value
 
-      // let refs: any = this.$refs['popup-filter']
-      // if (refs) {
-      //   refs.handleReset()
-      // }
-      // let refs2: any = this.$refs['filter']
-      // if (refs2) {
-      //   refs2.handleReset()
-      // }
-
-      this.init('changeType')
+      this.init()
       this.isChanged = true
     }
     
@@ -326,41 +299,16 @@ import { number } from '@amcharts/amcharts4/core'
       }
       this.resetQuery()
       this.$router.push({ name: tab.routeName })
-      // this.query.tabBalance = this.kycStatus[tab.title]
       this.tabActive = tab.title
       this.query.currency = tab.title
       this.query.page = 1
       this.query.limit = 10
       this.query.orderBy = 1
-      // this.query.transactionType = tab.title.toUpperCase()
-      // let refs: any = this.$refs['popup-filter']
-      // if (refs) {
-      //   refs.handleReset()
-      // }
-      // let refs2: any = this.$refs['filter']
-      // if (refs2) {
-      //   refs2.handleReset()
-      // }
 
-      this.init('changeTab')
+      this.init()
       this.isChanged = true
-      // EventBus.$emit('selectTabBalance')
     }
 
-    // destroyed(): void {
-    //   EventBus.$off('selectTabBalance')
-    //   EventBus.$off('changeTab')
-    // }
-
-    // resetQuery(): void {
-    //   this.query = {
-    //     ...this.query,
-    //     page: 1,
-    //     limit: 10,
-    //     search: '',
-    //     orderBy: 3
-    //   }
-    // }
     resetQuery(): void {
       this.query = {
         ...this.query,
@@ -377,17 +325,14 @@ import { number } from '@amcharts/amcharts4/core'
         bonusType: null
       }
     }
-    // handleFilter(filters: any): void {
-    //   console.log(filters)
-    // } 
     handlePageChange(page: number): void {
       this.query.page = page
-      this.init('PageChange')
+      this.init()
     }
 
     handleSizeChange(limit: number): void {
       this.query.limit = limit
-      this.init('changeSize')
+      this.init()
     }
 
     handleRowClick(row: Record<string, any>): void {
@@ -399,7 +344,6 @@ import { number } from '@amcharts/amcharts4/core'
     }
 
     handleFilter(filter: Record<string, any>): void {
-      console.log('416', filter)
       this.query = {
         ...this.query,
         keywordString: filter.search,
@@ -421,10 +365,9 @@ import { number } from '@amcharts/amcharts4/core'
     }
 
     debounceInit = debounce(() => {
-      this.init('debouce')
+      this.init()
     }, 300)
     handleNormalize():void {
-      console.log('heard')
       this.isChanged = false
     }
   }
@@ -493,7 +436,7 @@ import { number } from '@amcharts/amcharts4/core'
     border-radius: 8px !important;
     border: 1px solid #dbdbdb !important;
     box-sizing: border-box !important;
-    padding: 0 16px !important;
+    padding: 16px !important;
     display: flex !important;
     flex-direction: column;
     justify-content: space-between;
@@ -506,19 +449,15 @@ import { number } from '@amcharts/amcharts4/core'
   }
 
   .text1 {
-    // margin-top: 16px;
-    // margin-left: 18px;
     font-weight: 400;
     font-size: 16px;
-    line-height: 24px;
+    line-height: 28px;
     color: var(--bc-text-discript);
   }
 
   .number2 {
     width: 100%;
-    margin-top: 8px;
-    //margin-left: 18px;
-    //margin-right: 18px;
+    margin: 8px 0;
     font-weight: 600;
     font-size: 24px;
     line-height: 24px;
@@ -528,11 +467,8 @@ import { number } from '@amcharts/amcharts4/core'
 
   .text3 {
     font-size: 14px;
-    line-height: 20px;
+    line-height: 19.2px;
     font-weight: 400;
-    margin-top: 6px;
-    //margin-left: 18px;
-    margin-bottom: 16px;
     color: var(--bc-text-discript);
   }
 
@@ -638,6 +574,11 @@ import { number } from '@amcharts/amcharts4/core'
     display: flex;
     justify-content: space-between;
     padding: 24px;
-    background-color: transparent;
+    background-color: var(--bc-color-white);
+    margin-bottom: 24px;
+    border-radius: 4px;
+  }
+  .box-shadow {
+    box-shadow: 0px 0.3px 0.9px rgb(0 0 0 / 10%), 0px 1.6px 3.6px rgb(0 0 0 / 13%);
   }
 </style>
