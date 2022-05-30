@@ -1,4 +1,5 @@
 <template>
+<div class="fee">
   <div class="w-100 bo-kyc">
     <div class="bg-white wallet-header">
       <div class="be-flex align-center jc-space-between wallet-header__above">
@@ -57,31 +58,30 @@
             <span class="text3">~ ${{ totalLynAvai | convertAmountDecimal('USD') }} </span>
       </div>
     </div>
-    <div class="w-100" style="height: 400px; background-color: white;">
-        <div class="w-100 filter-header">
-          <span class="filter-type cursor" v-for="type in filterTypes" :key="type.typeId"
-          :class="typeActive.typeId === type.typeId ? 'tab-active' : null" @click="handleChangeType(type)"
-          >
-            {{type.title}}
-          </span>
-        </div>
-        <div class="w-100" style="background-color: red;">
-
-          <fee-filter @filterFee="handleFilter($event)" @reseted="handleNormalize" :reseted="{deleteCache: isChanged}"/>
-          <fee-table 
-            v-loading="isLoading"
-            @rowClick="handleRowClick"
-            @sizeChange="handleSizeChange"
-            @pageChange="handlePageChange"
-            :query="query"
-            :propTabActive="tabActive"
-            :data="propdataTable"
-          />
-        </div>
-    </div>
-    <fee-detail :detail-row="detailRow" :tab-active-filter="tabActive" />
-
   </div>
+  <div class="w-100 box-shadow" style="height: auto; background-color: white;">
+          <div class="w-100 filter-header">
+            <span class="filter-type cursor" v-for="type in filterTypes" :key="type.typeId"
+            :class="typeActive.typeId === type.typeId ? 'tab-active' : null" @click="handleChangeType(type)"
+            >
+              {{type.title}}
+            </span>
+          </div>
+          <div class="w-100" style="background-color: red;">
+            <fee-filter @filterFee="handleFilter($event)" @reseted="handleNormalize" :reseted="{deleteCache: isChanged}"/>
+            <fee-table 
+              v-loading="isLoading"
+              @rowClick="handleRowClick"
+              @sizeChange="handleSizeChange"
+              @pageChange="handlePageChange"
+              :query="query"
+              :propTabActive="tabActive"
+              :data="propdataTable"/>
+          </div>
+  </div>
+  <fee-detail :detail-row="detailRow" :tab-active-filter="tabActive" />
+</div>
+
 </template>
 
 <script lang="ts">
@@ -421,7 +421,7 @@ import { number } from '@amcharts/amcharts4/core'
     }
 
     debounceInit = debounce(() => {
-      this.init('debouce')
+      this.init('debouce 424')
     }, 300)
     handleNormalize():void {
       console.log('heard')
@@ -493,7 +493,7 @@ import { number } from '@amcharts/amcharts4/core'
     border-radius: 8px !important;
     border: 1px solid #dbdbdb !important;
     box-sizing: border-box !important;
-    padding: 0 16px !important;
+    padding: 16px !important;
     display: flex !important;
     flex-direction: column;
     justify-content: space-between;
@@ -510,13 +510,13 @@ import { number } from '@amcharts/amcharts4/core'
     // margin-left: 18px;
     font-weight: 400;
     font-size: 16px;
-    line-height: 24px;
+    line-height: 28px;
     color: var(--bc-text-discript);
   }
 
   .number2 {
     width: 100%;
-    margin-top: 8px;
+    margin: 8px 0;
     //margin-left: 18px;
     //margin-right: 18px;
     font-weight: 600;
@@ -528,11 +528,8 @@ import { number } from '@amcharts/amcharts4/core'
 
   .text3 {
     font-size: 14px;
-    line-height: 20px;
+    line-height: 19.2px;
     font-weight: 400;
-    margin-top: 6px;
-    //margin-left: 18px;
-    margin-bottom: 16px;
     color: var(--bc-text-discript);
   }
 
@@ -638,6 +635,11 @@ import { number } from '@amcharts/amcharts4/core'
     display: flex;
     justify-content: space-between;
     padding: 24px;
-    background-color: transparent;
+    background-color: var(--bc-color-white);
+    margin-bottom: 24px;
+    border-radius: 4px;
+  }
+  .box-shadow {
+    box-shadow: 0px 0.3px 0.9px rgb(0 0 0 / 10%), 0px 1.6px 3.6px rgb(0 0 0 / 13%);
   }
 </style>

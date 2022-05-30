@@ -135,6 +135,7 @@
       }
     }
     searchText = debounce((value: string) => {
+      console.log('138..........', value)
       this.$emit('filterFee', {
         ...this.filterFee,
         search: trim(value)
@@ -173,14 +174,15 @@
       // EventBus.$off('changeTab')
     }
     handleCatchBark(filtersData: any):void {
-      this.filterFee = filtersData
       const filterFee = {
         search: this.filterFee.search,
         ...filtersData,
         orderBy: this.filterFee.orderBy
       }
+      console.log('183.................')
       this.$emit('filterFee', filterFee)
       console.log('255 filter fee',[filtersData])
+      this.filterFee = filterFee
     }
     handleOpen():void {
       this.setOpenPopup({
