@@ -208,6 +208,10 @@ export const ROLE_DEFINE: UserRoleInterface[] = [
       {
         module: 'setting',
         roles: []
+      },
+      {
+        module: 'fee',
+        roles: []
       }
     ]
   },
@@ -252,6 +256,10 @@ export const ROLE_DEFINE: UserRoleInterface[] = [
       },
       {
         module: 'setting',
+        roles: []
+      },
+      {
+        module: 'fee',
         roles: []
       }
     ]

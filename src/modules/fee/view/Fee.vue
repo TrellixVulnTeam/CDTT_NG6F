@@ -20,10 +20,10 @@
             <base-icon icon="icon-download" size="24" />
           </div>
         </div>
-        <span class="number2"> {{ withdraw.totalTransactionFee | convertAmountDecimal(withdraw.currency) }} <span class="currency">{{withdraw.currency}} </span>
+        <span class="number2"> {{ withdraw.totalTransactionFee   | convertAmountDecimal(withdraw.currency) }} <span class="currency">{{withdraw.currency}} </span>
         </span>
         <div>
-          <span class="text3">~ ${{ withdraw.totalTransactionFeeUsd | convertAmountDecimal('USD') }}</span>
+          <span class="text3">~ ${{ withdraw.totalTransactionFeeUsd  | convertAmountDecimal('USD') }}</span>
         </div>
       </div>
 
@@ -258,14 +258,14 @@ import { number } from '@amcharts/amcharts4/core'
         })[0]
         this.withdraw = {
           ...summaryWithdraw,
-          currency: this.propdataTable[0].currency
+          currency: this.tabActive
         }
         const summaryTransfer = result.summary.filter(item => {
           return item.transactionType === 'TRANSFER'
         })[0]
         this.transfer = {
           ...summaryTransfer,
-          currency: this.propdataTable[0].currency
+          currency: this.tabActive
         }
 
         this.query.total = result.transactions.totalElements
@@ -280,15 +280,14 @@ import { number } from '@amcharts/amcharts4/core'
     handleChangeType(Type: any): void {
       this.typeActive = Type
       this.resetQuery()
-      // this.query.tabBalance = this.kycStatus[tab.title]
       this.query.currency = this.tabActive
       this.query.page = 1
       this.query.limit = 10
       this.query.orderBy = 1
       this.query.transactionType = Type.value
-
       this.init()
       this.isChanged = true
+      console.log('290............')
     }
     
     handleChangeTab(tab: Record<string, any>): void {
@@ -322,6 +321,8 @@ import { number } from '@amcharts/amcharts4/core'
         toDate: null,
         fromAmount: null,
         toAmount: null,
+        fromTransactionFee: null,
+        toTransactionFee: null,
         bonusType: null
       }
     }
@@ -344,6 +345,7 @@ import { number } from '@amcharts/amcharts4/core'
     }
 
     handleFilter(filter: Record<string, any>): void {
+      console.log('346.........')
       this.query = {
         ...this.query,
         keywordString: filter.search,
