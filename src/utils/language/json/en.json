@@ -569,6 +569,8 @@
       "processing": "Processing",
       "failed": "Failed",
       "rejected": "Rejected",
+      "expired": "Expired",
+      "waiting":"Waiting",
       "sell": "Sell",
       "bonus-sign-up": "Bonus sign up",
       "bonus-crowdsale": "Bonus crowdsale",
