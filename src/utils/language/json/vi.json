@@ -539,6 +539,8 @@
       "processing": "Đang xử lý",
       "failed": "Thất bại",
       "rejected": "Từ chối",
+      "expired": "Hết hạn",
+      "waiting":"Đang chờ",
       "sell": "Bán",
       "bonus-sign-up": "Thưởng đăng ký",
       "bonus-crowdsale": "Thưởng crowdsale",

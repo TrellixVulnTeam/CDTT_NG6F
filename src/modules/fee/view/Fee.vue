@@ -16,7 +16,7 @@
             {{ $t(`fee.total-withdraw`) }}
           </span>
           <div>
-            <base-icon icon="icon-download" size="32" />
+            <base-icon icon="icon-download" size="24" />
           </div>
         </div>
         <span class="number2"> {{ withdraw.totalTransactionFee | convertAmountDecimal(withdraw.currency) }} <span class="currency">{{withdraw.currency}} </span>
@@ -30,7 +30,7 @@
         <div class="sack-banlance">
           <span class="text1">{{ $t(`fee.total-transfer`) }} </span>
           <div>
-            <base-icon icon="icon-upload" size="32" />
+            <base-icon icon="icon-upload" size="24" />
           </div>
         </div>
             <span class="number2"> {{ transfer.totalTransactionFee | convertAmountDecimal(transfer.currency) }} <span class="currency">{{transfer.currency}} </span></span>
@@ -40,7 +40,7 @@
         <div class="sack-banlance">
           <span class="text1">{{ $t(`fee.total-trading`) }}</span>
           <div>
-            <base-icon icon="icon-swap-2" size="32" />
+            <base-icon icon="icon-swap-2" size="24" />
           </div>
         </div>
             <span class="number2"> {{ numOfLyn | convertAmountDecimal(withdraw.currency) }} <span class="currency">{{withdraw.currency}} </span></span>
@@ -50,7 +50,7 @@
         <div class="sack-banlance">
           <span class="text1"> {{ $t(`fee.total-exchange`) }}</span>
           <div>
-            <base-icon icon="icon-gift" size="32" />
+            <base-icon icon="icon-gift" size="24" />
           </div>
         </div>
             <span class="number2"> {{ numOfLyn | convertAmountDecimal(withdraw.currency) }} <span class="currency">{{withdraw.currency}} </span></span>
@@ -67,17 +67,7 @@
         </div>
         <div class="w-100" style="background-color: red;">
 
-          <!-- <balance-filter @filterBalance="handleFilter" :listApproveBy="listApproveBy" /> -->
           <fee-filter @filterFee="handleFilter($event)" @reseted="handleNormalize" :reseted="{deleteCache: isChanged}"/>
-          <!-- <balance-table
-            v-loading="isLoading"
-            @rowClick="handleRowClick"
-            @sizeChange="handleSizeChange"
-            @pageChange="handlePageChange"
-            :query="query"
-            :propTabActive="tabActive"
-            :data="propdataTable"
-          /> -->
           <fee-table 
             v-loading="isLoading"
             @rowClick="handleRowClick"
@@ -89,9 +79,6 @@
           />
         </div>
     </div>
-      <!-- test -->
-    <!-- <kyc-detail :detailRow="detailRow" @init="init" /> -->
-    <!-- <balance-detail :detailRow="detailRow" :data="dataDetail" :tab-active-filter="tabActive" /> -->
     <fee-detail :detail-row="detailRow" :tab-active-filter="tabActive" />
 
   </div>
@@ -317,6 +304,7 @@ import { number } from '@amcharts/amcharts4/core'
       this.query.limit = 10
       this.query.orderBy = 1
       this.query.transactionType = Type.value
+
       // let refs: any = this.$refs['popup-filter']
       // if (refs) {
       //   refs.handleReset()
@@ -381,7 +369,7 @@ import { number } from '@amcharts/amcharts4/core'
         orderBy: '1',
         keywordString: null,
         currency: null,
-        status: null,
+        status: 'SUCCESS',
         fromDate: null,
         toDate: null,
         fromAmount: null,
@@ -411,7 +399,7 @@ import { number } from '@amcharts/amcharts4/core'
     }
 
     handleFilter(filter: Record<string, any>): void {
-      console.log(filter)
+      console.log('416', filter)
       this.query = {
         ...this.query,
         keywordString: filter.search,

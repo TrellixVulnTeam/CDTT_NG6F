@@ -132,7 +132,7 @@
     checkType(type: string): string {
       return type === 'PENDING'
         ? 'status status-pending'
-        : (type === 'FAILED' || type === 'LOCKED')
+        : (type === 'FAILED' || type === 'LOCKED' || type === 'EXPIRED' || type === 'WAITING')
         ? 'status status-error'
         : type === 'PROCESSING'
         ? 'status status-warning'
