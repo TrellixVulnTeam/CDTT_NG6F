@@ -263,6 +263,14 @@
         }
         const result = await api.getListFee('', params)
         this.propdataTable = result.transactions.content
+        if(this.propdataTable.length > 0) {
+            this.propdataTable = this.propdataTable.map(
+            (item) => {
+              item.status = this.query.status
+              return item
+            }
+          )
+        }
         const summaryWithdraw = result.summary.filter(item => {
           return item.transactionType === 'WITHDRAW'
         })[0]
@@ -287,7 +295,6 @@
     }
 
     handleChangeType(Type: any): void {
-      this.typeActive = Type
       this.resetQuery()
       this.query.currency = this.tabActive
       this.query.page = 1
@@ -295,6 +302,7 @@
       this.query.orderBy = 1
       this.query.transactionType = Type.value
       this.init()
+      this.typeActive = Type
       this.isChanged = true
       console.log('290............')
     }
@@ -312,7 +320,7 @@
       this.query.page = 1
       this.query.limit = 10
       this.query.orderBy = 1
-
+      this.query.transactionType = this.typeActive.value
       this.init()
       this.isChanged = true
     }
