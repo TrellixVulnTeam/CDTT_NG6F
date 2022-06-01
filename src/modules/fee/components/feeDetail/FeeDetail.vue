@@ -42,7 +42,7 @@
         <div class="be-flex align-center">
           <base-icon :icon="renderIconCurrency(detailRow.currency)" size="20" />
           <p class="text-detail-2" style="margin-left: 8px">
-            <span v-if="detailRow.toAddress.length > 25">
+            <span v-if="detailRow.toAddress !== undefined && (detailRow.toAddress.length > 25)">
               {{ detailRow.toAddress | formatTransactionCode(10) }}
             </span>
             <span v-else>
@@ -162,14 +162,14 @@
           } 
           else 
           {
-            return type === 'WITHDRAW' ? 'icon-deposit-pending' : type === 'TRANSFER' ? 'icon-withdraw-pending' : 'icon-transfer-pending'
+            return type === 'WITHDRAW' ? 'icon-withdraw-pending' : type === 'TRANSFER' ?  'icon-transfer-pending' : ''
           } 
         } else if (type.indexOf('BONUS') !== -1) {
           return `icon-bonus-success`
         } 
         else 
         {
-            return type === 'WITHDRAW' ? 'icon-deposit-success' : type === 'TRANSFER' ? 'icon-withdraw-success' : 'icon-transfer-success'
+            return type === 'WITHDRAW' ? 'icon-withdraw-success' : type === 'TRANSFER' ? 'icon-transfer-success' : ''
         }
       } else return ''
     }
@@ -250,6 +250,10 @@
 
 <style scoped lang="scss">
   .popup-fee-detail {
+    .popup-content {
+      background-color: #F6F8FC;
+    }
+    
     .add {
       color: #129961 !important;
     }

@@ -110,7 +110,7 @@
     // @bcKyc.State('listReason') listReason!: Array<Record<string, any>>
     // checkList = []
     // reason = ''
-    // isLoading = false
+    isLoading = false
     // isStopDbClick = false
     //begin
   @Prop({ required: true, type: Object, default: [] }) resetFilter!: Record<string, any>
