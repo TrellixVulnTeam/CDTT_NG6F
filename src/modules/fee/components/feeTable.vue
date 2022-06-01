@@ -14,39 +14,38 @@
         <el-table-column :label="$t('transaction.table.trans-id')">
           <template slot-scope="scope">
             <div class="be-flex align-center">
-              <span v-if="type === 'customer'" class="d-ib mr-2">{{ scope.row.transactionHash | formatTransactionCode(6) }}</span>
-              <span v-else class="transaction-code d-ib mr-2"
-              style="width: 124px;">{{ scope.row.transactionHash | formatTransactionCode(6) }}</span>
+              <!-- <span v-if="type === 'customer'" class="d-ib mr-2">{{ scope.row.transactionHash | formatTransactionCode(6) }}</span> -->
+              <span class="transaction-code d-ib mr-2">{{ scope.row.transactionHash | formatTransactionCode(10) }}</span>
               <span v-if="scope.row.transactionHash" class="icon-copy" @click.stop="handleCopyTransaction(scope.row)" ref="buttonCopy">
                 <base-icon icon="icon-copy" size="24" />
               </span>
             </div>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('transaction.table.date')" prop="transactionDate" :width="type !== 'customer' ? 220 : 200">
+        <el-table-column :label="$t('transaction.table.date')" prop="transactionDate" :width="220">
           <template slot-scope="scope">
             <span>{{ scope.row.transactionMillisecond | formatMMDDYY }}</span>
           </template>
         </el-table-column>
 
-        <el-table-column v-if="type !== 'customer'" :label="$t('transaction.table.CUSTOMER')" width="260">
+        <el-table-column  :label="$t('transaction.table.CUSTOMER')" width="260">
           <template slot-scope="scope">
             <div class="customer">
               <p>{{ scope.row.fullName }}</p>
-              <p>{{ scope.row.email }}</p>
+              <p style="font-size: 14px; color: #5b616e; line-height: 20px;">{{ scope.row.email }}</p>
             </div>
           </template>
         </el-table-column>
         
-        <el-table-column :label="$t('transaction.table.status')" :width="type !== 'customer' ? 144 : 120" align="center">
+        <el-table-column :label="$t('transaction.table.status')" :width="144" align="center">
           <template slot-scope="scope">
             <span class="text-xs" :class="checkType(scope.row.status)" style="text-transform: capitalize;">{{ handleCapitalize(scope.row.status) }}</span>
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('fee.table.fee')" align="right" :width="type !== 'customer' ? 200 : 190" prop="transactionFee">
+        <el-table-column :label="$t('fee.table.fee')" align="right" :width="200" prop="transactionFee">
           <template slot-scope="scope">
-            <div v-if="type === 'customer'">
+            <!-- <div v-if="type === 'customer'">
               <div v-if="scope.row.creditAmount" class="amount-increase">
                 <span>+{{ scope.row.creditAmount | convertAmountDecimal(scope.row.creditCurrency) }} {{ scope.row.creditCurrency }}</span>
                 <span class="d-block amount-exchange-small">~${{ (scope.row.creditAmount * scope.row.creditUsdExchangeRate) | convertAmountDecimal('USD') }}</span>
@@ -55,8 +54,8 @@
                 <span>-{{ scope.row.debitAmount | convertAmountDecimal(scope.row.debitCurrency) }} {{ scope.row.debitCurrency }}</span>
                 <span class="d-block amount-exchange-small">~${{ (scope.row.debitAmount * scope.row.debitUsdExchangeRate) | convertAmountDecimal('USD') }}</span>
               </div>
-            </div>
-            <div v-else>
+            </div> -->
+            <div>
               <div class="amount-increase">
                 <span :class="checkValueFeeDisplay(scope.row.transactionFee)">
                   {{ scope.row.transactionFeeDisplay.index}}
@@ -200,6 +199,9 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 
   .sub {
     color: #cf202f;
+  }
+  .transaction-code {
+    width: 200px;
   }
   .wallet-table {
     &__above {

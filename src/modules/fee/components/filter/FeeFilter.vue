@@ -54,7 +54,7 @@
 
   @Component({ components: { PopupFee } })
   export default class FeeFilter extends Mixins(PopupMixin) {
-    @Prop({ required: true, type: Array, default: [] }) listApproveBy!: Array<Record<string, any>>
+    // @Prop({ required: true, type: Array, default: [] }) listApproveBy!: Array<Record<string, any>>
     @Prop({ required: true, type: Object, default: [] }) reseted!: Record<string, any>
     
     filterFee = {
@@ -71,7 +71,7 @@
     popupFeeBark:any
     loading = false
     isChanged = false
-    listApprove: Array<Record<string, any>> = []
+    // listApprove: Array<Record<string, any>> = []
     queryApprove = {
       page: 1,
       limit: 20,

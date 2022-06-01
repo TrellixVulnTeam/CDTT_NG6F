@@ -17,13 +17,13 @@
             {{ $t(`fee.total-withdraw`) }}
           </span>
           <div>
-            <base-icon icon="icon-download" size="24" />
+            <base-icon icon="icon-upload" size="24" />
           </div>
         </div>
         <span class="number2"> {{ withdraw.totalTransactionFee   | convertAmountDecimal(withdraw.currency) }} <span class="currency">{{withdraw.currency}} </span>
         </span>
         <div>
-          <span class="text3">~ ${{ withdraw.totalTransactionFeeUsd  | convertAmountDecimal('USD') }}</span>
+          <span class="text3">~${{ withdraw.totalTransactionFeeUsd  | convertAmountDecimal('USD') }}</span>
         </div>
       </div>
 
@@ -31,23 +31,23 @@
         <div class="sack-banlance">
           <span class="text1">{{ $t(`fee.total-transfer`) }} </span>
           <div>
-            <base-icon icon="icon-upload" size="24" />
-          </div>
-        </div>
-            <span class="number2"> {{ transfer.totalTransactionFee | convertAmountDecimal(transfer.currency) }} <span class="currency">{{transfer.currency}} </span></span>
-            <span class="text3">~ ${{ transfer.totalTransactionFeeUsd | convertAmountDecimal('USD') }}</span>
-      </div>
-      <div class="col-width col-margin">
-        <div class="sack-banlance">
-          <span class="text1">{{ $t(`fee.total-trading`) }}</span>
-          <div>
             <base-icon icon="icon-swap-2" size="24" />
           </div>
         </div>
-            <span class="number2"> {{ numOfLyn | convertAmountDecimal(withdraw.currency) }} <span class="currency">{{withdraw.currency}} </span></span>
-            <span class="text3">~ ${{ totalLynAvai | convertAmountDecimal('USD') }} </span>
+            <span class="number2"> {{ transfer.totalTransactionFee | convertAmountDecimal(transfer.currency) }} <span class="currency">{{transfer.currency}} </span></span>
+            <span class="text3">~${{ transfer.totalTransactionFeeUsd | convertAmountDecimal('USD') }}</span>
       </div>
       <div class="col-width col-margin">
+        <div class="sack-banlance">
+          <span class="text1">{{ $t(`fee.total-fee`) }}</span>
+          <div>
+            <base-icon icon="total-fee" size="24" />
+          </div>
+        </div>
+            <span class="number2"> {{ withdraw.totalTransactionFee + transfer.totalTransactionFee | convertAmountDecimal(withdraw.currency) }} <span class="currency">{{withdraw.currency}} </span></span>
+            <span class="text3">~${{ withdraw.totalTransactionFeeUsd + transfer.totalTransactionFeeUsd | convertAmountDecimal('USD') }} </span>
+      </div>
+      <div class="col-width col-margin" style="visibility: hidden;">
         <div class="sack-banlance">
           <span class="text1"> {{ $t(`fee.total-exchange`) }}</span>
           <div>
@@ -55,7 +55,7 @@
           </div>
         </div>
             <span class="number2"> {{ numOfLyn | convertAmountDecimal(withdraw.currency) }} <span class="currency">{{withdraw.currency}} </span></span>
-            <span class="text3">~ ${{ totalLynAvai | convertAmountDecimal('USD') }} </span>
+            <span class="text3">~${{ totalLynAvai | convertAmountDecimal('USD') }} </span>
       </div>
     </div>
   </div>
