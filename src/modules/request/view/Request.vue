@@ -156,7 +156,6 @@
     handleReceiveSummary(data: Record<string, any>) {
       this.dataCardSummary.totalAmount = data?.totalAmount
       this.dataCardSummary.totalAmountUsd = data?.totalAmountUsd
-      console.log(data);
     }
 
     created(): void {
@@ -176,7 +175,6 @@
     }
 
     handleChangeTabsHeader(tab: Record<string, any>): void {
-      console.log(tab.title);
       this.$router.push({ params: {token: tab.title} })
       this.tabHeaderActive = tab.title;
     }
