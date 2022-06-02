@@ -173,7 +173,17 @@ import { number } from '@amcharts/amcharts4/core'
     isChanged = false
 
     data: Array<Record<string, any>> = []
-
+    filters: any = {
+      fromAmount: null,
+      fromDate: null,
+      fromFee: null,
+      orderBy: null,
+      search: null,
+      status: null,
+      toAmount: null,
+      toDate: null,
+      toFee: null
+    }
     detailRow = {}
     dataDetail = {}
 
@@ -254,10 +264,20 @@ import { number } from '@amcharts/amcharts4/core'
         const result = await api.getListFee('', params)
         this.propdataTable = result.transactions.content
         if(this.propdataTable.length > 0) {
-            this.propdataTable = this.propdataTable.map(
+          //   this.propdataTable = this.propdataTable.map(
+          //   (item) => {
+          //     if(this.query.status !== null)
+          //     {
+          //       item.status = this.query.status
+          //     }
+          //     return item
+          //   }
+          // )
+          this.propdataTable.forEach(
             (item) => {
-              item.status = this.query.status
-              return item
+              item.status = 
+              (item.status === 'PENDING' || item.status === 'SUCCESS' || item.status === 'REJECTED' || item.status === 'PROCESSING' ||
+              item.status === 'FAILED') ? item.status : item.status === 'LOCKED' ? 'PENDING' : 'PROCESSING'
             }
           )
         }
@@ -275,7 +295,6 @@ import { number } from '@amcharts/amcharts4/core'
           ...summaryTransfer,
           currency: this.tabActive
         }
-
         this.query.total = result.transactions.totalElements
         this.isLoading = false
       } catch (error) {
@@ -294,8 +313,7 @@ import { number } from '@amcharts/amcharts4/core'
       this.query.transactionType = Type.value
       this.init()
       this.typeActive = Type
-      this.isChanged = true
-      console.log('290............')
+      this.isChanged = false
     }
     
     handleChangeTab(tab: Record<string, any>): void {
@@ -313,7 +331,7 @@ import { number } from '@amcharts/amcharts4/core'
       this.query.orderBy = 1
       this.query.transactionType = this.typeActive.value
       this.init()
-      this.isChanged = true
+      this.isChanged = false
     }
 
     resetQuery(): void {
@@ -322,15 +340,15 @@ import { number } from '@amcharts/amcharts4/core'
         page: 1,
         limit: 10,
         orderBy: '1',
-        keywordString: null,
+        keywordString: this.filters.search,
         currency: null,
-        status: 'SUCCESS',
-        fromDate: null,
-        toDate: null,
-        fromAmount: null,
-        toAmount: null,
-        fromTransactionFee: null,
-        toTransactionFee: null,
+        // status: 'SUCCESS',
+        fromDate: this.filters.fromDate,
+        toDate: this.filters.toDate,
+        fromAmount: this.filters.fromAmount,
+        toAmount: this.filters.toAmount,
+        fromTransactionFee: this.filters.fromFee,
+        toTransactionFee: this.filters.toFee,
         bonusType: null
       }
     }
@@ -353,20 +371,20 @@ import { number } from '@amcharts/amcharts4/core'
     }
 
     handleFilter(filter: Record<string, any>): void {
-      console.log('346.........')
+      this.filters = filter
       this.query = {
         ...this.query,
-        keywordString: filter.search,
+        keywordString: this.filters.search,
         currency: '',
         transactionType: this.typeActive.value,
-        fromDate: filter.fromDate,
-        toDate: filter.toDate,
-        fromAmount: filter.fromAmount,
-        toAmount: filter.toAmount,
-        fromTransactionFee: filter.fromFee,
-        toTransactionFee: filter.toFee,
-        status: filter.status,
-        orderBy: filter.orderBy,
+        fromDate: this.filters.fromDate,
+        toDate: this.filters.toDate,
+        fromAmount: this.filters.fromAmount,
+        toAmount: this.filters.toAmount,
+        fromTransactionFee: this.filters.fromFee,
+        toTransactionFee: this.filters.toFee,
+        status: this.filters.status,
+        orderBy: this.filters.orderBy,
         page: 1,
         limit: 10
       }
