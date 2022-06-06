@@ -6,7 +6,6 @@ const feeRouters: RouteConfig[] = [
   {
     path: '/fee',
     name: 'Fee',
-    redirect: { name: 'FeeLynk' },
     component: Layout,
     children: [
       {
@@ -21,15 +20,16 @@ const feeRouters: RouteConfig[] = [
             component: () => import('../view/MainView.vue'),
             children: [
               {
-                path: 'LYNK',
-                name: 'FeeLynk',
-                component: () => import('../view/Fee.vue')
-              },
-              {
                 path: 'CLM',
                 name: 'FeeClm',
                 component: () => import('../view/Fee.vue')
               },
+              {
+                path: 'LYNK',
+                name: 'FeeLynk',
+                component: () => import('../view/Fee.vue')
+              },
+              
               {
                 path: 'BTC',
                 name: 'FeeBtc',
