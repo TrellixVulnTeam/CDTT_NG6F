@@ -23,7 +23,7 @@
           </div>
           <div class="item">
             <p class="number2">{{ value.totalAmount | convertAmountDecimal(tabHeaderActive) }}
-              <a class="tabActiveHeader">{{ tabHeaderActive }}</a>
+              <a class="tabActiveHeader">{{tabHeaderActive }}</a>
             </p>
           </div>
           <div class="item-bottom">
@@ -191,7 +191,7 @@
     query: any = {
       // userId: null,
       // keywordString: '',
-      currency: 'LYNK',
+      currency: '',
       transactionType: '',
       fromDate: '',
       toDate: '',
@@ -241,8 +241,18 @@
       // apiKyc.getListApprove({ page: 1, limit: 20 }).then(res => {
       //   this.listApproveBy = res.content || []
       // })
-      console.log('route', this.$route.path.split('/')[2])
-      this.tabHeaderActive = this.$route.path.split('/')[2]
+      if(this.coinMain === 'CLM'){
+          this.query = {...this.query, currency: this.coinMain}
+          this.$router.push({params: {token: this.coinMain}})  
+          this.tabHeaderActive = this.$route.path.split('/')[2]
+          await this.init()
+      }if(this.coinMain === 'LYNK'){
+        this.query = {...this.query, currency: this.coinMain}
+        this.tabHeaderActive = this.$route.path.split('/')[2]
+        await this.init()
+      }
+      // console.log("coin", this.coinMain)
+      // console.log('tab active header', this.$route.path.split('/')[2])
       this.tabActive = this.$route.path.split('/')[3]
 
       // const name = this.$route.name
@@ -259,8 +269,8 @@
     propDataTable: Record<string, any>[] = []
 
     async init(): Promise<void> {
-      // console.log('tabactive', this.tabActive)
-      // console.log('tabHeaderActive', this.tabHeaderActive)
+      console.log('tabactive', this.tabActive)
+      console.log('tabHeaderActive', this.tabHeaderActive)
       try {
         this.isLoading = true
         const params = {
