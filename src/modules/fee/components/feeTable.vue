@@ -39,7 +39,7 @@
         
         <el-table-column :label="$t('transaction.table.status')" :width="144" align="center">
           <template slot-scope="scope">
-            <span class="text-xs" :class="checkType(scope.row.status)" style="text-transform: capitalize;">{{ handleCapitalize(scope.row.status) }}</span>
+            <span class="text-xs" :class="checkType(scope.row.status)">{{ handleCapitalize(scope.row.status) }}</span>
           </template>
         </el-table-column>
 
