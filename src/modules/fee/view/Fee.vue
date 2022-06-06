@@ -105,7 +105,6 @@ import { number } from '@amcharts/amcharts4/core'
   @Component({ components: { FeeFilter, FeeTable, FeeDetail } })
   export default class Fee extends Mixins(PopupMixin) {
     @beBase.State('coinMain') coinMain!: string
-
     typeActive = {
         typeId: 1,
         title: this.$i18n.t('fee.withdraw'),
@@ -204,9 +203,6 @@ import { number } from '@amcharts/amcharts4/core'
       total: 10
     }
     
-    // numOfInvestor = ''
-    numOfLyn = '0'
-    totalLynAvai = '0'
     withdraw: any = {}
     transfer: any = {}
     listApproveBy: Record<string, any>[] = []
@@ -234,6 +230,13 @@ import { number } from '@amcharts/amcharts4/core'
 
     created(): void {
       console.log('route', this.$route.path.split('/')[2])
+      if(this.coinMain === 'CLM') {
+        this.$router.push({name: 'FeeClm'})
+      }
+      else {
+        this.coinMain = 'LYNK'
+        this.$router.push({name: 'FeeLynk'})
+      }
       this.tabActive = this.$route.path.split('/')[2]
       this.query.currency = this.tabActive
       this.query.status = 'SUCCESS'
