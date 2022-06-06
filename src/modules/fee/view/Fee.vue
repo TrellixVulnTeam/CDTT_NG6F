@@ -227,18 +227,15 @@ import { number } from '@amcharts/amcharts4/core'
         ...this.tabs
       ]
     }
-
+    get getTabActive():string {
+      console.log(this.$route.path.split('/')[2]);
+      
+      return this.$route.path.split('/')[2]
+    }
     created(): void {
+       this.tabActive = this.getTabActive
       console.log('route', this.$route.path.split('/')[2])
-      if(this.coinMain === 'CLM') {
-        this.$router.push({name: 'FeeClm'})
-      }
-      else {
-        this.coinMain = 'LYNK'
-        this.$router.push({name: 'FeeLynk'})
-      }
-      this.tabActive = this.$route.path.split('/')[2]
-      this.query.currency = this.tabActive
+      this.query.currency = this.getTabActive
       this.query.status = 'SUCCESS'
       this.query.transactionType = this.typeActive.value
       this.debounceInit()
