@@ -121,17 +121,18 @@ import { number } from '@amcharts/amcharts4/core'
         typeId: 2,
         title: this.$i18n.t('fee.transfer'),
         value: this.$i18n.t('fee.transfer-value')
-      },
-      {
-        typeId: 3,
-        title: this.$i18n.t('fee.trading'),
-        value: this.$i18n.t('fee.trading-value')
-      },
-      {
-        typeId: 4,
-        title: this.$i18n.t('fee.exchange'),
-        value: this.$i18n.t('fee.exchange-value')
       }
+      // ,
+      // {
+      //   typeId: 3,
+      //   title: this.$i18n.t('fee.trading'),
+      //   value: this.$i18n.t('fee.trading-value')
+      // },
+      // {
+      //   typeId: 4,
+      //   title: this.$i18n.t('fee.exchange'),
+      //   value: this.$i18n.t('fee.exchange-value')
+      // }
     ] 
 
     tabs: Array<Record<string, any>> = [
