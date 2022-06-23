@@ -81,7 +81,7 @@
         </ul>
         <ul class="module">
           <li class="module-item" @click="isOpenPopupNft = false" v-if="checkPemission('fee', ['view'])">
-            <router-link :to="{name: 'Fee'}" class="router_center">
+            <router-link :to="{name: 'FeeNft'}">
             <div class="sack_avatar">
               <base-icon :icon="coinMain === 'LYNK' ? 'fee-active' : 'fee-active-clm'" class="menu-active" size="32" />
               <base-icon icon="fee" class="menu" size="32" />
@@ -149,7 +149,7 @@
         <ul class="module" v-if="checkPemission('fee', ['view'])">
           <li class="module-item" @click="isOpenPopup = false">
             <router-link 
-            :to="{name: 'Fee', params: {coin: coinMain, type: 'TOKEN'}}" 
+            :to="{name: 'Fee'}" 
             class="router_center">
             <div class="sack_avatar">
               <base-icon :icon="coinMain === 'LYNK' ? 'fee-active' : 'fee-active-clm'" class="menu-active" size="32" />

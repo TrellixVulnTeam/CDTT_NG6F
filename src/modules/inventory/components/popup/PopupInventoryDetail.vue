@@ -57,6 +57,8 @@
         <base-table
         :data="dataTableAccount"
         :showPagination="false"
+        :showSummary="true"
+        :summaryMethod="summaryMethod"
         class="table-bot">
             <el-table-column label="EVENT TYPE" align="left" width="186">
                 <template slot-scope="scope">
@@ -101,6 +103,8 @@
   // import { namespace } from 'vuex-class'
   // const bcKyc = namespace('bcKyc')
   import BaseTable from '@/components/base/table/BaseTable.vue'
+  import forEach from 'lodash/forEach'
+
   @Component({components: {BaseTable}})
   export default class PopupInventoryDetail extends Mixins(PopupMixin) {
     // @bcKyc.State('listReason') listReason!: Array<Record<string, any>>
@@ -241,7 +245,41 @@
         isOpen: false
       })
     }
-    
+    summaryMethod(params: { columns: any; data: Record<string, any>[] }){
+        const { columns, data } = params
+        let sums:any = []
+        console.log('248...', columns)
+        console.log('252...', data)
+        let totalIncrease:any = 0
+        let totalDecrease: any = 0
+        forEach(data, (item) => {
+            totalIncrease = totalIncrease + (item.increase !== '' ? +item.increase : 0)
+            totalDecrease = totalDecrease + (item.decrease !== '' ? +item.decrease : 0)
+        })
+        totalIncrease = '+' + totalIncrease
+        totalDecrease = '' + totalDecrease
+        forEach(columns, (column, index: number) => {
+            console.log('253', column.property)
+            if (index < 1) {
+            sums[index] = 'TOTAL'
+            return
+            }
+            if (index === 1) {
+                
+                sums[index] = totalIncrease
+                return
+            }
+            if (index === 2) {
+            sums[index] = totalDecrease
+            return
+            }
+            // const a = this.round[column.property] || 0
+
+            // //@ts-ignore
+            // sums[index] = `${includes(column.property, 'Percent') ? (a * 1000) / 10 + '%' : this.$options.filters.convertAmountDecimal(a, this.coinMain) + ' ' + this.coinMain}`
+        })
+        return sums
+    }
   }
 </script>
 
@@ -373,8 +411,32 @@
                 }
                 .ending-quantity {
                     background-color: var(--bc-theme-primary);
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
                     span {
+                        display: block;
                         color: var(--bc-color-white);
+                    }
+                    &__number {
+                        width: 186px;
+                        margin-right: 172px;
+                        text-align: right;
+                        padding-right: 16px;
+                    }
+                }
+                .opening-quantity {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    span {
+                        display: block;
+                    }
+                    &__number {
+                        width: 186px;
+                        margin-right: 172px;
+                        text-align: right;
+                        padding-right: 16px;
                     }
                 }
             }
