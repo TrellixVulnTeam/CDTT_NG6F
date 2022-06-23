@@ -119,7 +119,10 @@
     "exception": "Exception",
     "nft": "NFT",
     "more": "More",
-    "fee": "Fee"
+    "fee": "Fee",
+    "inventory": "Inventory",
+    "setup": "Set up",
+    "fee-nft": "Fee NFT"
   },
   "header": {
     "kyc": "KYC",
@@ -132,7 +135,8 @@
     "member": "Members",
     "report": "Report",
     "nft": "NFT",
-    "fee": "Fee"
+    "fee": "Fee",
+    "inventory": "Inventory"
   },
   "footer": {
     "terms": "Terms and Conditions"
@@ -1108,5 +1112,23 @@
     "transaction-fee": "Transaction Fee",
     "transaction-amount": "Transaction Amount",
     "status": "Status"
+  },
+  "inventory": {
+    "table": {
+      "owner": "OWNER",
+      "item": "ITEM",
+      "network":"NETWORK",
+      "quantity": "QUANTITY",
+      "status": "STATUS"
+    },
+    "sorts": {
+      "value": "Value",
+      "quantity": "Quantity",
+      "item": "Item",
+      "owner": "Owner"
+    },
+    "inventory-detail": {
+      "title": "INVENTORY DETAIL"
+    }
   }
 }

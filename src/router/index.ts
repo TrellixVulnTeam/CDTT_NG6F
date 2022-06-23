@@ -43,7 +43,6 @@ router.beforeEach(async (to, from, next) => {
   if (to.name === 'Fee' && store.state.beBase.coinMain === 'CLM') {
     router.push({ name: 'FeeClm', query: to.query }).catch(err => err)
   }
-
   if (to.meta?.isNotLogin) {
     if (Cookies.get('access_token')) {
       location.href = '/'
