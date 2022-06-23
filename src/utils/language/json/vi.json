@@ -87,7 +87,9 @@
     "exception": "Ngoại lệ",
     "nft": "NFT",
     "more": "Thêm",
-    "fee": "Chi phí"
+    "fee": "Chi phí",
+    "inventory": "Kiểm kê",
+    "setup": "Cài đặt"
   },
   "header": {
     "kyc": "KYC",
@@ -100,7 +102,8 @@
     "member": "Nhân sự",
     "report": "Báo cáo",
     "nft": "NFT",
-    "fee": "Chi phí"
+    "fee": "Chi phí",
+    "inventory": "Kiểm kê"
   },
   "wallet": {
     "Linkey": "LynKey Wallet",

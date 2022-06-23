@@ -4,7 +4,7 @@
     <div class="bg-white wallet-header">
       <div class="be-flex align-center jc-space-between wallet-header__above">
         <div class="wallet-header__above-tabs be-flex">
-          <div class="tab-item cursor" v-for="tab in getTab" :key="tab.id" :class="$route.name === tab.routeName ? 'tab-active' : null" @click="handleChangeTab(tab)">
+          <div class="tab-item cursor" v-for="tab in getTab" :key="tab.id" :class="getTabActive === tab.title ? 'tab-active' : null" @click="handleChangeTab(tab)">
             <span class="text-base">{{ $t(`menu.${tab.title}`) }}</span>
           </div>
         </div>
@@ -54,13 +54,14 @@
             <base-icon icon="icon-gift" size="24" />
           </div>
         </div>
-            <span class="number2"> {{ numOfLyn | convertAmountDecimal(withdraw.currency) }} <span class="currency">{{withdraw.currency}} </span></span>
-            <span class="text3">~${{ totalLynAvai | convertAmountDecimal('USD') }} </span>
+            <!-- <span class="number2"> {{ numOfLyn | convertAmountDecimal(withdraw.currency) }} <span class="currency">{{withdraw.currency}} </span></span>
+            <span class="text3">~${{ totalLynAvai | convertAmountDecimal('USD') }} </span> -->
       </div>
     </div>
   </div>
   <div class="w-100 box-shadow" style="height: auto; background-color: white;">
           <div class="w-100 filter-header">
+           
             <span class="filter-type cursor" v-for="type in filterTypes" :key="type.typeId"
             :class="typeActive.typeId === type.typeId ? 'tab-active' : null" @click="handleChangeType(type)"
             >
@@ -79,7 +80,7 @@
               :data="propdataTable"/>
           </div>
   </div>
-  <fee-detail :detail-row="detailRow" :tab-active-filter="tabActive" />
+   <fee-detail :detail-row="detailRow" :tab-active-filter="tabActive" />
 </div>
 
 </template>
@@ -90,7 +91,6 @@
   import PopupMixin from '@/mixins/popup'
   import getRepository from '@/services'
   import { FeeRepository } from '@/services/repositories/fee'
-  // import EventBus from '@/utils/eventBus'
   import { debounce } from 'lodash'
   import FeeFilter from '../components/filter/FeeFilter.vue'
   import FeeTable from '../components/feeTable.vue'
@@ -98,7 +98,6 @@
   const api: FeeRepository = getRepository('fee')
 
   import { namespace } from 'vuex-class'
-import { number } from '@amcharts/amcharts4/core'
 
   const beBase = namespace('beBase')
 
@@ -138,33 +137,27 @@ import { number } from '@amcharts/amcharts4/core'
     tabs: Array<Record<string, any>> = [
       {
         id: 2,
-        title: 'BTC',
-        routeName: 'FeeBtc'
+        title: 'BTC'
       },
       {
         id: 3,
-        title: 'ETH',
-        routeName: 'FeeEth'
+        title: 'ETH'
       },
       {
         id: 4,
-        title: 'BNB',
-        routeName: 'FeeBnb'
+        title: 'BNB'
       },
       {
         id: 5,
-        title: 'USDT',
-        routeName: 'FeeUsdt'
+        title: 'USDT'
       },
       {
         id: 6,
-        title: 'USDC',
-        routeName: 'FeeUsdc'
+        title: 'USDC'
       },
       {
         id: 7,
-        title: 'BUSD',
-        routeName: 'FeeBusd'
+        title: 'BUSD'
       }
     ]
     titlePending = ''
@@ -213,8 +206,7 @@ import { number } from '@amcharts/amcharts4/core'
         return [
           {
             id: 1,
-            title: 'LYNK',
-            routeName: 'FeeLynk'
+            title: 'LYNK'
           },
           ...this.tabs
         ]
@@ -222,19 +214,18 @@ import { number } from '@amcharts/amcharts4/core'
       return [
         {
           id: 1,
-          title: 'CLM',
-          routeName: 'FeeClm'
+          title: 'CLM'
         },
         ...this.tabs
       ]
     }
     get getTabActive():string {
-      console.log(this.$route.path.split('/')[2]);
+      console.log(this.$route.path.split('/')[2], '230...');
       
       return this.$route.path.split('/')[2]
     }
     created(): void {
-       this.tabActive = this.getTabActive
+      this.tabActive = this.getTabActive
       console.log('route', this.$route.path.split('/')[2])
       this.query.currency = this.getTabActive
       this.query.status = 'SUCCESS'
@@ -324,7 +315,7 @@ import { number } from '@amcharts/amcharts4/core'
         value: this.$i18n.t('fee.withdraw-value')
       }
       this.resetQuery()
-      this.$router.push({ name: tab.routeName })
+      this.$router.push({name: 'FeeTabs', params: {coin: this.tabActive, type: 'TOKEN'}}).catch()
       this.tabActive = tab.title
       this.query.currency = tab.title
       this.query.page = 1
