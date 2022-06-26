@@ -119,7 +119,10 @@
     "exception": "Exception",
     "nft": "NFT",
     "more": "More",
-    "fee": "Fee"
+    "fee": "Fee",
+    "inventory": "Inventory",
+    "setup": "Set up",
+    "fee-nft": "Fee NFT"
   },
   "header": {
     "kyc": "KYC",
@@ -132,7 +135,8 @@
     "member": "Members",
     "report": "Report",
     "nft": "NFT",
-    "fee": "Fee"
+    "fee": "Fee",
+    "inventory": "Inventory"
   },
   "footer": {
     "terms": "Terms and Conditions"
@@ -569,6 +573,8 @@
       "processing": "Processing",
       "failed": "Failed",
       "rejected": "Rejected",
+      "expired": "Expired",
+      "waiting":"Waiting",
       "sell": "Sell",
       "bonus-sign-up": "Bonus sign up",
       "bonus-crowdsale": "Bonus crowdsale",
@@ -814,21 +820,32 @@
     "total-withdraw": "Total Fee Withdraw",
     "total-transfer": "Total Fee Transfer",
     "total-trading": "Total Fee Trading NFT",
+    "total-fee": "Total Fee",
     "total-exchange": "Total Fee Exchange",
     "withdraw": "Withdraw",
-    "withdraw-value": "WITHDRAW",
+    "withdraw-value": "Withdraw",
     "transfer": "Transfer",
-    "transfer-value": "TRANSFER",
+    "transfer-value": "Transfer",
     "trading": "Trading NFT",
-    "trading-value": "TRADIND",
+    "trading-value": "Trading NFT",
     "exchange": "Exchange",
-    "exchange-value": "EXCHANGE",
+    "exchange-value": "Exchange",
     "table": {
       "id": "Transaction ID",
       "date": "Date",
       "customer": "Customer",
       "status": "Status",
       "fee": "Fee"
+    },
+    "status": {
+      "success": "Success",
+      "pending":"Pending",
+      "reject": "Rejected",
+      "failed": "Failed",
+      "processing": "Processing",
+      "locked": "Locked",
+      "waiting": "Waiting",
+      "expired": "Expired"
     }
   },
   "request": {
@@ -1081,12 +1098,10 @@
       "fee2": "To Fee"
     },
     "pending": "Pending",
-    "waiting": "Waiting",
     "success": "Success",
-    "expired": "Expired",
-    "reject": "Reject",
+    "reject": "Rejected",
     "failed": "Failed",
-    "locked":"Locked",
+    "processing":"Processing",
     "alert": {
       "amount": "From amount must be less than To amount",
       "fee": "From fee must be less than To fee"
@@ -1097,5 +1112,23 @@
     "transaction-fee": "Transaction Fee",
     "transaction-amount": "Transaction Amount",
     "status": "Status"
+  },
+  "inventory": {
+    "table": {
+      "owner": "OWNER",
+      "item": "ITEM",
+      "network":"NETWORK",
+      "quantity": "QUANTITY",
+      "status": "STATUS"
+    },
+    "sorts": {
+      "value": "Value",
+      "quantity": "Quantity",
+      "item": "Item",
+      "owner": "Owner"
+    },
+    "inventory-detail": {
+      "title": "INVENTORY DETAIL"
+    }
   }
 }

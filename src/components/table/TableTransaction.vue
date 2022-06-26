@@ -132,6 +132,8 @@
           return this.$i18n.t('transaction.table.processing')
         case 'REJECTED':
           return this.$i18n.t('transaction.table.rejected')
+        // case 'FAILED':
+        //   return this.$i18n.t('transaction.table.failed')
 
         default:
           return this.$i18n.t('transaction.table.failed')

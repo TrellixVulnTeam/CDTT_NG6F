@@ -6,81 +6,17 @@
       </span>
     </el-input>
     <div class="filter-item">
-        <!-- <el-popover :value="isVisible" placement="bottom-start" width="518" trigger="click" popper-class="popper-filter" @show="handleShowPopper">
-        <div class="content">
-          <el-form>
-            <div class="be-flex jc-space-between row">
-              <el-form-item class="be-flex-item mr-40" :label="$t('label.available-amount')"> -->
-                <!-- <el-input :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateStart')" clearable></el-input> -->
-                <!-- <el-row class="flex_line">
-                  <el-col :span="11">
-                    <el-input v-model="filterBalance.fromAvailableAmount" @keyup.native="numberFormat($event)" type="text" placeholder="From"></el-input>
-                  </el-col> -->
-                  <!-- <span class="dash"><i class="el-icon-minus icon-dash"></i></span> -->
-                  <!-- <el-col :span="11" style="float: right">
-                    <el-input v-model="filterBalance.toAvailableAmount" @keyup.native="numberFormat($event)" type="text" placeholder="To"></el-input>
-                  </el-col>
-                </el-row>
-              </el-form-item>
-            </div>
-            <div class="be-flex jc-space-between row">
-              <el-form-item class="be-flex-item mr-40" :label="$t('label.locked-amount')"> -->
-                <!-- <el-input :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateStart')" clearable></el-input> -->
-                <!-- <el-row class="flex_line">
-                  <el-col :span="11">
-                    <el-input v-model="filterBalance.fromLockedAmount" @keyup.native="numberFormat($event)" type="text" placeholder="From"></el-input>
-                  </el-col> -->
-                  <!-- <span class="dash"><i class="el-icon-minus icon-dash"></i></span> -->
-                  <!-- <el-col :span="11" style="float: right">
-                    <el-input v-model="filterBalance.toLockedAmount" @keyup.native="numberFormat($event)" type="text" placeholder="To"></el-input>
-                  </el-col>
-                </el-row>
-              </el-form-item>
-            </div>
-            <div class="be-flex jc-space-between row">
-              <el-form-item class="be-flex-item mr-40" :label="$t('label.balance')"> -->
-                <!-- <el-input :placeholder="$t('crowdsale.popup-filter.planceOderTransactionDateStart')" clearable></el-input> -->
-                <!-- <el-row class="flex_line">
-                  <el-col :span="11">
-                    <el-input v-model="filterBalance.fromBalanceAmount" @keyup.native="numberFormat($event)" type="text" placeholder="From"></el-input>
-                  </el-col> -->
-                  <!-- <span class="dash"><i class="el-icon-minus icon-dash"></i></span> -->
-                  <!-- <el-col :span="11" style="float: right">
-                    <el-input v-model="filterBalance.toBalanceAmount" @keyup.native="numberFormat($event)" type="text" placeholder="To"></el-input>
-                  </el-col>
-                </el-row>
-              </el-form-item>
-            </div>
-          </el-form>
-        </div>
-        <div class="be-flex jc-flex-end footer">
-          <el-button class="btn-default btn-400 btn-h-40 btn-close text-regular" @click="handleReset">
-            {{ $t('button.reset') }}
-          </el-button>
-          <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border h-40 text-regular" @click="handleApply">
-            {{ $t('button.apply') }}
-          </el-button>
-        </div> -->
-      <!-- </el-popover> -->
         <div class="cursor text-filter" style="font-size: 16px" @click="handleOpen">
           <span class="abicon"> <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="18" /> </span>
           {{ $t('kyc.filter.filter') }}
         </div>
-      <!-- <div slot="reference" class="cursor text-filter" style="font-size: 16px">
-          <span class="abicon"> <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="18" /> </span>
-          {{ $t('kyc.filter.filter') }}
-      </div> -->
-      <!-- <div class="cursor text-filter" style="font-size: 16px">
-        <span class="abicon"> <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="18" /> </span>
-        {{ $t('kyc.filter.filter') }}
-      </div> -->
     </div>
     <div>
       <el-dropdown class="sort" trigger="click" @command="handleSort">
         <span class="abicon sort-title" style="font-size: 16px">
           <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}</span
         >
-        <el-dropdown-menu class="header-downloadapp dropdown-sort" slot="dropdown">
+        <el-dropdown-menu class="header-downloadapp dropdown-sort" slot="dropdown" style="width: 230px;">
           <el-dropdown-item v-for="(value, index) in sorts" :key="index" :class="sortActive === value.command ? 'active' : null" :command="value.command" :divided="value.divided">
             <span class="be-flex">
               <span class="be-flex-item">
@@ -92,7 +28,7 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <popup-fee @feeFilterBark="handleCatchBark($event)"/>
+    <popup-fee @feeFilterBark="handleCatchBark($event)" :resetFilter="{deleteCache: isChanged}" @filterReseted="handleNormalize"/>
   </div>
 </template>
 
@@ -108,7 +44,7 @@
   const apiKyc: KycRepository = getRepository('kyc')
 
   import countryJson from '@/utils/country/index.json'
-import { number } from '@amcharts/amcharts4/core'
+  import { number } from '@amcharts/amcharts4/core'
 
   // interface IListCountry {
   //   name: string
@@ -118,18 +54,9 @@ import { number } from '@amcharts/amcharts4/core'
 
   @Component({ components: { PopupFee } })
   export default class FeeFilter extends Mixins(PopupMixin) {
-    @Prop({ required: true, type: Array, default: [] }) listApproveBy!: Array<Record<string, any>>
+    // @Prop({ required: true, type: Array, default: [] }) listApproveBy!: Array<Record<string, any>>
     @Prop({ required: true, type: Object, default: [] }) reseted!: Record<string, any>
-    // filterBalance = {
-    //   search: '',
-    //   toBalanceAmount: '',
-    //   fromBalanceAmount: '',
-    //   toLockedAmount: '',
-    //   fromLockedAmount: '',
-    //   toAvailableAmount: '',
-    //   fromAvailableAmount: '',
-    //   orderBy: ''
-    // }
+    
     filterFee = {
       search: '',
       fromDate: '',
@@ -138,12 +65,13 @@ import { number } from '@amcharts/amcharts4/core'
       toAmount: '',
       fromFee: '',
       toFee: '',
-      status: '',
+      status: 'SUCCESS',
       orderBy: '1'
     }
     popupFeeBark:any
     loading = false
-    listApprove: Array<Record<string, any>> = []
+    isChanged = false
+    // listApprove: Array<Record<string, any>> = []
     queryApprove = {
       page: 1,
       limit: 20,
@@ -190,7 +118,9 @@ import { number } from '@amcharts/amcharts4/core'
     //   }
     // ]
     isVisible = false
-
+    get getSign(): any {
+      return {deleteCache: this.reseted.deleteCache}
+    }
     @Watch('filterFee.search') handleSearch(value: string): void {
       this.searchText(value)
     }
@@ -199,8 +129,7 @@ import { number } from '@amcharts/amcharts4/core'
       {
         this.handleReset()
         this.sortActive = '1'
-        
-        console.log('delete Cache')
+        this.isChanged = true
         this.$emit('reseted')
       }
     }
@@ -249,7 +178,7 @@ import { number } from '@amcharts/amcharts4/core'
         orderBy: this.filterFee.orderBy
       }
       this.$emit('filterFee', filterFee)
-      console.log([filtersData])
+      this.filterFee = filterFee
     }
     handleOpen():void {
       this.setOpenPopup({
@@ -258,30 +187,9 @@ import { number } from '@amcharts/amcharts4/core'
       })
     }
 
-    handleShowPopper(): void {
-      this.isVisible = true
-      this.listApprove = [...this.listApproveBy]
-    }
-
-    // handleSearchApprove(query: string): void {
-    //   if (query !== '') {
-    //     this.loading = true
-    //     this.queryApprove.page = 1
-    //     this.queryApprove.search = trim(query)
-    //     apiKyc.getListApprove(this.queryApprove).then(res => {
-    //       this.listApprove = res.content || []
-    //       this.loading = false
-    //     })
-    //   } else {
-    //     this.listApprove = this.listApproveBy
-    //   }
-    // }
-
-    // loadMoreApprove(): void {
-    //   this.queryApprove.page += 1
-    //   apiKyc.getListApprove(this.queryApprove).then(res => {
-    //     this.listApprove = [...this.listApprove, ...res.content]
-    //   })
+    // handleShowPopper(): void {
+    //   this.isVisible = true
+    //   this.listApprove = [...this.listApproveBy]
     // }
 
     resetFilter(): void {
@@ -298,47 +206,12 @@ import { number } from '@amcharts/amcharts4/core'
       }
     }
 
-    /* handleChangeTab(): void {
-      this.filterFee.search = ''
-      const params = {
-        search: this.filterFee.search
-      }
-      // this.$emit('filterBalance', params);
-    } */
-
     handleSort(command: string): void {
       this.sortActive = command
       this.filterFee.orderBy = command
       this.$emit('filterFee', this.filterFee)
-      console.log('1')
     }
 
-    handleApply(): void {
-      this.isVisible = false
-      const filters = {
-        ...this.filterFee,
-        // toBalanceAmount: this.filterBalance.replace(',')
-        // fromBalanceAmount: '',
-        // toLockedAmount: '',
-        // fromLockedAmount: '',
-        // toAvailableAmount: '',
-        // fromAvailableAmount: '',
-        // fromAvailableAmount: this.filterBalance.fromAvailableAmount.replaceAll(',', ''),
-        // fromBalanceAmount: this.filterBalance.fromBalanceAmount.replaceAll(',', ''),
-        // fromLockedAmount: this.filterBalance.fromLockedAmount.replaceAll(',', ''),
-        // toAvailableAmount: this.filterBalance.toAvailableAmount.replaceAll(',', ''),
-        // toBalanceAmount: this.filterBalance.toBalanceAmount.replaceAll(',', ''),
-        // toLockedAmount: this.filterBalance.toLockedAmount.replaceAll(',', '')
-        fromDate: this.popupFeeBark.fromDate,
-        toDate: this.popupFeeBark.toDate,
-        fromAmount: this.popupFeeBark.fromAmount,
-        toAmount: this.popupFeeBark.toAmount,
-        fromFee: this.popupFeeBark.fromFee,
-        toFee: this.popupFeeBark.toFee,
-        status: this.popupFeeBark.status
-      }
-      this.$emit('filterFee', filters)
-    }
 
     handleReset(): void {
       this.filterFee = {
@@ -352,8 +225,10 @@ import { number } from '@amcharts/amcharts4/core'
         status: '',
         orderBy: '1'
       }
-      this.$emit('filterFee', this.filterFee)
       this.isVisible = false
+    }
+    handleNormalize():void {
+      this.isChanged = false
     }
   }
 </script>

@@ -21,12 +21,12 @@
             </div>
           </div>
           <div class="item">
-            <p class="number2">0
+            <p class="number2">{{this.dataCardSummary.totalAmount | convertAmountDecimal(tabHeaderActive)}}
               <a class="tabActiveHeader">{{ tabHeaderActive }}</a>
             </p>
           </div>
           <div class="item-bottom">
-            <span class="text3">~$0</span>
+            <span class="text3">~${{this.dataCardSummary.totalAmountUsd | convertAmountDecimal('USD')}}</span>
           </div>
         </div>
       </div>
@@ -44,7 +44,11 @@
         </div>
         <div class="box-table">
 <!--          <router-view />-->
-          <withdraw :tabCoin="tabHeaderActive" v-if="$route.name === 'RequestWithdraw'"/>
+          <withdraw
+              :tabCoin="tabHeaderActive"
+              v-if="$route.name === 'RequestWithdraw'"
+              @summary="handleReceiveSummary"
+          />
 <!--          <transfer v-if="$route.name === 'RequestTransfer'"/>-->
         </div>
       </div>
@@ -62,8 +66,13 @@
 
   const bcAuth = namespace('beAuth')
   const beBase = namespace('beBase')
+  interface IDataCard {
+    totalAmount: number | null
+    transactionType: string | null
+    totalAmountUsd: number | null
+  }
   @Component({
-    components: {Transfer, Withdraw}
+    components: { Transfer, Withdraw }
   })
   export default class BORequest extends Vue {
     @bcAuth.Getter('listModuleCanView') listModuleCanView!: Array<Record<string, any>>
@@ -115,7 +124,11 @@
     ]
     tabActive='withdraw'
     tabHeaderActive = ''
-
+    dataCardSummary:IDataCard = {
+      totalAmount: null,
+      transactionType: null,
+      totalAmountUsd: null
+    }
     exchangeRate: Array<Record<string, any>> = []
     listener: any = null
 
@@ -140,6 +153,11 @@
       ]
     }
 
+    handleReceiveSummary(data: Record<string, any>) {
+      this.dataCardSummary.totalAmount = data?.totalAmount
+      this.dataCardSummary.totalAmountUsd = data?.totalAmountUsd
+    }
+
     created(): void {
       if (!this.checkPemission('crowd-sale', ['view'])) {
         const routeName = MODULE_WITH_ROUTENAME[this.listModuleCanView[0].module]
@@ -157,7 +175,6 @@
     }
 
     handleChangeTabsHeader(tab: Record<string, any>): void {
-      console.log(tab.title);
       this.$router.push({ params: {token: tab.title} })
       this.tabHeaderActive = tab.title;
     }

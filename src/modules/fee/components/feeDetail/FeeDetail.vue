@@ -8,7 +8,7 @@
         <div class="icon" :class="checkTypeStatusIcon(detailRow.status)">
           <base-icon :className="'icon-pending'" :icon="checkTypeIcon(detailRow.transactionType, detailRow.status)" size="64" />
         </div>
-        <p :class="checkValueFeeDisplay(detailRow.transactionFee)">{{ detailRow.transactionFee.toFixed(8) }} {{detailRow.currency}}</p>
+        <p :class="checkValueFeeDisplay(detailRow.transactionFee)">{{ detailRow.transactionFee | convertAmountDecimal(detailRow.currency) }} {{detailRow.currency}}</p>
         <p class="usd">~${{ detailRow.transactionFeeToUsd | convertAmountDecimal('USD') }}</p>
       </div>
     </div>
@@ -42,7 +42,7 @@
         <div class="be-flex align-center">
           <base-icon :icon="renderIconCurrency(detailRow.currency)" size="20" />
           <p class="text-detail-2" style="margin-left: 8px">
-            <span v-if="detailRow.toAddress.length > 25">
+            <span v-if="detailRow.toAddress !== undefined && (detailRow.toAddress.length > 25)">
               {{ detailRow.toAddress | formatTransactionCode(10) }}
             </span>
             <span v-else>
@@ -118,7 +118,12 @@
           return this.$i18n.t('transaction.table.processing')
         case 'REJECTED':
           return this.$i18n.t('transaction.table.rejected')
-
+        case 'LOCKED':
+          return this.$i18n.t('transaction.table.locked')
+        case 'WAITING':
+          return this.$i18n.t('transaction.table.waiting')
+        case 'EXPIRED':
+          return this.$i18n.t('transaction.table.expired')
         default:
           return this.$i18n.t('transaction.table.failed')
       }
@@ -127,7 +132,7 @@
     checkType(type: string): string {
       return type === 'PENDING'
         ? 'status status-pending'
-        : (type === 'FAILED' || type === 'LOCKED')
+        : (type === 'FAILED' || type === 'LOCKED' || type === 'EXPIRED' || type === 'WAITING')
         ? 'status status-error'
         : type === 'PROCESSING'
         ? 'status status-warning'
@@ -157,14 +162,14 @@
           } 
           else 
           {
-            return type === 'WITHDRAW' ? 'icon-deposit-pending' : type === 'TRANSFER' ? 'icon-withdraw-pending' : 'icon-transfer-pending'
+            return type === 'WITHDRAW' ? 'icon-withdraw-pending' : type === 'TRANSFER' ?  'icon-transfer-pending' : ''
           } 
         } else if (type.indexOf('BONUS') !== -1) {
           return `icon-bonus-success`
         } 
         else 
         {
-            return type === 'WITHDRAW' ? 'icon-deposit-success' : type === 'TRANSFER' ? 'icon-withdraw-success' : 'icon-transfer-success'
+            return type === 'WITHDRAW' ? 'icon-withdraw-success' : type === 'TRANSFER' ? 'icon-transfer-success' : ''
         }
       } else return ''
     }
@@ -224,9 +229,20 @@
       this.$message.success(message)
     }
 
-    handleRenderTitleDetail(type: string | null | undefined): string {
+    handleRenderTitleDetail(type: string | null | undefined ): any {
       if (type) {
-        return type.replaceAll('_', ' ')
+        let typeCheck = type.replaceAll('_', ' ')
+        switch(typeCheck) {
+          case 'WITHDRAW':
+            return this.$i18n.t('fee.withdraw')
+          case 'TRANSFER':
+            return this.$i18n.t('fee.transfer')
+          case 'TRADING NFT':
+            return this.$i18n.t('fee.trading')
+          case 'EXCHANGE':
+            return this.$i18n.t('fee.exchange')
+        }
+        return typeCheck
       } else return ''
     }
   }
@@ -234,6 +250,10 @@
 
 <style scoped lang="scss">
   .popup-fee-detail {
+    .popup-content {
+      background-color: #F6F8FC;
+    }
+    
     .add {
       color: #129961 !important;
     }

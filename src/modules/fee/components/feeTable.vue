@@ -11,49 +11,41 @@
         class="base-table table-wallet"
       >
         <el-table-column label="#" type="index" :index="indexMethod" align="center" width="80" />
-        <!-- <el-table-column :label="$t('kyc.table.fullName')" min-width="200">
-          <template slot-scope="scope">
-            <div class="be-flex align-center">
-              <span class="d-ib mr-2">{{ scope.row.fullName + '&nbsp;' + scope.row.lastName }}</span>
-            </div>
-          </template>
-        </el-table-column> -->
         <el-table-column :label="$t('transaction.table.trans-id')">
           <template slot-scope="scope">
             <div class="be-flex align-center">
-              <span v-if="type === 'customer'" class="d-ib mr-2">{{ scope.row.transactionHash | formatTransactionCode(6) }}</span>
-              <span v-else class="transaction-code d-ib mr-2"
-              style="width: 124px;">{{ scope.row.transactionHash | formatTransactionCode(6) }}</span>
+              <!-- <span v-if="type === 'customer'" class="d-ib mr-2">{{ scope.row.transactionHash | formatTransactionCode(6) }}</span> -->
+              <span class="transaction-code d-ib mr-2">{{ scope.row.transactionHash | formatTransactionCode(10) }}</span>
               <span v-if="scope.row.transactionHash" class="icon-copy" @click.stop="handleCopyTransaction(scope.row)" ref="buttonCopy">
                 <base-icon icon="icon-copy" size="24" />
               </span>
             </div>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('transaction.table.date')" prop="transactionDate" :width="type !== 'customer' ? 220 : 200">
+        <el-table-column :label="$t('transaction.table.date')" prop="transactionDate" :width="220">
           <template slot-scope="scope">
             <span>{{ scope.row.transactionMillisecond | formatMMDDYY }}</span>
           </template>
         </el-table-column>
 
-        <el-table-column v-if="type !== 'customer'" :label="$t('transaction.table.CUSTOMER')" width="260">
+        <el-table-column  :label="$t('transaction.table.CUSTOMER')" width="260">
           <template slot-scope="scope">
             <div class="customer">
               <p>{{ scope.row.fullName }}</p>
-              <p>{{ scope.row.email }}</p>
+              <p style="font-size: 14px; color: #5b616e; line-height: 20px;">{{ scope.row.email }}</p>
             </div>
           </template>
         </el-table-column>
         
-        <el-table-column :label="$t('transaction.table.status')" :width="type !== 'customer' ? 144 : 120" align="center">
+        <el-table-column :label="$t('transaction.table.status')" :width="144" align="center">
           <template slot-scope="scope">
-            <span class="text-xs" :class="checkType(scope.row.status)" style="text-transform: capitalize;">{{ handleCapitalize(scope.row.status) }}</span>
+            <span class="text-xs" :class="checkType(scope.row.status)">{{ handleCapitalize(scope.row.status) }}</span>
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('fee.table.fee')" align="right" :width="type !== 'customer' ? 200 : 190" prop="transactionFee">
+        <el-table-column :label="$t('fee.table.fee')" align="right" :width="200" prop="transactionFee">
           <template slot-scope="scope">
-            <div v-if="type === 'customer'">
+            <!-- <div v-if="type === 'customer'">
               <div v-if="scope.row.creditAmount" class="amount-increase">
                 <span>+{{ scope.row.creditAmount | convertAmountDecimal(scope.row.creditCurrency) }} {{ scope.row.creditCurrency }}</span>
                 <span class="d-block amount-exchange-small">~${{ (scope.row.creditAmount * scope.row.creditUsdExchangeRate) | convertAmountDecimal('USD') }}</span>
@@ -62,8 +54,8 @@
                 <span>-{{ scope.row.debitAmount | convertAmountDecimal(scope.row.debitCurrency) }} {{ scope.row.debitCurrency }}</span>
                 <span class="d-block amount-exchange-small">~${{ (scope.row.debitAmount * scope.row.debitUsdExchangeRate) | convertAmountDecimal('USD') }}</span>
               </div>
-            </div>
-            <div v-else>
+            </div> -->
+            <div>
               <div class="amount-increase">
                 <span :class="checkValueFeeDisplay(scope.row.transactionFee)">
                   {{ scope.row.transactionFeeDisplay.index}}
@@ -80,7 +72,8 @@
 </template>
 
 <script lang="ts">
-  import { Component, Prop, Vue } from 'vue-property-decorator'
+  import { any } from '@amcharts/amcharts4/.internal/core/utils/Array'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 
   @Component
   export default class FeeTable extends Vue {
@@ -95,7 +88,7 @@
     
     checkType(typeCheck: string): string {
       const result = typeCheck === 'PENDING' ? 'status status-pending'
-        : (typeCheck === 'FAILED' || typeCheck === 'LOCKED')
+        : (typeCheck === 'FAILED' || typeCheck === 'LOCKED' || typeCheck === 'WAITING' || typeCheck === 'EXPIRED')
         ? 'status status-error'
         : typeCheck === 'PROCESSING'
         ? 'status status-warning'
@@ -123,21 +116,6 @@
           return this.$t('status.rejected')
       }
     }
-    // checkTransactionStatus(status: string): any {
-    //   switch (status) {
-    //     case 'SUCCESS':
-    //       return this.$i18n.t('transaction.table.succsess')
-    //     case 'PENDING':
-    //       return this.$i18n.t('transaction.table.pending')
-    //     case 'PROCESSING':
-    //       return this.$i18n.t('transaction.table.processing')
-    //     case 'REJECTED':
-    //       return this.$i18n.t('transaction.table.rejected')
-
-    //     default:
-    //       return this.$i18n.t('transaction.table.failed')
-    //   }
-    // }
      checkValueAmountDisplay(value: string | null): string {
       if (value) {
         if (value.indexOf('+') !== -1) {
@@ -166,7 +144,6 @@
       document.body.removeChild(el)
       message = this.$t('notify.copy')
       this.$message.success(message)
-      console.log('166',row)
     }
     indexMethod(index: number): number {
       return (this.query.page - 1) * this.query.limit + index + 1
@@ -176,7 +153,6 @@
       this.$emit('sizeChange', value)
     }
     handleCurrentChange(value: number): void {
-      console.log('change page')
       this.$emit('pageChange', value)
     }
 
@@ -184,28 +160,31 @@
       this.$emit('rowClick', row.row)
     }
     handleCapitalize(status: string): string {
-      let result = ''
+      let result: string | any = ''
       switch(status) {
         case 'SUCCESS': 
-          result = 'Success'
+          result = this.$i18n.t('fee.status.success')
           break;
         case 'PENDING':
-          result = 'Pending'
+          result = this.$i18n.t('fee.status.pending')
           break;
         case 'FAILED':
-          result = 'Failed'
+          result = this.$i18n.t('fee.status.failed')
           break;
-        case 'WAITING':
-          result = 'Waiting'
+        case 'REJECTED':
+          result =this.$i18n.t('fee.status.reject')
           break;
-        case 'REJECT':
-          result = 'Reject'
+        case 'PROCESSING':
+          result = this.$i18n.t('fee.status.processing')
           break;
         case 'LOCKED':
-          result = 'Locked'
+          result = this.$i18n.t('fee.status.locked')
+          break;
+        case 'WAITING':
+          result =this.$i18n.t('fee.status.waiting')
           break;
         case 'EXPIRED':
-          result = 'Expired'
+          result = this.$i18n.t('fee.status.expired')
           break;
       }
       return result
@@ -220,6 +199,9 @@
 
   .sub {
     color: #cf202f;
+  }
+  .transaction-code {
+    width: 200px;
   }
   .wallet-table {
     &__above {
