@@ -303,7 +303,7 @@ import {Mixins, Component, Watch, Prop} from 'vue-property-decorator'
         .getDataTable({...this.querry, currency: this.tabCoin})
         .then((res: any) => {
           this.loadingTable = false
-          this.dataTable = res.content
+          this.dataTable = res.transactions.content
           this.query.total = res.totalElements
         })
         .catch(error => {

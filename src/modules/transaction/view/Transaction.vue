@@ -22,12 +22,12 @@
             </div>
           </div>
           <div class="item">
-            <p class="number2">{{ 0 | convertAmountDecimal(tabHeaderActive) }}
+            <p class="number2">{{ value.totalAmount | convertAmountDecimal(tabHeaderActive) }}
               <a class="tabActiveHeader">{{ tabHeaderActive }}</a>
             </p>
           </div>
           <div class="item-bottom">
-            <span class="text3">~${{ value.totalAmount | convertAmountDecimal('USD') }}</span>
+            <span class="text3">~${{ value.totalAmountUsd | convertAmountDecimal('USD') }}</span>
           </div>
         </div>
       </div>
@@ -277,7 +277,6 @@
           total: null
         }
         const result = await api.getListTransaction('search', params)
-        console.log([result])
         this.propDataTable = result.transactions.content
 
         const deposit = result.summary.filter(item => {
