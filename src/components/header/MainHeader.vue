@@ -96,6 +96,8 @@
           return this.$t('header.fee')
         case '/inventory':
           return this.$t('header.inventory')
+        case '/feenft':
+          return this.$t('header.fee-nft')
         default:
           return this.$t('header.kyc')
       }

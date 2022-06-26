@@ -136,7 +136,8 @@
     "report": "Report",
     "nft": "NFT",
     "fee": "Fee",
-    "inventory": "Inventory"
+    "inventory": "Inventory",
+    "fee-nft": "Fee NFT"
   },
   "footer": {
     "terms": "Terms and Conditions"
@@ -1129,6 +1130,17 @@
     },
     "inventory-detail": {
       "title": "INVENTORY DETAIL"
+    }
+  },
+  "fee-nft": {
+    "trans-amount":"Transaction amount",
+    "fee-amount": "Fee amount",
+    "fee-nft-filter": {
+      "trans-date": "Transaction Date",
+      "fee": "Fee",
+      "status":"Status",
+      "item": "Item",
+      "from":"From"
     }
   }
 }
