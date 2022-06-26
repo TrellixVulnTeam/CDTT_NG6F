@@ -13,6 +13,7 @@ import { MemberRepository } from './repositories/member'
 import ReportRepository from './repositories/report'
 import WalletRepository from '@/services/repositories/wallet'
 import { FeeRepository } from './repositories/fee'
+import { InventoryRepository } from './repositories/inventory'
 type RepositoryName =
   | 'verify'
   | 'auth'
@@ -29,6 +30,7 @@ type RepositoryName =
   | 'wallet'
   | 'report'
   | 'fee'
+  | 'inventory'
 
 export default function getRepository(name: RepositoryName): any {
   switch (name) {
@@ -62,6 +64,8 @@ export default function getRepository(name: RepositoryName): any {
       return new ReportRepository()
     case 'fee': 
       return new FeeRepository()
+    case 'inventory':
+      return new InventoryRepository()
     default:
       return null
   }

@@ -1,5 +1,27 @@
 <template>
 <div class="inventory box-shadow  ">
+  <h1 class="inventory-title">Summary</h1>
+  <el-carousel :autoplay="false"  arrow="always">
+    <el-carousel-item v-for="(itemTab,index) in dataConcat" :key="index">
+      <div class="wrap-summaries mb-24" >
+        <div class="summary" v-for="(item, i) in dataConcat[index].tabOne" :key="i">
+          <div class="summary-header">
+            <span class="summary-header__title">{{item.summaryName}}</span>
+            <base-icon icon="icon-two-users" size="24"/>
+          </div>
+          <div class="summary-content">{{item.total}}</div>
+        </div>
+        <div class="summary" v-for="(item, i) in dataConcat[index].tabTwo" :key="i">
+          <div class="summary-header">
+            <span class="summary-header__title">{{item.summaryName}}</span>
+            <base-icon icon="icon-two-users" size="24"/>
+          </div>
+          <div class="summary-content">{{item.total}}</div>
+        </div>
+      </div>
+    </el-carousel-item>
+  </el-carousel>
+  <!--
   <div class="wrap-summaries mb-24">
     <div class="summary">
       <div class="summary-header">
@@ -30,6 +52,7 @@
       <div class="summary-content">1,200</div>
     </div>
   </div>
+  !-->
   <div class="wrap-filter mb-24">
     <inventory-filter></inventory-filter>
   </div>
@@ -83,6 +106,8 @@
 
 <script lang="ts">
   import { Component, Mixins, Watch } from 'vue-property-decorator'
+  import getRepository from '@/services'
+  import { InventoryRepository } from '@/services/repositories/inventory'
   //@ts-ignore
   import PopupMixin from '@/mixins/popup'
   import InventoryFilter from '@/modules/inventory/components/filter/InventoryFilter.vue'
@@ -93,11 +118,115 @@
 
   import { namespace } from 'vuex-class'
 
+  const api: InventoryRepository = getRepository('inventory')
   const beBase = namespace('beBase')
 
   @Component({components: { BaseTable, InventoryFilter, PopupInventoryDetail }})
   export default class Inventory extends Mixins(PopupMixin) {
     @beBase.State('coinMain') coinMain!: string
+    isLoading: any = false
+
+    query: Record<string,any> = {
+      search: '',
+      network: '',
+      fromQuantity: '',
+      toQuantity: '',
+    }
+
+    // created(): void {
+
+    // }
+
+
+    // async init(): Promise<void> {
+    //   // try{
+    //   //   // const response = api.getSummaryData
+    //   // }catch(error){
+    //   //   console.log(error)
+    //   // }
+    // }
+
+    mounted(): void {
+      for(let index = 0; index < this.dataConcat.length; index++){
+        console.log('tabOne' ,this.dataConcat[index].tabOne)
+        console.log('tabTwo' ,this.dataConcat[index].tabTwo)
+
+        // for(let index = 0; i < this.dataConcat[index].tabOne.length; index++){
+        //   console.log(this.dataConcat[index].tabOne.length)
+        // }
+      }
+    }
+
+    dataConcat: any = [
+      {
+        tabOne: [
+          {
+            summaryName: "Owners",
+            total: 112345566
+          },
+          {
+            summaryName: "NFTs",
+            total: 112345566
+          },
+          {
+            summaryName: "Available",
+            total: 112345566
+          },
+          {
+            summaryName: "Lock",
+            total: 112345566
+          }
+        ]
+      },
+      {
+        tabTwo: [
+          {
+            summaryName: "On Sale",
+            total: 112345566
+          },
+          {
+            summaryName: "Off Market",
+            total: 112345566
+          },
+          {
+            summaryName: "Burn",
+            total: 112345566
+          }
+         ] 
+      }
+    ]
+
+    dataSummary: Array<Record<string, any>> = [
+      {
+        summaryName: "Owners",
+        total: 112345566
+      },
+      {
+        summaryName: "NFTs",
+        total: 112345566
+      },
+      {
+        summaryName: "Available",
+        total: 112345566
+      },
+      {
+        summaryName: "Lock",
+        total: 112345566
+      },
+      {
+        summaryName: "On Sale",
+        total: 112345566
+      },
+      {
+        summaryName: "Off Market",
+        total: 112345566
+      },
+      {
+        summaryName: "Burn",
+        total: 112345566
+      }
+    ]
+
     dataTable: any = [
       {
         ownerName: "Trần Mạnh Đức",
@@ -144,13 +273,13 @@
         status: "BURN"
       }
     ]
-    query: any = {
-      search: '',
-      limit: 10,
-      page: 1,
-      orderBy: 1,
-      total: 0
-    }
+    // query: any = {
+    //   search: '',
+    //   limit: 10,
+    //   page: 1,
+    //   orderBy: 1,
+    //   total: 0
+    // }
 
     indexMethod(index: number): number {
       return (this.query.page - 1) * this.query.limit + index + 1
@@ -216,15 +345,20 @@
     border-radius: 4px;
     height: 100%;
     padding: 24px 24px 0 24px;
+    &-title{
+      margin-bottom: 16px;
+      @include text(24px, 32px, 600, #0A0B0D);
+    }
     .wrap-summaries {
       width: 100%;
       height: auto;
       display: grid;
-      grid-template-columns: 318px 318px 318px 318px;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 0 24px;
       justify-content: space-between;
       .summary {
         border: 1px solid var(--bc-table-border);
-        border-radius: 4px;
+        border-radius: 8px;
         padding: 16px;
         &-header {
           width: 100%;
@@ -308,7 +442,39 @@
       }
     }
   }
+
+  ::v-deep.el-carousel--horizontal{
+    overflow-x: clip;
+    .el-carousel__container{
+      height: 143px;
+      .el-carousel__arrow{
+        width: 32px;
+        height: 32px;
+        color: #292D32;
+        border: 1px solid #ECECEC;
+        background-color: #fff;
+      }
+      .el-carousel__arrow i{
+          font-size: 16px;
+          font-weight: 600;
+        }
+      .el-carousel__arrow--left{
+        top: -32px;
+        right: 60px;
+        left: calc(100% - 24px - 32px - 24px);
+      }
+      .el-carousel__arrow--right{
+        top: -32px;
+        right: 0;
+      }
+      .el-carousel__item.is-animating {
+        transition: transform .6s ease-in-out;
+      }
+    }
+  }
+
   .mb-24 {
     margin-bottom: 24px;
   }
+  
 </style>
