@@ -299,6 +299,7 @@
           padding-left: 45px;
           box-sizing: border-box;
           height: 48px;
+          font-size: 16px;
         }
         .el-input__prefix {
           left: 12px;

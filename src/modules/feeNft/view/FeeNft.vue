@@ -490,6 +490,7 @@
     }
 
     handleSizeChange(limit: number): void {
+      this.query.page = 1
       this.query.limit = limit
       this.init()
     }
