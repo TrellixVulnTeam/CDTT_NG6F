@@ -41,8 +41,9 @@
     <el-table-column :label="$t('transaction.table.from')">
       <template slot-scope="scope">
         <div class="from-col">
-          <p class="text-base text-overflow-1">{{ scope.row.fromAccountName }}</p>
-          <p class="text-body-small text-desc text-overflow-1">{{ scope.row.fromUsername }}</p>
+          <p class="text-base text-overflow-1">{{ scope.row.fromFullName }}</p>
+          <p class="text-body-small text-desc text-overflow-1" v-if="scope.row.fromAccountType === 'INTERNAL'">{{ scope.row.fromUsername }}</p>
+          <p class="text-body-small text-desc text-overflow-1" v-else>{{ scope.row.fromUsername | formatTransactionCode(10, 10) }}</p>
         </div>
       </template>
     </el-table-column>
@@ -227,7 +228,9 @@
         margin-right: 8px;
         img {
           width: 100%;
+          height: 100%;
           border-radius: 4px;
+          object-fit: cover;
         }
       }
       .info {
