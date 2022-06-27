@@ -177,7 +177,7 @@
         ...filtersData,
         orderBy: this.filterFee.orderBy
       }
-      this.$emit('filters', filterFee)
+      this.$emit('filterFee', filterFee)
       this.filterFee = filterFee
     }
     handleOpen():void {

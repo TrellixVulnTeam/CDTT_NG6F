@@ -281,7 +281,7 @@
             toDate : toDate,
             fromTransactionAmount: this.popup_data.content.transactionAmount.input.value1,
             toTransactionAmount: this.popup_data.content.transactionAmount.input.value2,
-            fromFeeAmount: this.popup_data.content.transactionAmount.input.value1,
+            fromFeeAmount: this.popup_data.content.feeAmount.input.value1,
             toFeeAmount: this.popup_data.content.feeAmount.input.value2,
             status: this.popup_data.content.status.value === '' ? null : this.popup_data.content.status.value
         }

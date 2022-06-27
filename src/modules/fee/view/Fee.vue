@@ -54,8 +54,8 @@
             <base-icon icon="icon-gift" size="24" />
           </div>
         </div>
-            <span class="number2"> {{ numOfLyn | convertAmountDecimal(withdraw.currency) }} <span class="currency">{{withdraw.currency}} </span></span>
-            <span class="text3">~${{ totalLynAvai | convertAmountDecimal('USD') }} </span>
+            <!-- <span class="number2"> {{ numOfLyn | convertAmountDecimal(withdraw.currency) }} <span class="currency">{{withdraw.currency}} </span></span>
+            <span class="text3">~${{ totalLynAvai | convertAmountDecimal('USD') }} </span> -->
       </div>
     </div>
   </div>
