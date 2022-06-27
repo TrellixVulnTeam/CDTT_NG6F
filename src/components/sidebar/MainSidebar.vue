@@ -48,46 +48,46 @@
       <div class="popper-add-menu-content">
         <ul class="module">
           <li class="module-item" @click="isOpenPopupNft = false">
-            <router-link :to="{name: 'Inventory'}" class="router_center">
-            <div class="sack_avatar">
-              <base-icon :icon="coinMain === 'LYNK' ? 'setup-active' : 'setup-active-clm'" class="menu-active" size="32" />
-              <base-icon icon="setup" class="menu" size="32" />
-              <p class="color-add-menu" style="font-size: 11px">{{ $t('leftMenu.setup') }}</p>
-            </div>
-          </router-link>
+            <router-link :to="{ name: 'Inventory' }" class="router_center">
+              <div class="sack_avatar">
+                <base-icon :icon="coinMain === 'LYNK' ? 'setup-active' : 'setup-active-clm'" class="menu-active" size="32" />
+                <base-icon icon="setup" class="menu" size="32" />
+                <p class="color-add-menu" style="font-size: 11px">{{ $t('leftMenu.setup') }}</p>
+              </div>
+            </router-link>
           </li>
         </ul>
         <ul class="module">
           <li class="module-item" @click="isOpenPopupNft = false">
-            <router-link :to="{name: 'Inventory'}" class="router_center">
-            <div class="sack_avatar">
-              <base-icon :icon="coinMain === 'LYNK' ? 'inventory' : 'fee-active-clm'" class="menu-active" size="32" />
-              <base-icon icon="inventory" class="menu" size="32" />
-              <p class="color-add-menu" style="font-size: 11px">{{ $t('leftMenu.inventory') }}</p>
-            </div>
-          </router-link>
+            <router-link :to="{ name: 'Inventory' }" class="router_center">
+              <div class="sack_avatar">
+                <base-icon :icon="coinMain === 'LYNK' ? 'inventory' : 'fee-active-clm'" class="menu-active" size="32" />
+                <base-icon icon="inventory" class="menu" size="32" />
+                <p class="color-add-menu" style="font-size: 11px">{{ $t('leftMenu.inventory') }}</p>
+              </div>
+            </router-link>
           </li>
         </ul>
         <ul class="module">
-          <li class="module-item" @click="isOpenPopupNft = false" >
-            <router-link :to="{ name: 'Transaction', params: { token: this.coinMain } }" v-if="checkPemission('transaction', ['view'])" class="router_center">
-            <div class="sack_avatar">
-              <base-icon :icon="coinMain === 'LYNK' ? 'transaction-active' : 'transaction-active-clm'" class="menu-active" size="32" />
-              <base-icon icon="transaction" class="menu" size="32" />
-              <p class="color-add-menu" style="font-size: 11px">{{ $t('leftMenu.transaction') }}</p>
-            </div>
-          </router-link>
+          <li class="module-item" @click="isOpenPopupNft = false">
+            <router-link :to="{ name: 'TransactionNftMain', params: { token: this.coinMain } }" v-if="checkPemission('transaction', ['view'])" class="router_center">
+              <div class="sack_avatar">
+                <base-icon :icon="coinMain === 'LYNK' ? 'transaction-active' : 'transaction-active-clm'" class="menu-active" size="32" />
+                <base-icon icon="transaction" class="menu" size="32" />
+                <p class="color-add-menu" style="font-size: 11px">{{ $t('leftMenu.transaction') }}</p>
+              </div>
+            </router-link>
           </li>
         </ul>
         <ul class="module">
           <li class="module-item" @click="isOpenPopupNft = false" v-if="checkPemission('fee', ['view'])">
-            <router-link :to="{name: 'FeeNft'}">
-            <div class="sack_avatar">
-              <base-icon :icon="coinMain === 'LYNK' ? 'fee-active' : 'fee-active-clm'" class="menu-active" size="32" />
-              <base-icon icon="fee" class="menu" size="32" />
-              <p class="color-add-menu" style="font-size: 11px">{{ $t('leftMenu.fee-nft') }}</p>
-            </div>
-          </router-link>
+            <router-link :to="{ name: 'FeeNft' }">
+              <div class="sack_avatar">
+                <base-icon :icon="coinMain === 'LYNK' ? 'fee-active' : 'fee-active-clm'" class="menu-active" size="32" />
+                <base-icon icon="fee" class="menu" size="32" />
+                <p class="color-add-menu" style="font-size: 11px">{{ $t('leftMenu.fee-nft') }}</p>
+              </div>
+            </router-link>
           </li>
         </ul>
       </div>
@@ -148,21 +148,19 @@
       <div class="popper-add-menu-content">
         <ul class="module" v-if="checkPemission('fee', ['view'])">
           <li class="module-item" @click="isOpenPopup = false">
-            <router-link 
-            :to="{name: 'Fee'}" 
-            class="router_center">
-            <div class="sack_avatar">
-              <base-icon :icon="coinMain === 'LYNK' ? 'fee-active' : 'fee-active-clm'" class="menu-active" size="32" />
-              <base-icon icon="fee" class="menu" size="32" />
-              <p class="color-add-menu" style="font-size: 11px">{{ $t('leftMenu.fee') }}</p>
-            </div>
-          </router-link>
+            <router-link :to="{ name: 'Fee' }" class="router_center">
+              <div class="sack_avatar">
+                <base-icon :icon="coinMain === 'LYNK' ? 'fee-active' : 'fee-active-clm'" class="menu-active" size="32" />
+                <base-icon icon="fee" class="menu" size="32" />
+                <p class="color-add-menu" style="font-size: 11px">{{ $t('leftMenu.fee') }}</p>
+              </div>
+            </router-link>
           </li>
         </ul>
 
         <ul class="module" v-if="checkPemission('exception', ['view'])">
           <li class="module-item" @click="isOpenPopup = false">
-            <router-link :to="{ name: 'Exception' }" class="router_center" >
+            <router-link :to="{ name: 'Exception' }" class="router_center">
               <div class="sack_avatar">
                 <base-icon :icon="coinMain === 'LYNK' ? 'icon-exception-bo-active' : 'icon-exception-bo-active-clm'" class="menu-active" size="32" />
                 <base-icon icon="icon-exception-bo" class="menu" size="32" />
@@ -296,7 +294,6 @@
         title: 'CTƯĐ'
       }
     ]
-
   }
 </script>
 <style lang="scss" scoped>
