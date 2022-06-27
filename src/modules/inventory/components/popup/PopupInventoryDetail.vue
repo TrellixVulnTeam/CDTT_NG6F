@@ -26,7 +26,7 @@
       <div class="content-mid box-shadow mb-24">
         <p class="content-mid__title">Inventory</p>
         <base-table
-            :data="dataConvertSummaryInventory"
+            :data="dataTableInventory"
             :showPagination="false"
             class="table-mid">
             <el-table-column label="TYPE" align="left" width="300">
