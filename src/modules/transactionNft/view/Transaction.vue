@@ -275,7 +275,7 @@
     }
 
     async created(): Promise<void> {
-      this.query = { ...this.query, currency: this.coinMain }
+      this.query = { ...this.query, currency: this.$route.params.token }
       this.tabHeaderActive = this.$route.params.token
 
       const type = this.$route.params.type
