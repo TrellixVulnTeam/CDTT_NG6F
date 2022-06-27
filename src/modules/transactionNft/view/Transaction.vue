@@ -33,7 +33,7 @@
             </p>
           </div>
           <div class="item-bottom">
-            <span class="text3">~${{ value.amountUSD | convertAmountDecimal('USD') }}</span>
+            <span class="text3">~${{ value.amountUsd | convertAmountDecimal('USD') }}</span>
           </div>
         </div>
       </div>
@@ -305,7 +305,7 @@
         this.dataHeaderCard[index] = {
           ...this.dataHeaderCard[index],
           amount: summary.amount,
-          amountUsd: summary.amountUsd
+          amountUsd: summary.amountUSD
         }
 
         this.isLoading = false
