@@ -231,6 +231,7 @@
         checkValid(field: string): boolean {
           let to = parseFloat(this.popup_data.content[field].input.value2.replaceAll(',', ''))
           let from = parseFloat(this.popup_data.content[field].input.value1.replaceAll(',', ''))
+          console.log('234...', from, to)
           if (from > to) {
             this.error[field] = field
             return false
@@ -279,13 +280,14 @@
         const filters = {
             fromDate : fromDate,
             toDate : toDate,
-            fromTransactionAmount: this.popup_data.content.transactionAmount.input.value1,
-            toTransactionAmount: this.popup_data.content.transactionAmount.input.value2,
-            fromFeeAmount: this.popup_data.content.feeAmount.input.value1,
-            toFeeAmount: this.popup_data.content.feeAmount.input.value2,
+            fromTransactionAmount: this.popup_data.content.transactionAmount.input.value1 !== '' ? parseFloat(this.popup_data.content.transactionAmount.input.value1.replaceAll(',', '')) : '',
+            toTransactionAmount: this.popup_data.content.transactionAmount.input.value2 !== '' ? parseFloat(this.popup_data.content.transactionAmount.input.value2.replaceAll(',', '')) : '',
+            fromFeeAmount: this.popup_data.content.feeAmount.input.value1 !== '' ? parseFloat(this.popup_data.content.feeAmount.input.value1.replaceAll(',', '')) : '',
+            toFeeAmount: this.popup_data.content.feeAmount.input.value2 !== '' ? parseFloat(this.popup_data.content.feeAmount.input.value2.replaceAll(',', '')) : '',
             status: this.popup_data.content.status.value === '' ? null : this.popup_data.content.status.value
         }
         this.$emit('feeFilterBark', filters)
+        console.log('290...', filters)
         this.handleClose()
     }
   }

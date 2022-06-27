@@ -32,7 +32,8 @@
     </div>
     <el-button type="button" class="export-excel cursor" 
     @click="handleExport"
-    :loading="isLoading">
+    :loading="isLoading"
+    style="visibility: hidden">
       <base-icon icon="icon-excel" size="22" />
     </el-button>
     <popup-fee-nft @feeFilterBark="handleCatchBark($event)"/>
@@ -142,7 +143,8 @@
     //   return {deleteCache: this.reseted.deleteCache}
     // }
     @Watch('filterFeeNft.search') handleSearch(value: string): void {
-      this.searchText(value)
+      console.log('146....', this.filterFeeNft)
+      this.searchText(this, value)
     }
     // @Watch('reseted') handleDeleteCache(value: Record<string, any>): void {
     //   if(this.reseted.deleteCache === true)
@@ -153,11 +155,15 @@
     //     this.$emit('reseted')
     //   }
     // }
-    searchText = debounce((value: string) => {
-      this.$emit('filters', {
-        ...this.filterFeeNft,
+    searchText = debounce((_this:any, value: string) => {
+      console.log('158...search', this.filterFeeNft)
+      _this.filterFeeNft = {
+        ..._this.filterFeeNft,
         search: trim(value)
-      })
+      }
+      // this.filterFeeNft.search = trim(value)
+      this.$emit('filters', _this.filterFeeNft)
+      console.log('160...search', _this.filterFeeNft)
     }, 500)
 
     numberFormat(event: FocusEvent): void {
@@ -192,14 +198,17 @@
       // EventBus.$off('changeTab')
     }
     handleCatchBark(filtersData: any):void {
+      console.log('196... catchbark', this.filterFeeNft)
+      console.log('197...', filtersData)
       const filterFeeNft = {
-        search: this.filterFeeNft.search,
+        ...this.filterFeeNft,
         ...filtersData,
+        search: this.filterFeeNft.search,
         orderBy: this.filterFeeNft.orderBy
       }
       this.$emit('filters', filterFeeNft)
       this.filterFeeNft = filterFeeNft
-      console.log('202..')
+      console.log('203...catchbark', this.filterFeeNft)
     }
     handleOpen():void {
       console.log('184')
@@ -230,8 +239,10 @@
 
     handleSort(command: string): void {
       this.sortActive = command
+      console.log('235...sort', this.filterFeeNft)
       this.filterFeeNft.orderBy = command
       this.$emit('filters', this.filterFeeNft)
+      console.log('238...sort')
     }
 
 
@@ -279,12 +290,18 @@
       align-items: center;
       .input-search {
         width: 400px;
-        margin-right: 20px;
+        margin-right: 22px;
         .el-input__inner {
-          width: 355px;
-          box-sizing: unset;
+          width: 400px;
+          // box-sizing: unset;
           padding-top: 4px;
           padding-bottom: 4px;
+          padding-left: 45px;
+          box-sizing: border-box;
+          height: 48px;
+        }
+        .el-input__prefix {
+          left: 12px;
         }
         .span-icon {
           line-height: 48px;

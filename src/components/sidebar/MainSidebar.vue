@@ -48,24 +48,24 @@
       <div class="popper-add-menu-content">
         <ul class="module">
           <li class="module-item" @click="isOpenPopupNft = false">
-            <router-link :to="{ name: 'Inventory' }" class="router_center">
-              <div class="sack_avatar">
-                <base-icon :icon="coinMain === 'LYNK' ? 'setup-active' : 'setup-active-clm'" class="menu-active" size="32" />
-                <base-icon icon="setup" class="menu" size="32" />
-                <p class="color-add-menu" style="font-size: 11px">{{ $t('leftMenu.setup') }}</p>
-              </div>
-            </router-link>
+            <router-link to="/setup" class="router_center">
+            <div class="sack_avatar">
+              <base-icon :icon="coinMain === 'LYNK' ? 'setup-active' : 'setup-active-clm'" class="menu-active" size="32" />
+              <base-icon icon="setup" class="menu" size="32" />
+              <p class="color-add-menu" style="font-size: 11px">{{ $t('leftMenu.setup') }}</p>
+            </div>
+          </router-link>
           </li>
         </ul>
         <ul class="module">
           <li class="module-item" @click="isOpenPopupNft = false">
-            <router-link :to="{ name: 'Inventory' }" class="router_center">
-              <div class="sack_avatar">
-                <base-icon :icon="coinMain === 'LYNK' ? 'inventory' : 'fee-active-clm'" class="menu-active" size="32" />
-                <base-icon icon="inventory" class="menu" size="32" />
-                <p class="color-add-menu" style="font-size: 11px">{{ $t('leftMenu.inventory') }}</p>
-              </div>
-            </router-link>
+            <router-link :to="{name: 'Inventory'}" class="router_center">
+            <div class="sack_avatar">
+              <base-icon :icon="coinMain === 'LYNK' ? 'inventory-active' : 'fee-active-clm'" class="menu-active" size="32" />
+              <base-icon icon="inventory" class="menu" size="32" />
+              <p class="color-add-menu" style="font-size: 11px">{{ $t('leftMenu.inventory') }}</p>
+            </div>
+          </router-link>
           </li>
         </ul>
         <ul class="module">
