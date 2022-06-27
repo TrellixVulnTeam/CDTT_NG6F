@@ -234,7 +234,7 @@
       fromQuantity: '',
       toQuantity: '',
       transactionStatus: '',
-      orderBy: '',
+      orderBy: 'DATE_DESC',
       page: 1,
       limit: 10,
       total: 10
@@ -420,7 +420,7 @@
         page: 1,
         limit: 10,
         search: null,
-        orderBy: '',
+        orderBy: 'DATE_DESC',
         keywordString: null,
         currency: null,
         status: null,
@@ -428,7 +428,10 @@
         toDate: null,
         fromAmount: null,
         toAmount: null,
-        bonusType: null
+        bonusType: null,
+        fromAccount: null,
+        toAccount: null,
+        transactionStatus: null
       }
     }
     isCopy = ''

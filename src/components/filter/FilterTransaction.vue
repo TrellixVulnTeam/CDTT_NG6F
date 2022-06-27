@@ -26,15 +26,6 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <button v-if="showBtn" type="button" class="btn-default-bg text-sm ml-auto add-member" @click="handleClickButton('popup-add-deposit')">
-      <span>{{ $t('button.add-deposit') }}</span>
-    </button>
-    <button v-if="showBtnCrowdsale" type="button" class="btn-default-bg text-sm ml-auto add-member" @click="handleClickButton('popup-add-crowdsale')">
-      <span>{{ $t('button.add-crowdsale') }}</span>
-    </button>
-    <button v-if="showBtnTransfer" type="button" class="btn-default-bg text-sm ml-auto add-member" @click="handleClickButton('popup-add-transfer')">
-      <span>{{ $t('button.add-transfer') }}</span>
-    </button>
   </div>
 </template>
 
@@ -57,19 +48,27 @@
     }
     sorts: Array<Record<string, any>> = [
       {
-        command: 1,
+        command: 'DATE_DESC',
         label: this.$i18n.t('customer.sort.trans-date')
       },
       {
-        command: 2,
+        command: 'AMOUNT_DESC',
         label: this.$i18n.t('customer.sort.trans-amount')
       },
       {
-        command: 3,
-        label: this.$i18n.t('customer.sort.status')
+        command: 'QUANTITY_DESC',
+        label: this.$i18n.t('sort_quantity')
+      },
+      {
+        command: 'ITEM_ASC',
+        label: this.$i18n.t('sort_item')
+      },
+      {
+        command: 'FROM_ASC',
+        label: this.$i18n.t('sort_from')
       }
     ]
-    sortActive = 1
+    sortActive = 'DATE_DESC'
 
     @Watch('filter.search') handleSearch(value: string): void {
       this.searchText(value)
@@ -99,9 +98,9 @@
       this.filter.search = ''
       this.filter.keywordString = ''
       this.filter.orderBy = 1
-      this.sortActive = 1
+      this.sortActive = 'DATE_DESC'
     }
-    handleSort(command: number): void {
+    handleSort(command: string): void {
       this.sortActive = command
       this.$emit('filter', { orderBy: this.sortActive })
     }

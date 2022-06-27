@@ -161,7 +161,7 @@
         </div>
         <div class="be-flex jc-space-between">
           <el-form-item :label="$t('label.status')" class="be-flex-item">
-            <el-select v-model="filter.status" clearable class="w-100">
+            <el-select v-model="filter.transactionStatus" clearable class="w-100">
               <el-option v-for="status in listStatus" :key="status.id" :value="status.value" :label="status.label">
                 <template>
                   <span class="d-ib">{{ status.label }}</span>
@@ -215,7 +215,7 @@
       fromQuantity: '',
       toQuantity: '',
       fromAccount: '',
-      status: '',
+      transactionStatus: '',
       transactionType: ''
     }
 
@@ -284,12 +284,12 @@
         id: 2,
         label: 'Success',
         value: 'SUCCESS'
+      },
+      {
+        id: 3,
+        label: 'Failed',
+        value: 'FAILED'
       }
-      // {
-      //   id: 3,
-      //   label: 'Failed',
-      //   value: 'FAILED'
-      // },
       // {
       //   id: 4,
       //   label: 'Rejected',
@@ -301,12 +301,20 @@
     errorTypeQuantity = false
 
     async handleOpen(): Promise<void> {
-      if (!this.listAccountClone.length) {
-        const result = await apiNft.getListAccount({ page: 1, limit: 20 })
-        this.listAccountFrom = [...result]
-        this.listAccountTo = [...result]
-        this.listAccountClone = [...result]
+      this.queryFrom = {
+        page: 1,
+        limit: 20,
+        search: ''
       }
+      this.queryTo = {
+        page: 1,
+        limit: 20,
+        search: ''
+      }
+      const result = await apiNft.getListAccount({ page: 1, limit: 20 })
+      this.listAccountFrom = [...result]
+      this.listAccountTo = [...result]
+      this.listAccountClone = [...result]
     }
 
     handleFindCustomerFrom(query: string): void {
@@ -376,9 +384,11 @@
         toDate: '',
         fromAmount: '',
         toAmount: '',
-        status: null,
+        fromAccount: '',
+        toAccount: '',
         bonusType: null,
-        transactionType: ''
+        transactionType: '',
+        transactionStatus: ''
       }
 
       this.errorType = false

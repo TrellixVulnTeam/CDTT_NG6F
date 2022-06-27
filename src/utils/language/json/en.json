@@ -1149,6 +1149,9 @@
   "card_bid": "Total Bid",
   "card_sale": "Total Buy",
   "card_offer": "Total Offer",
+  "sort_quantity": "Quantity",
+  "sort_item": "Item",
+  "sort_from": "From",
   "fee-nft": {
     "trans-amount": "Transaction amount",
     "fee-amount": "Fee amount",

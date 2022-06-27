@@ -1102,5 +1102,8 @@
   "card_list": "Total On Sale",
   "card_bid": "Total Bid",
   "card_sale": "Total Buy",
-  "card_offer": "Total Offer"
+  "card_offer": "Total Offer",
+  "sort_quantity": "Quantity",
+  "sort_item": "Item",
+  "sort_from": "From"
 }
