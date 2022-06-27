@@ -59,7 +59,7 @@
         <p>{{ $t('transaction.detail.quantity') }}</p>
         <div class="be-flex align-center">
           <p class="text-detail-2">
-            {{ detailRow.quantity }}
+            {{ detailRow.quantity | formatNumber }}
           </p>
         </div>
       </div>

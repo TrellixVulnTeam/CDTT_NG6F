@@ -55,7 +55,11 @@
         </div>
       </template>
     </el-table-column>
-    <el-table-column :label="$t('transaction.table.quantity')" prop="quantity" align="right"> </el-table-column>
+    <el-table-column :label="$t('transaction.table.quantity')" prop="" align="right">
+      <template slot-scope="scope">
+        <div>{{ scope.row.quantity | formatNumber }}</div>
+      </template>
+    </el-table-column>
   </base-table>
 </template>
 
