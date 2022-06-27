@@ -277,7 +277,7 @@
       orderBy: 'DATE',
       status: '',
       page: 1,
-      size: 10,
+      limit: 10,
       total: 10
     }
     
@@ -313,7 +313,7 @@
     get queryTable():any {
       return {
         ...this.query,
-        limit: this.query.size
+        limit: this.query.limit
       } 
     }
     created(): void {
@@ -336,7 +336,7 @@
           ...this.query,
           // userId: this.query.userId,
           orderBy: this.query.orderBy,
-          size: this.query.size,
+          limit: this.query.limit,
           page: this.query.page,
           currency: this.tabActive,
           fromDate: this.query.fromDate,
@@ -427,14 +427,14 @@
     }
 
     indexMethod(index: number): number {
-      return (this.query.page - 1) * this.query.size + index + 1
+      return (this.query.page - 1) * this.query.limit + index + 1
     }
     handleChangeType(Type: any): void {
       this.typeActive = Type
       this.resetQuery()
       this.query.currency = this.tabActive
       this.query.page = 1
-      this.query.size = 10
+      this.query.limit = 10
       this.query.orderBy = 'DATE'
       this.query.type = Type.value
       this.getSummaries()
@@ -454,7 +454,7 @@
       this.tabActive = tab.title
       this.query.currency = tab.title
       this.query.page = 1
-      this.query.size = 10
+      this.query.limit = 10
       this.query.orderBy = 'DATE'
       this.query.type = this.typeActive.value
       this.getSummaries()
@@ -470,7 +470,7 @@
       this.query = {
         ...this.query,
         page: 1,
-        size: 10,
+        limit: 10,
         orderBy: 'DATE',
         search: this.filters.search,
         currency: null,
@@ -490,9 +490,9 @@
     }
 
     handleSizeChange(limit: number): void {
-      this.query.size = limit
+      this.query.page = 1
+      this.query.limit = limit
       this.init()
-      console.log('size-change')
     }
 
     handleRowClick(row: Record<string, any>): void {
@@ -521,7 +521,7 @@
         status: this.filters.status,
         orderBy: this.filters.orderBy,
         page: 1,
-        size: 10
+        limit: 10
       }
       this.getSummaries()
       this.debounceInit()
