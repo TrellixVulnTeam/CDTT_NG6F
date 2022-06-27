@@ -9,7 +9,7 @@
     <div class="fee-nft-header__summaries">
       <div class="summary">
         <div class="summary-title">
-          <span class="summary-title__text">Total Service Fee</span>
+          <span class="summary-title__text">{{$t('fee-nft.service-fee')}}</span>
           <base-icon icon="icon-service-fee" size="24"/>
         </div>
         <div class="summary-number">
@@ -22,7 +22,7 @@
       </div>
       <div class="summary">
         <div class="summary-title">
-          <span class="summary-title__text">Total Royalty Fee</span>
+          <span class="summary-title__text">{{$t('fee-nft.royalty-fee')}}</span>
           <base-icon icon="icon-loyalties" size="24"/>
         </div>
         <div class="summary-number">
@@ -34,7 +34,7 @@
       </div>
       <div class="summary">
         <div class="summary-title">
-          <span class="summary-title__text">Total Transfer Fee</span>
+          <span class="summary-title__text">{{$t('fee-nft.transfer-fee')}}</span>
           <base-icon icon="icon-transfer-fee" size="24"/>
         </div>
         <div class="summary-number">
@@ -73,7 +73,7 @@
           <base-table 
           :data="propdataTable"
           class="table-fee-nft"
-          :paginationInfo="'Transactions'"
+          :paginationInfo="selectLanguage() === 'en' ? 'Transactions' : $t('header.transaction')"
           :table="queryTable"
           @rowClick="handleRowClick"
           @sizeChange="handleSizeChange"
@@ -81,7 +81,7 @@
           :loading="isLoading"
           >
             <el-table-column label="#" type="index" :index="indexMethod" width="70"/>
-            <el-table-column label="TRANSACTION ID" width="300" align="left">
+            <el-table-column :label="$t('fee-nft.table.trans-id')" width="300" align="left">
               <template slot-scope="scope">
                 <p class="trans-id">
                   <span>
@@ -92,18 +92,18 @@
                 <p class="trans-date">{{scope.row.transactionDate | formatMMDDYY}}</p>
               </template>
             </el-table-column>
-            <el-table-column label="ITEM" width="380" align="left">
+            <el-table-column :label="$t('fee-nft.table.item')" width="380" align="left">
               <template slot-scope="scope">
                 <div class="wrap-item-col">
                   <img :src="scope.row.itemThumb" class="item-img" width="40px" height="40px">
                   <div class="item-text">
                     <p class="item-text__name">{{scope.row.itemName}}</p>
-                    <p class="item-text__code">{{scope.row.itemCode}}</p>
+                    <p class="item-text__code">#{{scope.row.itemCode}}</p>
                   </div>
                 </div>
               </template>
             </el-table-column>
-            <el-table-column label="FROM" width="250" align="left">
+            <el-table-column :label="$t('fee-nft.table.from')" width="250" align="left">
               <template slot-scope="scope">
                 <div class="wrap-from-col">
                   <p class="wrap-from-col__name">{{scope.row.accountName}}</p>
@@ -111,7 +111,7 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column label="FEE" width="180" align="right">
+            <el-table-column :label="$t('fee-nft.table.fee')" width="180" align="right">
               <template slot-scope="scope">
                 <div class="wrap-fee-col">
                   <p class="wrap-fee-col__coin">{{scope.row.feeDisplay | convertAmountDecimal(tabActive)}} {{tabActive}}</p>
@@ -119,9 +119,9 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column label="STATUS" align="right">
+            <el-table-column :label="$t('fee-nft.table.status')" align="right">
               <template slot-scope="scope">
-                <span class="status" :class="checkType(scope.row.status)" style="text-transform: capitalize;">{{scope.row.status | statusCapitalize}}</span>
+                <span class="status" :class="checkType(scope.row.status)">{{getTitleStatus(scope.row.status)}}</span>
               </template>
             </el-table-column>
           </base-table>      
@@ -154,14 +154,7 @@
     totalFeeDisplay: number,
     totalFeeUSD: number
   }
-  @Component({components: {FeeNftFilter, BaseTable}, filters: {
-      statusCapitalize(input: string):string {
-        let rs = input
-        rs = rs.toLowerCase()
-        rs[0].toUpperCase()
-        return rs
-      }
-  }})
+  @Component({components: {FeeNftFilter, BaseTable}})
   export default class FeeNft extends Mixins(PopupMixin) {
     @beBase.State('coinMain') coinMain!: string
     // query: any = {
@@ -186,17 +179,17 @@
     filterTypes: Array<Record<string, any>> = [
       {
         typeId: 1,
-        title: 'Service',
+        title: this.$i18n.t('fee-nft.service'),
         value: 'NFT_SALE'
       },
       {
         typeId: 2,
-        title: 'Royalty',
+        title: this.$i18n.t('fee-nft.royalty'),
         value: 'ROYALTIES_FEE'
       },
       {
         typeId: 3,
-        title: 'Transfer',
+        title: this.$i18n.t('fee-nft.transfer'),
         value: 'NFT_TRANSFER'
       }
       // ,
@@ -328,7 +321,9 @@
 
     propdataTable: Record<string, any>[] = []
     
-    
+    selectLanguage():string {
+      return window.localStorage.getItem('bc-lang') as string
+    }
     async init(): Promise<void> {
       try {
         this.isLoading = true
@@ -495,6 +490,16 @@
       this.init()
     }
 
+    getTitleStatus(input: string):string {
+      const lang = window.localStorage.getItem('bc-lang')
+      if(lang === 'en') {
+        return input === 'SUCCESS' ? 'Success' : input === 'PENDING' ? 'Pending' : input === 'FAILED' ? 'Failed' : 'Processing'
+      }
+      else if(lang === 'vi') {
+        return input === 'SUCCESS' ? 'Thành công' : input === 'PENDING' ? 'Chưa xử lý' : input === 'FAILED' ? 'Thất bại' : 'Đang xử lý'
+      }
+      return ''
+    }
     handleRowClick(row: Record<string, any>): void {
       // this.detailRow = row
       // this.setOpenPopup({
@@ -703,7 +708,6 @@
               text-align: center;
               border-radius: 4px;
               box-sizing: border-box;
-              text-transform: capitalize;
               &.status-success {
                 background-color: var(--bc-bg-success);
                 @include text(12px, 24px, 500, #129961)
