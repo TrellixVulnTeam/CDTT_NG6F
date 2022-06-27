@@ -74,6 +74,7 @@
       // EventBus.$on('pushAvatar', url => {
       //   this.image = url
       // })
+      console.log('77...', this.query)
     }
     checkStatus(status: string): any {
       switch (status) {

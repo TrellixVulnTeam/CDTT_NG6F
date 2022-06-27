@@ -136,7 +136,8 @@
     "report": "Report",
     "nft": "NFT",
     "fee": "Fee",
-    "inventory": "Inventory"
+    "inventory": "Inventory",
+    "fee-nft": "Fee"
   },
   "footer": {
     "terms": "Terms and Conditions"
@@ -162,7 +163,9 @@
     "reason": "Other reason...",
     "search": "Search",
     "from-amount": "From amount",
+    "from-quantity": "From quantity",
     "to-amount": "To amount",
+    "to-quantity": "To quantity",
     "select-type": "Select type",
     "select-type-1": "Select type",
     "status": "Select status",
@@ -282,7 +285,8 @@
     "amount-available": "Available amount",
     "from": "From",
     "to": "To",
-    "vesting": "Vesting time"
+    "vesting": "Vesting time",
+    "quantity": "Quantity"
   },
   "buy-lyn": {
     "title": "BUY LYNK"
@@ -330,6 +334,7 @@
     "experied-verify": "Expired verification code",
     "date-invalid": "From date is less than to date",
     "amount-invalid": "From amount must be less than To amount",
+    "quantity-invalid": "From quantity must be less than To quantity",
     "account-exist": "Account already exists",
     "add-user-succsess": "Add member successfully",
     "update-user-succsess": "Update member successfully",
@@ -575,7 +580,7 @@
       "failed": "Failed",
       "rejected": "Rejected",
       "expired": "Expired",
-      "waiting":"Waiting",
+      "waiting": "Waiting",
       "sell": "Sell",
       "bonus-sign-up": "Bonus sign up",
       "bonus-crowdsale": "Bonus crowdsale",
@@ -592,7 +597,11 @@
       "locked": "Locked",
       "nft-sale": "NFT Sale",
       "nft-transfer": "NFT Transfer",
-      "royalties-fee": "Royalties Fee"
+      "royalties-fee": "Royalties Fee",
+      "item": "Item",
+      "from": "from",
+      "price": "Price",
+      "quantity": "quantity"
     },
     "popup": {
       "title-filter": "Filter",
@@ -613,7 +622,12 @@
       "full-name": "Full name",
       "phone-number": "Phone number",
       "email": "Email",
-      "reason": "Reason"
+      "reason": "Reason",
+      "price": "Price",
+      "quantity": "Quantity",
+      "amount": "Amount",
+      "service-fee": "Service fee",
+      "royal-fee": "Royalty fee"
     },
     "filter": {
       "sign-up": "Bonus sign up",
@@ -678,7 +692,12 @@
     "crowdsales": "Crowdsale",
     "vesting": "Vesting",
     "metamart-nft": "NFT item",
-    "metamart-collection": "Collection"
+    "metamart-collection": "Collection",
+    "put-on-sale": "Put on sale",
+    "bid": "Bid",
+    "offer": "Offer",
+    "sale": "Sale",
+    "burn": "Burn"
   },
   "status": {
     "pending": "Pending",
@@ -840,7 +859,7 @@
     },
     "status": {
       "success": "Success",
-      "pending":"Pending",
+      "pending": "Pending",
       "reject": "Rejected",
       "failed": "Failed",
       "processing": "Processing",
@@ -1102,7 +1121,7 @@
     "success": "Success",
     "reject": "Rejected",
     "failed": "Failed",
-    "processing":"Processing",
+    "processing": "Processing",
     "alert": {
       "amount": "From amount must be less than To amount",
       "fee": "From fee must be less than To fee"
@@ -1118,7 +1137,7 @@
     "table": {
       "owner": "OWNER",
       "item": "ITEM",
-      "network":"NETWORK",
+      "network": "NETWORK",
       "quantity": "QUANTITY",
       "status": "STATUS"
     },
@@ -1131,5 +1150,44 @@
     "inventory-detail": {
       "title": "INVENTORY DETAIL"
     }
+  },
+  "card_list": "Total On Sale",
+  "card_bid": "Total Bid",
+  "card_sale": "Total Buy",
+  "card_offer": "Total Offer",
+  "title_list": "Put On Sale",
+  "title_bid": "Bid",
+  "title_sale": "Sale",
+  "title_offer": "Offer",
+  "title_transfer": "Transfer",
+  "title_burn": "Burn",
+  "sort_quantity": "Quantity",
+  "sort_item": "Item",
+  "sort_from": "From",
+  "detail": "Detail",
+  "view-inventory": "View inventory",
+  "fee-nft": {
+    "trans-amount": "Transaction amount",
+    "fee-amount": "Fee amount",
+    "fee-nft-filter": {
+      "trans-date": "Transaction Date",
+      "fee": "Fee",
+      "status": "Status",
+      "item": "Item",
+      "from": "From"
+    },
+    "table": {
+      "trans-id":"TRANSACTION ID",
+      "item": "ITEM",
+      "from": "FROM",
+      "fee": "FEE",
+      "status": "STATUS"
+    },
+    "service-fee": "Total Service Fee",
+    "royalty-fee": "Total Royalty Fee",
+    "transfer-fee": "Total Transfer Fee",
+    "service": "Service",
+    "royalty": "Royalty",
+    "transfer": "Transfer"    
   }
 }
