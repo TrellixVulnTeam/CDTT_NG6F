@@ -1,79 +1,107 @@
 <template>
 <div class="inventory box-shadow  ">
   <h1 class="inventory-title">Summary</h1>
-  <el-carousel :autoplay="false"  arrow="always">
-    <el-carousel-item v-for="(itemTab,index) in dataConcat" :key="index">
+<!--  <el-carousel :autoplay="false"  arrow="always">-->
+<!--    <el-carousel-item v-for="(itemTab,index) in dataConcat" :key="index">-->
+<!--      <div class="wrap-summaries mb-24" >-->
+<!--        <div class="summary" v-for="(item, i) in dataConcat[index].tabOne" :key="i">-->
+<!--          <div class="summary-header">-->
+<!--            <span class="summary-header__title">{{item.summaryName}}</span>-->
+<!--            <base-icon icon="icon-two-users" size="24"/>-->
+<!--          </div>-->
+<!--          <div class="summary-content">{{item.total}}</div>-->
+<!--        </div>-->
+<!--        <div class="summary" v-for="(item, i) in dataConcat[index].tabTwo" :key="i">-->
+<!--          <div class="summary-header">-->
+<!--            <span class="summary-header__title">{{item.summaryName}}</span>-->
+<!--            <base-icon icon="icon-two-users" size="24"/>-->
+<!--          </div>-->
+<!--          <div class="summary-content">{{item.total}}</div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </el-carousel-item>-->
+<!--  </el-carousel>-->
+
+  <el-carousel :autoplay="false" arrow="always">
+    <el-carousel-item>
       <div class="wrap-summaries mb-24" >
-        <div class="summary" v-for="(item, i) in dataConcat[index].tabOne" :key="i">
+        <div class="summary">
           <div class="summary-header">
-            <span class="summary-header__title">{{item.summaryName}}</span>
+            <span class="summary-header__title">Owners</span>
             <base-icon icon="icon-two-users" size="24"/>
           </div>
-          <div class="summary-content">{{item.total}}</div>
+          <div class="summary-content">{{summaryInventoryData.totalOwner | formatNumber}}</div>
         </div>
-        <div class="summary" v-for="(item, i) in dataConcat[index].tabTwo" :key="i">
+        <div class="summary">
           <div class="summary-header">
-            <span class="summary-header__title">{{item.summaryName}}</span>
-            <base-icon icon="icon-two-users" size="24"/>
+            <span class="summary-header__title">NFTs</span>
+            <base-icon icon="icon-img-inventory" size="24"/>
           </div>
-          <div class="summary-content">{{item.total}}</div>
+          <div class="summary-content">{{summaryInventoryData.totalNft | formatNumber}}</div>
+        </div>
+        <div class="summary">
+          <div class="summary-header">
+            <span class="summary-header__title">Available</span>
+            <base-icon icon="icon-available" size="24"/>
+          </div>
+          <div class="summary-content">{{summaryInventoryData.totalAvailable | formatNumber}}</div>
+        </div>
+        <div class="summary">
+          <div class="summary-header">
+            <span class="summary-header__title">Lock</span>
+            <base-icon icon="icon-lock-inventory" size="24"/>
+          </div>
+          <div class="summary-content">{{summaryInventoryData.totalLock | formatNumber}}</div>
+        </div>
+      </div>
+    </el-carousel-item>
+    <el-carousel-item >
+      <div class="wrap-summaries mb-24" >
+        <div class="summary">
+          <div class="summary-header">
+            <span class="summary-header__title">On Sale</span>
+            <base-icon icon="onsale-inventory" size="24"/>
+          </div>
+          <div class="summary-content">{{summaryInventoryData.totalOnSale | formatNumber}}</div>
+        </div>
+        <div class="summary">
+          <div class="summary-header">
+            <span class="summary-header__title">Off Market</span>
+            <base-icon icon="offmarket-inventory" size="24"/>
+          </div>
+          <div class="summary-content">{{summaryInventoryData.totalOffMarket | formatNumber}}</div>
+        </div>
+        <div class="summary">
+          <div class="summary-header">
+            <span class="summary-header__title">Burn</span>
+            <base-icon icon="icon-burn" size="24"/>
+          </div>
+          <div class="summary-content">{{summaryInventoryData.totalBurn | formatNumber}}</div>
         </div>
       </div>
     </el-carousel-item>
   </el-carousel>
-  <!--
-  <div class="wrap-summaries mb-24">
-    <div class="summary">
-      <div class="summary-header">
-        <span class="summary-header__title">Owners</span>
-        <base-icon icon="icon-two-users" size="24"/>
-      </div>
-      <div class="summary-content">100,582</div>
-    </div>
-    <div class="summary">
-      <div class="summary-header">
-        <span class="summary-header__title">NFTs</span>
-        <base-icon icon="icon-img-inventory" size="24"/>
-      </div>
-      <div class="summary-content">120,008,000</div>
-    </div>
-    <div class="summary">
-      <div class="summary-header">
-        <span class="summary-header__title">On Sale</span>
-        <base-icon icon="onsale-inventory" size="24"/>
-      </div>
-      <div class="summary-content">80,000</div>
-    </div>
-    <div class="summary">
-      <div class="summary-header">
-        <span class="summary-header__title">Off Markert</span>
-        <base-icon icon="offmarket-inventory" size="24"/>
-      </div>
-      <div class="summary-content">1,200</div>
-    </div>
-  </div>
-  !-->
   <div class="wrap-filter mb-24">
     <inventory-filter></inventory-filter>
   </div>
   <div class="wrap-table">
     <base-table
-    :data="dataTable"
-    class="inventory-table"
-    @rowClick="handleRowClick($event)"
+      :data="listDataItem"
+      class="inventory-table"
+      @rowClick="handleRowClick($event)"
     >
       <el-table-column label="#" type="index" 
       align="center" width="40" :index="indexMethod"/>
       <el-table-column :label="$t('inventory.table.owner')" align="left">
         <template slot-scope="scope">
           <p class="owner-name">{{scope.row.ownerName}}</p>
-          <p class="owner-email">{{scope.row.ownerEmail}}</p>
+          <p class="owner-email">{{scope.row.email}}</p>
         </template>
       </el-table-column>
       <el-table-column :label="$t('inventory.table.item')" align="left" width="280">
         <template slot-scope="scope">
           <div class="wrap-item">
-            <img :src="scope.row.itemImage" alt="" class="item-img" width="40px" height="40px">
+            <img :src="scope.row.itemAvatar" alt="" class="item-img" width="40px" height="40px">
             <div class="item-text">
               <p class="item-text__name">{{scope.row.itemName}}</p>
               <p class="item-text__code">{{scope.row.itemCode}}</p>
@@ -84,7 +112,7 @@
       <el-table-column :label="$t('inventory.table.network')" align="left" width="270">
         <template slot-scope="scope">
           <p class="network-name">{{scope.row.networkName}}</p>
-          <p class="network-code">{{scope.row.networkCode}}</p>
+          <p class="network-code">{{scope.row.network}}</p>
         </template>
       </el-table-column>
       <el-table-column :label="$t('inventory.table.quantity')" align="right" width="150">
@@ -92,11 +120,11 @@
           <span class="quantity">{{scope.row.quantity}}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('inventory.table.status')" align="center" width="185">
-        <template slot-scope="scope">
-          <span class="status" :class="getClassStatus(scope.row.status)">{{getTextStatus(scope.row.status)}}</span>
-        </template>
-      </el-table-column>
+<!--      <el-table-column :label="$t('inventory.table.status')" align="center" width="185">-->
+<!--        <template slot-scope="scope">-->
+<!--          <span class="status" :class="getClassStatus(scope.row.status)">{{getTextStatus(scope.row.status)}}</span>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
     </base-table>
   </div>
   <popup-inventory-detail />
@@ -105,20 +133,19 @@
 </template>
 
 <script lang="ts">
-  import { Component, Mixins, Watch } from 'vue-property-decorator'
-  import getRepository from '@/services'
-  import { InventoryRepository } from '@/services/repositories/inventory'
-  //@ts-ignore
-  import PopupMixin from '@/mixins/popup'
-  import InventoryFilter from '@/modules/inventory/components/filter/InventoryFilter.vue'
-  import PopupInventoryDetail from '../components/popup/PopupInventoryDetail.vue'
-  import BaseTable from '@/components/base/table/BaseTable.vue'
-  // import EventBus from '@/utils/eventBus'
-  import { debounce } from 'lodash'
+import {Component, Mixins} from 'vue-property-decorator'
+import getRepository from '@/services'
+import {InventoryRepository} from '@/services/repositories/inventory'
+//@ts-ignore
+import PopupMixin from '@/mixins/popup'
+import InventoryFilter from '@/modules/inventory/components/filter/InventoryFilter.vue'
+import PopupInventoryDetail from '../components/popup/PopupInventoryDetail.vue'
+import BaseTable from '@/components/base/table/BaseTable.vue'
+// import EventBus from '@/utils/eventBus'
 
-  import { namespace } from 'vuex-class'
+import {namespace} from 'vuex-class'
 
-  const api: InventoryRepository = getRepository('inventory')
+const api: InventoryRepository = getRepository('inventory')
   const beBase = namespace('beBase')
 
   @Component({components: { BaseTable, InventoryFilter, PopupInventoryDetail }})
@@ -126,25 +153,52 @@
     @beBase.State('coinMain') coinMain!: string
     isLoading: any = false
 
+    summaryInventoryData: Record<string, any> = {}
+    listDataItem: Record<string, any>[] = []
+
     query: Record<string,any> = {
       search: '',
       network: '',
       fromQuantity: '',
       toQuantity: '',
+      orderBy: '',
+      page: 1,
+      limit: 10,
     }
 
-    // created(): void {
+    created(): void {
+      this.init();
+      this.getDataTable();
+    }
 
-    // }
 
+    async init(): Promise<void> {
+      try{
+        const response = await api.getSummaryData(this.query)
+        this.summaryInventoryData = response
+        console.log(this.summaryInventoryData)
+      }catch(error){
+        console.log(error)
+      }
+    }
 
-    // async init(): Promise<void> {
-    //   // try{
-    //   //   // const response = api.getSummaryData
-    //   // }catch(error){
-    //   //   console.log(error)
-    //   // }
-    // }
+    async getDataTable(): Promise<void> {
+      try {
+        const params = {
+          ...this.query,
+          orderBy: this.query.orderBy,
+          page: this.query.page,
+          limit: this.query.limit,
+          total: null
+        }
+        const response = await api.getListInventoryDataTable(params)
+        this.listDataItem = response.content
+        this.query.total = response.content.totalElements
+        console.log(this.listDataItem)
+      }catch (e) {
+        console.log(e)
+      }
+    }
 
     mounted(): void {
       for(let index = 0; index < this.dataConcat.length; index++){
@@ -193,37 +247,6 @@
             total: 112345566
           }
          ] 
-      }
-    ]
-
-    dataSummary: Array<Record<string, any>> = [
-      {
-        summaryName: "Owners",
-        total: 112345566
-      },
-      {
-        summaryName: "NFTs",
-        total: 112345566
-      },
-      {
-        summaryName: "Available",
-        total: 112345566
-      },
-      {
-        summaryName: "Lock",
-        total: 112345566
-      },
-      {
-        summaryName: "On Sale",
-        total: 112345566
-      },
-      {
-        summaryName: "Off Market",
-        total: 112345566
-      },
-      {
-        summaryName: "Burn",
-        total: 112345566
       }
     ]
 

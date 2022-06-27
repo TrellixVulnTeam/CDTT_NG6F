@@ -82,24 +82,18 @@
     sorts: Array<Record<string, any>> = [
       {
         command: '1',
-        label: this.$i18n.t('inventory.sorts.value'),
-        divided: false,
-        i18n: 'fee-filter.transaction-date'
-      },
-      {
-        command: '2',
         label: this.$i18n.t('inventory.sorts.quantity'),
         divided: false,
         i18n: 'fee-filter.transaction-amount'
       },
       {
-        command: '3',
+        command: '2',
         label: this.$i18n.t('inventory.sorts.item'),
         divided: false,
         i18n: 'fee-filter.status'
       },
       {
-        command: '4',
+        command: '3',
         label: this.$i18n.t('inventory.sorts.owner'),
         divided: false,
         i18n: ''
