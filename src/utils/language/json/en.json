@@ -1174,6 +1174,19 @@
       "status": "Status",
       "item": "Item",
       "from": "From"
-    }
+    },
+    "table": {
+      "trans-id":"TRANSACTION ID",
+      "item": "ITEM",
+      "from": "FROM",
+      "fee": "FEE",
+      "status": "STATUS"
+    },
+    "service-fee": "Total Service Fee",
+    "royalty-fee": "Total Royalty Fee",
+    "transfer-fee": "Total Transfer Fee",
+    "service": "Service",
+    "royalty": "Royalty",
+    "transfer": "Transfer"    
   }
 }
