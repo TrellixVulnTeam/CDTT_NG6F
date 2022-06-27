@@ -3,7 +3,7 @@ import { BaseRepository } from '@/services/base'
 
 export class FeeNftRepository extends BaseRepository {
   constructor() {
-    super('nft/api/v1/transaction/fee')
+    super('nft/api/v1/transaction')
   }
 
 //   async getlistBalanceDetail(tab: string, params: Record<string, any>): Promise<any> {
@@ -24,9 +24,9 @@ export class FeeNftRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
-  async getFeeNftSummary(params: Record<string, any>):Promise<any> {
+  async getFeeNftSummary(tab: string, params: Record<string, any>):Promise<any> {
     try {
-      const rs = await request.get(`${this.prefix}/summary`, {params})
+      const rs = await request.get(`${this.prefix}/${tab}`, {params})
       return Promise.resolve(rs.data.data)
     } catch (error) {
       return Promise.reject(error)

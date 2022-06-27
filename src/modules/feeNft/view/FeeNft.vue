@@ -80,7 +80,7 @@
           @currentChange="handleCurrentChange"
           :loading="isLoading"
           >
-            <el-table-column label="#" type="index" :index="indexMethod" width="40"/>
+            <el-table-column label="#" type="index" :index="indexMethod" width="70"/>
             <el-table-column label="TRANSACTION ID" width="300" align="left">
               <template slot-scope="scope">
                 <p class="trans-id">
@@ -348,7 +348,7 @@
           type: this.query.type,
           total: null
         }
-        const result = await api.getListFeeNft('', params)
+        const result = await api.getListFeeNft('fee', params)
         this.propdataTable = result.content
         // this.propdataTable = result.transactions.content
         if(this.propdataTable.length > 0) {
@@ -393,6 +393,7 @@
     }
     async getSummaries(): Promise<any> {
       const params = {
+          search: this.query.search,
           orderBy: this.query.orderBy,
           currency: this.tabActive,
           fromDate: this.query.fromDate,
@@ -406,7 +407,7 @@
           status: this.query.status
       }
       try {
-        const rs = await api.getFeeNftSummary(params)
+        const rs = await api.getFeeNftSummary('fee/summary', params)
         console.log('467', rs)
         if(rs.length !== 0) {
           this.summaries = rs
@@ -504,6 +505,7 @@
     }
 
     handleFilter(filter: Record<string, any>): void {
+      console.log('508', filter)
       this.filters = filter
       this.query = {
         ...this.query,
@@ -551,11 +553,11 @@
     //   return rs
     // }
     checkType(typeCheck: string): string {
-      const result = typeCheck === 'PENDING' ? 'status__pending'
+      const result = typeCheck === 'PENDING' ? 'status-pending'
         : (typeCheck === 'FAILED' || typeCheck === 'LOCKED' || typeCheck === 'WAITING' || typeCheck === 'EXPIRED')
-        ? 'status__error'
+        ? 'status-error'
         : typeCheck === 'PROCESSING'
-        ? 'status__pending'
+        ? 'status-pending'
         : typeCheck === 'REJECTED'
         ? 'status-rejected'
         : 'status-success'
@@ -702,13 +704,17 @@
               border-radius: 4px;
               box-sizing: border-box;
               text-transform: capitalize;
-              &__success {
+              &.status-success {
                 background-color: var(--bc-bg-success);
                 @include text(12px, 24px, 500, #129961)
               }
-              &__pending {
+              &.status-pending {
                 background-color: var(--bc-bg-warning);
                 @include text(12px, 24px, 500, #DD7D00);
+              }
+              &.status-error {
+                background-color: var(--bc-bg-error);
+                @include text(12px, 24px, 500, #CF202F)
               }
             }
           }

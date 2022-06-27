@@ -287,10 +287,10 @@
         const filters = {
             fromDate : fromDate,
             toDate : toDate,
-            fromAmount: this.popup_data.content.amount.input.value1,
-            toAmount: this.popup_data.content.amount.input.value2,
-            fromFee: this.popup_data.content.fee.input.value1,
-            toFee: this.popup_data.content.fee.input.value2,
+            fromAmount: this.popup_data.content.amount.input.value1 !== ''? parseFloat(this.popup_data.content.amount.input.value1.replaceAll(',', '')) : '',
+            toAmount: this.popup_data.content.amount.input.value2 !== ''? parseFloat(this.popup_data.content.amount.input.value2.replaceAll(',', '')) : '',
+            fromFee:  this.popup_data.content.fee.input.value1 !== ''? parseFloat(this.popup_data.content.fee.input.value1.replaceAll(',', '')) : '',
+            toFee: this.popup_data.content.fee.input.value2 !== ''? parseFloat(this.popup_data.content.fee.input.value2.replaceAll(',', '')) : '',
             status: this.popup_data.content.status.value === '' ? null : this.popup_data.content.status.value
         }
         this.$emit('feeFilterBark', filters)
