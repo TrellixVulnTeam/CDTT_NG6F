@@ -83,7 +83,7 @@
           </p>
         </div>
       </div>
-      <div class="item be-flex">
+      <div class="item be-flex" v-if="tabActiveFilter !== 'TRANSFER' && tabActiveFilter !== 'BID' && tabActiveFilter !== 'OFFER'">
         <p>{{ $t('transaction.detail.royal-fee') }}</p>
         <div class="be-flex align-center">
           <p class="text-detail-2">
@@ -285,7 +285,7 @@
     }
 
     handleView(): void {
-      this.$router.push({ name: 'MainInventory', query: { itemId: this.detailRow.itemId } })
+      this.$router.push({ name: 'MainInventory', query: { accountId: this.detailRow.fromId, itemId: this.detailRow.itemId } })
       this.setOpenPopup({
         popupName: 'popup-transaction-nft-detail',
         isOpen: false

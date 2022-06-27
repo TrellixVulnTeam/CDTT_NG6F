@@ -48,10 +48,10 @@
                 @clear="handleClearCustomerFrom"
               >
                 <div v-infinite-scroll="loadMoreAccountFrom" infinite-scroll-delay="500">
-                  <el-option v-for="item in listAccountFrom" :key="item.id" :label="item.accountName" :value="item.id">
+                  <el-option v-for="item in listAccountFrom" :key="item.id" :label="item.fullName" :value="item.id">
                     <template>
                       <div class="account">
-                        <p class="text-base account-name">{{ item.accountName }}</p>
+                        <p class="text-base account-name">{{ item.fullName }}</p>
                         <div class="text-xs text-desc be-flex desc">
                           <p class="line" v-if="item.accountType === 'INTERNAL'">
                             {{ item.username }}
@@ -80,10 +80,10 @@
                 @clear="handleClearCustomerTo"
               >
                 <div v-infinite-scroll="loadMoreAccountTo" infinite-scroll-delay="500">
-                  <el-option v-for="item in listAccountTo" :key="item.id" :label="item.accountName" :value="item.id">
+                  <el-option v-for="item in listAccountTo" :key="item.id" :label="item.fullName" :value="item.id">
                     <template>
                       <div class="account">
-                        <p class="text-base account-name">{{ item.accountName }}</p>
+                        <p class="text-base account-name">{{ item.fullName }}</p>
                         <div class="text-xs text-desc be-flex desc">
                           <p class="line" v-if="item.accountType === 'INTERNAL'">
                             {{ item.username }}
