@@ -12,6 +12,7 @@ import exceptionModule from '@/modules/exception'
 import metamartModule from '@/modules/metamart'
 import feeModule from './fee'
 import inventoryModule from './inventory'
+import FeeNftModule from './feeNft'
 const listModules: Record<string, ModuleInterface> = {
   homeModule,
   authModule,
@@ -25,7 +26,8 @@ const listModules: Record<string, ModuleInterface> = {
   ReportModule,
   metamartModule,
   feeModule,
-  inventoryModule
+  inventoryModule,
+  FeeNftModule
 }
 
 export default listModules
