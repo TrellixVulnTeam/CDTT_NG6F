@@ -42,6 +42,10 @@
     font-size: 64px;
     line-height: 14px;
 }
+.text-body-small {
+    font-size: 14px;
+    line-height: 20px;
+}
 .text-regular {
     font-weight: 400;
 }
@@ -61,6 +65,9 @@
 }
 .text-grey-190 {
     color: var(--bc-text-primary);
+}
+.text-desc {
+    color: var(--bc-text-discript);
 }
 
 .text-capitalize {

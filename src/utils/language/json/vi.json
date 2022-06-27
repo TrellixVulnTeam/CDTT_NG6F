@@ -152,7 +152,9 @@
     "reason": "Lý do...",
     "search": "Tìm kiếm",
     "from-amount": "Từ",
+    "from-quantity": "Từ",
     "to-amount": "Đến",
+    "to-quantity": "Đến",
     "select-type": "Chọn trạng thái",
     "select-type-1": "Chọn loại giao dịch",
     "status": "Chọn trạng thái",
@@ -261,7 +263,8 @@
     "amount-available": "Số lượng có sẵn",
     "from": "Từ",
     "to": "Đến",
-    "vesting": "Thời gian vesting"
+    "vesting": "Thời gian vesting",
+    "quantity": "Số lượng"
   },
   "validate": {
     "length": " Độ dài tối thiểu 8 ký tự",
@@ -305,6 +308,7 @@
     "experied-verify": "Mã xác minh đã hết hạn",
     "date-invalid": "From date is less than to date",
     "amount-invalid": "Giá trị bắt đầu phải nhỏ hơn giá trị kết thúc",
+    "quantity-invalid": "Giá trị bắt đầu phải nhỏ hơn giá trị kết thúc",
     "account-exist": "Tài khoản đã tồn tại",
     "add-user-succsess": "Thêm nhân viên thành công",
     "update-user-succsess": "Sửa nhân viên thành công",
@@ -543,7 +547,7 @@
       "failed": "Thất bại",
       "rejected": "Từ chối",
       "expired": "Hết hạn",
-      "waiting":"Đang chờ",
+      "waiting": "Đang chờ",
       "sell": "Bán",
       "bonus-sign-up": "Thưởng đăng ký",
       "bonus-crowdsale": "Thưởng crowdsale",
@@ -565,7 +569,11 @@
       "locked": "Khóa",
       "nft-sale": "Mua bán NFT",
       "nft-transfer": "Chuyển NFT",
-      "royalties-fee": "Phí bản quyền"
+      "royalties-fee": "Phí bản quyền",
+      "item": "Item",
+      "from": "from",
+      "price": "giá",
+      "quantity": "quantity"
     },
     "popup": {
       "title-filter": "Bộ lọc",
@@ -586,7 +594,12 @@
       "full-name": "Tên đầy đủ",
       "phone-number": "Số điện thoại",
       "email": "Email",
-      "reason": "Lý do"
+      "reason": "Lý do",
+      "price": "Giá",
+      "quantity": "Số lượng",
+      "amount": "Số tiền",
+      "service-fee": "Phí dịch vụ",
+      "royal-fee": "Phí bản quyền"
     },
     "filter": {
       "sign-up": "Thưởng đăng ký",
@@ -651,7 +664,12 @@
     "crowdsales": "Crowdsale",
     "vesting": "Vesting",
     "metamart-nft": "NFT item",
-    "metamart-collection": "Collection"
+    "metamart-collection": "Collection",
+    "put-on-sale": "Bán",
+    "bid": "Đấu giá",
+    "offer": "Trả giá",
+    "sale": "Sale",
+    "burn": "Burn"
   },
   "status": {
     "pending": "Đang chờ",
@@ -1045,7 +1063,7 @@
     },
     "status": {
       "success": "Thành công",
-      "pending":"Chưa xử lý",
+      "pending": "Chưa xử lý",
       "reject": "Loại bỏ",
       "failed": "Thất bại",
       "processing": "Đang xử lý",
@@ -1074,7 +1092,7 @@
     "success": "Thành công",
     "reject": "Loại bỏ",
     "failed": "Thất bại",
-    "processing":"Đang xử lý",
+    "processing": "Đang xử lý",
     "alert": {
       "amount": "Sô tiền bắt đầu phải nhỏ hơn số tiền đến",
       "fee": "Phí bắt đầu phải nhỏ hơn phí đến"
@@ -1085,5 +1103,20 @@
     "transaction-fee": "Phí giao dịch",
     "transaction-amount": "Số tiền giao dịch",
     "status": "Trạng thái"
-  }
+  },
+  "card_list": "Total On Sale",
+  "card_bid": "Total Bid",
+  "card_sale": "Total Buy",
+  "card_offer": "Total Offer",
+  "sort_quantity": "Quantity",
+  "sort_item": "Item",
+  "sort_from": "From",
+  "title_list": "Put On Sale",
+  "title_bid": "Bid",
+  "title_sale": "Buy",
+  "title_offer": "Offer",
+  "title_transfer": "Buy",
+  "title_burn": "Offer",
+  "detail": "Detail",
+  "view-inventory": "View inventory"
 }
