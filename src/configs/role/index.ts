@@ -65,6 +65,10 @@ export const ROLE_DEFINE: UserRoleInterface[] = [
       {
         module: 'fee',
         roles: ['all']
+      },
+      {
+        module: 'NFT',
+        roles: ['all']
       }
     ]
   },
@@ -113,6 +117,10 @@ export const ROLE_DEFINE: UserRoleInterface[] = [
       },
       {
         module: 'fee',
+        roles: ['all']
+      },
+      {
+        module: 'NFT',
         roles: ['all']
       }
     ]
@@ -163,6 +171,10 @@ export const ROLE_DEFINE: UserRoleInterface[] = [
       {
         module: 'fee',
         roles: ['all']
+      },
+      {
+        module: 'NFT',
+        roles: ['all']
       }
     ]
   },
@@ -211,6 +223,10 @@ export const ROLE_DEFINE: UserRoleInterface[] = [
       },
       {
         module: 'fee',
+        roles: []
+      },
+      {
+        module: 'NFT',
         roles: []
       }
     ]
@@ -261,6 +277,10 @@ export const ROLE_DEFINE: UserRoleInterface[] = [
       {
         module: 'fee',
         roles: []
+      },
+      {
+        module: 'NFT',
+        roles: []
       }
     ]
   },
@@ -310,6 +330,10 @@ export const ROLE_DEFINE: UserRoleInterface[] = [
       {
         module: 'fee',
         roles: ['all']
+      },
+      {
+        module: 'NFT',
+        roles: ['view']
       }
     ]
   }
