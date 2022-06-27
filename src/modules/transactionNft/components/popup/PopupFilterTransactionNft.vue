@@ -99,7 +99,7 @@
             </el-form-item>
           </div>
         </div>
-        <div class="transaction-amount-form">
+        <div class="transaction-amount-form" v-if="tabActiveFilter !== 'TRANSFER'">
           <div class="be-flex jc-space-between row">
             <el-form-item class="be-flex-item mr-40 form-item-line" :class="errorType && 'error-amount-border-popup-transaction'" :label="$t('label.trans-amount')">
               <el-input
