@@ -33,7 +33,7 @@
           </div>
           <div class="info">
             <p class="text-base text-overflow-1">{{ scope.row.itemName }}</p>
-            <p class="text-body-small text-desc">#{{ scope.row.itemName }}</p>
+            <p class="text-body-small text-desc">#{{ scope.row.itemCode }}</p>
           </div>
         </div>
       </template>
