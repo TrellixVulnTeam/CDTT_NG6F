@@ -30,7 +30,6 @@
       <div v-if="checkFromType(detailRow.transactionType)" class="item be-flex">
         <p>{{ $t('transaction.detail.from') }}</p>
         <div class="be-flex align-center">
-          <base-icon :icon="renderIconCurrency(detailRow.currency)" size="20" />
           <p class="text-detail-2" style="margin-left: 8px">{{ detailRow.fromAddress | formatTransactionCode(10) }}</p>
           <span v-if="detailRow.fromAddress" style="margin-left: 8px" class="icon-copy" @click="handleCopyTransaction(detailRow.fromAddress)">
             <base-icon icon="icon-copy" size="24" />
@@ -40,7 +39,6 @@
       <div v-if="detailRow.toAddress" class="item be-flex">
         <p>{{ $t('transaction.detail.to') }}</p>
         <div class="be-flex align-center">
-          <base-icon :icon="renderIconCurrency(detailRow.currency)" size="20" />
           <p class="text-detail-2" style="margin-left: 8px">{{ detailRow.toAddress | formatTransactionCode(10) }}</p>
           <span v-if="detailRow.toAddress" style="margin-left: 8px" class="icon-copy" @click="handleCopyTransaction(detailRow.toAddress)">
             <base-icon icon="icon-copy" size="24" />
@@ -61,7 +59,7 @@
         <p>{{ $t('transaction.detail.quantity') }}</p>
         <div class="be-flex align-center">
           <p class="text-detail-2">
-            {{ detailRow.quantity }}
+            {{ detailRow.quantity | formatNumber }}
           </p>
         </div>
       </div>
@@ -103,7 +101,7 @@
     <div class="customer-info">
       <div class="be-flex align-center jc-space-between">
         <p class="title">{{ $t('transaction.popup.customer-info') }}</p>
-        <div class="text-sm view">
+        <div class="text-sm view" @click="handleView">
           {{ $t('view-inventory') }}
         </div>
       </div>
@@ -165,7 +163,7 @@
     handleClose(): void {
       this.tabActive = 0
       this.setOpenPopup({
-        popupName: 'popup-transaction-detail',
+        popupName: 'popup-transaction-nft-detail',
         isOpen: false
       })
     }
@@ -284,6 +282,14 @@
         default:
           return this.$i18n.t(`title_list`) as string
       }
+    }
+
+    handleView(): void {
+      this.$router.push({ name: 'MainInventory', query: { itemId: this.detailRow.itemId } })
+      this.setOpenPopup({
+        popupName: 'popup-transaction-nft-detail',
+        isOpen: false
+      })
     }
   }
 </script>

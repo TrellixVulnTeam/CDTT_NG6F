@@ -37,40 +37,33 @@
         <p>{{ $t('leftMenu.nft') }}</p>
       </div>
     </router-link> -->
-    <el-popover
-      trigger="hover"
-      v-if="checkPemission('exception', ['view']) || checkPemission('member', ['view'])"
-      v-model="isOpenPopupNft"
-      placement="right"
-      popper-class="menu-nft"
-      style="min-width: 80px"
-    >
+    <el-popover trigger="hover" v-if="checkPemission('NFT', ['view'])" v-model="isOpenPopupNft" placement="right" popper-class="menu-nft" style="min-width: 80px">
       <div class="popper-add-menu-content">
         <ul class="module">
           <li class="module-item" @click="isOpenPopupNft = false">
             <router-link to="/setup" class="router_center">
-            <div class="sack_avatar">
-              <base-icon :icon="coinMain === 'LYNK' ? 'setup-active' : 'setup-active-clm'" class="menu-active" size="32" />
-              <base-icon icon="setup" class="menu" size="32" />
-              <p class="color-add-menu" style="font-size: 11px">{{ $t('leftMenu.setup') }}</p>
-            </div>
-          </router-link>
+              <div class="sack_avatar">
+                <base-icon :icon="coinMain === 'LYNK' ? 'setup-active' : 'setup-active-clm'" class="menu-active" size="32" />
+                <base-icon icon="setup" class="menu" size="32" />
+                <p class="color-add-menu" style="font-size: 11px">{{ $t('leftMenu.setup') }}</p>
+              </div>
+            </router-link>
           </li>
         </ul>
         <ul class="module">
           <li class="module-item" @click="isOpenPopupNft = false">
-            <router-link :to="{name: 'Inventory'}" class="router_center">
-            <div class="sack_avatar">
-              <base-icon :icon="coinMain === 'LYNK' ? 'inventory-active' : 'fee-active-clm'" class="menu-active" size="32" />
-              <base-icon icon="inventory" class="menu" size="32" />
-              <p class="color-add-menu" style="font-size: 11px">{{ $t('leftMenu.inventory') }}</p>
-            </div>
-          </router-link>
+            <router-link :to="{ name: 'Inventory' }" class="router_center">
+              <div class="sack_avatar">
+                <base-icon :icon="coinMain === 'LYNK' ? 'inventory-active' : 'fee-active-clm'" class="menu-active" size="32" />
+                <base-icon icon="inventory" class="menu" size="32" />
+                <p class="color-add-menu" style="font-size: 11px">{{ $t('leftMenu.inventory') }}</p>
+              </div>
+            </router-link>
           </li>
         </ul>
         <ul class="module">
           <li class="module-item" @click="isOpenPopupNft = false">
-            <router-link :to="{ name: 'TransactionNftMain', params: { token: this.coinMain } }" v-if="checkPemission('transaction', ['view'])" class="router_center">
+            <router-link :to="{ name: 'TransactionNftMain', params: { token: this.coinMain } }" class="router_center">
               <div class="sack_avatar">
                 <base-icon :icon="coinMain === 'LYNK' ? 'transaction-active' : 'transaction-active-clm'" class="menu-active" size="32" />
                 <base-icon icon="transaction" class="menu" size="32" />
@@ -80,7 +73,7 @@
           </li>
         </ul>
         <ul class="module">
-          <li class="module-item" @click="isOpenPopupNft = false" v-if="checkPemission('fee', ['view'])">
+          <li class="module-item" @click="isOpenPopupNft = false">
             <router-link :to="{ name: 'FeeNft' }">
               <div class="sack_avatar">
                 <base-icon :icon="coinMain === 'LYNK' ? 'fee-active' : 'fee-active-clm'" class="menu-active" size="32" />
