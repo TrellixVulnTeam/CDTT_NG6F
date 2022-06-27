@@ -6,28 +6,29 @@
     <div class="content" v-loading="isLoading">
       <div class="content-top mb-24">
         <div class="content-top__divided">
-            <img src="https://www.pngitem.com/pimgs/m/75-756644_larva-red-and-yellow-smiling-at-each-other.png" 
+            <img :src="dataAccountSummaryDetail.itemThumb" 
             class="content-top__divided_img">
             <div class="content-top__divided_text">
-                <p class="name">Dragonbon</p>
-                <p class="code">#1135256</p>
+                <p class="name">{{dataAccountSummaryDetail.accountName}}</p>
+                <p class="code">#{{dataAccountSummaryDetail.itemCode}}</p>
             </div>
         </div>
         <div class="content-top__divided">
-            <img src="https://www.pngitem.com/pimgs/m/75-756644_larva-red-and-yellow-smiling-at-each-other.png" 
+            <img :src="dataAccountSummaryDetail.itemAvatar" 
             class="content-top__divided_img ml-24 circle">
             <div class="content-top__divided_text">
-                <p class="name">Trần Nguyễn Hoàng Tùng</p>
-                <p class="code">tung...@gmail.com | (+84) ...796</p>
+                <p class="name">{{dataAccountSummaryDetail.fullName}}</p>
+                <p v-if="dataAccountSummaryDetail.accountType==='INTERNAL'" class="code">{{dataAccountSummaryDetail.email}} | {{dataAccountSummaryDetail.countryCode}} {{dataAccountSummaryDetail.phone}}</p>
+                <p v-if="dataAccountSummaryDetail.accountType==='EXTERNAL'" class="address">{{dataAccountSummaryDetail.accountAddress}}</p>
             </div>
         </div>
       </div>
       <div class="content-mid box-shadow mb-24">
         <p class="content-mid__title">Inventory</p>
         <base-table
-        :data="dataTableInventory"
-        :showPagination="false"
-        class="table-mid">
+            :data="dataTableInventory"
+            :showPagination="false"
+            class="table-mid">
             <el-table-column label="TYPE" align="left" width="300">
                 <template slot-scope="scope">
                     <span class="type-name">{{scope.row.type}}</span>
@@ -35,7 +36,7 @@
             </el-table-column>
             <el-table-column label="QUANTITY" align="center" width="347">
                 <template slot-scope="scope">
-                    <span class="quantity">{{scope.row.quantity}}</span>
+                    <span class="quantity">{{scope.row.total}}</span>
                 </template>
             </el-table-column>
             <el-table-column label="ACTION" align="right">
@@ -52,44 +53,46 @@
         <p class="content-bot__title">Account Statement</p>
         <div class="opening-quantity">
             <span class="opening-quantity__title">Opening Quantity</span>
-            <span class="opening-quantity__number">10</span>
+            <span class="opening-quantity__number">{{dataAccountSummaryDetail.openingQuantity}}</span>
         </div>
         <base-table
-        :data="dataTableAccount"
-        :showPagination="false"
+        :data="dataAccountContentDetail"
+        :showPagination="true"
+        :table="query"
+        :isLoading="isLoading"
         :showSummary="true"
         :summaryMethod="summaryMethod"
         class="table-bot">
             <el-table-column label="EVENT TYPE" align="left" width="186">
                 <template slot-scope="scope">
-                    <p class="event-type__title">{{scope.row.event}}</p>
-                    <p class="event-type__date">{{scope.row.date}}</p>
+                    <p class="event-type__title">{{scope.row.transactionType}}</p>
+                    <p class="event-type__date">{{scope.row.transactionDate}}</p>
                 </template>
             </el-table-column>
             <el-table-column label="INCREASE" align="right" width="186">
                 <template slot-scope="scope">
-                    <p class="increase">{{scope.row.increase}}</p>
+                    <p class="increase">{{scope.row.increaseQuantity}}</p>
                 </template>
             </el-table-column>
             <el-table-column label="DECREASE" align="right" width="186">
                 <template slot-scope="scope">
-                    <p class="decrease">{{scope.row.decrease}}</p>
+                    <p class="decrease">{{scope.row.decreaseQuantity}}</p>
                 </template>
             </el-table-column>
             <el-table-column label="QUANTITY" align="right" width="186">
                 <template slot-scope="scope">
-                    <p class="quantity">{{scope.row.quantity}}</p>
+                    <p class="quantity">{{scope.row.activityQuantity}}</p>
                 </template>
             </el-table-column>
             <el-table-column label="STATUS" align="center">
                 <template slot-scope="scope">
-                    <span class="status" :class="getClassStatus(scope.row.status)">{{scope.row.status}}</span>
+                    <span class="status" :class="getClassStatus(scope.row.activityStatus)">{{scope.row.activityStatus}}</span>
                 </template>
             </el-table-column>
         </base-table>
         <div class="ending-quantity">
             <span class="ending-quantity__title">ENDING QUANTITY</span>
-            <span class="ending-quantity__number">160</span>
+            <span class="ending-quantity__number">{{dataAccountSummaryDetail.endingQuantity}}</span>
         </div>
       </div>
     </div>
@@ -97,62 +100,73 @@
 </template>
 
 <script lang="ts">
-  import { Component, Mixins, Prop, Watch } from 'vue-property-decorator'
-  import PopupMixin from '@/mixins/popup'
-  import { times } from 'lodash'
-  // import { namespace } from 'vuex-class'
-  // const bcKyc = namespace('bcKyc')
-  import BaseTable from '@/components/base/table/BaseTable.vue'
-  import forEach from 'lodash/forEach'
+import { Component, Mixins, Prop, Watch } from 'vue-property-decorator'
+import PopupMixin from '@/mixins/popup'
+import { times } from 'lodash'
+// import { namespace } from 'vuex-class'
+// const bcKyc = namespace('bcKyc')
+import _ from 'lodash';
+import BaseTable from '@/components/base/table/BaseTable.vue'
+import forEach from 'lodash/forEach'
+import getRepository from '@/services'
+import {InventoryRepository} from '@/services/repositories/inventory'
+const api: InventoryRepository = getRepository('inventory')
 
   @Component({components: {BaseTable}})
   export default class PopupInventoryDetail extends Mixins(PopupMixin) {
+    @Prop({ required: true, type: Object, default: {} }) dataAccountSummaryDetail!: Record<string, any>
+    @Prop({ required: true, type: Array, default: [] }) dataAccountContentDetail!: Array<Record<string, any>>
+    @Prop({ required: true, type: Array, default: () => {
+        return []
+      } }) dataConvertSummaryInventory!: Array<Record<string, any>>
+    // @Prop({ required: true, type: Object, default: {} }) dataSummaryInventoryDetail!: Record<string, any>
     // @bcKyc.State('listReason') listReason!: Array<Record<string, any>>
     // checkList = []
     // reason = ''
     isLoading = false
+    dataAccountDetail = {}
+    // dataConvertSummaryInvetory:any = []
+
+    // created():void {
+    //     this.dataConvertSummaryInvetory = _.map(this.dataSummaryInventoryDetail, (val, id) => {
+    //         return {...val, type: id, total: val}
+    //     })
+    //     console.log(this.dataConvertSummaryInvetory)
+    // }
     dataTableInventory = [
         {
             type: 'Total',
-            quantity: '160',
+            quantity: 12,
             action: [
-                'Burn'
             ]
         },
         {
             type: 'Available',
-            quantity: '100',
+            quantity: 12,
             action: [
-                'Burn'
             ]
         },
         {
             type: 'Lock',
-            quantity: '60',
+            quantity: 12,
             action: [
-                'Unlock',
-                'Burn'
             ]
         },
         {
             type: 'On sale',
-            quantity: '20',
+            quantity: 12,
             action: [
-                'Remove Sale',
-                'Burn'
             ]
         },
         {
             type: 'Off market',
-            quantity: '30',
+            quantity:12,
             action: [
-                'Lock',
-                'Burn'
             ]
         },
         {
             type: 'Burn',
-            quantity: '160',
+            quantity: 12,
             action: [
             ]
         }
@@ -227,18 +241,49 @@
             btnContinues: this.$i18n.t('button.apply')
         }
     }
+
+    query: Record<string,any> = {
+        page: 1,
+        limit: 5
+    }
+
     getClassStatus(input: string):string {
         let rs = ''
         switch(input) {
-            case 'Success': 
+            case 'SUCCESS': 
                 rs = 'status__success'
                 break
-            case 'Pending': 
+            case 'PENDING': 
                 rs = 'status__pending'
                 break
         }
         return rs
     }
+
+    // mounted(): void {
+    //     console.log("detail")
+    //     console.log(this.rowData)
+    //     this.init()
+    // }
+
+    // async init(): Promise<void>{
+    //     try{
+    //         this.isLoading = true
+    //         const params = {
+    //             ...this.query,
+    //             accountId: this.rowData.ownerId,
+    //             itemId: this.rowData.itemId
+    //         }
+    //         const response = await api.getDetailItem(params)
+    //         this.dataAccountDetail = response.summary
+    //         console.log(response.summary)
+    //         this.isLoading = false
+    //     }catch(e){
+    //         this.isLoading = false
+    //         console.log(e)
+    //     }
+    // }
+
     handleClose(): void {
       this.setOpenPopup({
         popupName: 'popup-inventory-detail',
@@ -253,8 +298,8 @@
         let totalIncrease:any = 0
         let totalDecrease: any = 0
         forEach(data, (item) => {
-            totalIncrease = totalIncrease + (item.increase !== '' ? +item.increase : 0)
-            totalDecrease = totalDecrease + (item.decrease !== '' ? +item.decrease : 0)
+            totalIncrease = totalIncrease + (item.increaseQuantity !== '' ? +item.increaseQuantity : 0)
+            totalDecrease = totalDecrease + (item.decreaseQuantity !== '' ? +item.decreaseQuantity : 0)
         })
         totalIncrease = '+' + totalIncrease
         totalDecrease = '' + totalDecrease
