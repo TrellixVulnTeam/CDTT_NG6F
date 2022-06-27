@@ -70,7 +70,7 @@
         />
       </div>
       <popup-filter-transaction @filter="handleFilter" :tab-active-filter="tabActive" :type="'transaction'" ref="popup-filter" />
-      <transaction-detail :detail-row="detailRow" :tab-active-filter="tabActive" />
+      <transaction-nft-detail :detailRow="detailRow" :tab-active-filter="tabActive" />
     </div>
   </div>
 </template>
@@ -88,7 +88,7 @@
   import TableTransaction from '../components/table/TableTransactionNft.vue'
   import FilterTransaction from '@/components/filter/FilterTransaction.vue'
   import PopupFilterTransaction from '../components/popup/PopupFilterTransactionNft.vue'
-  import TransactionDetail from '@/modules/transaction/components/transactionDetail/TransactionDetail.vue'
+  import TransactionNftDetail from '../components/popup/TransactionNftDetail.vue'
   import PopupAddDeposit from '../components/PopupAddDeposit.vue'
   import PopupAddCrowdsale from '../components/PopupAddCrowdsale.vue'
   import PopupAddTransfer from '../components/PopupAddTransfer.vue'
@@ -111,7 +111,7 @@
       PopupFilterTransaction,
       TableTransaction,
       FilterTransaction,
-      TransactionDetail,
+      TransactionNftDetail,
       PopupAddDeposit,
       PopupAddCrowdsale,
       PopupVerify,
@@ -450,11 +450,11 @@
       this.isCopy = data
     }
 
-    handleRowClick(row: Record<string, any>): void {
+    async handleRowClick(row: Record<string, any>): Promise<void> {
       if (this.isCopy !== 'copy') {
-        this.detailRow = row
+        this.detailRow = await api.getDetailTransactionNft({ activityId: row.id })
         this.setOpenPopup({
-          popupName: 'popup-transaction-detail',
+          popupName: 'popup-transaction-nft-detail',
           isOpen: true
         })
       } else {

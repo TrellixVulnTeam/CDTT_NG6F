@@ -594,7 +594,12 @@
       "full-name": "Tên đầy đủ",
       "phone-number": "Số điện thoại",
       "email": "Email",
-      "reason": "Lý do"
+      "reason": "Lý do",
+      "price": "Giá",
+      "quantity": "Số lượng",
+      "amount": "Số tiền",
+      "service-fee": "Phí dịch vụ",
+      "royal-fee": "Phí bản quyền"
     },
     "filter": {
       "sign-up": "Thưởng đăng ký",
@@ -1105,5 +1110,13 @@
   "card_offer": "Total Offer",
   "sort_quantity": "Quantity",
   "sort_item": "Item",
-  "sort_from": "From"
+  "sort_from": "From",
+  "title_list": "Put On Sale",
+  "title_bid": "Bid",
+  "title_sale": "Buy",
+  "title_offer": "Offer",
+  "title_transfer": "Buy",
+  "title_burn": "Offer",
+  "detail": "Detail",
+  "view-inventory": "View inventory"
 }
