@@ -83,7 +83,7 @@
           </p>
         </div>
       </div>
-      <!-- <div class="item be-flex">
+      <div class="item be-flex" v-if="tabActiveFilter !== 'TRANSFER' && tabActiveFilter !== 'BID' && tabActiveFilter !== 'OFFER'">
         <p>{{ $t('transaction.detail.royal-fee') }}</p>
         <div class="be-flex align-center">
           <p class="text-detail-2">
@@ -91,7 +91,7 @@
             <span class="text-body-small text-desc"> (~${{ detailRow.royaltyFeeUSD | convertAmountDecimal('USD') }})</span>
           </p>
         </div>
-      </div> -->
+      </div>
 
       <div class="item be-flex">
         <p>{{ $t('transaction.detail.status') }}</p>
