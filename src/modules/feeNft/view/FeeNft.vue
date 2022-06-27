@@ -553,11 +553,11 @@
     //   return rs
     // }
     checkType(typeCheck: string): string {
-      const result = typeCheck === 'PENDING' ? 'status__pending'
+      const result = typeCheck === 'PENDING' ? 'status-pending'
         : (typeCheck === 'FAILED' || typeCheck === 'LOCKED' || typeCheck === 'WAITING' || typeCheck === 'EXPIRED')
-        ? 'status__error'
+        ? 'status-error'
         : typeCheck === 'PROCESSING'
-        ? 'status__pending'
+        ? 'status-pending'
         : typeCheck === 'REJECTED'
         ? 'status-rejected'
         : 'status-success'
@@ -704,13 +704,17 @@
               border-radius: 4px;
               box-sizing: border-box;
               text-transform: capitalize;
-              &__success {
+              &.status-success {
                 background-color: var(--bc-bg-success);
                 @include text(12px, 24px, 500, #129961)
               }
-              &__pending {
+              &.status-pending {
                 background-color: var(--bc-bg-warning);
                 @include text(12px, 24px, 500, #DD7D00);
+              }
+              &.status-error {
+                background-color: var(--bc-bg-error);
+                @include text(12px, 24px, 500, #CF202F)
               }
             }
           }
