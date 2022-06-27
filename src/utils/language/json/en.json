@@ -136,7 +136,8 @@
     "report": "Report",
     "nft": "NFT",
     "fee": "Fee",
-    "inventory": "Inventory"
+    "inventory": "Inventory",
+    "fee-nft": "Fee NFT"
   },
   "footer": {
     "terms": "Terms and Conditions"
@@ -598,7 +599,7 @@
       "royalties-fee": "Royalties Fee",
       "item": "Item",
       "from": "from",
-      "price":"Price",
+      "price": "Price",
       "quantity": "quantity"
     },
     "popup": {
@@ -1147,5 +1148,16 @@
   "card_list": "Total On Sale",
   "card_bid": "Total Bid",
   "card_sale": "Total Buy",
-  "card_offer": "Total Offer"
+  "card_offer": "Total Offer",
+  "fee-nft": {
+    "trans-amount": "Transaction amount",
+    "fee-amount": "Fee amount",
+    "fee-nft-filter": {
+      "trans-date": "Transaction Date",
+      "fee": "Fee",
+      "status": "Status",
+      "item": "Item",
+      "from": "From"
+    }
+  }
 }

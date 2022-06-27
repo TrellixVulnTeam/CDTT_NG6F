@@ -14,6 +14,7 @@ import ReportRepository from './repositories/report'
 import WalletRepository from '@/services/repositories/wallet'
 import { FeeRepository } from './repositories/fee'
 import { NftRepository } from './repositories/nft'
+import {FeeNftRepository} from './repositories/feenft'
 type RepositoryName =
   | 'verify'
   | 'auth'
@@ -31,6 +32,7 @@ type RepositoryName =
   | 'report'
   | 'fee'
   | 'nft'
+  | 'feenft'
 
 export default function getRepository(name: RepositoryName): any {
   switch (name) {
@@ -66,6 +68,8 @@ export default function getRepository(name: RepositoryName): any {
       return new FeeRepository()
     case 'nft':
       return new NftRepository()
+    case 'feenft':
+      return new FeeNftRepository()
     default:
       return null
   }

@@ -5,8 +5,8 @@ import { RouteConfig } from 'vue-router'
 const FeeNftRouters: RouteConfig[] = [
   {
     path: '/feenft',
-    name: 'FeeNfT',
-    redirect: { name: 'FeeNftLynk' },
+    name: 'FeeNft',
+    // redirect: { name: 'FeeNftLynk' },
     component: Layout,
     children: [
       {
@@ -22,7 +22,7 @@ const FeeNftRouters: RouteConfig[] = [
             children: [
               {
                 path: 'LYNK',
-                name: 'BalanceLynk',
+                name: 'FeeNftLynk',
                 component: () => import('../view/FeeNft.vue')
               },
               {
@@ -58,6 +58,11 @@ const FeeNftRouters: RouteConfig[] = [
               {
                 path: 'BUSD',
                 name: 'FeeNftBusd',
+                component: () => import('../view/FeeNft.vue')
+              },
+              {
+                path: "OTHERS",
+                name: "FeeNftOthers",
                 component: () => import('../view/FeeNft.vue')
               }
             ]
