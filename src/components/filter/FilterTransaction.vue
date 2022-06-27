@@ -1,6 +1,6 @@
 <template>
   <div class="be-flex align-center kyc-filter filter" :class="type === 'customer' ? 'mb-24' : ''">
-    <el-input v-model="filter.search" class="input-search" :placeholder="$t('placeholder.search')">
+    <el-input v-model="filter.search" class="input-search" :placeholder="$t('placeholder.search')" @input="handleSearch">
       <span slot="prefix" class="prefix-search">
         <base-icon icon="icon-search" size="24" />
       </span>
@@ -70,29 +70,19 @@
     ]
     sortActive = 'DATE_DESC'
 
-    @Watch('filter.search') handleSearch(value: string): void {
+    searchText = debounce((value: string) => {
+      this.$emit('filter', {
+        ...this.filter,
+        page: 1,
+        limit: 10,
+        search: trim(value),
+        keywordString: null
+      })
+    }, 500)
+
+    handleSearch(value: string): void {
       this.searchText(value)
     }
-
-    searchText = debounce((value: string) => {
-      if (this.type === 'customer' || this.type === 'addresses') {
-        this.$emit('filter', {
-          ...this.filter,
-          page: 1,
-          limit: 10,
-          search: trim(value),
-          keywordString: null
-        })
-      } else {
-        this.$emit('filter', {
-          ...this.filter,
-          page: 1,
-          limit: 10,
-          search: null,
-          keywordString: trim(value)
-        })
-      }
-    }, 500)
 
     public handleReset() {
       this.filter.search = ''
