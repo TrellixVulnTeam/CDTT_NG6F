@@ -80,7 +80,7 @@
           @currentChange="handleCurrentChange"
           :loading="isLoading"
           >
-            <el-table-column label="#" type="index" :index="indexMethod" width="40"/>
+            <el-table-column label="#" type="index" :index="indexMethod" width="70"/>
             <el-table-column label="TRANSACTION ID" width="300" align="left">
               <template slot-scope="scope">
                 <p class="trans-id">
@@ -348,7 +348,7 @@
           type: this.query.type,
           total: null
         }
-        const result = await api.getListFeeNft('', params)
+        const result = await api.getListFeeNft('fee', params)
         this.propdataTable = result.content
         // this.propdataTable = result.transactions.content
         if(this.propdataTable.length > 0) {
@@ -393,6 +393,7 @@
     }
     async getSummaries(): Promise<any> {
       const params = {
+          search: this.query.search,
           orderBy: this.query.orderBy,
           currency: this.tabActive,
           fromDate: this.query.fromDate,
@@ -406,7 +407,7 @@
           status: this.query.status
       }
       try {
-        const rs = await api.getFeeNftSummary(params)
+        const rs = await api.getFeeNftSummary('fee/summary', params)
         console.log('467', rs)
         if(rs.length !== 0) {
           this.summaries = rs
@@ -504,6 +505,7 @@
     }
 
     handleFilter(filter: Record<string, any>): void {
+      console.log('508', filter)
       this.filters = filter
       this.query = {
         ...this.query,
