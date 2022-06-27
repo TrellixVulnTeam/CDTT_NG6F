@@ -1113,10 +1113,10 @@
   "sort_from": "From",
   "title_list": "Put On Sale",
   "title_bid": "Bid",
-  "title_sale": "Buy",
+  "title_sale": "Sale",
   "title_offer": "Offer",
-  "title_transfer": "Buy",
-  "title_burn": "Offer",
+  "title_transfer": "Transfer",
+  "title_burn": "Burn",
   "detail": "Detail",
   "view-inventory": "View inventory"
 }

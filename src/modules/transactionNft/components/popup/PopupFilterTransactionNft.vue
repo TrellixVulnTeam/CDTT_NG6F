@@ -215,7 +215,7 @@
       fromQuantity: '',
       toQuantity: '',
       fromAccount: '',
-      transactionStatus: '',
+      transactionStatus: 'SUCCESS',
       transactionType: ''
     }
 
@@ -388,7 +388,7 @@
         toAccount: '',
         bonusType: null,
         transactionType: '',
-        transactionStatus: ''
+        transactionStatus: 'SUCCESS'
       }
 
       this.errorType = false

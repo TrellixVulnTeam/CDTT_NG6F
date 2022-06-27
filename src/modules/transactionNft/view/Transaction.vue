@@ -233,7 +233,7 @@
       toAccount: '',
       fromQuantity: '',
       toQuantity: '',
-      transactionStatus: '',
+      transactionStatus: 'SUCCESS',
       orderBy: 'DATE_DESC',
       page: 1,
       limit: 10,
@@ -431,7 +431,7 @@
         bonusType: null,
         fromAccount: null,
         toAccount: null,
-        transactionStatus: null
+        transactionStatus: 'SUCCESS'
       }
     }
     isCopy = ''
