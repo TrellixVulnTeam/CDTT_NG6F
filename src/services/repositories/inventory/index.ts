@@ -24,4 +24,13 @@ export class InventoryRepository extends BaseRepository {
           return Promise.reject(error)
         }
     }
+    async getDetailItem(params: Record<string, any>): Promise<any> {
+      try{
+        const response = await request.get(`${this.prefix}/detail`, { params })
+        return Promise.resolve(response.data.data)
+      }catch(error){
+        console.log(error)
+        return Promise.reject(error)
+      }
+    }
 }

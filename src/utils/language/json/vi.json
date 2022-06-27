@@ -203,7 +203,8 @@
     "request": "yêu cầu",
     "member": "nhân viên",
     "buyer": "người mua",
-    "times": "số lần sử dụng thiết bị"
+    "times": "số lần sử dụng thiết bị",
+    "items": "vật phẩm"
   },
   "label": {
     "invalid-amount": "Số lượng không hợp lệ",

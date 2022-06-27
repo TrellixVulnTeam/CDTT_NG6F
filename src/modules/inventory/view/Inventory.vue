@@ -82,26 +82,32 @@
     </el-carousel-item>
   </el-carousel>
   <div class="wrap-filter mb-24">
-    <inventory-filter></inventory-filter>
+    <inventory-filter @filterInventory="handleFilter"></inventory-filter>
   </div>
   <div class="wrap-table">
     <base-table
       :data="listDataItem"
+      :showPagination="true"
+      :paginationInfo="getPaginationInfo"
+      :table="query"
+      :isLoading="isLoading"
+      @sizeChange="handleSizeChange"
+      @currentChange="handleCurrentChange"
       class="inventory-table"
       @rowClick="handleRowClick($event)"
     >
       <el-table-column label="#" type="index" 
-      align="center" width="40" :index="indexMethod"/>
-      <el-table-column :label="$t('inventory.table.owner')" align="left">
+      align="left" width="80" :index="indexMethod"/>
+      <el-table-column :label="$t('inventory.table.owner')" align="left" width="350">
         <template slot-scope="scope">
-          <p class="owner-name">{{scope.row.ownerName}}</p>
-          <p class="owner-email">{{scope.row.email}}</p>
+          <p class="owner-name">{{scope.row.ownerUserFullName}}</p>
+          <p class="owner-email">{{scope.row.username}}</p>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('inventory.table.item')" align="left" width="280">
+      <el-table-column :label="$t('inventory.table.item')" align="left">
         <template slot-scope="scope">
           <div class="wrap-item">
-            <img :src="scope.row.itemAvatar" alt="" class="item-img" width="40px" height="40px">
+            <img :src="scope.row.itemThumb" alt="" class="item-img" width="40px" height="40px">
             <div class="item-text">
               <p class="item-text__name">{{scope.row.itemName}}</p>
               <p class="item-text__code">{{scope.row.itemCode}}</p>
@@ -117,7 +123,7 @@
       </el-table-column>
       <el-table-column :label="$t('inventory.table.quantity')" align="right" width="150">
         <template slot-scope="scope">
-          <span class="quantity">{{scope.row.quantity}}</span>
+          <span class="quantity">{{scope.row.originQuantity}}</span>
         </template>
       </el-table-column>
 <!--      <el-table-column :label="$t('inventory.table.status')" align="center" width="185">-->
@@ -127,7 +133,11 @@
 <!--      </el-table-column>-->
     </base-table>
   </div>
-  <popup-inventory-detail />
+  <popup-inventory-detail  
+    :dataAccountSummaryDetail="dataAccountSummaryDetail"
+    :dataAccountContentDetail="dataAccountContentDetail"  
+    :dataConvertSummaryInventory="dataConvertSummaryInventory"
+  />
 </div>
 
 </template>
@@ -141,11 +151,13 @@ import PopupMixin from '@/mixins/popup'
 import InventoryFilter from '@/modules/inventory/components/filter/InventoryFilter.vue'
 import PopupInventoryDetail from '../components/popup/PopupInventoryDetail.vue'
 import BaseTable from '@/components/base/table/BaseTable.vue'
+import { debounce } from 'lodash'
+import _ from 'lodash'
 // import EventBus from '@/utils/eventBus'
 
 import {namespace} from 'vuex-class'
 
-const api: InventoryRepository = getRepository('inventory')
+  const api: InventoryRepository = getRepository('inventory')
   const beBase = namespace('beBase')
 
   @Component({components: { BaseTable, InventoryFilter, PopupInventoryDetail }})
@@ -155,6 +167,10 @@ const api: InventoryRepository = getRepository('inventory')
 
     summaryInventoryData: Record<string, any> = {}
     listDataItem: Record<string, any>[] = []
+    rowData = {}
+    dataAccountSummaryDetail = {}
+    dataAccountContentDetail = []
+    dataSummaryInventoryDetail = {}
 
     query: Record<string,any> = {
       search: '',
@@ -164,6 +180,7 @@ const api: InventoryRepository = getRepository('inventory')
       orderBy: '',
       page: 1,
       limit: 10,
+      total: 0
     }
 
     created(): void {
@@ -184,6 +201,7 @@ const api: InventoryRepository = getRepository('inventory')
 
     async getDataTable(): Promise<void> {
       try {
+        this.isLoading = true
         const params = {
           ...this.query,
           orderBy: this.query.orderBy,
@@ -193,23 +211,17 @@ const api: InventoryRepository = getRepository('inventory')
         }
         const response = await api.getListInventoryDataTable(params)
         this.listDataItem = response.content
-        this.query.total = response.content.totalElements
+        this.query.total = response.totalElements
         console.log(this.listDataItem)
+        console.log(this.query)
+        this.isLoading = false
+
       }catch (e) {
+        this.isLoading = false
         console.log(e)
       }
     }
 
-    mounted(): void {
-      for(let index = 0; index < this.dataConcat.length; index++){
-        console.log('tabOne' ,this.dataConcat[index].tabOne)
-        console.log('tabTwo' ,this.dataConcat[index].tabTwo)
-
-        // for(let index = 0; i < this.dataConcat[index].tabOne.length; index++){
-        //   console.log(this.dataConcat[index].tabOne.length)
-        // }
-      }
-    }
 
     dataConcat: any = [
       {
@@ -250,63 +262,14 @@ const api: InventoryRepository = getRepository('inventory')
       }
     ]
 
-    dataTable: any = [
-      {
-        ownerName: "Trần Mạnh Đức",
-        ownerEmail: "ducnguyen@gmail.com",
-        itemImage: "https://www.pngitem.com/pimgs/m/75-756644_larva-red-and-yellow-smiling-at-each-other.png",
-        itemName: "Dragonbon",
-        itemCode: "#1135256",
-        networkName: "Ethereum",
-        networkCode: "ERC-1155",
-        quantity: 1,
-        status: "ONSALE"
-      },
-      {
-        ownerName: "Trần Mạnh Đức",
-        ownerEmail: "ducnguyen@gmail.com",
-        itemImage: "https://www.pngitem.com/pimgs/m/75-756644_larva-red-and-yellow-smiling-at-each-other.png",
-        itemName: "Dragonbon",
-        itemCode: "#1135256",
-        networkName: "Ethereum",
-        networkCode: "ERC-1155",
-        quantity: 1,
-        status: "ONAUCTION"
-      },
-      {
-        ownerName: "Trần Mạnh Đức",
-        ownerEmail: "ducnguyen@gmail.com",
-        itemImage: "https://www.pngitem.com/pimgs/m/75-756644_larva-red-and-yellow-smiling-at-each-other.png",
-        itemName: "Dragonbon",
-        itemCode: "#1135256",
-        networkName: "Ethereum",
-        networkCode: "ERC-1155",
-        quantity: 1,
-        status: "OFFMARKET"
-      },
-      {
-        ownerName: "Trần Mạnh Đức",
-        ownerEmail: "ducnguyen@gmail.com",
-        itemImage: "https://www.pngitem.com/pimgs/m/75-756644_larva-red-and-yellow-smiling-at-each-other.png",
-        itemName: "Dragonbon",
-        itemCode: "#1135256",
-        networkName: "Ethereum",
-        networkCode: "ERC-1155",
-        quantity: 1,
-        status: "BURN"
-      }
-    ]
-    // query: any = {
-    //   search: '',
-    //   limit: 10,
-    //   page: 1,
-    //   orderBy: 1,
-    //   total: 0
-    // }
-
     indexMethod(index: number): number {
       return (this.query.page - 1) * this.query.limit + index + 1
     }
+
+    get getPaginationInfo(): any {
+      return this.$t('paging.items')
+    }
+
     getClassStatus(input: string):string {
       let rs = ''
       switch(input) {
@@ -343,7 +306,60 @@ const api: InventoryRepository = getRepository('inventory')
       }
       return rs
     }
-    handleRowClick(event: any):void {
+
+    handleCurrentChange(page: number): void {
+      this.query.page = page
+      this.init()
+      this.getDataTable()
+    }
+
+    handleSizeChange(limit: number): void {
+      this.query.limit = limit
+      this.init()
+      this.getDataTable()
+    }
+
+    async getDetailAccountStatement(row): Promise<void>{
+      try{
+        const queryDetail = {
+          page: 1,
+          limit: 5,
+          accountId: row.row.ownerId,
+          itemId: row.row.itemId,
+        }
+        const response = await api.getDetailItem(queryDetail)
+        this.dataAccountSummaryDetail = response.summary
+        this.dataAccountContentDetail = response.events.content
+        console.log(response)
+      }
+      catch(e){
+        console.log(e)
+      }
+    }
+
+    dataConvertSummaryInventory: Array<Record<string,any>> = []
+    async getDetailSummaryInventory(row): Promise<void> {
+      try{
+        const querySummary = {
+          accountId: row.row.ownerId,
+          itemId: row.row.itemId
+        }
+        const response = await api.getSummaryData(querySummary)
+        this.dataSummaryInventoryDetail = response
+        this.dataConvertSummaryInventory = _.map(this.dataSummaryInventoryDetail, (val, id) => {
+            
+            return {...val, type: id, total: val}
+        })
+        console.log(this.dataConvertSummaryInventory, "convert")
+      }
+      catch(e){
+        console.log(e)
+      }
+    }
+
+    async handleRowClick(row: Record<string,any>): Promise<void> {
+      await this.getDetailSummaryInventory(row)
+      await this.getDetailAccountStatement(row)
       this.setOpenPopup(
         {
           popupName: 'popup-inventory-detail',
@@ -351,6 +367,22 @@ const api: InventoryRepository = getRepository('inventory')
         }
       )
     }
+
+    handleFilter(filter: Record<string, any>): void {
+      this.query = {
+        ...this.query,
+        ...filter,
+        page: 1,
+        limit: 10
+      }
+      console.log('query', this.query)
+      this.debounceInit()
+    }
+
+    debounceInit = debounce(() => {
+      this.init()
+      this.getDataTable()
+    }, 300)
     
   }
 </script>
@@ -421,6 +453,7 @@ const api: InventoryRepository = getRepository('inventory')
           align-items: center;
           .item-img {
             margin-right: 8px;
+            border-radius: 4px;
           }
           .item-text {
             &__name {
@@ -471,6 +504,8 @@ const api: InventoryRepository = getRepository('inventory')
     .el-carousel__container{
       height: 143px;
       .el-carousel__arrow{
+        // transition: 0.1s;
+        // display: block !important;
         width: 32px;
         height: 32px;
         color: #292D32;

@@ -223,7 +223,8 @@
     "balance": "balance",
     "member": "members",
     "buyer": "buyers",
-    "times": "times"
+    "times": "times",
+    "items": "items"
   },
   "label": {
     "invalid-amount": "Invalid amount",
