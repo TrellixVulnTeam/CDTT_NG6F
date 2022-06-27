@@ -139,7 +139,6 @@
                 @keyup.native="numberFormat($event)"
                 @blur="clickOutSideQuantity"
               >
-                <div class="prefix" slot="prefix">$</div>
               </el-input>
             </el-form-item>
 
@@ -151,7 +150,6 @@
                 @keyup.native="numberFormat($event)"
                 @blur="clickOutSideQuantity"
               >
-                <div class="prefix" slot="prefix">$</div>
               </el-input>
             </el-form-item>
           </div>
