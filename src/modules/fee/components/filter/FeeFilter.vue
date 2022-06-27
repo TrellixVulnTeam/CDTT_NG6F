@@ -122,7 +122,7 @@
       return {deleteCache: this.reseted.deleteCache}
     }
     @Watch('filterFee.search') handleSearch(value: string): void {
-      this.searchText(value)
+      this.searchText(this, value)
     }
     @Watch('reseted') handleDeleteCache(value: Record<string, any>): void {
       if(this.reseted.deleteCache === true)
@@ -133,9 +133,9 @@
         this.$emit('reseted')
       }
     }
-    searchText = debounce((value: string) => {
+    searchText = debounce((_this:any, value: string) => {
       this.$emit('filterFee', {
-        ...this.filterFee,
+        ..._this.filterFee,
         search: trim(value)
       })
     }, 500)
@@ -177,7 +177,7 @@
         ...filtersData,
         orderBy: this.filterFee.orderBy
       }
-      this.$emit('filters', filterFee)
+      this.$emit('filterFee', filterFee)
       this.filterFee = filterFee
     }
     handleOpen():void {

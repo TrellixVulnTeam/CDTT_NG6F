@@ -12,7 +12,7 @@ export interface ISBase {
 
 const state: ISBase = {
   popup: [],
-  coinMain: 'CLM',
+  coinMain: 'LYNK',
   urlSystem: {},
   // site key live
   // siteKey: '6Ld51lIdAAAAAEF0cK0CBRSL9H_nnGWJfKUYmcHz'
