@@ -1188,10 +1188,10 @@
     "transfer-fee": "Total Transfer Fee",
     "service": "Service",
     "royalty": "Royalty",
-    "transfer": "Transfer",
-    "filter_pending": "Pending",
-    "filter_processing": "Processing",
-    "filter_success": "Success",
-    "filter_failed": "Failed"
-  }
+    "transfer": "Transfer"
+  },
+  "filter_pending": "Pending",
+  "filter_processing": "Processing",
+  "filter_success": "Success",
+  "filter_failed": "Failed"
 }
