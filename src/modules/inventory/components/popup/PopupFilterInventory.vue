@@ -5,33 +5,33 @@
     </div>
     <div class="content" v-loading="isLoading">
       <div class="content-block">
-        <p class="content-block__title">{{ popup_data.content.network.placeholder }}</p>
-        <el-select v-model="popup_data.content.network.value" :placeholder="popup_data.content.network.placeholder">
-          <el-option v-for="(option, index) in popup_data.content.network.options" 
-          :label="option.title" :value="option.value"
+        <p class="content-block__title">Network</p>
+        <el-select v-model="filterInventory.network" placeholder="Network">
+          <el-option v-for="(option, index) in listDataNetwork"
+          :label="option.networkName" :value="option.networkName"
           :key="index"></el-option>
         </el-select>
       </div>
       <div class="content-block">
         <p class="content-block__title">Quantity</p>
         <div class="content-block__inputs">
-          <el-input v-model="popup_data.content.quantity.from.value" 
-          :class="{'input-error': !!(error.quantity || '')}"
-          :placeholder="popup_data.content.quantity.from.placeholder"
-          clearable
-          @keypress.native="onlyNumber($event)"
-          @keyup.native="numberFormat($event, 'quantity')"
-          @clear="numberFormat($event, 'quantity')" 
+          <el-input v-model="filterInventory.fromQuantity"
+            :class="{'input-error': !!(error.quantity || '')}"
+            :placeholder="popup_data.content.quantity.from.placeholder"
+            clearable
+            @keypress.native="onlyNumber($event)"
+            @keyup.native="numberFormat($event, 'fromQuantity')"
+            @clear="numberFormat($event, 'fromQuantity')"
           >
           </el-input>
           <div class="delimiter"></div>
-          <el-input v-model="popup_data.content.quantity.to.value" 
-          :class="{'input-error': !!(error.quantity || '')}"
-          :placeholder="popup_data.content.quantity.to.placeholder"
-          clearable 
-          @keypress.native="onlyNumber($event)"
-          @keyup.native="numberFormat($event, 'quantity')"
-          @clear="numberFormat($event, 'quantity')"
+          <el-input v-model="filterInventory.toQuantity"
+            :class="{'input-error': !!(error.quantity || '')}"
+            :placeholder="popup_data.content.quantity.to.placeholder"
+            clearable
+            @keypress.native="onlyNumber($event)"
+            @keyup.native="numberFormat($event, 'toQuantity')"
+            @clear="numberFormat($event, 'toQuantity')"
           ></el-input>
         </div>
         <p class="content-block__alert" v-if="error.quantity === 'quantity'">{{popup_data.content.quantity.alert}}</p>
@@ -41,12 +41,17 @@
     <div class="footer" slot="footer">
       <div class="wrap-button">
         <div class="btn-right">
-          <el-button class="btn-default btn-400 btn-h-40 btn-close">
+          <el-button
+            class="btn-default btn-400 btn-h-40 btn-close"
+            @click="handleReset"
+          >
               {{popup_data.footer.btnReset}}
           </el-button>
-          <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border"
-          style="font-size: 14px; font-weight: 600;"
-          :disabled="!!(error.quantity || '')"
+          <el-button
+            class="btn-default-bg btn-400 btn-h-40 is-none-border"
+            style="font-size: 14px; font-weight: 600;"
+            :disabled="!!(error.quantity || '')"
+            @click="handleApply"
           >
               {{popup_data.footer.btnContinues}}
           </el-button>
@@ -61,12 +66,20 @@
   import PopupMixin from '@/mixins/popup'
   import { times } from 'lodash'
   // import { namespace } from 'vuex-class'
-  // const bcKyc = namespace('bcKyc')
+
   @Component
   export default class PopupFilterInventory extends Mixins(PopupMixin) {
+    @Prop({ required: true, type: Array, default: [] }) listDataNetwork!: Array<Record<string, any>>
     // @bcKyc.State('listReason') listReason!: Array<Record<string, any>>
     // checkList = []
     // reason = ''
+    filterInventory = {
+      search: '',
+      network: '',
+      fromQuantity: '',
+      toQuantity: '',
+      orderBy: '',
+    }
     isLoading = false
     // isStopDbClick = false
     //begin
@@ -81,42 +94,6 @@
             title: this.$i18n.t('popup-fee.title'),
         },
         content: {
-            network: {
-                placeholder: "Network",
-                options: [
-                    {
-                        title: "Network 1",
-                        value: "NET1"
-                    },
-                    {
-                        title: "Network 2",
-                        value: "NET2"
-                    },
-                    {
-                        title: "Network 3",
-                        value: "NET3"
-                    }
-                ],
-                value: ''
-            },
-            saleTypes: {
-                placeholder: "Sale type",
-                options: [
-                    {
-                        title: "Network 1",
-                        value: "NET1"
-                    },
-                    {
-                        title: "Network 2",
-                        value: "NET2"
-                    },
-                    {
-                        title: "Network 3",
-                        value: "NET3"
-                    }
-                ],
-                value: ''
-            },
             quantity: {
                 from: {
                     placeholder: "From",
@@ -134,40 +111,6 @@
             btnContinues: this.$i18n.t('button.apply')
         }
     }
-    // $i18n: any
-    // get pickerOption(): any {
-    //   // eslint-disable-next-line @typescript-eslint/no-this-alias
-    //   const _this = this
-    //   return {
-    //     disabledDate(time: Date) {
-    //       return _this.disableTime(time, 'from-to')
-    //     }
-    //   }
-    // }
-
-    // get pickerOption2(): any {
-    //   // eslint-disable-next-line @typescript-eslint/no-this-alias
-    //   const _this = this
-    //   return {
-    //     disabledDate(time: Date) {
-    //       return _this.disableTime(time, 'to-from')
-    //     }
-    //   }
-    // }
-    // disableTime(time: Date, type: string): any {
-    //   if (type === 'from-to') {
-    //     if (this.popup_data.content.date.input.value1) {
-    //       return time.getTime() / 1000 < new Date(this.popup_data.content.date.input.value1).getTime() / 1000 - 7 * 60 * 60
-    //     }
-    //   } else {
-    //     if (this.popup_data.content.date.input.value2) {
-    //       return time.getTime() / 1000 > new Date(this.popup_data.content.date.input.value2).getTime() / 1000
-    //     }
-    //   }
-    // }
-
-    
-
 
     onlyNumber(event: KeyboardEvent): void {
       let keyCode = event.keyCode ? event.keyCode : event.which
@@ -177,19 +120,19 @@
         event.preventDefault()
       }
     }
-        checkValid(field: string): boolean {
-          let to = parseFloat(this.popup_data.content[field].to.value.replaceAll(',', ''))
-          let from = parseFloat(this.popup_data.content[field].from.value.replaceAll(',', ''))
-          if (from > to) {
-            console.log('193')
-            this.error[field] = field
-            return false
-          } else {
-            console.log('197')
-            this.error[field] = ''
-            return true
-          }
-        }
+    checkValid(field: string): boolean {
+      let to = parseFloat(this.filterInventory.fromQuantity.replaceAll(',', ''))
+      let from = parseFloat(this.filterInventory.toQuantity.replaceAll(',', ''))
+      if (from > to) {
+        console.log('193')
+        this.error[field] = field
+        return false
+      } else {
+        console.log('197')
+        this.error[field] = ''
+        return true
+      }
+    }
     numberFormat(event: FocusEvent, field: string): void {
       const _event: any = event
       this.checkValid(field)
@@ -201,22 +144,37 @@
         _event.target.value = fnumber
       }
     }
-    // handleReset(): void {
-    //     this.popup_data.content.date.input.value1 = ''
-    //     this.popup_data.content.date.input.value2 = ''
-    //     this.popup_data.content.amount.input.value1 = ''
-    //     this.popup_data.content.amount.input.value2 = ''
-    //     this.popup_data.content.fee.input.value1 = ''
-    //     this.popup_data.content.fee.input.value2 = ''
-    //     this.popup_data.content.status.value = 'SUCCESS'
-    //     this.checkValid('amount')
-    //     this.checkValid('fee')
-    // }
+    handleReset(): void {
+      this.filterInventory = {
+        search: '',
+        network: '',
+        fromQuantity: '',
+        toQuantity: '',
+        orderBy: '',
+      }
+    }
     handleClose(): void {
       this.setOpenPopup({
         popupName: 'popup-filter-inventory',
         isOpen: false
       })
+    }
+
+    handleApply(): void {
+        this.setOpenPopup({
+          popupName: 'popup-filter-inventory',
+          isOpen: false
+        })
+        let network = ''
+        let fromQuantity = ''
+        let toQuantity = ''
+        if (this.filterInventory.fromQuantity) {
+          fromQuantity = this.filterInventory.fromQuantity.replaceAll(',', '')
+        }
+        if (this.filterInventory.toQuantity) {
+          toQuantity = this.filterInventory.toQuantity.replaceAll(',', '')
+        }
+        this.$emit('filterInventory', { ...this.filterInventory, fromQuantity: fromQuantity, toQuantity: toQuantity })
     }
     // handleFilters():void {
     //     let fromDate = ''

@@ -301,6 +301,7 @@ import {Mixins, Component, Watch, Prop} from 'vue-property-decorator'
         .then((res: any) => {
           this.loadingTable = false
           this.dataTable = res.transactions.content
+          this.query.total = res.totalElements
           this.query.total = res.transactions.totalElements
           this.$emit("summary", res.summaryRequest[0])
         })

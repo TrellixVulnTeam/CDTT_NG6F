@@ -13,6 +13,7 @@ import { MemberRepository } from './repositories/member'
 import ReportRepository from './repositories/report'
 import WalletRepository from '@/services/repositories/wallet'
 import { FeeRepository } from './repositories/fee'
+import { InventoryRepository } from './repositories/inventory'
 import { NftRepository } from './repositories/nft'
 import {FeeNftRepository} from './repositories/feenft'
 type RepositoryName =
@@ -31,6 +32,7 @@ type RepositoryName =
   | 'wallet'
   | 'report'
   | 'fee'
+  | 'inventory'
   | 'nft'
   | 'feenft'
 
@@ -66,6 +68,8 @@ export default function getRepository(name: RepositoryName): any {
       return new ReportRepository()
     case 'fee':
       return new FeeRepository()
+    case 'inventory':
+      return new InventoryRepository()
     case 'nft':
       return new NftRepository()
     case 'feenft':
