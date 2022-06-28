@@ -160,6 +160,7 @@
   import PopupInventoryDetail from '../components/popup/PopupInventoryDetail.vue'
   import BaseTable from '@/components/base/table/BaseTable.vue'
   import { debounce } from 'lodash'
+  import filter from 'lodash/filter'
   import _ from 'lodash'
   // import EventBus from '@/utils/eventBus'
 
@@ -197,12 +198,6 @@
 
     async created(): Promise<void> {
       if(this.$route.query.ownerId && this.$route.query.itemId){
-        console.log(this.$route.query, "query route")
-        console.log(this.$route.query.ownerId, "accountId")
-        console.log(this.$route.query.itemId, "itemId")
-        const paramAccSatement = {
-
-        }
         await this.getDetailAccountStatement(this.$route.query)
         await this.getDetailSummaryInventory(this.$route.query)
         this.setOpenPopup({
@@ -216,11 +211,14 @@
       let _this = this
       this.listener = listNetworkRef.on('value', function (snapshot) {
         _this.listDataNetwork = snapshot.val()
-        console.log(_this.listDataNetwork)
+        _this.listDataNetwork = _this.listDataNetwork.filter((item: Record<string,any>) => item.type === "NFT")
+        console.log(_this.listDataNetwork, "network")
+
       })
 
       this.init()
       this.getDataTable()
+
     }
 
     destroyed(): void{

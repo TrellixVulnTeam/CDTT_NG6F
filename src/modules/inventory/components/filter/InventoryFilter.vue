@@ -28,7 +28,11 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <popup-filter-inventory :listDataNetwork="listDataNetwork"></popup-filter-inventory>
+    <popup-filter-inventory 
+      :query="filterInventory"
+      :listDataNetwork="listDataNetwork" 
+      >
+    </popup-filter-inventory>
     <!-- <popup-fee @feeFilterBark="handleCatchBark($event)" :resetFilter="{deleteCache: isChanged}" @filterReseted="handleNormalize"/> -->
   </div>
 </template>
@@ -52,7 +56,7 @@
     // @Prop({ required: true, type: Array, default: [] }) listApproveBy!: Array<Record<string, any>>
     // @Prop({ required: false, type: Object, default: [] }) reseted!: Record<string, any>
     
-    filterInventory = {
+    filterInventory: Record<string,any> = {
       search: '',
       network: '',
       fromQuantity: '',

@@ -70,11 +70,11 @@
   @Component
   export default class PopupFilterInventory extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Array, default: [] }) listDataNetwork!: Array<Record<string, any>>
+    // @Prop({ required: true, type: Object, default: {} }) query!: Record<string, any>
     // @bcKyc.State('listReason') listReason!: Array<Record<string, any>>
     // checkList = []
     // reason = ''
     filterInventory = {
-      search: '',
       network: '',
       fromQuantity: '',
       toQuantity: '',
@@ -146,7 +146,6 @@
     }
     handleReset(): void {
       this.filterInventory = {
-        search: '',
         network: '',
         fromQuantity: '',
         toQuantity: '',
