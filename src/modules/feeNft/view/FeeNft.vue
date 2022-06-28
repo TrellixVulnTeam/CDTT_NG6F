@@ -1,104 +1,94 @@
 <template>
-<div class="fee-nft">
-  <div class="fee-nft-header box-shadow">
-    <div class="fee-nft-header__tabs">
-      <span class="tab-item cursor" v-for="(tab, index) in getTab" :key="index"
-      :class="{'tab-active': getTabActive === tab.title}"
-      @click="handleChangeTab(tab)">{{tab.title}}</span>
-    </div>
-    <div class="fee-nft-header__summaries">
-      <div class="summary">
-        <div class="summary-title">
-          <span class="summary-title__text">{{$t('fee-nft.service-fee')}}</span>
-          <base-icon icon="icon-service-fee" size="24"/>
-        </div>
-        <div class="summary-number">
-          {{(typeActive.value === 'NFT_SALE' ? summaries[0].totalFeeDisplay : 0 )| convertAmountDecimal(tabActive)}} {{tabActive}}
-          <!-- {{(getSummary[0].transactionType === 'NFT_SALE' ? getSummary[0].totalFeeDisplay : 0 )| convertAmountDecimal(tabActive)}} {{tabActive}} -->
-        </div>
-        <div class="summary-approximate">
-          ~ ${{(typeActive.value === 'NFT_SALE' ? summaries[0].totalFeeUSD : 0) | convertAmountDecimal('USD')}}
-        </div>
+  <div class="fee-nft">
+    <div class="fee-nft-header box-shadow">
+      <div class="fee-nft-header__tabs">
+        <span class="tab-item cursor" v-for="(tab, index) in getTab" :key="index" :class="{ 'tab-active': getTabActive === tab.title }" @click="handleChangeTab(tab)">{{
+          tab.title
+        }}</span>
       </div>
-      <div class="summary">
-        <div class="summary-title">
-          <span class="summary-title__text">{{$t('fee-nft.royalty-fee')}}</span>
-          <base-icon icon="icon-loyalties" size="24"/>
+      <div class="fee-nft-header__summaries">
+        <div class="summary">
+          <div class="summary-title">
+            <span class="summary-title__text">{{ $t('fee-nft.service-fee') }}</span>
+            <base-icon icon="icon-service-fee" size="24" />
+          </div>
+          <div class="summary-number">
+            {{ (typeActive.value === 'NFT_SALE' ? summaries[0].totalFeeDisplay : 0) | convertAmountDecimal(tabActive) }} {{ tabActive }}
+            <!-- {{(getSummary[0].transactionType === 'NFT_SALE' ? getSummary[0].totalFeeDisplay : 0 )| convertAmountDecimal(tabActive)}} {{tabActive}} -->
+          </div>
+          <div class="summary-approximate">~ ${{ (typeActive.value === 'NFT_SALE' ? summaries[0].totalFeeUSD : 0) | convertAmountDecimal('USD') }}</div>
         </div>
-        <div class="summary-number">
-          {{(typeActive.value === 'ROYALTIES_FEE' ? summaries[0].totalFeeDisplay : 0 )| convertAmountDecimal(tabActive)}} {{tabActive}}
+        <div class="summary">
+          <div class="summary-title">
+            <span class="summary-title__text">{{ $t('fee-nft.royalty-fee') }}</span>
+            <base-icon icon="icon-loyalties" size="24" />
+          </div>
+          <div class="summary-number">{{ (typeActive.value === 'ROYALTIES_FEE' ? summaries[0].totalFeeDisplay : 0) | convertAmountDecimal(tabActive) }} {{ tabActive }}</div>
+          <div class="summary-approximate">~ ${{ (typeActive.value === 'ROYALTIES_FEE' ? summaries[0].totalFeeUSD : 0) | convertAmountDecimal('USD') }}</div>
         </div>
-        <div class="summary-approximate">
-          ~ ${{(typeActive.value === 'ROYALTIES_FEE' ? summaries[0].totalFeeUSD : 0) | convertAmountDecimal('USD')}}
+        <div class="summary">
+          <div class="summary-title">
+            <span class="summary-title__text">{{ $t('fee-nft.transfer-fee') }}</span>
+            <base-icon icon="icon-transfer-fee" size="24" />
+          </div>
+          <div class="summary-number">{{ (typeActive.value === 'NFT_TRANSFER' ? summaries[0].totalFeeDisplay : 0) | convertAmountDecimal(tabActive) }} {{ tabActive }}</div>
+          <div class="summary-approximate">~ ${{ (typeActive.value === 'NFT_TRANSFER' ? summaries[0].totalFeeUSD : 0) | convertAmountDecimal('USD') }}</div>
         </div>
-      </div>
-      <div class="summary">
-        <div class="summary-title">
-          <span class="summary-title__text">{{$t('fee-nft.transfer-fee')}}</span>
-          <base-icon icon="icon-transfer-fee" size="24"/>
-        </div>
-        <div class="summary-number">
-          {{(typeActive.value === 'NFT_TRANSFER' ? summaries[0].totalFeeDisplay : 0 )| convertAmountDecimal(tabActive)}} {{tabActive}}
-        </div>
-        <div class="summary-approximate">
-          ~ ${{(typeActive.value === 'NFT_TRANSFER' ? summaries[0].totalFeeUSD : 0) | convertAmountDecimal('USD')}}
-        </div>
-      </div>
-      <div class="summary" style="visibility: hidden;">
-        <div class="summary-title">
-          <span class="summary-title__text">Total Burn Fee</span>
-          <base-icon icon="icon-burn" size="24"/>
-        </div>
-        <div class="summary-number">
-          47,444.01 LYNK
-        </div>
-        <div class="summary-approximate">
-          ~ $1,253.66
+        <div class="summary" style="visibility: hidden">
+          <div class="summary-title">
+            <span class="summary-title__text">Total Burn Fee</span>
+            <base-icon icon="icon-burn" size="24" />
+          </div>
+          <div class="summary-number">47,444.01 LYNK</div>
+          <div class="summary-approximate">~ $1,253.66</div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="fee-nft-body box-shadow">
-    <div class="fee-nft-body__types">
-      <span class="type-item cursor"
-      v-for="(type, index) in filterTypes" :key="index"
-      @click="handleChangeType(type)"
-      :class="typeActive.typeId === type.typeId ? 'tab-active' : null">{{type.title}}</span>
-    </div>
-    <div class="fee-nft-body__content">
-      <div class="wrap-filter">
-        <fee-nft-filter @filters="handleFilter($event)" />
+    <div class="fee-nft-body box-shadow">
+      <div class="fee-nft-body__types">
+        <span
+          class="type-item cursor"
+          v-for="(type, index) in filterTypes"
+          :key="index"
+          @click="handleChangeType(type)"
+          :class="typeActive.typeId === type.typeId ? 'tab-active' : null"
+          >{{ type.title }}</span
+        >
       </div>
+      <div class="fee-nft-body__content">
+        <div class="wrap-filter">
+          <fee-nft-filter @filters="handleFilter($event)" />
+        </div>
         <div class="wrap-table">
-          <base-table 
-          :data="propdataTable"
-          class="table-fee-nft"
-          :paginationInfo="selectLanguage() === 'en' ? 'Transactions' : $t('header.transaction')"
-          :table="queryTable"
-          @rowClick="handleRowClick"
-          @sizeChange="handleSizeChange"
-          @currentChange="handleCurrentChange"
-          :loading="isLoading"
+          <base-table
+            :data="propdataTable"
+            class="table-fee-nft"
+            :paginationInfo="selectLanguage() === 'en' ? 'Transactions' : $t('header.transaction')"
+            :table="queryTable"
+            @rowClick="handleRowClick"
+            @sizeChange="handleSizeChange"
+            @currentChange="handleCurrentChange"
+            :loading="isLoading"
           >
-            <el-table-column label="#" type="index" :index="indexMethod" width="70"/>
+            <el-table-column label="#" type="index" :index="indexMethod" width="70" />
             <el-table-column :label="$t('fee-nft.table.trans-id')" width="300" align="left">
               <template slot-scope="scope">
                 <p class="trans-id">
                   <span>
-                      {{scope.row.transactionCode | formatTransactionCode(10)}} 
+                    {{ scope.row.transactionCode | formatTransactionCode(10) }}
                   </span>
-                  <base-icon icon="icon-copy" size="20px" style="margin-left: 8px;" @click.native="handleCopy($event, scope.row.transactionCode)"/>
+                  <base-icon icon="icon-copy" size="20px" style="margin-left: 8px" @click.native="handleCopy($event, scope.row.transactionCode)" />
                 </p>
-                <p class="trans-date">{{scope.row.transactionDate | formatMMDDYY}}</p>
+                <p class="trans-date">{{ scope.row.transactionDate | formatMMDDYY }}</p>
               </template>
             </el-table-column>
             <el-table-column :label="$t('fee-nft.table.item')" width="380" align="left">
               <template slot-scope="scope">
                 <div class="wrap-item-col">
-                  <img :src="scope.row.itemThumb" class="item-img" width="40px" height="40px">
+                  <img :src="scope.row.itemThumb" class="item-img" width="40px" height="40px" />
                   <div class="item-text">
-                    <p class="item-text__name">{{scope.row.itemName}}</p>
-                    <p class="item-text__code">#{{scope.row.itemCode}}</p>
+                    <p class="item-text__name">{{ scope.row.itemName }}</p>
+                    <p class="item-text__code">#{{ scope.row.itemCode }}</p>
                   </div>
                 </div>
               </template>
@@ -106,30 +96,29 @@
             <el-table-column :label="$t('fee-nft.table.from')" width="250" align="left">
               <template slot-scope="scope">
                 <div class="wrap-from-col">
-                  <p class="wrap-from-col__name">{{scope.row.accountName}}</p>
-                  <p class="wrap-from-col__email">{{scope.row.username}}</p>
+                  <p class="wrap-from-col__name">{{ scope.row.accountName }}</p>
+                  <p class="wrap-from-col__email">{{ scope.row.username }}</p>
                 </div>
               </template>
             </el-table-column>
             <el-table-column :label="$t('fee-nft.table.fee')" width="180" align="right">
               <template slot-scope="scope">
                 <div class="wrap-fee-col">
-                  <p class="wrap-fee-col__coin">{{scope.row.feeDisplay | convertAmountDecimal(tabActive)}} {{tabActive}}</p>
-                  <p class="wrap-fee-col__usd">~{{scope.row.feeUSD | convertAmountDecimal('USD')}} USD</p>       
+                  <p class="wrap-fee-col__coin">{{ scope.row.feeDisplay | convertAmountDecimal(tabActive) }} {{ tabActive }}</p>
+                  <p class="wrap-fee-col__usd">~{{ scope.row.feeUSD | convertAmountDecimal('USD') }} USD</p>
                 </div>
               </template>
             </el-table-column>
             <el-table-column :label="$t('fee-nft.table.status')" align="right">
               <template slot-scope="scope">
-                <span class="status" :class="checkType(scope.row.status)">{{getTitleStatus(scope.row.status)}}</span>
+                <span class="status" :class="checkType(scope.row.status)">{{ getTitleStatus(scope.row.status) }}</span>
               </template>
             </el-table-column>
-          </base-table>      
+          </base-table>
         </div>
       </div>
     </div>
-</div>
-
+  </div>
 </template>
 
 <script lang="ts">
@@ -144,17 +133,16 @@
   import { debounce } from 'lodash'
   const api: FeeNftRepository = getRepository('feenft')
 
-
   import { namespace } from 'vuex-class'
 
   const beBase = namespace('beBase')
   interface SumFormat {
-    transactionType: string,
-    totalFeeWei: number,
-    totalFeeDisplay: number,
+    transactionType: string
+    totalFeeWei: number
+    totalFeeDisplay: number
     totalFeeUSD: number
   }
-  @Component({components: {FeeNftFilter, BaseTable}})
+  @Component({ components: { FeeNftFilter, BaseTable } })
   export default class FeeNft extends Mixins(PopupMixin) {
     @beBase.State('coinMain') coinMain!: string
     // query: any = {
@@ -165,10 +153,10 @@
     //   total: 0
     // }
     summaries = [
-        {transactionType: 'NFT_SALE', totalFeeDisplay: 0, totalFeeWei: 0,totalFeeUsd: 0},
-        {transactionType: 'ROYALTIES_FEE', totalFeeDisplay: 0, totalFeeWei: 0,totalFeeUsd: 0},
-        {transactionType: 'NFT_TRANSFER', totalFeeDisplay: 0, totalFeeWei: 0,totalFeeUsd: 0}
-      ]
+      { transactionType: 'NFT_SALE', totalFeeDisplay: 0, totalFeeWei: 0, totalFeeUsd: 0 },
+      { transactionType: 'ROYALTIES_FEE', totalFeeDisplay: 0, totalFeeWei: 0, totalFeeUsd: 0 },
+      { transactionType: 'NFT_TRANSFER', totalFeeDisplay: 0, totalFeeWei: 0, totalFeeUsd: 0 }
+    ]
     isLoading = false
     typeActive = {
       typeId: 1,
@@ -198,7 +186,7 @@
       //   title: 'Burn',
       //   value: 'BURN'
       // }
-    ] 
+    ]
 
     tabs: Array<Record<string, any>> = [
       {
@@ -231,7 +219,6 @@
         title: 'BUSD',
         routeName: 'FeeNftBusd'
       }
-      ,
       // {
       //   id: 8,
       //   title: 'OTHERS',
@@ -257,7 +244,7 @@
     detailRow = {}
     dataDetail = {}
 
-     query: any = {
+    query: any = {
       currency: '',
       type: '',
       search: '',
@@ -273,7 +260,7 @@
       limit: 10,
       total: 10
     }
-    
+
     withdraw: any = {}
     transfer: any = {}
     listApproveBy: Record<string, any>[] = []
@@ -298,19 +285,19 @@
         ...this.tabs
       ]
     }
-    get getTabActive():string {
-      console.log(this.$route.path.split('/')[2]);
-      
+    get getTabActive(): string {
+      console.log(this.$route.path.split('/')[2])
+
       return this.$route.path.split('/')[2]
     }
-    get queryTable():any {
+    get queryTable(): any {
       return {
         ...this.query,
         limit: this.query.limit
-      } 
+      }
     }
     created(): void {
-       this.tabActive = this.getTabActive
+      this.tabActive = this.getTabActive
       console.log('route', this.$route.path.split('/')[2])
       this.query.currency = this.getTabActive
       this.query.status = 'SUCCESS'
@@ -320,8 +307,8 @@
     }
 
     propdataTable: Record<string, any>[] = []
-    
-    selectLanguage():string {
+
+    selectLanguage(): string {
       return window.localStorage.getItem('bc-lang') as string
     }
     async init(): Promise<void> {
@@ -346,7 +333,7 @@
         const result = await api.getListFeeNft('fee', params)
         this.propdataTable = result.content
         // this.propdataTable = result.transactions.content
-        if(this.propdataTable.length > 0) {
+        if (this.propdataTable.length > 0) {
           //   this.propdataTable = this.propdataTable.map(
           //   (item) => {
           //     if(this.query.status !== null)
@@ -356,13 +343,14 @@
           //     return item
           //   }
           // )
-          this.propdataTable.forEach(
-            (item) => {
-              item.status = 
-              (item.status === 'PENDING' || item.status === 'SUCCESS' || item.status === 'REJECTED' || item.status === 'PROCESSING' ||
-              item.status === 'FAILED') ? item.status : item.status === 'LOCKED' ? 'PENDING' : 'PROCESSING'
-            }
-          )
+          this.propdataTable.forEach(item => {
+            item.status =
+              item.status === 'PENDING' || item.status === 'SUCCESS' || item.status === 'REJECTED' || item.status === 'PROCESSING' || item.status === 'FAILED'
+                ? item.status
+                : item.status === 'LOCKED'
+                ? 'PENDING'
+                : 'PROCESSING'
+          })
         }
 
         // const summaryWithdraw = result.summary.filter(item => {
@@ -388,30 +376,29 @@
     }
     async getSummaries(): Promise<any> {
       const params = {
-          search: this.query.search,
-          orderBy: this.query.orderBy,
-          currency: this.tabActive,
-          fromDate: this.query.fromDate,
-          toDate: this.query.toDate,
-          fromTransactionAmount: this.query.fromTransactionAmount,
-          toTransactionAmount: this.query.toTransactionAmount,
-          fromFeeAmount: this.query.fromFeeAmount,
-          toFeeAmount: this.query.toFeeAmount,
-          type: this.query.type,
-          total: null,
-          status: this.query.status
+        search: this.query.search,
+        orderBy: this.query.orderBy,
+        currency: this.tabActive,
+        fromDate: this.query.fromDate,
+        toDate: this.query.toDate,
+        fromTransactionAmount: this.query.fromTransactionAmount,
+        toTransactionAmount: this.query.toTransactionAmount,
+        fromFeeAmount: this.query.fromFeeAmount,
+        toFeeAmount: this.query.toFeeAmount,
+        type: this.query.type,
+        total: null,
+        status: this.query.status
       }
       try {
         const rs = await api.getFeeNftSummary('fee/summary', params)
         console.log('467', rs)
-        if(rs.length !== 0) {
+        if (rs.length !== 0) {
           this.summaries = rs
-        }
-        else {
-              this.summaries = [
-            {transactionType: 'NFT_SALE', totalFeeDisplay: 0, totalFeeWei: 0,totalFeeUsd: 0},
-            {transactionType: 'ROYALTIES_FEE', totalFeeDisplay: 0, totalFeeWei: 0,totalFeeUsd: 0},
-            {transactionType: 'NFT_TRANSFER', totalFeeDisplay: 0, totalFeeWei: 0,totalFeeUsd: 0}
+        } else {
+          this.summaries = [
+            { transactionType: 'NFT_SALE', totalFeeDisplay: 0, totalFeeWei: 0, totalFeeUsd: 0 },
+            { transactionType: 'ROYALTIES_FEE', totalFeeDisplay: 0, totalFeeWei: 0, totalFeeUsd: 0 },
+            { transactionType: 'NFT_TRANSFER', totalFeeDisplay: 0, totalFeeWei: 0, totalFeeUsd: 0 }
           ]
         }
         console.log(this.summaries, '420')
@@ -435,16 +422,16 @@
       this.getSummaries()
       this.debounceInit()
     }
-    
+
     handleChangeTab(tab: Record<string, any>): void {
-      this.$router.push({ name: tab.routeName }).catch(
-        (error) => {console.log(error)}
-      )
+      this.$router.push({ name: tab.routeName }).catch(error => {
+        console.log(error)
+      })
       this.typeActive = {
-      typeId: 1,
-      title: 'Service',
-      value: 'NFT_SALE'
-    }
+        typeId: 1,
+        title: 'Service',
+        value: 'NFT_SALE'
+      }
       this.resetQuery()
       this.tabActive = tab.title
       this.query.currency = tab.title
@@ -455,12 +442,12 @@
       this.getSummaries()
       this.debounceInit()
     }
-    handleCurrentChange(page: any):void {
+    handleCurrentChange(page: any): void {
       this.query.page = page
       this.init()
       console.log('current change')
     }
- 
+
     resetQuery(): void {
       this.query = {
         ...this.query,
@@ -475,7 +462,7 @@
         fromTransactionAmount: this.filters.fromTransactionAmount,
         toTransactionAmount: this.filters.toTransactionAmount,
         fromFeeAmount: this.filters.fromFeeAmount,
-        toFeeAmount: this.filters.toFeeAmount,
+        toFeeAmount: this.filters.toFeeAmount
         // bonusType: null
       }
     }
@@ -490,12 +477,11 @@
       this.init()
     }
 
-    getTitleStatus(input: string):string {
+    getTitleStatus(input: string): string {
       const lang = window.localStorage.getItem('bc-lang')
-      if(lang === 'en') {
+      if (lang === 'en') {
         return input === 'SUCCESS' ? 'Success' : input === 'PENDING' ? 'Pending' : input === 'FAILED' ? 'Failed' : 'Processing'
-      }
-      else if(lang === 'vi') {
+      } else if (lang === 'vi') {
         return input === 'SUCCESS' ? 'Thành công' : input === 'PENDING' ? 'Chưa xử lý' : input === 'FAILED' ? 'Thất bại' : 'Đang xử lý'
       }
       return ''
@@ -531,18 +517,18 @@
       this.getSummaries()
       this.debounceInit()
     }
-    handleCopy(e, data: string):void {
+    handleCopy(e, data: string): void {
       this.$emit('copy', 'copy')
       e.stopPropagation()
       navigator.clipboard.writeText(data)
-      let message:any=''
+      let message: any = ''
       message = this.$t('notify.copy')
       this.$message.success(message)
     }
     debounceInit = debounce(() => {
       this.init()
     }, 100)
-    handleNormalize():void {
+    handleNormalize(): void {
       this.isChanged = false
     }
     // getStatus(input: string):string {
@@ -558,21 +544,23 @@
     //   return rs
     // }
     checkType(typeCheck: string): string {
-      const result = typeCheck === 'PENDING' ? 'status-pending'
-        : (typeCheck === 'FAILED' || typeCheck === 'LOCKED' || typeCheck === 'WAITING' || typeCheck === 'EXPIRED')
-        ? 'status-error'
-        : typeCheck === 'PROCESSING'
-        ? 'status-pending'
-        : typeCheck === 'REJECTED'
-        ? 'status-rejected'
-        : 'status-success'
-        return result
+      const result =
+        typeCheck === 'PENDING'
+          ? 'status-pending'
+          : typeCheck === 'FAILED' || typeCheck === 'LOCKED' || typeCheck === 'WAITING' || typeCheck === 'EXPIRED'
+          ? 'status-error'
+          : typeCheck === 'PROCESSING'
+          ? 'status-pending'
+          : typeCheck === 'REJECTED'
+          ? 'status-rejected'
+          : 'status-success'
+      return result
     }
   }
 </script>
 
 <style scoped lang="scss">
-  @mixin text($size, $height, $weight, $color){
+  @mixin text($size, $height, $weight, $color) {
     font-size: $size;
     line-height: $height;
     font-weight: $weight;
@@ -592,12 +580,12 @@
         align-items: center;
         .tab-item {
           display: inline-block;
-          @include text(16px, 24px, 400, #5B616E);
+          @include text(16px, 24px, 400, #5b616e);
           box-sizing: border-box;
           padding: 15px 12px;
           &.tab-active {
-            @include text(16px, 24px, 600, #0151FC);
-            border-bottom: 2px solid #0151FC;
+            @include text(16px, 24px, 600, #0151fc);
+            border-bottom: 2px solid #0151fc;
           }
         }
       }
@@ -609,11 +597,11 @@
         align-items: center;
         // grid-template-columns: 320px;
         padding: 24px;
-        border-top: 1px solid #DBDBDB;
+        border-top: 1px solid #dbdbdb;
         .summary {
-          width: 320px;
+          width: calc(100% / 4 - 50px);
           padding: 16px;
-          border: 1px solid #DBDBDB;
+          border: 1px solid #dbdbdb;
           border-radius: 8px;
           height: auto;
           box-sizing: border-box;
@@ -623,15 +611,15 @@
             align-items: center;
             margin-bottom: 12px;
             &__text {
-              @include text(16px, 24px, 400, #5B616E);
+              @include text(16px, 24px, 400, #5b616e);
             }
           }
           &-number {
             margin-bottom: 4px;
-            @include text(24px, 24px, 600, #0A0B0D);
+            @include text(24px, 24px, 600, #0a0b0d);
           }
           &-approximate {
-            @include text(14px, 20px, 400, #5B616E);
+            @include text(14px, 20px, 400, #5b616e);
           }
         }
       }
@@ -647,10 +635,10 @@
           display: inline-block;
           padding: 16px 12px;
           box-sizing: border-box;
-          @include text(16px, 24px, 400,#5B616E);
+          @include text(16px, 24px, 400, #5b616e);
           &.tab-active {
-            @include text(16px, 24px, 600, #0151FC);
-            border-bottom: 2px solid #0151FC;
+            @include text(16px, 24px, 600, #0151fc);
+            border-bottom: 2px solid #0151fc;
           }
         }
       }
@@ -660,14 +648,14 @@
           padding: 0 24px;
           .table-fee-nft {
             .trans-id {
-              @include text(16px, 24px, 400, #0151FC);
+              @include text(16px, 24px, 400, #0151fc);
               span:first-child {
                 display: inline-block;
-                width: 200px
+                width: 200px;
               }
             }
             .trans-date {
-              @include text(14px, 20px, 400, #5B616E);
+              @include text(14px, 20px, 400, #5b616e);
             }
             .wrap-item-col {
               display: flex;
@@ -679,27 +667,27 @@
               }
               .item-text {
                 &__name {
-                  @include text(16px, 24px, 400, #0A0B0D);
+                  @include text(16px, 24px, 400, #0a0b0d);
                 }
                 &__code {
-                  @include text(14px, 20px, 400, #5B616E);
+                  @include text(14px, 20px, 400, #5b616e);
                 }
               }
             }
             .wrap-from-col {
               &__name {
-                @include text(16px, 24px, 400, #0A0B0D);
+                @include text(16px, 24px, 400, #0a0b0d);
               }
               &__email {
-                @include text(14px, 20px, 400, #5B616E);
+                @include text(14px, 20px, 400, #5b616e);
               }
             }
             .wrap-fee-col {
               &__coin {
-                @include text(16px, 24px, 400, #0A0B0D);
+                @include text(16px, 24px, 400, #0a0b0d);
               }
               &__usd {
-                @include text(14px, 20px, 400, #5B616E);
+                @include text(14px, 20px, 400, #5b616e);
               }
             }
             .status {
@@ -710,15 +698,15 @@
               box-sizing: border-box;
               &.status-success {
                 background-color: var(--bc-bg-success);
-                @include text(12px, 24px, 500, #129961)
+                @include text(12px, 24px, 500, #129961);
               }
               &.status-pending {
                 background-color: var(--bc-bg-warning);
-                @include text(12px, 24px, 500, #DD7D00);
+                @include text(12px, 24px, 500, #dd7d00);
               }
               &.status-error {
                 background-color: var(--bc-bg-error);
-                @include text(12px, 24px, 500, #CF202F)
+                @include text(12px, 24px, 500, #cf202f);
               }
             }
           }
