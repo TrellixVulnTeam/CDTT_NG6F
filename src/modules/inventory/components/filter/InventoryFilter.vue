@@ -28,7 +28,7 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <popup-filter-inventory :listDataNetwork="listDataNetwork" @filterInventory="handleFilter"></popup-filter-inventory>
+    <popup-filter-inventory :listDataNetwork="listDataNetwork"></popup-filter-inventory>
     <!-- <popup-fee @feeFilterBark="handleCatchBark($event)" :resetFilter="{deleteCache: isChanged}" @filterReseted="handleNormalize"/> -->
   </div>
 </template>
