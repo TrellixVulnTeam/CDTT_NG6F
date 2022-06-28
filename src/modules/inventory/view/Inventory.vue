@@ -409,7 +409,7 @@
 
     queryAccountState = {
       page: 1,
-      limit: 5,
+      limit: 10,
       total: 0
     }
     handleCurrentChangeAccount(page: number):void {
