@@ -39,7 +39,7 @@
     </router-link> -->
     <el-popover trigger="hover" v-if="checkPemission('NFT', ['view'])" v-model="isOpenPopupNft" placement="right" popper-class="menu-nft" style="min-width: 80px">
       <div class="popper-add-menu-content">
-        <ul class="module">
+        <!-- <ul class="module">
           <li class="module-item" @click="isOpenPopupNft = false">
             <router-link to="/setup" class="router_center">
               <div class="sack_avatar">
@@ -49,7 +49,7 @@
               </div>
             </router-link>
           </li>
-        </ul>
+        </ul> -->
         <ul class="module">
           <li class="module-item" @click="isOpenPopupNft = false">
             <router-link :to="{ name: 'Inventory' }" class="router_center">
