@@ -9,7 +9,7 @@
             <img :src="dataAccountSummaryDetail.itemThumb" 
             class="content-top__divided_img">
             <div class="content-top__divided_text">
-                <p class="name">{{dataAccountSummaryDetail.accountName}}</p>
+                <p class="name">{{dataAccountSummaryDetail.itemName}}</p>
                 <p class="code">#{{dataAccountSummaryDetail.itemCode}}</p>
             </div>
         </div>
@@ -18,8 +18,8 @@
             class="content-top__divided_img ml-24 circle">
             <div class="content-top__divided_text">
                 <p class="name">{{dataAccountSummaryDetail.fullName}}</p>
-                <p v-if="dataAccountSummaryDetail.accountType==='INTERNAL'" class="code">{{dataAccountSummaryDetail.email}} | {{dataAccountSummaryDetail.countryCode}} {{dataAccountSummaryDetail.phone}}</p>
-                <p v-if="dataAccountSummaryDetail.accountType==='EXTERNAL'" class="address">{{dataAccountSummaryDetail.accountAddress}}</p>
+                <p v-if="dataAccountSummaryDetail.accountType==='INTERNAL'" class="code">{{dataAccountSummaryDetail.email}} | ({{dataAccountSummaryDetail.countryCode}}) {{dataAccountSummaryDetail.phone}}</p>
+                <p v-if="dataAccountSummaryDetail.accountType==='EXTERNAL'" class="code">{{dataAccountSummaryDetail.accountAddress}}</p>
             </div>
         </div>
       </div>
@@ -52,26 +52,28 @@
       <div class="content-bot box-shadow mb-24">
         <p class="content-bot__title">Account Statement</p>
         <div class="opening-quantity">
-            <span class="opening-quantity__title">Opening Quantity</span>
+            <span class="opening-quantity__title">OPENING QUANTITY</span>
             <span class="opening-quantity__number">{{dataAccountSummaryDetail.openingQuantity}}</span>
         </div>
         <base-table
-        :data="dataAccountContentDetail"
-        :showPagination="true"
-        :table="query"
-        :isLoading="isLoading"
-        :showSummary="true"
-        :summaryMethod="summaryMethod"
-        class="table-bot">
+          :data="dataAccountContentDetail"
+          :showPagination="true"
+          :table="query"
+          @sizeChange="handleSizeChange"
+          @currentChange="handleCurrentChange"
+          :isLoading="isLoading"
+          :showSummary="true"
+          :summaryMethod="summaryMethod"
+          class="table-bot">
             <el-table-column label="EVENT TYPE" align="left" width="186">
                 <template slot-scope="scope">
-                    <p class="event-type__title">{{scope.row.transactionType}}</p>
+                    <p class="event-type__title">{{scope.row.transactionTypeConvert}}</p>
                     <p class="event-type__date">{{scope.row.transactionDate}}</p>
                 </template>
             </el-table-column>
             <el-table-column label="INCREASE" align="right" width="186">
                 <template slot-scope="scope">
-                    <p class="increase">{{scope.row.increaseQuantity}}</p>
+                    <p class="increase" v-if="scope.row.increaseQuantity">+{{scope.row.increaseQuantity}}</p>
                 </template>
             </el-table-column>
             <el-table-column label="DECREASE" align="right" width="186">
@@ -114,6 +116,7 @@ const api: InventoryRepository = getRepository('inventory')
 
   @Component({components: {BaseTable}})
   export default class PopupInventoryDetail extends Mixins(PopupMixin) {
+    @Prop({ required: true, type: Object, default: {} }) query!: Record<string, any>
     @Prop({ required: true, type: Object, default: {} }) dataAccountSummaryDetail!: Record<string, any>
     @Prop({ required: true, type: Array, default: [] }) dataAccountContentDetail!: Array<Record<string, any>>
     @Prop({ required: true, type: Array, default: () => {
@@ -242,10 +245,10 @@ const api: InventoryRepository = getRepository('inventory')
         }
     }
 
-    query: Record<string,any> = {
-        page: 1,
-        limit: 5
-    }
+    // query: Record<string,any> = {
+    //     page: 1,
+    //     limit: 5
+    // }
 
     getClassStatus(input: string):string {
         let rs = ''
@@ -260,29 +263,17 @@ const api: InventoryRepository = getRepository('inventory')
         return rs
     }
 
-    // mounted(): void {
-    //     console.log("detail")
-    //     console.log(this.rowData)
-    //     this.init()
-    // }
 
-    // async init(): Promise<void>{
-    //     try{
-    //         this.isLoading = true
-    //         const params = {
-    //             ...this.query,
-    //             accountId: this.rowData.ownerId,
-    //             itemId: this.rowData.itemId
-    //         }
-    //         const response = await api.getDetailItem(params)
-    //         this.dataAccountDetail = response.summary
-    //         console.log(response.summary)
-    //         this.isLoading = false
-    //     }catch(e){
-    //         this.isLoading = false
-    //         console.log(e)
-    //     }
-    // }
+    handleCurrentChange(page: number): void {
+      this.query.page = page
+      this.$emit('page', page)
+    }
+
+    handleSizeChange(limit: number): void {
+      this.query.limit = limit
+      this.query.page = 1
+      this.$emit('size', limit)
+    }
 
     handleClose(): void {
       this.setOpenPopup({
@@ -335,6 +326,10 @@ const api: InventoryRepository = getRepository('inventory')
     font-weight: $weight;
     color: $color;
 }
+  ::v-deep.base-table .cell{
+    font-weight: 600;
+  }
+
  ::v-deep.popup-inventory-detail {
     .popup-content {
         background-color: #F6F8FC;
@@ -495,6 +490,9 @@ const api: InventoryRepository = getRepository('inventory')
     }
     .circle {
         border-radius: 50% !important;
+    }
+    .code{
+      color: #5B616E;
     }
  }
 </style>
