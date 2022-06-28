@@ -416,12 +416,17 @@
       this.queryAccountState.page = page;
       // this.getDetailAccountStatement({...this.queryAccountState, accountId: this.rowData?.row.ownerId, itemId: this.rowData?.row.itemId})
       this.getDetailAccountStatement(this.rowData?.row)
-
+      if(this.$route.query){
+        this.getDetailAccountStatement(this.$route.query)
+      }
     }
 
     handleSizeChangeAccount(size: number):void {
       this.queryAccountState.limit = size;
       this.getDetailAccountStatement(this.rowData?.row)
+      if(this.$route.query){
+        this.getDetailAccountStatement(this.$route.query)
+      }
     }
 
     async handleRowClick(row: Record<string, any>): Promise<void> {
