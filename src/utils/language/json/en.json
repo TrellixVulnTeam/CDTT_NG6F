@@ -1154,12 +1154,12 @@
   "card_bid": "Total Bid",
   "card_sale": "Total Buy",
   "card_offer": "Total Offer",
-  "title_list": "Put On Sale",
-  "title_bid": "Bid",
-  "title_sale": "Sale",
-  "title_offer": "Offer",
-  "title_transfer": "Transfer",
-  "title_burn": "Burn",
+  "title_list": "Put On Sale Detail",
+  "title_bid": "Bid Detail",
+  "title_sale": "Sale Detail",
+  "title_offer": "Offer Detail",
+  "title_transfer": "Transfer Detail",
+  "title_burn": "Burn Detail",
   "sort_quantity": "Quantity",
   "sort_item": "Item",
   "sort_from": "From",
@@ -1176,7 +1176,7 @@
       "from": "From"
     },
     "table": {
-      "trans-id":"TRANSACTION ID",
+      "trans-id": "TRANSACTION ID",
       "item": "ITEM",
       "from": "FROM",
       "fee": "FEE",
@@ -1187,6 +1187,10 @@
     "transfer-fee": "Total Transfer Fee",
     "service": "Service",
     "royalty": "Royalty",
-    "transfer": "Transfer"    
+    "transfer": "Transfer",
+    "filter_pending": "Pending",
+    "filter_processing": "Processing",
+    "filter_success": "Success",
+    "filter_failed": "Failed"
   }
 }
