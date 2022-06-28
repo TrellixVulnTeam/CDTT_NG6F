@@ -78,7 +78,7 @@
       network: '',
       fromQuantity: '',
       toQuantity: '',
-      orderBy: '',
+      
     }
     isLoading = false
     // isStopDbClick = false
@@ -149,7 +149,7 @@
         network: '',
         fromQuantity: '',
         toQuantity: '',
-        orderBy: '',
+        
       }
     }
     handleClose(): void {

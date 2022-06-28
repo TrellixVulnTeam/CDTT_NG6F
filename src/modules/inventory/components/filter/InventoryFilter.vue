@@ -113,7 +113,9 @@
     searchText = debounce((value: string) => {
       this.$emit('filterInventory', {
         ...this.filterInventory,
-        orderBy: this.filterInventory.orderBy,
+        orderBy: "QUANTITY_DESC",
+        page: 1,
+        limit: 10,
         search: trim(value)
       })
     }, 500)
@@ -149,15 +151,15 @@
       EventBus.$off('changeLang')
       // EventBus.$off('changeTab')
     }
-    handleCatchBark(filtersData: any):void {
-      const filterInventory = {
-        search: this.filterInventory.search,
-        ...filtersData,
-        orderBy: this.filterInventory.orderBy
-      }
-      this.$emit('filterInventory', filterInventory)
-      this.filterInventory = filterInventory
-    }
+    // handleCatchBark(filtersData: any):void {
+    //   const filterInventory = {
+    //     search: this.filterInventory.search,
+    //     ...filtersData,
+    //     orderBy: this.filterInventory.orderBy
+    //   }
+    //   this.$emit('filterInventory', filterInventory)
+    //   this.filterInventory = filterInventory
+    // }
     handleOpen():void {
       this.setOpenPopup({
         popupName: 'popup-filter-inventory',
