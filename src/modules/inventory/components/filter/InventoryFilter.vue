@@ -183,7 +183,6 @@
 
     resetFilter(): void {
       this.filterInventory = {
-        search: '',
         network: '',
         fromQuantity: '',
         toQuantity: '',
@@ -194,13 +193,12 @@
     handleSort(command: string): void {
       this.sortActive = command
       this.filterInventory.orderBy = command
-      this.$emit('filterInventory', this.filterInventory)
+      this.$emit('filterInventory', {orderBy: this.sortActive})
     }
 
 
     handleReset(): void {
       this.filterInventory = {
-        search: '',
         network: '',
         fromQuantity: '',
         toQuantity: '',
