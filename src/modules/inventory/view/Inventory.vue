@@ -22,7 +22,7 @@
     <!--    </el-carousel-item>-->
     <!--  </el-carousel>-->
 
-    <el-carousel :autoplay="false" arrow="always">
+    <el-carousel :autoplay='false' arrow="always" :loop="false" :interval="9999999999999999999">
       <el-carousel-item>
         <div class="wrap-summaries mb-24">
           <div class="summary">
@@ -82,7 +82,10 @@
       </el-carousel-item>
     </el-carousel>
     <div class="wrap-filter mb-24">
-      <inventory-filter @filterInventory="handleFilter"></inventory-filter>
+      <inventory-filter
+          @filterInventory="handleFilter"
+          :listDataNetwork="listDataNetwork"
+      ></inventory-filter>
     </div>
     <div class="wrap-table">
       <base-table
@@ -109,7 +112,7 @@
               <img :src="scope.row.itemThumb" alt="" class="item-img" width="40px" height="40px" />
               <div class="item-text">
                 <p class="item-text__name">{{ scope.row.itemName }}</p>
-                <p class="item-text__code">{{ scope.row.itemCode }}</p>
+                <p class="item-text__code">#{{ scope.row.itemCode }}</p>
               </div>
             </div>
           </template>
@@ -122,7 +125,7 @@
         </el-table-column>
         <el-table-column :label="$t('inventory.table.quantity')" align="right" width="150">
           <template slot-scope="scope">
-            <span class="quantity">{{ scope.row.originQuantity }}</span>
+            <span class="quantity">{{ scope.row.originQuantity | formatNumber}}</span>
           </template>
         </el-table-column>
         <!--      <el-table-column :label="$t('inventory.table.status')" align="center" width="185">-->
@@ -133,10 +136,16 @@
       </base-table>
     </div>
     <popup-inventory-detail
+      :query="queryAccountState"
+      @page="handleCurrentChangeAccount"
+      @size="handleSizeChangeAccount"
       :dataAccountSummaryDetail="dataAccountSummaryDetail"
       :dataAccountContentDetail="dataAccountContentDetail"
       :dataConvertSummaryInventory="dataConvertSummaryInventory"
     />
+    <popup-filter-inventory
+      @filterInventory="handleFilter"
+     :listDataNetwork="listDataNetwork"/>
   </div>
 </template>
 
@@ -154,36 +163,53 @@
   // import EventBus from '@/utils/eventBus'
 
   import { namespace } from 'vuex-class'
+  import firebase from "../../../../../blockchain-web-app/src/utils/firebase";
+  import PopupFilterInventory from "@/modules/inventory/components/popup/PopupFilterInventory.vue";
 
   const api: InventoryRepository = getRepository('inventory')
   const beBase = namespace('beBase')
 
-  @Component({ components: { BaseTable, InventoryFilter, PopupInventoryDetail } })
+  @Component({ components: {PopupFilterInventory, BaseTable, InventoryFilter, PopupInventoryDetail } })
   export default class Inventory extends Mixins(PopupMixin) {
     @beBase.State('coinMain') coinMain!: string
     isLoading: any = false
 
     summaryInventoryData: Record<string, any> = {}
     listDataItem: Record<string, any>[] = []
-    rowData = {}
+    rowData:Record<string, any> = {}
     dataAccountSummaryDetail = {}
     dataAccountContentDetail = []
     dataSummaryInventoryDetail = {}
+    listener: any = null
+    listDataNetwork = []
 
     query: Record<string, any> = {
       search: '',
       network: '',
       fromQuantity: '',
       toQuantity: '',
-      orderBy: '',
+      orderBy: 'QUANTITY_DESC',
       page: 1,
       limit: 10,
       total: 0
     }
 
     created(): void {
+      const listNetworkRef = firebase.database().ref('nft_assets')
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      let _this = this
+      this.listener = listNetworkRef.on('value', function (snapshot) {
+        _this.listDataNetwork = snapshot.val()
+        console.log(_this.listDataNetwork)
+      })
+
       this.init()
       this.getDataTable()
+    }
+
+    destroyed(): void{
+      const listNetworkRef = firebase.database().ref('nft_assets')
+      listNetworkRef.off('value', this.listener)
     }
 
     async init(): Promise<void> {
@@ -317,15 +343,22 @@
     async getDetailAccountStatement(row): Promise<void> {
       try {
         const queryDetail = {
-          page: 1,
-          limit: 5,
+          ...this.queryAccountState,
+          page: this.queryAccountState.page,
+          limit: this.queryAccountState.limit,
           accountId: row.row.ownerId,
-          itemId: row.row.itemId
+          itemId: row.row.itemId,
+          total: null
         }
         const response = await api.getDetailItem(queryDetail)
         this.dataAccountSummaryDetail = response.summary
         this.dataAccountContentDetail = response.events.content
-        console.log(response)
+        this.queryAccountState.total = response.events.totalElements
+        console.log(response, '')
+        let parsedObj = JSON.parse(JSON.stringify(this.dataAccountContentDetail))
+        console.log(parsedObj, 'PARSE')
+        console.log(this.dataAccountContentDetail, 'table account')
+
       } catch (e) {
         console.log(e)
       }
@@ -349,7 +382,24 @@
       }
     }
 
+    queryAccountState = {
+      page: 1,
+      limit: 5,
+      total: 0
+    }
+    handleCurrentChangeAccount(page: number):void {
+      this.queryAccountState.page = page;
+      this.getDetailAccountStatement({...this.queryAccountState, accountId: this.rowData?.row.ownerId, itemId: this.rowData?.row.itemId})
+    }
+
+    handleSizeChangeAccount(size: number):void {
+      this.queryAccountState.limit = size;
+      this.getDetailAccountStatement({})
+    }
+
     async handleRowClick(row: Record<string, any>): Promise<void> {
+      if(row) this.rowData=row
+      console.log(this.rowData)
       await this.getDetailSummaryInventory(row)
       await this.getDetailAccountStatement(row)
       this.setOpenPopup({
@@ -490,11 +540,12 @@
 
   ::v-deep.el-carousel--horizontal {
     overflow-x: clip;
+    display: flow-root;
     .el-carousel__container {
       height: 143px;
       .el-carousel__arrow {
-        // transition: 0.1s;
-        // display: block !important;
+         transition: 0s ease-out;
+         display: block !important;
         width: 32px;
         height: 32px;
         color: #292d32;

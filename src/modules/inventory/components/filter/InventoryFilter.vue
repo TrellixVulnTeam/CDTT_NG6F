@@ -28,7 +28,7 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <popup-filter-inventory></popup-filter-inventory>
+    <popup-filter-inventory :listDataNetwork="listDataNetwork"></popup-filter-inventory>
     <!-- <popup-fee @feeFilterBark="handleCatchBark($event)" :resetFilter="{deleteCache: isChanged}" @filterReseted="handleNormalize"/> -->
   </div>
 </template>
@@ -48,6 +48,7 @@
 
   @Component({components: {PopupFilterInventory}})
   export default class InventoryFilter extends Mixins(PopupMixin) {
+    @Prop({ required: true, type: Array, default: [] }) listDataNetwork!: Array<Record<string, any>>
     // @Prop({ required: true, type: Array, default: [] }) listApproveBy!: Array<Record<string, any>>
     // @Prop({ required: false, type: Object, default: [] }) reseted!: Record<string, any>
     
