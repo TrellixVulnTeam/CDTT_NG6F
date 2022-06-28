@@ -19,45 +19,60 @@
             <div class="content-top__divided_text">
                 <p class="name">{{dataAccountSummaryDetail.fullName}}</p>
                 <p v-if="dataAccountSummaryDetail.accountType==='INTERNAL'" class="code">{{dataAccountSummaryDetail.email}} | ({{dataAccountSummaryDetail.countryCode}}) {{dataAccountSummaryDetail.phone}}</p>
-                <p v-if="dataAccountSummaryDetail.accountType==='EXTERNAL'" class="code">{{dataAccountSummaryDetail.accountAddress}}</p>
+                <p v-if="dataAccountSummaryDetail.accountType==='EXTERNAL'" class="code">{{dataAccountSummaryDetail.accountAddress | formatTransactionCode}}</p>
             </div>
         </div>
       </div>
       <div class="content-mid box-shadow mb-24">
-        <p class="content-mid__title">Inventory</p>
-        <base-table
-            :data="dataTableInventory"
-            :showPagination="false"
-            class="table-mid">
-            <el-table-column label="TYPE" align="left" width="300">
-                <template slot-scope="scope">
-                    <span class="type-name">{{scope.row.type}}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label="QUANTITY" align="center" width="347">
-                <template slot-scope="scope">
-                    <span class="quantity">{{scope.row.total}}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label="ACTION" align="right">
-                <template slot-scope="scope">
-                    <div class="wrap-button">
-                        <span class="btn-action cursor" v-for="(action, index) in scope.row.action"
-                        :key="index">{{action}}</span>
-                    </div>
-                </template>
-            </el-table-column>
-        </base-table>
+        <p class="content-mid__title">{{ $t('inventory.inventory-detail.inventory') }}</p>
+        <table class="inventory-table">
+            <tr class="inventory-table__label">
+                <th>{{ $t('inventory.inventory-detail.type') }}</th>
+                <th>{{ $t('inventory.inventory-detail.quantity') }}</th>
+                <th>{{ $t('inventory.inventory-detail.action') }}</th>
+            </tr>
+            <tr class="inventory-table__content">
+                <td>{{ $t('inventory.inventory-detail.total') }}</td>
+                <td>{{dataSummaryInventoryDetail.totalNft | formatNumber}}</td>
+                <td></td>
+            </tr>
+            <tr class="inventory-table__content">
+                <td>{{ $t('inventory.inventory-detail.available') }}</td>
+                <td>{{dataSummaryInventoryDetail.totalAvailable | formatNumber}}</td>
+                <td></td>
+            </tr>
+            <tr class="inventory-table__content">
+                <td>{{ $t('inventory.inventory-detail.lock') }}</td>
+                <td>{{dataSummaryInventoryDetail.totalLock | formatNumber}}</td>
+                <td></td>
+            </tr>
+            <tr class="inventory-table__content">
+                <td>{{ $t('inventory.inventory-detail.on-sale') }}</td>
+                <td>{{dataSummaryInventoryDetail.totalOnSale | formatNumber}}</td>
+                <td></td>
+            </tr>
+            <tr class="inventory-table__content">
+                <td>{{ $t('inventory.inventory-detail.off-market') }}</td>
+                <td>{{dataSummaryInventoryDetail.totalOffMarket | formatNumber}}</td>
+                <td></td>
+            </tr>
+            <tr class="inventory-table__content">
+                <td>{{ $t('inventory.inventory-detail.burn') }}</td>
+                <td>{{dataSummaryInventoryDetail.totalBurn | formatNumber}}</td>
+                <td></td>
+            </tr>
+        </table>
       </div>
       <div class="content-bot box-shadow mb-24">
-        <p class="content-bot__title">Account Statement</p>
+        <p class="content-bot__title">{{ $t('inventory.inventory-detail.account-statement') }}</p>
         <div class="opening-quantity">
-            <span class="opening-quantity__title">OPENING QUANTITY</span>
+            <span class="opening-quantity__title">{{ $t('inventory.inventory-detail.opening-quantity') }}</span>
             <span class="opening-quantity__number">{{dataAccountSummaryDetail.openingQuantity}}</span>
         </div>
         <base-table
           :data="dataAccountContentDetail"
           :showPagination="true"
+          :paginationInfo="getPaginationInfo"
           :table="query"
           @sizeChange="handleSizeChange"
           @currentChange="handleCurrentChange"
@@ -65,35 +80,35 @@
           :showSummary="true"
           :summaryMethod="summaryMethod"
           class="table-bot">
-            <el-table-column label="EVENT TYPE" align="left" width="186">
+            <el-table-column :label="$t('inventory.inventory-detail.event-type')" align="left" width="200">
                 <template slot-scope="scope">
-                    <p class="event-type__title">{{scope.row.transactionTypeConvert}}</p>
-                    <p class="event-type__date">{{scope.row.transactionDate}}</p>
+                    <p class="event-type__title">{{scope.row.transactionTypeConvert.toLowerCase().charAt(0).toUpperCase() + scope.row.transactionTypeConvert.slice(1).toLowerCase()}}</p>
+                    <p class="event-type__date">{{scope.row.transactionDate | formatMMDDYY}}</p>
                 </template>
             </el-table-column>
-            <el-table-column label="INCREASE" align="right" width="186">
+            <el-table-column :label="$t('inventory.inventory-detail.increase')" align="right" width="186">
                 <template slot-scope="scope">
                     <p class="increase" v-if="scope.row.increaseQuantity">+{{scope.row.increaseQuantity}}</p>
                 </template>
             </el-table-column>
-            <el-table-column label="DECREASE" align="right" width="186">
+            <el-table-column :label="$t('inventory.inventory-detail.decrease')" align="right" width="186">
                 <template slot-scope="scope">
                     <p class="decrease">{{scope.row.decreaseQuantity}}</p>
                 </template>
             </el-table-column>
-            <el-table-column label="QUANTITY" align="right" width="186">
+            <el-table-column :label="$t('inventory.inventory-detail.quantity')" align="right" width="186">
                 <template slot-scope="scope">
                     <p class="quantity">{{scope.row.activityQuantity}}</p>
                 </template>
             </el-table-column>
-            <el-table-column label="STATUS" align="center">
+            <el-table-column :label="$t('inventory.inventory-detail.status')" align="center">
                 <template slot-scope="scope">
-                    <span class="status" :class="getClassStatus(scope.row.activityStatus)">{{scope.row.activityStatus}}</span>
+                    <span class="status" :class="getClassStatus(scope.row.activityStatus)">{{scope.row.activityStatus.toLowerCase().charAt(0).toUpperCase() + scope.row.activityStatus.slice(1).toLowerCase()}}</span>
                 </template>
             </el-table-column>
         </base-table>
         <div class="ending-quantity">
-            <span class="ending-quantity__title">ENDING QUANTITY</span>
+            <span class="ending-quantity__title">{{ $t('inventory.inventory-detail.ending-quantity') }}</span>
             <span class="ending-quantity__number">{{dataAccountSummaryDetail.endingQuantity}}</span>
         </div>
       </div>
@@ -119,23 +134,13 @@ const api: InventoryRepository = getRepository('inventory')
     @Prop({ required: true, type: Object, default: {} }) query!: Record<string, any>
     @Prop({ required: true, type: Object, default: {} }) dataAccountSummaryDetail!: Record<string, any>
     @Prop({ required: true, type: Array, default: [] }) dataAccountContentDetail!: Array<Record<string, any>>
-    @Prop({ required: true, type: Array, default: () => {
-        return []
-      } }) dataConvertSummaryInventory!: Array<Record<string, any>>
-    // @Prop({ required: true, type: Object, default: {} }) dataSummaryInventoryDetail!: Record<string, any>
+    @Prop({ required: true, type: Object, default: {} }) dataSummaryInventoryDetail!: Record<string, any>
     // @bcKyc.State('listReason') listReason!: Array<Record<string, any>>
     // checkList = []
     // reason = ''
     isLoading = false
     dataAccountDetail = {}
-    // dataConvertSummaryInvetory:any = []
 
-    // created():void {
-    //     this.dataConvertSummaryInvetory = _.map(this.dataSummaryInventoryDetail, (val, id) => {
-    //         return {...val, type: id, total: val}
-    //     })
-    //     console.log(this.dataConvertSummaryInvetory)
-    // }
     dataTableInventory = [
         {
             type: 'Total',
@@ -245,10 +250,9 @@ const api: InventoryRepository = getRepository('inventory')
         }
     }
 
-    // query: Record<string,any> = {
-    //     page: 1,
-    //     limit: 5
-    // }
+    get getPaginationInfo(): any {
+      return this.$t('paging.events')
+    }
 
     getClassStatus(input: string):string {
         let rs = ''
@@ -259,6 +263,8 @@ const api: InventoryRepository = getRepository('inventory')
             case 'PENDING': 
                 rs = 'status__pending'
                 break
+            case 'PROCESSING':
+                rs = 'status__processing'
         }
         return rs
     }
@@ -283,21 +289,22 @@ const api: InventoryRepository = getRepository('inventory')
     }
     summaryMethod(params: { columns: any; data: Record<string, any>[] }){
         const { columns, data } = params
+        console.log("param", params)
         let sums:any = []
         console.log('248...', columns)
         console.log('252...', data)
         let totalIncrease:any = 0
         let totalDecrease: any = 0
-        forEach(data, (item) => {
-            totalIncrease = totalIncrease + (item.increaseQuantity !== '' ? +item.increaseQuantity : 0)
-            totalDecrease = totalDecrease + (item.decreaseQuantity !== '' ? +item.decreaseQuantity : 0)
-        })
-        totalIncrease = '+' + totalIncrease
-        totalDecrease = '' + totalDecrease
+        // forEach(data, (item) => {
+        //     totalIncrease = totalIncrease + (item.increaseQuantity !== '' ? +item.increaseQuantity : 0)
+        //     totalDecrease = totalDecrease + (item.decreaseQuantity !== '' ? +item.decreaseQuantity : 0)
+        // })
+        totalIncrease = '+' + this.dataAccountSummaryDetail.totalIncreaseQuantity
+        totalDecrease = '' + this.dataAccountSummaryDetail.totalDecreaseQuantity
         forEach(columns, (column, index: number) => {
             console.log('253', column.property)
             if (index < 1) {
-            sums[index] = 'TOTAL'
+            sums[index] = this.$i18n.t('inventory.inventory-detail.total-account')
             return
             }
             if (index === 1) {
@@ -354,6 +361,7 @@ const api: InventoryRepository = getRepository('inventory')
                         border-radius: 4px;
                         margin-right: 24px;
                         border: 1px solid #DBDBDB;
+                        object-fit: cover;
                     }
                     &_text {
                         .name {
@@ -371,6 +379,40 @@ const api: InventoryRepository = getRepository('inventory')
                 &__title {
                     @include text(24px, 32px, 600, #0A0B0D);
                     margin-bottom: 16px;
+                }
+                .inventory-table{
+                    &__label{
+                        th{
+                            padding: 12px 10px;
+                            @include text(16px, 24px, 600, #0A0B0D);
+                            border-bottom: 1px solid #ded0ce;
+                        }
+                        th:nth-child(1){
+                            text-align: left;
+                            width: 300px;
+                        }
+                        th:nth-child(2){
+                            width: 350px;
+                        }
+                        th:nth-child(3){
+                            text-align: right;
+                            width: 292px;
+                        }
+                    }
+                    &__content{
+                        td{
+                            height: 24px;
+                            padding: 20px 10px;
+                            @include text(16px, 24px, 400, #0A0B0D);
+                            border-bottom: 1px solid #ded0ce;
+                        }
+                        td:nth-child(2){
+                            text-align: center;
+                        }
+                        td:nth-child(3){
+                            text-align: right;
+                        }
+                    }
                 }
                 .table-mid {
                     .el-table__row {
@@ -444,6 +486,10 @@ const api: InventoryRepository = getRepository('inventory')
                             @include text(12px, 16px, 500, #129961);
                         }
                         &__pending {
+                            background-color: var(--bc-bg-pending);
+                            @include text(12px, 16px, 500, #DD7D00);
+                        }
+                        &__processing {
                             background-color: var(--bc-bg-pending);
                             @include text(12px, 16px, 500, #DD7D00);
                         }

@@ -88,8 +88,9 @@
     "nft": "NFT",
     "more": "Thêm",
     "fee": "Chi phí",
-    "inventory": "Kiểm kê",
-    "setup": "Cài đặt"
+    "inventory": "Thống kê",
+    "setup": "Cài đặt",
+    "fee-nft": "Fee NFT"
   },
   "header": {
     "kyc": "KYC",
@@ -103,7 +104,7 @@
     "report": "Báo cáo",
     "nft": "NFT",
     "fee": "Chi phí",
-    "inventory": "Kiểm kê",
+    "inventory": "Thống kê",
     "fee-nft": "Chi phí"
   },
   "wallet": {
@@ -207,7 +208,8 @@
     "member": "nhân viên",
     "buyer": "người mua",
     "times": "số lần sử dụng thiết bị",
-    "items": "vật phẩm"
+    "items": "vật phẩm",
+    "events": "hoạt động"
   },
   "label": {
     "invalid-amount": "Số lượng không hợp lệ",
@@ -1105,6 +1107,58 @@
     "transaction-fee": "Phí giao dịch",
     "transaction-amount": "Số tiền giao dịch",
     "status": "Trạng thái"
+  },
+  "inventory": {
+    "summary":{
+      "summary": "Tổng hợp",
+      "owners": "Số chủ sở hữu",
+      "NFTs": "Số lượng NFT",
+      "available": "Số lượng có sẵn",
+      "lock": "Số lượng bị khóa",
+      "on-sale":"Số lượng đang bán",
+      "off-market": "Số lượng không bán",
+      "burn": "Burn"
+    },
+    "table": {
+      "owner": "CHỦ SỞ HỮU",
+      "item": "VẬT PHẨM",
+      "network": "NETWORK",
+      "quantity": "SỐ LƯỢNG",
+      "status": "TRẠNG THÁI"
+    },
+    "sorts": {
+      "value": "Value",
+      "quantity": "Số lượng",
+      "item": "Vật phẩm",
+      "owner": "Chủ sở hữu"
+    },
+    "inventory-detail": {
+      "title": "Chi tiết thống kê",
+      "inventory": "Thống kê",
+      "type": "LOẠI",
+      "quantity": "SỐ LƯỢNG",
+      "action": "THAO TÁC",
+      "total": "Tổng",
+      "available": "Có sẵn",
+      "lock": "Bị khóa",
+      "on-sale":"Đang bán",
+      "off-market": "Chưa bán",
+      "burn": "Burn",
+      "account-statement":"BẢNG SAO KÊ",
+      "opening-quantity": "SỐ LƯỢNG HOẠT ĐỘNG",
+      "event-type": "LOẠI HOẠT ĐỘNG",
+      "increase": "TĂNG",
+      "decrease": "GIẢM",
+      "status": "TRẠNG THÁI",
+      "total-account": "TỔNG",
+      "ending-quantity":"SỐ LƯỢNG KẾT THÚC "
+    },
+    "inventory-filter":{
+      "network": "Mạng",
+      "quantity": "Số lượng",
+      "from": "Từ",
+      "to": "Đến"
+    }
   },
   "card_list": "Total On Sale",
   "card_bid": "Total Bid",

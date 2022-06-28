@@ -1,6 +1,6 @@
 <template>
   <div class="inventory box-shadow">
-    <h1 class="inventory-title">Summary</h1>
+    <h1 class="inventory-title">{{ $t('inventory.summary.summary') }}</h1>
     <!--  <el-carousel :autoplay="false"  arrow="always">-->
     <!--    <el-carousel-item v-for="(itemTab,index) in dataConcat" :key="index">-->
     <!--      <div class="wrap-summaries mb-24" >-->
@@ -21,34 +21,33 @@
     <!--      </div>-->
     <!--    </el-carousel-item>-->
     <!--  </el-carousel>-->
-
-    <el-carousel :autoplay='false' arrow="always" :loop="false" :interval="9999999999999999999">
+    <el-carousel :autoplay='false' arrow="always" :loop="false">
       <el-carousel-item>
         <div class="wrap-summaries mb-24">
           <div class="summary">
             <div class="summary-header">
-              <span class="summary-header__title">Owners</span>
+              <span class="summary-header__title">{{ $t('inventory.summary.owners') }}</span>
               <base-icon icon="icon-two-users" size="24" />
             </div>
             <div class="summary-content">{{ summaryInventoryData.totalOwner | formatNumber }}</div>
           </div>
           <div class="summary">
             <div class="summary-header">
-              <span class="summary-header__title">NFTs</span>
+              <span class="summary-header__title">{{ $t('inventory.summary.NFTs') }}</span>
               <base-icon icon="icon-img-inventory" size="24" />
             </div>
             <div class="summary-content">{{ summaryInventoryData.totalNft | formatNumber }}</div>
           </div>
           <div class="summary">
             <div class="summary-header">
-              <span class="summary-header__title">Available</span>
+              <span class="summary-header__title">{{ $t('inventory.summary.available') }}</span>
               <base-icon icon="icon-available" size="24" />
             </div>
             <div class="summary-content">{{ summaryInventoryData.totalAvailable | formatNumber }}</div>
           </div>
           <div class="summary">
             <div class="summary-header">
-              <span class="summary-header__title">Lock</span>
+              <span class="summary-header__title">{{ $t('inventory.summary.lock') }}</span>
               <base-icon icon="icon-lock-inventory" size="24" />
             </div>
             <div class="summary-content">{{ summaryInventoryData.totalLock | formatNumber }}</div>
@@ -59,21 +58,21 @@
         <div class="wrap-summaries mb-24">
           <div class="summary">
             <div class="summary-header">
-              <span class="summary-header__title">On Sale</span>
+              <span class="summary-header__title">{{ $t('inventory.summary.on-sale') }}</span>
               <base-icon icon="onsale-inventory" size="24" />
             </div>
             <div class="summary-content">{{ summaryInventoryData.totalOnSale | formatNumber }}</div>
           </div>
           <div class="summary">
             <div class="summary-header">
-              <span class="summary-header__title">Off Market</span>
+              <span class="summary-header__title">{{ $t('inventory.summary.off-market') }}</span>
               <base-icon icon="offmarket-inventory" size="24" />
             </div>
             <div class="summary-content">{{ summaryInventoryData.totalOffMarket | formatNumber }}</div>
           </div>
           <div class="summary">
             <div class="summary-header">
-              <span class="summary-header__title">Burn</span>
+              <span class="summary-header__title">{{ $t('inventory.summary.burn') }}</span>
               <base-icon icon="icon-burn" size="24" />
             </div>
             <div class="summary-content">{{ summaryInventoryData.totalBurn | formatNumber }}</div>
@@ -103,10 +102,12 @@
         <el-table-column :label="$t('inventory.table.owner')" align="left" width="350">
           <template slot-scope="scope">
             <p class="owner-name">{{ scope.row.ownerUserFullName }}</p>
-            <p class="owner-email">{{ scope.row.username }}</p>
+            <p class="owner-email" v-if="scope.row.ownerAccountType==='EXTERNAL'">{{ scope.row.username | formatTransactionCode }}</p>
+            <p class="owner-email" v-if="scope.row.ownerAccountType==='INTERNAL'">{{ scope.row.username}}</p>
+
           </template>
         </el-table-column>
-        <el-table-column :label="$t('inventory.table.item')" align="left">
+        <el-table-column :label="$t('inventory.table.item')" align="left" >
           <template slot-scope="scope">
             <div class="wrap-item">
               <img :src="scope.row.itemThumb" alt="" class="item-img" width="40px" height="40px" />
@@ -141,7 +142,7 @@
       @size="handleSizeChangeAccount"
       :dataAccountSummaryDetail="dataAccountSummaryDetail"
       :dataAccountContentDetail="dataAccountContentDetail"
-      :dataConvertSummaryInventory="dataConvertSummaryInventory"
+      :dataSummaryInventoryDetail="dataSummaryInventoryDetail"
     />
     <popup-filter-inventory
       @filterInventory="handleFilter"
@@ -195,6 +196,15 @@
     }
 
     created(): void {
+      if(this.$route.query.accountId && this.$route.query.itemId){
+        this.getDetailAccountStatement({...this.queryAccountState, accountId: this.$route.query.accountId, itemId: this.$route.query.itemId})
+        this.getDetailSummaryInventory({accountId: this.$route.query.accountId, itemId: this.$route.query.itemId})
+        this.setOpenPopup({
+          popupName: 'popup-inventory-detail',
+          isOpen: true
+        })
+      }
+
       const listNetworkRef = firebase.database().ref('nft_assets')
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       let _this = this
@@ -364,7 +374,6 @@
       }
     }
 
-    dataConvertSummaryInventory: Array<Record<string, any>> = []
     async getDetailSummaryInventory(row): Promise<void> {
       try {
         const querySummary = {
@@ -373,10 +382,9 @@
         }
         const response = await api.getSummaryData(querySummary)
         this.dataSummaryInventoryDetail = response
-        this.dataConvertSummaryInventory = _.map(this.dataSummaryInventoryDetail, (val: Record<string, any>, id) => {
-          return { ...val, type: id, total: val }
-        })
-        console.log(this.dataConvertSummaryInventory, 'convert')
+        // this.dataConvertSummaryInventory = _.map(this.dataSummaryInventoryDetail, (val: Record<string, any>, id) => {
+        //   return { ...val, type: id, total: val }
+        // })
       } catch (e) {
         console.log(e)
       }
@@ -412,6 +420,7 @@
       this.query = {
         ...this.query,
         ...filter,
+        orderBy: filter.orderBy,
         page: 1,
         limit: 10
       }
@@ -493,6 +502,7 @@
           .item-img {
             margin-right: 8px;
             border-radius: 4px;
+            object-fit: cover;
           }
           .item-text {
             &__name {
