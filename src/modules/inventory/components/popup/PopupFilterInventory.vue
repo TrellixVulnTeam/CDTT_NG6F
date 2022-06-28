@@ -13,11 +13,11 @@
         </el-select>
       </div>
       <div class="content-block">
-        <p class="content-block__title">Quantity</p>
+        <p class="content-block__title">{{ $t('inventory.inventory-filter.quantity') }}</p>
         <div class="content-block__inputs">
           <el-input v-model="filterInventory.fromQuantity"
             :class="{'input-error': !!(error.quantity || '')}"
-            :placeholder="popup_data.content.quantity.from.placeholder"
+            :placeholder="$t('inventory.inventory-filter.from')"
             clearable
             @keypress.native="onlyNumber($event)"
             @keyup.native="numberFormat($event, 'fromQuantity')"
@@ -27,7 +27,7 @@
           <div class="delimiter"></div>
           <el-input v-model="filterInventory.toQuantity"
             :class="{'input-error': !!(error.quantity || '')}"
-            :placeholder="popup_data.content.quantity.to.placeholder"
+            :placeholder="$t('inventory.inventory-filter.to')"
             clearable
             @keypress.native="onlyNumber($event)"
             @keyup.native="numberFormat($event, 'toQuantity')"

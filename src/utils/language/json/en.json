@@ -227,7 +227,8 @@
     "member": "members",
     "buyer": "buyers",
     "times": "times",
-    "items": "items"
+    "items": "items",
+    "events": "events"
   },
   "label": {
     "invalid-amount": "Invalid amount",
@@ -1134,6 +1135,16 @@
     "status": "Status"
   },
   "inventory": {
+    "summary":{
+      "summary": "Summary",
+      "owners": "Owners",
+      "NFTs": "NFTs",
+      "available": "Available",
+      "lock": "Lock",
+      "on-sale":"On Sale",
+      "off-market": "Off Market",
+      "burn": "Burn"
+    },
     "table": {
       "owner": "OWNER",
       "item": "ITEM",
@@ -1148,7 +1159,31 @@
       "owner": "Owner"
     },
     "inventory-detail": {
-      "title": "INVENTORY DETAIL"
+      "title": "INVENTORY DETAIL",
+      "inventory": "Inventory",
+      "type": "TYPE",
+      "quantity": "QUANTITY",
+      "action": "ACTION",
+      "total": "Total",
+      "available": "Available",
+      "lock": "Lock",
+      "on-sale":"On Sale",
+      "off-market": "Off Market",
+      "burn": "Burn",
+      "account-statement":"Account Statement",
+      "opening-quantity": "OPENING QuANTITY",
+      "event-type": "EVENT TYPE",
+      "increase": "INCREASE",
+      "decrease": "DECREASE",
+      "status": "STATUS",
+      "total-account": "TOTAL",
+      "ending-quantity":"ENDING QUANTITY"
+    },
+    "inventory-filter":{
+      "network": "Network",
+      "quantity": "Quantity",
+      "from": "From",
+      "to": "To"
     }
   },
   "card_list": "Total On Sale",

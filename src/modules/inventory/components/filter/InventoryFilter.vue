@@ -28,7 +28,7 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <popup-filter-inventory :listDataNetwork="listDataNetwork"></popup-filter-inventory>
+    <popup-filter-inventory :listDataNetwork="listDataNetwork" @filterInventory="handleFilter"></popup-filter-inventory>
     <!-- <popup-fee @feeFilterBark="handleCatchBark($event)" :resetFilter="{deleteCache: isChanged}" @filterReseted="handleNormalize"/> -->
   </div>
 </template>
@@ -74,19 +74,19 @@
         command: 'QUANTITY_DESC',
         label: this.$i18n.t('inventory.sorts.quantity'),
         divided: false,
-        i18n: 'fee-filter.transaction-amount'
+        i18n: 'inventory.sorts.quantity'
       },
       {
         command: 'ITEM_ASC',
         label: this.$i18n.t('inventory.sorts.item'),
         divided: false,
-        i18n: 'fee-filter.status'
+        i18n: 'inventory.sorts.item'
       },
       {
         command: 'ACCOUNT_ASC',
         label: this.$i18n.t('inventory.sorts.owner'),
         divided: false,
-        i18n: ''
+        i18n: 'inventory.sorts.owner'
       }
     ]
     sortActive = 'QUANTITY_DESC'
@@ -109,6 +109,7 @@
     searchText = debounce((value: string) => {
       this.$emit('filterInventory', {
         ...this.filterInventory,
+        orderBy: this.filterInventory.orderBy,
         search: trim(value)
       })
     }, 500)
@@ -163,6 +164,17 @@
     // handleShowPopper(): void {
     //   this.isVisible = true
     //   this.listApprove = [...this.listApproveBy]
+    // }
+    // handleFilter(filter: Record<string, any>): void {
+    //   this.query = {
+    //     ...this.query,
+    //     ...filter,
+    //     orderBy: filter.orderBy,
+    //     page: 1,
+    //     limit: 10
+    //   }
+    //   console.log('query', this.query.orderBy)
+    //   this.debounceInit()
     // }
 
     resetFilter(): void {

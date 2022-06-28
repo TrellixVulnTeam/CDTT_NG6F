@@ -208,7 +208,8 @@
     "member": "nhân viên",
     "buyer": "người mua",
     "times": "số lần sử dụng thiết bị",
-    "items": "vật phẩm"
+    "items": "vật phẩm",
+    "events": "hoạt động"
   },
   "label": {
     "invalid-amount": "Số lượng không hợp lệ",
@@ -1107,20 +1108,73 @@
     "transaction-amount": "Số tiền giao dịch",
     "status": "Trạng thái"
   },
-  "card_list": "Tổng đang bán",
-  "card_bid": "Tổng đấu giá",
-  "card_sale": "Tổng mua",
-  "card_offer": "Tổng đặt giá",
-  "sort_quantity": "Số lượng",
-  "sort_item": "Sản phẩm",
-  "sort_from": "Từ",
-  "title_list": "Chi tiết đăng bán",
-  "title_bid": "Chi tiết đấu giá",
-  "title_sale": "Chi tiết mua",
-  "title_offer": "Chi tiết đặt giá",
-  "title_transfer": "Chi tiết chuyển",
-  "title_burn": "Chi tiết Burn",
-  "view-inventory": "Xem thống kê",
+  "inventory": {
+    "summary":{
+      "summary": "Tổng hợp",
+      "owners": "Số chủ sở hữu",
+      "NFTs": "Số lượng NFT",
+      "available": "Số lượng có sẵn",
+      "lock": "Số lượng bị khóa",
+      "on-sale":"Số lượng đang bán",
+      "off-market": "Số lượng không bán",
+      "burn": "Burn"
+    },
+    "table": {
+      "owner": "CHỦ SỞ HỮU",
+      "item": "VẬT PHẨM",
+      "network": "NETWORK",
+      "quantity": "SỐ LƯỢNG",
+      "status": "TRẠNG THÁI"
+    },
+    "sorts": {
+      "value": "Value",
+      "quantity": "Số lượng",
+      "item": "Vật phẩm",
+      "owner": "Chủ sở hữu"
+    },
+    "inventory-detail": {
+      "title": "Chi tiết thống kê",
+      "inventory": "Thống kê",
+      "type": "LOẠI",
+      "quantity": "SỐ LƯỢNG",
+      "action": "THAO TÁC",
+      "total": "Tổng",
+      "available": "Có sẵn",
+      "lock": "Bị khóa",
+      "on-sale":"Đang bán",
+      "off-market": "Chưa bán",
+      "burn": "Burn",
+      "account-statement":"BẢNG SAO KÊ",
+      "opening-quantity": "SỐ LƯỢNG HOẠT ĐỘNG",
+      "event-type": "LOẠI HOẠT ĐỘNG",
+      "increase": "TĂNG",
+      "decrease": "GIẢM",
+      "status": "TRẠNG THÁI",
+      "total-account": "TỔNG",
+      "ending-quantity":"SỐ LƯỢNG KẾT THÚC "
+    },
+    "inventory-filter":{
+      "network": "Mạng",
+      "quantity": "Số lượng",
+      "from": "Từ",
+      "to": "Đến"
+    }
+  },
+  "card_list": "Total On Sale",
+  "card_bid": "Total Bid",
+  "card_sale": "Total Buy",
+  "card_offer": "Total Offer",
+  "sort_quantity": "Quantity",
+  "sort_item": "Item",
+  "sort_from": "From",
+  "title_list": "Put On Sale",
+  "title_bid": "Bid",
+  "title_sale": "Sale",
+  "title_offer": "Offer",
+  "title_transfer": "Transfer",
+  "title_burn": "Burn",
+  "detail": "Detail",
+  "view-inventory": "View inventory",
   "fee-nft": {
     "trans-amount": "Số tiền giao dịch",
     "fee-amount": "Số tiền phí",
