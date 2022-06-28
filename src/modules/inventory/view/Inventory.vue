@@ -195,10 +195,16 @@
       total: 0
     }
 
-    created(): void {
-      if(this.$route.query.accountId && this.$route.query.itemId){
-        this.getDetailAccountStatement({...this.queryAccountState, accountId: this.$route.query.accountId, itemId: this.$route.query.itemId})
-        this.getDetailSummaryInventory({accountId: this.$route.query.accountId, itemId: this.$route.query.itemId})
+    async created(): Promise<void> {
+      if(this.$route.query.ownerId && this.$route.query.itemId){
+        console.log(this.$route.query, "query route")
+        console.log(this.$route.query.ownerId, "accountId")
+        console.log(this.$route.query.itemId, "itemId")
+        const paramAccSatement = {
+
+        }
+        await this.getDetailAccountStatement(this.$route.query)
+        await this.getDetailSummaryInventory(this.$route.query)
         this.setOpenPopup({
           popupName: 'popup-inventory-detail',
           isOpen: true
@@ -356,8 +362,8 @@
           ...this.queryAccountState,
           page: this.queryAccountState.page,
           limit: this.queryAccountState.limit,
-          accountId: row.row.ownerId,
-          itemId: row.row.itemId,
+          accountId: row.ownerId,
+          itemId: row.itemId,
           total: null
         }
         const response = await api.getDetailItem(queryDetail)
@@ -377,8 +383,8 @@
     async getDetailSummaryInventory(row): Promise<void> {
       try {
         const querySummary = {
-          accountId: row.row.ownerId,
-          itemId: row.row.itemId
+          accountId: row.ownerId,
+          itemId: row.itemId
         }
         const response = await api.getSummaryData(querySummary)
         this.dataSummaryInventoryDetail = response
@@ -397,7 +403,9 @@
     }
     handleCurrentChangeAccount(page: number):void {
       this.queryAccountState.page = page;
-      this.getDetailAccountStatement({...this.queryAccountState, accountId: this.rowData?.row.ownerId, itemId: this.rowData?.row.itemId})
+      // this.getDetailAccountStatement({...this.queryAccountState, accountId: this.rowData?.row.ownerId, itemId: this.rowData?.row.itemId})
+      this.getDetailAccountStatement(this.rowData?.row)
+
     }
 
     handleSizeChangeAccount(size: number):void {
@@ -408,8 +416,8 @@
     async handleRowClick(row: Record<string, any>): Promise<void> {
       if(row) this.rowData=row
       console.log(this.rowData)
-      await this.getDetailSummaryInventory(row)
-      await this.getDetailAccountStatement(row)
+      await this.getDetailSummaryInventory(row.row)
+      await this.getDetailAccountStatement(row.row)
       this.setOpenPopup({
         popupName: 'popup-inventory-detail',
         isOpen: true

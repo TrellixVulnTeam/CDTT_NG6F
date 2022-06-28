@@ -285,7 +285,7 @@
     }
 
     handleView(): void {
-      this.$router.push({ name: 'MainInventory', query: { accountId: this.detailRow.fromId, itemId: this.detailRow.itemId } })
+      this.$router.push({ name: 'MainInventory', query: { ownerId: this.detailRow.fromId, itemId: this.detailRow.itemId } })
       this.setOpenPopup({
         popupName: 'popup-transaction-nft-detail',
         isOpen: false

@@ -299,7 +299,12 @@ const api: InventoryRepository = getRepository('inventory')
         //     totalIncrease = totalIncrease + (item.increaseQuantity !== '' ? +item.increaseQuantity : 0)
         //     totalDecrease = totalDecrease + (item.decreaseQuantity !== '' ? +item.decreaseQuantity : 0)
         // })
-        totalIncrease = '+' + this.dataAccountSummaryDetail.totalIncreaseQuantity
+        if(this.dataAccountSummaryDetail.totalIncreaseQuantity > 0){
+            totalIncrease = '+' + this.dataAccountSummaryDetail.totalIncreaseQuantity
+        }else{
+            totalIncrease = this.dataAccountSummaryDetail.totalIncreaseQuantity
+        }
+        
         totalDecrease = '' + this.dataAccountSummaryDetail.totalDecreaseQuantity
         forEach(columns, (column, index: number) => {
             console.log('253', column.property)
@@ -452,7 +457,7 @@ const api: InventoryRepository = getRepository('inventory')
                     width: 100%;
                     height: 48px;
                     background-color: var(--bc-color-grey20);
-                    padding: 0 16px;
+                    padding: 0 10px;
                     box-sizing: border-box;
                     &__title,
                     &__number {
