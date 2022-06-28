@@ -21,7 +21,7 @@
     <!--      </div>-->
     <!--    </el-carousel-item>-->
     <!--  </el-carousel>-->
-    <el-carousel :autoplay='false' arrow="always" :loop="false">
+    <el-carousel :autoplay="false" arrow="always" :loop="false" :interval="999999999999999999999">
       <el-carousel-item>
         <div class="wrap-summaries mb-24">
           <div class="summary">
@@ -525,6 +525,11 @@
           .item-text {
             &__name {
               @include text(16px, 24px, 400, #0a0b0d);
+              display: -webkit-box;
+              -webkit-line-clamp: 1;
+              -webkit-box-orient: vertical;
+              overflow: hidden;
+              text-overflow: ellipsis;
             }
             &__code {
               @include text(14px, 20px, 400, #5b616e);
