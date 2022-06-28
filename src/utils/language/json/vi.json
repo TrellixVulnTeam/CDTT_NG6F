@@ -1121,7 +1121,7 @@
     },
     "table": {
       "owner": "CHỦ SỞ HỮU",
-      "item": "VẬT PHẨM",
+      "item": "SẢN PHẨM",
       "network": "NETWORK",
       "quantity": "SỐ LƯỢNG",
       "status": "TRẠNG THÁI"
@@ -1129,7 +1129,7 @@
     "sorts": {
       "value": "Value",
       "quantity": "Số lượng",
-      "item": "Vật phẩm",
+      "item": "Sản phẩm",
       "owner": "Chủ sở hữu"
     },
     "inventory-detail": {
@@ -1145,7 +1145,7 @@
       "off-market": "Chưa bán",
       "burn": "Burn",
       "account-statement":"BẢNG SAO KÊ",
-      "opening-quantity": "SỐ LƯỢNG HOẠT ĐỘNG",
+      "opening-quantity": "SỐ LƯỢNG BẮT ĐẦU",
       "event-type": "LOẠI HOẠT ĐỘNG",
       "increase": "TĂNG",
       "decrease": "GIẢM",
