@@ -421,7 +421,7 @@
 
     handleSizeChangeAccount(size: number):void {
       this.queryAccountState.limit = size;
-      this.getDetailAccountStatement({})
+      this.getDetailAccountStatement(this.rowData?.row)
     }
 
     async handleRowClick(row: Record<string, any>): Promise<void> {
