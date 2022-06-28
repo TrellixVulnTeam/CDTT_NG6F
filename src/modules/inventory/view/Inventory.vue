@@ -47,15 +47,25 @@
           </div>
           <div class="summary">
             <div class="summary-header">
+              <span class="summary-header__title">{{ $t('inventory.summary.on-sale') }}</span>
+              <base-icon icon="onsale-inventory" size="24" />
+            </div>
+            <div class="summary-content">{{ summaryInventoryData.totalOnSale | formatNumber }}</div>
+          </div>
+          <!--
+          <div class="summary">
+            <div class="summary-header">
               <span class="summary-header__title">{{ $t('inventory.summary.lock') }}</span>
               <base-icon icon="icon-lock-inventory" size="24" />
             </div>
             <div class="summary-content">{{ summaryInventoryData.totalLock | formatNumber }}</div>
           </div>
+          !-->
         </div>
       </el-carousel-item>
       <el-carousel-item>
         <div class="wrap-summaries mb-24">
+          <!--
           <div class="summary">
             <div class="summary-header">
               <span class="summary-header__title">{{ $t('inventory.summary.on-sale') }}</span>
@@ -63,6 +73,7 @@
             </div>
             <div class="summary-content">{{ summaryInventoryData.totalOnSale | formatNumber }}</div>
           </div>
+          !-->
           <div class="summary">
             <div class="summary-header">
               <span class="summary-header__title">{{ $t('inventory.summary.off-market') }}</span>
@@ -70,6 +81,7 @@
             </div>
             <div class="summary-content">{{ summaryInventoryData.totalOffMarket | formatNumber }}</div>
           </div>
+          <!--
           <div class="summary">
             <div class="summary-header">
               <span class="summary-header__title">{{ $t('inventory.summary.burn') }}</span>
@@ -77,6 +89,7 @@
             </div>
             <div class="summary-content">{{ summaryInventoryData.totalBurn | formatNumber }}</div>
           </div>
+          !-->
         </div>
       </el-carousel-item>
     </el-carousel>
@@ -302,7 +315,7 @@
     }
 
     get getPaginationInfo(): any {
-      return this.$t('paging.items')
+      return this.$t('paging.results')
     }
 
     getClassStatus(input: string): string {
@@ -426,7 +439,6 @@
       this.query = {
         ...this.query,
         ...filter,
-        orderBy: filter.orderBy,
         page: 1,
         limit: 10
       }

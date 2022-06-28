@@ -402,6 +402,7 @@ const api: InventoryRepository = getRepository('inventory')
                         th:nth-child(3){
                             text-align: right;
                             width: 292px;
+                            visibility: hidden;
                         }
                     }
                     &__content{
