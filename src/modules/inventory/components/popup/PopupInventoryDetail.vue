@@ -88,17 +88,17 @@
             </el-table-column>
             <el-table-column :label="$t('inventory.inventory-detail.increase')" align="right" width="186">
                 <template slot-scope="scope">
-                    <p class="increase" v-if="scope.row.increaseQuantity">+{{scope.row.increaseQuantity}}</p>
+                    <p class="increase" v-if="scope.row.increaseQuantity">+{{scope.row.increaseQuantity | formatNumber}}</p>
                 </template>
             </el-table-column>
             <el-table-column :label="$t('inventory.inventory-detail.decrease')" align="right" width="186">
                 <template slot-scope="scope">
-                    <p class="decrease">{{scope.row.decreaseQuantity}}</p>
+                    <p class="decrease">{{scope.row.decreaseQuantity | formatNumber}}</p>
                 </template>
             </el-table-column>
             <el-table-column :label="$t('inventory.inventory-detail.quantity')" align="right" width="186">
                 <template slot-scope="scope">
-                    <p class="quantity">{{scope.row.activityQuantity}}</p>
+                    <p class="quantity">{{scope.row.activityQuantity | formatNumber}}</p>
                 </template>
             </el-table-column>
             <el-table-column :label="$t('inventory.inventory-detail.status')" align="center">
@@ -109,7 +109,7 @@
         </base-table>
         <div class="ending-quantity">
             <span class="ending-quantity__title">{{ $t('inventory.inventory-detail.ending-quantity') }}</span>
-            <span class="ending-quantity__number">{{dataAccountSummaryDetail.endingQuantity}}</span>
+            <span class="ending-quantity__number">{{dataAccountSummaryDetail.endingQuantity | formatNumber}}</span>
         </div>
       </div>
     </div>
@@ -300,7 +300,7 @@ const api: InventoryRepository = getRepository('inventory')
         //     totalDecrease = totalDecrease + (item.decreaseQuantity !== '' ? +item.decreaseQuantity : 0)
         // })
         if(this.dataAccountSummaryDetail.totalIncreaseQuantity > 0){
-            totalIncrease = '+' + this.dataAccountSummaryDetail.totalIncreaseQuantity
+            totalIncrease = '+' + this.dataAccountSummaryDetail.totalIncreaseQuantity 
         }else{
             totalIncrease = this.dataAccountSummaryDetail.totalIncreaseQuantity
         }

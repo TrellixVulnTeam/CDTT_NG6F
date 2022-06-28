@@ -160,6 +160,7 @@
   import PopupInventoryDetail from '../components/popup/PopupInventoryDetail.vue'
   import BaseTable from '@/components/base/table/BaseTable.vue'
   import { debounce } from 'lodash'
+  import filter from 'lodash/filter'
   import _ from 'lodash'
   // import EventBus from '@/utils/eventBus'
 
@@ -210,11 +211,14 @@
       let _this = this
       this.listener = listNetworkRef.on('value', function (snapshot) {
         _this.listDataNetwork = snapshot.val()
-        console.log(_this.listDataNetwork)
+        _this.listDataNetwork = _this.listDataNetwork.filter((item: Record<string,any>) => item.type === "NFT")
+        console.log(_this.listDataNetwork, "network")
+
       })
 
       this.init()
       this.getDataTable()
+
     }
 
     destroyed(): void{
