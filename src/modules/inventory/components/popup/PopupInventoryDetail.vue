@@ -372,7 +372,7 @@ const api: InventoryRepository = getRepository('inventory')
                         .name {
                             @include text(18px, 24px, 600, #0A0B0D);
                              display: -webkit-box;
-                            -webkit-line-clamp: 3;
+                            -webkit-line-clamp: 1;
                             -webkit-box-orient: vertical;
                             overflow: hidden;
                             text-overflow: ellipsis;
