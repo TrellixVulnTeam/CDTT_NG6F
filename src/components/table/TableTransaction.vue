@@ -52,7 +52,7 @@
             <span class="d-block amount-exchange-small">~${{ (scope.row.transactionAmountToUsd * scope.row.creditUsdExchangeRate) | convertAmountDecimal('USD') }}</span>
           </div>
           <div v-else class="amount-decrease">
-            <span>-{{ scope.row.transactionAmount | convertAmountDecimal(scope.row.debitCurrency) }} {{ scope.row.debitCurrency }}</span>
+            <span>{{ scope.row.transactionAmount | convertAmountDecimal(scope.row.debitCurrency) }} {{ scope.row.debitCurrency }}</span>
             <span class="d-block amount-exchange-small">~${{ (scope.row.transactionAmountToUsd * scope.row.debitUsdExchangeRate) | convertAmountDecimal('USD') }}</span>
           </div>
         </div>
