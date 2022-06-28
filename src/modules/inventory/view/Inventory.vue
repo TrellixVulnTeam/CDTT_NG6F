@@ -197,12 +197,6 @@
 
     async created(): Promise<void> {
       if(this.$route.query.ownerId && this.$route.query.itemId){
-        console.log(this.$route.query, "query route")
-        console.log(this.$route.query.ownerId, "accountId")
-        console.log(this.$route.query.itemId, "itemId")
-        const paramAccSatement = {
-
-        }
         await this.getDetailAccountStatement(this.$route.query)
         await this.getDetailSummaryInventory(this.$route.query)
         this.setOpenPopup({
