@@ -270,22 +270,22 @@
     listStatus: Array<Record<string, any>> = [
       {
         id: 0,
-        label: 'Pending',
+        label: this.$t('filter_pending'),
         value: 'PENDING'
       },
       {
         id: 1,
-        label: 'Processing',
+        label: this.$t('filter_processing'),
         value: 'PROCESSING'
       },
       {
         id: 2,
-        label: 'Success',
+        label: this.$t('filter_success'),
         value: 'SUCCESS'
       },
       {
         id: 3,
-        label: 'Failed',
+        label: this.$t('filter_failed'),
         value: 'FAILED'
       }
       // {

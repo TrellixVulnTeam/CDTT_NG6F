@@ -1,6 +1,6 @@
 <template>
   <div class="be-flex align-center kyc-filter">
-    <el-input v-model="filterFee.search" class="input-search" :placeholder="$t('placeholder.search')">
+    <el-input v-model="filterInventory.search" class="input-search" :placeholder="$t('placeholder.search')">
       <span slot="prefix" class="prefix-search">
         <base-icon icon="icon-search" size="24" />
       </span>
@@ -28,7 +28,11 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <popup-filter-inventory></popup-filter-inventory>
+    <popup-filter-inventory 
+      :query="filterInventory"
+      :listDataNetwork="listDataNetwork" 
+      >
+    </popup-filter-inventory>
     <!-- <popup-fee @feeFilterBark="handleCatchBark($event)" :resetFilter="{deleteCache: isChanged}" @filterReseted="handleNormalize"/> -->
   </div>
 </template>
@@ -44,30 +48,20 @@
 
   const apiKyc: KycRepository = getRepository('kyc')
 
-  import countryJson from '@/utils/country/index.json'
   import { number } from '@amcharts/amcharts4/core'
-
-  // interface IListCountry {
-  //   name: string
-  //   dial_code: string
-  //   code: string
-  // }
 
   @Component({components: {PopupFilterInventory}})
   export default class InventoryFilter extends Mixins(PopupMixin) {
+    @Prop({ required: true, type: Array, default: [] }) listDataNetwork!: Array<Record<string, any>>
     // @Prop({ required: true, type: Array, default: [] }) listApproveBy!: Array<Record<string, any>>
     // @Prop({ required: false, type: Object, default: [] }) reseted!: Record<string, any>
     
-    filterFee = {
+    filterInventory: Record<string,any> = {
       search: '',
-      fromDate: '',
-      toDate: '',
-      fromAmount: '',
-      toAmount: '',
-      fromFee: '',
-      toFee: '',
-      status: 'SUCCESS',
-      orderBy: '1'
+      network: '',
+      fromQuantity: '',
+      toQuantity: '',
+      orderBy: '',
     }
     popupFeeBark:any
     loading = false
@@ -81,54 +75,30 @@
 
     sorts: Array<Record<string, any>> = [
       {
-        command: '1',
-        label: this.$i18n.t('inventory.sorts.value'),
-        divided: false,
-        i18n: 'fee-filter.transaction-date'
-      },
-      {
-        command: '2',
+        command: 'QUANTITY_DESC',
         label: this.$i18n.t('inventory.sorts.quantity'),
         divided: false,
-        i18n: 'fee-filter.transaction-amount'
+        i18n: 'inventory.sorts.quantity'
       },
       {
-        command: '3',
+        command: 'ITEM_ASC',
         label: this.$i18n.t('inventory.sorts.item'),
         divided: false,
-        i18n: 'fee-filter.status'
+        i18n: 'inventory.sorts.item'
       },
       {
-        command: '4',
+        command: 'ACCOUNT_ASC',
         label: this.$i18n.t('inventory.sorts.owner'),
         divided: false,
-        i18n: ''
+        i18n: 'inventory.sorts.owner'
       }
     ]
-    sortActive = '1'
-    // listCountry: IListCountry[] = countryJson
-    // identificationType: Array<Record<string, any>> = [
-    //   {
-    //     id: 0,
-    //     type: 'Id Card',
-    //     value: 'ID_CARD'
-    //   },
-    //   {
-    //     id: 1,
-    //     type: 'Passport',
-    //     value: 'PASSPORT'
-    //   },
-    //   {
-    //     id: 2,
-    //     type: 'Driver’s License',
-    //     value: 'DRIVER_LICENSE'
-    //   }
-    // ]
+    sortActive = 'QUANTITY_DESC'
     isVisible = false
     // get getSign(): any {
     //   return {deleteCache: this.reseted.deleteCache}
     // }
-    @Watch('filterFee.search') handleSearch(value: string): void {
+    @Watch('filterInventory.search') handleSearch(value: string): void {
       this.searchText(value)
     }
     // @Watch('reseted') handleDeleteCache(value: Record<string, any>): void {
@@ -141,8 +111,11 @@
     //   }
     // }
     searchText = debounce((value: string) => {
-      this.$emit('filterFee', {
-        ...this.filterFee,
+      this.$emit('filterInventory', {
+        ...this.filterInventory,
+        orderBy: "QUANTITY_DESC",
+        page: 1,
+        limit: 10,
         search: trim(value)
       })
     }, 500)
@@ -178,15 +151,15 @@
       EventBus.$off('changeLang')
       // EventBus.$off('changeTab')
     }
-    handleCatchBark(filtersData: any):void {
-      const filterFee = {
-        search: this.filterFee.search,
-        ...filtersData,
-        orderBy: this.filterFee.orderBy
-      }
-      this.$emit('filterFee', filterFee)
-      this.filterFee = filterFee
-    }
+    // handleCatchBark(filtersData: any):void {
+    //   const filterInventory = {
+    //     search: this.filterInventory.search,
+    //     ...filtersData,
+    //     orderBy: this.filterInventory.orderBy
+    //   }
+    //   this.$emit('filterInventory', filterInventory)
+    //   this.filterInventory = filterInventory
+    // }
     handleOpen():void {
       this.setOpenPopup({
         popupName: 'popup-filter-inventory',
@@ -198,39 +171,41 @@
     //   this.isVisible = true
     //   this.listApprove = [...this.listApproveBy]
     // }
+    // handleFilter(filter: Record<string, any>): void {
+    //   this.query = {
+    //     ...this.query,
+    //     ...filter,
+    //     orderBy: filter.orderBy,
+    //     page: 1,
+    //     limit: 10
+    //   }
+    //   console.log('query', this.query.orderBy)
+    //   this.debounceInit()
+    // }
 
     resetFilter(): void {
-      this.filterFee = {
-        search: '',
-        fromDate: '',
-        toDate: '',
-        fromAmount: '',
-        toAmount: '',
-        fromFee: '',
-        toFee: '',
-        status: '',
-        orderBy: ''
+      this.filterInventory = {
+        network: '',
+        fromQuantity: '',
+        toQuantity: '',
+        orderBy: '',
       }
     }
 
     handleSort(command: string): void {
       this.sortActive = command
-      this.filterFee.orderBy = command
-      this.$emit('filterFee', this.filterFee)
+      this.filterInventory.orderBy = command
+      this.$emit('filterInventory', {orderBy: this.sortActive})
     }
 
 
     handleReset(): void {
-      this.filterFee = {
-        search: '',
-        fromDate: '',
-        toDate: '',
-        fromAmount: '',
-        toAmount: '',
-        fromFee: '',
-        toFee: '',
-        status: '',
-        orderBy: '1'
+      this.filterInventory = {
+        network: '',
+        fromQuantity: '',
+        toQuantity: '',
+        orderBy: '',
+
       }
       this.isVisible = false
     }

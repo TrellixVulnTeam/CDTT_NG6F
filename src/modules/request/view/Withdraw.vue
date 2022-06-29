@@ -145,16 +145,16 @@
   </div>
 </template>
 <script lang="ts">
-import {Mixins, Component, Watch, Prop} from 'vue-property-decorator'
+  import { Mixins, Component, Watch, Prop } from 'vue-property-decorator'
   import PopupMixin from '@/mixins/popup'
   import PopupWithdrawRequest from '../components/popup/PopupWithdrawRequest.vue'
   // import firebase from '@/utils/firebase'
   import getRepository from '@/services'
   import { RequestRepository } from '@/services/repositories/request'
+  import { debounce } from 'lodash'
 
   const api: RequestRepository = getRepository('request')
   @Component({ components: { PopupWithdrawRequest } })
-
   export default class BORequestWithdraw extends Mixins(PopupMixin) {
     @Prop({ required: true, type: String, default: '' }) tabCoin!: string
     querry: any = {
@@ -297,12 +297,13 @@ import {Mixins, Component, Watch, Prop} from 'vue-property-decorator'
     async getDataTable(): Promise<void> {
       this.loadingTable = true
       await api
-        .getDataTable({...this.querry, currency: this.tabCoin})
+        .getDataTable({ ...this.querry, currency: this.tabCoin })
         .then((res: any) => {
           this.loadingTable = false
           this.dataTable = res.transactions.content
+          this.query.total = res.totalElements
           this.query.total = res.transactions.totalElements
-          this.$emit("summary", res.summaryRequest[0])
+          this.$emit('summary', res.summaryRequest[0])
         })
         .catch(error => {
           console.log(error)
@@ -317,17 +318,21 @@ import {Mixins, Component, Watch, Prop} from 'vue-property-decorator'
     }
     @Watch('querry.keywordString')
     handleSearch(): void {
-      this.getDataTable()
+      this.searchText()
     }
     @Watch('tabCoin')
-    handleChangeTabCoin(tab: Record<string, any>): void{
-      if(tab) {
-        this.resetQuery();
-        this.handleResetFilter();
+    handleChangeTabCoin(tab: Record<string, any>): void {
+      if (tab) {
+        this.resetQuery()
+        this.handleResetFilter()
         this.getDataTable()
       }
-
     }
+
+    searchText = debounce(() => {
+      this.getDataTable()
+    }, 500)
+
     resetQuery(): void {
       this.querry = {
         ...this.querry,

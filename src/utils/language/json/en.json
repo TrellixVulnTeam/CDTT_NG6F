@@ -226,7 +226,9 @@
     "balance": "balance",
     "member": "members",
     "buyer": "buyers",
-    "times": "times"
+    "times": "times",
+    "results": "results",
+    "events": "events"
   },
   "label": {
     "invalid-amount": "Invalid amount",
@@ -1133,6 +1135,16 @@
     "status": "Status"
   },
   "inventory": {
+    "summary":{
+      "summary": "Summary",
+      "owners": "Owners",
+      "NFTs": "NFTs",
+      "available": "Available",
+      "lock": "Lock",
+      "on-sale":"On Sale",
+      "off-market": "Off Market",
+      "burn": "Burn"
+    },
     "table": {
       "owner": "OWNER",
       "item": "ITEM",
@@ -1147,19 +1159,43 @@
       "owner": "Owner"
     },
     "inventory-detail": {
-      "title": "INVENTORY DETAIL"
+      "title": "INVENTORY DETAIL",
+      "inventory": "Inventory",
+      "type": "TYPE",
+      "quantity": "QUANTITY",
+      "action": "ACTION",
+      "total": "Total",
+      "available": "Available",
+      "lock": "Lock",
+      "on-sale":"On Sale",
+      "off-market": "Off Market",
+      "burn": "Burn",
+      "account-statement":"Account Statement",
+      "opening-quantity": "OPENING QUANTITY",
+      "event-type": "EVENT TYPE",
+      "increase": "INCREASE",
+      "decrease": "DECREASE",
+      "status": "STATUS",
+      "total-account": "TOTAL",
+      "ending-quantity":"ENDING QUANTITY"
+    },
+    "inventory-filter":{
+      "network": "Network",
+      "quantity": "Quantity",
+      "from": "From",
+      "to": "To"
     }
   },
   "card_list": "Total On Sale",
   "card_bid": "Total Bid",
   "card_sale": "Total Buy",
   "card_offer": "Total Offer",
-  "title_list": "Put On Sale",
-  "title_bid": "Bid",
-  "title_sale": "Sale",
-  "title_offer": "Offer",
-  "title_transfer": "Transfer",
-  "title_burn": "Burn",
+  "title_list": "Put On Sale Detail",
+  "title_bid": "Bid Detail",
+  "title_sale": "Sale Detail",
+  "title_offer": "Offer Detail",
+  "title_transfer": "Transfer Detail",
+  "title_burn": "Burn Detail",
   "sort_quantity": "Quantity",
   "sort_item": "Item",
   "sort_from": "From",
@@ -1176,7 +1212,7 @@
       "from": "From"
     },
     "table": {
-      "trans-id":"TRANSACTION ID",
+      "trans-id": "TRANSACTION ID",
       "item": "ITEM",
       "from": "FROM",
       "fee": "FEE",
@@ -1187,6 +1223,10 @@
     "transfer-fee": "Total Transfer Fee",
     "service": "Service",
     "royalty": "Royalty",
-    "transfer": "Transfer"    
-  }
+    "transfer": "Transfer"
+  },
+  "filter_pending": "Pending",
+  "filter_processing": "Processing",
+  "filter_success": "Success",
+  "filter_failed": "Failed"
 }

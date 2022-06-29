@@ -1,7 +1,7 @@
 <template>
   <base-popup name="popup-transaction-nft-detail" class="popup-transaction-detail" width="480px" :isShowFooter="false" :open="handleOpen" :close="handleClose">
     <div class="title-popup" slot="title">
-      <span>{{ handleRenderTitleDetail(detailRow.transactionType) }} {{ $t('detail') }}</span>
+      <span>{{ handleRenderTitleDetail(detailRow.transactionType) }}</span>
     </div>
     <div class="w-100 fluctuating">
       <div class="align-center be-flex-column">
@@ -285,7 +285,7 @@
     }
 
     handleView(): void {
-      this.$router.push({ name: 'MainInventory', query: { accountId: this.detailRow.fromId, itemId: this.detailRow.itemId } })
+      this.$router.push({ name: 'MainInventory', query: { ownerId: this.detailRow.fromId, itemId: this.detailRow.itemId } })
       this.setOpenPopup({
         popupName: 'popup-transaction-nft-detail',
         isOpen: false

@@ -16,7 +16,7 @@
           </div>
         </div>
       </div>
-      <div class="container wallet-header be-flex" style="width: calc(100% - 48px); padding: 24px 24px">
+      <div class="container wallet-header be-flex card" style="width: calc(100% - 48px); padding: 24px 24px">
         <div v-for="(value, i) in dataHeaderCard" :key="i" class="items-card">
           <div class="item be-flex top">
             <span class="text1">
@@ -128,18 +128,18 @@
         transactionType: 'LIST',
         type: 'put-on-sale'
       },
-      {
-        id: 5,
-        title: 'bid',
-        transactionType: 'BID',
-        type: 'bid'
-      },
-      {
-        id: 2,
-        title: 'offer',
-        transactionType: 'OFFER',
-        type: 'offer'
-      },
+      // {
+      //   id: 5,
+      //   title: 'bid',
+      //   transactionType: 'BID',
+      //   type: 'bid'
+      // },
+      // {
+      //   id: 2,
+      //   title: 'offer',
+      //   transactionType: 'OFFER',
+      //   type: 'offer'
+      // },
       {
         id: 3,
         title: 'sale',
@@ -151,13 +151,13 @@
         title: 'transfer',
         transactionType: 'TRANSFER',
         type: 'transfer'
-      },
-      {
-        id: 6,
-        title: 'burn',
-        transactionType: 'BURN',
-        type: 'burn'
       }
+      // {
+      //   id: 6,
+      //   title: 'burn',
+      //   transactionType: 'BURN',
+      //   type: 'burn'
+      // }
     ]
 
     tabsHeader: Array<Record<string, any>> = [
@@ -207,17 +207,17 @@
         amount: 0,
         amountUsd: 0,
         transactionType: 'SALE'
-      },
-      {
-        amount: 0,
-        amountUsd: 0,
-        transactionType: 'BID'
-      },
-      {
-        amount: 0,
-        amountUsd: 0,
-        transactionType: 'OFFER'
       }
+      // {
+      //   amount: 0,
+      //   amountUsd: 0,
+      //   transactionType: 'BID'
+      // },
+      // {
+      //   amount: 0,
+      //   amountUsd: 0,
+      //   transactionType: 'OFFER'
+      // }
     ]
 
     detailRow = {}
@@ -329,17 +329,17 @@
           amount: 0,
           amountUsd: 0,
           transactionType: 'SALE'
-        },
-        {
-          amount: 0,
-          amountUsd: 0,
-          transactionType: 'BID'
-        },
-        {
-          amount: 0,
-          amountUsd: 0,
-          transactionType: 'OFFER'
         }
+        // {
+        //   amount: 0,
+        //   amountUsd: 0,
+        //   transactionType: 'BID'
+        // },
+        // {
+        //   amount: 0,
+        //   amountUsd: 0,
+        //   transactionType: 'OFFER'
+        // }
       ]
     }
 
@@ -532,6 +532,9 @@
       padding-top: 24px;
       padding-bottom: 24px;
     }
+    .card {
+      justify-content: unset;
+    }
 
     .items-card {
       width: calc(100% / 4 - 50px);
@@ -544,6 +547,8 @@
       padding: 16px;
       display: flex;
       flex-direction: column;
+
+      margin-right: 24px;
       // flex: 1;
       .item-bottom {
         margin-top: auto;

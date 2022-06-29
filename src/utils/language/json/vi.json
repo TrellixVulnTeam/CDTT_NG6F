@@ -207,7 +207,9 @@
     "request": "yêu cầu",
     "member": "nhân viên",
     "buyer": "người mua",
-    "times": "số lần sử dụng thiết bị"
+    "times": "số lần sử dụng thiết bị",
+    "results": "Bản ghi",
+    "events": "hoạt động"
   },
   "label": {
     "invalid-amount": "Số lượng không hợp lệ",
@@ -572,10 +574,10 @@
       "nft-sale": "Mua bán NFT",
       "nft-transfer": "Chuyển NFT",
       "royalties-fee": "Phí bản quyền",
-      "item": "Item",
-      "from": "from",
+      "item": "Sản phẩm",
+      "from": "Từ",
       "price": "giá",
-      "quantity": "quantity"
+      "quantity": "Số lượng"
     },
     "popup": {
       "title-filter": "Bộ lọc",
@@ -667,10 +669,10 @@
     "vesting": "Vesting",
     "metamart-nft": "NFT item",
     "metamart-collection": "Collection",
-    "put-on-sale": "Bán",
+    "put-on-sale": "Đăng bán",
     "bid": "Đấu giá",
     "offer": "Trả giá",
-    "sale": "Sale",
+    "sale": "Mua bán",
     "burn": "Burn"
   },
   "status": {
@@ -1106,6 +1108,58 @@
     "transaction-amount": "Số tiền giao dịch",
     "status": "Trạng thái"
   },
+  "inventory": {
+    "summary":{
+      "summary": "Tổng hợp",
+      "owners": "Số chủ sở hữu",
+      "NFTs": "Số lượng NFT",
+      "available": "Số lượng có sẵn",
+      "lock": "Số lượng bị khóa",
+      "on-sale":"Số lượng đang bán",
+      "off-market": "Số lượng không bán",
+      "burn": "Burn"
+    },
+    "table": {
+      "owner": "CHỦ SỞ HỮU",
+      "item": "SẢN PHẨM",
+      "network": "NETWORK",
+      "quantity": "SỐ LƯỢNG",
+      "status": "TRẠNG THÁI"
+    },
+    "sorts": {
+      "value": "Value",
+      "quantity": "Số lượng",
+      "item": "Sản phẩm",
+      "owner": "Chủ sở hữu"
+    },
+    "inventory-detail": {
+      "title": "Chi tiết thống kê",
+      "inventory": "Thống kê",
+      "type": "LOẠI",
+      "quantity": "SỐ LƯỢNG",
+      "action": "THAO TÁC",
+      "total": "Tổng",
+      "available": "Có sẵn",
+      "lock": "Bị khóa",
+      "on-sale":"Đang bán",
+      "off-market": "Chưa bán",
+      "burn": "Burn",
+      "account-statement":"BẢNG SAO KÊ",
+      "opening-quantity": "SỐ LƯỢNG BẮT ĐẦU",
+      "event-type": "LOẠI HOẠT ĐỘNG",
+      "increase": "TĂNG",
+      "decrease": "GIẢM",
+      "status": "TRẠNG THÁI",
+      "total-account": "TỔNG",
+      "ending-quantity":"SỐ LƯỢNG KẾT THÚC "
+    },
+    "inventory-filter":{
+      "network": "Mạng",
+      "quantity": "Số lượng",
+      "from": "Từ",
+      "to": "Đến"
+    }
+  },
   "card_list": "Total On Sale",
   "card_bid": "Total Bid",
   "card_sale": "Total Buy",
@@ -1133,7 +1187,7 @@
       "trans-id": "Mã giao dịch"
     },
     "table": {
-      "trans-id":"Mã giao dịch",
+      "trans-id": "Mã giao dịch",
       "item": "Sản phẩm",
       "from": "Từ",
       "fee": "Phí",
@@ -1144,6 +1198,10 @@
     "transfer-fee": "Tổng phí giao dịch",
     "service": "Dịch vụ",
     "royalty": "Bản quyền",
-    "transfer": "Chuyển"        
-  }
+    "transfer": "Chuyển"
+  },
+  "filter_pending": "Chờ xử lý",
+  "filter_processing": "Đang xử lý",
+  "filter_success": "Thành công",
+  "filter_failed": "Lỗi"
 }
