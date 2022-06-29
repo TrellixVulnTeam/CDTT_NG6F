@@ -101,7 +101,7 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column :label="$t('fee-nft.table.fee')" align="right">
+            <el-table-column :label="$t('fee-nft.table.fee')" align="right" width="180">
               <template slot-scope="scope">
                 <div class="wrap-fee-col">
                   <p class="wrap-fee-col__coin">{{ scope.row.feeDisplay | convertAmountDecimal(tabActive) }} {{ tabActive }}</p>
