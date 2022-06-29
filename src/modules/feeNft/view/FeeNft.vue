@@ -81,7 +81,7 @@
           :loading="isLoading"
           >
             <el-table-column label="#" type="index" :index="indexMethod" width="70"/>
-            <el-table-column :label="$t('fee-nft.table.trans-id')" width="300" align="left">
+            <el-table-column :label="$t('fee-nft.table.trans-id')" width="280" align="left">
               <template slot-scope="scope">
                 <p class="trans-id">
                   <span>
@@ -92,7 +92,7 @@
                 <p class="trans-date">{{scope.row.transactionDate | formatMMDDYY}}</p>
               </template>
             </el-table-column>
-            <el-table-column :label="$t('fee-nft.table.item')" width="380" align="left">
+            <el-table-column :label="$t('fee-nft.table.item')"  align="left">
               <template slot-scope="scope">
                 <div class="wrap-item-col">
                   <img :src="scope.row.itemThumb" class="item-img" width="40px" height="40px">
@@ -103,7 +103,7 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column :label="$t('fee-nft.table.from')" width="250" align="left">
+            <el-table-column :label="$t('fee-nft.table.from')"  align="left">
               <template slot-scope="scope">
                 <div class="wrap-from-col">
                   <p class="wrap-from-col__name">{{scope.row.accountName}}</p>
@@ -111,7 +111,7 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column :label="$t('fee-nft.table.fee')" width="180" align="right">
+            <el-table-column :label="$t('fee-nft.table.fee')" align="right">
               <template slot-scope="scope">
                 <div class="wrap-fee-col">
                   <p class="wrap-fee-col__coin">{{scope.row.feeDisplay | convertAmountDecimal(tabActive)}} {{tabActive}}</p>
@@ -119,7 +119,7 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column :label="$t('fee-nft.table.status')" align="right">
+            <el-table-column :label="$t('fee-nft.table.status')" align="right" width="150">
               <template slot-scope="scope">
                 <span class="status" :class="checkType(scope.row.status)">{{getTitleStatus(scope.row.status)}}</span>
               </template>
@@ -278,7 +278,6 @@
     transfer: any = {}
     listApproveBy: Record<string, any>[] = []
     get getTab(): Array<Record<string, any>> {
-      console.log('139')
       if (this.coinMain === 'LYNK') {
         return [
           {
@@ -403,7 +402,6 @@
       }
       try {
         const rs = await api.getFeeNftSummary('fee/summary', params)
-        console.log('467', rs)
         if(rs.length !== 0) {
           this.summaries = rs
         }
@@ -414,7 +412,6 @@
             {transactionType: 'NFT_TRANSFER', totalFeeDisplay: 0, totalFeeWei: 0,totalFeeUsd: 0}
           ]
         }
-        console.log(this.summaries, '420')
       } catch (error) {
         console.log(error)
         this.isLoading = false
@@ -604,14 +601,15 @@
       &__summaries {
         width: 100%;
         box-sizing: border-box;
-        display: flex;
+        display: grid;
         justify-content: space-between;
         align-items: center;
-        // grid-template-columns: 320px;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        column-gap: 24px;
         padding: 24px;
         border-top: 1px solid #DBDBDB;
         .summary {
-          width: 320px;
+          // width: 320px;
           padding: 16px;
           border: 1px solid #DBDBDB;
           border-radius: 8px;
@@ -678,8 +676,14 @@
                 margin-right: 8px;
               }
               .item-text {
+                width: 100%;
                 &__name {
                   @include text(16px, 24px, 400, #0A0B0D);
+                  text-overflow: ellipsis;
+                  overflow: hidden;
+                  width: 125px;
+                  height: 24px;
+                  white-space: nowrap;
                 }
                 &__code {
                   @include text(14px, 20px, 400, #5B616E);
@@ -687,11 +691,22 @@
               }
             }
             .wrap-from-col {
+              width: 100%;
               &__name {
                 @include text(16px, 24px, 400, #0A0B0D);
+                text-overflow: ellipsis;
+                overflow: hidden;
+                width: 150px;
+                height: 24px;
+                white-space: nowrap;
               }
               &__email {
                 @include text(14px, 20px, 400, #5B616E);
+                text-overflow: ellipsis;
+                overflow: hidden;
+                width: 150px;
+                height: 24px;
+                white-space: nowrap;
               }
             }
             .wrap-fee-col {

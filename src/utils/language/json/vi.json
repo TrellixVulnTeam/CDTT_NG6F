@@ -87,9 +87,10 @@
     "exception": "Ngoại lệ",
     "nft": "NFT",
     "more": "Thêm",
-    "fee": "Chi phí",
+    "fee": "Phí",
     "inventory": "Kiểm kê",
-    "setup": "Cài đặt"
+    "setup": "Cài đặt",
+    "fee-nft": "Phí"
   },
   "header": {
     "kyc": "KYC",
@@ -102,9 +103,9 @@
     "member": "Nhân sự",
     "report": "Báo cáo",
     "nft": "NFT",
-    "fee": "Chi phí",
+    "fee": "Phí",
     "inventory": "Kiểm kê",
-    "fee-nft": "Chi phí"
+    "fee-nft": "Phí"
   },
   "wallet": {
     "Linkey": "LynKey Wallet",
@@ -1060,7 +1061,7 @@
       "date": "Ngày giao dịch",
       "customer": "Khách hàng",
       "status": "Trạng thái",
-      "fee": "Chi phí"
+      "fee": "Phí"
     },
     "status": {
       "success": "Thành công",
