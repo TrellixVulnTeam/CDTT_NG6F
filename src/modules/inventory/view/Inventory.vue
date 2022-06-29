@@ -415,9 +415,8 @@
     }
     handleCurrentChangeAccount(page: number):void {
       this.queryAccountState.page = page;
-      // this.getDetailAccountStatement({...this.queryAccountState, accountId: this.rowData?.row.ownerId, itemId: this.rowData?.row.itemId})
       this.getDetailAccountStatement(this.rowData?.row)
-      if(this.$route.query){
+      if(this.$route.query.ownerId && this.$route.query.itemId){
         this.getDetailAccountStatement(this.$route.query)
       }
     }
@@ -425,8 +424,6 @@
     handleSizeChangeAccount(size: number):void {
       this.queryAccountState.limit = size;
       // this.queryAccountState.page = 1;
-
-      console.log(this.queryAccountState.limit, "size")
       this.getDetailAccountStatement(this.rowData?.row)
       if(this.$route.query.ownerId && this.$route.query.itemId){
         this.getDetailAccountStatement(this.$route.query)
