@@ -141,6 +141,12 @@ const api: InventoryRepository = getRepository('inventory')
     isLoading = false
     dataAccountDetail = {}
 
+    // query1: any = {
+    //     page: 1,
+    //     limit: 10,
+    //     total: 0
+    // }
+
     dataTableInventory = [
         {
             type: 'Total',
@@ -269,14 +275,16 @@ const api: InventoryRepository = getRepository('inventory')
         return rs
     }
 
-
+    query1: any = {}
     handleCurrentChange(page: number): void {
-      this.query.page = page
+      this.query1 = this.query
+      this.query1.page = page
       this.$emit('page', page)
     }
 
     handleSizeChange(limit: number): void {
-      this.query.limit = limit
+      this.query1 = this.query
+      this.query1.limit = limit
       this.query.page = 1
       this.$emit('size', limit)
     }
@@ -286,13 +294,19 @@ const api: InventoryRepository = getRepository('inventory')
         popupName: 'popup-inventory-detail',
         isOpen: false
       })
+      if(this.$route.query){
+        this.$router.replace({query: undefined})
+      }
+      this.query1 = {
+        page: 1,
+        limit: 10,
+        total: 0
+      }
+      this.$emit('resetQuery', this.query1)
     }
     summaryMethod(params: { columns: any; data: Record<string, any>[] }){
         const { columns, data } = params
-        console.log("param", params)
         let sums:any = []
-        console.log('248...', columns)
-        console.log('252...', data)
         let totalIncrease:any = 0
         let totalDecrease: any = 0
         // forEach(data, (item) => {
