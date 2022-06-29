@@ -290,10 +290,10 @@ export function formatEmail(email: string | null): string {
   } else return ''
 }
 
-export function formatNumberPhone(numberPhone: string | null): string {
-  if (numberPhone) {
+export function formatNumberPhone(numberPhone: string | null, countryCode: string | null): string {
+  if (numberPhone && countryCode) {
     const c = 5
-    const str: string = '(+84)' + '*'.repeat(c) + numberPhone.slice(0, numberPhone.length - c)
+    const str: string = '(' + countryCode + ')' + '*'.repeat(c) + numberPhone.slice(-5)
     return str
   } else return ''
 }

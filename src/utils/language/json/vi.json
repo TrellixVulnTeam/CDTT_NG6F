@@ -87,10 +87,10 @@
     "exception": "Ngoại lệ",
     "nft": "NFT",
     "more": "Thêm",
-    "fee": "Chi phí",
+    "fee": "Phí",
     "inventory": "Kiểm kê",
     "setup": "Cài đặt",
-    "fee-nft": "Phí NFT"
+    "fee-nft": "Phí"
   },
   "header": {
     "kyc": "KYC",
@@ -103,7 +103,7 @@
     "member": "Nhân sự",
     "report": "Báo cáo",
     "nft": "NFT",
-    "fee": "Chi phí",
+    "fee": "Phí",
     "inventory": "Kiểm kê",
     "fee-nft": "Phí"
   },
@@ -1063,7 +1063,7 @@
       "date": "Ngày giao dịch",
       "customer": "Khách hàng",
       "status": "Trạng thái",
-      "fee": "Chi phí"
+      "fee": "Phí"
     },
     "status": {
       "success": "Thành công",

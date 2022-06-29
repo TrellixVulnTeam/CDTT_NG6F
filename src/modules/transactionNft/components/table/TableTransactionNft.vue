@@ -9,8 +9,8 @@
     @rowClick="handleRowClick"
     class="base-table table-trans-nft"
   >
-    <el-table-column label="#" :index="getIndex" type="index" align="center" width="80 " />
-    <el-table-column :label="$t('transaction.table.trans-id')">
+    <el-table-column label="#" :index="getIndex" type="index" align="center" width="80" />
+    <el-table-column :label="$t('transaction.table.trans-id')" width="320">
       <template slot-scope="scope">
         <div class="transaction-col">
           <div class="be-flex align-center">
