@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="content-top__divided">
-            <img :src="dataAccountSummaryDetail.itemAvatar" 
+            <img :src="dataAccountSummaryDetail.accountAvatar" 
             class="content-top__divided_img ml-24 circle">
             <div class="content-top__divided_text">
                 <p class="name">{{dataAccountSummaryDetail.fullName}}</p>
