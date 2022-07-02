@@ -266,7 +266,6 @@
     transfer: any = {}
     listApproveBy: Record<string, any>[] = []
     get classResponsive():string {
-      console.log('269...', this.windowSize)
       let rs = ''
       if(this.windowSize >= 1400) {
         rs = ''
@@ -328,7 +327,6 @@
 
     handleResponsive(e) {
       this.windowSize = e.target.innerWidth
-      console.log(this.windowSize)
     }
     selectLanguage(): string {
       return window.localStorage.getItem('bc-lang') as string
@@ -465,7 +463,6 @@
     handleCurrentChange(page: any): void {
       this.query.page = page
       this.init()
-      console.log('current change')
     }
 
     resetQuery(): void {
@@ -512,11 +509,10 @@
       //   popupName: 'popup-fee-detail',
       //   isOpen: true
       // })
-      console.log('492...')
+      // console.log('492...')
     }
 
     handleFilter(filter: Record<string, any>): void {
-      console.log('508', filter)
       this.filters = filter
       this.query = {
         ...this.query,
