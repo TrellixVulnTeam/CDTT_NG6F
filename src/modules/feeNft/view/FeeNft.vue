@@ -70,7 +70,7 @@
             @currentChange="handleCurrentChange"
             :loading="isLoading"
           >
-            <el-table-column label="#" type="index" :index="indexMethod" width="70"/>
+            <el-table-column label="#" type="index" :index="indexMethod" width="70" />
             <el-table-column :label="$t('fee-nft.table.trans-id')" width="280" align="left">
               <template slot-scope="scope">
                 <p class="trans-id">
@@ -82,7 +82,7 @@
                 <p class="trans-date">{{ scope.row.transactionDate | formatMMDDYY }}</p>
               </template>
             </el-table-column>
-            <el-table-column :label="$t('fee-nft.table.item')"  align="left">
+            <el-table-column :label="$t('fee-nft.table.item')" align="left">
               <template slot-scope="scope">
                 <div class="wrap-item-col">
                   <img :src="scope.row.itemThumb" class="item-img" width="40px" height="40px" />
@@ -93,7 +93,7 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column :label="$t('fee-nft.table.from')"  align="left">
+            <el-table-column :label="$t('fee-nft.table.from')" align="left">
               <template slot-scope="scope">
                 <div class="wrap-from-col">
                   <p class="wrap-from-col__name">{{ scope.row.accountName }}</p>
@@ -105,7 +105,7 @@
               <template slot-scope="scope">
                 <div class="wrap-fee-col">
                   <p class="wrap-fee-col__coin">{{ scope.row.feeDisplay | convertAmountDecimal(tabActive) }} {{ tabActive }}</p>
-                  <p class="wrap-fee-col__usd">~{{ scope.row.feeUSD | convertAmountDecimal('USD') }} USD</p>
+                  <p class="wrap-fee-col__usd">~${{ scope.row.feeUSD | convertAmountDecimal('USD') }}</p>
                 </div>
               </template>
             </el-table-column>
@@ -413,7 +413,7 @@
       }
       try {
         const rs = await api.getFeeNftSummary('fee/summary', params)
-        if(rs.length !== 0) {
+        if (rs.length !== 0) {
           this.summaries = rs
         } else {
           this.summaries = [
@@ -689,7 +689,7 @@
               .item-text {
                 width: 100%;
                 &__name {
-                  @include text(16px, 24px, 400, #0A0B0D);
+                  @include text(16px, 24px, 400, #0a0b0d);
                   text-overflow: ellipsis;
                   overflow: hidden;
                   width: 190px;
@@ -710,7 +710,7 @@
             .wrap-from-col {
               width: 100%;
               &__name {
-                @include text(16px, 24px, 400, #0A0B0D);
+                @include text(16px, 24px, 400, #0a0b0d);
                 text-overflow: ellipsis;
                 overflow: hidden;
                 width: 150px;
@@ -718,7 +718,7 @@
                 white-space: nowrap;
               }
               &__email {
-                @include text(14px, 20px, 400, #5B616E);
+                @include text(14px, 20px, 400, #5b616e);
                 text-overflow: ellipsis;
                 overflow: hidden;
                 width: 250px;

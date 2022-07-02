@@ -150,6 +150,7 @@
       </base-table>
     </div>
     <popup-inventory-detail
+      @resetQuery="handleResetQuery"
       :query="queryAccountState"
       @page="handleCurrentChangeAccount"
       @size="handleSizeChangeAccount"
@@ -414,30 +415,39 @@
     }
     handleCurrentChangeAccount(page: number):void {
       this.queryAccountState.page = page;
-      // this.getDetailAccountStatement({...this.queryAccountState, accountId: this.rowData?.row.ownerId, itemId: this.rowData?.row.itemId})
       this.getDetailAccountStatement(this.rowData?.row)
-      if(this.$route.query){
+      if(this.$route.query.ownerId && this.$route.query.itemId){
         this.getDetailAccountStatement(this.$route.query)
       }
     }
 
     handleSizeChangeAccount(size: number):void {
       this.queryAccountState.limit = size;
+      // this.queryAccountState.page = 1;
       this.getDetailAccountStatement(this.rowData?.row)
-      if(this.$route.query){
+      if(this.$route.query.ownerId && this.$route.query.itemId){
         this.getDetailAccountStatement(this.$route.query)
       }
     }
 
     async handleRowClick(row: Record<string, any>): Promise<void> {
       if(row) this.rowData=row
-      console.log(this.rowData)
       await this.getDetailSummaryInventory(row.row)
       await this.getDetailAccountStatement(row.row)
+
       this.setOpenPopup({
         popupName: 'popup-inventory-detail',
         isOpen: true
       })
+      
+    }
+
+    handleResetQuery(queryPopupDetail):void {
+      this.queryAccountState={
+        ...queryPopupDetail,
+        page:1,
+        limit:10
+      }
     }
 
     handleFilter(filter: Record<string, any>): void {
