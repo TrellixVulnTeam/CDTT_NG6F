@@ -87,7 +87,7 @@
                 <div class="wrap-item-col">
                   <img :src="scope.row.itemThumb" class="item-img" width="40px" height="40px" />
                   <div class="item-text">
-                    <p class="item-text__name">{{ scope.row.itemName }}</p>
+                    <p class="item-text__name" :class="classResponsive">{{ scope.row.itemName }}</p>
                     <p class="item-text__code">#{{ scope.row.itemCode }}</p>
                   </div>
                 </div>
@@ -97,7 +97,7 @@
               <template slot-scope="scope">
                 <div class="wrap-from-col">
                   <p class="wrap-from-col__name">{{ scope.row.accountName }}</p>
-                  <p class="wrap-from-col__email">{{ scope.row.username }}</p>
+                  <p class="wrap-from-col__email" :class="classResponsive">{{ scope.row.username }}</p>
                 </div>
               </template>
             </el-table-column>
@@ -152,6 +152,7 @@
     //   orderBy: 1,
     //   total: 0
     // }
+    windowSize:number = window.innerWidth
     summaries = [
       { transactionType: 'NFT_SALE', totalFeeDisplay: 0, totalFeeWei: 0, totalFeeUsd: 0 },
       { transactionType: 'ROYALTIES_FEE', totalFeeDisplay: 0, totalFeeWei: 0, totalFeeUsd: 0 },
@@ -264,6 +265,20 @@
     withdraw: any = {}
     transfer: any = {}
     listApproveBy: Record<string, any>[] = []
+    get classResponsive():string {
+      console.log('269...', this.windowSize)
+      let rs = ''
+      if(this.windowSize >= 1400) {
+        rs = ''
+      }
+      else if(this.windowSize >= 1300 && this.windowSize < 1400){
+        rs = 'responsive-1'
+      }
+      else if(this.windowSize >= 1280 && this.windowSize < 1300) {
+        rs = 'responsive-2'
+      }
+      return rs
+    }
     get getTab(): Array<Record<string, any>> {
       if (this.coinMain === 'LYNK') {
         return [
@@ -303,10 +318,18 @@
       this.query.type = this.typeActive.value
       this.getSummaries()
       this.debounceInit()
+      window.addEventListener('resize', this.handleResponsive)
     }
 
+    destroyed():void {
+      window.removeEventListener('resize', this.handleResponsive)
+    }
     propdataTable: Record<string, any>[] = []
 
+    handleResponsive(e) {
+      this.windowSize = e.target.innerWidth
+      console.log(this.windowSize)
+    }
     selectLanguage(): string {
       return window.localStorage.getItem('bc-lang') as string
     }
@@ -669,9 +692,15 @@
                   @include text(16px, 24px, 400, #0A0B0D);
                   text-overflow: ellipsis;
                   overflow: hidden;
-                  width: 125px;
+                  width: 190px;
                   height: 24px;
                   white-space: nowrap;
+                  &.responsive-1 {
+                    width: 160px;
+                  }
+                  &.responsive-2 {
+                    width: 140px;
+                  }
                 }
                 &__code {
                   @include text(14px, 20px, 400, #5b616e);
@@ -692,9 +721,15 @@
                 @include text(14px, 20px, 400, #5B616E);
                 text-overflow: ellipsis;
                 overflow: hidden;
-                width: 150px;
+                width: 250px;
                 height: 24px;
                 white-space: nowrap;
+                &.responsive-1 {
+                  width: 200px;
+                }
+                &.responsive-2 {
+                  width: 200px;
+                }
               }
             }
             .wrap-fee-col {

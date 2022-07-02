@@ -178,7 +178,7 @@
   // import EventBus from '@/utils/eventBus'
 
   import { namespace } from 'vuex-class'
-  import firebase from "../../../../../blockchain-web-app/src/utils/firebase";
+  import firebase from "@/utils/firebase";
   import PopupFilterInventory from "@/modules/inventory/components/popup/PopupFilterInventory.vue";
 
   const api: InventoryRepository = getRepository('inventory')
