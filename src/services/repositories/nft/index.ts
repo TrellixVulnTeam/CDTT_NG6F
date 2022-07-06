@@ -15,7 +15,6 @@ export class NftRepository extends BaseRepository {
     }
   }
   async exportExcel(params: Record<string, any>): Promise<any> {
-    console.log(this.prefix)
     try {
       const rs = await request.get(`${this.prefix}/export`, 
       {

@@ -578,6 +578,7 @@ import { arcToPoint } from '@amcharts/amcharts4/.internal/core/rendering/Path'
       return result
     }
     async handleExportFeeNft():Promise<void> {
+      const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
       const params = {
           ...this.query,
           // userId: this.query.userId,
@@ -593,7 +594,8 @@ import { arcToPoint } from '@amcharts/amcharts4/.internal/core/rendering/Path'
           toFeeAmount: this.query.toFeeAmount,
           type: this.query.type,
           total: null,
-          exportFrom: "NFT_FEE"
+          exportFrom: "NFT_FEE",
+          zoneId: timeZone
         }
       try {
         if(this.canExport) {
