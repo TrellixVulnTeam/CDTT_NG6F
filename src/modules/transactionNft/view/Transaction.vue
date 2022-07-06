@@ -84,7 +84,7 @@
   import { debounce, filter } from 'lodash'
   import { TransactionRepository } from '@/services/repositories/transaction'
   import { CrowdsaleRepository } from '@/services/repositories/crowdsale'
-
+  import { NftRepository } from '@/services/repositories/nft'
   import TableTransaction from '../components/table/TableTransactionNft.vue'
   import FilterTransaction from '@/components/filter/FilterTransaction.vue'
   import PopupFilterTransaction from '../components/popup/PopupFilterTransactionNft.vue'
@@ -95,9 +95,10 @@
   import PopupVerify from '@/components/popup/PopupVerify.vue'
   const api: TransactionRepository = getRepository('transaction')
   const apiCrowdsale: CrowdsaleRepository = getRepository('crowdsale')
-
+  const apiNft: NftRepository = getRepository('nft')
   import { namespace } from 'vuex-class'
   import { findIndex } from '@amcharts/amcharts4/.internal/core/utils/Array'
+  import EventBus from '@/utils/eventBus'
   const bcAuth = namespace('beAuth')
   const beBase = namespace('beBase')
   interface IDataCard {
@@ -121,6 +122,7 @@
   export default class TransactionNFT extends Mixins(PopupMixin) {
     @bcAuth.State('user') user!: Record<string, any>
     @beBase.State('coinMain') coinMain!: string
+    canExport = true
     tabs: Array<Record<string, any>> = [
       {
         id: 1,
@@ -282,6 +284,55 @@
       const elmTab = filter(this.tabs, elm => elm.title === type)[0]
       this.tabActive = elmTab.transactionType
       await this.init()
+      EventBus.$on('start-export', this.handleExport)
+    }
+    destroyed():void {
+      EventBus.$off('start-export', this.handleExport)
+    }
+    async handleExport():Promise<void> {
+      const params = {
+        ...this.query,
+        transactionType: this.tabActive,
+        currency: this.tabHeaderActive,
+        exportFrom: "NFT_TRANSACTION"
+      }
+      try {
+        if(this.canExport) {
+          const rs = await apiNft.exportExcel(params)
+          const url = window.URL.createObjectURL(new Blob([rs]))
+          const link = document.createElement('a')
+          link.href = url
+          const currentTime = new Date()
+          const month = currentTime.getMonth() < 10 ? '0' + (currentTime.getMonth() + 1) : (currentTime.getMonth() + 1)
+          const date = currentTime.getDate() < 10 ? '0' + currentTime.getDate() : currentTime.getDate()
+          const year = currentTime.getFullYear()
+          const hours = currentTime.getHours() < 10 ? '0' + currentTime.getHours() : currentTime.getHours()
+          const minutes = currentTime.getMinutes() < 10 ? '0' + currentTime.getMinutes() : currentTime.getMinutes()
+          const seconds = currentTime.getSeconds() < 10 ? '0' + currentTime.getSeconds() : currentTime.getSeconds()
+          const fileName = `nft_transactions_${month + '' + date + year}_${hours + '' + minutes + seconds}`
+          link.setAttribute('download', `${fileName}.xlsx`)
+          document.body.appendChild(link)
+          link.click()
+        }
+        else {
+          throw({
+            type: "CAN_NOT_EXPORT",
+            message: this.$i18n.t('fee-nft.can-not-export')
+          })
+        }
+      } catch (error: any) {
+        if(error?.type === 'CAN_NOT_EXPORT') {
+          this.$message({
+            type: 'error',
+            message: error.message,
+            duration: 1000
+          })
+        }
+        else {
+          console.log(error)
+        }
+      }
+      EventBus.$emit('end-export')
     }
 
     propDataTable: Record<string, any>[] = []
@@ -298,6 +349,7 @@
         console.log(result)
         this.propDataTable = result.pageItem.content
         this.query.total = result.pageItem.totalElements
+        this.canExport = result.pageItem.totalElements < 1 ? false : true
         this.resetCard()
         const summary = result.total
         const index = findIndex(this.dataHeaderCard, elm => elm.transactionType === this.tabActive)

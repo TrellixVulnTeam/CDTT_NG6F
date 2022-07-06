@@ -129,11 +129,12 @@
   import { FeeNftRepository } from '@/services/repositories/feenft'
   import FeeNftFilter from '@/modules/feeNft/components/filter/FeeNftFilter.vue'
   import BaseTable from '@/components/base/table/BaseTable.vue'
-  // import EventBus from '@/utils/eventBus'
+  import EventBus from '@/utils/eventBus'
   import { debounce } from 'lodash'
   const api: FeeNftRepository = getRepository('feenft')
 
   import { namespace } from 'vuex-class'
+import { arcToPoint } from '@amcharts/amcharts4/.internal/core/rendering/Path'
 
   const beBase = namespace('beBase')
   interface SumFormat {
@@ -152,6 +153,7 @@
     //   orderBy: 1,
     //   total: 0
     // }
+    canExport = true
     windowSize:number = window.innerWidth
     summaries = [
       { transactionType: 'NFT_SALE', totalFeeDisplay: 0, totalFeeWei: 0, totalFeeUsd: 0 },
@@ -318,10 +320,12 @@
       this.getSummaries()
       this.debounceInit()
       window.addEventListener('resize', this.handleResponsive)
+      EventBus.$on('request-export', this.handleExportFeeNft)
     }
 
     destroyed():void {
       window.removeEventListener('resize', this.handleResponsive)
+      EventBus.$off('request-export', this.handleExportFeeNft)
     }
     propdataTable: Record<string, any>[] = []
 
@@ -387,6 +391,7 @@
         //   ...summaryTransfer,
         //   currency: this.tabActive
         // }
+        this.canExport = result.totalElements < 1 ? false : true
         this.query.total = result.totalElements
         this.isLoading = false
       } catch (error) {
@@ -571,6 +576,62 @@
           ? 'status-rejected'
           : 'status-success'
       return result
+    }
+    async handleExportFeeNft():Promise<void> {
+      const params = {
+          ...this.query,
+          // userId: this.query.userId,
+          orderBy: this.query.orderBy,
+          limit: this.query.limit,
+          page: this.query.page,
+          currency: this.tabActive,
+          fromDate: this.query.fromDate,
+          toDate: this.query.toDate,
+          fromTransactionAmount: this.query.fromTransactionAmount,
+          toTransactionAmount: this.query.toTransactionAmount,
+          fromFeeAmount: this.query.fromFeeAmount,
+          toFeeAmount: this.query.toFeeAmount,
+          type: this.query.type,
+          total: null,
+          exportFrom: "NFT_FEE"
+        }
+      try {
+        if(this.canExport) {
+          const rs = await api.exportExcelNft(params)
+          const url = window.URL.createObjectURL(new Blob([rs]))
+          const link = document.createElement('a')
+          link.href = url
+          const currentTime = new Date()
+          const month = currentTime.getMonth() < 10 ? '0' + (currentTime.getMonth() + 1) : (currentTime.getMonth() + 1)
+          const date = currentTime.getDate() < 10 ? '0' + currentTime.getDate() : currentTime.getDate()
+          const year = currentTime.getFullYear()
+          const hours = currentTime.getHours() < 10 ? '0' + currentTime.getHours() : currentTime.getHours()
+          const minutes = currentTime.getMinutes() < 10 ? '0' + currentTime.getMinutes() : currentTime.getMinutes()
+          const seconds = currentTime.getSeconds() < 10 ? '0' + currentTime.getSeconds() : currentTime.getSeconds()
+          const fileName = `nft_fee_${month + '' + date + year}_${hours + '' + minutes + seconds}`
+          link.setAttribute('download', `${fileName}.xlsx`)
+          document.body.appendChild(link)
+          link.click()
+        }
+        else {
+          throw({
+            type: "CAN_NOT_EXPORT",
+            message: this.$i18n.t('fee-nft.can-not-export')
+          })
+        }
+      } catch (error: any) {
+        if(error?.type === 'CAN_NOT_EXPORT') {
+          this.$message({
+            type: 'error',
+            message: error.message,
+            duration: 1000
+          })
+        }
+        else {
+          console.log(error)
+        }
+      }
+      EventBus.$emit('done-export')
     }
   }
 </script>

@@ -1204,6 +1204,7 @@
   "fee-nft": {
     "trans-amount": "Transaction amount",
     "fee-amount": "Fee amount",
+    "can-not-export": "No data to export",
     "fee-nft-filter": {
       "trans-date": "Transaction Date",
       "fee": "Fee",
