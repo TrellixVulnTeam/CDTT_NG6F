@@ -26,6 +26,9 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+    <el-button type="button" class="export-excel" :loading="isExporting" @click="handleExport">
+      <base-icon icon="icon-excel" size="22"/>
+    </el-button>
   </div>
 </template>
 
@@ -34,6 +37,7 @@
   import { Component, Mixins, Prop, Watch } from 'vue-property-decorator'
   import debounce from 'lodash/debounce'
   import trim from 'lodash/trim'
+  import EventBus from '@/utils/eventBus'
 
   @Component
   export default class FilterTransaction extends Mixins(PopupMixin) {
@@ -46,6 +50,7 @@
       keywordString: '',
       orderBy: null
     }
+    isExporting = false
     sorts: Array<Record<string, any>> = [
       {
         command: 'DATE_DESC',
@@ -111,11 +116,28 @@
     handleClickButton(popupName: string): void {
       this.$emit('clickButton', popupName)
     }
+    handleExport() {
+      this.isExporting = true
+      const timeOut = setTimeout(() => {
+        EventBus.$emit('start-export')
+        clearTimeout(timeOut)
+      }, 500)
+    }
+    created():void {
+      EventBus.$on('end-export', this.handleEndExport)
+    }
+    destroyed():void {
+      EventBus.$off('end-export', this.handleEndExport)
+    }
+    handleEndExport():void{
+      this.isExporting = false
+    }
   }
 </script>
 
 <style scoped lang="scss">
   .filter {
+    position: relative;
     .input-search {
       width: 400px;
       margin-right: 30px;
@@ -172,5 +194,10 @@
     &:hover {
       border: 1px solid transparent;
     }
+  }
+  .export-excel {
+    position: absolute;
+    top: 24px;
+    right: 24px;
   }
 </style>

@@ -1178,6 +1178,7 @@
   "fee-nft": {
     "trans-amount": "Số tiền giao dịch",
     "fee-amount": "Số tiền phí",
+    "can-not-export": "Không có dữ liệu để xuất",
     "fee-nft-filter": {
       "trans-date": "Ngày giao dịch",
       "fee": "Phí",

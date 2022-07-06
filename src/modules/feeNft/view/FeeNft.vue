@@ -87,7 +87,7 @@
                 <div class="wrap-item-col">
                   <img :src="scope.row.itemThumb" class="item-img" width="40px" height="40px" />
                   <div class="item-text">
-                    <p class="item-text__name">{{ scope.row.itemName }}</p>
+                    <p class="item-text__name" :class="classResponsive">{{ scope.row.itemName }}</p>
                     <p class="item-text__code">#{{ scope.row.itemCode }}</p>
                   </div>
                 </div>
@@ -97,7 +97,7 @@
               <template slot-scope="scope">
                 <div class="wrap-from-col">
                   <p class="wrap-from-col__name">{{ scope.row.accountName }}</p>
-                  <p class="wrap-from-col__email">{{ scope.row.username }}</p>
+                  <p class="wrap-from-col__email" :class="classResponsive">{{ scope.row.username }}</p>
                 </div>
               </template>
             </el-table-column>
@@ -129,11 +129,12 @@
   import { FeeNftRepository } from '@/services/repositories/feenft'
   import FeeNftFilter from '@/modules/feeNft/components/filter/FeeNftFilter.vue'
   import BaseTable from '@/components/base/table/BaseTable.vue'
-  // import EventBus from '@/utils/eventBus'
+  import EventBus from '@/utils/eventBus'
   import { debounce } from 'lodash'
   const api: FeeNftRepository = getRepository('feenft')
 
   import { namespace } from 'vuex-class'
+import { arcToPoint } from '@amcharts/amcharts4/.internal/core/rendering/Path'
 
   const beBase = namespace('beBase')
   interface SumFormat {
@@ -152,6 +153,8 @@
     //   orderBy: 1,
     //   total: 0
     // }
+    canExport = true
+    windowSize:number = window.innerWidth
     summaries = [
       { transactionType: 'NFT_SALE', totalFeeDisplay: 0, totalFeeWei: 0, totalFeeUsd: 0 },
       { transactionType: 'ROYALTIES_FEE', totalFeeDisplay: 0, totalFeeWei: 0, totalFeeUsd: 0 },
@@ -264,6 +267,19 @@
     withdraw: any = {}
     transfer: any = {}
     listApproveBy: Record<string, any>[] = []
+    get classResponsive():string {
+      let rs = ''
+      if(this.windowSize >= 1400) {
+        rs = ''
+      }
+      else if(this.windowSize >= 1300 && this.windowSize < 1400){
+        rs = 'responsive-1'
+      }
+      else if(this.windowSize >= 1280 && this.windowSize < 1300) {
+        rs = 'responsive-2'
+      }
+      return rs
+    }
     get getTab(): Array<Record<string, any>> {
       if (this.coinMain === 'LYNK') {
         return [
@@ -303,10 +319,19 @@
       this.query.type = this.typeActive.value
       this.getSummaries()
       this.debounceInit()
+      window.addEventListener('resize', this.handleResponsive)
+      EventBus.$on('request-export', this.handleExportFeeNft)
     }
 
+    destroyed():void {
+      window.removeEventListener('resize', this.handleResponsive)
+      EventBus.$off('request-export', this.handleExportFeeNft)
+    }
     propdataTable: Record<string, any>[] = []
 
+    handleResponsive(e) {
+      this.windowSize = e.target.innerWidth
+    }
     selectLanguage(): string {
       return window.localStorage.getItem('bc-lang') as string
     }
@@ -366,6 +391,7 @@
         //   ...summaryTransfer,
         //   currency: this.tabActive
         // }
+        this.canExport = result.totalElements < 1 ? false : true
         this.query.total = result.totalElements
         this.isLoading = false
       } catch (error) {
@@ -442,7 +468,6 @@
     handleCurrentChange(page: any): void {
       this.query.page = page
       this.init()
-      console.log('current change')
     }
 
     resetQuery(): void {
@@ -489,11 +514,10 @@
       //   popupName: 'popup-fee-detail',
       //   isOpen: true
       // })
-      console.log('492...')
+      // console.log('492...')
     }
 
     handleFilter(filter: Record<string, any>): void {
-      console.log('508', filter)
       this.filters = filter
       this.query = {
         ...this.query,
@@ -552,6 +576,62 @@
           ? 'status-rejected'
           : 'status-success'
       return result
+    }
+    async handleExportFeeNft():Promise<void> {
+      const params = {
+          ...this.query,
+          // userId: this.query.userId,
+          orderBy: this.query.orderBy,
+          limit: this.query.limit,
+          page: this.query.page,
+          currency: this.tabActive,
+          fromDate: this.query.fromDate,
+          toDate: this.query.toDate,
+          fromTransactionAmount: this.query.fromTransactionAmount,
+          toTransactionAmount: this.query.toTransactionAmount,
+          fromFeeAmount: this.query.fromFeeAmount,
+          toFeeAmount: this.query.toFeeAmount,
+          type: this.query.type,
+          total: null,
+          exportFrom: "NFT_FEE"
+        }
+      try {
+        if(this.canExport) {
+          const rs = await api.exportExcelNft(params)
+          const url = window.URL.createObjectURL(new Blob([rs]))
+          const link = document.createElement('a')
+          link.href = url
+          const currentTime = new Date()
+          const month = currentTime.getMonth() < 10 ? '0' + (currentTime.getMonth() + 1) : (currentTime.getMonth() + 1)
+          const date = currentTime.getDate() < 10 ? '0' + currentTime.getDate() : currentTime.getDate()
+          const year = currentTime.getFullYear()
+          const hours = currentTime.getHours() < 10 ? '0' + currentTime.getHours() : currentTime.getHours()
+          const minutes = currentTime.getMinutes() < 10 ? '0' + currentTime.getMinutes() : currentTime.getMinutes()
+          const seconds = currentTime.getSeconds() < 10 ? '0' + currentTime.getSeconds() : currentTime.getSeconds()
+          const fileName = `nft_fee_${month + '' + date + year}_${hours + '' + minutes + seconds}`
+          link.setAttribute('download', `${fileName}.xlsx`)
+          document.body.appendChild(link)
+          link.click()
+        }
+        else {
+          throw({
+            type: "CAN_NOT_EXPORT",
+            message: this.$i18n.t('fee-nft.can-not-export')
+          })
+        }
+      } catch (error: any) {
+        if(error?.type === 'CAN_NOT_EXPORT') {
+          this.$message({
+            type: 'error',
+            message: error.message,
+            duration: 1000
+          })
+        }
+        else {
+          console.log(error)
+        }
+      }
+      EventBus.$emit('done-export')
     }
   }
 </script>
@@ -669,9 +749,15 @@
                   @include text(16px, 24px, 400, #0a0b0d);
                   text-overflow: ellipsis;
                   overflow: hidden;
-                  width: 125px;
+                  width: 190px;
                   height: 24px;
                   white-space: nowrap;
+                  &.responsive-1 {
+                    width: 160px;
+                  }
+                  &.responsive-2 {
+                    width: 140px;
+                  }
                 }
                 &__code {
                   @include text(14px, 20px, 400, #5b616e);
@@ -692,9 +778,15 @@
                 @include text(14px, 20px, 400, #5b616e);
                 text-overflow: ellipsis;
                 overflow: hidden;
-                width: 150px;
+                width: 250px;
                 height: 24px;
                 white-space: nowrap;
+                &.responsive-1 {
+                  width: 200px;
+                }
+                &.responsive-2 {
+                  width: 200px;
+                }
               }
             }
             .wrap-fee-col {

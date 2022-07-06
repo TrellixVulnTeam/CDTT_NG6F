@@ -32,8 +32,7 @@
     </div>
     <el-button type="button" class="export-excel cursor" 
     @click="handleExport"
-    :loading="isLoading"
-    style="visibility: hidden">
+    :loading="isLoading">
       <base-icon icon="icon-excel" size="22" />
     </el-button>
     <popup-fee-nft @feeFilterBark="handleCatchBark($event)"/>
@@ -44,21 +43,8 @@
   import { Component, Mixins, Prop, Vue, Watch } from 'vue-property-decorator'
   import EventBus from '@/utils/eventBus'
   import { forEach, trim, debounce } from 'lodash'
-  import getRepository from '@/services'
-  import { KycRepository } from '@/services/repositories/kyc'
   import PopupFeeNft from '@/modules/feeNft/components/popup/PopupFeeNft.vue'
   import PopupMixin from '@/mixins/popup'
-
-  const apiKyc: KycRepository = getRepository('kyc')
-
-  import countryJson from '@/utils/country/index.json'
-  import { number } from '@amcharts/amcharts4/core'
-
-  // interface IListCountry {
-  //   name: string
-  //   dial_code: string
-  //   code: string
-  // }
 
   @Component({components: {PopupFeeNft}})
   export default class FeeNftFilter extends Mixins(PopupMixin) {
@@ -189,13 +175,17 @@
         })
         this.$forceUpdate()
       })
+      EventBus.$on('done-export', this.handleDoneExport)
       // EventBus.$on('selectTabBalance', this.handleChangeTab)
       // this.$emit('filterFee', this.filterFee)
     }
 
     destroyed(): void {
       EventBus.$off('changeLang')
-      // EventBus.$off('changeTab')
+      EventBus.$off('done-export', this.handleDoneExport)
+    }
+    handleDoneExport():void {
+      this.isLoading = false
     }
     handleCatchBark(filtersData: any):void {
       console.log('196... catchbark', this.filterFeeNft)
@@ -239,10 +229,8 @@
 
     handleSort(command: string): void {
       this.sortActive = command
-      console.log('235...sort', this.filterFeeNft)
       this.filterFeeNft.orderBy = command
       this.$emit('filters', this.filterFeeNft)
-      console.log('238...sort')
     }
 
 
@@ -264,12 +252,13 @@
       this.isChanged = false
     }
     handleExport():void {
-      console.log('240 export excel')
       this.isLoading = true
-      const timeOut = setTimeout(() => {
-        this.isLoading = false
-        clearTimeout(timeOut)
-      }, 30000);
+      const timeOut = setTimeout(
+        () => {
+          EventBus.$emit('request-export')
+          clearTimeout(timeOut)
+        }, 1000
+      )
     }
   }
 </script>
