@@ -290,11 +290,13 @@
       EventBus.$off('start-export', this.handleExport)
     }
     async handleExport():Promise<void> {
+      const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
       const params = {
         ...this.query,
         transactionType: this.tabActive,
         currency: this.tabHeaderActive,
-        exportFrom: "NFT_TRANSACTION"
+        exportFrom: "NFT_TRANSACTION",
+        zoneId: timeZone
       }
       try {
         if(this.canExport) {

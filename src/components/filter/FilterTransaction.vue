@@ -199,5 +199,18 @@
     position: absolute;
     top: 24px;
     right: 24px;
+    width: 48px;
+    // min-width: 48px;
+    transition: 0.1s;
+    height: 48px;
+    border: 1px solid #dbdbdb;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &.is-loading {
+      width: 84px;
+      transition: 0.1s;
+    }
   }
 </style>
