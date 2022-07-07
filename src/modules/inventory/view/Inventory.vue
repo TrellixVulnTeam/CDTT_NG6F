@@ -1,27 +1,7 @@
 <template>
   <div class="inventory box-shadow">
     <h1 class="inventory-title">{{ $t('inventory.summary.summary') }}</h1>
-    <!--  <el-carousel :autoplay="false"  arrow="always">-->
-    <!--    <el-carousel-item v-for="(itemTab,index) in dataConcat" :key="index">-->
-    <!--      <div class="wrap-summaries mb-24" >-->
-    <!--        <div class="summary" v-for="(item, i) in dataConcat[index].tabOne" :key="i">-->
-    <!--          <div class="summary-header">-->
-    <!--            <span class="summary-header__title">{{item.summaryName}}</span>-->
-    <!--            <base-icon icon="icon-two-users" size="24"/>-->
-    <!--          </div>-->
-    <!--          <div class="summary-content">{{item.total}}</div>-->
-    <!--        </div>-->
-    <!--        <div class="summary" v-for="(item, i) in dataConcat[index].tabTwo" :key="i">-->
-    <!--          <div class="summary-header">-->
-    <!--            <span class="summary-header__title">{{item.summaryName}}</span>-->
-    <!--            <base-icon icon="icon-two-users" size="24"/>-->
-    <!--          </div>-->
-    <!--          <div class="summary-content">{{item.total}}</div>-->
-    <!--        </div>-->
-    <!--      </div>-->
-    <!--    </el-carousel-item>-->
-    <!--  </el-carousel>-->
-    <el-carousel :autoplay="false" arrow="always" :loop="false" :interval="999999999999999999999">
+    <el-carousel :autoplay="false" arrow="always" :loop="false" @change="changeCarousel">
       <el-carousel-item>
         <div class="wrap-summaries mb-24">
           <div class="summary">
@@ -47,25 +27,15 @@
           </div>
           <div class="summary">
             <div class="summary-header">
-              <span class="summary-header__title">{{ $t('inventory.summary.on-sale') }}</span>
-              <base-icon icon="onsale-inventory" size="24" />
-            </div>
-            <div class="summary-content">{{ summaryInventoryData.totalOnSale | formatNumber }}</div>
-          </div>
-          <!--
-          <div class="summary">
-            <div class="summary-header">
               <span class="summary-header__title">{{ $t('inventory.summary.lock') }}</span>
               <base-icon icon="icon-lock-inventory" size="24" />
             </div>
             <div class="summary-content">{{ summaryInventoryData.totalLock | formatNumber }}</div>
           </div>
-          !-->
         </div>
       </el-carousel-item>
       <el-carousel-item>
         <div class="wrap-summaries mb-24">
-          <!--
           <div class="summary">
             <div class="summary-header">
               <span class="summary-header__title">{{ $t('inventory.summary.on-sale') }}</span>
@@ -73,7 +43,6 @@
             </div>
             <div class="summary-content">{{ summaryInventoryData.totalOnSale | formatNumber }}</div>
           </div>
-          !-->
           <div class="summary">
             <div class="summary-header">
               <span class="summary-header__title">{{ $t('inventory.summary.off-market') }}</span>
@@ -81,7 +50,6 @@
             </div>
             <div class="summary-content">{{ summaryInventoryData.totalOffMarket | formatNumber }}</div>
           </div>
-          <!--
           <div class="summary">
             <div class="summary-header">
               <span class="summary-header__title">{{ $t('inventory.summary.burn') }}</span>
@@ -89,7 +57,6 @@
             </div>
             <div class="summary-content">{{ summaryInventoryData.totalBurn | formatNumber }}</div>
           </div>
-          !-->
         </div>
       </el-carousel-item>
     </el-carousel>
@@ -229,10 +196,8 @@
         console.log(_this.listDataNetwork, "network")
 
       })
-
       this.init()
       this.getDataTable()
-
     }
 
     destroyed(): void{
@@ -449,6 +414,21 @@
         limit:10
       }
     }
+    changeCarousel(event) {
+      var element1 = document.querySelector('.el-carousel__arrow--right')
+      var element2 = document.querySelector('.el-carousel__arrow--left')
+      if (event == 1) {
+        //@ts-ignore
+        element1.style.opacity = 0.7
+        //@ts-ignore
+        element2.style.opacity = 1
+      } else {
+        //@ts-ignore
+        element2.style.opacity = 0.7
+        //@ts-ignore
+        element1.style.opacity = 1
+      }
+    }
 
     handleFilter(filter: Record<string, any>): void {
       this.query = {
@@ -459,6 +439,10 @@
       }
       console.log('query', this.query)
       this.debounceInit()
+    }
+
+    mounted() {
+      this.changeCarousel(0)
     }
 
     debounceInit = debounce(() => {
