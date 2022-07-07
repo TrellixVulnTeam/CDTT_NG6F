@@ -44,7 +44,14 @@
           <tr class="inventory-table__content">
             <td>{{ $t('inventory.inventory-detail.lock') }}</td>
             <td>{{ dataSummaryInventoryDetail.totalLock | formatNumber }}</td>
-            <td></td>
+            <td>
+<!--              <span class="btn-action" v-if="dataSummaryInventoryDetail.totalLock > 0">
+                {{$t('inventory.inventory-detail.un-lock')}}
+              </span>
+              <span class="btn-action" v-if="dataSummaryInventoryDetail.totalLock > 0">
+                {{$t('inventory.inventory-detail.burn')}}
+              </span>-->
+            </td>
           </tr>
           <tr class="inventory-table__content">
             <td>{{ $t('inventory.inventory-detail.on-sale') }}</td>

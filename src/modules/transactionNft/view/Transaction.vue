@@ -49,6 +49,7 @@
         </div>
       </div>
       <filter-transaction
+        :show-btn-export-excel="true"
         @filter="handleFilter"
         :type="'transaction'"
         :showBtn="getShowBtn"

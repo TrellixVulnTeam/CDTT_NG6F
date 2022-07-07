@@ -26,9 +26,9 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-<!--    <el-button type="button" class="export-excel" :loading="isExporting" @click="handleExport">
+    <el-button type="button" class="export-excel" :loading="isExporting" @click="handleExport" v-if="showBtnExportExcel">
       <base-icon icon="icon-excel" size="22"/>
-    </el-button>-->
+    </el-button>
   </div>
 </template>
 
@@ -45,6 +45,7 @@
     @Prop({ required: true, type: Boolean, default: false }) showBtn!: boolean
     @Prop({ required: true, type: Boolean, default: false }) showBtnCrowdsale!: boolean
     @Prop({ required: true, type: Boolean, default: false }) showBtnTransfer!: boolean
+    @Prop({ required: false, type: Boolean, default: false }) showBtnExportExcel!: boolean
     filter: Record<string, any> = {
       search: '',
       keywordString: '',

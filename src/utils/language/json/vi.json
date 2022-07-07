@@ -1141,6 +1141,7 @@
       "total": "Tổng",
       "available": "Có sẵn",
       "lock": "Bị khóa",
+      "un-lock": "Mở khóa",
       "on-sale":"Đang bán",
       "off-market": "Chưa bán",
       "burn": "Burn",
