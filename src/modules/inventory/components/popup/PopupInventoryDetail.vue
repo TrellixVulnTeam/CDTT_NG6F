@@ -45,23 +45,34 @@
             <td>{{ $t('inventory.inventory-detail.lock') }}</td>
             <td>{{ dataSummaryInventoryDetail.totalLock | formatNumber }}</td>
             <td>
-<!--              <span class="btn-action" v-if="dataSummaryInventoryDetail.totalLock > 0">
+              <span class="btn-action" v-if="dataSummaryInventoryDetail.totalLock > 0">
                 {{$t('inventory.inventory-detail.un-lock')}}
               </span>
               <span class="btn-action" v-if="dataSummaryInventoryDetail.totalLock > 0">
                 {{$t('inventory.inventory-detail.burn')}}
-              </span>-->
+              </span>
             </td>
           </tr>
           <tr class="inventory-table__content">
             <td>{{ $t('inventory.inventory-detail.on-sale') }}</td>
             <td>{{ dataSummaryInventoryDetail.totalOnSale | formatNumber }}</td>
-            <td></td>
+            <td>
+              <span class="btn-action" v-if="dataSummaryInventoryDetail.totalOnSale > 0">
+                {{$t('inventory.inventory-detail.remove-sale')}}
+              </span>
+            </td>
           </tr>
           <tr class="inventory-table__content">
             <td>{{ $t('inventory.inventory-detail.off-market') }}</td>
             <td>{{ dataSummaryInventoryDetail.totalOffMarket | formatNumber }}</td>
-            <td></td>
+            <td>
+              <span class="btn-action" v-if="dataSummaryInventoryDetail.totalOffMarket > 0">
+                {{$t('inventory.inventory-detail.lock')}}
+              </span>
+              <span class="btn-action d-none" v-if="dataSummaryInventoryDetail.totalOffMarket > 0">
+                {{$t('inventory.inventory-detail.put-on-sale')}}
+              </span>
+            </td>
           </tr>
           <tr class="inventory-table__content">
             <td>{{ $t('inventory.inventory-detail.burn') }}</td>
@@ -345,6 +356,19 @@
               }
             }
             &__content {
+              .btn-action {
+                @include text(14px, 16px, 400, #3B3A39);
+                padding: 8px 28px;
+                border: 1px solid #DBDBDB;
+                border-radius: 6px;
+                margin-left: 16px;
+                cursor: pointer;
+                box-sizing: border-box;
+                height: 32px;
+                &:hover {
+                  border: 1px solid #c2bfbf;
+                }
+              }
               td {
                 height: 24px;
                 padding: 20px 10px;

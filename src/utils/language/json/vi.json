@@ -1143,6 +1143,8 @@
       "lock": "Bị khóa",
       "un-lock": "Mở khóa",
       "on-sale":"Đang bán",
+      "remove-sale":"Gỡ xuống",
+      "put-on-sale":"Đăng bán",
       "off-market": "Chưa bán",
       "burn": "Burn",
       "account-statement":"BẢNG SAO KÊ",

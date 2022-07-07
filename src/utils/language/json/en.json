@@ -1169,6 +1169,8 @@
       "lock": "Lock",
       "un-lock": "Unlock",
       "on-sale":"On Sale",
+      "put-on-sale":"Put on sale",
+      "remove-sale":"Remove sale",
       "off-market": "Off Market",
       "burn": "Burn",
       "account-statement":"Account Statement",
