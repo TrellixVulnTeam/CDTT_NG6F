@@ -1189,7 +1189,7 @@
         "owner-name": "Owner name",
         "status": "Status",
         "employee": "Employee",
-        "fullname": "Fullname",
+        "fullname": "Full name",
         "email": "Email",
         "role": "Role"
       }
