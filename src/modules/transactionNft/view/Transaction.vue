@@ -153,13 +153,13 @@
         title: 'transfer',
         transactionType: 'TRANSFER',
         type: 'transfer'
+      },
+      {
+        id: 6,
+        title: 'burn',
+        transactionType: 'BURN',
+        type: 'burn'
       }
-      // {
-      //   id: 6,
-      //   title: 'burn',
-      //   transactionType: 'BURN',
-      //   type: 'burn'
-      // }
     ]
 
     tabsHeader: Array<Record<string, any>> = [
