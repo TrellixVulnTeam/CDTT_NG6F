@@ -26,9 +26,9 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <el-button type="button" class="export-excel" :loading="isExporting" @click="handleExport">
+<!--    <el-button type="button" class="export-excel" :loading="isExporting" @click="handleExport">
       <base-icon icon="icon-excel" size="22"/>
-    </el-button>
+    </el-button>-->
   </div>
 </template>
 
