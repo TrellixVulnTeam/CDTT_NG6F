@@ -1177,7 +1177,19 @@
       "decrease": "DECREASE",
       "status": "STATUS",
       "total-account": "TOTAL",
-      "ending-quantity":"ENDING QUANTITY"
+      "ending-quantity":"ENDING QUANTITY",
+      "inventory-detail-type": {
+        "burn": "BURN NFT",
+        "transaction-detail": "Transaction Details",
+        "date": "Date",
+        "quantity": "Quantity",
+        "owner-name": "Owner name",
+        "status": "Status",
+        "employee": "Employee",
+        "fullname": "Fullname",
+        "email": "Email",
+        "role": "Role"
+      }
     },
     "inventory-filter":{
       "network": "Network",

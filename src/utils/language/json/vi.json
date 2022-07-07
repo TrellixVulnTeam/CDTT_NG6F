@@ -1151,7 +1151,19 @@
       "decrease": "GIẢM",
       "status": "TRẠNG THÁI",
       "total-account": "TỔNG",
-      "ending-quantity":"SỐ LƯỢNG KẾT THÚC "
+      "ending-quantity":"SỐ LƯỢNG KẾT THÚC ",
+      "inventory-detail-type":{
+        "burn": "BURN NFT",
+        "transaction-detail": "Chi tiết giao dịch",
+        "date": "Thời gian",
+        "quantity": "Số lượng",
+        "owner-name": "Chủ sở hữu",
+        "status": "Trạng thái",
+        "employee": "Nhân viên",
+        "fullname": "Họ và tên",
+        "email": "Email",
+        "role": "Chức vụ"
+      }
     },
     "inventory-filter":{
       "network": "Mạng",
