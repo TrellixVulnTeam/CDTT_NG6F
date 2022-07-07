@@ -356,7 +356,6 @@
     disabledContinue = true
     disableSubmit = true
     @Watch('form.phone') watchList(value: string): void {
-      console.log('vao')
       this.disabledContinue = value.length > 0 ? false : true
     }
     @Watch('form.resendCode') watchSubmit(value: string): void {

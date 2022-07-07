@@ -1152,8 +1152,10 @@
       "event-type": "LOẠI HOẠT ĐỘNG",
       "increase": "TĂNG",
       "decrease": "GIẢM",
+      "select": "Chọn ",
       "status": "TRẠNG THÁI",
       "total-account": "TỔNG",
+      "burn-success": "Burn success",
       "ending-quantity":"SỐ LƯỢNG KẾT THÚC ",
       "inventory-detail-type":{
         "burn": "BURN NFT",

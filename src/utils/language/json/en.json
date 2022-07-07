@@ -1068,7 +1068,8 @@
   "verified": {
     "titlePopup": "VERIFICATION",
     "titleContent3": "Enter the 6-digit code we sent to your email",
-    "resendCodeMess": "Resend code successfully"
+    "resendCodeMess": "Resend code successfully",
+    "sendCodeMess": "Send code successfully"
   },
   "report": {
     "table": {
@@ -1179,6 +1180,7 @@
       "increase": "INCREASE",
       "decrease": "DECREASE",
       "status": "STATUS",
+      "select": "Select",
       "total-account": "TOTAL",
       "ending-quantity":"ENDING QUANTITY",
       "inventory-detail-type": {

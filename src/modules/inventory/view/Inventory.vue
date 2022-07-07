@@ -125,6 +125,8 @@
         :dataAccountSummaryDetail="dataAccountSummaryDetail"
         :dataAccountContentDetail="dataAccountContentDetail"
         :dataSummaryInventoryDetail="dataSummaryInventoryDetail"
+        :itemId="itemId"
+        :accountId="accountId"
     />
     <popup-filter-inventory
         @filterInventory="handleFilter"
@@ -166,6 +168,8 @@ export default class Inventory extends Mixins(PopupMixin) {
   dataSummaryInventoryDetail = {}
   listener: any = null
   listDataNetwork = []
+  itemId = ''
+  accountId = ''
 
   query: Record<string, any> = {
     search: '',
@@ -237,45 +241,6 @@ export default class Inventory extends Mixins(PopupMixin) {
       console.log(e)
     }
   }
-
-  dataConcat: any = [
-    {
-      tabOne: [
-        {
-          summaryName: 'Owners',
-          total: 112345566
-        },
-        {
-          summaryName: 'NFTs',
-          total: 112345566
-        },
-        {
-          summaryName: 'Available',
-          total: 112345566
-        },
-        {
-          summaryName: 'Lock',
-          total: 112345566
-        }
-      ]
-    },
-    {
-      tabTwo: [
-        {
-          summaryName: 'On Sale',
-          total: 112345566
-        },
-        {
-          summaryName: 'Off Market',
-          total: 112345566
-        },
-        {
-          summaryName: 'Burn',
-          total: 112345566
-        }
-      ]
-    }
-  ]
 
   indexMethod(index: number): number {
     return (this.query.page - 1) * this.query.limit + index + 1
@@ -365,6 +330,9 @@ export default class Inventory extends Mixins(PopupMixin) {
         accountId: row.ownerId,
         itemId: row.itemId
       }
+      this.accountId = row.ownerId
+      this.itemId = row.itemId
+
       const response = await api.getSummaryData(querySummary)
       this.dataSummaryInventoryDetail = response
       // this.dataConvertSummaryInventory = _.map(this.dataSummaryInventoryDetail, (val: Record<string, any>, id) => {
