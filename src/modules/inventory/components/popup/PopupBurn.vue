@@ -161,6 +161,7 @@
           &__title {
             @include text(14px, 20px, 400, #0a0b0d);
             text-transform: capitalize;
+            margin-bottom: 4px;
           }
           .el-select {
             width: 100%;

@@ -164,6 +164,7 @@
         .content-filter {
           margin-top: 24px;
           &__title {
+            margin-bottom: 4px;
             @include text(14px, 20px, 400, #0a0b0d);
             text-transform: capitalize;
           }
