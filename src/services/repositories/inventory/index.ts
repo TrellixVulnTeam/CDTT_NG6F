@@ -42,4 +42,15 @@ export class InventoryRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+
+  async removeForSaleNft(params: Record<string, any>): Promise<any> {
+    try {
+      this.prefix = 'nft/api/v1/bo/sale'
+      const response = await request.post(`${this.prefix}/remove`, params)
+      return Promise.resolve(response.data.data)
+    } catch (error) {
+      console.log(error)
+      return Promise.reject(error)
+    }
+  }
 }

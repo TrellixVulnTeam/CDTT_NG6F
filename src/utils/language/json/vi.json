@@ -1149,6 +1149,8 @@
       "un-lock": "Mở khóa",
       "on-sale":"Đang bán",
       "remove-sale":"Gỡ xuống",
+      "remove-from-sale":"Gỡ xuống",
+      "remove-sale-success":"Gỡ xuống thành công",
       "put-on-sale":"Đăng bán",
       "off-market": "Chưa bán",
       "burn": "Burn",

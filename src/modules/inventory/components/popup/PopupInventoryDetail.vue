@@ -60,7 +60,7 @@
             <td>{{ $t('inventory.inventory-detail.on-sale') }}</td>
             <td>{{ dataSummaryInventoryDetail.totalOnSale | formatNumber }}</td>
             <td>
-              <span class="btn-action" v-if="dataSummaryInventoryDetail.totalOnSale > 0">
+              <span class="btn-action" v-if="dataSummaryInventoryDetail.totalOnSale > 0" @click="handleRemoveSale(dataSummaryInventoryDetail.totalOnSale)">
                 {{ $t('inventory.inventory-detail.remove-sale') }}
               </span>
             </td>
@@ -142,6 +142,7 @@
     </div>
     <popup-inventory-detail-type :inventory-detail-type="inventoryDetailType"></popup-inventory-detail-type>
     <popup-burn :detail="dataAccountSummaryDetail" :number-burn="numberBurn" :itemId="itemId" :accountId="accountId"></popup-burn>
+    <popup-remove-forsale :detail="dataAccountSummaryDetail" :number-remove-sale="numberRemovesale" :itemId="itemId" :accountId="accountId"></popup-remove-forsale>
   </base-popup>
 </template>
 
@@ -150,6 +151,7 @@
   import PopupMixin from '@/mixins/popup'
   import PopupInventoryDetailType from './PopupInventoryDetailType.vue'
   import PopupBurn from './PopupBurn.vue'
+  import PopupRemoveForsale from './PopupRemoveForsale.vue'
   import BaseTable from '@/components/base/table/BaseTable.vue'
   import forEach from 'lodash/forEach'
   import getRepository from '@/services'
@@ -157,7 +159,7 @@
 
   const api: InventoryRepository = getRepository('inventory')
 
-  @Component({ components: { BaseTable, PopupInventoryDetailType, PopupBurn } })
+  @Component({ components: { BaseTable, PopupInventoryDetailType, PopupBurn, PopupRemoveForsale } })
   export default class PopupInventoryDetail extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Object, default: {} }) query!: Record<string, any>
     @Prop({ required: true, type: Object, default: {} }) dataAccountSummaryDetail!: Record<string, any>
@@ -168,6 +170,7 @@
     isLoading = false
     inventoryDetailType = {}
     numberBurn = 0
+    numberRemovesale = 0
 
     error = {
       quantity: ''
@@ -199,6 +202,14 @@
       this.numberBurn = number
       this.setOpenPopup({
         popupName: 'popup-burn',
+        isOpen: true
+      })
+    }
+
+    handleRemoveSale(number): void {
+      this.numberRemovesale = number
+      this.setOpenPopup({
+        popupName: 'popup-remove-for-sale',
         isOpen: true
       })
     }

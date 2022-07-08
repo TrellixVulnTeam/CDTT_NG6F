@@ -1177,6 +1177,8 @@
       "on-sale":"On Sale",
       "put-on-sale":"Put on sale",
       "remove-sale":"Remove sale",
+      "remove-from-sale":"Remove from sale",
+      "remove-sale-success":"Remove from sale success",
       "off-market": "Off Market",
       "burn": "Burn",
       "burn-success": "Burn success",
