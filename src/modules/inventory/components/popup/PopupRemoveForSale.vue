@@ -4,7 +4,7 @@
       <span>{{ $t('inventory.inventory-detail.remove-from-sale').toUpperCase() }}</span>
     </div>
     <div class="content">
-      <span>You are removing items from sale</span>
+      {{ $t('inventory.inventory-detail.title-remove-sale') }}
       <div class="content-filter">
         <div class="content-filter__title">{{ $t('inventory.inventory-detail.quantity').toLowerCase() }}</div>
         <el-select
@@ -27,15 +27,15 @@
       </div>
     </div>
     <popup-verify-email @submit="handleRemoveForSale"></popup-verify-email>
+    <popup-success type="remove-sale"></popup-success>
   </base-popup>
 </template>
 
 <script lang="ts">
   import { Component, Mixins, Prop, Watch } from 'vue-property-decorator'
   import PopupMixin from '@/mixins/popup'
-  import PopupInventoryDetailType from './PopupInventoryDetailType.vue'
   import PopupVerifyEmail from './PopupVerifyEmail.vue'
-  import BaseTable from '@/components/base/table/BaseTable.vue'
+  import PopupSuccess from './PopupSuccess.vue'
   import getRepository from '@/services'
   import { SettingRepository } from '@/services/repositories/setting'
   import { InventoryRepository } from '@/services/repositories/inventory'
@@ -43,8 +43,8 @@
   const apiInventory: InventoryRepository = getRepository('inventory')
   import EventBus from '@/utils/eventBus'
 
-  @Component({ components: { BaseTable, PopupInventoryDetailType, PopupVerifyEmail } })
-  export default class PopupRemoveForsale extends Mixins(PopupMixin) {
+  @Component({ components: { PopupVerifyEmail, PopupSuccess } })
+  export default class PopupRemoveForSale extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Number, default: 0 }) numberRemoveSale!: number
     @Prop({ required: true, type: [String, Number], default: '' }) itemId!: string | number
     @Prop({ required: true, type: [String, Number], default: '' }) accountId!: string | number
@@ -57,7 +57,7 @@
     })
     detail!: Record<string, any>
     isLoading = false
-    value = null
+    value = 1
 
     @Watch('numberRemoveSale') watchNumberRemoveSale(number) {
       this.value = number
@@ -74,7 +74,7 @@
       }
     }
     handleReset() {
-      this.value = null
+      this.value = 1
     }
     handleRemoveForSale(code) {
       const params = {
@@ -91,12 +91,15 @@
             popupName: 'popup-verify-email',
             isOpen: false
           })
-          setTimeout(() => {
-            this.setOpenPopup({
-              popupName: 'popup-remove-for-sale',
-              isOpen: false
-            })
-          }, 100)
+
+          this.setOpenPopup({
+            popupName: 'popup-remove-for-sale',
+            isOpen: false
+          })
+          this.setOpenPopup({
+            popupName: 'popup-success',
+            isOpen: true
+          })
           EventBus.$emit('reload-data-inventory', { ownerId: this.accountId, itemId: this.itemId }, 'REMOVE_SALE')
         })
         .catch(error => {
@@ -128,8 +131,9 @@
       })
     }
     handleClose(): void {
+      this.value = 1
       this.setOpenPopup({
-        popupName: 'popup-burn',
+        popupName: 'popup-remove-for-sale',
         isOpen: false
       })
       if (this.$route.query) {

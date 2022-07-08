@@ -1,14 +1,18 @@
 <template>
-  <base-popup name="popup-burn" class="popup-burn" width="480px" :close="handleClose">
+  <base-popup name="popup-un-lock" class="popup-un-lock" width="480px" :close="handleClose">
     <div class="title-popup" slot="title">
-      <span>{{ $t('inventory.inventory-detail.burn').toUpperCase() }}</span>
+      <span>{{ $t('inventory.inventory-detail.lock').toUpperCase() }}</span>
     </div>
     <div class="content">
-      {{ $t('inventory.inventory-detail.title-burn') }} <span class="text-semibold">{{ detail.itemName }} #{{ detail.itemCode }}</span>  {{ $t('inventory.inventory-detail.of') }} <span class="text-semibold">{{ detail.fullName }}</span>
+      {{ $t('inventory.inventory-detail.title-unlock') }} <span class="text-semibold">{{ detail.itemName }} #{{ detail.itemCode }}</span>  {{ $t('inventory.inventory-detail.of') }} <span class="text-semibold">{{ detail.fullName }}</span>
       <div class="content-filter">
         <div class="content-filter__title">{{ $t('inventory.inventory-detail.quantity').toLowerCase() }}</div>
-        <el-select filterable v-model="value" :placeholder="$t('inventory.inventory-detail.select') + ' ' + $t('inventory.inventory-detail.quantity').toLowerCase()">
-          <el-option v-for="item in numberBurn" :key="item" :label="item++" :value="item++"> </el-option>
+        <el-select
+          filterable
+          v-model="value"
+          :placeholder="$t('inventory.inventory-detail.select') + ' ' + $t('inventory.inventory-detail.quantity').toLowerCase()"
+        >
+          <el-option v-for="item in numberUnLock" :key="item" :label="item++" :value="item++"> </el-option>
         </el-select>
       </div>
     </div>
@@ -24,16 +28,16 @@
         </div>
       </div>
     </div>
-    <popup-verify-email @submit="handleBurn"></popup-verify-email>
-    <popup-success type="burn"></popup-success>
+    <popup-verify-email @submit="handleUnLock"></popup-verify-email>
+    <popup-success type="unlock"></popup-success>
   </base-popup>
 </template>
 
 <script lang="ts">
   import { Component, Mixins, Prop, Watch } from 'vue-property-decorator'
   import PopupMixin from '@/mixins/popup'
-  import PopupSuccess from './PopupSuccess.vue'
   import PopupVerifyEmail from './PopupVerifyEmail.vue'
+  import PopupSuccess from './PopupSuccess.vue'
   import getRepository from '@/services'
   import { SettingRepository } from '@/services/repositories/setting'
   import { InventoryRepository } from '@/services/repositories/inventory'
@@ -42,8 +46,8 @@
   import EventBus from '@/utils/eventBus'
 
   @Component({ components: { PopupVerifyEmail, PopupSuccess } })
-  export default class PopupBurn extends Mixins(PopupMixin) {
-    @Prop({ required: true, type: Number, default: 0 }) numberBurn!: number
+  export default class PopupLock extends Mixins(PopupMixin) {
+    @Prop({ required: true, type: Number, default: 0 }) numberUnLock!: number
     @Prop({ required: true, type: [String, Number], default: '' }) itemId!: string | number
     @Prop({ required: true, type: [String, Number], default: '' }) accountId!: string | number
     @Prop({
@@ -70,7 +74,7 @@
     handleReset() {
       this.value = 1
     }
-    handleBurn(code) {
+    handleUnLock(code) {
       const params = {
         itemId: this.itemId,
         accountId: this.accountId,
@@ -78,23 +82,21 @@
         verificationCode: parseInt(code)
       }
       apiInventory
-        .burnNft(params)
+        .unLockNft(params)
         .then(data => {
-          this.$message.success(this.$t('inventory.inventory-detail.burn-success') as string)
           this.setOpenPopup({
             popupName: 'popup-verify-email',
             isOpen: false
           })
           this.setOpenPopup({
-            popupName: 'popup-burn',
+            popupName: 'popup-un-lock',
             isOpen: false
           })
-
           this.setOpenPopup({
             popupName: 'popup-success',
             isOpen: true
           })
-          EventBus.$emit('reload-data-inventory', { ownerId: this.accountId, itemId: this.itemId }, 'BURN')
+          EventBus.$emit('reload-data-inventory', { ownerId: this.accountId, itemId: this.itemId }, 'UNLOCK')
         })
         .catch(error => {
           if (error.response.data.status == 'EXPIRED_VERIFICATION' || error.response.data.status == 'INVALID_VERIFICATION') {
@@ -127,7 +129,7 @@
     handleClose(): void {
       this.value = 1
       this.setOpenPopup({
-        popupName: 'popup-burn',
+        popupName: 'popup-un-lock',
         isOpen: false
       })
       if (this.$route.query) {
@@ -148,8 +150,11 @@
     font-weight: 600;
   }
 
-  ::v-deep.popup-burn {
+  ::v-deep.popup-un-lock {
     .popup-content {
+      .el-input.is-disabled .el-input__inner {
+        color: initial;
+      }
       padding-bottom: 24px;
       .content {
         @include text(16px, 24px, 400, #5b616e);

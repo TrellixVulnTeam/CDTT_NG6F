@@ -1,22 +1,21 @@
 <template>
   <base-popup name="popup-filter-inventory" class="popup-filter-inventory" width="600px" :close="handleClose">
     <div class="title-popup" slot="title">
-      <span>{{popup_data.header.title}}</span>
+      <span>{{ popup_data.header.title }}</span>
     </div>
     <div class="content" v-loading="isLoading">
       <div class="content-block">
         <p class="content-block__title">Network</p>
         <el-select v-model="filterInventory.network" placeholder="Network">
-          <el-option v-for="(option, index) in listDataNetwork"
-          :label="option.networkName" :value="option.networkName"
-          :key="index"></el-option>
+          <el-option v-for="(option, index) in listDataNetwork" :label="option.networkName" :value="option.networkName" :key="index"></el-option>
         </el-select>
       </div>
       <div class="content-block">
         <p class="content-block__title">{{ $t('inventory.inventory-filter.quantity') }}</p>
         <div class="content-block__inputs">
-          <el-input v-model="filterInventory.fromQuantity"
-            :class="{'input-error': !!(error.quantity || '')}"
+          <el-input
+            v-model="filterInventory.fromQuantity"
+            :class="{ 'input-error': !!(error.quantity || '') }"
             :placeholder="$t('inventory.inventory-filter.from')"
             clearable
             @keypress.native="onlyNumber($event)"
@@ -25,8 +24,9 @@
           >
           </el-input>
           <div class="delimiter"></div>
-          <el-input v-model="filterInventory.toQuantity"
-            :class="{'input-error': !!(error.quantity || '')}"
+          <el-input
+            v-model="filterInventory.toQuantity"
+            :class="{ 'input-error': !!(error.quantity || '') }"
             :placeholder="$t('inventory.inventory-filter.to')"
             clearable
             @keypress.native="onlyNumber($event)"
@@ -34,26 +34,18 @@
             @clear="numberFormat($event, 'toQuantity')"
           ></el-input>
         </div>
-        <p class="content-block__alert" v-if="error.quantity === 'quantity'">{{popup_data.content.quantity.alert}}</p>
+        <p class="content-block__alert" v-if="error.quantity === 'quantity'">{{ popup_data.content.quantity.alert }}</p>
       </div>
     </div>
-    
+
     <div class="footer" slot="footer">
       <div class="wrap-button">
         <div class="btn-right">
-          <el-button
-            class="btn-default btn-400 btn-h-40 btn-close"
-            @click="handleReset"
-          >
-              {{popup_data.footer.btnReset}}
+          <el-button class="btn-default btn-400 btn-h-40 btn-close" @click="handleReset">
+            {{ popup_data.footer.btnReset }}
           </el-button>
-          <el-button
-            class="btn-default-bg btn-400 btn-h-40 is-none-border"
-            style="font-size: 14px; font-weight: 600;"
-            :disabled="!!(error.quantity || '')"
-            @click="handleApply"
-          >
-              {{popup_data.footer.btnContinues}}
+          <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border" style="font-size: 14px; font-weight: 600" :disabled="!!(error.quantity || '')" @click="handleApply">
+            {{ popup_data.footer.btnContinues }}
           </el-button>
         </div>
       </div>
@@ -77,39 +69,38 @@
     filterInventory = {
       network: '',
       fromQuantity: '',
-      toQuantity: '',
-      
+      toQuantity: ''
     }
     isLoading = false
     // isStopDbClick = false
     //begin
-//   @Prop({ required: true, type: Object, default: [] }) resetFilter!: Record<string, any>
-  
+    //   @Prop({ required: true, type: Object, default: [] }) resetFilter!: Record<string, any>
+
     error = {
-        quantity: ''
+      quantity: ''
     }
-    
+
     popup_data = {
-        header: {
-            title: this.$i18n.t('popup-fee.title'),
-        },
-        content: {
-            quantity: {
-                from: {
-                    placeholder: "From",
-                    value: ''
-                },
-                to: {
-                    placeholder: "To",
-                    value: ''
-                },
-                alert: "From quantity must be less than To quantity"
-            }
-        },
-        footer: {
-            btnReset: this.$i18n.t('popup-fee.reset'),
-            btnContinues: this.$i18n.t('button.apply')
+      header: {
+        title: this.$i18n.t('popup-fee.title')
+      },
+      content: {
+        quantity: {
+          from: {
+            placeholder: 'From',
+            value: ''
+          },
+          to: {
+            placeholder: 'To',
+            value: ''
+          },
+          alert: 'From quantity must be less than To quantity'
         }
+      },
+      footer: {
+        btnReset: this.$i18n.t('popup-fee.reset'),
+        btnContinues: this.$i18n.t('button.apply')
+      }
     }
 
     onlyNumber(event: KeyboardEvent): void {
@@ -148,8 +139,7 @@
       this.filterInventory = {
         network: '',
         fromQuantity: '',
-        toQuantity: '',
-        
+        toQuantity: ''
       }
     }
     handleClose(): void {
@@ -160,20 +150,20 @@
     }
 
     handleApply(): void {
-        this.setOpenPopup({
-          popupName: 'popup-filter-inventory',
-          isOpen: false
-        })
-        let network = ''
-        let fromQuantity = ''
-        let toQuantity = ''
-        if (this.filterInventory.fromQuantity) {
-          fromQuantity = this.filterInventory.fromQuantity.replaceAll(',', '')
-        }
-        if (this.filterInventory.toQuantity) {
-          toQuantity = this.filterInventory.toQuantity.replaceAll(',', '')
-        }
-        this.$emit('filterInventory', { ...this.filterInventory, fromQuantity: fromQuantity, toQuantity: toQuantity })
+      this.setOpenPopup({
+        popupName: 'popup-filter-inventory',
+        isOpen: false
+      })
+      let network = ''
+      let fromQuantity = ''
+      let toQuantity = ''
+      if (this.filterInventory.fromQuantity) {
+        fromQuantity = this.filterInventory.fromQuantity.replaceAll(',', '')
+      }
+      if (this.filterInventory.toQuantity) {
+        toQuantity = this.filterInventory.toQuantity.replaceAll(',', '')
+      }
+      this.$emit('filterInventory', { ...this.filterInventory, fromQuantity: fromQuantity, toQuantity: toQuantity })
     }
     // handleFilters():void {
     //     let fromDate = ''
@@ -200,72 +190,72 @@
 </script>
 
 <style scoped lang="scss">
-@mixin text($size, $height, $weight, $color) {
+  @mixin text($size, $height, $weight, $color) {
     font-size: $size;
     line-height: $height;
     font-weight: $weight;
     color: $color;
-}
- ::v-deep.popup-filter-inventory {
+  }
+  ::v-deep.popup-filter-inventory {
     .content {
-        .wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            .content-block {
-                .el-input__inner {
-                    width: 256px;
-                }
-                &:last-child {
-                    .content-block__label {
-                        padding-left: 20px;
-                    }
-                    .content-block__wrap {
-                        text-align: right;
-                    }
-                }
+      .wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .content-block {
+          .el-input__inner {
+            width: 256px;
+          }
+          &:last-child {
+            .content-block__label {
+              padding-left: 20px;
             }
+            .content-block__wrap {
+              text-align: right;
+            }
+          }
         }
-        &-block {
+      }
+      &-block {
+        width: 100%;
+        height: auto;
+        margin-bottom: 24px;
+        &:first-child {
+          .el-select {
             width: 100%;
-            height: auto;
-            margin-bottom: 24px;
-            &:first-child {
-              .el-select {
-                width: 100%;
-              }
-            }
-            .input-error {
-                    .el-input__inner {
-                        border-color: #cf202f;
-                    }
-                }
-            &__title {
-                @include text(14px, 20px, 400, #0A0B0D);
-                margin-bottom: 8px;
-            }
-            
-            &__alert {
-                margin-top: 4px;
-                @include text(14px, 20px, 400,#cf202f)
-            }
-            &__inputs {
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              .el-input {
-                width: 256px;
-                .el-input__inner {
-                  width: 100%;
-                }
-              }
-              .delimiter {
-                width: 8px;
-                height: 2px;
-                background-color: #dbdbdb;
-              }
-            }
+          }
         }
+        .input-error {
+          .el-input__inner {
+            border-color: #cf202f;
+          }
+        }
+        &__title {
+          @include text(14px, 20px, 400, #0a0b0d);
+          margin-bottom: 8px;
+        }
+
+        &__alert {
+          margin-top: 4px;
+          @include text(14px, 20px, 400, #cf202f);
+        }
+        &__inputs {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          .el-input {
+            width: 256px;
+            .el-input__inner {
+              width: 100%;
+            }
+          }
+          .delimiter {
+            width: 8px;
+            height: 2px;
+            background-color: #dbdbdb;
+          }
+        }
+      }
     }
- }
+  }
 </style>

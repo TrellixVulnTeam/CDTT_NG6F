@@ -53,4 +53,22 @@ export class InventoryRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+
+  async lockNft(params: Record<string, any>): Promise<any> {
+    try {
+      const response = await request.post(`${this.prefix}/item/LOCK`, params)
+      return Promise.resolve(response.data.data)
+    } catch (error) {
+      console.log(error)
+      return Promise.reject(error)
+    }
+  }
+  async unLockNft(params: Record<string, any>): Promise<any> {
+    try {
+      const response = await request.post(`${this.prefix}/item/UNLOCK`, params)
+      return Promise.resolve(response.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
 }

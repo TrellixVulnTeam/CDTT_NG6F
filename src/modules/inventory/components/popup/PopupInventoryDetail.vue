@@ -48,7 +48,7 @@
             <td>{{ $t('inventory.inventory-detail.lock') }}</td>
             <td>{{ dataSummaryInventoryDetail.totalLock | formatNumber }}</td>
             <td>
-              <span class="btn-action" v-if="dataSummaryInventoryDetail.totalLock > 0">
+              <span class="btn-action" v-if="dataSummaryInventoryDetail.totalLock > 0" @click="handleUnLock(dataSummaryInventoryDetail.totalLock)">
                 {{ $t('inventory.inventory-detail.un-lock') }}
               </span>
               <span class="btn-action" v-if="dataSummaryInventoryDetail.totalLock > 0" @click="handleBurn(dataSummaryInventoryDetail.totalLock)">
@@ -69,7 +69,7 @@
             <td>{{ $t('inventory.inventory-detail.off-market') }}</td>
             <td>{{ dataSummaryInventoryDetail.totalOffMarket | formatNumber }}</td>
             <td>
-              <span class="btn-action" v-if="dataSummaryInventoryDetail.totalOffMarket > 0">
+              <span class="btn-action" v-if="dataSummaryInventoryDetail.totalOffMarket > 0" @click="handleLock(dataSummaryInventoryDetail.totalOffMarket)">
                 {{ $t('inventory.inventory-detail.lock') }}
               </span>
               <span class="btn-action d-none" v-if="dataSummaryInventoryDetail.totalOffMarket > 0">
@@ -142,7 +142,9 @@
     </div>
     <popup-inventory-detail-type :inventory-detail-type="inventoryDetailType"></popup-inventory-detail-type>
     <popup-burn :detail="dataAccountSummaryDetail" :number-burn="numberBurn" :itemId="itemId" :accountId="accountId"></popup-burn>
-    <popup-remove-forsale :detail="dataAccountSummaryDetail" :number-remove-sale="numberRemovesale" :itemId="itemId" :accountId="accountId"></popup-remove-forsale>
+    <popup-remove-for-sale :detail="dataAccountSummaryDetail" :number-remove-sale="numberRemoveSale" :itemId="itemId" :accountId="accountId"></popup-remove-for-sale>
+    <popup-lock :detail="dataAccountSummaryDetail" :number-lock="numberLock" :itemId="itemId" :accountId="accountId"></popup-lock>
+    <popup-un-lock :detail="dataAccountSummaryDetail" :number-un-lock="numberUnLock" :itemId="itemId" :accountId="accountId"></popup-un-lock>
   </base-popup>
 </template>
 
@@ -151,7 +153,9 @@
   import PopupMixin from '@/mixins/popup'
   import PopupInventoryDetailType from './PopupInventoryDetailType.vue'
   import PopupBurn from './PopupBurn.vue'
-  import PopupRemoveForsale from './PopupRemoveForsale.vue'
+  import PopupRemoveForSale from './PopupRemoveForSale.vue'
+  import PopupLock from './PopupLock.vue'
+  import PopupUnLock from './PopupUnLock.vue'
   import BaseTable from '@/components/base/table/BaseTable.vue'
   import forEach from 'lodash/forEach'
   import getRepository from '@/services'
@@ -159,7 +163,7 @@
 
   const api: InventoryRepository = getRepository('inventory')
 
-  @Component({ components: { BaseTable, PopupInventoryDetailType, PopupBurn, PopupRemoveForsale } })
+  @Component({ components: { BaseTable, PopupInventoryDetailType, PopupBurn, PopupRemoveForSale, PopupLock, PopupUnLock } })
   export default class PopupInventoryDetail extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Object, default: {} }) query!: Record<string, any>
     @Prop({ required: true, type: Object, default: {} }) dataAccountSummaryDetail!: Record<string, any>
@@ -170,7 +174,9 @@
     isLoading = false
     inventoryDetailType = {}
     numberBurn = 0
-    numberRemovesale = 0
+    numberRemoveSale = 0
+    numberLock = 0
+    numberUnLock = 0
 
     error = {
       quantity: ''
@@ -206,8 +212,24 @@
       })
     }
 
+    handleLock(number): void {
+      this.numberLock = number
+      this.setOpenPopup({
+        popupName: 'popup-lock',
+        isOpen: true
+      })
+    }
+
+    handleUnLock(number): void {
+      this.numberUnLock = number
+      this.setOpenPopup({
+        popupName: 'popup-un-lock',
+        isOpen: true
+      })
+    }
+
     handleRemoveSale(number): void {
-      this.numberRemovesale = number
+      this.numberRemoveSale = number
       this.setOpenPopup({
         popupName: 'popup-remove-for-sale',
         isOpen: true
