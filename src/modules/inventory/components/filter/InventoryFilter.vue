@@ -1,4 +1,5 @@
 <template>
+  <div class="flex jc-space-between">
   <div class="be-flex align-center kyc-filter">
     <el-input v-model="filterInventory.search" class="input-search" :placeholder="$t('placeholder.search')">
       <span slot="prefix" class="prefix-search">
@@ -35,6 +36,10 @@
     </popup-filter-inventory>
     <!-- <popup-fee @feeFilterBark="handleCatchBark($event)" :resetFilter="{deleteCache: isChanged}" @filterReseted="handleNormalize"/> -->
   </div>
+    <el-button type="button" class="export-excel" :loading="isExporting" @click="handleExport" >
+      <base-icon icon="icon-excel" size="22"/>
+    </el-button>
+  </div>
 </template>
 
 <script lang="ts">
@@ -63,6 +68,7 @@
       toQuantity: '',
       orderBy: '',
     }
+    isExporting = false
     popupFeeBark:any
     loading = false
     isChanged = false
@@ -71,6 +77,18 @@
       page: 1,
       limit: 20,
       search: ''
+    }
+
+    handleExport() {
+      this.isExporting = true
+      const timeOut = setTimeout(() => {
+        EventBus.$emit('start-export')
+        clearTimeout(timeOut)
+      }, 500)
+    }
+
+    handleEndExport():void{
+      this.isExporting = false
     }
 
     sorts: Array<Record<string, any>> = [
@@ -143,12 +161,14 @@
         })
         this.$forceUpdate()
       })
+      EventBus.$on('end-export', this.handleEndExport)
       // EventBus.$on('selectTabBalance', this.handleChangeTab)
       // this.$emit('filterFee', this.filterFee)
     }
 
     destroyed(): void {
       EventBus.$off('changeLang')
+      EventBus.$off('end-export', this.handleEndExport)
       // EventBus.$off('changeTab')
     }
     // handleCatchBark(filtersData: any):void {
@@ -218,6 +238,12 @@
 <style scoped lang="scss">
   .dash {
     text-align: center;
+  }
+  .export-excel {
+    &.is-loading {
+      width: 84px;
+      transition: 0.1s;
+    }
   }
 
   .kyc-filter {

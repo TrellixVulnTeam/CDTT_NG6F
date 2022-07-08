@@ -139,14 +139,13 @@
   import PopupInventoryDetail from '../components/popup/PopupInventoryDetail.vue'
   import BaseTable from '@/components/base/table/BaseTable.vue'
   import { debounce } from 'lodash'
-  import filter from 'lodash/filter'
-  import _ from 'lodash'
-  // import EventBus from '@/utils/eventBus'
+  const apiNft: NftRepository = getRepository('nft')
 
   import { namespace } from 'vuex-class'
   import firebase from '@/utils/firebase'
   import PopupFilterInventory from '@/modules/inventory/components/popup/PopupFilterInventory.vue'
   import EventBus from '@/utils/eventBus'
+  import {NftRepository} from "@/services/repositories/nft";
 
   const api: InventoryRepository = getRepository('inventory')
   const beBase = namespace('beBase')
@@ -398,6 +397,7 @@
     }
 
     mounted() {
+      EventBus.$on('start-export', this.handleExport)
       this.changeCarousel(0)
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       var _this = this
@@ -405,6 +405,52 @@
         await _this.init()
         await _this.getDetailSummaryInventory(query)
       })
+    }
+
+    async handleExport():Promise<void> {
+      const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+      const params = {
+        ...this.query,
+        exportFrom: "NFT_INVENTORY",
+        zoneId: timeZone
+      }
+      try {
+        if(this.listDataItem.length > 0) {
+          const rs = await apiNft.exportExcel(params)
+          const url = window.URL.createObjectURL(new Blob([rs]))
+          const link = document.createElement('a')
+          link.href = url
+          const currentTime = new Date()
+          const month = currentTime.getMonth() < 10 ? '0' + (currentTime.getMonth() + 1) : (currentTime.getMonth() + 1)
+          const date = currentTime.getDate() < 10 ? '0' + currentTime.getDate() : currentTime.getDate()
+          const year = currentTime.getFullYear()
+          const hours = currentTime.getHours() < 10 ? '0' + currentTime.getHours() : currentTime.getHours()
+          const minutes = currentTime.getMinutes() < 10 ? '0' + currentTime.getMinutes() : currentTime.getMinutes()
+          const seconds = currentTime.getSeconds() < 10 ? '0' + currentTime.getSeconds() : currentTime.getSeconds()
+          const fileName = `nft_inventory_${month + '' + date + year}_${hours + '' + minutes + seconds}`
+          link.setAttribute('download', `${fileName}.xlsx`)
+          document.body.appendChild(link)
+          link.click()
+        }
+        else {
+          throw({
+            type: "CAN_NOT_EXPORT",
+            message: this.$i18n.t('fee-nft.can-not-export')
+          })
+        }
+      } catch (error: any) {
+        if(error?.type === 'CAN_NOT_EXPORT') {
+          this.$message({
+            type: 'error',
+            message: error.message,
+            duration: 1000
+          })
+        }
+        else {
+          console.log(error)
+        }
+      }
+      EventBus.$emit('end-export')
     }
 
     debounceInit = debounce(() => {
