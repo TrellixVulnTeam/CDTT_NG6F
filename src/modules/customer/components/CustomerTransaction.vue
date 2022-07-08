@@ -1,6 +1,6 @@
 <template>
   <div class="list-transaction" v-loading="isLoading" :class="isLoading ? 'list-transaction-loading' : null">
-    <filter-transaction @filter="handleFilter" :showBtnTransfer="false"/>
+    <filter-transaction @filter="handleFilter" type="customer-transaction" :showBtnTransfer="false"/>
     <div class="table">
       <table-transaction type="customer" :listTransaction="listTransaction" :query="query" @sizeChange="handleSizeChange" @pageChange="handleCurrentChange" />
     </div>

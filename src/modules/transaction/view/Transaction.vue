@@ -44,6 +44,7 @@
       </div>
       <filter-transaction
         @filter="handleFilter"
+        screen="transaction"
         :type="'transaction'"
         :showBtn="getShowBtn"
         :showBtnCrowdsale="showBtnCrowdsale"

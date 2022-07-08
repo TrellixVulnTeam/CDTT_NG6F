@@ -76,6 +76,31 @@
     ]
     sortActive = 'DATE_DESC'
 
+    mounted(): void {
+      if (this.type == 'transaction' || this.type == 'customer-transaction') {
+        this.sorts = [
+          {
+            command: 'DATE_DESC',
+            label: this.$i18n.t('customer.sort.trans-date'),
+            index: 1,
+            orderByName: 'transactionDate'
+          },
+          {
+            command: 'AMOUNT_DESC',
+            label: this.$i18n.t('customer.sort.trans-amount'),
+            index: 2,
+            orderByName: 'amount'
+          },
+          {
+            command: 'STATUS',
+            label: this.$i18n.t('customer.sort.status'),
+            index: 3,
+            orderByName: 'status'
+          }
+        ]
+      }
+    }
+
     searchText = debounce((value: string) => {
       this.$emit('filter', {
         ...this.filter,
@@ -98,7 +123,20 @@
     }
     handleSort(command: string): void {
       this.sortActive = command
-      this.$emit('filter', { orderBy: this.sortActive })
+      var item: any = {}
+      if (this.type == 'transaction') {
+         item = this.sorts.find(itemCode => {
+          return itemCode.command == this.sortActive
+        })
+        this.$emit('filter', { orderBy: item?.index })
+      } else if(this.type == 'customer-transaction') {
+         item = this.sorts.find(itemCode => {
+          return itemCode.command == this.sortActive
+        })
+        this.$emit('filter', { orderBy: item?.orderByName, orderType: 'desc' })
+      } else {
+        this.$emit('filter', { orderBy: this.sortActive })
+      }
     }
 
     handleOpenPopupFilter(): void {
