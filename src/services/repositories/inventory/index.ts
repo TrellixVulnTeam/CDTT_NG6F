@@ -35,7 +35,7 @@ export class InventoryRepository extends BaseRepository {
   }
   async burnNft(params: Record<string, any>): Promise<any> {
     try {
-      const response = await request.post(`${this.prefix}/item/burn`, { params })
+      const response = await request.post(`${this.prefix}/item/burn`, params)
       return Promise.resolve(response.data.data)
     } catch (error) {
       console.log(error)

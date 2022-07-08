@@ -1,5 +1,5 @@
 <template>
-  <base-popup name="popup-verify-email" class="popup-verify-email" width="480px" :isShowFooter="false" :close="handleCloseLock" :open="handleOpenLock">
+  <base-popup name="popup-verify-email" class="popup-verify-email" width="480px" :isShowFooter="false">
     <div class="title-popup" slot="title">
       <span>{{ $t('customer.setting.verify') }}</span>
     </div>
@@ -71,7 +71,7 @@
     }
     handleApply() {
       this.$emit('submit', this.value)
-      this.handleClose()
+      this.value = ''
     }
     handleClose(): void {
       this.setOpenPopup({

@@ -341,7 +341,12 @@
     "code-validation-failed": "Xác thực mã không thành công",
     "min-to-buy-crowdsale": " Số tiền tối thiểu là {amount}$",
     "vesting-invalid": "Tháng vesting phải lớn hơn 0",
-    "amount-transfer-invalid": "Số lượng phải lớn hơn 0"
+    "amount-transfer-invalid": "Số lượng phải lớn hơn 0",
+    "LESS_THAN_ZERO" : "Số lượng cần lớn hơn 0",
+    "NOT_ENOUGH_QUANTITY" : "Không đủ số lượng",
+    "INVALID_VERIFICATION" : "Mã xác thực không hợp lệ",
+    "EXPIRED_VERIFICATION" : "Mã xác thực đã hết hạn",
+    "USER_LOCKED" : "Tài khoản của bạn đã bị khóa"
   },
   "logout": {
     "title": "Đăng xuất",
@@ -1155,7 +1160,7 @@
       "select": "Chọn ",
       "status": "TRẠNG THÁI",
       "total-account": "TỔNG",
-      "burn-success": "Burn success",
+      "burn-success": "Burn thành công",
       "ending-quantity":"SỐ LƯỢNG KẾT THÚC ",
       "inventory-detail-type":{
         "burn": "BURN NFT",

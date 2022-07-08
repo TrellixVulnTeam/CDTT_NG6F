@@ -31,7 +31,7 @@
           <tr class="inventory-table__content">
             <td>{{ $t('inventory.inventory-detail.inventory-detail-type.status') }}</td>
             <td>
-               <span class="status" :class="getClassStatus(inventoryDetailType.activityStatus)">{{
+               <span class="status" v-if="inventoryDetailType.activityStatus" :class="getClassStatus(inventoryDetailType.activityStatus)">{{
                    inventoryDetailType.activityStatus.toLowerCase().charAt(0).toUpperCase() + inventoryDetailType.activityStatus.slice(1).toLowerCase()
                  }}</span>
             </td>

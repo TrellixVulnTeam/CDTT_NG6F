@@ -364,7 +364,12 @@
     "code-validation-failed": "Code validation failed",
     "min-to-buy-crowdsale": "Minimum amount is {amount}$",
     "vesting-invalid": "Vesting month must be higher zero",
-    "amount-transfer-invalid": "Amount must be higher zero"
+    "amount-transfer-invalid": "Amount must be higher zero",
+    "LESS_THAN_ZERO" : "Quantity must be greater than 0",
+    "NOT_ENOUGH_QUANTITY" : "Don't have enough quantity",
+    "INVALID_VERIFICATION" : "Invalid verification code",
+    "EXPIRED_VERIFICATION" : "Expired verification code",
+    "USER_LOCKED" : "Account has been locked"
   },
   "logout": {
     "title": "Sign out",
@@ -1174,6 +1179,7 @@
       "remove-sale":"Remove sale",
       "off-market": "Off Market",
       "burn": "Burn",
+      "burn-success": "Burn success",
       "account-statement":"Account Statement",
       "opening-quantity": "OPENING QUANTITY",
       "event-type": "EVENT TYPE",

@@ -39,20 +39,13 @@
   import { InventoryRepository } from '@/services/repositories/inventory'
   const api: SettingRepository = getRepository('setting')
   const apiInventory: InventoryRepository = getRepository('inventory')
+  import EventBus from '@/utils/eventBus'
 
   @Component({ components: { BaseTable, PopupInventoryDetailType, PopupVerifyEmail } })
   export default class PopupBurn extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Number, default: 0 }) numberBurn!: number
-    @Prop({ required: true, type: Object, default: '' }) itemId!: string
-    @Prop({ required: true, type: Object, default: '' }) accountId!: string
-    @Prop({
-      required: true,
-      type: Object,
-      default: () => {
-        return {}
-      }
-    })
-    query!: Record<string, any>
+    @Prop({ required: true, type: [String, Number], default: '' }) itemId!: string | number
+    @Prop({ required: true, type: [String, Number], default: '' }) accountId!: string | number
     @Prop({
       required: true,
       type: Object,
@@ -87,17 +80,28 @@
       apiInventory
         .burnNft(params)
         .then(data => {
-          console.log(data)
-          this.$message.success(this.$t('burn-success') as string)
+          this.$message.success(this.$t('inventory.inventory-detail.burn-success') as string)
+          this.setOpenPopup({
+            popupName: 'popup-verify-email',
+            isOpen: false
+          })
           setTimeout(() => {
             this.setOpenPopup({
               popupName: 'popup-burn',
               isOpen: false
             })
           }, 100)
+          EventBus.$emit('reload-data-inventory', { ownerId: this.accountId, itemId: this.itemId }, 'BURN')
         })
         .catch(error => {
-          console.log(error)
+          if (error.response.data.status == 'EXPIRED_VERIFICATION' || error.response.data.status == 'INVALID_VERIFICATION') {
+            console.log(error)
+          } else {
+            this.setOpenPopup({
+              popupName: 'popup-verify-email',
+              isOpen: false
+            })
+          }
         })
     }
     handleApply() {
@@ -114,7 +118,7 @@
             popupName: 'popup-verify-email',
             isOpen: true
           })
-        }, 1000)
+        }, 500)
       })
     }
     handleClose(): void {

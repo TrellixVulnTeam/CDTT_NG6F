@@ -163,8 +163,8 @@
     @Prop({ required: true, type: Object, default: {} }) dataAccountSummaryDetail!: Record<string, any>
     @Prop({ required: true, type: Array, default: [] }) dataAccountContentDetail!: Array<Record<string, any>>
     @Prop({ required: true, type: Object, default: {} }) dataSummaryInventoryDetail!: Record<string, any>
-    @Prop({ required: true, type: Object, default: '' }) itemId!: string
-    @Prop({ required: true, type: Object, default: '' }) accountId!: string
+    @Prop({ required: true, type: [String, Number], default: '' }) itemId!: string | number
+    @Prop({ required: true, type: [String, Number], default: '' }) accountId!: string | number
     isLoading = false
     inventoryDetailType = {}
     numberBurn = 0
