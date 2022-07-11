@@ -404,6 +404,8 @@
       EventBus.$on('reload-data-inventory', async function (query, type) {
         await _this.init()
         await _this.getDetailSummaryInventory(query)
+        await _this.getDetailAccountStatement(query)
+        await _this.getDataTable()
       })
     }
 
