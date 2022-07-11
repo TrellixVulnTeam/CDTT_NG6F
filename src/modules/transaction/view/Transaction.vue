@@ -92,7 +92,6 @@
   import PopupAddCrowdsale from '../components/PopupAddCrowdsale.vue'
   import PopupAddTransfer from '../components/PopupAddTransfer.vue'
   import PopupVerify from '@/components/popup/PopupVerify.vue'
-  import firebase from '@/utils/firebase'
   const api: TransactionRepository = getRepository('transaction')
   const apiCrowdsale: CrowdsaleRepository = getRepository('crowdsale')
 
