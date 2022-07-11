@@ -150,6 +150,9 @@ request.interceptors.response.use(
       }
       if (data.status === 'USER_LOCKED') {
         message = i18n.tc('notify.user-locked')
+        setTimeout(() => {
+          window.location.href = '/login'
+        }, 500)
       }
       if (data.status === 'USER_EXPIRED') {
         message = i18n.tc('notify.user-expired')
