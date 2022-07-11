@@ -70,7 +70,7 @@
       content: {},
       footer: {
         btnReset: this.$i18n.t('popup-fee.reset'),
-        btnContinues: this.$i18n.t('button.apply')
+        btnContinues: this.$i18n.t('button.confirm')
       }
     }
     handleReset() {
@@ -158,6 +158,7 @@
     .popup-content {
       .el-input.is-disabled .el-input__inner {
         color: initial;
+        background-color: #DBDBDB;
       }
       padding-bottom: 24px;
       .content {

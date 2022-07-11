@@ -68,7 +68,7 @@
       content: {},
       footer: {
         btnReset: this.$i18n.t('popup-fee.reset'),
-        btnContinues: this.$i18n.t('button.apply')
+        btnContinues: this.$i18n.t('button.confirm')
       }
     }
     handleReset() {
