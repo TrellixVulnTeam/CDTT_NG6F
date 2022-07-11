@@ -81,7 +81,7 @@
         itemId: this.itemId,
         accountId: this.accountId,
         quantity: this.value,
-        verificationCode: parseInt(code)
+        verificationCode: code
       }
       apiInventory
         .lockNft(params)
