@@ -101,9 +101,28 @@
       }
     }
 
-    searchText = debounce((value: string) => {
+    searchText = debounce((value: string, sortActive: string, sorts: Record<any, any>[]) => {
+      var filterOrderBy
+      var itemOrderBy
+      if (this.type == 'transaction') {
+        itemOrderBy = sorts.find(itemCode => {
+          return itemCode.command == sortActive
+        })
+        filterOrderBy = { orderBy: itemOrderBy?.index }
+      } else if(this.type == 'customer-transaction') {
+        itemOrderBy = sorts.find(itemCode => {
+          return itemCode.command == sortActive
+        })
+        filterOrderBy = { orderBy: itemOrderBy?.orderByName, orderType: 'desc' }
+      } else {
+        filterOrderBy = { orderBy: sortActive }
+      }
+
+
+
       this.$emit('filter', {
         ...this.filter,
+        ...filterOrderBy,
         page: 1,
         limit: 10,
         search: trim(value),
@@ -112,7 +131,7 @@
     }, 500)
 
     handleSearch(value: string): void {
-      this.searchText(value)
+      this.searchText(value, this.sortActive, this.sorts)
     }
 
     public handleReset() {

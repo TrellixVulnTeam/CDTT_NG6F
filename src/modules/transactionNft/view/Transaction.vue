@@ -527,6 +527,7 @@
         page: 1,
         limit: 10
       }
+      console.log(this.query, filter, 'note')
       this.debounceInit()
     }
 

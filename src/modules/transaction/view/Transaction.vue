@@ -44,7 +44,6 @@
       </div>
       <filter-transaction
         @filter="handleFilter"
-        screen="transaction"
         :type="'transaction'"
         :showBtn="getShowBtn"
         :showBtnCrowdsale="showBtnCrowdsale"
@@ -446,6 +445,7 @@
         page: 1,
         limit: 10
       }
+      console.log(this.query , filter, 'note')
       this.debounceInit()
     }
 

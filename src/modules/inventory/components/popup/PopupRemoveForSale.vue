@@ -74,7 +74,7 @@
       }
     }
     handleReset() {
-      this.value = 1
+      this.value = this.numberRemoveSale
     }
     handleRemoveForSale(code) {
       const params = {
@@ -131,7 +131,7 @@
       })
     }
     handleClose(): void {
-      this.value = 1
+      this.value = this.numberRemoveSale
       this.setOpenPopup({
         popupName: 'popup-remove-for-sale',
         isOpen: false
