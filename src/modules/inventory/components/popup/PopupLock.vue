@@ -12,7 +12,7 @@
           v-model="value"
           :placeholder="$t('inventory.inventory-detail.select') + ' ' + $t('inventory.inventory-detail.quantity').toLowerCase()"
         >
-          <el-option v-for="item in numberLock" :key="item" :label="item++" :value="item++"> </el-option>
+          <el-option v-for="item in numberLock" :key="item" :label="item" :value="item"> </el-option>
         </el-select>
       </div>
     </div>

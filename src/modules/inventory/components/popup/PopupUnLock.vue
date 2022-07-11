@@ -12,7 +12,7 @@
           v-model="value"
           :placeholder="$t('inventory.inventory-detail.select') + ' ' + $t('inventory.inventory-detail.quantity').toLowerCase()"
         >
-          <el-option v-for="item in numberUnLock" :key="item" :label="item++" :value="item++"> </el-option>
+          <el-option v-for="item in numberUnLock" :key="item" :label="item" :value="item"> </el-option>
         </el-select>
       </div>
     </div>
@@ -46,7 +46,7 @@
   import EventBus from '@/utils/eventBus'
 
   @Component({ components: { PopupVerifyEmail, PopupSuccess } })
-  export default class PopupLock extends Mixins(PopupMixin) {
+  export default class PopupUnLock extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Number, default: 0 }) numberUnLock!: number
     @Prop({ required: true, type: [String, Number], default: '' }) itemId!: string | number
     @Prop({ required: true, type: [String, Number], default: '' }) accountId!: string | number

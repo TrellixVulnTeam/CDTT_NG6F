@@ -8,7 +8,7 @@
       <div class="content-filter">
         <div class="content-filter__title">{{ $t('inventory.inventory-detail.quantity').toLowerCase() }}</div>
         <el-select filterable v-model="value" :placeholder="$t('inventory.inventory-detail.select') + ' ' + $t('inventory.inventory-detail.quantity').toLowerCase()">
-          <el-option v-for="item in numberBurn" :key="item" :label="item++" :value="item++"> </el-option>
+          <el-option v-for="item in numberBurn" :key="item" :label="item" :value="item"> </el-option>
         </el-select>
       </div>
     </div>
@@ -54,6 +54,8 @@
       }
     })
     detail!: Record<string, any>
+    loading = false
+    options = []
     isLoading = false
     value = 1
 
