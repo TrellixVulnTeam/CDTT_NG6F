@@ -1,16 +1,16 @@
 <template>
   <base-popup name="popup-un-lock" class="popup-un-lock" width="480px" :close="handleClose">
     <div class="title-popup" slot="title">
-      <span>{{ $t('inventory.inventory-detail.lock').toUpperCase() }}</span>
+      <span>{{ $t('inventory.inventory-detail.un-lock').toUpperCase() }}</span>
     </div>
     <div class="content">
       {{ $t('inventory.inventory-detail.title-unlock') }} <span class="text-semibold">{{ detail.itemName }} #{{ detail.itemCode }}</span>  {{ $t('inventory.inventory-detail.of') }} <span class="text-semibold">{{ detail.fullName }}</span>
       <div class="content-filter">
-        <div class="content-filter__title">{{ $t('inventory.inventory-detail.quantity').toLowerCase() }}</div>
+        <div class="content-filter__title">{{ $t('inventory.inventory-detail.inventory-detail-type.quantity') }}</div>
         <el-select
           filterable
           v-model="value"
-          :placeholder="$t('inventory.inventory-detail.select') + ' ' + $t('inventory.inventory-detail.quantity').toLowerCase()"
+          :placeholder="$t('inventory.inventory-detail.select') + ' ' + $t('inventory.inventory-detail.inventory-detail-type.quantity').toLowerCase()"
         >
           <el-option v-for="item in numberUnLock" :key="item" :label="item" :value="item"> </el-option>
         </el-select>
@@ -166,7 +166,7 @@
           &__title {
             margin-bottom: 4px;
             @include text(14px, 20px, 400, #0a0b0d);
-            text-transform: capitalize;
+            text-transform: none;
           }
           .el-select {
             width: 100%;

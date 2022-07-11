@@ -6,12 +6,12 @@
     <div class="content">
       {{ $t('inventory.inventory-detail.title-remove-sale') }}
       <div class="content-filter">
-        <div class="content-filter__title">{{ $t('inventory.inventory-detail.quantity').toLowerCase() }}</div>
+        <div class="content-filter__title">{{ $t('inventory.inventory-detail.inventory-detail-type.quantity') }}</div>
         <el-select
           :disabled="true"
           filterable
           v-model="value"
-          :placeholder="$t('inventory.inventory-detail.select') + ' ' + $t('inventory.inventory-detail.quantity').toLowerCase()"
+          :placeholder="$t('inventory.inventory-detail.select') + ' ' + $t('inventory.inventory-detail.inventory-detail-type.quantity').toLowerCase()"
         >
           <el-option :key="numberRemoveSale" :label="numberRemoveSale" :value="numberRemoveSale"> </el-option>
         </el-select>
@@ -170,7 +170,7 @@
           &__title {
             margin-bottom: 4px;
             @include text(14px, 20px, 400, #0a0b0d);
-            text-transform: capitalize;
+            text-transform: none;
           }
           .el-select {
             width: 100%;

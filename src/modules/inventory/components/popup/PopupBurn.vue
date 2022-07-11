@@ -6,8 +6,8 @@
     <div class="content">
       {{ $t('inventory.inventory-detail.title-burn') }} <span class="text-semibold">{{ detail.itemName }} #{{ detail.itemCode }}</span>  {{ $t('inventory.inventory-detail.of') }} <span class="text-semibold">{{ detail.fullName }}</span>
       <div class="content-filter">
-        <div class="content-filter__title">{{ $t('inventory.inventory-detail.quantity').toLowerCase() }}</div>
-        <el-select filterable v-model="value" :placeholder="$t('inventory.inventory-detail.select') + ' ' + $t('inventory.inventory-detail.quantity').toLowerCase()">
+        <div class="content-filter__title">{{ $t('inventory.inventory-detail.inventory-detail-type.quantity') }}</div>
+        <el-select filterable v-model="value" :placeholder="$t('inventory.inventory-detail.select') + ' ' + $t('inventory.inventory-detail.inventory-detail-type.quantity').toLowerCase()">
           <el-option v-for="item in numberBurn" :key="item" :label="item" :value="item"> </el-option>
         </el-select>
       </div>
@@ -162,7 +162,7 @@
           margin-top: 24px;
           &__title {
             @include text(14px, 20px, 400, #0a0b0d);
-            text-transform: capitalize;
+            text-transform: none;
             margin-bottom: 4px;
           }
           .el-select {

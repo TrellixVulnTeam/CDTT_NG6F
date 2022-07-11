@@ -70,7 +70,7 @@
             <td>{{ dataSummaryInventoryDetail.totalOffMarket | formatNumber }}</td>
             <td>
               <span class="btn-action" v-if="dataSummaryInventoryDetail.totalOffMarket > 0" @click="handleLock(dataSummaryInventoryDetail.totalOffMarket)">
-                {{ $t('inventory.inventory-detail.lock') }}
+                {{ $t('inventory.inventory-detail.lock-title') }}
               </span>
               <span class="btn-action d-none" v-if="dataSummaryInventoryDetail.totalOffMarket > 0">
                 {{ $t('inventory.inventory-detail.put-on-sale') }}

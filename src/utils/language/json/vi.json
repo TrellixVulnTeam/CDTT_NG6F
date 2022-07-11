@@ -1147,6 +1147,7 @@
       "total": "Tổng",
       "available": "Có sẵn",
       "lock": "Bị khóa",
+      "lock-title": "Khóa",
       "un-lock": "Mở khóa",
       "on-sale":"Đang bán",
       "remove-sale":"Gỡ xuống",
