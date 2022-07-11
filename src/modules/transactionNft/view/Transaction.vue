@@ -51,7 +51,6 @@
       <filter-transaction
         :show-btn-export-excel="true"
         @filter="handleFilter"
-        :type="'transaction'"
         :showBtn="getShowBtn"
         :showBtnCrowdsale="showBtnCrowdsale"
         :showBtnTransfer="showBtnTransfer"
