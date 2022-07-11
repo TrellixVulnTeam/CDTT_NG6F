@@ -1015,7 +1015,8 @@
   "verified": {
     "titlePopup": "Xác minh",
     "titleContent3": "Nhập mã gồm 6 chữ số mà chúng tôi đã gửi đến email của bạn",
-    "resendCodeMess": "Gửi lại mã thành công"
+    "resendCodeMess": "Gửi lại mã thành công",
+    "sendCodeMess": "Gửi mã thành công"
   },
   "report": {
     "table": {
