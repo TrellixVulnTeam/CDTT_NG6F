@@ -353,10 +353,6 @@
       this.query.limit = 10
       this.query.orderBy = 1
       this.query.currency = tab.title.toUpperCase();
-      let refs: any = this.$refs['popup-filter']
-      if (refs) {
-        refs.handleReset()
-      }
       let refs2: any = this.$refs['filter']
       if (refs2) {
         refs2.handleReset()

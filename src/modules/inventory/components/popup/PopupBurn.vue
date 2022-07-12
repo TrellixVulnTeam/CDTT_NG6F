@@ -24,7 +24,7 @@
         </div>
       </div>
     </div>
-    <popup-verify-email @submit="handleBurn"></popup-verify-email>
+    <popup-verify-email v-if="type_popup == 'burn'" @submit="handleBurn"></popup-verify-email>
     <popup-success type="burn"></popup-success>
   </base-popup>
 </template>
@@ -40,12 +40,14 @@
   const api: SettingRepository = getRepository('setting')
   const apiInventory: InventoryRepository = getRepository('inventory')
   import EventBus from '@/utils/eventBus'
-
+  import {namespace} from "vuex-class";
+  const bcInventory = namespace('bcInventory')
   @Component({ components: { PopupVerifyEmail, PopupSuccess } })
   export default class PopupBurn extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Number, default: 0 }) numberBurn!: number
     @Prop({ required: true, type: [String, Number], default: '' }) itemId!: string | number
     @Prop({ required: true, type: [String, Number], default: '' }) accountId!: string | number
+    @bcInventory.State('type_popup') type_popup!: string
     @Prop({
       required: true,
       type: Object,

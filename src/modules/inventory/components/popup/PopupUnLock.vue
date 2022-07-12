@@ -28,7 +28,7 @@
         </div>
       </div>
     </div>
-    <popup-verify-email @submit="handleUnLock"></popup-verify-email>
+    <popup-verify-email v-if="type_popup == 'un-lock'" type="un-lock" @submit="handleUnLock"></popup-verify-email>
     <popup-success type="unlock"></popup-success>
   </base-popup>
 </template>
@@ -44,15 +44,15 @@
   const api: SettingRepository = getRepository('setting')
   const apiInventory: InventoryRepository = getRepository('inventory')
   import EventBus from '@/utils/eventBus'
-
+  import {namespace} from "vuex-class";
+  const bcInventory = namespace('bcInventory')
   @Component({ components: { PopupVerifyEmail, PopupSuccess } })
   export default class PopupUnLock extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Number, default: 0 }) numberUnLock!: number
     @Prop({ required: true, type: [String, Number], default: '' }) itemId!: string | number
     @Prop({ required: true, type: [String, Number], default: '' }) accountId!: string | number
-    @Prop({
-      required: true,
-      type: Object,
+    @bcInventory.State('type_popup') type_popup!: string
+    @Prop({ required: true, type: Object,
       default: () => {
         return {}
       }

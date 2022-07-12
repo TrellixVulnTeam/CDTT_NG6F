@@ -10,9 +10,10 @@
         <el-select
           filterable
           v-model="value"
+          :filter-method="filterMethod"
           :placeholder="$t('inventory.inventory-detail.select') + ' ' + $t('inventory.inventory-detail.inventory-detail-type.quantity').toLowerCase()"
         >
-          <el-option v-for="item in numberLock" :key="item" :label="item" :value="item"> </el-option>
+          <el-option v-for="item in options" :key="item" :label="item" :value="item"> </el-option>
         </el-select>
       </div>
     </div>
@@ -28,7 +29,7 @@
         </div>
       </div>
     </div>
-    <popup-verify-email @submit="handleLock"></popup-verify-email>
+    <popup-verify-email v-if="type_popup == 'lock'" @submit="handleLock"></popup-verify-email>
     <popup-success type="lock"></popup-success>
   </base-popup>
 </template>
@@ -46,12 +47,14 @@
   const api: SettingRepository = getRepository('setting')
   const apiInventory: InventoryRepository = getRepository('inventory')
   import EventBus from '@/utils/eventBus'
-
+  import {namespace} from "vuex-class";
+  const bcInventory = namespace('bcInventory')
   @Component({ components: { BaseTable, PopupInventoryDetailType, PopupVerifyEmail, PopupSuccess } })
   export default class PopupLock extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Number, default: 0 }) numberLock!: number
     @Prop({ required: true, type: [String, Number], default: '' }) itemId!: string | number
     @Prop({ required: true, type: [String, Number], default: '' }) accountId!: string | number
+    @bcInventory.State('type_popup') type_popup!: string
     @Prop({
       required: true,
       type: Object,
@@ -62,6 +65,13 @@
     detail!: Record<string, any>
     isLoading = false
     value = 1
+    options: any[] = []
+    created(): void {
+      this.initOption()
+    }
+    @Watch('numberLock') watchNumber() {
+      this.initOption()
+    }
 
     popup_data = {
       header: {
@@ -73,8 +83,29 @@
         btnContinues: this.$i18n.t('button.confirm')
       }
     }
+
+    initOption() {
+      this.options = []
+      for (let i = 1; i <= this.numberLock; i++) {
+          this.options.push(i)
+        if (this.options.length > 20)
+          break
+      }
+    }
+
     handleReset() {
       this.value = 1
+      this.filterMethod(1)
+    }
+    filterMethod(value) {
+      this.options = []
+      for (let i = 1; i <= this.numberLock; i++) {
+        if ((i + '').includes(value)) {
+          this.options.push(i)
+        }
+        if (this.options.length > 20)
+          break
+      }
     }
     handleLock(code) {
       const params = {

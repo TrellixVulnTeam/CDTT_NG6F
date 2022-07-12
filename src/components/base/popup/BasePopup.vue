@@ -41,7 +41,7 @@
       required: false,
       type: Function,
       default: () => {
-        console.log('open')
+        return;
       }
     })
     open!: () => void
@@ -49,7 +49,7 @@
       required: false,
       type: Function,
       default: () => {
-        console.log('close')
+        return;
       }
     })
     close!: () => void
@@ -57,7 +57,7 @@
       required: false,
       type: Function,
       default: () => {
-        console.log('submit')
+        return;
       }
     })
     submit!: () => Promise<any>

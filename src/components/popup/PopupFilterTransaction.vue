@@ -62,16 +62,20 @@
                 :placeholder="$t('label.from')"
                 :filter-method="remoteMethod"
                 :loading="loading"
+                clearable
+                @clear="handleClearAddress"
               >
-                <el-option v-for="item in optionAddress" :key="item.address" :value="renderValueAddress(item, 'from')" @click.native="selectFromAddress = item">
-                  <div class="option-item">
-                    <div class="option-item__label" v-if="item.username.length > 24">
-                      {{ item.username | formatTransactionCode(8) }}
+                <div v-infinite-scroll="loadMoreCustomer" infinite-scroll-delay="500">
+                  <el-option v-for="item in optionAddress" :key="item.address" :value="renderValueAddress(item, 'from')" @click.native="selectFromAddress = item">
+                    <div class="option-item">
+                      <div class="option-item__label" v-if="item.username.length > 24">
+                        {{ item.username | formatTransactionCode(8) }}
+                      </div>
+                      <div class="option-item__label" v-else>{{ item.username }}</div>
+                      <div class="option-item__description">{{ item.address | formatTransactionCode(5) }}</div>
                     </div>
-                    <div class="option-item__label" v-else>{{ item.username }}</div>
-                    <div class="option-item__description">{{ item.address | formatTransactionCode(5) }}</div>
-                  </div>
-                </el-option>
+                  </el-option>
+                </div>
               </el-select>
               <el-input
                 v-else
@@ -93,21 +97,24 @@
                 v-if="tabActiveFilter != 'withdraw'"
                 v-model="filter.toAddress"
                 filterable
+                clearable
                 popper-class="filter-address-transaction"
                 class="w-100"
                 :placeholder="tabActiveFilter == 'bonus' || tabActiveFilter == 'crowdsale' ? $t('balance.investor') : $t('label.to')"
                 :filter-method="remoteMethod"
                 :loading="loading"
               >
-                <el-option v-for="item in optionAddress" :key="item.address" :value="renderValueAddress(item, 'to')" @click.native="selectToAddress = item">
-                  <div class="option-item">
-                    <div class="option-item__label" v-if="item.username.length > 24">
-                      {{ item.username | formatTransactionCode(8) }}
+                <div v-infinite-scroll="loadMoreCustomer" infinite-scroll-delay="500">
+                  <el-option v-for="item in optionAddress" :key="item.address" :value="renderValueAddress(item, 'to')" @click.native="selectToAddress = item">
+                    <div class="option-item">
+                      <div class="option-item__label" v-if="item.username.length > 24">
+                        {{ item.username | formatTransactionCode(8) }}
+                      </div>
+                      <div class="option-item__label" v-else>{{ item.username }}</div>
+                      <div class="option-item__description">{{ item.address | formatTransactionCode(5) }}</div>
                     </div>
-                    <div class="option-item__label" v-else>{{ item.username }}</div>
-                    <div class="option-item__description">{{ item.address | formatTransactionCode(5) }}</div>
-                  </div>
-                </el-option>
+                  </el-option>
+                </div>
               </el-select>
               <el-input v-else v-model="filter.toAddress" @change="selectToAddress = { address: filter.toAddress }" class="w-100" reserve-keyword :placeholder="$t('label.to')">
               </el-input>
@@ -196,7 +203,7 @@
 </template>
 
 <script lang="ts">
-  import { Component, Mixins, Prop } from 'vue-property-decorator'
+import {Component, Mixins, Prop, Watch} from 'vue-property-decorator'
   import includes from 'lodash/includes'
   import PopupMixin from '@/mixins/popup'
   import { namespace } from 'vuex-class'
@@ -228,6 +235,12 @@
       status: '',
       bonusType: '',
       transactionType: ''
+    }
+    filterAddress: Record<string, any> = {
+      currency: '',
+      page: 1,
+      limit: 20,
+      search: ''
     }
     selectFromAddress = {
       address: ''
@@ -304,6 +317,10 @@
       }
     }
 
+    @Watch('currency') watchCurrency() {
+      this.handleReset()
+    }
+
     get pickerOption2(): any {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const _this = this
@@ -312,6 +329,20 @@
           return _this.disableTime(time, 'to-from')
         }
       }
+    }
+
+    handleClearAddress(status) {
+      if (status == 'from') {
+        this.selectFromAddress = {
+          address: ''
+        }
+      } else {
+        this.selectToAddress = {
+          address: ''
+        }
+      }
+      this.filterAddress.search = ''
+      this.getListAddress(this)
     }
 
     renderValueAddress(item, status) {
@@ -334,31 +365,23 @@
     }
 
     remoteMethod(value) {
-      const params = {
+      this.filterAddress = {
         page: 1,
         limit: 20,
         currency: this.currency,
         search: value
       }
-      this.getListAddress(params, this)
+      this.getListAddress(this)
     }
 
     created(): void {
-      this.getListAddress(
-        {
-          page: 1,
-          limit: 20,
-          currency: this.currency,
-          search: ''
-        },
-        this
-      )
+      this.getListAddress(this)
     }
 
-    getListAddress = debounce(async (params: Record<string, any>, _this) => {
+    getListAddress = debounce(async (_this) => {
       _this.optionAddress = []
       _this.loading = true
-      const result = await api.getListAddress(params)
+      const result = await api.getListAddress(_this.filterAddress)
       _this.optionAddress = result?.content
       _this.loading = false
     }, 500)
@@ -506,6 +529,11 @@
         ...this.listWallet
       ]
     }
+    async loadMoreCustomer() {
+      this.filterAddress.limit += 10
+      const result = await api.getListAddress(this.filterAddress)
+      this.optionAddress = result?.content
+    }
 
     public handleReset(): void {
       this.filter = {
@@ -529,15 +557,13 @@
         address: ''
       }
 
-      this.getListAddress(
-        {
-          page: 1,
-          limit: 20,
-          currency: this.currency,
-          search: ''
-        },
-        this
-      )
+      this.filterAddress = {
+        page: 1,
+        limit: 20,
+        currency: this.currency,
+        search: ''
+      }
+      this.getListAddress(this)
       // this.setOpenPopup({
       //   popupName: 'popup-filter-transaction',
       //   isOpen: false

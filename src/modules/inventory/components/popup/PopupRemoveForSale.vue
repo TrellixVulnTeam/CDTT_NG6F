@@ -26,7 +26,7 @@
         </div>
       </div>
     </div>
-    <popup-verify-email @submit="handleRemoveForSale"></popup-verify-email>
+    <popup-verify-email v-if="type_popup == 'remove'" @submit="handleRemoveForSale"></popup-verify-email>
     <popup-success type="remove-sale"></popup-success>
   </base-popup>
 </template>
@@ -42,9 +42,11 @@
   const api: SettingRepository = getRepository('setting')
   const apiInventory: InventoryRepository = getRepository('inventory')
   import EventBus from '@/utils/eventBus'
-
+  import {namespace} from "vuex-class";
+  const bcInventory = namespace('bcInventory')
   @Component({ components: { PopupVerifyEmail, PopupSuccess } })
   export default class PopupRemoveForSale extends Mixins(PopupMixin) {
+    @bcInventory.State('type_popup') type_popup!: string
     @Prop({ required: true, type: Number, default: 0 }) numberRemoveSale!: number
     @Prop({ required: true, type: [String, Number], default: '' }) itemId!: string | number
     @Prop({ required: true, type: [String, Number], default: '' }) accountId!: string | number
@@ -158,7 +160,7 @@
     .popup-content {
       .el-input.is-disabled .el-input__inner {
         color: initial;
-        background-color: #DBDBDB;
+        background-color: #F3F2F1;
       }
       padding-bottom: 24px;
       .content {

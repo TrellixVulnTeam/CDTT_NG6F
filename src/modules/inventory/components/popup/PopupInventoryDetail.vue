@@ -160,8 +160,10 @@
   import forEach from 'lodash/forEach'
   import getRepository from '@/services'
   import { InventoryRepository } from '@/services/repositories/inventory'
+  import {namespace} from "vuex-class";
 
   const api: InventoryRepository = getRepository('inventory')
+  const bcInventory = namespace('bcInventory')
 
   @Component({ components: { BaseTable, PopupInventoryDetailType, PopupBurn, PopupRemoveForSale, PopupLock, PopupUnLock } })
   export default class PopupInventoryDetail extends Mixins(PopupMixin) {
@@ -171,6 +173,7 @@
     @Prop({ required: true, type: Object, default: {} }) dataSummaryInventoryDetail!: Record<string, any>
     @Prop({ required: true, type: [String, Number], default: '' }) itemId!: string | number
     @Prop({ required: true, type: [String, Number], default: '' }) accountId!: string | number
+    @bcInventory.Mutation('SET_TYPE_POPUP') setTypePopup!: (data: string) => void
     isLoading = false
     inventoryDetailType = {}
     numberBurn = 0
@@ -205,6 +208,7 @@
     }
 
     handleBurn(number): void {
+      this.setTypePopup('burn')
       this.numberBurn = number
       this.setOpenPopup({
         popupName: 'popup-burn',
@@ -213,6 +217,7 @@
     }
 
     handleLock(number): void {
+      this.setTypePopup('lock')
       this.numberLock = number
       this.setOpenPopup({
         popupName: 'popup-lock',
@@ -222,6 +227,7 @@
 
     handleUnLock(number): void {
       this.numberUnLock = number
+      this.setTypePopup('un-lock')
       this.setOpenPopup({
         popupName: 'popup-un-lock',
         isOpen: true
@@ -229,6 +235,7 @@
     }
 
     handleRemoveSale(number): void {
+      this.setTypePopup('remove')
       this.numberRemoveSale = number
       this.setOpenPopup({
         popupName: 'popup-remove-for-sale',
