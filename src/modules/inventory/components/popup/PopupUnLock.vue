@@ -7,12 +7,10 @@
       {{ $t('inventory.inventory-detail.title-unlock') }} <span class="text-semibold">{{ detail.itemName }} #{{ detail.itemCode }}</span>  {{ $t('inventory.inventory-detail.of') }} <span class="text-semibold">{{ detail.fullName }}</span>
       <div class="content-filter">
         <div class="content-filter__title">{{ $t('inventory.inventory-detail.inventory-detail-type.quantity') }}</div>
-        <el-select
-          filterable
-          v-model="value"
-          :placeholder="$t('inventory.inventory-detail.select') + ' ' + $t('inventory.inventory-detail.inventory-detail-type.quantity').toLowerCase()"
-        >
-          <el-option v-for="item in numberUnLock" :key="item" :label="item" :value="item"> </el-option>
+        <el-select   :filter-method="filterMethod" filterable @keypress.native="onlyNumber($event)" v-model="value" :placeholder="$t('inventory.inventory-detail.select') + ' ' + $t('inventory.inventory-detail.inventory-detail-type.quantity').toLowerCase()">
+          <div v-infinite-scroll="loadMore" infinite-scroll-delay="500">
+            <el-option v-for="item in options" :key="item" :label="item" :value="item"> </el-option>
+          </div>
         </el-select>
       </div>
     </div>
@@ -60,6 +58,7 @@
     detail!: Record<string, any>
     isLoading = false
     value = 1
+    options: any[] = []
 
     popup_data = {
       header: {
@@ -71,8 +70,53 @@
         btnContinues: this.$i18n.t('button.confirm')
       }
     }
+    created(): void {
+      this.initOption()
+    }
+    @Watch('numberUnLock') watchNumber() {
+      this.initOption()
+    }
+    initOption() {
+      this.options = []
+      for (let i = 1; i <= this.numberUnLock; i++) {
+        this.options.push(i)
+        if (this.options.length > 20)
+          break
+      }
+    }
+
+    filterMethod(value) {
+      this.options = []
+      for (let i = 1; i <= this.numberUnLock; i++) {
+        if ((i + '').includes(value)) {
+          this.options.push(i)
+        }
+        if (this.options.length > 20)
+          break
+      }
+    }
+
+    onlyNumber(event: KeyboardEvent): void {
+      let keyCode = event.keyCode ? event.keyCode : event.which
+      //if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
+      // 46 is dot
+      if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
+        event.preventDefault()
+      }
+    }
+    loadMore() {
+      var length = this.options.length
+      for (let i = this.options[this.options.length - 1] + 1; i <= this.numberUnLock; i++) {
+        this.options.push(i)
+        if (this.options.length > length + 20)
+          break
+      }
+    }
+
+
     handleReset() {
       this.value = 1
+      this.filterMethod(1)
     }
     handleUnLock(code) {
       const params = {

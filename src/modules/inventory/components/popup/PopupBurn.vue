@@ -7,8 +7,10 @@
       {{ $t('inventory.inventory-detail.title-burn') }} <span class="text-semibold">{{ detail.itemName }} #{{ detail.itemCode }}</span>  {{ $t('inventory.inventory-detail.of') }} <span class="text-semibold">{{ detail.fullName }}</span>
       <div class="content-filter">
         <div class="content-filter__title">{{ $t('inventory.inventory-detail.inventory-detail-type.quantity') }}</div>
-        <el-select filterable v-model="value" :placeholder="$t('inventory.inventory-detail.select') + ' ' + $t('inventory.inventory-detail.inventory-detail-type.quantity').toLowerCase()">
-          <el-option v-for="item in numberBurn" :key="item" :label="item" :value="item"> </el-option>
+        <el-select   :filter-method="filterMethod" filterable @keypress.native="onlyNumber($event)" v-model="value" :placeholder="$t('inventory.inventory-detail.select') + ' ' + $t('inventory.inventory-detail.inventory-detail-type.quantity').toLowerCase()">
+          <div v-infinite-scroll="loadMore" infinite-scroll-delay="500">
+            <el-option v-for="item in options" :key="item" :label="item" :value="item"> </el-option>
+          </div>
         </el-select>
       </div>
     </div>
@@ -41,6 +43,7 @@
   const apiInventory: InventoryRepository = getRepository('inventory')
   import EventBus from '@/utils/eventBus'
   import {namespace} from "vuex-class";
+  import includes from "lodash/includes";
   const bcInventory = namespace('bcInventory')
   @Component({ components: { PopupVerifyEmail, PopupSuccess } })
   export default class PopupBurn extends Mixins(PopupMixin) {
@@ -57,9 +60,23 @@
     })
     detail!: Record<string, any>
     loading = false
-    options = []
+    options: any[] = []
     isLoading = false
     value = 1
+    created(): void {
+      this.initOption()
+    }
+    @Watch('numberBurn') watchNumber() {
+      this.initOption()
+    }
+    initOption() {
+      this.options = []
+      for (let i = 1; i <= this.numberBurn; i++) {
+        this.options.push(i)
+        if (this.options.length > 20)
+          break
+      }
+    }
 
     popup_data = {
       header: {
@@ -73,6 +90,35 @@
     }
     handleReset() {
       this.value = 1
+      this.filterMethod(1)
+    }
+
+    filterMethod(value) {
+      this.options = []
+      for (let i = 1; i <= this.numberBurn; i++) {
+        if ((i + '').includes(value)) {
+          this.options.push(i)
+        }
+        if (this.options.length > 20)
+          break
+      }
+    }
+
+    onlyNumber(event: KeyboardEvent): void {
+      let keyCode = event.keyCode ? event.keyCode : event.which
+      //if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
+      // 46 is dot
+      if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
+        event.preventDefault()
+      }
+    }
+    loadMore() {
+      var length = this.options.length
+      for (let i = this.options[this.options.length - 1] + 1; i <= this.numberBurn; i++) {
+        this.options.push(i)
+        if (this.options.length > length + 20)
+          break
+      }
     }
     handleBurn(code) {
       //@ts-ignore

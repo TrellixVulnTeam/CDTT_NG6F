@@ -11,9 +11,12 @@
           filterable
           v-model="value"
           :filter-method="filterMethod"
+          @keypress.native="onlyNumber($event)"
           :placeholder="$t('inventory.inventory-detail.select') + ' ' + $t('inventory.inventory-detail.inventory-detail-type.quantity').toLowerCase()"
         >
-          <el-option v-for="item in options" :key="item" :label="item" :value="item"> </el-option>
+          <div v-infinite-scroll="loadMore" infinite-scroll-delay="500">
+            <el-option v-for="item in options" :key="item" :label="item" :value="item"> </el-option>
+          </div>
         </el-select>
       </div>
     </div>
@@ -72,7 +75,6 @@
     @Watch('numberLock') watchNumber() {
       this.initOption()
     }
-
     popup_data = {
       header: {
         title: this.$i18n.t('inventory.inventory-detail.title')
@@ -81,6 +83,22 @@
       footer: {
         btnReset: this.$i18n.t('popup-fee.reset'),
         btnContinues: this.$i18n.t('button.confirm')
+      }
+    }
+    onlyNumber(event: KeyboardEvent): void {
+      let keyCode = event.keyCode ? event.keyCode : event.which
+      //if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
+      // 46 is dot
+      if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
+        event.preventDefault()
+      }
+    }
+    loadMore() {
+      var length = this.options.length
+      for (let i = this.options[this.options.length - 1] + 1; i <= this.numberLock; i++) {
+        this.options.push(i)
+        if (this.options.length > length + 20)
+          break
       }
     }
 
