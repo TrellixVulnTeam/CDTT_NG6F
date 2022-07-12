@@ -54,50 +54,63 @@
               :label="$t('label.from')"
             >
               <el-select
+                v-if="tabActiveFilter != 'deposit'"
                 v-model="filter.fromAddress"
                 filterable
-                remote
                 class="w-100"
-                reserve-keyword
                 popper-class="filter-address-transaction"
                 :placeholder="$t('label.from')"
-                :remote-method="remoteMethod"
+                :filter-method="remoteMethod"
                 :loading="loading"
               >
                 <el-option v-for="item in optionAddress" :key="item.address" :value="renderValueAddress(item, 'from')" @click.native="selectFromAddress = item">
                   <div class="option-item">
-                    <div class="option-item__label" v-if="item.username.length > 24">{{ item.username | formatTransactionCode(8) }}</div>
+                    <div class="option-item__label" v-if="item.username.length > 24">
+                      {{ item.username | formatTransactionCode(8) }}
+                    </div>
                     <div class="option-item__label" v-else>{{ item.username }}</div>
                     <div class="option-item__description">{{ item.address | formatTransactionCode(5) }}</div>
                   </div>
                 </el-option>
               </el-select>
+              <el-input
+                v-else
+                v-model="filter.fromAddress"
+                @change="selectFromAddress = { address: filter.fromAddress }"
+                class="w-100"
+                reserve-keyword
+                :placeholder="$t('label.from')"
+              >
+              </el-input>
             </el-form-item>
 
             <el-form-item
               class="be-flex-item"
               :class="errorType === 'amount' && 'error-amount-border-popup-transaction'"
-              :label="(tabActiveFilter == 'bonus' || tabActiveFilter == 'crowdsale') ? $t('balance.investor') : $t('label.to')"
+              :label="tabActiveFilter == 'bonus' || tabActiveFilter == 'crowdsale' ? $t('balance.investor') : $t('label.to')"
             >
               <el-select
+                v-if="tabActiveFilter != 'withdraw'"
                 v-model="filter.toAddress"
                 filterable
-                remote
-                reserve-keyword
                 popper-class="filter-address-transaction"
                 class="w-100"
-                :placeholder="(tabActiveFilter == 'bonus' || tabActiveFilter == 'crowdsale') ? $t('balance.investor') : $t('label.to')"
-                :remote-method="remoteMethod"
+                :placeholder="tabActiveFilter == 'bonus' || tabActiveFilter == 'crowdsale' ? $t('balance.investor') : $t('label.to')"
+                :filter-method="remoteMethod"
                 :loading="loading"
               >
                 <el-option v-for="item in optionAddress" :key="item.address" :value="renderValueAddress(item, 'to')" @click.native="selectToAddress = item">
                   <div class="option-item">
-                    <div class="option-item__label" v-if="item.username.length > 24">{{ item.username | formatTransactionCode(8) }}</div>
+                    <div class="option-item__label" v-if="item.username.length > 24">
+                      {{ item.username | formatTransactionCode(8) }}
+                    </div>
                     <div class="option-item__label" v-else>{{ item.username }}</div>
                     <div class="option-item__description">{{ item.address | formatTransactionCode(5) }}</div>
                   </div>
                 </el-option>
               </el-select>
+              <el-input v-else v-model="filter.toAddress" @change="selectToAddress = { address: filter.toAddress }" class="w-100" reserve-keyword :placeholder="$t('label.to')">
+              </el-input>
             </el-form-item>
           </div>
           <div v-if="errorType === 'amount'" class="error-amount">
@@ -190,7 +203,7 @@
   import { TransactionRepository } from '@/services/repositories/transaction'
   import getRepository from '@/services'
   import { formatTransactionCode } from '@/configs'
-  import {cloneDeep} from "lodash";
+  import { cloneDeep, debounce, trim } from 'lodash'
 
   const beBase = namespace('beBase')
   const api: TransactionRepository = getRepository('transaction')
@@ -300,6 +313,7 @@
         }
       }
     }
+
     renderValueAddress(item, status) {
       item = cloneDeep(item)
       item.address = formatTransactionCode(item.address, 6)
@@ -318,6 +332,7 @@
         else if (this.tabActiveFilter == 'bonus') return item.username
       }
     }
+
     remoteMethod(value) {
       const params = {
         page: 1,
@@ -325,14 +340,29 @@
         currency: this.currency,
         search: value
       }
-      this.getListAddress(params)
+      this.getListAddress(params, this)
     }
-    async getListAddress(params) {
-      this.loading = true
+
+    created(): void {
+      this.getListAddress(
+        {
+          page: 1,
+          limit: 20,
+          currency: this.currency,
+          search: ''
+        },
+        this
+      )
+    }
+
+    getListAddress = debounce(async (params: Record<string, any>, _this) => {
+      _this.optionAddress = []
+      _this.loading = true
       const result = await api.getListAddress(params)
-      this.optionAddress = result?.content
-      this.loading = false
-    }
+      _this.optionAddress = result?.content
+      _this.loading = false
+    }, 500)
+
     disableTime(time: Date, type: string): any {
       if (type === 'from-to') {
         if (this.filter.fromDate) {
@@ -498,6 +528,16 @@
       this.selectFromAddress = {
         address: ''
       }
+
+      this.getListAddress(
+        {
+          page: 1,
+          limit: 20,
+          currency: this.currency,
+          search: ''
+        },
+        this
+      )
       // this.setOpenPopup({
       //   popupName: 'popup-filter-transaction',
       //   isOpen: false
@@ -543,7 +583,16 @@
         if (this.filter.toDate) {
           toDate = this.$options.filters?.formatReferral(this.filter.toDate + 86399000)
         }
-        this.$emit('filter', { ...this.filter, fromAmount: _fromAmount, toAmount: _toAmount, currency: _currency, fromDate, toDate, fromAddress: this.selectFromAddress?.address, toAddress: this.selectToAddress?.address })
+        this.$emit('filter', {
+          ...this.filter,
+          fromAmount: _fromAmount,
+          toAmount: _toAmount,
+          currency: _currency,
+          fromDate,
+          toDate,
+          fromAddress: this.selectFromAddress?.address,
+          toAddress: this.selectToAddress?.address
+        })
       }
     }
 
@@ -578,6 +627,7 @@
       padding: 8px 12px;
       height: 58px !important;
       font-weight: 400;
+
       .option-item {
         .option-item__label {
           font-weight: 400;
@@ -585,12 +635,14 @@
           line-height: 24px;
           color: #0a0b0d;
         }
+
         .option-item__description {
-          font-size: 12px!important;
-          line-height: 16px!important;
-          color: #5b616e!important;
+          font-size: 12px !important;
+          line-height: 16px !important;
+          color: #5b616e !important;
         }
       }
+
       &.selected {
         .option-item__label {
           color: var(--bc-tab-active);
@@ -598,6 +650,7 @@
       }
     }
   }
+
   .prefix {
     height: 100%;
     font-size: 16px;
@@ -639,6 +692,7 @@
       right: -25px;
     }
   }
+
   .footer {
     button[disabled] {
       opacity: 0.2;
