@@ -237,7 +237,7 @@ import {Component, Mixins, Prop, Watch} from 'vue-property-decorator'
       transactionType: ''
     }
     filterAddress: Record<string, any> = {
-      currency: '',
+      currency: this.currency,
       page: 1,
       limit: 20,
       search: ''
@@ -373,8 +373,7 @@ import {Component, Mixins, Prop, Watch} from 'vue-property-decorator'
       }
       this.getListAddress(this)
     }
-
-    created(): void {
+    mounted(): void {
       this.getListAddress(this)
     }
 
