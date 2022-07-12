@@ -6,10 +6,10 @@
     <div class="content" v-loading="isLoading">
       <div class="content-top">
         <div class="content-top__divided">
-          <img src="https://bigseventravel.com/wp-content/uploads/2021/07/Azadi-.jpg" class="content-top__divided_img" />
+          <img :src="detail.itemAvatar" class="content-top__divided_img" />
           <div class="content-top__divided_text">
-            <p class="name">Time City</p>
-            <p class="code">#321455</p>
+            <p class="name">{{detail.itemName}}</p>
+            <p class="code">#{{detail.itemCode}}</p>
           </div>
         </div>
       </div>
@@ -18,15 +18,15 @@
         <table class="inventory-table">
           <tr class="inventory-table__content">
             <td>{{ $t('inventory.inventory-detail.inventory-detail-type.date') }}</td>
-            <td>01/10/2021 12:09:06</td>
+            <td>{{detail.transactionDate | formatDateHourMs}}</td>
           </tr>
           <tr class="inventory-table__content">
             <td>{{ $t('inventory.inventory-detail.inventory-detail-type.quantity') }}</td>
-            <td>2</td>
+            <td>{{detail.transactionQuantity | convertAmount8digit}}</td>
           </tr>
           <tr class="inventory-table__content">
             <td>{{ $t('inventory.inventory-detail.inventory-detail-type.owner-name') }}</td>
-            <td>Trần Nguyễn Hoàng Tùng</td>
+            <td>{{detail.ownerFullName}}</td>
           </tr>
           <tr class="inventory-table__content">
             <td>{{ $t('inventory.inventory-detail.inventory-detail-type.status') }}</td>
@@ -43,15 +43,15 @@
         <table class="inventory-table">
           <tr class="inventory-table__content">
             <td>{{ $t('inventory.inventory-detail.inventory-detail-type.fullname') }}</td>
-            <td>Đặng Trần Tùng</td>
+            <td>{{detail.employeeFullName}}</td>
           </tr>
           <tr class="inventory-table__content">
             <td>{{ $t('inventory.inventory-detail.inventory-detail-type.email') }}</td>
-            <td>dangtrantung123@gmail.com</td>
+            <td>{{detail.employeeEmail}}</td>
           </tr>
           <tr class="inventory-table__content">
             <td>{{ $t('inventory.inventory-detail.inventory-detail-type.role') }}</td>
-            <td>Support</td>
+            <td>{{detail.employeeRoles}}</td>
           </tr>
         </table>
       </div>
@@ -63,11 +63,25 @@
   import { Component, Mixins, Prop, Watch } from 'vue-property-decorator'
   import PopupMixin from '@/mixins/popup'
   import BaseTable from '@/components/base/table/BaseTable.vue'
+  import {InventoryRepository} from "@/services/repositories/inventory";
+  import getRepository from "@/services";
+  const api: InventoryRepository = getRepository('inventory')
 
   @Component({ components: { BaseTable } })
-  export default class PopupInventoryDetail extends Mixins(PopupMixin) {
+  export default class PopupInventoryDetailType extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Object, default: {} }) inventoryDetailType!: Record<string, any>
     isLoading = false
+    detail: Record<string, any> = {}
+
+    @Watch('inventoryDetailType', {immediate: true, deep: true}) watchId() {
+      this.getDetailRecord()
+    }
+
+    async getDetailRecord() {
+      if (this.inventoryDetailType.activityId) {
+        this.detail = await api.getDetailActivity(this.inventoryDetailType.activityId)
+      }
+    }
 
     get titlePopup() {
       let key = 'inventory.inventory-detail.inventory-detail-type.' + this.inventoryDetailType.transactionType?.toLowerCase()

@@ -104,17 +104,12 @@
     searchText = debounce((value: string, sortActive: string, sorts: Record<any, any>[]) => {
       var filterOrderBy
       var itemOrderBy
-      if (this.type == 'transaction') {
+      if (this.type == 'transaction' || this.type == 'customer-transaction') {
         itemOrderBy = sorts.find(itemCode => {
           return itemCode.command == sortActive
         })
         filterOrderBy = { orderBy: itemOrderBy?.index }
-      } else if(this.type == 'customer-transaction') {
-        itemOrderBy = sorts.find(itemCode => {
-          return itemCode.command == sortActive
-        })
-        filterOrderBy = { orderBy: itemOrderBy?.orderByName, orderType: 'desc' }
-      } else {
+      }  else {
         filterOrderBy = { orderBy: sortActive }
       }
 
@@ -143,16 +138,11 @@
     handleSort(command: string): void {
       this.sortActive = command
       var item: any = {}
-      if (this.type == 'transaction') {
+      if (this.type == 'transaction' || this.type == 'customer-transaction') {
          item = this.sorts.find(itemCode => {
           return itemCode.command == this.sortActive
         })
         this.$emit('filter', { orderBy: item?.index })
-      } else if(this.type == 'customer-transaction') {
-         item = this.sorts.find(itemCode => {
-          return itemCode.command == this.sortActive
-        })
-        this.$emit('filter', { orderBy: item?.orderByName, orderType: 'desc' })
       } else {
         this.$emit('filter', { orderBy: this.sortActive })
       }

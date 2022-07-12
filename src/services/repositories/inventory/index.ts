@@ -33,6 +33,14 @@ export class InventoryRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+  async getDetailActivity(id: any): Promise<any> {
+    try {
+      const response = await request.get(`${this.prefix}/account/statement/detail?activityId=` + id)
+      return Promise.resolve(response.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
   async burnNft(params: Record<string, any>): Promise<any> {
     try {
       const response = await request.post(`${this.prefix}/item/burn`, params)
