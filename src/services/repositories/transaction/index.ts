@@ -25,6 +25,18 @@ export class TransactionRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+
+  async getListAddress(params: Record<string, any>): Promise<any> {
+    try {
+      this.prefix = '/main/api/v1/transaction/search/address'
+      console.log(params, 'k')
+      const rs = await request.get(`${this.prefix}`, {params})
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      console.log(error)
+      return Promise.reject(error)
+    }
+  }
   async getListTransactionNft(params: Record<string, any>): Promise<any> {
     try {
       const objKeys = Object.keys(params)

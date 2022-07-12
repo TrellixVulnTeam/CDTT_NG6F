@@ -63,7 +63,7 @@
           @copy="handleCopy"
         />
       </div>
-      <popup-filter-transaction @filter="handleFilter" :tab-active-filter="tabActive" :type="'transaction'" ref="popup-filter" />
+      <popup-filter-transaction @filter="handleFilter" :currency="tabHeaderActive" :tab-active-filter="tabActive.toLowerCase()" :type="'transaction'" ref="popup-filter" />
       <transaction-detail :detail-row="detailRow" :tab-active-filter="tabActive" />
       <popup-add-deposit @reload="init" />
       <popup-add-crowdsale @confirm="handleConfirm" />
@@ -402,7 +402,9 @@
         toDate: null,
         fromAmount: null,
         toAmount: null,
-        bonusType: null
+        bonusType: null,
+        fromAddress: null,
+        toAddress: null,
       }
     }
     isCopy = ''
@@ -616,7 +618,7 @@
               position: absolute;
               width: 100%;
               height: 2px;
-              bottom: 0;
+              bottom: -1px;
               left: 0;
               background-color: var(--bc-tab-active);
             }
