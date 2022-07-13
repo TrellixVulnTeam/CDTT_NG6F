@@ -60,14 +60,14 @@
                 class="w-100"
                 popper-class="filter-address-transaction"
                 :placeholder="$t('label.from')"
-                :filter-method="remoteMethod"
+                :filter-method="remoteMethodFrom"
                 :loading="loading"
                 clearable
-                @clear="handleClearAddress"
+                @clear="handleClearAddress('from')"
                 @blur="handleBlur"
               >
-                <div v-infinite-scroll="loadMoreCustomer" infinite-scroll-delay="500">
-                  <el-option v-for="item in optionAddress" :key="item.address" :value="renderValueAddress(item, 'from')" @click.native="selectFromAddress = item">
+                <div v-infinite-scroll="loadMoreCustomerFrom" infinite-scroll-delay="500">
+                  <el-option v-for="item in optionAddressFrom" :key="item.address" :value="renderValueAddress(item, 'from')" @click.native="selectFromAddress = item">
                     <div class="option-item">
                       <div class="option-item__label" v-if="item.username.length > 24">
                         {{ item.username | formatTransactionCode(8) }}
@@ -102,13 +102,13 @@
                 popper-class="filter-address-transaction"
                 class="w-100"
                 :placeholder="tabActiveFilter == 'bonus' || tabActiveFilter == 'crowdsale' ? $t('balance.investor') : $t('label.to')"
-                :filter-method="remoteMethod"
+                :filter-method="remoteMethodTo"
                 :loading="loading"
-                @clear="handleClearAddress"
+                @clear="handleClearAddress('to')"
                 @blur="handleBlur"
               >
-                <div v-infinite-scroll="loadMoreCustomer" infinite-scroll-delay="500">
-                  <el-option v-for="item in optionAddress" :key="item.address" :value="renderValueAddress(item, 'to')" @click.native="selectToAddress = item">
+                <div v-infinite-scroll="loadMoreCustomerTo" infinite-scroll-delay="500">
+                  <el-option v-for="item in optionAddressTo" :key="item.address" :value="renderValueAddress(item, 'to')" @click.native="selectToAddress = item">
                     <div class="option-item">
                       <div class="option-item__label" v-if="item.username.length > 24">
                         {{ item.username | formatTransactionCode(8) }}
@@ -206,7 +206,7 @@
 </template>
 
 <script lang="ts">
-import {Component, Mixins, Prop, Watch} from 'vue-property-decorator'
+  import { Component, Mixins, Prop, Watch } from 'vue-property-decorator'
   import includes from 'lodash/includes'
   import PopupMixin from '@/mixins/popup'
   import { namespace } from 'vuex-class'
@@ -226,7 +226,8 @@ import {Component, Mixins, Prop, Watch} from 'vue-property-decorator'
 
     @beBase.State('coinMain') coinMain!: string
     loading = false
-    optionAddress = []
+    optionAddressFrom = []
+    optionAddressTo = []
     keyword = ''
     filter: Record<string, any> = {
       currency: '',
@@ -240,7 +241,13 @@ import {Component, Mixins, Prop, Watch} from 'vue-property-decorator'
       bonusType: '',
       transactionType: ''
     }
-    filterAddress: Record<string, any> = {
+    filterAddressFrom: Record<string, any> = {
+      currency: this.currency,
+      page: 1,
+      limit: 20,
+      search: ''
+    }
+    filterAddressTo: Record<string, any> = {
       currency: this.currency,
       page: 1,
       limit: 20,
@@ -310,9 +317,11 @@ import {Component, Mixins, Prop, Watch} from 'vue-property-decorator'
         value: 'WITHDRAW'
       }
     ]
+
     handleBlur(value) {
       console.log('d')
     }
+
     get pickerOption(): any {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const _this = this
@@ -339,16 +348,17 @@ import {Component, Mixins, Prop, Watch} from 'vue-property-decorator'
 
     handleClearAddress(status) {
       if (status == 'from') {
+        this.filterAddressFrom.search = ''
         this.selectFromAddress = {
           address: ''
         }
       } else {
+        this.filterAddressTo.search = ''
         this.selectToAddress = {
           address: ''
         }
       }
-      this.filterAddress.search = ''
-      this.getListAddress(this)
+      this.getListAddress(this, status)
     }
 
     renderValueAddress(item, status) {
@@ -370,24 +380,45 @@ import {Component, Mixins, Prop, Watch} from 'vue-property-decorator'
       }
     }
 
-    remoteMethod(value) {
-      this.filterAddress = {
+    remoteMethodFrom(value) {
+      this.filterAddressFrom = {
         page: 1,
         limit: 20,
         currency: this.currency,
         search: value
       }
-      this.getListAddress(this)
-    }
-    mounted(): void {
-      this.getListAddress(this)
+      this.getListAddress(this, 'from')
     }
 
-    getListAddress = debounce(async (_this) => {
+    remoteMethodTo(value) {
+      this.filterAddressTo = {
+        page: 1,
+        limit: 20,
+        currency: this.currency,
+        search: value
+      }
+      this.getListAddress(this, 'to')
+    }
+
+    mounted(): void {
+      this.getListAddress(this, null)
+    }
+
+    getListAddress = debounce(async (_this, status) => {
       _this.optionAddress = []
       _this.loading = true
-      const result = await api.getListAddress(_this.filterAddress)
-      _this.optionAddress = result?.content
+      if (!status) {
+        const resultFrom = await api.getListAddress(_this.filterAddressFrom)
+        const resultTo = await api.getListAddress(_this.filterAddressTo)
+        _this.optionAddressFrom = resultFrom?.content
+        _this.optionAddressTo = resultTo?.content
+      } else if (status == 'from') {
+        const resultFrom = await api.getListAddress(_this.filterAddressFrom)
+        _this.optionAddressFrom = resultFrom?.content
+      } else {
+        const resultTo = await api.getListAddress(_this.filterAddressTo)
+        _this.optionAddressTo = resultTo?.content
+      }
       _this.loading = false
     }, 500)
 
@@ -534,10 +565,17 @@ import {Component, Mixins, Prop, Watch} from 'vue-property-decorator'
         ...this.listWallet
       ]
     }
-    async loadMoreCustomer() {
-      this.filterAddress.limit += 10
-      const result = await api.getListAddress(this.filterAddress)
-      this.optionAddress = result?.content
+
+    async loadMoreCustomerFrom() {
+      this.filterAddressFrom.limit += 10
+      const result = await api.getListAddress(this.filterAddressFrom)
+      this.optionAddressFrom = result?.content
+    }
+
+    async loadMoreCustomerTo(status) {
+      this.filterAddressTo.limit += 10
+      const result = await api.getListAddress(this.filterAddressTo)
+      this.optionAddressTo = result?.content
     }
 
     public handleReset(): void {
@@ -562,13 +600,21 @@ import {Component, Mixins, Prop, Watch} from 'vue-property-decorator'
         address: ''
       }
 
-      this.filterAddress = {
+      this.filterAddressFrom = {
         page: 1,
         limit: 20,
         currency: this.currency,
         search: ''
       }
-      this.getListAddress(this)
+
+      this.filterAddressTo = {
+        page: 1,
+        limit: 20,
+        currency: this.currency,
+        search: ''
+      }
+
+      this.getListAddress(this, null)
       // this.setOpenPopup({
       //   popupName: 'popup-filter-transaction',
       //   isOpen: false
