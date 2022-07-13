@@ -140,7 +140,7 @@
         </div>
       </div>
     </div>
-    <popup-inventory-detail-type :inventory-detail-type="inventoryDetailType"></popup-inventory-detail-type>
+    <popup-inventory-detail-type ref="detail-type" :inventory-detail-type="inventoryDetailType"></popup-inventory-detail-type>
     <popup-burn :detail="dataAccountSummaryDetail" :number-burn="numberBurn" :itemId="itemId" :accountId="accountId"></popup-burn>
     <popup-remove-for-sale :detail="dataAccountSummaryDetail" :number-remove-sale="numberRemoveSale" :itemId="itemId" :accountId="accountId"></popup-remove-for-sale>
     <popup-lock :detail="dataAccountSummaryDetail" :number-lock="numberLock" :itemId="itemId" :accountId="accountId"></popup-lock>
@@ -199,6 +199,8 @@
     async handleRowClick(row: Record<string, any>): Promise<void> {
       if (row.row.transactionType == 'BURN') {
         if (row) this.inventoryDetailType = row.row
+        //@ts-ignore
+        this.$refs["detail-type"]?.getDetailRecord()
 
         this.setOpenPopup({
           popupName: 'popup-inventory-detail-type',
