@@ -197,16 +197,16 @@
     }
 
     async handleRowClick(row: Record<string, any>): Promise<void> {
-      if (row.row.transactionType == 'BURN') {
-        if (row) this.inventoryDetailType = row.row
-        //@ts-ignore
-        this.$refs["detail-type"]?.getDetailRecord()
-
-        this.setOpenPopup({
-          popupName: 'popup-inventory-detail-type',
-          isOpen: true
-        })
-      }
+      this.inventoryDetailType = {}
+      setTimeout(() => {
+        if (row.row.transactionType == 'BURN') {
+          if (row) this.inventoryDetailType = row.row
+          this.setOpenPopup({
+            popupName: 'popup-inventory-detail-type',
+            isOpen: true
+          })
+        }
+      }, 200)
     }
 
     handleBurn(number): void {

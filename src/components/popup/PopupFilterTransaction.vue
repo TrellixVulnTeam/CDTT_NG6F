@@ -64,6 +64,7 @@
                 :loading="loading"
                 clearable
                 @clear="handleClearAddress"
+                @blur="handleBlur"
               >
                 <div v-infinite-scroll="loadMoreCustomer" infinite-scroll-delay="500">
                   <el-option v-for="item in optionAddress" :key="item.address" :value="renderValueAddress(item, 'from')" @click.native="selectFromAddress = item">
@@ -103,6 +104,8 @@
                 :placeholder="tabActiveFilter == 'bonus' || tabActiveFilter == 'crowdsale' ? $t('balance.investor') : $t('label.to')"
                 :filter-method="remoteMethod"
                 :loading="loading"
+                @clear="handleClearAddress"
+                @blur="handleBlur"
               >
                 <div v-infinite-scroll="loadMoreCustomer" infinite-scroll-delay="500">
                   <el-option v-for="item in optionAddress" :key="item.address" :value="renderValueAddress(item, 'to')" @click.native="selectToAddress = item">
@@ -224,6 +227,7 @@ import {Component, Mixins, Prop, Watch} from 'vue-property-decorator'
     @beBase.State('coinMain') coinMain!: string
     loading = false
     optionAddress = []
+    keyword = ''
     filter: Record<string, any> = {
       currency: '',
       fromDate: null,
@@ -306,7 +310,9 @@ import {Component, Mixins, Prop, Watch} from 'vue-property-decorator'
         value: 'WITHDRAW'
       }
     ]
-
+    handleBlur(value) {
+      console.log('d')
+    }
     get pickerOption(): any {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const _this = this

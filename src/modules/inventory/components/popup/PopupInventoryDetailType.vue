@@ -74,6 +74,10 @@
     isLoading = false
     detail: Record<string, any> = {}
 
+    @Watch('inventoryDetailType', {immediate: true, deep: true}) watchId() {
+      this.getDetailRecord()
+    }
+
     async getDetailRecord() {
       if (this.inventoryDetailType.activityId) {
         this.detail = await api.getDetailActivity(this.inventoryDetailType.activityId)
