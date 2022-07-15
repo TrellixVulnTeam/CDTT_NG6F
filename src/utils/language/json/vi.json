@@ -343,11 +343,11 @@
     "min-to-buy-crowdsale": " Số tiền tối thiểu là {amount}$",
     "vesting-invalid": "Tháng vesting phải lớn hơn 0",
     "amount-transfer-invalid": "Số lượng phải lớn hơn 0",
-    "LESS_THAN_ZERO" : "Số lượng cần lớn hơn 0",
-    "NOT_ENOUGH_QUANTITY" : "Không đủ số lượng",
-    "INVALID_VERIFICATION" : "Mã xác thực không hợp lệ",
-    "EXPIRED_VERIFICATION" : "Mã xác thực đã hết hạn",
-    "USER_LOCKED" : "Tài khoản của bạn đã bị khóa"
+    "LESS_THAN_ZERO": "Số lượng cần lớn hơn 0",
+    "NOT_ENOUGH_QUANTITY": "Không đủ số lượng",
+    "INVALID_VERIFICATION": "Mã xác thực không hợp lệ",
+    "EXPIRED_VERIFICATION": "Mã xác thực đã hết hạn",
+    "USER_LOCKED": "Tài khoản của bạn đã bị khóa"
   },
   "logout": {
     "title": "Đăng xuất",
@@ -688,7 +688,8 @@
     "unverified": "Chưa xác thực",
     "locked": "Bị khóa",
     "success": "Thành công",
-    "failed": "Thất bại"
+    "failed": "Thất bại",
+    "processing": "Đang xử lý"
   },
   "crowdsale": {
     "round": "Vòng",
@@ -1116,13 +1117,13 @@
     "status": "Trạng thái"
   },
   "inventory": {
-    "summary":{
+    "summary": {
       "summary": "Tổng hợp",
       "owners": "Số chủ sở hữu",
       "NFTs": "Số lượng NFT",
       "available": "Số lượng có sẵn",
       "lock": "Số lượng bị khóa",
-      "on-sale":"Số lượng đang bán",
+      "on-sale": "Số lượng đang bán",
       "off-market": "Số lượng không bán",
       "burn": "Burn"
     },
@@ -1151,22 +1152,22 @@
       "lock": "Bị khóa",
       "lock-title": "Khóa",
       "un-lock": "Mở khóa",
-      "on-sale":"Đang bán",
-      "remove-sale":"Hủy bán",
-      "remove-from-sale":"Hủy bán",
-      "remove-sale-success":"Bạn đã gỡ đăng bán vật phẩm thành công",
+      "on-sale": "Đang bán",
+      "remove-sale": "Hủy bán",
+      "remove-from-sale": "Hủy bán",
+      "remove-sale-success": "Bạn đã gỡ đăng bán vật phẩm thành công",
       "burn-success": "Bạn đã burn thành công",
       "lock-success": "Bạn đã khóa token thành công",
       "un-lock-success": "Bạn đã mở khóa token thành công",
-      "put-on-sale":"Đăng bán",
+      "put-on-sale": "Đăng bán",
       "off-market": "Chưa bán",
       "burn": "Burn",
-      "title-burn":"Bạn đang burn ",
-      "title-lock":"Bạn đang khóa ",
-      "title-unlock":"Bạn đang mở khóa ",
-      "title-remove-sale":"Bạn đang gỡ đăng bán ",
-      "of":"của ",
-      "account-statement":"BẢNG SAO KÊ",
+      "title-burn": "Bạn đang burn ",
+      "title-lock": "Bạn đang khóa ",
+      "title-unlock": "Bạn đang mở khóa ",
+      "title-remove-sale": "Bạn đang gỡ đăng bán ",
+      "of": "của ",
+      "account-statement": "BẢNG SAO KÊ",
       "opening-quantity": "SỐ LƯỢNG BẮT ĐẦU",
       "event-type": "LOẠI HOẠT ĐỘNG",
       "increase": "TĂNG",
@@ -1174,8 +1175,8 @@
       "select": "Chọn ",
       "status": "TRẠNG THÁI",
       "total-account": "TỔNG",
-      "ending-quantity":"SỐ LƯỢNG KẾT THÚC ",
-      "inventory-detail-type":{
+      "ending-quantity": "SỐ LƯỢNG KẾT THÚC ",
+      "inventory-detail-type": {
         "burn": "BURN NFT",
         "transaction-detail": "Chi tiết giao dịch",
         "date": "Thời gian",
@@ -1188,7 +1189,7 @@
         "role": "Chức vụ"
       }
     },
-    "inventory-filter":{
+    "inventory-filter": {
       "network": "Mạng",
       "quantity": "Số lượng",
       "from": "Từ",

@@ -366,11 +366,11 @@
     "min-to-buy-crowdsale": "Minimum amount is {amount}$",
     "vesting-invalid": "Vesting month must be higher zero",
     "amount-transfer-invalid": "Amount must be higher zero",
-    "LESS_THAN_ZERO" : "Quantity must be greater than 0",
-    "NOT_ENOUGH_QUANTITY" : "Don't have enough quantity",
-    "INVALID_VERIFICATION" : "Invalid verification code",
-    "EXPIRED_VERIFICATION" : "Expired verification code",
-    "USER_LOCKED" : "Account has been locked"
+    "LESS_THAN_ZERO": "Quantity must be greater than 0",
+    "NOT_ENOUGH_QUANTITY": "Don't have enough quantity",
+    "INVALID_VERIFICATION": "Invalid verification code",
+    "EXPIRED_VERIFICATION": "Expired verification code",
+    "USER_LOCKED": "Account has been locked"
   },
   "logout": {
     "title": "Sign out",
@@ -713,7 +713,8 @@
     "unverified": "Not verified",
     "locked": "Locked",
     "success": "Success",
-    "failed": "Failed"
+    "failed": "Failed",
+    "processing": "Processing"
   },
   "crowdsale": {
     "round": "Round",
@@ -1142,13 +1143,13 @@
     "status": "Status"
   },
   "inventory": {
-    "summary":{
+    "summary": {
       "summary": "Summary",
       "owners": "Owners",
       "NFTs": "NFTs",
       "available": "Available",
       "lock": "Lock",
-      "on-sale":"On Sale",
+      "on-sale": "On Sale",
       "off-market": "Off Market",
       "burn": "Burn"
     },
@@ -1177,22 +1178,22 @@
       "lock": "Lock",
       "lock-title": "Lock",
       "un-lock": "Unlock",
-      "on-sale":"On Sale",
-      "put-on-sale":"Put on sale",
-      "remove-sale":"Remove sale",
-      "remove-from-sale":"Remove from sale",
-      "title-burn":"You are burning",
-      "title-remove-sale":"You are removing items from sale",
-      "title-lock":"You are locking",
-      "title-unlock":"You are unlocking",
-      "of":"of ",
-      "remove-sale-success":"You have successfully removed items from sale",
+      "on-sale": "On Sale",
+      "put-on-sale": "Put on sale",
+      "remove-sale": "Remove sale",
+      "remove-from-sale": "Remove from sale",
+      "title-burn": "You are burning",
+      "title-remove-sale": "You are removing items from sale",
+      "title-lock": "You are locking",
+      "title-unlock": "You are unlocking",
+      "of": "of ",
+      "remove-sale-success": "You have successfully removed items from sale",
       "burn-success": "You have successfully burned the token",
       "lock-success": "You have successfully locked the token",
       "un-lock-success": "You have successfully unlocked the token",
       "off-market": "Off Market",
       "burn": "Burn",
-      "account-statement":"Account Statement",
+      "account-statement": "Account Statement",
       "opening-quantity": "OPENING QUANTITY",
       "event-type": "EVENT TYPE",
       "increase": "INCREASE",
@@ -1200,7 +1201,7 @@
       "status": "STATUS",
       "select": "Select",
       "total-account": "TOTAL",
-      "ending-quantity":"ENDING QUANTITY",
+      "ending-quantity": "ENDING QUANTITY",
       "inventory-detail-type": {
         "burn": "BURN NFT",
         "transaction-detail": "Transaction Details",
@@ -1214,7 +1215,7 @@
         "role": "Role"
       }
     },
-    "inventory-filter":{
+    "inventory-filter": {
       "network": "Network",
       "quantity": "Quantity",
       "from": "From",

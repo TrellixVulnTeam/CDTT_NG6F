@@ -89,7 +89,17 @@
     }
 
     checkType(type: string): string {
-      return type === 'Not verified' ? 'status-not-verified' : type === 'PENDING' ? 'status-pending' : type === 'SUCCESS' ? 'status-verified' : 'status-rejected'
+      switch (type) {
+        case 'PENDING':
+          return 'status-pending'
+        case 'SUCCESS':
+          return 'status-verified'
+        case 'PROCESSING':
+          return 'status-pending'
+
+        default:
+          return 'status-rejected'
+      }
     }
 
     getDataSelectTab(): void {
@@ -133,6 +143,8 @@
           return this.$i18n.t('status.success')
         case 'PENDING':
           return this.$i18n.t('status.pending')
+        case 'PROCESSING':
+          return this.$i18n.t('status.processing')
         default:
           return this.$i18n.t('status.failed')
       }
