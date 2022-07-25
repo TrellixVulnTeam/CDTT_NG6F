@@ -118,7 +118,7 @@
           </el-table-column>
           <el-table-column :label="$t('inventory.inventory-detail.decrease')" align="right" width="186">
             <template slot-scope="scope">
-              <p class="decrease">{{ scope.row.decreaseQuantity | formatNumber }}</p>
+              <p v-if="scope.row.decreaseQuantity" class="decrease">{{ scope.row.decreaseQuantity | formatNumber }}</p>
             </template>
           </el-table-column>
           <el-table-column :label="$t('inventory.inventory-detail.quantity')" align="right" width="186">
@@ -312,7 +312,6 @@
 
       totalDecrease = '' + this.dataAccountSummaryDetail.totalDecreaseQuantity
       forEach(columns, (column, index: number) => {
-        console.log('253', column.property)
         if (index < 1) {
           sums[index] = this.$i18n.t('inventory.inventory-detail.total-account')
           return
