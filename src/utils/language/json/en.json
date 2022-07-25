@@ -1262,6 +1262,14 @@
     "royalty": "Royalty",
     "transfer": "Transfer"
   },
+  "metamart": {
+    "table": {
+      "collection": "COLLECTION",
+      "category": "CATEGORY",
+      "network": "NETWORK",
+      "creator": "CREATOR"
+    }
+  },
   "filter_pending": "Pending",
   "filter_processing": "Processing",
   "filter_success": "Success",
