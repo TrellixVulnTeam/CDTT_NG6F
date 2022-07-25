@@ -7,10 +7,10 @@
             <span class="text-base">{{ $t(`menu.${tab.title}`) }}</span>
           </div>
         </div>
-        <el-button type="primary" @click="handleOpen('popup-choosetype')" style="margin-right: 24px;">Create</el-button>
+        <!-- <el-button type="primary" @click="handleOpen('popup-choosetype')" style="margin-right: 24px;">Create</el-button> -->
       </div>
     </div>
-    <filter-metamart :tabs = "tabs" isChangeTab = "isChangeTab"/>
+    <filter-metamart :tabs = "tabs" isChangeTab = "isChangeTab" @click="handleOpen('popup-choosetype')"/>
     <tab-nft
         v-if="$route.name === 'Nft'"
         @sizeChange="handleSizeChange"
@@ -55,7 +55,7 @@ interface IQuery {
 }
 
 @Component({ components: { FilterMetamart, TabNft, TabCollection, PopupChoosetype, PopupForm, PopupCreate } })
-export default class BOCustomer extends Mixins(PopupMixin) {
+export default class Metamart extends Mixins(PopupMixin) {
   tabs: Array<Record<string, any>> = [
     {
       id: 1,

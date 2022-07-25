@@ -109,6 +109,7 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+    <el-button class="add-btn" @click="$emit('click')">Add New</el-button>
   </div>
 </template>
 
@@ -211,6 +212,11 @@ export default class FilterMetamart extends Vue {
     margin-left: 30px;
     cursor: pointer;
     color: #0a0b0d;
+  }
+  .add-btn {
+    margin: 0px 24px 0px auto;
+    color: var(--bc-color-white);
+    background-color: var(--bc-theme-primary);
   }
 
   ::v-deep .filter-item {
