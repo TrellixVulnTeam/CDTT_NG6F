@@ -103,6 +103,7 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+    <el-button v-if="this.$route.name === 'Collection'" class="add-btn ml-auto" @click="$emit('click','popup-create-collection')">Add New</el-button>
     <div v-if="this.$route.name==='Nft'" class="ml-auto">
     <el-button style="width: auto !important; margin-right: 12px;">
       <div class="be-flex align-center">
@@ -127,6 +128,7 @@
       </div>
     </el-button>
     </div>
+    <popup-filter-collection />
   </div>
 </template>
 
@@ -177,7 +179,7 @@ export default class FilterMetamart extends Mixins(PopupMixin) {
       id:3,
       name: 'Gallery'
     }
-
+  ]
   sorts: Array<Record<string, any>> = [
     {
       command: 'LATEST',
