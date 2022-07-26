@@ -1,11 +1,6 @@
 <template>
   <div style="width: 100%; background-color: #ffffff; text-align: center">
-    <div class="container">
-      <div v-for="nftItem in nftProps" :key="nftItem.collectionId" class="grid-data">
-        <NftItem :nftProps="nftItem"  />
-      </div>
-    </div>
-
+    <NftItem />
     <base-pagination v-if="showPagination" :table="query" :info="paginationInfo" @sizeChange="handleSizeChange" @currentChange="handleCurrentChange" class="custom-pagination" />
   </div>
 </template>
