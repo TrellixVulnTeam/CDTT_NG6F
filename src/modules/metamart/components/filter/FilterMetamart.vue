@@ -103,6 +103,7 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+    <el-button v-if="this.$route.name === 'Collection'" class="add-btn ml-auto" @click="$emit('click', 'popup-create-collection')">Add New</el-button>
     <div v-if="this.$route.name === 'Nft'" class="ml-auto">
       <el-button style="width: auto !important; margin-right: 12px">
         <div class="be-flex align-center">
@@ -127,11 +128,12 @@
         </div>
       </el-button>
     </div>
+    <popup-filter-collection />
   </div>
 </template>
 
 <script lang="ts">
-  import { Component, Mixins, Prop, Vue } from 'vue-property-decorator'
+  import { Component, Mixins } from 'vue-property-decorator'
   import BaseIcon from '@/components/base/icon/BaseIcon.vue'
   import PopupMixin from '@/mixins/popup'
   import PopupFilterCollection from '../popup/PopupFilterCollection.vue'
@@ -157,27 +159,6 @@
       //   toPrice: false
       // }
     }
-
-    isVisible = false
-    sortActive = 'LATEST'
-    listCategory: Array<Record<any, any>> = [
-      {
-        id: 0,
-        name: 'Real Estate'
-      },
-      {
-        id: 1,
-        name: 'Tourism'
-      },
-      {
-        id: 2,
-        name: 'Entertainment'
-      },
-      {
-        id: 3,
-        name: 'Gallery'
-      }
-    ]
 
     sorts: Array<Record<string, any>> = [
       {
