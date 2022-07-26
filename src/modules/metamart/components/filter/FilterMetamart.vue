@@ -7,7 +7,7 @@
       </span>
     </el-input>
     <div class="filter-item">
-      <el-popover :value="isVisible" placement="bottom-start" width="568" trigger="click" popper-class="popper-filter-nft">
+      <!-- <el-popover :value="isVisible" placement="bottom-start" width="568" trigger="click" popper-class="popper-filter-nft">
         <div class="content">
           <el-form>
             <div class="be-flex-column jc-space-between">
@@ -78,16 +78,13 @@
             {{ $t('button.apply') }}
           </el-button>
         </div>
-        <div slot="reference" class="cursor text-filter" style="font-size: 16px">
-          <span>
-            <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="18" />
-          </span>
-          {{ $t('kyc.filter.filter') }}
-        </div>
-        <!--        -->
-        <!--        -->
-        <!--        SORT BY-->
-      </el-popover>
+      </el-popover> -->
+      <div slot="reference" class="cursor text-filter" style="font-size: 16px" @click="handleOpen">
+        <span>
+          <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="18"/>
+        </span>
+        {{ $t('kyc.filter.filter') }}
+      </div>
     </div>
     <div>
       <el-dropdown class="sort" trigger="click">
@@ -134,88 +131,98 @@
 </template>
 
 <script lang="ts">
-  import { Component, Prop, Vue } from 'vue-property-decorator'
-  import BaseIcon from '@/components/base/icon/BaseIcon.vue'
-  @Component({
-    components: { BaseIcon }
-  })
-  export default class FilterMetamart extends Vue {
-    // @Prop({ required: true }) isChangeTab!: boolean
-    filter = {
-      value: {
-        search: '',
-        category: '',
-        saleType: '',
-        fromCreatedAt: '',
-        toCreatedAt: '',
-        fromPrice: '',
-        toPrice: ''
-      }
-      // isShow: {
-      //   saleType: false,
-      //   fromPrice: false,
-      //   toPrice: false
-      // }
+import {Component, Mixins, Prop, Vue} from 'vue-property-decorator'
+import BaseIcon from "@/components/base/icon/BaseIcon.vue";
+import PopupMixin from '@/mixins/popup';
+import PopupFilterCollection from '../popup/PopupFilterCollection.vue'
+
+@Component({
+  components: {BaseIcon, PopupFilterCollection}
+})
+export default class FilterMetamart extends Mixins(PopupMixin) {
+  // @Prop({ required: true }) isChangeTab!: boolean
+  filter= {
+    value: {
+      search: '',
+      category: '',
+      saleType: '',
+      fromCreatedAt: '',
+      toCreatedAt: '',
+      fromPrice: '',
+      toPrice: ''
+    },
+    // isShow: {
+    //   saleType: false,
+    //   fromPrice: false,
+    //   toPrice: false
+    // }
+  }
+
+  isVisible = false;
+  sortActive = 'LATEST'
+  listCategory: Array<Record<any, any>> = [
+    {
+      id:0,
+      name: 'Real Estate'
+    },
+    {
+      id:1,
+      name: 'Tourism'
+    },
+    {
+      id:2,
+      name: 'Entertainment'
+    },
+    {
+      id:3,
+      name: 'Gallery'
     }
 
-    isVisible = false
-    sortActive = 'LATEST'
-    listCategory: Array<Record<any, any>> = [
-      {
-        id: 0,
-        name: 'Real Estate'
-      },
-      {
-        id: 1,
-        name: 'Tourism'
-      },
-      {
-        id: 2,
-        name: 'Entertainment'
-      },
-      {
-        id: 3,
-        name: 'Gallery'
-      }
-    ]
-    listSaleType: Array<Record<any, any>> = [
-      {
-        id: 0,
-        name: 'Buy now'
-      },
-      {
-        id: 1,
-        name: 'Bid now'
-      }
-    ]
-
-    sorts: Array<Record<string, any>> = [
-      {
-        command: 'LATEST',
-        label: this.$i18n.t('nft.sort.latest'),
-        divided: false,
-        i18n: 'nft.sort.latest'
-      },
-      {
-        command: 'EARLIEST',
-        label: this.$i18n.t('nft.sort.earliest'),
-        divided: false,
-        i18n: 'nft.sort.earliest'
-      },
-      {
-        command: 'Price: High to low',
-        label: this.$i18n.t('nft.sort.price-highToLow'),
-        divided: false,
-        i18n: 'nft.sort.price-highToLow'
-      },
-      {
-        command: 'Price: Low to high',
-        label: this.$i18n.t('nft.sort.price-lowToHigh'),
-        divided: false,
-        i18n: 'nft.sort.price-lowToHigh'
-      }
-    ]
+  sorts: Array<Record<string, any>> = [
+    {
+      command: 'LATEST',
+      label: this.$i18n.t('nft.sort.latest'),
+      divided: false,
+      i18n: 'nft.sort.latest'
+    },
+    {
+      command: 'EARLIEST',
+      label: this.$i18n.t('nft.sort.earliest'),
+      divided: false,
+      i18n: 'nft.sort.earliest'
+    },
+    {
+      command: 'Price: High to low',
+      label: this.$i18n.t('nft.sort.price-highToLow'),
+      divided: false,
+      i18n: 'nft.sort.price-highToLow'
+    },
+    {
+      command: 'Price: Low to high',
+      label: this.$i18n.t('nft.sort.price-lowToHigh'),
+      divided: false,
+      i18n: 'nft.sort.price-lowToHigh'
+    }
+  ]
+  handleOpen():void {
+    let filterName = ''
+    switch (this.$route.name) {
+      case 'Collection':
+        filterName = 'popup-filter-collection'
+        break;
+      case 'Nft':
+        filterName = 'popup-filter-nft'
+        break;
+      default:
+        break;
+    }
+    console.log(filterName);
+    this.setOpenPopup({
+      popupName: filterName,
+      isOpen: true
+    })
   }
+}
 </script>
 
 <style scoped lang="scss">
