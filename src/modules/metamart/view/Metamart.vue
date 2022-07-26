@@ -10,7 +10,7 @@
         <!-- <el-button type="primary" @click="handleOpen('popup-choosetype')" style="margin-right: 24px;">Create</el-button> -->
       </div>
     </div>
-    <filter-metamart :tabs = "tabs" isChangeTab = "isChangeTab" @click="handleOpen('popup-choosetype')"/>
+    <filter-metamart :tabs = "tabs" isChangeTab = "isChangeTab" @click="handleOpen"/>
     <tab-nft
         v-if="$route.name === 'Nft'"
         @sizeChange="handleSizeChange"
@@ -30,6 +30,7 @@
     <popup-choosetype @continues="handleToPopupform($event)"/>
     <popup-form @collection="handleOpenCreate($event)"/>
     <popup-create />
+    <popup-create-collection />
   </div>
 </template>
 
@@ -42,6 +43,7 @@ import TabCollection from '../components/TabCollection.vue'
 import PopupForm from '../components/popup/PopupForm.vue'
 import PopupChoosetype from '../components/popup/ChooseType.vue'
 import PopupCreate from '../components/popup/PopupCreate.vue'
+import PopupCreateCollection from '../components/popup/PopupCreateCollection.vue'
 import PopupMixin from '@/mixins/popup'
 import axios from "axios";
 //Interface
@@ -54,7 +56,7 @@ interface IQuery {
   type?: string | null | undefined
 }
 
-@Component({ components: { FilterMetamart, TabNft, TabCollection, PopupChoosetype, PopupForm, PopupCreate } })
+@Component({ components: { FilterMetamart, TabNft, TabCollection, PopupChoosetype, PopupCreateCollection, PopupForm, PopupCreate } })
 export default class Metamart extends Mixins(PopupMixin) {
   tabs: Array<Record<string, any>> = [
     {
