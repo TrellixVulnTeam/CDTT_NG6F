@@ -81,7 +81,7 @@
       </el-popover> -->
       <div slot="reference" class="cursor text-filter" style="font-size: 16px" @click="handleOpen">
         <span>
-          <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="18"/>
+          <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="18" />
         </span>
         {{ $t('kyc.filter.filter') }}
       </div>
@@ -103,126 +103,127 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <div v-if="this.$route.name==='Nft'" class="ml-auto">
-    <el-button style="width: auto !important; margin-right: 12px;">
-      <div class="be-flex align-center">
-        <span style="padding-left: 5px">{{ $t('button.action') }}</span>
-      </div>
-    </el-button>
-    <el-dropdown trigger="click">
+    <div v-if="this.$route.name === 'Nft'" class="ml-auto">
+      <el-button style="width: auto !important; margin-right: 12px">
+        <div class="be-flex align-center">
+          <span style="padding-left: 5px">{{ $t('button.action') }}</span>
+        </div>
+      </el-button>
+      <el-dropdown trigger="click">
         <div class="be-flex align-center">
           <el-button class="add-btn" style="width: auto !important">
-          <span style="padding-left: 5px">Add new</span>
+            <span style="padding-left: 5px">Add new</span>
           </el-button>
         </div>
-      <el-dropdown-menu class="header-downloadapp dropdown-sort" slot="dropdown">
-        <el-dropdown-item>Add new</el-dropdown-item>
-        <el-dropdown-item>Import file</el-dropdown-item>
-      </el-dropdown-menu>
-    </el-dropdown>
-    <el-button class="excel-btn" style="width: auto !important">
-      <div class="be-flex align-center">
-        <!-- <base-icon icon="icon-table" style="display: inline-flex" size="22" /> -->
-        <span><base-icon icon="icon-excel" style="display: inline-flex" size="16"/></span>
-      </div>
-    </el-button>
+        <el-dropdown-menu class="header-downloadapp dropdown-sort" slot="dropdown">
+          <el-dropdown-item>Add new</el-dropdown-item>
+          <el-dropdown-item>Import file</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+      <el-button class="excel-btn" style="width: auto !important">
+        <div class="be-flex align-center">
+          <!-- <base-icon icon="icon-table" style="display: inline-flex" size="22" /> -->
+          <span><base-icon icon="icon-excel" style="display: inline-flex" size="16" /></span>
+        </div>
+      </el-button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import {Component, Mixins, Prop, Vue} from 'vue-property-decorator'
-import BaseIcon from "@/components/base/icon/BaseIcon.vue";
-import PopupMixin from '@/mixins/popup';
-import PopupFilterCollection from '../popup/PopupFilterCollection.vue'
+  import { Component, Mixins, Prop, Vue } from 'vue-property-decorator'
+  import BaseIcon from '@/components/base/icon/BaseIcon.vue'
+  import PopupMixin from '@/mixins/popup'
+  import PopupFilterCollection from '../popup/PopupFilterCollection.vue'
 
-@Component({
-  components: {BaseIcon, PopupFilterCollection}
-})
-export default class FilterMetamart extends Mixins(PopupMixin) {
-  // @Prop({ required: true }) isChangeTab!: boolean
-  filter= {
-    value: {
-      search: '',
-      category: '',
-      saleType: '',
-      fromCreatedAt: '',
-      toCreatedAt: '',
-      fromPrice: '',
-      toPrice: ''
-    },
-    // isShow: {
-    //   saleType: false,
-    //   fromPrice: false,
-    //   toPrice: false
-    // }
+  @Component({
+    components: { BaseIcon, PopupFilterCollection }
+  })
+  export default class FilterMetamart extends Mixins(PopupMixin) {
+    // @Prop({ required: true }) isChangeTab!: boolean
+    filter = {
+      value: {
+        search: '',
+        category: '',
+        saleType: '',
+        fromCreatedAt: '',
+        toCreatedAt: '',
+        fromPrice: '',
+        toPrice: ''
+      }
+      // isShow: {
+      //   saleType: false,
+      //   fromPrice: false,
+      //   toPrice: false
+      // }
+    }
+
+    isVisible = false
+    sortActive = 'LATEST'
+    listCategory: Array<Record<any, any>> = [
+      {
+        id: 0,
+        name: 'Real Estate'
+      },
+      {
+        id: 1,
+        name: 'Tourism'
+      },
+      {
+        id: 2,
+        name: 'Entertainment'
+      },
+      {
+        id: 3,
+        name: 'Gallery'
+      }
+    ]
+
+    sorts: Array<Record<string, any>> = [
+      {
+        command: 'LATEST',
+        label: this.$i18n.t('nft.sort.latest'),
+        divided: false,
+        i18n: 'nft.sort.latest'
+      },
+      {
+        command: 'EARLIEST',
+        label: this.$i18n.t('nft.sort.earliest'),
+        divided: false,
+        i18n: 'nft.sort.earliest'
+      },
+      {
+        command: 'Price: High to low',
+        label: this.$i18n.t('nft.sort.price-highToLow'),
+        divided: false,
+        i18n: 'nft.sort.price-highToLow'
+      },
+      {
+        command: 'Price: Low to high',
+        label: this.$i18n.t('nft.sort.price-lowToHigh'),
+        divided: false,
+        i18n: 'nft.sort.price-lowToHigh'
+      }
+    ]
+    handleOpen(): void {
+      let filterName = ''
+      switch (this.$route.name) {
+        case 'Collection':
+          filterName = 'popup-filter-collection'
+          break
+        case 'Nft':
+          filterName = 'popup-filter-nft'
+          break
+        default:
+          break
+      }
+      console.log(filterName)
+      this.setOpenPopup({
+        popupName: filterName,
+        isOpen: true
+      })
+    }
   }
-
-  isVisible = false;
-  sortActive = 'LATEST'
-  listCategory: Array<Record<any, any>> = [
-    {
-      id:0,
-      name: 'Real Estate'
-    },
-    {
-      id:1,
-      name: 'Tourism'
-    },
-    {
-      id:2,
-      name: 'Entertainment'
-    },
-    {
-      id:3,
-      name: 'Gallery'
-    }
-
-  sorts: Array<Record<string, any>> = [
-    {
-      command: 'LATEST',
-      label: this.$i18n.t('nft.sort.latest'),
-      divided: false,
-      i18n: 'nft.sort.latest'
-    },
-    {
-      command: 'EARLIEST',
-      label: this.$i18n.t('nft.sort.earliest'),
-      divided: false,
-      i18n: 'nft.sort.earliest'
-    },
-    {
-      command: 'Price: High to low',
-      label: this.$i18n.t('nft.sort.price-highToLow'),
-      divided: false,
-      i18n: 'nft.sort.price-highToLow'
-    },
-    {
-      command: 'Price: Low to high',
-      label: this.$i18n.t('nft.sort.price-lowToHigh'),
-      divided: false,
-      i18n: 'nft.sort.price-lowToHigh'
-    }
-  ]
-  handleOpen():void {
-    let filterName = ''
-    switch (this.$route.name) {
-      case 'Collection':
-        filterName = 'popup-filter-collection'
-        break;
-      case 'Nft':
-        filterName = 'popup-filter-nft'
-        break;
-      default:
-        break;
-    }
-    console.log(filterName);
-    this.setOpenPopup({
-      popupName: filterName,
-      isOpen: true
-    })
-  }
-}
 </script>
 
 <style scoped lang="scss">
@@ -236,12 +237,12 @@ export default class FilterMetamart extends Mixins(PopupMixin) {
     .sort {
       margin-left: 30px;
       cursor: pointer;
-      color: #0a0b0d
+      color: #0a0b0d;
     }
     .add-btn {
       color: var(--bc-color-white);
       background-color: var(--bc-theme-primary);
-      margin-right: 12px
+      margin-right: 12px;
     }
     .excel-btn {
       margin-right: 24px;
