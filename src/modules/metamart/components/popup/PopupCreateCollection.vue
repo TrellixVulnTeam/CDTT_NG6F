@@ -60,11 +60,16 @@
               <base-icon class="icon-active" icon="icon-status1" size="26" />
               <base-icon class="icon-verified" icon="icon-verified" size="17" />
             </div>
-            <div class="preview-wrapper__detail" v-if="avatarUrl">
+            <div class="preview-wrapper__detail" v-if="avatarUrl && thumbnailUrl">
               <p class="brand">Virtual Tour SandBox</p>
-              <h2 class="__name">Some Name</h2>
-              <p class="__description">Not for sale (10K/10K)</p>
-              <button class="placebid">Place a bid</button>
+              <p class="__name">
+                by 
+                <span class="__name-link" >
+                  LynKey
+                  <base-icon icon="icon-user-verified" size="12" />
+                </span>
+              </p>
+              <p class="__description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quaerat doloremque quisquam sed quam, ullam nobis harum id iste impedit consequuntur.</p>
             </div>
           </div>
         </section>
@@ -346,12 +351,10 @@
                 color: var(--bc-text-primary);
               }
               .__description {
-                width: 253px;
-                font-size: 14px;
+                font-weight: 400;
+                font-size: 16px;
                 line-height: 24px;
-                color: #5b616e;
-                padding-bottom: 16px;
-                border-bottom: 2px solid #dbdbdb;
+                color: var(--bc-text-discript);
               }
               .placebid {
                 font-size: 16px;
@@ -376,15 +379,13 @@
                 }
               }
               .__name {
-                width: 100%;
-                height: 24px;
-                font-size: 16px;
+                font-weight: 400;
+                font-size: 14px;
                 line-height: 24px;
-                margin-top: 4px;
-                margin-bottom: 4px;
-                clear: both;
-                color: #0a0b0d;
-                font-weight: 600;
+                color: var(--bc-text-discript);
+                &-link {
+                  color: var(--bc-text-hyperlink);
+                }
               }
             }
           }
