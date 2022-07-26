@@ -1,45 +1,73 @@
+<!-- eslint-disable prettier/prettier -->
 <template>
-  <div class="nft-item">
-    <div class="avatar cursor">
-      <img class="avatar-img" :src="nftProps.image" alt="" />
-    </div>
-    <div class="content">
-      <div style="height: 80px">
-        <div class="be-flex align-center title">
-          <span class="nft-body-small text-desc cursor text-overflow-1 name">{{ nftProps.collectionName }}</span>
-          <base-icon style="margin-left: 3px" size="13" icon="icon-verified"></base-icon>
-          <el-popover class="be-flex align-center jc-space-center ml-auto cursor" placement="bottom" trigger="click" popper-class="popper-share-nft">
-            <div class="content-popper">
-              <p class="nft-body-base cursor element">Report</p>
-              <br />
-              <p class="nft-body-base cursor element">Share</p>
+  <div class="w-100 bg-white wallet-table">
+    <div class="wallet-table__below">
+      <div class="wrapper">
+        <!-- <div v-for="dataCollection in data"
+             :key="dataCollection.id"
+             class="grid-data"
+        >
+          <card-collection :data="dataCollection" />
+        </div> -->
+        <base-table
+          :data="dataCollection"
+          :showPagination="showPagination"
+          :paginationInfo="paginationInfo"
+          :table="query"
+          @sizeChange="handleSizeChange"
+          @currentChange="handleCurrentChange"
+          class="collection-table"
+        >
+          <el-table-column label="#" type="index" align="center" width="40" />
+          <el-table-column type="selection" align="center" width="40" />
+          <el-table-column :label="$t('inventory.table.item')" align="left" min-width="347">
+            <template slot-scope="scope">
+              <div class="wrap-item">
+                <img :src="scope.row.nftImage" alt="" class="item-img" width="40px" height="40px" />
+                <div class="item-text">
+               
+                <p class="item-text__name">{{ scope.row.nftName }}</p>
+                <p class="item-text__code">#{{ scope.row.nftId }}</p>
+              </div>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('metamart.table.category')" align="left" width="270">
+            <template slot-scope="scope">
+              <p>{{ scope.row.category }}</p>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('metamart.table.network')" align="left" width="130">
+            <template slot-scope="scope">
+              <div class="item-text">
+                <p class="item-text__name">{{ scope.row.networkName }}</p>
+                <p class="item-text__code">{{ scope.row.network }}</p>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('inventory.table.status')" align="center" width="200">
+              <template slot-scope="scope">
+            <div v-if="scope.row.status === 'Off-chain'" class="box-status-table locked">
+              <span class="fs-12 fw-500">{{ scope.row.status }}</span>
             </div>
-            <div slot="reference">
-              <base-icon icon="icon-3dot" size="16" class="d-iflex" />
+            <div v-else class="box-status-table">
+              <span class="fs-12 fw-500">{{ scope.row.status }}</span>
             </div>
-          </el-popover>
-        </div>
-        <div class="nft-header6 text-semibold cursor text-overflow-1 name" style="font-size: 16px">{{ nftProps.itemName }}</div>
-        <div class="be-flex align-center price">
-          <div class="icon"><base-icon icon="icon-clm" alt="" class="d-block" size="16" /></div>
-          <span class="nft-body-small">
-            <span class="text-desc">Highest Bid:</span>
-            <span class="text-price" style="margin-left: 3px">1,500.00</span>
-            <span class="text-desc" style="margin-left: 3px">(1/1)</span>
-          </span>
-        </div>
-      </div>
-      <div class="line"></div>
-      <div class="be-flex align-center footer">
-        <div class="text-hyperlink nft-header6 text-semibold cursor"></div>
-        <div>
-          <span class="nft-body-small text-desc">Not for sale</span>
-        </div>
-        <div class="be-flex align-center" style="margin-left: auto; margin-right: 0">
-          <span v-if="true" class="cursor"><base-icon icon="icon-heart-white" size="28" class="d-iflex" style="padding-top: 5px" /></span>
-          <!-- <span v-else class="cursor" style="height: 28px"><base-icon icon="icon-heart-red" size="28" class="d-iflex" /></span> -->
-          <span class="nft-body-small text-desc">{{ nftProps.favourite }}</span>
-        </div>
+          </template>
+          </el-table-column>
+          <el-table-column align="center" width="86">
+            <template slot-scope="scope">
+              <div class="action">
+                <span @click="handleEdit(scope.row)">
+                  <base-icon icon="icon-edit" size="24" />
+                </span>
+                <span @click="handleDelete(scope.row)">
+                  <base-icon icon="icon-delete" size="24" />
+                </span>
+              </div>
+            </template>
+          </el-table-column>
+        </base-table>
       </div>
     </div>
   </div>
@@ -47,131 +75,208 @@
 
 <script lang="ts">
   import { Component, Prop, Vue } from 'vue-property-decorator'
-  import BaseIcon from '@/components/base/icon/BaseIcon.vue'
-
+  import CardCollection from '@/modules/metamart/components/CardCollection.vue'
+  import BasePagination from '@/components/base/pagination/BasePagination.vue'
+  import { PaginationInterface } from '@/interface'
   @Component({
-    components: { BaseIcon }
+    components: { BasePagination, CardCollection }
   })
-  export default class NftItem extends Vue {
-    @Prop({ required: true, type: Object }) nftProps!: Record<string, any>
+  export default class TabCollection extends Vue {
+    //Props
+    @Prop({ required: false, type: Boolean, default: false }) showPagination!: boolean
+    @Prop({ required: false, type: String, default: '' }) paginationInfo!: string
+    @Prop({ required: true, type: Array }) data!: Array<Record<string, any>>
+    @Prop({
+      required: false,
+      type: Object,
+      default: () => {
+        return {}
+      }
+    })
+    query!: PaginationInterface
+
+    // get getPaginationInfo(): any {
+    //   return this.$t('paging.customers')
+    // }
+
+    //fake data
+    dataCollection = [
+      {
+        nftName: 'The Myth Virtual Tour #31',
+        nftId: '113256',
+        nftImage: 'http://loremflickr.com/640/480',
+        category: 'Real Estate',
+        networkName: 'Ethereum',
+        network: 'ERC1155',
+        status: 'On-chain'
+      },
+      {
+        nftName: 'The Myth Virtual Tour #32',
+        nftId: '113256',
+        nftImage: 'http://loremflickr.com/640/480',
+        category: 'Virtual Tourism',
+        networkName: 'Ethereum',
+        network: 'ERC1155',
+        status: 'On-chain'
+      },
+      {
+        nftName: 'The Myth Virtual Tour #33',
+        nftId: '113256',
+        nftImage: 'http://loremflickr.com/640/480',
+        category: 'Family House',
+        networkName: 'Ethereum',
+        network: 'ERC1155',
+        status: 'On-chain'
+      },
+      {
+        nftName: 'The Myth Virtual Tour #34',
+        nftId: '113256',
+        nftImage: 'http://loremflickr.com/640/480',
+        category: 'Real Estate',
+        networkName: 'Ethereum',
+        network: 'ERC1155',
+        status: 'Off-chain'
+      },
+      {
+        nftName: 'The Myth Virtual Tour #35',
+        nftId: '113256',
+        nftImage: 'http://loremflickr.com/640/480',
+        category: 'Real Estate',
+        networkName: 'Ethereum',
+        network: 'ERC1155',
+        status: 'Off-chain'
+      },
+      {
+        nftName: 'The Myth Virtual Tour #36',
+        nftId: '113256',
+        nftImage: 'http://loremflickr.com/640/480',
+        category: 'Real Estate',
+        networkName: 'Ethereum',
+        network: 'ERC1155',
+        status: 'On-chain'
+      },
+      {
+        nftName: 'The Myth Virtual Tour #37',
+        nftId: '113256',
+        nftImage: 'http://loremflickr.com/640/480',
+        category: 'Real Estate',
+        networkName: 'Ethereum',
+        network: 'ERC1155',
+        status: 'Off-chain'
+      },
+      {
+        nftName: 'The Myth Virtual Tour #38',
+        nftId: '113256',
+        nftImage: 'http://loremflickr.com/640/480',
+        category: 'Real Estate',
+        networkName: 'Ethereum',
+        network: 'ERC1155',
+        status: 'On-chain'
+      },
+      {
+        nftName: 'The Myth Virtual Tour #39',
+        nftId: '113256',
+        nftImage: 'http://loremflickr.com/640/480',
+        category: 'Real Estate',
+        networkName: 'Ethereum',
+        network: 'ERC1155',
+        status: 'Off-chain'
+      },
+      {
+        nftName: 'The Myth Virtual Tour #38',
+        nftId: '113256',
+        nftImage: 'http://loremflickr.com/640/480',
+        category: 'Real Estate',
+        networkName: 'Ethereum',
+        network: 'ERC1155',
+        status: 'Off-chain'
+      }
+    ]
+
+    handleSizeChange(value: number): void {
+      this.query.limit = value
+      this.query.page = 1
+      this.$emit('sizeChange', value)
+    }
+    handleCurrentChange(value: number): void {
+      this.query.page = value
+      this.$emit('pageChange', value)
+    }
   }
 </script>
 
 <style scoped lang="scss">
-  ::v-deep.nft-item {
-    border: 1px solid #dbdbdb;
-    border-radius: 8px;
-     overflow: hidden;
-    position: relative;
-    width: 261px;
-
-    .avatar {
-      width: 285px;
-      height: 285px;
-
-      .avatar-img {
-        width: 261px;
-        height: 261px;
-        object-fit: cover;
-        border-top-left-radius: 3%;
-        border-top-right-radius: 3%;
-      }
-      .wrap-media {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      img,
-      video {
-        width: auto;
-        height: auto;
-        max-width: 100%;
-        max-height: 100%;
-        display: block;
-      }
-      .empty {
-        width: 285px;
-        height: 285px;
-      }
-      .img-cover {
-        img,
-        video {
-          object-fit: cover;
-          width: 100%;
-          height: 100%;
-        }
-      }
-      .img-contain {
-        img {
-          object-fit: contain;
-        }
-      }
-      .img-padded {
-        img,
-        video {
-          padding: 16px;
-          object-fit: contain;
-        }
-      }
-    }
-    .content {
-      position: relative;
-      // padding: 16px;
-      padding: 0 16px 16px 16px;
-
-      .name {
-        display: -webkit-box;
-        // font-size: 14px;
-        width: fit-content;
-        // height: 22px;
-        text-overflow: clip;
-        overflow: hidden;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 1;
-      }
-    }
-    .title {
-      margin-bottom: 4px;
-    }
-    .price {
-      margin-top: 4px;
-      .icon {
-        width: 24px;
-        height: 24px;
-        background: #f3f2f1;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-right: 8px;
-      }
-    }
-
-    .line {
-      margin: 16px 0;
-      width: 100%;
-      height: 1px;
-      background: #dbdbdb;
-    }
-
-    .time-left {
-      position: absolute;
-      top: -20px;
-      background: #fff;
-      width: fit-content;
-      padding: 8px 10px;
-      border: 1px solid var(--bc-input-hover-border);
-      border-radius: 40px;
-      .time-item {
-        padding-right: 2px;
-        display: flex;
-        span {
-          padding-left: 3px;
-        }
-      }
-    }
+  @mixin text($size, $height, $weight, $color) {
+    font-size: $size;
+    line-height: $height;
+    font-weight: $weight;
+    color: $color;
   }
-  .text-price {
-    color: var(--bc-text-market-primary-nft);
+
+  .wallet-table {
+    &__below {
+      padding: 0 24px;
+      .wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        //display: grid;
+        //grid-template-columns: repeat(auto-fit, minmax(261px, 1fr));
+        //grid-column-gap: 20px;
+        //grid-row-gap: 24px;
+        .grid-data {
+          width: calc(25% - 15px);
+          margin: 24px 20px 0 0;
+        }
+        .grid-data:nth-child(-n + 4) {
+          margin-top: 0;
+        }
+        .grid-data:nth-child(4n) {
+          margin-right: 0;
+        }
+        .collection-table {
+          .wrap-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            .item-img {
+              border-radius: 4px;
+            }
+          }
+          .item-text {
+            &__name {
+              @include text(16px, 24px, 400, #0a0b0d);
+              display: -webkit-box;
+              -webkit-line-clamp: 1;
+              -webkit-box-orient: vertical;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+            &__code {
+              @include text(14px, 20px, 400, #5b616e);
+            }
+          }
+          .action {
+            display: flex;
+            justify-content: space-between;
+          }
+          .box-status-table {
+            width: 80px;
+            height: 24px;
+            background: #e4f9e2;
+            color: #129961;
+            border-radius: 4px;
+            margin: 0 auto;
+          }
+          .locked {
+            background: #f3f2f1;
+            color: #5b616e;   
+        }
+        }
+      }
+    }
+    .custom-pagination {
+      padding: 10px 0;
+      margin: 24px 24px 0 24px;
+    }
   }
 </style>

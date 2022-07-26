@@ -129,7 +129,8 @@
     "button": {
       "deposit": "Deposit",
       "withdraw": "Withdraw",
-      "buy": "Buy"
+      "buy": "Buy",
+      "action": "Action"
     },
     "vesting": {
       "period": "PERIOD",
@@ -170,6 +171,7 @@
     "amount-lynk": "Số lượng LYNK"
   },
   "button": {
+    "action":"Hành động",
     "reset": "Làm lại",
     "reset-pass": "Đặt lại mật khẩu",
     "continue": "Tiếp tục",
@@ -592,7 +594,8 @@
       "add-deposit": "nạp",
       "add-crowdsale": "Mua lynk",
       "title-verification": "Xác thực",
-      "add-transfer": "Chuyển"
+      "add-transfer": "Chuyển",
+      "action": "Hành động"
     },
     "detail": {
       "transaction-id": "Mã giao dịch",
