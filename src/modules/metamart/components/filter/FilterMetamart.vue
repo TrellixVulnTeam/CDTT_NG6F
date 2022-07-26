@@ -6,7 +6,7 @@
       </span>
     </el-input>
     <div class="filter-item">
-      <el-popover :value="isVisible" placement="bottom-start" width="568" trigger="click" popper-class="popper-filter-nft">
+      <!-- <el-popover :value="isVisible" placement="bottom-start" width="568" trigger="click" popper-class="popper-filter-nft">
         <div class="content">
           <el-form>
             <div class="be-flex-column jc-space-between">
@@ -80,17 +80,13 @@
             {{ $t('button.apply') }}
           </el-button>
         </div>
-        <div slot="reference" class="cursor text-filter" style="font-size: 16px">
-          <span>
-            <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="18"/>
-          </span>
-          {{ $t('kyc.filter.filter') }}
-        </div>
-        <!--        -->
-        <!--        -->
-        <!--        SORT BY-->
-
-      </el-popover>
+      </el-popover> -->
+      <div slot="reference" class="cursor text-filter" style="font-size: 16px" @click="handleOpen">
+        <span>
+          <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="18"/>
+        </span>
+        {{ $t('kyc.filter.filter') }}
+      </div>
     </div>
     <div>
       <el-dropdown class="sort" trigger="click" >
@@ -109,17 +105,21 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <el-button class="add-btn" @click="$emit('click')">Add New</el-button>
+    <el-button v-if="this.$route.name === 'Collection'" class="add-btn" @click="$emit('click','popup-create-collection')">Add New</el-button>
+    <popup-filter-collection />
   </div>
 </template>
 
 <script lang="ts">
-import {Component, Prop, Vue} from 'vue-property-decorator'
+import {Component, Mixins, Prop, Vue} from 'vue-property-decorator'
 import BaseIcon from "@/components/base/icon/BaseIcon.vue";
+import PopupMixin from '@/mixins/popup';
+import PopupFilterCollection from '../popup/PopupFilterCollection.vue'
+
 @Component({
-  components: {BaseIcon}
+  components: {BaseIcon, PopupFilterCollection}
 })
-export default class FilterMetamart extends Vue {
+export default class FilterMetamart extends Mixins(PopupMixin) {
   // @Prop({ required: true }) isChangeTab!: boolean
   filter= {
     value: {
@@ -195,7 +195,24 @@ export default class FilterMetamart extends Vue {
       i18n: 'nft.sort.price-lowToHigh'
     }
   ]
-
+  handleOpen():void {
+    let filterName = ''
+    switch (this.$route.name) {
+      case 'Collection':
+        filterName = 'popup-filter-collection'
+        break;
+      case 'Nft':
+        filterName = 'popup-filter-nft'
+        break;
+      default:
+        break;
+    }
+    console.log(filterName);
+    this.setOpenPopup({
+      popupName: filterName,
+      isOpen: true
+    })
+  }
 }
 </script>
 
