@@ -107,28 +107,29 @@
     <div v-if="this.$route.name === 'Nft'" class="ml-auto">
       <el-button style="width: auto !important; margin-right: 12px">
         <div class="be-flex align-center">
-          <span style="padding-left: 5px">{{ $t('button.action') }}</span>
+          <span>{{ $t('button.action') }} | <i class="el-icon-arrow-down"></i></span>
         </div>
       </el-button>
-      <el-dropdown trigger="click">
+      <el-dropdown trigger="click" >
         <div class="be-flex align-center">
           <el-button class="add-btn" style="width: auto !important">
-            <span style="padding-left: 5px">Add new</span>
+            <span>{{$t('button.add-new')}} | <i class="el-icon-arrow-down"></i></span>
           </el-button>
         </div>
         <el-dropdown-menu class="header-downloadapp dropdown-sort" slot="dropdown">
-          <el-dropdown-item>Add new</el-dropdown-item>
-          <el-dropdown-item>Import file</el-dropdown-item>
+          <el-dropdown-item>{{$t('button.add-new')}}</el-dropdown-item>
+          <el-dropdown-item>{{$t('button.import-file')}}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-      <el-button class="excel-btn" style="width: auto !important">
+      <el-button class="excel-btn" style="width: auto !important; padding: 5px 12px 10px">
         <div class="be-flex align-center">
           <!-- <base-icon icon="icon-table" style="display: inline-flex" size="22" /> -->
-          <span><base-icon icon="icon-excel" style="display: inline-flex" size="16" /></span>
+          <span><p style="font-size: 16px"><base-icon icon="icon-excel" size="22"/></p></span>
         </div>
       </el-button>
     </div>
     <popup-filter-collection />
+    <popup-filter-nft />
   </div>
 </template>
 
@@ -137,9 +138,10 @@
   import BaseIcon from '@/components/base/icon/BaseIcon.vue'
   import PopupMixin from '@/mixins/popup'
   import PopupFilterCollection from '../popup/PopupFilterCollection.vue'
+  import PopupFilterNft from '../popup/PopupFilterNft.vue'
 
   @Component({
-    components: { BaseIcon, PopupFilterCollection }
+    components: { BaseIcon, PopupFilterCollection, PopupFilterNft }
   })
   export default class FilterMetamart extends Mixins(PopupMixin) {
     // @Prop({ required: true }) isChangeTab!: boolean
