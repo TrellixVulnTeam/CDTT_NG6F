@@ -6,7 +6,7 @@
     <div class="content" v-loading="isLoading">
       <div class="content-block">
         <p class="content-block__title">Creator</p>
-        <el-select v-model="filterCollection.creator" placeholder="Creator">
+        <el-select v-model="filterCollection.creator" placeholder="Creator" class="select-prefix-icon">
           <template slot="prefix">
             <div class="select-icon">
               <base-icon icon="logo-login" size="14" />
@@ -134,20 +134,28 @@
             border-color: #cf202f;
           }
         }
+        .select-prefix-icon {
+          .el-input__inner {
+            padding-left: 40px;
+          }
+        }
         &__title {
           @include text(14px, 20px, 400, #0a0b0d);
           margin-bottom: 8px;
         }
-        .select-icon {
-          width: 24px;
-          height: 24px;
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-          border-radius: 50%;
-          background-color: var(--bc-bg-neutral);
-          .span-icon {
-            vertical-align: middle;
+        .el-input__prefix {
+          left: 12px;
+          .select-icon {
+            width: 24px;
+            height: 24px;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 50%;
+            background-color: var(--bc-bg-neutral);
+            .span-icon {
+              vertical-align: middle;
+            }
           }
         }
         &__alert {
