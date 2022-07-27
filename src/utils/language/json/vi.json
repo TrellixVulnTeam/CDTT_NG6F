@@ -195,7 +195,9 @@
     "change-table": "Bảng",
     "change-chart": "Biểu đồ",
     "buy": "Mua",
-    "transfer": "Chuyển"
+    "transfer": "Chuyển",
+    "add new": "Thêm mới",
+    "import file": "Nhập file"
   },
   "scan": {
     "qrcode": "QUÉT QR CODE"

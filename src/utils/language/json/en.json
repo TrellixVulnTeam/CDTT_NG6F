@@ -204,7 +204,9 @@
     "change-table": "Table",
     "change-chart": "Chart",
     "buy": "Buy",
-    "transfer": "Transfer"
+    "transfer": "Transfer",
+    "add-new": "Add new",
+    "import-file": "Import file"
   },
   "deposit": {
     "lynkey": "DEPOSIT LYNKEY",

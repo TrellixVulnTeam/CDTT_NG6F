@@ -62,7 +62,7 @@
                   <base-icon icon="icon-edit" size="24" />
                 </span>
                 <span @click="handleDelete(scope.row)">
-                  <base-icon icon="icon-delete" size="24" />
+                  <i class="el-icon-more"></i>
                 </span>
               </div>
             </template>
