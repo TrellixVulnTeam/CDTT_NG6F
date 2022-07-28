@@ -7,18 +7,27 @@
       <main class="content-left">
         <!-- Upload avatar & thumbnail -->
         <el-form :model="collection" :rules="rules" ref="collection">
-          <el-form-item prop="avatar">
+          <el-form-item prop="avatarUrl">
             <section class="upload block">
               <h2 class="block-title">
                 Avatar
                 <span class="block-title__asterisk"> *</span>
               </h2>
               <span class="block__subtitle">PNG, JPG. Upload size: 60x60 (Max 5mb).</span>
-              <el-upload class="upload-avatar" drag :on-change="handleAvatarChange" :auto-upload="false" :show-file-list="false" accept=".jpg, .jpeg, .png">
-                <div class="el-upload__text" v-if="!avatarUrl">Drop file here or <em>click to upload</em></div>
-                <div class="upload-wrapper" v-if="avatarUrl">
-                  <img :src="avatarUrl" :alt="avatarPreviewing" class="upload-wrapper__preview" />
-                  <img src="../../../../icons/png/x-circle.png" alt="close preview" class="upload-wrapper__icon" @click.stop="avatarUrl = ''" />
+              <el-input v-model="collection.avatarUrl" style="display:none"></el-input>
+              <el-upload 
+                action="javascript:;" 
+                class="upload-avatar" 
+                drag 
+                :on-change="handleAvatarChange" 
+                :auto-upload="false" 
+                :show-file-list="false" 
+                accept=".jpg, .jpeg, .png"
+              >
+                <div class="el-upload__text" v-if="!collection.avatarUrl">Drop file here or <em>click to upload</em></div>
+                <div class="upload-wrapper" v-if="collection.avatarUrl">
+                  <img :src="collection.avatarUrl" :alt="avatarPreviewing" class="upload-wrapper__preview" />
+                  <img src="../../../../icons/png/x-circle.png" alt="close preview" class="upload-wrapper__icon" @click.stop="collection.avatarUrl = ''" />
                 </div>
               </el-upload>
               <!-- <p class="block-alert"
@@ -27,18 +36,19 @@
             </section>
           </el-form-item>
 
-          <el-form-item prop="thumbnail">
+          <el-form-item prop="thumbnailUrl">
             <section class="upload block">
               <h2 class="block-title">
                 Thumbnail
                 <span class="block-title__asterisk"> *</span>
               </h2>
               <span class="block__subtitle">PNG, JPG. Upload size: 285x190 (Max 5mb).</span>
-              <el-upload class="upload-thumbnail" drag :on-change="handleThumbnailChange" :auto-upload="false" :show-file-list="false" accept=".jpg, .jpeg, .png,">
-                <div class="el-upload__text" v-if="!thumbnailUrl">Drop file here or <em>click to upload</em></div>
-                <div class="upload-wrapper" v-if="thumbnailUrl">
-                  <img :src="thumbnailUrl" :alt="thumbnailPreviewing" class="upload-wrapper__preview" />
-                  <img src="../../../../icons/png/x-circle.png" alt="close preview" class="upload-wrapper__icon" @click.stop="thumbnailUrl = ''" />
+              <el-input v-model="collection.thumbnailUrl" style="display:none"></el-input>
+              <el-upload action="javascript:;" class="upload-thumbnail" drag :on-change="handleThumbnailChange" :auto-upload="false" :show-file-list="false" accept=".jpg, .jpeg, .png,">
+                <div class="el-upload__text" v-if="!collection.thumbnailUrl">Drop file here or <em>click to upload</em></div>
+                <div class="upload-wrapper" v-if="collection.thumbnailUrl">
+                  <img :src="collection.thumbnailUrl" :alt="thumbnailPreviewing" class="upload-wrapper__preview" />
+                  <img src="../../../../icons/png/x-circle.png" alt="close preview" class="upload-wrapper__icon" @click.stop="collection.thumbnailUrl = ''" />
                 </div>
               </el-upload>
               <!-- <p class="block-alert"
@@ -48,26 +58,27 @@
           </el-form-item>
 
           <!-- Upload banner -->
-          <el-form-item prop="banner">
+          <el-form-item prop="bannerUrl">
             <section class="upload block">
               <h2 class="block-title">
                 Upload banner
                 <span class="block-title__asterisk"> *</span>
               </h2>
               <span class="block__subtitle">PNG, GIF, WEBG, MP4 or MP3. Upload size: 1200X260 (Max 5mb).</span>
-              <el-upload class="upload-banner" drag :on-change="handleBannerChange" :auto-upload="false" :show-file-list="false" accept=".jpg, .jpeg, .png, .gif, .webg" >
-                <div class="el-upload__text" v-if="!bannerUrl[0]">Drop file here or <em>click to upload</em></div>
-                <div class="upload-wrapper" v-if="bannerUrl[0]">
+              <el-input v-model="collection.bannerUrl[0]" style="display:none"></el-input>
+              <el-upload action="javascript:;" class="upload-banner" drag :on-change="handleBannerChange" :auto-upload="false" :show-file-list="false" accept=".jpg, .jpeg, .png, .gif, .webg" >
+                <div class="el-upload__text" v-if="!collection.bannerUrl[0]">Drop file here or <em>click to upload</em></div>
+                <div class="upload-wrapper" v-if="collection.bannerUrl[0]">
                   <img :src="imageClick.url" :alt="bannerPreviewing" class="upload-wrapper__preview" />
                   <img src="../../../../icons/png/x-circle.png" alt="close preview" class="upload-wrapper__icon" @click.stop="handleBannerRemove(imageClick)" />
                 </div>
               </el-upload>
-              <div v-if="bannerUrl[0]" class="banner-list">
-                <div v-for="(item, index) of bannerUrl" :key="index">
-                  <img class="banner-list__image" :src="item.url" :alt="item.name" @click="handleImageClick(item)"/>
+              <div v-if="collection.bannerUrl[0]" class="banner-list">
+                <div v-for="(item, index) of collection.bannerUrl" :key="index">
+                  <img :class="{ active: (item.uid === activeBannerUid), 'banner-list__image': true }" :src="item.url" :alt="item.name" @click="handleImageClick(item)"/>
                 </div>
-                <el-upload  class="upload-banner-list" :auto-upload="false" accept=".jpg, .jpeg, .png, .bmp" :on-change="handleListBanner"
-                :file-list="bannerUrl" :show-file-list="false"
+                <el-upload action="javascript:;"  class="upload-banner-list" :auto-upload="false" accept=".jpg, .jpeg, .png, .bmp" :on-change="handleListBanner"
+                :file-list="collection.bannerUrl" :show-file-list="false"
                 >
                   <i class="el-icon-plus"></i>
                 </el-upload>
@@ -133,23 +144,19 @@
                 <span class="block-title__asterisk"> *</span>
               </h2>
               <el-select v-model="collection.payment" placeholder="LynKey (LYNK)" class="select-prefix-icon">
-                <template slot="prefix">
-                  <div class="select-icon">
-                    <base-icon icon="logo-login" size="14" />
-                  </div>
-                </template>
                 <el-option v-for="(item, index) in optionByToken" :label="`${item.name} (${item.currency})`" :value="item.currency" :key="index">
                   <template>
                     <div class="be-flex wallet-item">
-                      <base-icon :icon="renderIcon(item.currency)" size="24" />
+                      <base-icon :icon="getIcon(item.currency)" size="24" />
                       <span class="d-ib" style="margin-left: 10px">{{ item.name }}</span>
                       <span class="d-ib" style="margin-left: 4px">({{ item.currency.toUpperCase() }})</span>
                     </div>
                   </template>
                 </el-option>
+                <div class="select-icon" slot="prefix">
+                  <base-icon :icon="getIcon(collection.payment)" size="24" />
+                </div>
               </el-select>
-              <!-- <p class="block-alert"
-              v-if="checkResult && !collection.payment">"Contract address" is not allowed to be empty</p> -->
             </section>
           </el-form-item>
 
@@ -160,21 +167,24 @@
                 <span class="block-title__asterisk"> *</span>
               </h2>
               <el-select v-model="collection.creator" placeholder="LynKey (Lynkey@gmail.com)" class="select-prefix-icon">
-                <template slot="prefix">
+                <!-- <template slot="prefix">
                   <div class="select-icon">
                     <base-icon v-if="!collection.creator.currency" icon="icon-lynk" size="14" />
-                    <base-icon v-else :icon="renderIcon(collection.creator.currency)" size="14" />
+                    <base-icon v-else :icon="getIcon(collection.creator.currency)" size="14" />
                   </div>
-                </template>
-                <el-option v-for="(item) in creators" :label="collection.creator.name" :value="item.name" :key="item.name">
+                </template> -->
+                <el-option v-for="(item) in creators" :label="`${item.name} (${item.email})`" :value="item.name" :key="item.name">
                   <template>
                     <div class="be-flex wallet-item">
-                      <base-icon :icon="renderIcon(item.currency)" size="24" />
+                      <base-icon :icon="getIcon(item.currency)" size="24" />
                       <span style="margin-left: 10px">{{ item.name }}</span>
                       <span style="margin-left: 4px">({{ item.email }})</span>
                     </div>
                   </template>
                 </el-option>
+                <div class="select-icon" slot="prefix">
+                  <base-icon :icon="getCreatorIcon(collection.creator)" size="24" />
+                </div>
               </el-select>
               <!-- <p class="block-alert"
               v-if="checkResult && !collection.creator">"Contract address" is not allowed to be empty</p> -->
@@ -216,16 +226,16 @@
         <section class="preview block">
           <h2 class="block-title">Preview</h2>
           <div class="preview-wrapper">
-            <p class="preview-wrapper__message" v-if="!avatarUrl && !thumbnailUrl">Upload file to preview your brand new NFT</p>
-            <div class="preview-wrapper__thumbnail" v-if="thumbnailUrl">
-              <img :src="thumbnailUrl" :alt="thumbnailPreviewing" />
+            <p class="preview-wrapper__message" v-if="!collection.avatarUrl && !collection.thumbnailUrl">Upload file to preview your brand new NFT</p>
+            <div class="preview-wrapper__thumbnail" v-if="collection.thumbnailUrl">
+              <img :src="collection.thumbnailUrl" :alt="thumbnailPreviewing" />
             </div>
-            <div class="preview-wrapper__avatar" v-if="avatarUrl">
-              <img :src="avatarUrl" :alt="avatarPreviewing" />
+            <div class="preview-wrapper__avatar" v-if="collection.avatarUrl">
+              <img :src="collection.avatarUrl" :alt="avatarPreviewing" />
               <base-icon class="icon-active" icon="icon-status1" size="26" />
               <base-icon class="icon-verified" icon="icon-verified" size="17" />
             </div>
-            <div class="preview-wrapper__detail" v-if="avatarUrl && thumbnailUrl">
+            <div class="preview-wrapper__detail" v-if="collection.avatarUrl && collection.thumbnailUrl">
               <p class="brand">{{ collection.name }}</p>
               <p v-if="collection.creator" class="__name">
                 by 
@@ -257,13 +267,13 @@
   import NftDetail from './NftDetail.vue'
   @Component({ components: { NftDetail } })
   export default class PopupCreateCollection extends Mixins(PopupMixin) {
-    avatarUrl = ''
-    thumbnailUrl = ''
-    bannerUrl: any = []
     imageClick: any = {}
     avatarPreviewing = ''
     thumbnailPreviewing = ''
-    collection = {
+    collection: Record<string,any> = {
+      avatarUrl: '',
+      thumbnailUrl: '',
+      bannerUrl: [],
       name:'',
       description: '',
       network: '',
@@ -275,23 +285,24 @@
     }
     isCreated = false
     checkResult: any = false
+    activeBannerUid = 0
 
     rules: Record<string, any> = {
-      avatar: [
+      avatarUrl: [
         {
           required: true,
           message: '"File" is required',
           trigger: 'change'
         }
       ],
-      thumbnail: [
+      thumbnailUrl: [
         {
           required: true,
           message: '"File" is required',
           trigger: 'change'
         }
       ],
-      banner: [
+      bannerUrl: [
         {
           required: true,
           message: '"File" is required',
@@ -367,71 +378,56 @@
     templates = ['NFT Real Estate', 'NFT Family House', 'NFT Penthouse']
 
     handleAvatarChange(file: any): void {
-      this.avatarUrl = URL.createObjectURL(file.raw)
+      this.collection.avatarUrl = URL.createObjectURL(file.raw)
       this.avatarPreviewing = file.name
     }
     handleThumbnailChange(file: any): void {
-      this.thumbnailUrl = URL.createObjectURL(file.raw)
+      this.collection.thumbnailUrl = URL.createObjectURL(file.raw)
       this.thumbnailPreviewing = file.name
     }
     handleBannerChange(file: any): void {
       console.log(">>>file,", file)
-      this.bannerUrl.unshift({
+      this.collection.bannerUrl.unshift({
         name: file.name,
         url: URL.createObjectURL(file.raw)
       })
-      this.imageClick = this.bannerUrl[0]
-      // this.bannerUrl = [
-      //   ...this.bannerUrl,
-      //   {
-      //     name: file.name,
-      //     url: URL.createObjectURL(file.raw)
-      //   }
-      // ]
+      this.imageClick = this.collection.bannerUrl[0]
       console.log('fileUrl', URL.createObjectURL(file.raw));
-      console.log('banner', this.bannerUrl);
+      console.log('banner', this.collection.bannerUrl);
     }
     handleClearUpload(): void {
-      this.avatarUrl = ''
-      this.thumbnailUrl = ''
+      this.collection.avatarUrl = ''
+      this.collection.thumbnailUrl = ''
     }
     handleListBanner(file: any): void {
-      this.bannerUrl.unshift({
+      this.collection.bannerUrl.unshift({
         name: file.name,
         url: URL.createObjectURL(file.raw)
       })
     }
     handleBannerRemove(banner: any): void {
       console.log('>>remove banner:', banner);
-      console.log('>>banners:', this.bannerUrl);
+      console.log('>>banners:', this.collection.bannerUrl);
       // this.bannerUrl.shift(banner)
-      this.bannerUrl = this.bannerUrl.filter((item: any) => item !== banner)
-      this.imageClick = this.bannerUrl[0]
+      this.collection.bannerUrl = this.collection.bannerUrl.filter((item: any) => item !== banner)
+      this.imageClick = this.collection.bannerUrl[0]
     }
     handleImageClick(image: any): void {
-      console.log('>>>imageClick', image);
       this.imageClick = image;
-      console.log(this.imageClick);
+      console.log('>>>imageClick', this.imageClick);
+      this.activeBannerUid = image.uid
     }
-    renderIcon(type: string): string {
-      type = type.toLowerCase()
-      return type === 'lynk'
-        ? 'icon-lynk'
-        : type === 'clm'
-        ? 'icon-clm'
-        : type === 'btc'
-        ? 'icon-btc'
-        : type === 'eth'
-        ? 'icon-eth'
-        : type === 'usdt'
-        ? 'icon-usdt'
-        : type === 'bnb'
-        ? 'icon-bnb'
-        : type === 'usdc'
-        ? 'icon-usdc'
-        : type === 'busd'
-        ? 'icon-busd'
-        : 'icon-locker'
+    getIcon(currency: string): string {
+      return currency ? `icon-${currency.toLocaleLowerCase()}` : 'icon-lynk'
+    }
+    getCreatorIcon(creator: string): string {
+      let result = ''
+      this.creators.forEach(elm => {
+        if (elm.name === creator) {
+          result = elm.currency
+        }
+      })
+      return result ? `icon-${result.toLocaleLowerCase()}` : 'icon-lynk'
     }
     handleReset():void {
       //@ts-ignore
@@ -561,10 +557,11 @@
             height: 72px;
             object-fit: cover;
             border-radius: 8px;
-            border: 2px solid black;
             padding: 2px;
           }
-
+          .active {
+            border: 2px solid black;
+          }
           .upload-banner-list {
             width: 80px;
             height: 80px;
