@@ -74,8 +74,12 @@
                 </div>
               </el-upload>
               <div v-if="collection.bannerUrl[0]" class="banner-list">
-                <div v-for="(item, index) of collection.bannerUrl" :key="index">
-                  <img :class="{ active: (item.uid === activeBannerUid), 'banner-list__image': true }" :src="item.url" :alt="item.name" @click="handleImageClick(item)"/>
+                <div v-for="(item, index) of collection.bannerUrl" :key="index" class="flex jc-space-center" style="width: 84px">
+                  <div :class="{ active: (item.uid === activeBannerUid), 'banner-list__image': true }">
+                    <div class="banner-list__image-spacing" >
+                      <img :src="item.url" :alt="item.name" @click="handleImageClick(item)"/>
+                    </div>
+                  </div>
                 </div>
                 <el-upload action="javascript:;"  class="upload-banner-list" :auto-upload="false" accept=".jpg, .jpeg, .png, .bmp" :on-change="handleListBanner"
                 :file-list="collection.bannerUrl" :show-file-list="false"
@@ -429,6 +433,10 @@
       })
       return result ? `icon-${result.toLocaleLowerCase()}` : 'icon-lynk'
     }
+    handleClose():void {
+      //@ts-ignore
+      this.$refs['collection'].resetFields();
+    }
     handleReset():void {
       //@ts-ignore
       this.$refs['collection'].resetFields();
@@ -550,17 +558,38 @@
         }
         .banner-list {
           display: flex;
-          gap: 12px;
+          gap: 8px;
           margin-top: 12px;
           &__image {
             width: 72px;
             height: 72px;
-            object-fit: cover;
-            border-radius: 8px;
             padding: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .banner-list__image-spacing {
+              width: calc(100% - 2px); 
+              height: calc(100% - 2px);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              background-color: white;
+              border-radius: 8px;
+              img {
+                width: calc(100% - 4px);
+                height: calc(100% - 4px);
+                object-fit: cover;
+                border-radius: 8px;
+              }
+            }
+            
           }
           .active {
-            border: 2px solid black;
+            background: 
+              linear-gradient(transparent, transparent) padding-box,
+              linear-gradient(to top right, #9D3EF2, #3036F4) border-box;
+            border-radius: 10px;
+            border: 0px solid transparent;
           }
           .upload-banner-list {
             width: 80px;
