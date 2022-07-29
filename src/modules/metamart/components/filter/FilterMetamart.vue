@@ -79,14 +79,15 @@
           </el-button>
         </div>
       </el-popover> -->
-      <div slot="reference" class="cursor text-filter" style="font-size: 16px" @click="handleOpen">
+      
+      <div v-if="this.$route.name !=='Category'" slot="reference" class="cursor text-filter" style="font-size: 16px" @click="handleOpen">
         <span>
           <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="18" />
         </span>
         {{ $t('kyc.filter.filter') }}
       </div>
     </div>
-    <div>
+    <div v-if="this.$route.name !=='Category'">
       <el-dropdown class="sort" trigger="click">
         <span class="sort-title" style="font-size: 16px">
           <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}
@@ -103,7 +104,7 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <el-button v-if="this.$route.name === 'Collection'" class="add-btn ml-auto" @click="$emit('click', 'popup-create-collection')">Add New</el-button>
+    <el-button v-if="this.$route.name === 'Collection' || this.$route.name ==='Category'" class="add-btn ml-auto" @click="$emit('click', 'popup-create-collection')">Add New</el-button>
     <div v-if="this.$route.name === 'Nft'" class="ml-auto">
       <el-button style="width: auto !important; margin-right: 12px">
         <div class="be-flex align-center">
