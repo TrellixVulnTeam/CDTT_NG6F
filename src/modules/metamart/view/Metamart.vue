@@ -13,6 +13,8 @@
     <filter-metamart :tabs="tabs" isChangeTab="isChangeTab" @click="handleOpen" @selectCommand="handleSelectCommand" />
     <tab-nft v-if="$route.name === 'Nft'" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :nftProps="nftData" :query="query" v-loading="isLoading" />
     <tab-collection v-if="$route.name === 'Collection'" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="collectionData" v-loading="isLoading" />
+    <tab-category v-if="$route.name === 'Category'" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="collectionData" v-loading="isLoading" />
+
     <popup-choosetype @continues="handleToPopupform($event)" />
     <popup-form @collection="handleOpenCreate($event)" />
     <popup-create />
@@ -25,6 +27,7 @@
   import { Component, Mixins } from 'vue-property-decorator'
   import FilterMetamart from '../components/filter/FilterMetamart.vue'
   import TabNft from '../components/TabNft.vue'
+  import TabCategory from '../components/TabCategory.vue'
   import TabCollection from '../components/TabCollection.vue'
   import PopupForm from '../components/popup/PopupForm.vue'
   import PopupChoosetype from '../components/popup/ChooseType.vue'
@@ -43,7 +46,7 @@
     type?: string | null | undefined
   }
 
-  @Component({ components: { FilterMetamart, TabNft, TabCollection, PopupChoosetype, PopupCreateCollection, PopupForm, PopupCreate, PopupCreateNft } })
+  @Component({ components: { FilterMetamart, TabNft, TabCollection, TabCategory, PopupChoosetype, PopupCreateCollection, PopupForm, PopupCreate, PopupCreateNft } })
   export default class Metamart extends Mixins(PopupMixin) {
     tabs: Array<Record<string, any>> = [
       {
@@ -55,6 +58,11 @@
         id: 2,
         title: 'metamart-collection',
         routeName: 'Collection'
+      },
+      {
+        id: 3,
+        title: 'metamart-category',
+        routeName: 'Category'
       }
     ]
 
@@ -115,6 +123,7 @@
     async init(): Promise<void> {
       if (this.$route.name === 'Nft') await this.getNftItem()
       if (this.$route.name === 'Collection') await this.getCollection()
+      if (this.$route.name === 'Category') await this.getCollection()
     }
 
     resetQuery(): void {

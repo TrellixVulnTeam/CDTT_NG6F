@@ -62,18 +62,22 @@
         </base-table>
       </div>
     </div>
+
+    <popup-delete-collection />
   </div>
 </template>
 
 <script lang="ts">
-import {Component, Prop, Vue} from 'vue-property-decorator'
+import {Component, Mixins, Prop, } from 'vue-property-decorator'
 import CardCollection from "@/modules/metamart/components/CardCollection.vue";
 import BasePagination from "@/components/base/pagination/BasePagination.vue";
+import PopupDeleteCollection from "./popup/PopupDeleteCollection.vue"
 import {PaginationInterface} from "@/interface";
+import PopupMixin from '@/mixins/popup';
 @Component({
-  components: {BasePagination, CardCollection}
+  components: {BasePagination, CardCollection, PopupDeleteCollection}
 })
-export default class TabCollection extends Vue {
+export default class TabCollection extends Mixins(PopupMixin) {
   //Props
   @Prop({ required: false, type: Boolean, default: true }) showPagination!: boolean
   @Prop({ required: false, type: String, default: '' }) paginationInfo!: string
@@ -187,6 +191,16 @@ export default class TabCollection extends Vue {
   handleCurrentChange(value: number): void {
     this.query.page = value
     this.$emit('pageChange', value)
+  }
+  handleEdit(row: any): void {
+    console.log("Edit Clicked:", row);
+  }
+  handleDelete(row: any): void {
+    console.log("Delete Clicked:", row);
+    this.setOpenPopup({
+      popupName: 'popup-delete-collection',
+      isOpen: true
+    })
   }
 }
 </script>

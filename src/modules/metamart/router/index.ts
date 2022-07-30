@@ -24,7 +24,12 @@ const metamartRouters: RouteConfig[] = [
             path: 'collection',
             name: 'Collection',
             component: () => import('../view/Metamart.vue')
-          }
+          },
+          {
+            path: 'category',
+            name: 'Category',
+            component: () => import('../view/Metamart.vue')
+          } 
         ]
       },
       {
