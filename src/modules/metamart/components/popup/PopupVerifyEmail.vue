@@ -1,17 +1,17 @@
 <template>
   <base-popup name="popup-metamart-verify-email" class="popup-verify-email" width="480px" :isShowFooter="false">
     <div class="title-popup" slot="title">
-      <span>VERIFICATION</span>
+      <span>{{$t('verified.titlePopup')}}</span>
     </div>
     <div class="bc-verify">
-      <h3 class="text-3xl text-center text-semibold title-form" style="justify-content: center">Enter the 6-digit code we sent to your email</h3>
+      <h3 class="text-3xl text-center text-semibold title-form" style="justify-content: center">{{$t('verify.title-email')}}</h3>
       <div class="be-flex verify-code">
         <base-icon icon="verify-email" size="80" />
         <div class="ml-1 w-100 input-code">
           <el-form @submit.prevent.native="handleApply">
             <el-form-item prop="phone">
-              <div class="be-flex" slot="label">Enter 2-step authentication code:</div>
-              <el-input type="number" maxlength="6" :placeholder="'Verification code'" v-model.trim="value"> </el-input>
+              <div class="be-flex" slot="label">{{$t('verify.label')}}</div>
+              <el-input type="number" maxlength="6" :placeholder="$t('verify.placeholder')" v-model.trim="value"> </el-input>
             </el-form-item>
           </el-form>
         </div>
@@ -26,7 +26,7 @@
         type="button"
         @keyup.enter.native="handleApply"
       >
-        Submit
+        {{$t('verify.submit')}}
       </el-button>
       <div class="text-base be-flex jc-space-center mt-24 text-grey-130">
         {{ $t('verify.question') }} &nbsp;<span class="text-hyperlink text-semibold cursor" @click="handleResendCode"> {{ $t('verify.re-send') }} </span>

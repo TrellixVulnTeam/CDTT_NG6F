@@ -1,11 +1,12 @@
 <template>
   <base-popup name="popup-delete-collection" class="popup-delete" width="400px" :open="handleOpen" :close="handleClose">
     <div class="title-popup" slot="title">
-      <span>DELETE</span>
+      <span>{{$t('button.delete')}}</span>
     </div>
     <div class="content" style="padding-bottom: 24px">
       <span class="content-text">
-        Are you sure you want to delete this <span class="content-text__item">The Mike Tyson</span> collection?
+        {{$t('metamart.collection.delete.confirmation-1')}} <span class="content-text__item">The Mike Tyson</span> {{$t('metamart.collection.delete.confirmation-2')}}
+        <!-- {{$t('metamart.collection.delete.confirmation', { collection: "The Mike Tyson"})}} -->
       </span>
     </div>
     <div v-if="isHaveNft" class="notification">
@@ -13,17 +14,18 @@
         <div class="notification-title__icon">
           <img src="../../../../icons/png/alert.png" alt="icon alert">
         </div>
-        <p class="notification-title__text">Something went wrong</p>
+        <p class="notification-title__text">{{$t('metamart.collection.delete.warning-label')}}</p>
       </div>
-      <p class="notification-subtitle">Collection cannot delete a collection that contains NFT items. Please move all NFTs to another collection and try again.</p>
+      <p class="notification-subtitle">{{$t('metamart.collection.delete.warning-description')}}</p>
     </div>
     <div class="footer" slot="footer">
       <div class="be-flex jc-flex-end">
         <el-button class="btn-default btn-close btn-h-40 mr-16" @click="handleCancel">{{ $t('button.cancel') }}</el-button>
-        <el-button class="btn-default delete-btn" :disabled="isHaveNft" @click="handleSubmit">Confirm</el-button>
+        <el-button class="btn-default delete-btn" :disabled="isHaveNft" @click="handleSubmit">{{$t('button.submit')}}</el-button>
       </div>
     </div>
-    <popup-verify-email />
+    <popup-verify-email @submit="handleDelete"></popup-verify-email>
+    <popup-success type="delete-collection"></popup-success>
   </base-popup>
 </template>
 
@@ -31,12 +33,21 @@
   import PopupMixin from '@/mixins/popup'
   import { Component, Mixins } from 'vue-property-decorator'
   import PopupVerifyEmail from './PopupVerifyEmail.vue'
+  import PopupSuccess from './PopupSuccess.vue'
+  import EventBus from '@/utils/eventBus';
   
   @Component({
-    components: {PopupVerifyEmail}
+    components: {PopupVerifyEmail, PopupSuccess}
   })
   export default class PopupDeleteCollection extends Mixins(PopupMixin) {
     isHaveNft = false;
+
+    created(): void {
+      EventBus.$on("closePopup", this.handleCancel);
+    }
+    destroyed(): void {
+      EventBus.$off("closePopup", this.handleCancel);
+    }
 
     handleCancel():void {
       this.setOpenPopup({
@@ -53,6 +64,17 @@
           isOpen: true
         })
       }
+    }
+    handleDelete():void {
+      //if success
+      this.setOpenPopup({
+        popupName: 'popup-metamart-success',
+        isOpen: true
+      })
+      this.setOpenPopup({
+        popupName: 'popup-metamart-verify-email',
+        isOpen: false
+      })
     }
   }
 </script>
