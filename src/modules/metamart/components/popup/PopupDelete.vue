@@ -1,12 +1,14 @@
 <template>
-  <base-popup name="popup-delete-collection" class="popup-delete" width="400px" :open="handleOpen" :close="handleClose">
+  <base-popup name="popup-metamart-delete" class="popup-delete" width="400px" :open="handleOpen" :close="handleClose">
     <div class="title-popup" slot="title">
       <span>{{$t('button.delete')}}</span>
     </div>
     <div class="content" style="padding-bottom: 24px">
-      <span class="content-text">
+      <span v-if="type === 'delete-collection'" class="content-text">
         {{$t('metamart.collection.delete.confirmation-1')}} <span class="content-text__item">The Mike Tyson</span> {{$t('metamart.collection.delete.confirmation-2')}}
-        <!-- {{$t('metamart.collection.delete.confirmation', { collection: "The Mike Tyson"})}} -->
+      </span>
+      <span v-if="type === 'delete-nft'" class="content-text">
+        Are you sure you want to delete this <span class="content-text__item">The Myth Virtual Tour</span> item?
       </span>
     </div>
     <div v-if="isHaveNft" class="notification">
@@ -31,7 +33,7 @@
 
 <script lang="ts">
   import PopupMixin from '@/mixins/popup'
-  import { Component, Mixins } from 'vue-property-decorator'
+  import { Component, Mixins, Prop } from 'vue-property-decorator'
   import PopupVerifyEmail from './PopupVerifyEmail.vue'
   import PopupSuccess from './PopupSuccess.vue'
   import EventBus from '@/utils/eventBus';
@@ -39,7 +41,10 @@
   @Component({
     components: {PopupVerifyEmail, PopupSuccess}
   })
-  export default class PopupDeleteCollection extends Mixins(PopupMixin) {
+  export default class PopupDelete extends Mixins(PopupMixin) {
+    @Prop({required: false, type: Array, default: []}) selectedNft!: Array<Record<string, any>>
+    @Prop({required: true, type: String, default: ''}) type!: string
+
     isHaveNft = false;
 
     created(): void {
@@ -51,7 +56,7 @@
 
     handleCancel():void {
       this.setOpenPopup({
-        popupName: 'popup-delete-collection',
+        popupName: 'popup-metamart-delete',
         isOpen: false
       })
     }
