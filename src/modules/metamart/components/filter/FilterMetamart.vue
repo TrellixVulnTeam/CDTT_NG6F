@@ -107,11 +107,15 @@
     <el-button v-if="this.$route.name === 'Collection'" class="add-btn ml-auto" @click="$emit('click', 'popup-create-collection')">{{ $t('button.add-new') }}</el-button>
     <el-button v-if="this.$route.name === 'Category'" class="add-btn ml-auto" @click="$emit('click', 'popup-create-category')">{{ $t('button.add-new') }}</el-button>
     <div v-if="this.$route.name === 'Nft'" class="ml-auto">
-      <el-button style="width: auto !important; margin-right: 12px">
-        <div class="be-flex align-center">
+      <el-dropdown trigger="click" @command="handleCommand">
+        <el-button style="width: auto !important; margin-right: 12px">
           <span>{{ $t('button.action') }} | <i class="el-icon-arrow-down"></i></span>
-        </div>
-      </el-button>
+        </el-button>
+        <el-dropdown-menu slot="dropdown" class="header-downloadapp dropdown-sort">
+          <el-dropdown-item command="public-on-chain">Public On-chain</el-dropdown-item>
+          <el-dropdown-item command="delete-nft">Delete</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
       <el-dropdown trigger="click" @command="handleCommand">
         <div class="be-flex align-center">
           <el-button class="add-btn" style="width: auto !important">
