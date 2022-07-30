@@ -16,12 +16,29 @@ export class NftRepository extends BaseRepository {
   }
   async exportExcel(params: Record<string, any>): Promise<any> {
     try {
-      const rs = await request.get(`${this.prefix}/export`, 
-      {
+      const rs = await request.get(`${this.prefix}/export`, {
         params,
         responseType: 'blob'
       })
       return Promise.resolve(rs.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+
+  async getListCollection(params: Record<string, any>): Promise<any> {
+    try {
+      const result = await request.get(`${this.prefix}/category/detail`, { params })
+      return Promise.resolve(result.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+
+  async getListCategory(): Promise<Array<Record<string, any>>> {
+    try {
+      const result = await request.get(`${this.prefix}/category/filter`)
+      return result.data.data
     } catch (error) {
       return Promise.reject(error)
     }

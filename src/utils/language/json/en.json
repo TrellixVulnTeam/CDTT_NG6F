@@ -206,7 +206,8 @@
     "buy": "Buy",
     "transfer": "Transfer",
     "add-new": "Add new",
-    "import-file": "Import file"
+    "import-file": "Import file",
+    "create": "Create"
   },
   "deposit": {
     "lynkey": "DEPOSIT LYNKEY",
@@ -1276,5 +1277,28 @@
   "filter_pending": "Pending",
   "filter_processing": "Processing",
   "filter_success": "Success",
-  "filter_failed": "Failed"
+  "filter_failed": "Failed",
+  "popup_add-nft": "ADD NEW NFT",
+  "popup_edt-nft": "EDIT NFT",
+  "label_information": "Information",
+  "label_blockchain": "Blockchain",
+  "label_metadata": "Metadata",
+  "label_setting": "Setting",
+  "label_collection": "Collection",
+  "label_category": "Category",
+  "label_product-code": "Product code",
+  "label_nft-name": "Name",
+  "label_thumbnail": "Thumbnail",
+  "label_upload-file": "Upload file",
+  "label_short-desc": "Short description",
+  "label_long-desc": "Description",
+  "setup_empty-nft": "Upload file to preview your brand new NFT",
+  "label_copies": "Number of copies",
+  "label_contract-address": "Contract address",
+  "label_token-id": "Token ID",
+  "label_blockchain-network": "Blockchain network",
+  "label_token-standard": "Token Standard",
+  "label_creator": "Creator",
+  "label_network": "Network",
+  "tab_nft-info": "NFT info"
 }

@@ -171,7 +171,7 @@
     "amount-lynk": "Số lượng LYNK"
   },
   "button": {
-    "action":"Hành động",
+    "action": "Hành động",
     "reset": "Làm lại",
     "reset-pass": "Đặt lại mật khẩu",
     "continue": "Tiếp tục",
@@ -197,7 +197,8 @@
     "buy": "Mua",
     "transfer": "Chuyển",
     "add new": "Thêm mới",
-    "import file": "Nhập file"
+    "import file": "Nhập file",
+    "create": "Thêm"
   },
   "scan": {
     "qrcode": "QUÉT QR CODE"
@@ -1253,5 +1254,28 @@
   "filter_pending": "Chờ xử lý",
   "filter_processing": "Đang xử lý",
   "filter_success": "Thành công",
-  "filter_failed": "Lỗi"
+  "filter_failed": "Lỗi",
+  "popup_add-nft": "Thêm NFT",
+  "popup_edt-nft": "Sửa NFT",
+  "label_information": "Thông tin",
+  "label_blockchain": "Blockchain",
+  "label_metadata": "Metadata",
+  "label_setting": "Setting",
+  "label_collection": "Collection",
+  "label_category": "Category",
+  "label_product-code": "Product code",
+  "label_nft-name": "Name",
+  "label_thumbnail": "Thumbnail",
+  "label_upload-file": "Upload file",
+  "label_short-desc": "Short description",
+  "label_long-desc": "Description",
+  "setup_empty-nft": "Upload file to preview your brand new NFT",
+  "label_copies": "Number of copies",
+  "label_contract-address": "Contract address",
+  "label_token-id": "Token ID",
+  "label_blockchain-network": "Blockchain network",
+  "label_token-standard": "Token Standard",
+  "label_creator": "Creator",
+  "label_network": "Network",
+  "tab_nft-info": "NFT info"
 }

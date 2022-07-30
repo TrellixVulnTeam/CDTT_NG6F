@@ -14,6 +14,7 @@ html {
 * {
   font-family: $font-stack !important;
   word-break: normal;
+  box-sizing: border-box;
 }
 body {
   margin: 0;

@@ -167,3 +167,29 @@
     }
   }
 }
+
+.el-popper.popper-explore-select-category {
+  .el-scrollbar {
+    &__wrap {
+      .item-parent {
+        padding-left: 24px;
+        padding-right: 35px;
+      }
+
+      .item-child {
+        padding-left: 40px;
+        padding-right: 35px;
+      }
+
+      .item-child-last {
+        padding-left: 56px;
+        padding-right: 35px;
+      }
+
+      .item-parent,
+      .selected {
+        font-weight: 600 !important;
+      }
+    }
+  }
+}

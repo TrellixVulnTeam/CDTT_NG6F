@@ -110,21 +110,23 @@
           <span>{{ $t('button.action') }} | <i class="el-icon-arrow-down"></i></span>
         </div>
       </el-button>
-      <el-dropdown trigger="click" >
+      <el-dropdown trigger="click" @command="handleCommand">
         <div class="be-flex align-center">
           <el-button class="add-btn" style="width: auto !important">
-            <span>{{$t('button.add-new')}} | <i class="el-icon-arrow-down"></i></span>
+            <span>{{ $t('button.add-new') }} | <i class="el-icon-arrow-down"></i></span>
           </el-button>
         </div>
         <el-dropdown-menu class="header-downloadapp dropdown-sort" slot="dropdown">
-          <el-dropdown-item>{{$t('button.add-new')}}</el-dropdown-item>
-          <el-dropdown-item>{{$t('button.import-file')}}</el-dropdown-item>
+          <el-dropdown-item command="add-nft">{{ $t('button.add-new') }}</el-dropdown-item>
+          <el-dropdown-item>{{ $t('button.import-file') }}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <el-button class="excel-btn" style="width: auto !important; padding: 5px 12px 10px">
         <div class="be-flex align-center">
           <!-- <base-icon icon="icon-table" style="display: inline-flex" size="22" /> -->
-          <span><p style="font-size: 16px"><base-icon icon="icon-excel" size="22"/></p></span>
+          <span
+            ><p style="font-size: 16px"><base-icon icon="icon-excel" size="22" /></p
+          ></span>
         </div>
       </el-button>
     </div>
@@ -205,6 +207,10 @@
         popupName: filterName,
         isOpen: true
       })
+    }
+
+    handleCommand(command: string): void {
+      this.$emit('selectCommand', command)
     }
   }
 </script>

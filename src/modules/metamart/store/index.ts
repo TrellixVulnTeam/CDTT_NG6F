@@ -1,8 +1,8 @@
 import { Module } from 'vuex'
-import metamart from './metamart'
+import bcNft from './metamart'
 
 const MetamartStores: Record<string, Module<any, any>> = {
-  metamart
+  bcNft
 }
 
 export default MetamartStores

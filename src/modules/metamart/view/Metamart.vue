@@ -10,18 +10,19 @@
         <!-- <el-button type="primary" @click="handleOpen('popup-choosetype')" style="margin-right: 24px;">Create</el-button> -->
       </div>
     </div>
-    <filter-metamart :tabs="tabs" isChangeTab="isChangeTab" @click="handleOpen" />
+    <filter-metamart :tabs="tabs" isChangeTab="isChangeTab" @click="handleOpen" @selectCommand="handleSelectCommand" />
     <tab-nft v-if="$route.name === 'Nft'" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :nftProps="nftData" :query="query" v-loading="isLoading" />
     <tab-collection v-if="$route.name === 'Collection'" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="collectionData" v-loading="isLoading" />
     <popup-choosetype @continues="handleToPopupform($event)" />
     <popup-form @collection="handleOpenCreate($event)" />
     <popup-create />
     <popup-create-collection />
+    <popup-create-nft />
   </div>
 </template>
 
 <script lang="ts">
-  import { Component, Mixins, Vue } from 'vue-property-decorator'
+  import { Component, Mixins } from 'vue-property-decorator'
   import FilterMetamart from '../components/filter/FilterMetamart.vue'
   import TabNft from '../components/TabNft.vue'
   import TabCollection from '../components/TabCollection.vue'
@@ -29,6 +30,7 @@
   import PopupChoosetype from '../components/popup/ChooseType.vue'
   import PopupCreate from '../components/popup/PopupCreate.vue'
   import PopupCreateCollection from '../components/popup/PopupCreateCollection.vue'
+  import PopupCreateNft from '../components/popup/PopupCreateNft.vue'
   import PopupMixin from '@/mixins/popup'
   import axios from 'axios'
   //Interface
@@ -41,7 +43,7 @@
     type?: string | null | undefined
   }
 
-  @Component({ components: { FilterMetamart, TabNft, TabCollection, PopupChoosetype, PopupCreateCollection, PopupForm, PopupCreate } })
+  @Component({ components: { FilterMetamart, TabNft, TabCollection, PopupChoosetype, PopupCreateCollection, PopupForm, PopupCreate, PopupCreateNft } })
   export default class Metamart extends Mixins(PopupMixin) {
     tabs: Array<Record<string, any>> = [
       {
@@ -180,6 +182,15 @@
         this.setOpenPopup({
           popupName: 'popup-form',
           isOpen: false
+        })
+      }
+    }
+
+    handleSelectCommand(command: string): void {
+      if (command === 'add-nft') {
+        this.setOpenPopup({
+          popupName: 'popup-create-nft',
+          isOpen: true
         })
       }
     }
