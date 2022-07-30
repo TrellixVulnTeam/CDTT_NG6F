@@ -104,7 +104,8 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <el-button v-if="this.$route.name === 'Collection' || this.$route.name ==='Category'" class="add-btn ml-auto" @click="$emit('click', 'popup-create-collection')">Add New</el-button>
+    <el-button v-if="this.$route.name === 'Collection'" class="add-btn ml-auto" @click="$emit('click', 'popup-create-collection')">Add New</el-button>
+    <el-button v-if="this.$route.name === 'Category'" class="add-btn ml-auto" @click="$emit('click', 'popup-create-category')">Add New</el-button>
     <div v-if="this.$route.name === 'Nft'" class="ml-auto">
       <el-button style="width: auto !important; margin-right: 12px">
         <div class="be-flex align-center">
@@ -131,6 +132,7 @@
     </div>
     <popup-filter-collection />
     <popup-filter-nft />
+    <popup-create-category />
   </div>
 </template>
 
@@ -140,9 +142,10 @@
   import PopupMixin from '@/mixins/popup'
   import PopupFilterCollection from '../popup/PopupFilterCollection.vue'
   import PopupFilterNft from '../popup/PopupFilterNft.vue'
+  import PopupCreateCategory from '../popup/PopupCreateCategory.vue'
 
   @Component({
-    components: { BaseIcon, PopupFilterCollection, PopupFilterNft }
+    components: { BaseIcon, PopupFilterCollection, PopupFilterNft, PopupCreateCategory }
   })
   export default class FilterMetamart extends Mixins(PopupMixin) {
     // @Prop({ required: true }) isChangeTab!: boolean
