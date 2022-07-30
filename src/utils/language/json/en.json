@@ -1353,5 +1353,13 @@
   "label_token-standard": "Token Standard",
   "label_creator": "Creator",
   "label_network": "Network",
-  "tab_nft-info": "NFT info"
+  "tab_nft-info": "NFT info",
+  "label_service-fee": "Service fee",
+  "label_top-nft": "Put item on TOP NFT section",
+  "label_top-nft-desc": "When this feature is enabled, this NFT will appear in the Top NFT section",
+  "label_hot-nft": "Put item on HOT NFT section",
+  "label_hot-nft-desc": "When this feature is enabled, this NFT will appear in the Hot NFT section",
+  "label_royal-fee": "Royalty fee",
+  "label_position-top-nft": "Position on TOP NFT section",
+  "label_position-hot-nft": "Position on HOT NFT section"
 }

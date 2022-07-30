@@ -18,7 +18,7 @@
       <div class="content__main">
         <!-- <tab-info :typePopup="typePopup" /> -->
         <keep-alive>
-          <component :is="getComponent" typePopup="typePopup" />
+          <component :is="getComponent" :typePopup="typePopup" />
         </keep-alive>
       </div>
     </div>
@@ -38,8 +38,9 @@
 
   import TabInfo from '../setup/TabInfo.vue'
   import TabBlockchain from '../setup/TabBlockchain.vue'
+  import TabSetting from '../setup/TabSetting.vue'
 
-  @Component({ components: { TabInfo, TabBlockchain } })
+  @Component({ components: { TabInfo, TabBlockchain, TabSetting } })
   export default class PopupCreateNft extends Vue {
     @Prop({ required: false, type: String, default: 'add' }) typePopup!: 'add' | 'edit'
 
@@ -70,6 +71,8 @@
           return 'TabInfo'
         case 'BLOCKCHAIN':
           return 'TabBlockchain'
+        case 'SETTING':
+          return 'TabSetting'
 
         default:
           return ''
