@@ -11,7 +11,7 @@
       </div>
     </div>
     <filter-metamart :tabs="tabs" isChangeTab="isChangeTab" @click="handleOpen" @selectCommand="handleSelectCommand" />
-    <tab-nft v-if="$route.name === 'Nft'" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :nftProps="nftData" :query="query" v-loading="isLoading" />
+    <tab-nft v-if="$route.name === 'Nft'" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :nftProps="nftData" :query="query" v-loading="isLoading"  @selectCommand="handleSelectCommand" />
     <tab-collection v-if="$route.name === 'Collection'" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="collectionData" v-loading="isLoading" />
     <tab-category v-if="$route.name === 'Category'" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="collectionData" v-loading="isLoading" />
 
@@ -20,6 +20,8 @@
     <popup-create />
     <popup-create-collection />
     <popup-create-nft />
+    <popup-public-onchain />
+    <popup-delete :type="deleteType"/>
   </div>
 </template>
 
@@ -34,6 +36,8 @@
   import PopupCreate from '../components/popup/PopupCreate.vue'
   import PopupCreateCollection from '../components/popup/PopupCreateCollection.vue'
   import PopupCreateNft from '../components/popup/PopupCreateNft.vue'
+  import PopupPublicOnchain from '../components/popup/PopupPublicOnchain.vue'
+  import PopupDelete from '../components/popup/PopupDelete.vue'
   import PopupMixin from '@/mixins/popup'
   import axios from 'axios'
   //Interface
@@ -46,7 +50,7 @@
     type?: string | null | undefined
   }
 
-  @Component({ components: { FilterMetamart, TabNft, TabCollection, TabCategory, PopupChoosetype, PopupCreateCollection, PopupForm, PopupCreate, PopupCreateNft } })
+  @Component({ components: { FilterMetamart, TabNft, TabCollection, TabCategory, PopupChoosetype, PopupCreateCollection, PopupForm, PopupCreate, PopupCreateNft, PopupPublicOnchain, PopupDelete } })
   export default class Metamart extends Mixins(PopupMixin) {
     tabs: Array<Record<string, any>> = [
       {
@@ -77,6 +81,8 @@
       orderBy: 'desc',
       type: null
     }
+    
+    deleteType = ''
     // objType: Record<string, any> = {
     //   Nft: 'Nft',
     //   Collection: 'Collection'
@@ -199,6 +205,17 @@
       if (command === 'add-nft') {
         this.setOpenPopup({
           popupName: 'popup-create-nft',
+          isOpen: true
+        })
+      } else if (command === 'public-on-chain') {
+        this.setOpenPopup({
+          popupName: 'popup-public-onchain',
+          isOpen: true
+        })
+      } else if (command === 'delete-nft') {
+        this.deleteType = 'delete-nft'
+        this.setOpenPopup({
+          popupName: 'popup-metamart-delete',
           isOpen: true
         })
       }
