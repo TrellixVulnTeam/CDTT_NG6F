@@ -104,8 +104,8 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <el-button v-if="this.$route.name === 'Collection'" class="add-btn ml-auto" @click="$emit('click', 'popup-create-collection')">Add New</el-button>
-    <el-button v-if="this.$route.name === 'Category'" class="add-btn ml-auto" @click="$emit('click', 'popup-create-category')">Add New</el-button>
+    <el-button v-if="this.$route.name === 'Collection'" class="add-btn ml-auto" @click="$emit('click', 'popup-create-collection')">{{ $t('button.add-new') }}</el-button>
+    <el-button v-if="this.$route.name === 'Category'" class="add-btn ml-auto" @click="$emit('click', 'popup-create-category')">{{ $t('button.add-new') }}</el-button>
     <div v-if="this.$route.name === 'Nft'" class="ml-auto">
       <el-button style="width: auto !important; margin-right: 12px">
         <div class="be-flex align-center">
