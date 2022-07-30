@@ -196,8 +196,8 @@
     "change-chart": "Biểu đồ",
     "buy": "Mua",
     "transfer": "Chuyển",
-    "add new": "Thêm mới",
-    "import file": "Nhập file"
+    "add-new": "Thêm mới",
+    "import-file": "Nhập file"
   },
   "scan": {
     "qrcode": "QUÉT QR CODE"
@@ -679,7 +679,7 @@
     "crowdsales": "Crowdsale",
     "vesting": "Vesting",
     "metamart-nft": "NFT item",
-    "metamart-collection": "Collection",
+    "metamart-collection": "Bộ sưu tập",
     "put-on-sale": "Đăng bán",
     "bid": "Đấu giá",
     "offer": "Trả giá",
@@ -1243,11 +1243,63 @@
     "transfer": "Chuyển"
   },
   "metamart": {
+    "button": {
+      "reset": "Làm lại",
+      "save": "Lưu",
+      "apply": "Áp dụng"
+    },
     "table": {
-      "collection": "COLLECTION",
+      "collection": "BỘ SƯU TẬP",
       "category": "DANH MỤC",
-      "network": "NETWORK",
+      "network": "MẠNG",
       "creator": "NHÀ SÁNG LẬP"
+    },
+    "collection": {
+      "filter": {
+        "filter": "BỘ LỌC",
+        "creator": "Người tạo",
+        "category": "Danh mục",
+        "network": "Mạng",
+        "created-date": "Ngày tạo",
+        "from-date": "Từ ngày",
+        "to-date": "Đến ngày"
+      },
+      "popup": {
+        "title": "THÊM BỘ SƯU TẬP MỚI",
+        "preview": "Xem trước",
+        "avatar": "Ảnh đại diện",
+        "thumbnail": "Hình thu nhỏ",
+        "banner": "Tải lên ảnh bìa",
+        "name": "Tên bộ sưu tập",
+        "description": "Mô tả",
+        "optional": "không bắt buộc",
+        "network": "Mạng",
+        "contract-address": "Địa chỉ hợp đồng",
+        "default-payment-by": "Phương thức thanh toán mặc định bởi",
+        "creator": "Người tạo",
+        "category": "Danh mục",
+        "template": "Mẫu"
+      },
+      "subtitle": {
+        "name": "Tên token không thể bị thay đổi trong tương lai"
+      },
+      "upload": {
+        "size": "Kích thức tải lên",
+        "max": "Tối đa",
+        "drop": "Thả tệp ở đây hoặc",
+        "click": "nhấn để tải lên",
+        "preview": "Tải tệp lên để xem trước NFT hoàn toàn mới của bạn"
+      },
+      "delete": {
+        "confirmation-1": "Bạn có chắc rằng bạn muốn xoá bộ sưu tập ",
+        "confirmation-2": " này không?",
+        "warning-label": "Đã xảy ra sự cố",
+        "warning-description": "Không thể xóa một bộ sưu tập có chứa các NFT. Vui lòng di chuyển tất cả NFT sang bộ sưu tập khác và thử lại."
+      }
+    },
+    "success": {
+      "title": "THÀNH CÔNG",
+      "delete-collection": "Bạn đã xóa bộ sưu tập thành công"
     }
   },
   "filter_pending": "Chờ xử lý",

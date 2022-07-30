@@ -1266,11 +1266,63 @@
     "transfer": "Transfer"
   },
   "metamart": {
+    "button": {
+      "reset": "Reset",
+      "save": "Save",
+      "apply": "Apply"
+    },
     "table": {
       "collection": "COLLECTION",
       "category": "CATEGORY",
       "network": "NETWORK",
       "creator": "CREATOR"
+    },
+    "collection": {
+      "filter": {
+        "filter": "FILTER",
+        "creator": "Creator",
+        "category": "Category",
+        "network": "Network",
+        "created-date": "Created Date",
+        "from-date": "From date",
+        "to-date": "To date"
+      },
+      "popup": {
+        "title": "ADD NEW COLLECTION",
+        "preview": "Preview",
+        "avatar": "Avatar",
+        "thumbnail": "Thumbnail",
+        "banner": "Upload banner",
+        "name": "Name",
+        "description": "Description",
+        "optional": "optional",
+        "network": "Network",
+        "contract-address": "Contract address",
+        "default-payment-by": "Default payment by",
+        "creator": "Creator",
+        "category": "Category",
+        "template": "Template"
+      },
+      "subtitle": {
+        "name": "Token name cannot be changed in future"
+      },
+      "upload": {
+        "size": "Upload size",
+        "max": "Max",
+        "drop": "Drop file here or",
+        "click": "click to upload",
+        "preview": "Upload file to preview your brand new NFT"
+      },
+      "delete": {
+        "confirmation-1": "Are you sure you want to delete this",
+        "confirmation-2": "collection?",
+        "warning-label": "Something went wrong",
+        "warning-description": "Cannot delete a collection that contains NFT items. Please move all NFTs to another collection and try again."
+      }
+    },
+    "success": {
+      "title": "CONGRATULATIONS",
+      "delete-collection": "You have successfully deleted the collection"
     }
   },
   "filter_pending": "Pending",
