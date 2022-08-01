@@ -6,6 +6,7 @@ export interface IAuth {
   listReason: Array<Record<string, any>>
   initInfo: Record<string, any>
   initBlockchain: Record<string, any>
+  initMetaData: Record<string, any>
   listCollection: Array<Record<string, any>>
 }
 
@@ -19,6 +20,9 @@ const state: IAuth = {
     network: 'Ethereum',
     tokenStandard: 'ERC1155',
     creator: 'LynKey (lynkey@gmail.com)'
+  },
+  initMetaData: {
+    description: ''
   },
   listCollection: []
 }

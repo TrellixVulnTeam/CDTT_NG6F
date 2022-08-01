@@ -39,8 +39,9 @@
   import TabInfo from '../setup/TabInfo.vue'
   import TabBlockchain from '../setup/TabBlockchain.vue'
   import TabSetting from '../setup/TabSetting.vue'
+  import TabMetaData from '../setup/TabMeta.vue'
 
-  @Component({ components: { TabInfo, TabBlockchain, TabSetting } })
+  @Component({ components: { TabInfo, TabBlockchain, TabSetting, TabMetaData } })
   export default class PopupCreateNft extends Vue {
     @Prop({ required: false, type: String, default: 'add' }) typePopup!: 'add' | 'edit'
 
@@ -73,9 +74,8 @@
           return 'TabBlockchain'
         case 'SETTING':
           return 'TabSetting'
-
         default:
-          return ''
+          return 'TabMetaData'
       }
     }
 
