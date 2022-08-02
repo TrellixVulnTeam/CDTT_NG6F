@@ -9,8 +9,8 @@
       </el-table-column>
       <el-table-column :label="$t('label_long-desc')" prop="desc" align="right"> </el-table-column>
       <el-table-column align="right" width="100px">
-        <template>
-          <span>
+        <template slot-scope="scope">
+          <span @click="handleCallAction('edit', scope.row)">
             <base-icon icon="icon-edit" size="20" />
           </span>
           <span style="padding-left: 16px">
@@ -25,14 +25,13 @@
         </div>
       </div>
     </base-table>
-    <popup-add-map :typePopup="typePopup" @confirm="handleConfirm" />
+    <popup-add-map :typePopup="typePopup" :rowCurrent="rowCurrent" @confirm="handleConfirm" @edit="handleEdit" />
   </div>
 </template>
 
 <script lang="ts">
-  import { Component, Prop, Mixins } from 'vue-property-decorator'
+  import { Component, Prop, Mixins, Watch } from 'vue-property-decorator'
   import filter from 'lodash/filter'
-  import debounce from 'lodash/debounce'
   import findIndex from 'lodash/findIndex'
 
   import PopupMixin from '@/mixins/popup'
@@ -45,10 +44,16 @@
 
     data: Record<string, any> | Array<Record<string, any>> = {}
     typePopup = 'add'
+    rowCurrent: Record<string, any> = {}
+
+    @Watch('metaData') watchMetadata(): void {
+      const elm = filter(this.metaData, elm => elm.type === this.tabActive)[0]
+      this.data = [...elm.value]
+    }
 
     created(): void {
       const elm = filter(this.metaData, elm => elm.type === this.tabActive)[0]
-      this.data = elm.value
+      this.data = [...elm.value]
     }
 
     handleClickAdd(): void {
@@ -59,11 +64,37 @@
       })
     }
 
+    handleCallAction(type: 'edit' | 'delete', row: Record<string, any>): void {
+      this.rowCurrent = row
+      this.typePopup = type
+      if (type === 'edit') {
+        this.setOpenPopup({
+          popupName: 'popup-add-map',
+          isOpen: true
+        })
+      }
+    }
+
+    handleEdit(form: Record<string, any>): void {
+      const _data = [...(this.data as Array<Record<string, any>>)]
+      const index = findIndex(_data, elm => elm.id === form.id)
+      _data[index] = { ...form }
+      const indexMeta = findIndex(this.metaData, elm => elm.type === this.tabActive)
+      const _metaData = [...this.metaData]
+      _metaData[indexMeta].value = _data
+      this.$emit('update', _metaData)
+    }
+
     handleConfirm(form: Record<string, any>): void {
-      this.data.unshift({
+      const _data = [...(this.data as Array<Record<string, any>>)]
+      _data.unshift({
         ...form,
         id: Math.random()
       })
+      const index = findIndex(this.metaData, elm => elm.type === this.tabActive)
+      const _metaData = [...this.metaData]
+      _metaData[index].value = _data
+      this.$emit('update', _metaData)
     }
   }
 </script>

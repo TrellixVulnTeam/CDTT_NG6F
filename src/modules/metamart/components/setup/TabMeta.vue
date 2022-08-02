@@ -78,19 +78,22 @@
             id: 0,
             name: 'Project',
             desc: 'Crystal Holidays',
-            annotate: ''
+            annotate: '',
+            type: 'text'
           },
           {
             id: 1,
             name: 'Week',
             desc: '18 weeks',
-            annotate: ''
+            annotate: '',
+            type: 'text'
           },
           {
             id: 2,
             name: 'High season',
             annotate: 'a week per year',
-            desc: 'From 21st April'
+            desc: 'From 21st April',
+            type: 'text'
           }
         ]
       },
@@ -128,6 +131,8 @@
     }
 
     handleUpdate(data: Array<Record<string, any>>): void {
+      console.log('>?', data)
+
       this.metaData = [...data]
     }
   }

@@ -20,7 +20,7 @@
         <el-form-item :label="$t('label_long-desc')" prop="desc">
           <el-input v-model="form.desc" :placeholder="$t('label_long-desc')" />
         </el-form-item>
-        <el-form-item :label="$t('label_value')" prop="value">
+        <el-form-item v-if="form.type === 'number'" :label="$t('label_value')" prop="value">
           <el-input type="number" v-model="form.value" :placeholder="$t('label_value')" />
         </el-form-item>
       </el-form>
@@ -48,6 +48,7 @@
   })
   export default class PopupAddMap extends Mixins(PopupMixin) {
     @Prop({ required: false, type: String, default: 'add' }) typePopup!: string
+    @Prop({ required: false, type: Object, default: () => ({}) }) rowCurrent!: Record<string, any>
 
     form: Record<string, any> = {
       name: '',
@@ -93,13 +94,28 @@
       this.$refs['popup-add-map']?.clearValidate()
     }
     handleOpen(): void {
-      return
+      if (this.typePopup === 'edit') {
+        this.form = { ...this.form, ...this.rowCurrent }
+      } else {
+        this.form = {
+          name: '',
+          annotate: '',
+          type: 'number',
+          desc: '',
+          value: ''
+        }
+      }
     }
     handleSubmit(): void {
       //@ts-ignore
       this.$refs['popup-add-map']?.validate(valid => {
         if (valid) {
-          this.$emit('confirm', this.form)
+          if (this.typePopup === 'add') {
+            this.$emit('confirm', this.form)
+          } else {
+            this.$emit('edit', this.form)
+          }
+
           this.handleCancel()
         }
       })
