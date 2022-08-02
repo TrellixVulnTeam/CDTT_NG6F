@@ -1360,7 +1360,7 @@
   "label_long-desc": "Description",
   "setup_empty-nft": "Upload file to preview your brand new NFT",
   "label_copies": "Number of copies",
-  "label_contract-address": "Contract address",
+  "label_contract-address": "Contract Address",
   "label_token-id": "Token ID",
   "label_blockchain-network": "Blockchain network",
   "label_token-standard": "Token Standard",

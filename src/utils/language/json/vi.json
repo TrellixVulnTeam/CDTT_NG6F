@@ -1337,7 +1337,7 @@
   "label_long-desc": "Mô tả",
   "setup_empty-nft": "Tải tệp lên để xem trước NFT hoàn toàn mới của bạn",
   "label_copies": "Số bản sao",
-  "label_contract-address": "Địa chỉ contract",
+  "label_contract-address": "Địa chỉ hợp đồng",
   "label_token-id": "Token ID",
   "label_blockchain-network": "Mạng",
   "label_token-standard": "Tiêu chuẩn",

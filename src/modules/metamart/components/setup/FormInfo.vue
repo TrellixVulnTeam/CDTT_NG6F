@@ -152,7 +152,7 @@
       minHeight: 120,
       i18n: {
         vi: {
-          'Type something': 'Nhập mô tả...',
+          // 'Type something': 'Nhập mô tả...',
           'Search for': 'Nhập tìm kiếm',
           'Open in new tab': 'Mở tab mới',
           'No follow': 'Theo dõi liên kết',
@@ -163,6 +163,9 @@
           'or click': 'hoặc chọn từ máy tính',
           'Alternative text': 'Văn bản thay thế'
           // URL: 'Liên kết'
+        },
+        en: {
+          'Type something': 'Type something...'
         }
       }
     }

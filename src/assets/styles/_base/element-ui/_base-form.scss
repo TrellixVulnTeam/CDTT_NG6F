@@ -103,6 +103,14 @@
             }
         }
     }
+
+    .hide-arrow {
+        .el-select {
+            .el-input__suffix {
+                display: none;
+            }
+        }
+    }
 }
 //popup change phone
 .form-change-number-phone {

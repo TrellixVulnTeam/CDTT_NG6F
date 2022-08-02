@@ -25,7 +25,7 @@
     <div class="footer footer-popup" slot="footer">
       <div class="wrap-button">
         <div class="btn-right">
-          <el-button class="btn-default btn-400 btn-h-40 btn-close">{{ $t('button.cancel') }}</el-button>
+          <el-button class="btn-default btn-400 btn-h-40 btn-close" @click="handleCancel">{{ $t('button.cancel') }}</el-button>
           <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border btn-save" style="font-size: 14px">{{ $t('button.create') }}</el-button>
         </div>
       </div>
@@ -34,15 +34,17 @@
 </template>
 
 <script lang="ts">
-  import { Component, Prop, Vue } from 'vue-property-decorator'
+  import { Component, Mixins, Prop, Vue } from 'vue-property-decorator'
 
   import TabInfo from '../setup/TabInfo.vue'
   import TabBlockchain from '../setup/TabBlockchain.vue'
   import TabSetting from '../setup/TabSetting.vue'
   import TabMetaData from '../setup/TabMeta.vue'
 
+  import PopupMixin from '@/mixins/popup'
+
   @Component({ components: { TabInfo, TabBlockchain, TabSetting, TabMetaData } })
-  export default class PopupCreateNft extends Vue {
+  export default class PopupCreateNft extends Mixins(PopupMixin) {
     @Prop({ required: false, type: String, default: 'add' }) typePopup!: 'add' | 'edit'
 
     arrTab: Array<Record<string, any>> = [
@@ -81,6 +83,12 @@
 
     handleClose(): void {
       return
+    }
+    handleCancel(): void {
+      this.setOpenPopup({
+        popupName: 'popup-create-nft',
+        isOpen: false
+      })
     }
   }
 </script>
