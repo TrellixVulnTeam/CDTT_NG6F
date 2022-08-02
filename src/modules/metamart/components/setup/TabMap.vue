@@ -13,7 +13,7 @@
           <span @click="handleCallAction('edit', scope.row)">
             <base-icon icon="icon-edit" size="20" />
           </span>
-          <span style="padding-left: 16px">
+          <span style="padding-left: 16px" @click="handleCallAction('delete', scope.row)">
             <base-icon icon="icon-delete-2" size="20" />
           </span>
         </template>
@@ -26,6 +26,7 @@
       </div>
     </base-table>
     <popup-add-map :typePopup="typePopup" :rowCurrent="rowCurrent" @confirm="handleConfirm" @edit="handleEdit" />
+    <popup-delete :rowCurrent="rowCurrent" @delete="handleDelete" />
   </div>
 </template>
 
@@ -36,8 +37,9 @@
 
   import PopupMixin from '@/mixins/popup'
   import PopupAddMap from './PopupAddMap.vue'
+  import PopupDelete from './PopupDelete.vue'
 
-  @Component({ components: { PopupAddMap } })
+  @Component({ components: { PopupAddMap, PopupDelete } })
   export default class TabMap extends Mixins(PopupMixin) {
     @Prop({ required: false, type: Array, default: [] }) metaData!: Array<Record<string, any>>
     @Prop({ required: false, type: String, default: '' }) tabActive!: string
@@ -72,7 +74,20 @@
           popupName: 'popup-add-map',
           isOpen: true
         })
+      } else {
+        this.setOpenPopup({
+          popupName: 'popup-setup-delete',
+          isOpen: true
+        })
       }
+    }
+
+    handleDelete(): void {
+      const data = filter(this.data, elm => elm.id !== this.rowCurrent.id)
+      const indexMeta = findIndex(this.metaData, elm => elm.type === this.tabActive)
+      const _metaData = [...this.metaData]
+      _metaData[indexMeta].value = data
+      this.$emit('update', _metaData)
     }
 
     handleEdit(form: Record<string, any>): void {

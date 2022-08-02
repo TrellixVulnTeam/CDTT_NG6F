@@ -1356,5 +1356,7 @@
   "validate_must-enter-name": "Vui lòng nhập tên",
   "validate_must-enter-type": "Vui lòng chọn loại",
   "validate_must-enter-desc": "Vui lòng nhập mô tả",
-  "validate_must-enter-value": "Vui lòng nhập giá trị"
+  "validate_must-enter-value": "Vui lòng nhập giá trị",
+  "popup_delete": "Xóa",
+  "popup_label-delete": "Bạn có chắc chắn muốn xóa chính sách này không"
 }
