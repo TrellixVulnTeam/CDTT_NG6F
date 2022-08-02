@@ -130,7 +130,16 @@
                 {{ $t('metamart.collection.popup.contract-address') }}
                 <span class="block-title__asterisk"> *</span>
               </h2>
-              <el-input v-model="collection.contractAddress" placeholder="e. g. &quot;0xf507f6d523423ff34U413f4d0787&quot;" ></el-input>
+              <!-- <el-input v-model="collection.contractAddress" placeholder="Select a contract address" ></el-input> -->
+              <el-select 
+                filterable
+                remote
+                v-model="collection.contractAddress" 
+                placeholder="Select a contract address"
+                
+              >
+                <el-option v-for="(option, index) in contracts" :label="option | formatTransactionCode(10)" :value="option" :key="index"></el-option>
+              </el-select>
             </section>
           </el-form-item>
 
@@ -276,21 +285,21 @@
       avatarUrl: [
         {
           required: true,
-          message: '"File" is required',
+          message: '"Avatar" is required',
           trigger: 'change'
         }
       ],
       thumbnailUrl: [
         {
           required: true,
-          message: '"File" is required',
+          message: '"Thumbnail" is required',
           trigger: 'change'
         }
       ],
       bannerUrl: [
         {
           required: true,
-          message: '"File" is required',
+          message: '"Banner" is required',
           trigger: 'change'
         }
       ],
@@ -347,6 +356,11 @@
 
     // fake data
     networks = ['Ethereum (ERC1155)', 'Binance (ERC1155)']
+    contracts = [
+      '0x38eba9029a88032399c367325c757249c282177035183fb5382745d88237a401',
+      '0x046f3c93472e035e5ae5ec7a7c750d5bceefd7cf8ca7f27065ceb3193c105937',
+      '0x0bd96b709c185be9135e3a3b1b3481f0c59215704b4b0289a97e124d9c90e116',
+    ]
     optionByToken = [
       {name: 'Bitcoin', currency: 'BTC'},
       {name: 'Tether', currency: 'USDT'},
