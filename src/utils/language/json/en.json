@@ -1381,5 +1381,17 @@
   "validate_must-enter-desc": "Please enter description",
   "validate_must-enter-value": "Please enter value",
   "popup_delete": "DELETE",
-  "popup_label-delete": "Are you sure you want to delete this policy"
+  "popup_label-delete": "Are you sure you want to delete this policy ",
+  "popup_label-delete-file": "Are you sure you want to delete this file ",
+  "popup_label-delete-boolean": "Are you sure you want to delete this feature ",
+  "label_size": "Size",
+  "label_add-file": "Add file",
+  "popup_add-file": "Add file",
+  "popup_add-feature": "Add feature",
+  "popup_edit-file": "Edit",
+  "label_file-attach": "File attach",
+  "validate_must-enter-file": "Please select file attach",
+  "label_download": "Download",
+  "label_feature-status": "Feature status",
+  "label_add-feature":"Add feature"
 }

@@ -71,6 +71,9 @@
       .jodit-toolbar__box {
         background: transparent;
       }
+      .jodit-wysiwyg {
+        min-height: 120px !important;
+      }
     }
   }
 </style>

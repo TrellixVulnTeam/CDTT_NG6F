@@ -25,9 +25,11 @@
   import TabText from './TabText.vue'
   import TabHtml from './TabHtml.vue'
   import TabMap from './TabMap.vue'
+  import TabFile from './TabFile.vue'
+  import TabBoolean from './TabBoolean.vue'
   import PreviewMetaData from './PreviewMetaData.vue'
 
-  @Component({ components: { TabText, PreviewMetaData, TabHtml, TabMap } })
+  @Component({ components: { TabText, PreviewMetaData, TabHtml, TabMap, TabFile, TabBoolean } })
   export default class TabMetaData extends Vue {
     isLoading = false
     tabActive = 'TEXT'
@@ -100,12 +102,12 @@
       {
         id: 3,
         type: 'FILE',
-        value: [{ id: 0, name: 'eBrochures PDF', type: 'PDF', size: '10 MB' }]
+        value: [{ id: 0, name: 'eBrochures PDF', fileType: 'PDF', size: 1539060, fileName: 'eBrochures' }]
       },
       {
         id: 4,
         type: 'BOOLEAN',
-        value: [{ id: 0, name: 'Community room', status: false }]
+        value: [{ id: 0, name: 'Community room', status: true }]
       }
     ]
 
@@ -118,9 +120,9 @@
         case 'MAP':
           return 'TabMap'
         case 'FILE':
-          return 'TabEbro'
+          return 'TabFile'
         default:
-          return 'BOOLEAN'
+          return 'TabBoolean'
       }
     }
 

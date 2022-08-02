@@ -5,7 +5,11 @@
     </div>
     <div class="mb-24 content">
       <p class="text-base">
-        <span class="text-desc">{{ $t('popup_label-delete') }}</span> <span>"{{ rowCurrent.name }}"?</span>
+        <span v-if="tabActive === 'MAP'" class="text-desc">{{ $t('popup_label-delete') }}</span>
+        <span v-if="tabActive === 'FILE'" class="text-desc">{{ $t('popup_label-delete-file') }}</span>
+        <span v-if="tabActive === 'BOOLEAN'" class="text-desc">{{ $t('popup_label-delete-boolean') }}</span>
+
+        <span>"{{ rowCurrent.name }}"?</span>
       </p>
     </div>
     <div class="footer" slot="footer">
@@ -28,6 +32,7 @@
   @Component
   export default class PopupDelete extends Mixins(PopupMixin) {
     @Prop({ required: false, type: Object, default: () => ({}) }) rowCurrent!: Record<string, any>
+    @Prop({ required: false, type: String, default: '' }) tabActive!: string
 
     handleCancel(): void {
       this.setOpenPopup({

@@ -1,32 +1,24 @@
 <template>
-  <base-popup name="popup-add-map" class="popup-add-map" width="600px" :close="handleClose" :open="handleOpen">
+  <base-popup name="popup-add-feature" class="popup-add-feature" width="600px" :close="handleClose" :open="handleOpen">
     <div class="title-popup" slot="title">
-      <span>{{ typePopup === 'add' ? $t('popup_add-file') : $t('popup_edit-file') }}</span>
+      <span>{{ typePopup === 'add' ? $t('popup_add-feature') : $t('popup_edit-file') }}</span>
     </div>
     <div class="content">
-      <el-form :model="form" :rules="rules" ref="popup-add-map">
+      <el-form :model="form" :rules="rules" ref="popup-add-feature">
         <el-form-item :label="$t('label_name')" prop="name">
           <el-input v-model="form.name" :placeholder="$t('label_name')" />
         </el-form-item>
-        <el-form-item :label="$t('label_annotate')">
-          <el-input v-model="form.annotate" :placeholder="$t('label_annotate')" />
-        </el-form-item>
-        <el-form-item :label="$t('label_type')" prop="type">
-          <el-select v-model="form.type" class="w-100">
-            <el-option :label="$t('label_number')" value="number" />
-            <el-option :label="$t('label_text')" value="text" />
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('label_long-desc')" prop="desc">
-          <el-input v-model="form.desc" :placeholder="$t('label_long-desc')" />
-        </el-form-item>
-        <el-form-item v-if="form.type === 'number'" :label="$t('label_value')" prop="value">
-          <el-input type="number" v-model="form.value" :placeholder="$t('label_value')" />
-        </el-form-item>
+        <div class="be-flex align-center jc-space-between mb-24">
+          <div class="text-body-small">{{ $t('label_feature-status') }}</div>
+          <el-switch v-model="form.status" active-color="#13ce66"> </el-switch>
+        </div>
       </el-form>
     </div>
     <div class="footer" slot="footer">
       <div class="be-flex wrap-button">
+        <div class="left">
+          <el-button class="btn-default btn-close btn-h-40 mr-16" @click="handleDelete">{{ $t('button.delete') }}</el-button>
+        </div>
         <div class="btn-right">
           <el-button class="btn-default btn-close btn-h-40 mr-16" @click="handleCancel">{{ $t('button.cancel') }}</el-button>
           <button type="button" class="btn-default-bg text-sm ml-auto add-member" @click="handleSubmit">
@@ -40,22 +32,18 @@
 
 <script lang="ts">
   import { Component, Mixins, Prop } from 'vue-property-decorator'
+  import includes from 'lodash/includes'
 
   import PopupMixin from '@/mixins/popup'
 
-  @Component({
-    components: {}
-  })
-  export default class PopupAddMap extends Mixins(PopupMixin) {
+  @Component
+  export default class PopupAddFeature extends Mixins(PopupMixin) {
     @Prop({ required: false, type: String, default: 'add' }) typePopup!: string
     @Prop({ required: false, type: Object, default: () => ({}) }) rowCurrent!: Record<string, any>
 
     form: Record<string, any> = {
       name: '',
-      annotate: '',
-      type: 'number',
-      desc: '',
-      value: ''
+      status: false
     }
 
     rules: Record<string, any> = {
@@ -65,75 +53,75 @@
           message: this.$t('validate_must-enter-name'),
           trigger: 'blur'
         }
-      ],
-      type: [
-        {
-          required: true,
-          message: this.$t('validate_must-enter-type'),
-          trigger: 'change'
-        }
-      ],
-      desc: [
-        {
-          required: true,
-          message: this.$t('validate_must-enter-desc'),
-          trigger: 'blur'
-        }
-      ],
-      value: [
-        {
-          required: true,
-          message: this.$t('validate_must-enter-value'),
-          trigger: 'blur'
-        }
       ]
     }
 
     handleClose(): void {
       //@ts-ignore
-      this.$refs['popup-add-map']?.clearValidate()
+      this.$refs['popup-add-feature']?.clearValidate()
     }
     handleOpen(): void {
       if (this.typePopup === 'edit') {
-        this.form = { ...this.form, ...this.rowCurrent }
+        this.form = { ...this.rowCurrent }
       } else {
         this.form = {
           name: '',
-          annotate: '',
-          type: 'number',
-          desc: '',
-          value: ''
+          status: false
         }
       }
     }
+
     handleSubmit(): void {
       //@ts-ignore
-      this.$refs['popup-add-map']?.validate(valid => {
+      this.$refs['popup-add-feature']?.validate(valid => {
         if (valid) {
           if (this.typePopup === 'add') {
             this.$emit('confirm', this.form)
           } else {
             this.$emit('edit', this.form)
           }
-
           this.handleCancel()
         }
       })
     }
     handleCancel(): void {
       this.setOpenPopup({
-        popupName: 'popup-add-map',
+        popupName: 'popup-add-feature',
         isOpen: false
       })
+    }
+    handleDelete(): void {
+      this.$emit('confirmDelete')
     }
   }
 </script>
 
 <style scoped lang="scss">
-  .popup-add-map {
+  ::v-deep.popup-add-feature {
+    .el-switch {
+      height: 26px;
+      line-height: 26px;
+      &__core {
+        width: 44px !important;
+        height: 26px;
+        border-radius: 40px;
+        &::after {
+          width: 22px;
+          height: 22px;
+        }
+      }
+    }
+    .is-checked {
+      .el-switch__core {
+        &::after {
+          margin-left: -23px;
+        }
+      }
+    }
+
     .footer {
       .wrap-button {
-        justify-content: flex-end;
+        justify-content: space-between;
         .add-member {
           height: 40px;
           font-weight: 400;

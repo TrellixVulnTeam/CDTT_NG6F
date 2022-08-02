@@ -1358,5 +1358,17 @@
   "validate_must-enter-desc": "Vui lòng nhập mô tả",
   "validate_must-enter-value": "Vui lòng nhập giá trị",
   "popup_delete": "Xóa",
-  "popup_label-delete": "Bạn có chắc chắn muốn xóa chính sách này không"
+  "popup_label-delete": "Bạn có chắc chắn muốn xóa chính sách này không ",
+  "popup_label-delete-file": "Bạn có chắc chắn muốn xóa tập tin này không ",
+  "popup_label-delete-boolean": "Bạn có chắc chắn muốn xóa tính năng này không ",
+  "label_size": "Kích thước",
+  "label_add-file": "Thêm file",
+  "popup_add-file": "Thêm file",
+  "popup_add-feature": "Thêm tính năng",
+  "popup_edit-file": "Sửa",
+  "label_file-attach": "Đính kèm tập tin",
+  "validate_must-enter-file": "Vui lòng chỌn tập tin",
+  "label_download": "Tải xuống",
+  "label_feature-status": "Tình trạng tính năng",
+  "label_add-feature": "Thêm tính năng"
 }

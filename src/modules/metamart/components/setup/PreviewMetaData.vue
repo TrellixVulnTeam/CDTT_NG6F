@@ -26,6 +26,33 @@
           </div>
         </div>
       </div>
+
+      <!-- type file -->
+      <div class="type-file" v-if="tabActive === 'FILE'">
+        <div v-for="file in data.value" :key="file.id" class="be-flex align-center file">
+          <base-icon :icon="getIconFile(file)" size="48" class="d-iflex" />
+          <div class="info">
+            <p class="text-overflow-1 text-base text-semibold">{{ file.name }}</p>
+            <div class="be-flex align-center">
+              <span class="text-desc nft-body-small">{{ file.size | bytesToSize }}</span>
+              <div class="circle"></div>
+              <div class="be-flex align-center">
+                <base-icon icon="icon-download-blue" size="24" class="d-iflex" />
+                <span class="text-hyperlink nft-body-small" style="padding-left: 6px">{{ $t('label_download') }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- type boolean -->
+      <div class="type-boolean" v-if="tabActive === 'BOOLEAN'">
+        <div v-for="item in data.value" :key="item.id" class="be-flex align-center feature">
+          <base-icon v-if="item.status" icon="icon-tick" size="20" class="d-iflex" />
+          <base-icon v-else icon="icon-x-red" size="20" class="d-iflex" />
+          <p class="text-base text-overflow-1" style="color: #28344b">{{ item.name }}</p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -33,6 +60,7 @@
 <script lang="ts">
   import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
   import filter from 'lodash/filter'
+  import includes from 'lodash/includes'
 
   @Component
   export default class PreviewMetaData extends Vue {
@@ -62,6 +90,13 @@
 
     created(): void {
       this.data = filter(this.metaData, elm => elm.type === this.tabActive)[0]
+    }
+
+    getIconFile(file: Record<string, any>): string {
+      const arrFileWord = ['doc', 'docx']
+      const arrFilePdf = ['pdf']
+      const fileType = file.fileType.toLowerCase()
+      return includes(arrFileWord, fileType) ? 'icon-word' : includes(arrFilePdf, fileType) ? 'icon-pdf' : 'icon-excel'
     }
   }
 </script>
@@ -113,6 +148,34 @@
         .left,
         .right {
           width: 50%;
+        }
+      }
+    }
+
+    .type-file {
+      .file {
+        margin-bottom: 32px;
+        .info {
+          margin-left: 16px;
+          p {
+            margin-bottom: 4px;
+          }
+          .circle {
+            width: 4px;
+            height: 4px;
+            margin: 0 8px;
+            border-radius: 50%;
+            background: #dbdbdb;
+          }
+        }
+      }
+    }
+
+    .type-boolean {
+      .feature {
+        margin-bottom: 24px;
+        p {
+          margin-left: 8px;
         }
       }
     }
