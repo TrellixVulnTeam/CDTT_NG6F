@@ -62,8 +62,6 @@
         </base-table>
       </div>
     </div>
-
-    <popup-delete type="delete-collection"/>
   </div>
 </template>
 
@@ -71,11 +69,10 @@
 import {Component, Mixins, Prop, } from 'vue-property-decorator'
 import CardCollection from "@/modules/metamart/components/CardCollection.vue";
 // import BasePagination from "@/components/base/pagination/BasePagination.vue";
-import PopupDelete from "./popup/PopupDelete.vue"
 import {PaginationInterface} from "@/interface";
 import PopupMixin from '@/mixins/popup';
 @Component({
-  components: { CardCollection, PopupDelete}
+  components: { CardCollection}
 })
 export default class TabCollection extends Mixins(PopupMixin) {
   //Props
@@ -197,10 +194,7 @@ export default class TabCollection extends Mixins(PopupMixin) {
   }
   handleDelete(row: any): void {
     console.log("Delete Clicked:", row);
-    this.setOpenPopup({
-      popupName: 'popup-metamart-delete',
-      isOpen: true
-    })
+    this.$emit('delete', row)
   }
 }
 </script>

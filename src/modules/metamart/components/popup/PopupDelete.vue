@@ -23,7 +23,7 @@
     <div class="footer" slot="footer">
       <div class="be-flex jc-flex-end">
         <el-button class="btn-default btn-close btn-h-40 mr-16" @click="handleCancel">{{ $t('button.cancel') }}</el-button>
-        <el-button class="btn-default delete-btn" :disabled="isHaveNft" @click="handleSubmit">{{$t('button.submit')}}</el-button>
+        <el-button class="btn-default delete-btn" :disabled="isHaveNft" @click="handleSubmit">{{$t('button.confirm')}}</el-button>
       </div>
     </div>
     <popup-verify-email @submit="handleDelete"></popup-verify-email>

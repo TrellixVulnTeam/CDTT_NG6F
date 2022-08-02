@@ -1312,9 +1312,9 @@
       "upload": {
         "size": "Upload size",
         "max": "Max",
-        "drop": "Drop file here or",
-        "click": "click to upload",
-        "preview": "Upload file to preview your brand new NFT"
+        "drop": "Drag and drop or",
+        "click": "Click to upload",
+        "preview": "Upload file to preview your brand new Collection"
       },
       "delete": {
         "confirmation-1": "Are you sure you want to delete this",

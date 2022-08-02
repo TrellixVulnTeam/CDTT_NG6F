@@ -12,7 +12,7 @@
     </div>
     <filter-metamart :tabs="tabs" isChangeTab="isChangeTab" @click="handleOpen" @selectCommand="handleSelectCommand" />
     <tab-nft v-if="$route.name === 'Nft'" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :nftProps="nftData" :query="query" v-loading="isLoading"  @selectCommand="handleSelectCommand" />
-    <tab-collection v-if="$route.name === 'Collection'" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="collectionData" v-loading="isLoading" />
+    <tab-collection v-if="$route.name === 'Collection'" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="collectionData" v-loading="isLoading" @delete="handleDeleteCollection"/>
     <tab-category v-if="$route.name === 'Category'" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="collectionData" v-loading="isLoading" />
 
     <popup-choosetype @continues="handleToPopupform($event)" />
@@ -219,6 +219,16 @@
           isOpen: true
         })
       }
+    }
+
+    //Delete
+    handleDeleteCollection(value: Record<string, any>): void {
+      console.log(">>>deleteCollection:", value);
+      this.deleteType = 'delete-collection'
+      this.setOpenPopup({
+        popupName: 'popup-metamart-delete',
+        isOpen: true
+      })
     }
   }
 </script>
