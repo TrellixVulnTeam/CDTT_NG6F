@@ -10,19 +10,19 @@
         <div class="be-flex align-center jc-space-between switch-item">
           <div class="left">
             <p class="text-base text-semibold">{{ $t('label_top-nft') }}</p>
-            <p class="nft-body-small text-desc">{{ $t('label_top-nft-desc') }}</p>
+            <p class="nft-body-small text-desc" style="margin-top: 4px">{{ $t('label_top-nft-desc') }}</p>
           </div>
           <div class="right">
-            <el-switch v-model="form.topNft" active-color="#13ce66"> </el-switch>
+            <el-switch v-model="form.topNft" active-color="#129961"> </el-switch>
           </div>
         </div>
         <div class="be-flex align-center jc-space-between switch-item">
           <div class="left">
             <p class="text-base text-semibold">{{ $t('label_hot-nft') }}</p>
-            <p class="nft-body-small text-desc">{{ $t('label_hot-nft-desc') }}</p>
+            <p class="nft-body-small text-desc" style="margin-top: 4px">{{ $t('label_hot-nft-desc') }}</p>
           </div>
           <div class="right">
-            <el-switch v-model="form.hotNft" active-color="#13ce66"> </el-switch>
+            <el-switch v-model="form.hotNft" active-color="#129961"> </el-switch>
           </div>
         </div>
       </div>
@@ -68,6 +68,7 @@
         margin-right: 24px;
         .switch-item {
           margin-bottom: 28px;
+          padding-right: 8px;
           .el-switch {
             &__core {
               width: 44px !important;

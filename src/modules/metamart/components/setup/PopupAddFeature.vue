@@ -10,7 +10,7 @@
         </el-form-item>
         <div class="be-flex align-center jc-space-between mb-24">
           <div class="text-body-small">{{ $t('label_feature-status') }}</div>
-          <el-switch v-model="form.status" active-color="#13ce66"> </el-switch>
+          <el-switch v-model="form.status" active-color="#129961"> </el-switch>
         </div>
       </el-form>
     </div>

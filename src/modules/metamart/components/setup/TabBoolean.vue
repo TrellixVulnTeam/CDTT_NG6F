@@ -5,7 +5,7 @@
       <el-table-column :label="$t('label_nft-name')" prop="name"> </el-table-column>
       <el-table-column prop="status" align="right">
         <template slot-scope="scope">
-          <el-switch v-model="scope.row.status" active-color="#13ce66"> </el-switch>
+          <el-switch v-model="scope.row.status" active-color="#129961"> </el-switch>
         </template>
       </el-table-column>
       <el-table-column align="right" width="100px">
