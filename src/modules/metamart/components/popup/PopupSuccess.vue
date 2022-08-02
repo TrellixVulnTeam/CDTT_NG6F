@@ -7,7 +7,7 @@
       <div class="mb-12">
         <base-icon icon="success-icon" size="80"></base-icon>
       </div>
-      <div class="text-desc mt-12">
+      <div class="text-desc text-bold mt-12">
         <span v-if="type === 'delete-collection'">{{$t('metamart.success.delete-collection')}}</span>
       </div>
       <el-button class="btn w-100 is-none-border btn-h-40 cursor mt-24" style="height: 48px" @click="handleClose" type="button">{{$t('button.continue')}}</el-button>

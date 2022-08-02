@@ -200,6 +200,7 @@
             width: 256px;
             .el-input__inner {
               width: 100%;
+              font-size: 16px;
             }
           }
           .delimiter {

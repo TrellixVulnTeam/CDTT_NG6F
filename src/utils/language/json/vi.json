@@ -196,7 +196,7 @@
     "change-chart": "Biểu đồ",
     "buy": "Mua",
     "transfer": "Chuyển",
-    "add new": "Thêm mới",
+    "add-new": "Thêm mới",
     "import file": "Nhập file",
     "create": "Thêm"
   },
@@ -215,7 +215,8 @@
     "buyer": "người mua",
     "times": "số lần sử dụng thiết bị",
     "results": "Bản ghi",
-    "events": "hoạt động"
+    "events": "hoạt động",
+    "collection": "bộ sưu tập"
   },
   "label": {
     "invalid-amount": "Số lượng không hợp lệ",
@@ -1254,7 +1255,7 @@
       "collection": "BỘ SƯU TẬP",
       "category": "DANH MỤC",
       "network": "MẠNG",
-      "creator": "NHÀ SÁNG LẬP"
+      "creator": "NGƯỜI TẠO"
     },
     "collection": {
       "filter": {
@@ -1288,9 +1289,9 @@
       "upload": {
         "size": "Kích thức tải lên",
         "max": "Tối đa",
-        "drop": "Thả tệp ở đây hoặc",
+        "drop": "Kéo và thả hoặc",
         "click": "nhấn để tải lên",
-        "preview": "Tải tệp lên để xem trước NFT hoàn toàn mới của bạn"
+        "preview": "Tải tệp lên để xem trước bộ sưu tập hoàn toàn mới của bạn"
       },
       "delete": {
         "confirmation-1": "Bạn có chắc rằng bạn muốn xoá bộ sưu tập ",
