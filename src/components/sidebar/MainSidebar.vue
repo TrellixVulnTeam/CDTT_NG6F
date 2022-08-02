@@ -83,6 +83,17 @@
             </router-link>
           </li>
         </ul>
+        <ul class="module">
+          <li class="module-item" @click="isOpenPopupNft = false">
+            <router-link :to="{ name: 'NftMain' }">
+              <div class="sack_avatar">
+                <base-icon :icon="coinMain === 'LYNK' ? 'menu-metamart-active' : 'menu-metamart-clm'" class="menu-active" size="32" />
+                <base-icon icon="menu-metamart" class="menu" size="32" />
+                <p class="color-add-menu" style="font-size: 11px">{{ $t('leftMenu.nft') }}</p>
+              </div>
+            </router-link>
+          </li>
+        </ul>
       </div>
 
       <el-button slot="reference" class="is-create-color is-white is-none-border icon-btn p-0 m-0 button-add" style="height: 100%; position: relative; width: 100%">

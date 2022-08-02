@@ -5,19 +5,19 @@
     </div>
     <div class="content">
       <el-form>
-<!--        <el-form-item :label="$t('label.buy-token')">-->
-<!--          <el-select v-model="filter.currency" multiple clearable class="w-100">-->
-<!--            <el-option v-for="wallet in getListWallet" :key="wallet.id" :value="wallet.symbol" :label="wallet.name">-->
-<!--              <template>-->
-<!--                <div class="be-flex wallet-item">-->
-<!--                  <base-icon :icon="wallet.icon" size="24" />-->
-<!--                  <span class="d-ib" style="margin-left: 10px">{{ wallet.name }}</span>-->
-<!--                  <span class="d-ib" style="margin-left: 4px">({{ wallet.symbol.toUpperCase() }})</span>-->
-<!--                </div>-->
-<!--              </template>-->
-<!--            </el-option>-->
-<!--          </el-select>-->
-<!--        </el-form-item>-->
+        <!--        <el-form-item :label="$t('label.buy-token')">-->
+        <!--          <el-select v-model="filter.currency" multiple clearable class="w-100">-->
+        <!--            <el-option v-for="wallet in getListWallet" :key="wallet.id" :value="wallet.symbol" :label="wallet.name">-->
+        <!--              <template>-->
+        <!--                <div class="be-flex wallet-item">-->
+        <!--                  <base-icon :icon="wallet.icon" size="24" />-->
+        <!--                  <span class="d-ib" style="margin-left: 10px">{{ wallet.name }}</span>-->
+        <!--                  <span class="d-ib" style="margin-left: 4px">({{ wallet.symbol.toUpperCase() }})</span>-->
+        <!--                </div>-->
+        <!--              </template>-->
+        <!--            </el-option>-->
+        <!--          </el-select>-->
+        <!--        </el-form-item>-->
         <div class="be-flex jc-space-between row">
           <el-form-item class="be-flex-item mr-40 form-item-line" :label="$t('label.trans-date')">
             <el-date-picker
@@ -44,6 +44,88 @@
             >
             </el-date-picker>
           </el-form-item>
+        </div>
+        <div class="transaction-address-form" v-if="type == 'transaction'">
+          <div class="be-flex jc-space-between row">
+            <el-form-item
+              v-if="tabActiveFilter != 'bonus' && tabActiveFilter != 'crowdsale'"
+              class="be-flex-item mr-40 form-item-line"
+              :class="errorType === 'address' && 'error-address-border-popup-transaction'"
+              :label="$t('label.from')"
+            >
+              <el-select
+                v-if="tabActiveFilter != 'deposit'"
+                v-model="filter.fromAddress"
+                filterable
+                class="w-100"
+                popper-class="filter-address-transaction"
+                :placeholder="$t('label.from')"
+                :filter-method="remoteMethodFrom"
+                :loading="loading"
+                clearable
+                @clear="handleClearAddress('from')"
+                @blur="handleBlur"
+              >
+                <div v-infinite-scroll="loadMoreCustomerFrom" infinite-scroll-delay="500">
+                  <el-option v-for="item in optionAddressFrom" :key="item.address" :value="renderValueAddress(item, 'from')" @click.native="selectFromAddress = item">
+                    <div class="option-item">
+                      <div class="option-item__label" v-if="item.username.length > 24">
+                        {{ item.username | formatTransactionCode(8) }}
+                      </div>
+                      <div class="option-item__label" v-else>{{ item.username }}</div>
+                      <div class="option-item__description">{{ item.address | formatTransactionCode(5) }}</div>
+                    </div>
+                  </el-option>
+                </div>
+              </el-select>
+              <el-input
+                v-else
+                v-model="filter.fromAddress"
+                @change="selectFromAddress = { address: filter.fromAddress }"
+                class="w-100"
+                reserve-keyword
+                :placeholder="$t('label.from')"
+              >
+              </el-input>
+            </el-form-item>
+
+            <el-form-item
+              class="be-flex-item"
+              :class="errorType === 'amount' && 'error-amount-border-popup-transaction'"
+              :label="tabActiveFilter == 'bonus' || tabActiveFilter == 'crowdsale' ? $t('balance.investor') : $t('label.to')"
+            >
+              <el-select
+                v-if="tabActiveFilter != 'withdraw'"
+                v-model="filter.toAddress"
+                filterable
+                clearable
+                popper-class="filter-address-transaction"
+                class="w-100"
+                :placeholder="tabActiveFilter == 'bonus' || tabActiveFilter == 'crowdsale' ? $t('balance.investor') : $t('label.to')"
+                :filter-method="remoteMethodTo"
+                :loading="loading"
+                @clear="handleClearAddress('to')"
+                @blur="handleBlur"
+              >
+                <div v-infinite-scroll="loadMoreCustomerTo" infinite-scroll-delay="500">
+                  <el-option v-for="item in optionAddressTo" :key="item.address" :value="renderValueAddress(item, 'to')" @click.native="selectToAddress = item">
+                    <div class="option-item">
+                      <div class="option-item__label" v-if="item.username.length > 24">
+                        {{ item.username | formatTransactionCode(8) }}
+                      </div>
+                      <div class="option-item__label" v-else>{{ item.username }}</div>
+                      <div class="option-item__description">{{ item.address | formatTransactionCode(5) }}</div>
+                    </div>
+                  </el-option>
+                </div>
+              </el-select>
+              <el-input v-else v-model="filter.toAddress" @change="selectToAddress = { address: filter.toAddress }" class="w-100" reserve-keyword :placeholder="$t('label.to')">
+              </el-input>
+            </el-form-item>
+          </div>
+          <div v-if="errorType === 'amount'" class="error-amount">
+            <p>{{ $t('notify.amount-invalid') }}</p>
+          </div>
         </div>
         <div class="transaction-amount-form">
           <div class="be-flex jc-space-between row">
@@ -124,29 +206,58 @@
 </template>
 
 <script lang="ts">
-  import { Component, Mixins, Prop } from 'vue-property-decorator'
+  import { Component, Mixins, Prop, Watch } from 'vue-property-decorator'
   import includes from 'lodash/includes'
   import PopupMixin from '@/mixins/popup'
   import { namespace } from 'vuex-class'
+  import { TransactionRepository } from '@/services/repositories/transaction'
+  import getRepository from '@/services'
+  import { formatTransactionCode } from '@/configs'
+  import { cloneDeep, debounce, trim } from 'lodash'
 
   const beBase = namespace('beBase')
+  const api: TransactionRepository = getRepository('transaction')
 
   @Component
   export default class PopupFilterTransaction extends Mixins(PopupMixin) {
     @Prop({ required: true, type: String, default: '' }) tabActiveFilter!: string
     @Prop({ required: true, type: String, default: 'customer' }) type!: string
+    @Prop({ required: false, type: String, default: '' }) currency!: string
 
     @beBase.State('coinMain') coinMain!: string
-
+    loading = false
+    optionAddressFrom = []
+    optionAddressTo = []
+    keyword = ''
     filter: Record<string, any> = {
       currency: '',
       fromDate: null,
       toDate: null,
       fromAmount: '',
+      fromAddress: '',
+      toAddress: '',
       toAmount: '',
       status: '',
       bonusType: '',
       transactionType: ''
+    }
+    filterAddressFrom: Record<string, any> = {
+      currency: this.currency,
+      page: 1,
+      limit: 20,
+      search: ''
+    }
+    filterAddressTo: Record<string, any> = {
+      currency: this.currency,
+      page: 1,
+      limit: 20,
+      search: ''
+    }
+    selectFromAddress = {
+      address: ''
+    }
+    selectToAddress = {
+      address: ''
     }
 
     listType: Array<Record<string, any>> = [
@@ -207,6 +318,10 @@
       }
     ]
 
+    handleBlur(value) {
+      console.log('d')
+    }
+
     get pickerOption(): any {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const _this = this
@@ -215,6 +330,10 @@
           return _this.disableTime(time, 'from-to')
         }
       }
+    }
+
+    @Watch('currency') watchCurrency() {
+      this.handleReset()
     }
 
     get pickerOption2(): any {
@@ -226,6 +345,82 @@
         }
       }
     }
+
+    handleClearAddress(status) {
+      if (status == 'from') {
+        this.filterAddressFrom.search = ''
+        this.selectFromAddress = {
+          address: ''
+        }
+      } else {
+        this.filterAddressTo.search = ''
+        this.selectToAddress = {
+          address: ''
+        }
+      }
+      this.getListAddress(this, status)
+    }
+
+    renderValueAddress(item, status) {
+      item = cloneDeep(item)
+      item.address = formatTransactionCode(item.address, 6)
+      if (item.username.length > 24 && this.tabActiveFilter != 'bonus' && this.tabActiveFilter != 'crowdsale') item.username = formatTransactionCode(item.username, 8)
+
+      if (status == 'from') {
+        if (this.tabActiveFilter == 'deposit') return item.address
+        else if (this.tabActiveFilter == 'crowdsale') return item.address
+        else if (this.tabActiveFilter == 'withdraw') return item.username
+        else if (this.tabActiveFilter == 'transfer') return item.username
+      } else {
+        if (this.tabActiveFilter == 'deposit') return item.username
+        else if (this.tabActiveFilter == 'crowdsale') return item.username
+        else if (this.tabActiveFilter == 'withdraw') return item.address
+        else if (this.tabActiveFilter == 'transfer') return item.username
+        else if (this.tabActiveFilter == 'bonus') return item.username
+      }
+    }
+
+    remoteMethodFrom(value) {
+      this.filterAddressFrom = {
+        page: 1,
+        limit: 20,
+        currency: this.currency,
+        search: value
+      }
+      this.getListAddress(this, 'from')
+    }
+
+    remoteMethodTo(value) {
+      this.filterAddressTo = {
+        page: 1,
+        limit: 20,
+        currency: this.currency,
+        search: value
+      }
+      this.getListAddress(this, 'to')
+    }
+
+    mounted(): void {
+      this.getListAddress(this, null)
+    }
+
+    getListAddress = debounce(async (_this, status) => {
+      _this.optionAddress = []
+      _this.loading = true
+      if (!status) {
+        const resultFrom = await api.getListAddress(_this.filterAddressFrom)
+        const resultTo = await api.getListAddress(_this.filterAddressTo)
+        _this.optionAddressFrom = resultFrom?.content
+        _this.optionAddressTo = resultTo?.content
+      } else if (status == 'from') {
+        const resultFrom = await api.getListAddress(_this.filterAddressFrom)
+        _this.optionAddressFrom = resultFrom?.content
+      } else {
+        const resultTo = await api.getListAddress(_this.filterAddressTo)
+        _this.optionAddressTo = resultTo?.content
+      }
+      _this.loading = false
+    }, 500)
 
     disableTime(time: Date, type: string): any {
       if (type === 'from-to') {
@@ -301,7 +496,7 @@
         id: 2,
         label: 'Success',
         value: 'SUCCESS'
-      },
+      }
       // {
       //   id: 3,
       //   label: 'Failed',
@@ -371,12 +566,26 @@
       ]
     }
 
+    async loadMoreCustomerFrom() {
+      this.filterAddressFrom.limit += 10
+      const result = await api.getListAddress(this.filterAddressFrom)
+      this.optionAddressFrom = result?.content
+    }
+
+    async loadMoreCustomerTo(status) {
+      this.filterAddressTo.limit += 10
+      const result = await api.getListAddress(this.filterAddressTo)
+      this.optionAddressTo = result?.content
+    }
+
     public handleReset(): void {
       this.filter = {
         currency: '',
         fromDate: '',
         toDate: '',
         fromAmount: '',
+        fromAddress: '',
+        toAddress: '',
         toAmount: '',
         status: null,
         bonusType: null,
@@ -384,6 +593,28 @@
       }
 
       this.errorType = ''
+      this.selectToAddress = {
+        address: ''
+      }
+      this.selectFromAddress = {
+        address: ''
+      }
+
+      this.filterAddressFrom = {
+        page: 1,
+        limit: 20,
+        currency: this.currency,
+        search: ''
+      }
+
+      this.filterAddressTo = {
+        page: 1,
+        limit: 20,
+        currency: this.currency,
+        search: ''
+      }
+
+      this.getListAddress(this, null)
       // this.setOpenPopup({
       //   popupName: 'popup-filter-transaction',
       //   isOpen: false
@@ -429,7 +660,16 @@
         if (this.filter.toDate) {
           toDate = this.$options.filters?.formatReferral(this.filter.toDate + 86399000)
         }
-        this.$emit('filter', { ...this.filter, fromAmount: _fromAmount, toAmount: _toAmount, currency: _currency, fromDate, toDate })
+        this.$emit('filter', {
+          ...this.filter,
+          fromAmount: _fromAmount,
+          toAmount: _toAmount,
+          currency: _currency,
+          fromDate,
+          toDate,
+          fromAddress: this.selectFromAddress?.address,
+          toAddress: this.selectToAddress?.address
+        })
       }
     }
 
@@ -459,6 +699,35 @@
 </script>
 
 <style scoped lang="scss">
+  .filter-address-transaction {
+    .el-select-dropdown__item {
+      padding: 8px 12px;
+      height: 58px !important;
+      font-weight: 400;
+
+      .option-item {
+        .option-item__label {
+          font-weight: 400;
+          font-size: 16px;
+          line-height: 24px;
+          color: #0a0b0d;
+        }
+
+        .option-item__description {
+          font-size: 12px !important;
+          line-height: 16px !important;
+          color: #5b616e !important;
+        }
+      }
+
+      &.selected {
+        .option-item__label {
+          color: var(--bc-tab-active);
+        }
+      }
+    }
+  }
+
   .prefix {
     height: 100%;
     font-size: 16px;
@@ -500,6 +769,7 @@
       right: -25px;
     }
   }
+
   .footer {
     button[disabled] {
       opacity: 0.2;

@@ -180,6 +180,7 @@
     "amount-lynk": "Amount LYNK"
   },
   "button": {
+    "action": "Action",
     "reset": "Reset",
     "reset-pass": "Reset",
     "continue": "Continue",
@@ -189,6 +190,7 @@
     "approve": "Approve",
     "reject": "Reject",
     "apply": "Apply",
+    "confirm": "Confirm",
     "add-member": "Add member",
     "add-member-1": "Add Member",
     "add-buyer": "Add Buyer",
@@ -202,7 +204,10 @@
     "change-table": "Table",
     "change-chart": "Chart",
     "buy": "Buy",
-    "transfer": "Transfer"
+    "transfer": "Transfer",
+    "add-new": "Add new",
+    "import-file": "Import file",
+    "create": "Create"
   },
   "deposit": {
     "lynkey": "DEPOSIT LYNKEY",
@@ -228,7 +233,8 @@
     "buyer": "buyers",
     "times": "times",
     "results": "results",
-    "events": "events"
+    "events": "events",
+    "collection": "collections"
   },
   "label": {
     "invalid-amount": "Invalid amount",
@@ -364,7 +370,12 @@
     "code-validation-failed": "Code validation failed",
     "min-to-buy-crowdsale": "Minimum amount is {amount}$",
     "vesting-invalid": "Vesting month must be higher zero",
-    "amount-transfer-invalid": "Amount must be higher zero"
+    "amount-transfer-invalid": "Amount must be higher zero",
+    "LESS_THAN_ZERO": "Quantity must be greater than 0",
+    "NOT_ENOUGH_QUANTITY": "Don't have enough quantity",
+    "INVALID_VERIFICATION": "Invalid verification code",
+    "EXPIRED_VERIFICATION": "Expired verification code",
+    "USER_LOCKED": "Account has been locked"
   },
   "logout": {
     "title": "Sign out",
@@ -694,6 +705,7 @@
     "vesting": "Vesting",
     "metamart-nft": "NFT item",
     "metamart-collection": "Collection",
+    "metamart-category": "Category",
     "put-on-sale": "Put on sale",
     "bid": "Bid",
     "offer": "Offer",
@@ -707,7 +719,8 @@
     "unverified": "Not verified",
     "locked": "Locked",
     "success": "Success",
-    "failed": "Failed"
+    "failed": "Failed",
+    "processing": "Processing"
   },
   "crowdsale": {
     "round": "Round",
@@ -1068,7 +1081,8 @@
   "verified": {
     "titlePopup": "VERIFICATION",
     "titleContent3": "Enter the 6-digit code we sent to your email",
-    "resendCodeMess": "Resend code successfully"
+    "resendCodeMess": "Resend code successfully",
+    "sendCodeMess": "Send code successfully"
   },
   "report": {
     "table": {
@@ -1135,13 +1149,13 @@
     "status": "Status"
   },
   "inventory": {
-    "summary":{
+    "summary": {
       "summary": "Summary",
       "owners": "Owners",
       "NFTs": "NFTs",
       "available": "Available",
       "lock": "Lock",
-      "on-sale":"On Sale",
+      "on-sale": "On Sale",
       "off-market": "Off Market",
       "burn": "Burn"
     },
@@ -1160,6 +1174,7 @@
     },
     "inventory-detail": {
       "title": "INVENTORY DETAIL",
+      "title-success": "CONGRATULATIONS",
       "inventory": "Inventory",
       "type": "TYPE",
       "quantity": "QUANTITY",
@@ -1167,19 +1182,46 @@
       "total": "Total",
       "available": "Available",
       "lock": "Lock",
-      "on-sale":"On Sale",
+      "lock-title": "Lock",
+      "un-lock": "Unlock",
+      "on-sale": "On Sale",
+      "put-on-sale": "Put on sale",
+      "remove-sale": "Remove sale",
+      "remove-from-sale": "Remove from sale",
+      "title-burn": "You are burning",
+      "title-remove-sale": "You are removing items from sale",
+      "title-lock": "You are locking",
+      "title-unlock": "You are unlocking",
+      "of": "of ",
+      "remove-sale-success": "You have successfully removed items from sale",
+      "burn-success": "You have successfully burned the token",
+      "lock-success": "You have successfully locked the token",
+      "un-lock-success": "You have successfully unlocked the token",
       "off-market": "Off Market",
       "burn": "Burn",
-      "account-statement":"Account Statement",
+      "account-statement": "Account Statement",
       "opening-quantity": "OPENING QUANTITY",
       "event-type": "EVENT TYPE",
       "increase": "INCREASE",
       "decrease": "DECREASE",
       "status": "STATUS",
+      "select": "Select",
       "total-account": "TOTAL",
-      "ending-quantity":"ENDING QUANTITY"
+      "ending-quantity": "ENDING QUANTITY",
+      "inventory-detail-type": {
+        "burn": "BURN NFT",
+        "transaction-detail": "Transaction Details",
+        "date": "Date",
+        "quantity": "Quantity",
+        "owner-name": "Owner name",
+        "status": "Status",
+        "employee": "Employee",
+        "fullname": "Full name",
+        "email": "Email",
+        "role": "Role"
+      }
     },
-    "inventory-filter":{
+    "inventory-filter": {
       "network": "Network",
       "quantity": "Quantity",
       "from": "From",
@@ -1226,8 +1268,99 @@
     "royalty": "Royalty",
     "transfer": "Transfer"
   },
+  "metamart": {
+    "button": {
+      "reset": "Reset",
+      "save": "Save",
+      "apply": "Apply"
+    },
+    "table": {
+      "collection": "COLLECTION",
+      "category": "CATEGORY",
+      "network": "NETWORK",
+      "creator": "CREATOR"
+    },
+    "collection": {
+      "filter": {
+        "filter": "FILTER",
+        "creator": "Creator",
+        "category": "Category",
+        "network": "Network",
+        "created-date": "Created Date",
+        "from-date": "From date",
+        "to-date": "To date"
+      },
+      "popup": {
+        "title": "ADD NEW COLLECTION",
+        "preview": "Preview",
+        "avatar": "Avatar",
+        "thumbnail": "Thumbnail",
+        "banner": "Upload banner",
+        "name": "Name",
+        "description": "Description",
+        "optional": "optional",
+        "network": "Network",
+        "contract-address": "Contract address",
+        "default-payment-by": "Default payment by",
+        "creator": "Creator",
+        "category": "Category",
+        "template": "Template"
+      },
+      "subtitle": {
+        "name": "Token name cannot be changed in future"
+      },
+      "upload": {
+        "size": "Upload size",
+        "max": "Max",
+        "drop": "Drag and drop or",
+        "click": "Click to upload",
+        "preview": "Upload file to preview your brand new Collection"
+      },
+      "delete": {
+        "confirmation-1": "Are you sure you want to delete this",
+        "confirmation-2": "collection?",
+        "warning-label": "Something went wrong",
+        "warning-description": "Cannot delete a collection that contains NFT items. Please move all NFTs to another collection and try again."
+      }
+    },
+    "success": {
+      "title": "CONGRATULATIONS",
+      "delete-collection": "You have successfully deleted the collection"
+    }
+  },
   "filter_pending": "Pending",
   "filter_processing": "Processing",
   "filter_success": "Success",
-  "filter_failed": "Failed"
+  "filter_failed": "Failed",
+  "popup_add-nft": "ADD NEW NFT",
+  "popup_edt-nft": "EDIT NFT",
+  "label_information": "Information",
+  "label_blockchain": "Blockchain",
+  "label_metadata": "Metadata",
+  "label_setting": "Setting",
+  "label_collection": "Collection",
+  "label_category": "Category",
+  "label_product-code": "Product code",
+  "label_nft-name": "Name",
+  "label_thumbnail": "Thumbnail",
+  "label_upload-file": "Upload file",
+  "label_short-desc": "Short description",
+  "label_long-desc": "Description",
+  "setup_empty-nft": "Upload file to preview your brand new NFT",
+  "label_copies": "Number of copies",
+  "label_contract-address": "Contract address",
+  "label_token-id": "Token ID",
+  "label_blockchain-network": "Blockchain network",
+  "label_token-standard": "Token Standard",
+  "label_creator": "Creator",
+  "label_network": "Network",
+  "tab_nft-info": "NFT info",
+  "label_service-fee": "Service fee",
+  "label_top-nft": "Put item on TOP NFT section",
+  "label_top-nft-desc": "When this feature is enabled, this NFT will appear in the Top NFT section",
+  "label_hot-nft": "Put item on HOT NFT section",
+  "label_hot-nft-desc": "When this feature is enabled, this NFT will appear in the Hot NFT section",
+  "label_royal-fee": "Royalty fee",
+  "label_position-top-nft": "Position on TOP NFT section",
+  "label_position-hot-nft": "Position on HOT NFT section"
 }

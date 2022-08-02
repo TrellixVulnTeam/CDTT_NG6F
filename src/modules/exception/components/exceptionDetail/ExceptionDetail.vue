@@ -10,7 +10,7 @@
           <base-icon :className="'icon-pending'" :icon="getIcon" size="64" />
         </div>
         <p v-if="detailRow.transactionType === 'WITHDRAW'" :class="checkValueAmountDisplay(detailRow.amountDisplay)">-{{ detailRow.amountDisplay }} {{ detailRow.currency }}</p>
-        <p v-else class="sub">-{{ detailRow.paidAmountDisplay }} {{ detailRow.currency }}</p>
+        <p v-else class="sub">-{{ detailRow.paidAmountDisplay }} {{ detailRow.paidCurrency }}</p>
 
         <p v-if="detailRow.transactionType === 'WITHDRAW'" class="usd">~${{ detailRow.amountToUsdDisplay }}</p>
         <p v-else class="usd">~${{ detailRow.paidAmountToUsd }}</p>

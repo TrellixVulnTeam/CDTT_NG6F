@@ -49,8 +49,8 @@
         </div>
       </div>
       <filter-transaction
+        :show-btn-export-excel="true"
         @filter="handleFilter"
-        :type="'transaction'"
         :showBtn="getShowBtn"
         :showBtnCrowdsale="showBtnCrowdsale"
         :showBtnTransfer="showBtnTransfer"
@@ -153,13 +153,13 @@
         title: 'transfer',
         transactionType: 'TRANSFER',
         type: 'transfer'
+      },
+      {
+        id: 6,
+        title: 'burn',
+        transactionType: 'BURN',
+        type: 'burn'
       }
-      // {
-      //   id: 6,
-      //   title: 'burn',
-      //   transactionType: 'BURN',
-      //   type: 'burn'
-      // }
     ]
 
     tabsHeader: Array<Record<string, any>> = [
@@ -527,6 +527,7 @@
         page: 1,
         limit: 10
       }
+      console.log(this.query, filter, 'note')
       this.debounceInit()
     }
 

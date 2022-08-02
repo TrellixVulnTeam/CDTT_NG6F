@@ -1,27 +1,7 @@
 <template>
   <div class="inventory box-shadow">
     <h1 class="inventory-title">{{ $t('inventory.summary.summary') }}</h1>
-    <!--  <el-carousel :autoplay="false"  arrow="always">-->
-    <!--    <el-carousel-item v-for="(itemTab,index) in dataConcat" :key="index">-->
-    <!--      <div class="wrap-summaries mb-24" >-->
-    <!--        <div class="summary" v-for="(item, i) in dataConcat[index].tabOne" :key="i">-->
-    <!--          <div class="summary-header">-->
-    <!--            <span class="summary-header__title">{{item.summaryName}}</span>-->
-    <!--            <base-icon icon="icon-two-users" size="24"/>-->
-    <!--          </div>-->
-    <!--          <div class="summary-content">{{item.total}}</div>-->
-    <!--        </div>-->
-    <!--        <div class="summary" v-for="(item, i) in dataConcat[index].tabTwo" :key="i">-->
-    <!--          <div class="summary-header">-->
-    <!--            <span class="summary-header__title">{{item.summaryName}}</span>-->
-    <!--            <base-icon icon="icon-two-users" size="24"/>-->
-    <!--          </div>-->
-    <!--          <div class="summary-content">{{item.total}}</div>-->
-    <!--        </div>-->
-    <!--      </div>-->
-    <!--    </el-carousel-item>-->
-    <!--  </el-carousel>-->
-    <el-carousel :autoplay="false" arrow="always" :loop="false" :interval="999999999999999999999">
+    <el-carousel :autoplay="false" arrow="always" :loop="false" @change="changeCarousel">
       <el-carousel-item>
         <div class="wrap-summaries mb-24">
           <div class="summary">
@@ -47,25 +27,15 @@
           </div>
           <div class="summary">
             <div class="summary-header">
-              <span class="summary-header__title">{{ $t('inventory.summary.on-sale') }}</span>
-              <base-icon icon="onsale-inventory" size="24" />
-            </div>
-            <div class="summary-content">{{ summaryInventoryData.totalOnSale | formatNumber }}</div>
-          </div>
-          <!--
-          <div class="summary">
-            <div class="summary-header">
               <span class="summary-header__title">{{ $t('inventory.summary.lock') }}</span>
               <base-icon icon="icon-lock-inventory" size="24" />
             </div>
             <div class="summary-content">{{ summaryInventoryData.totalLock | formatNumber }}</div>
           </div>
-          !-->
         </div>
       </el-carousel-item>
       <el-carousel-item>
         <div class="wrap-summaries mb-24">
-          <!--
           <div class="summary">
             <div class="summary-header">
               <span class="summary-header__title">{{ $t('inventory.summary.on-sale') }}</span>
@@ -73,7 +43,6 @@
             </div>
             <div class="summary-content">{{ summaryInventoryData.totalOnSale | formatNumber }}</div>
           </div>
-          !-->
           <div class="summary">
             <div class="summary-header">
               <span class="summary-header__title">{{ $t('inventory.summary.off-market') }}</span>
@@ -81,7 +50,6 @@
             </div>
             <div class="summary-content">{{ summaryInventoryData.totalOffMarket | formatNumber }}</div>
           </div>
-          <!--
           <div class="summary">
             <div class="summary-header">
               <span class="summary-header__title">{{ $t('inventory.summary.burn') }}</span>
@@ -89,15 +57,11 @@
             </div>
             <div class="summary-content">{{ summaryInventoryData.totalBurn | formatNumber }}</div>
           </div>
-          !-->
         </div>
       </el-carousel-item>
     </el-carousel>
     <div class="wrap-filter mb-24">
-      <inventory-filter
-          @filterInventory="handleFilter"
-          :listDataNetwork="listDataNetwork"
-      ></inventory-filter>
+      <inventory-filter @filterInventory="handleFilter" :listDataNetwork="listDataNetwork"></inventory-filter>
     </div>
     <div class="wrap-table">
       <base-table
@@ -115,12 +79,13 @@
         <el-table-column :label="$t('inventory.table.owner')" align="left" width="350">
           <template slot-scope="scope">
             <p class="owner-name">{{ scope.row.ownerUserFullName }}</p>
-            <p class="owner-email" v-if="scope.row.ownerAccountType==='EXTERNAL'">{{ scope.row.username | formatTransactionCode }}</p>
-            <p class="owner-email" v-if="scope.row.ownerAccountType==='INTERNAL'">{{ scope.row.username}}</p>
-
+            <p class="owner-email" v-if="scope.row.ownerAccountType === 'EXTERNAL'">
+              {{ scope.row.username | formatTransactionCode }}
+            </p>
+            <p class="owner-email" v-if="scope.row.ownerAccountType === 'INTERNAL'">{{ scope.row.username }}</p>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('inventory.table.item')" align="left" >
+        <el-table-column :label="$t('inventory.table.item')" align="left">
           <template slot-scope="scope">
             <div class="wrap-item">
               <img :src="scope.row.itemThumb" alt="" class="item-img" width="40px" height="40px" />
@@ -139,7 +104,7 @@
         </el-table-column>
         <el-table-column :label="$t('inventory.table.quantity')" align="right" width="150">
           <template slot-scope="scope">
-            <span class="quantity">{{ scope.row.originQuantity | formatNumber}}</span>
+            <span class="quantity">{{ scope.row.originQuantity | formatNumber }}</span>
           </template>
         </el-table-column>
         <!--      <el-table-column :label="$t('inventory.table.status')" align="center" width="185">-->
@@ -157,10 +122,10 @@
       :dataAccountSummaryDetail="dataAccountSummaryDetail"
       :dataAccountContentDetail="dataAccountContentDetail"
       :dataSummaryInventoryDetail="dataSummaryInventoryDetail"
+      :itemId="itemId"
+      :accountId="accountId"
     />
-    <popup-filter-inventory
-      @filterInventory="handleFilter"
-     :listDataNetwork="listDataNetwork"/>
+    <popup-filter-inventory @filterInventory="handleFilter" :listDataNetwork="listDataNetwork" />
   </div>
 </template>
 
@@ -174,30 +139,32 @@
   import PopupInventoryDetail from '../components/popup/PopupInventoryDetail.vue'
   import BaseTable from '@/components/base/table/BaseTable.vue'
   import { debounce } from 'lodash'
-  import filter from 'lodash/filter'
-  import _ from 'lodash'
-  // import EventBus from '@/utils/eventBus'
+  const apiNft: NftRepository = getRepository('nft')
 
   import { namespace } from 'vuex-class'
-  import firebase from "@/utils/firebase";
-  import PopupFilterInventory from "@/modules/inventory/components/popup/PopupFilterInventory.vue";
+  import firebase from '@/utils/firebase'
+  import PopupFilterInventory from '@/modules/inventory/components/popup/PopupFilterInventory.vue'
+  import EventBus from '@/utils/eventBus'
+  import {NftRepository} from "@/services/repositories/nft";
 
   const api: InventoryRepository = getRepository('inventory')
   const beBase = namespace('beBase')
 
-  @Component({ components: {PopupFilterInventory, BaseTable, InventoryFilter, PopupInventoryDetail } })
+  @Component({ components: { PopupFilterInventory, BaseTable, InventoryFilter, PopupInventoryDetail } })
   export default class Inventory extends Mixins(PopupMixin) {
     @beBase.State('coinMain') coinMain!: string
     isLoading: any = false
 
     summaryInventoryData: Record<string, any> = {}
     listDataItem: Record<string, any>[] = []
-    rowData:Record<string, any> = {}
+    rowData: Record<string, any> = {}
     dataAccountSummaryDetail = {}
     dataAccountContentDetail = []
     dataSummaryInventoryDetail = {}
     listener: any = null
     listDataNetwork = []
+    itemId = ''
+    accountId = ''
 
     query: Record<string, any> = {
       search: '',
@@ -211,7 +178,7 @@
     }
 
     async created(): Promise<void> {
-      if(this.$route.query.ownerId && this.$route.query.itemId){
+      if (this.$route.query.ownerId && this.$route.query.itemId) {
         await this.getDetailAccountStatement(this.$route.query)
         await this.getDetailSummaryInventory(this.$route.query)
         this.setOpenPopup({
@@ -225,17 +192,13 @@
       let _this = this
       this.listener = listNetworkRef.on('value', function (snapshot) {
         _this.listDataNetwork = snapshot.val()
-        _this.listDataNetwork = _this.listDataNetwork.filter((item: Record<string,any>) => item.type === "NFT")
-        console.log(_this.listDataNetwork, "network")
-
+        _this.listDataNetwork = _this.listDataNetwork.filter((item: Record<string, any>) => item.type === 'NFT')
       })
-
       this.init()
       this.getDataTable()
-
     }
 
-    destroyed(): void{
+    destroyed(): void {
       const listNetworkRef = firebase.database().ref('nft_assets')
       listNetworkRef.off('value', this.listener)
     }
@@ -244,7 +207,6 @@
       try {
         const response = await api.getSummaryData(this.query)
         this.summaryInventoryData = response
-        console.log(this.summaryInventoryData)
       } catch (error) {
         console.log(error)
       }
@@ -263,53 +225,11 @@
         const response = await api.getListInventoryDataTable(params)
         this.listDataItem = response.content
         this.query.total = response.totalElements
-        console.log(this.listDataItem)
-        console.log(this.query)
         this.isLoading = false
       } catch (e) {
         this.isLoading = false
-        console.log(e)
       }
     }
-
-    dataConcat: any = [
-      {
-        tabOne: [
-          {
-            summaryName: 'Owners',
-            total: 112345566
-          },
-          {
-            summaryName: 'NFTs',
-            total: 112345566
-          },
-          {
-            summaryName: 'Available',
-            total: 112345566
-          },
-          {
-            summaryName: 'Lock',
-            total: 112345566
-          }
-        ]
-      },
-      {
-        tabTwo: [
-          {
-            summaryName: 'On Sale',
-            total: 112345566
-          },
-          {
-            summaryName: 'Off Market',
-            total: 112345566
-          },
-          {
-            summaryName: 'Burn',
-            total: 112345566
-          }
-        ]
-      }
-    ]
 
     indexMethod(index: number): number {
       return (this.query.page - 1) * this.query.limit + index + 1
@@ -337,6 +257,7 @@
       }
       return rs
     }
+
     getTextStatus(input: string): string {
       let rs = ''
       switch (input) {
@@ -382,11 +303,7 @@
         this.dataAccountSummaryDetail = response.summary
         this.dataAccountContentDetail = response.events.content
         this.queryAccountState.total = response.events.totalElements
-        console.log(response, '')
         let parsedObj = JSON.parse(JSON.stringify(this.dataAccountContentDetail))
-        console.log(parsedObj, 'PARSE')
-        console.log(this.dataAccountContentDetail, 'table account')
-
       } catch (e) {
         console.log(e)
       }
@@ -398,6 +315,9 @@
           accountId: row.ownerId,
           itemId: row.itemId
         }
+        this.accountId = row.ownerId
+        this.itemId = row.itemId
+
         const response = await api.getSummaryData(querySummary)
         this.dataSummaryInventoryDetail = response
         // this.dataConvertSummaryInventory = _.map(this.dataSummaryInventoryDetail, (val: Record<string, any>, id) => {
@@ -413,25 +333,26 @@
       limit: 10,
       total: 0
     }
-    handleCurrentChangeAccount(page: number):void {
-      this.queryAccountState.page = page;
+
+    handleCurrentChangeAccount(page: number): void {
+      this.queryAccountState.page = page
       this.getDetailAccountStatement(this.rowData?.row)
-      if(this.$route.query.ownerId && this.$route.query.itemId){
+      if (this.$route.query.ownerId && this.$route.query.itemId) {
         this.getDetailAccountStatement(this.$route.query)
       }
     }
 
-    handleSizeChangeAccount(size: number):void {
-      this.queryAccountState.limit = size;
+    handleSizeChangeAccount(size: number): void {
+      this.queryAccountState.limit = size
       // this.queryAccountState.page = 1;
       this.getDetailAccountStatement(this.rowData?.row)
-      if(this.$route.query.ownerId && this.$route.query.itemId){
+      if (this.$route.query.ownerId && this.$route.query.itemId) {
         this.getDetailAccountStatement(this.$route.query)
       }
     }
 
     async handleRowClick(row: Record<string, any>): Promise<void> {
-      if(row) this.rowData=row
+      if (row) this.rowData = row
       await this.getDetailSummaryInventory(row.row)
       await this.getDetailAccountStatement(row.row)
 
@@ -439,14 +360,29 @@
         popupName: 'popup-inventory-detail',
         isOpen: true
       })
-      
     }
 
-    handleResetQuery(queryPopupDetail):void {
-      this.queryAccountState={
+    handleResetQuery(queryPopupDetail): void {
+      this.queryAccountState = {
         ...queryPopupDetail,
-        page:1,
-        limit:10
+        page: 1,
+        limit: 10
+      }
+    }
+
+    changeCarousel(event) {
+      var element1 = document.querySelector('.el-carousel__arrow--right')
+      var element2 = document.querySelector('.el-carousel__arrow--left')
+      if (event == 1) {
+        //@ts-ignore
+        element1.style.opacity = 0.7
+        //@ts-ignore
+        element2.style.opacity = 1
+      } else {
+        //@ts-ignore
+        element2.style.opacity = 0.7
+        //@ts-ignore
+        element1.style.opacity = 1
       }
     }
 
@@ -457,8 +393,66 @@
         page: 1,
         limit: 10
       }
-      console.log('query', this.query)
       this.debounceInit()
+    }
+
+    mounted() {
+      EventBus.$on('start-export', this.handleExport)
+      this.changeCarousel(0)
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      var _this = this
+      EventBus.$on('reload-data-inventory', async function (query, type) {
+        await _this.init()
+        await _this.getDetailSummaryInventory(query)
+        await _this.getDetailAccountStatement(query)
+        await _this.getDataTable()
+      })
+    }
+
+    async handleExport():Promise<void> {
+      const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+      const params = {
+        ...this.query,
+        exportFrom: "NFT_INVENTORY",
+        zoneId: timeZone
+      }
+      try {
+        if(this.listDataItem.length > 0) {
+          const rs = await apiNft.exportExcel(params)
+          const url = window.URL.createObjectURL(new Blob([rs]))
+          const link = document.createElement('a')
+          link.href = url
+          const currentTime = new Date()
+          const month = currentTime.getMonth() < 10 ? '0' + (currentTime.getMonth() + 1) : (currentTime.getMonth() + 1)
+          const date = currentTime.getDate() < 10 ? '0' + currentTime.getDate() : currentTime.getDate()
+          const year = currentTime.getFullYear()
+          const hours = currentTime.getHours() < 10 ? '0' + currentTime.getHours() : currentTime.getHours()
+          const minutes = currentTime.getMinutes() < 10 ? '0' + currentTime.getMinutes() : currentTime.getMinutes()
+          const seconds = currentTime.getSeconds() < 10 ? '0' + currentTime.getSeconds() : currentTime.getSeconds()
+          const fileName = `nft_inventory_${month + '' + date + year}_${hours + '' + minutes + seconds}`
+          link.setAttribute('download', `${fileName}.xlsx`)
+          document.body.appendChild(link)
+          link.click()
+        }
+        else {
+          throw({
+            type: "CAN_NOT_EXPORT",
+            message: this.$i18n.t('fee-nft.can-not-export')
+          })
+        }
+      } catch (error: any) {
+        if(error?.type === 'CAN_NOT_EXPORT') {
+          this.$message({
+            type: 'error',
+            message: error.message,
+            duration: 1000
+          })
+        }
+        else {
+          console.log(error)
+        }
+      }
+      EventBus.$emit('end-export')
     }
 
     debounceInit = debounce(() => {
@@ -475,16 +469,19 @@
     font-weight: $weight;
     color: $color;
   }
+
   ::v-deep.inventory {
     width: 100%;
     background-color: var(--bc-color-white);
     border-radius: 4px;
     height: 100%;
     padding: 24px 24px 0 24px;
+
     &-title {
       margin-bottom: 16px;
       @include text(24px, 32px, 600, #0a0b0d);
     }
+
     .wrap-summaries {
       width: 100%;
       height: auto;
@@ -492,51 +489,62 @@
       grid-template-columns: 1fr 1fr 1fr 1fr;
       gap: 0 24px;
       justify-content: space-between;
+
       .summary {
         border: 1px solid var(--bc-table-border);
         border-radius: 8px;
         padding: 16px;
+
         &-header {
           width: 100%;
           display: flex;
           align-items: center;
           justify-content: space-between;
           margin-bottom: 12px;
+
           &__title {
             @include text(16px, 24px, 400, #5b616e);
           }
+
           .span-icon {
             line-height: 24px;
           }
         }
+
         &-content {
           margin-bottom: 24px;
           @include text(24px, 24px, 600, #0a0b0d);
         }
       }
     }
+
     .wrap-filter {
       .kyc-filter {
         padding: 0;
       }
     }
+
     .wrap-table {
       .inventory-table {
         .owner-name {
           @include text(16px, 24px, 400, #0a0b0d);
         }
+
         .owner-email {
           @include text(14px, 20px, 400, #5b616e);
         }
+
         .wrap-item {
           display: flex;
           justify-content: left;
           align-items: center;
+
           .item-img {
             margin-right: 8px;
             border-radius: 4px;
             object-fit: cover;
           }
+
           .item-text {
             &__name {
               @include text(16px, 24px, 400, #0a0b0d);
@@ -546,37 +554,46 @@
               overflow: hidden;
               text-overflow: ellipsis;
             }
+
             &__code {
               @include text(14px, 20px, 400, #5b616e);
             }
           }
         }
+
         .network-name {
           @include text(16px, 24px, 400, #0a0b0d);
         }
+
         .network-code {
           @include text(14px, 20px, 400, #5b616e);
         }
+
         .quantiy {
           @include text(16px, 24px, 400, #0a0b0d);
         }
+
         .status {
           display: inline-block;
           width: 80px;
           height: 24px;
           border-radius: 4px;
+
           &__success {
             background-color: var(--bc-bg-accept);
             @include text(12px, 24px, 500, #129961);
           }
+
           &__dark {
             background-color: var(--bc-bg-neutral);
             @include text(12px, 24px, 500, #5b616e);
           }
+
           &__info {
             background-color: var(--bc-bg-warning);
             @include text(12px, 24px, 500, #dd7d00);
           }
+
           &__error {
             background-color: var(--bc-bg-reject);
             @include text(12px, 24px, 500, #cf202f);
@@ -589,30 +606,36 @@
   ::v-deep.el-carousel--horizontal {
     overflow-x: clip;
     display: flow-root;
+
     .el-carousel__container {
       height: 143px;
+
       .el-carousel__arrow {
-         transition: 0s ease-out;
-         display: block !important;
+        transition: 0s ease-out;
+        display: block !important;
         width: 32px;
         height: 32px;
         color: #292d32;
         border: 1px solid #ececec;
         background-color: #fff;
       }
+
       .el-carousel__arrow i {
         font-size: 16px;
         font-weight: 600;
       }
+
       .el-carousel__arrow--left {
         top: -32px;
         right: 60px;
         left: calc(100% - 24px - 32px - 24px);
       }
+
       .el-carousel__arrow--right {
         top: -32px;
         right: 0;
       }
+
       .el-carousel__item.is-animating {
         transition: transform 0.6s ease-in-out;
       }

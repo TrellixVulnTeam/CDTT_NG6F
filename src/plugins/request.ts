@@ -35,9 +35,7 @@ request.interceptors.response.use(
     return response
   },
   error => {
-    console.log(error.response)
     const { config, data, status } = error.response
-    console.log(data)
 
     // const originalRequest = config
     if (data.httpStatus === 401 || status === 401) {
@@ -152,6 +150,9 @@ request.interceptors.response.use(
       }
       if (data.status === 'USER_LOCKED') {
         message = i18n.tc('notify.user-locked')
+        setTimeout(() => {
+          window.location.href = '/login'
+        }, 500)
       }
       if (data.status === 'USER_EXPIRED') {
         message = i18n.tc('notify.user-expired')
@@ -177,6 +178,10 @@ request.interceptors.response.use(
 
       if (data.status === 'BAD_REQUEST' && data.message === 'Incorrect old password' && includes(config.url, 'change-pass')) {
         message = i18n.tc('notify.incorrect-old-pass')
+      }
+
+      if (!message) {
+        message = i18n.tc('notify.' + data.status)
       }
 
       Message.error({ message, duration: 5000 })

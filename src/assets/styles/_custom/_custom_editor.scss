@@ -1,0 +1,36 @@
+.jodit-container {
+    // margin: 0 16px;
+    // border: none !important;
+    // display: flex;
+    // flex-direction: column-reverse;
+    // .jodit-toolbar__box {
+    //     background-color: transparent;
+    //     padding: 6px 0;
+    //     border-top: 1px solid #dbdbdb;
+    //     border-bottom: none;
+    // }
+    .jodit-wysiwyg {
+        padding: 10px !important;
+        ul,
+        ol {
+            padding-left: 20px;
+            list-style: initial;
+            li {
+                list-style: unset;
+            }
+        }
+    }
+    .jodit-placeholder {
+        padding: 10px;
+    }
+    .jodit-add-new-line.jodit-add-new-line_after {
+        display: none;
+    }
+
+    em {
+        font-style: italic;
+    }
+    strong {
+        font-weight: bold;
+    }
+}

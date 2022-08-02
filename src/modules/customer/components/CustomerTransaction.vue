@@ -1,8 +1,8 @@
 <template>
   <div class="list-transaction" v-loading="isLoading" :class="isLoading ? 'list-transaction-loading' : null">
-    <filter-transaction @filter="handleFilter" />
+    <filter-transaction @filter="handleFilter" type="customer-transaction" :showBtnTransfer="false"/>
     <div class="table">
-      <table-transaction :listTransaction="listTransaction" :query="query" @sizeChange="handleSizeChange" @pageChange="handleCurrentChange" />
+      <table-transaction type="customer" :listTransaction="listTransaction" :query="query" @sizeChange="handleSizeChange" @pageChange="handleCurrentChange" />
     </div>
     <popup-filter-transaction @filter="handleFilter" />
   </div>

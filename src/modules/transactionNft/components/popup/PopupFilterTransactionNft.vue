@@ -75,7 +75,7 @@
                 remote
                 clearable
                 reserve-keyword
-                :placeholder="$t('placeholder.from')"
+                :placeholder="$t('placeholder.to')"
                 :remote-method="handleFindCustomerTo"
                 @clear="handleClearCustomerTo"
               >

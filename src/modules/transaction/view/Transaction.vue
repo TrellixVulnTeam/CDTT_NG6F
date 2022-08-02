@@ -63,7 +63,7 @@
           @copy="handleCopy"
         />
       </div>
-      <popup-filter-transaction @filter="handleFilter" :tab-active-filter="tabActive" :type="'transaction'" ref="popup-filter" />
+      <popup-filter-transaction @filter="handleFilter" :currency="tabHeaderActive" :tab-active-filter="tabActive.toLowerCase()" :type="'transaction'" ref="popup-filter" />
       <transaction-detail :detail-row="detailRow" :tab-active-filter="tabActive" />
       <popup-add-deposit @reload="init" />
       <popup-add-crowdsale @confirm="handleConfirm" />
@@ -91,7 +91,6 @@
   import PopupAddCrowdsale from '../components/PopupAddCrowdsale.vue'
   import PopupAddTransfer from '../components/PopupAddTransfer.vue'
   import PopupVerify from '@/components/popup/PopupVerify.vue'
-  import firebase from '@/utils/firebase'
   const api: TransactionRepository = getRepository('transaction')
   const apiCrowdsale: CrowdsaleRepository = getRepository('crowdsale')
 
@@ -354,10 +353,6 @@
       this.query.limit = 10
       this.query.orderBy = 1
       this.query.currency = tab.title.toUpperCase();
-      let refs: any = this.$refs['popup-filter']
-      if (refs) {
-        refs.handleReset()
-      }
       let refs2: any = this.$refs['filter']
       if (refs2) {
         refs2.handleReset()
@@ -403,7 +398,9 @@
         toDate: null,
         fromAmount: null,
         toAmount: null,
-        bonusType: null
+        bonusType: null,
+        fromAddress: null,
+        toAddress: null,
       }
     }
     isCopy = ''
@@ -446,6 +443,7 @@
         page: 1,
         limit: 10
       }
+      console.log(this.query , filter, 'note')
       this.debounceInit()
     }
 
@@ -616,7 +614,7 @@
               position: absolute;
               width: 100%;
               height: 2px;
-              bottom: 0;
+              bottom: -1px;
               left: 0;
               background-color: var(--bc-tab-active);
             }

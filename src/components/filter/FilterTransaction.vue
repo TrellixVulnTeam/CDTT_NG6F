@@ -26,7 +26,7 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <el-button type="button" class="export-excel" :loading="isExporting" @click="handleExport">
+    <el-button type="button" class="export-excel" :loading="isExporting" @click="handleExport" v-if="showBtnExportExcel">
       <base-icon icon="icon-excel" size="22"/>
     </el-button>
   </div>
@@ -45,6 +45,7 @@
     @Prop({ required: true, type: Boolean, default: false }) showBtn!: boolean
     @Prop({ required: true, type: Boolean, default: false }) showBtnCrowdsale!: boolean
     @Prop({ required: true, type: Boolean, default: false }) showBtnTransfer!: boolean
+    @Prop({ required: false, type: Boolean, default: false }) showBtnExportExcel!: boolean
     filter: Record<string, any> = {
       search: '',
       keywordString: '',
@@ -75,9 +76,48 @@
     ]
     sortActive = 'DATE_DESC'
 
-    searchText = debounce((value: string) => {
+    mounted(): void {
+      if (this.type == 'transaction' || this.type == 'customer-transaction') {
+        this.sorts = [
+          {
+            command: 'DATE_DESC',
+            label: this.$i18n.t('customer.sort.trans-date'),
+            index: 1,
+            orderByName: 'transactionDate'
+          },
+          {
+            command: 'AMOUNT_DESC',
+            label: this.$i18n.t('customer.sort.trans-amount'),
+            index: 2,
+            orderByName: 'amount'
+          },
+          {
+            command: 'STATUS',
+            label: this.$i18n.t('customer.sort.status'),
+            index: 3,
+            orderByName: 'status'
+          }
+        ]
+      }
+    }
+
+    searchText = debounce((value: string, sortActive: string, sorts: Record<any, any>[]) => {
+      var filterOrderBy
+      var itemOrderBy
+      if (this.type == 'transaction' || this.type == 'customer-transaction') {
+        itemOrderBy = sorts.find(itemCode => {
+          return itemCode.command == sortActive
+        })
+        filterOrderBy = { orderBy: itemOrderBy?.index }
+      }  else {
+        filterOrderBy = { orderBy: sortActive }
+      }
+
+
+
       this.$emit('filter', {
         ...this.filter,
+        ...filterOrderBy,
         page: 1,
         limit: 10,
         search: trim(value),
@@ -86,7 +126,7 @@
     }, 500)
 
     handleSearch(value: string): void {
-      this.searchText(value)
+      this.searchText(value, this.sortActive, this.sorts)
     }
 
     public handleReset() {
@@ -97,7 +137,15 @@
     }
     handleSort(command: string): void {
       this.sortActive = command
-      this.$emit('filter', { orderBy: this.sortActive })
+      var item: any = {}
+      if (this.type == 'transaction' || this.type == 'customer-transaction') {
+         item = this.sorts.find(itemCode => {
+          return itemCode.command == this.sortActive
+        })
+        this.$emit('filter', { orderBy: item?.index })
+      } else {
+        this.$emit('filter', { orderBy: this.sortActive })
+      }
     }
 
     handleOpenPopupFilter(): void {

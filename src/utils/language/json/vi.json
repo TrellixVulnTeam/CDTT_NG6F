@@ -129,7 +129,8 @@
     "button": {
       "deposit": "Deposit",
       "withdraw": "Withdraw",
-      "buy": "Buy"
+      "buy": "Buy",
+      "action": "Action"
     },
     "vesting": {
       "period": "PERIOD",
@@ -170,6 +171,7 @@
     "amount-lynk": "Số lượng LYNK"
   },
   "button": {
+    "action": "Hành động",
     "reset": "Làm lại",
     "reset-pass": "Đặt lại mật khẩu",
     "continue": "Tiếp tục",
@@ -179,6 +181,7 @@
     "approve": "Xác nhận",
     "reject": "Từ chối",
     "apply": "Xác nhận",
+    "confirm": "Xác nhận",
     "add-member": "Thêm nhân viên",
     "add-member-1": "Thêm nhân viên",
     "add-buyer": "Thêm người mua",
@@ -192,7 +195,10 @@
     "change-table": "Bảng",
     "change-chart": "Biểu đồ",
     "buy": "Mua",
-    "transfer": "Chuyển"
+    "transfer": "Chuyển",
+    "add-new": "Thêm mới",
+    "import file": "Nhập file",
+    "create": "Thêm"
   },
   "scan": {
     "qrcode": "QUÉT QR CODE"
@@ -209,7 +215,8 @@
     "buyer": "người mua",
     "times": "số lần sử dụng thiết bị",
     "results": "Bản ghi",
-    "events": "hoạt động"
+    "events": "hoạt động",
+    "collection": "bộ sưu tập"
   },
   "label": {
     "invalid-amount": "Số lượng không hợp lệ",
@@ -341,7 +348,12 @@
     "code-validation-failed": "Xác thực mã không thành công",
     "min-to-buy-crowdsale": " Số tiền tối thiểu là {amount}$",
     "vesting-invalid": "Tháng vesting phải lớn hơn 0",
-    "amount-transfer-invalid": "Số lượng phải lớn hơn 0"
+    "amount-transfer-invalid": "Số lượng phải lớn hơn 0",
+    "LESS_THAN_ZERO": "Số lượng cần lớn hơn 0",
+    "NOT_ENOUGH_QUANTITY": "Không đủ số lượng",
+    "INVALID_VERIFICATION": "Mã xác thực không hợp lệ",
+    "EXPIRED_VERIFICATION": "Mã xác thực đã hết hạn",
+    "USER_LOCKED": "Tài khoản của bạn đã bị khóa"
   },
   "logout": {
     "title": "Đăng xuất",
@@ -586,7 +598,8 @@
       "add-deposit": "nạp",
       "add-crowdsale": "Mua lynk",
       "title-verification": "Xác thực",
-      "add-transfer": "Chuyển"
+      "add-transfer": "Chuyển",
+      "action": "Hành động"
     },
     "detail": {
       "transaction-id": "Mã giao dịch",
@@ -668,7 +681,8 @@
     "crowdsales": "Crowdsale",
     "vesting": "Vesting",
     "metamart-nft": "NFT item",
-    "metamart-collection": "Collection",
+    "metamart-category": "Phân loại",
+    "metamart-collection": "Bộ sưu tập",
     "put-on-sale": "Đăng bán",
     "bid": "Đấu giá",
     "offer": "Trả giá",
@@ -682,7 +696,8 @@
     "unverified": "Chưa xác thực",
     "locked": "Bị khóa",
     "success": "Thành công",
-    "failed": "Thất bại"
+    "failed": "Thất bại",
+    "processing": "Đang xử lý"
   },
   "crowdsale": {
     "round": "Vòng",
@@ -1010,7 +1025,8 @@
   "verified": {
     "titlePopup": "Xác minh",
     "titleContent3": "Nhập mã gồm 6 chữ số mà chúng tôi đã gửi đến email của bạn",
-    "resendCodeMess": "Gửi lại mã thành công"
+    "resendCodeMess": "Gửi lại mã thành công",
+    "sendCodeMess": "Gửi mã thành công"
   },
   "report": {
     "table": {
@@ -1109,13 +1125,13 @@
     "status": "Trạng thái"
   },
   "inventory": {
-    "summary":{
+    "summary": {
       "summary": "Tổng hợp",
       "owners": "Số chủ sở hữu",
       "NFTs": "Số lượng NFT",
       "available": "Số lượng có sẵn",
       "lock": "Số lượng bị khóa",
-      "on-sale":"Số lượng đang bán",
+      "on-sale": "Số lượng đang bán",
       "off-market": "Số lượng không bán",
       "burn": "Burn"
     },
@@ -1134,6 +1150,7 @@
     },
     "inventory-detail": {
       "title": "Chi tiết thống kê",
+      "title-success": "Thành công",
       "inventory": "Thống kê",
       "type": "LOẠI",
       "quantity": "SỐ LƯỢNG",
@@ -1141,19 +1158,46 @@
       "total": "Tổng",
       "available": "Có sẵn",
       "lock": "Bị khóa",
-      "on-sale":"Đang bán",
+      "lock-title": "Khóa",
+      "un-lock": "Mở khóa",
+      "on-sale": "Đang bán",
+      "remove-sale": "Hủy bán",
+      "remove-from-sale": "Hủy bán",
+      "remove-sale-success": "Bạn đã gỡ đăng bán vật phẩm thành công",
+      "burn-success": "Bạn đã burn thành công",
+      "lock-success": "Bạn đã khóa token thành công",
+      "un-lock-success": "Bạn đã mở khóa token thành công",
+      "put-on-sale": "Đăng bán",
       "off-market": "Chưa bán",
       "burn": "Burn",
-      "account-statement":"BẢNG SAO KÊ",
+      "title-burn": "Bạn đang burn ",
+      "title-lock": "Bạn đang khóa ",
+      "title-unlock": "Bạn đang mở khóa ",
+      "title-remove-sale": "Bạn đang gỡ đăng bán ",
+      "of": "của ",
+      "account-statement": "BẢNG SAO KÊ",
       "opening-quantity": "SỐ LƯỢNG BẮT ĐẦU",
       "event-type": "LOẠI HOẠT ĐỘNG",
       "increase": "TĂNG",
       "decrease": "GIẢM",
+      "select": "Chọn ",
       "status": "TRẠNG THÁI",
       "total-account": "TỔNG",
-      "ending-quantity":"SỐ LƯỢNG KẾT THÚC "
+      "ending-quantity": "SỐ LƯỢNG KẾT THÚC ",
+      "inventory-detail-type": {
+        "burn": "BURN NFT",
+        "transaction-detail": "Chi tiết giao dịch",
+        "date": "Thời gian",
+        "quantity": "Số lượng",
+        "owner-name": "Chủ sở hữu",
+        "status": "Trạng thái",
+        "employee": "Nhân viên",
+        "fullname": "Họ và tên",
+        "email": "Email",
+        "role": "Chức vụ"
+      }
     },
-    "inventory-filter":{
+    "inventory-filter": {
       "network": "Mạng",
       "quantity": "Số lượng",
       "from": "Từ",
@@ -1201,8 +1245,99 @@
     "royalty": "Bản quyền",
     "transfer": "Chuyển"
   },
+  "metamart": {
+    "button": {
+      "reset": "Làm lại",
+      "save": "Lưu",
+      "apply": "Áp dụng"
+    },
+    "table": {
+      "collection": "BỘ SƯU TẬP",
+      "category": "DANH MỤC",
+      "network": "MẠNG",
+      "creator": "NGƯỜI TẠO"
+    },
+    "collection": {
+      "filter": {
+        "filter": "BỘ LỌC",
+        "creator": "Người tạo",
+        "category": "Danh mục",
+        "network": "Mạng",
+        "created-date": "Ngày tạo",
+        "from-date": "Từ ngày",
+        "to-date": "Đến ngày"
+      },
+      "popup": {
+        "title": "THÊM BỘ SƯU TẬP MỚI",
+        "preview": "Xem trước",
+        "avatar": "Ảnh đại diện",
+        "thumbnail": "Hình thu nhỏ",
+        "banner": "Tải lên ảnh bìa",
+        "name": "Tên bộ sưu tập",
+        "description": "Mô tả",
+        "optional": "không bắt buộc",
+        "network": "Mạng",
+        "contract-address": "Địa chỉ hợp đồng",
+        "default-payment-by": "Phương thức thanh toán mặc định bởi",
+        "creator": "Người tạo",
+        "category": "Danh mục",
+        "template": "Mẫu"
+      },
+      "subtitle": {
+        "name": "Tên token không thể bị thay đổi trong tương lai"
+      },
+      "upload": {
+        "size": "Kích thức tải lên",
+        "max": "Tối đa",
+        "drop": "Kéo và thả hoặc",
+        "click": "nhấn để tải lên",
+        "preview": "Tải tệp lên để xem trước bộ sưu tập hoàn toàn mới của bạn"
+      },
+      "delete": {
+        "confirmation-1": "Bạn có chắc rằng bạn muốn xoá bộ sưu tập ",
+        "confirmation-2": " này không?",
+        "warning-label": "Đã xảy ra sự cố",
+        "warning-description": "Không thể xóa một bộ sưu tập có chứa các NFT. Vui lòng di chuyển tất cả NFT sang bộ sưu tập khác và thử lại."
+      }
+    },
+    "success": {
+      "title": "THÀNH CÔNG",
+      "delete-collection": "Bạn đã xóa bộ sưu tập thành công"
+    }
+  },
   "filter_pending": "Chờ xử lý",
   "filter_processing": "Đang xử lý",
   "filter_success": "Thành công",
-  "filter_failed": "Lỗi"
+  "filter_failed": "Lỗi",
+  "popup_add-nft": "Thêm NFT",
+  "popup_edt-nft": "Sửa NFT",
+  "label_information": "Thông tin",
+  "label_blockchain": "Blockchain",
+  "label_metadata": "Metadata",
+  "label_setting": "Cài đặt",
+  "label_collection": "Bộ sưu tập",
+  "label_category": "Danh mục",
+  "label_product-code": "Mã sản phẩm",
+  "label_nft-name": "Tên",
+  "label_thumbnail": "Hình đại diện",
+  "label_upload-file": "Tải lên ảnh",
+  "label_short-desc": "Mô tả ngắn",
+  "label_long-desc": "Mô tả",
+  "setup_empty-nft": "Tải tệp lên để xem trước NFT hoàn toàn mới của bạn",
+  "label_copies": "Số bản sao",
+  "label_contract-address": "Địa chỉ contract",
+  "label_token-id": "Token ID",
+  "label_blockchain-network": "Mạng",
+  "label_token-standard": "Tiêu chuẩn",
+  "label_creator": "Người tạo",
+  "label_network": "Mạng",
+  "tab_nft-info": "Chi tiết NFT",
+  "label_service-fee": "Phí dịch vụ",
+  "label_top-nft": "Đưa lên phần TOP NFT",
+  "label_top-nft-desc": "Khi tính năng này được bật, NFT này sẽ xuất hiện trong phần TOP NFT",
+  "label_hot-nft": "Đưa lên phần HOT NFT ",
+  "label_hot-nft-desc": "Khi tính năng này được bật, NFT này sẽ xuất hiện trong phần HOT NFT",
+  "label_royal-fee": "Phí bản quyền",
+  "label_position-top-nft": "Vị trí trên phần TOP NFT",
+  "label_position-hot-nft": "Vị trí trên phần HOT NFT"
 }

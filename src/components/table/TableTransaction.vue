@@ -49,11 +49,11 @@
         <div v-if="type === 'customer'">
           <div v-if="scope.row.creditAmount" class="amount-increase">
             <span>+{{ scope.row.transactionAmount | convertAmountDecimal(scope.row.creditCurrency) }} {{ scope.row.creditCurrency }}</span>
-            <span class="d-block amount-exchange-small">~${{ (scope.row.transactionAmountToUsd * scope.row.creditUsdExchangeRate) | convertAmountDecimal('USD') }}</span>
+            <span class="d-block amount-exchange-small">~${{ (scope.row.transactionAmountToUsd) | convertAmountDecimal('USD') }}</span>
           </div>
           <div v-else class="amount-decrease">
             <span>{{ scope.row.transactionAmount | convertAmountDecimal(scope.row.debitCurrency) }} {{ scope.row.debitCurrency }}</span>
-            <span class="d-block amount-exchange-small">~${{ (scope.row.transactionAmountToUsd * scope.row.debitUsdExchangeRate) | convertAmountDecimal('USD') }}</span>
+            <span class="d-block amount-exchange-small">~${{ (scope.row.transactionAmountToUsd) | convertAmountDecimal('USD') }}</span>
           </div>
         </div>
         <div v-else>
