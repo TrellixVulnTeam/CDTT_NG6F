@@ -215,7 +215,8 @@
     "buyer": "người mua",
     "times": "số lần sử dụng thiết bị",
     "results": "Bản ghi",
-    "events": "hoạt động"
+    "events": "hoạt động",
+    "collection": "bộ sưu tập"
   },
   "label": {
     "invalid-amount": "Số lượng không hợp lệ",

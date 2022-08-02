@@ -233,7 +233,8 @@
     "buyer": "buyers",
     "times": "times",
     "results": "results",
-    "events": "events"
+    "events": "events",
+    "collection": "collections"
   },
   "label": {
     "invalid-amount": "Invalid amount",
