@@ -22,11 +22,11 @@
         </keep-alive>
       </div>
     </div>
-    <div class="footer" slot="footer">
+    <div class="footer footer-popup" slot="footer">
       <div class="wrap-button">
         <div class="btn-right">
           <el-button class="btn-default btn-400 btn-h-40 btn-close">{{ $t('button.cancel') }}</el-button>
-          <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border" style="font-size: 14px; font-weight: 600">{{ $t('button.create') }}</el-button>
+          <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border btn-save" style="font-size: 14px">{{ $t('button.create') }}</el-button>
         </div>
       </div>
     </div>
@@ -105,6 +105,13 @@
       &__main {
         flex: 1;
       }
+    }
+  }
+  ::v-deep.footer-popup {
+    .btn-save {
+      width: 100px;
+      height: 40px;
+      font-weight: 400;
     }
   }
 </style>

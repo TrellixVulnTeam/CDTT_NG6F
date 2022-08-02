@@ -1394,5 +1394,7 @@
   "validate_must-enter-file": "Please select file attach",
   "label_download": "Download",
   "label_feature-status": "Feature status",
-  "label_add-feature":"Add feature"
+  "label_add-feature": "Add feature",
+  "label_upload-desc": "Drag and drop or",
+  "label_click-to-upload": "Click to upload"
 }

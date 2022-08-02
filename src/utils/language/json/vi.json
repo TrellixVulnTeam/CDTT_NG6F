@@ -1371,5 +1371,7 @@
   "validate_must-enter-file": "Vui lòng chỌn tập tin",
   "label_download": "Tải xuống",
   "label_feature-status": "Tình trạng tính năng",
-  "label_add-feature": "Thêm tính năng"
+  "label_add-feature": "Thêm tính năng",
+  "label_upload-desc": "Kéo và thả hoặc",
+  "label_click-to-upload": "bấm để tải lên"
 }

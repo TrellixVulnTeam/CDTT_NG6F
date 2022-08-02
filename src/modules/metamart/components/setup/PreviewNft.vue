@@ -7,9 +7,12 @@
       </div>
       <div class="content__info">
         <div style="height: 80px">
-          <div class="be-flex align-center title">
-            <span class="nft-body-small text-desc text-overflow-1">{{ getNameCollection }} </span>
-            <base-icon icon="icon-verified" size="12" class="d-iflex" style="padding-left: 2px" />
+          <div class="be-flex align-center jc-space-between title">
+            <div class="be-flex align-center">
+              <span class="nft-body-small text-desc text-overflow-1">{{ getNameCollection }} </span>
+              <base-icon icon="icon-verified" size="12" class="d-iflex" style="padding-left: 2px" />
+            </div>
+            <base-icon icon="icon-3dot" size="20" class="d-iflex" />
           </div>
           <div class="nft-header6 text-semibold text-overflow-1">{{ initInfo.name }}</div>
           <div class="be-flex align-center price">
