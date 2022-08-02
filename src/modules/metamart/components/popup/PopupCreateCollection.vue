@@ -285,70 +285,70 @@
       avatarUrl: [
         {
           required: true,
-          message: '"Avatar" is required',
+          message: this.$t('metamart.collection.validate.avatar'),
           trigger: 'change'
         }
       ],
       thumbnailUrl: [
         {
           required: true,
-          message: '"Thumbnail" is required',
+          message: this.$t('metamart.collection.validate.thumbnail'),
           trigger: 'change'
         }
       ],
       bannerUrl: [
         {
           required: true,
-          message: '"Banner" is required',
+          message: this.$t('metamart.collection.validate.banner'),
           trigger: 'change'
         }
       ],
       name: [
         {
           required: true,
-          message: '"Name" is not allowed to be empty',
+          message: this.$t('metamart.collection.validate.name'),
           trigger: 'change'
         }
       ],
       network: [
         {
           required: true,
-          message: '"Network" is not allowed to be empty',
+          message: this.$t('metamart.collection.validate.network'),
           trigger: 'change'
         }
       ],
       contractAddress: [
         {
           required: true,
-          message: '"Contract Address" is not allowed to be empty',
+          message: this.$t('metamart.collection.validate.contract-address'),
           trigger: 'change'
         }
       ],
       payment: [
         {
           required: true,
-          message: '"Payment" is not allowed to be empty',
+          message: this.$t('metamart.collection.validate.payment'),
           trigger: 'change'
         }
       ],
       creator: [
         {
           required: true,
-          message: '"Creator" is not allowed to be empty',
+          message: this.$t('metamart.collection.validate.creator'),
           trigger: 'change'
         }
       ],
       category: [
         {
           required: true,
-          message: '"Category" is not allowed to be empty',
+          message: this.$t('metamart.collection.validate.category'),
           trigger: 'change'
         }
       ],
       template: [
         {
           required: true,
-          message: '"Template" is not allowed to be empty',
+          message: this.$t('metamart.collection.validate.template'),
           trigger: 'change'
         }
       ],

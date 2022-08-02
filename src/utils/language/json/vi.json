@@ -1287,7 +1287,7 @@
         "name": "Tên token không thể bị thay đổi trong tương lai"
       },
       "upload": {
-        "size": "Kích thức tải lên",
+        "size": "Kích thước tải lên",
         "max": "Tối đa",
         "drop": "Kéo và thả hoặc",
         "click": "nhấn để tải lên",
@@ -1298,6 +1298,18 @@
         "confirmation-2": " này không?",
         "warning-label": "Đã xảy ra sự cố",
         "warning-description": "Không thể xóa một bộ sưu tập có chứa các NFT. Vui lòng di chuyển tất cả NFT sang bộ sưu tập khác và thử lại."
+      },
+      "validate": {
+        "avatar": "\"Ảnh đại diện\" là bắt buộc",
+        "thumbnail": "\"Hình thu nhỏ\" là bắt buộc",
+        "banner": "\"Ảnh bìa\" là bắt buộc",
+        "name": "\"Tên bộ sưu tập\" không được phép để trống",
+        "network": "\"Mạng\" không được phép để trống",
+        "contract-address": "\"Địa chỉ hợp đồng\" không được phép để trống",
+        "default-payment-by": "\"Phương thức thanh toán mặc định\" không được phép để trống",
+        "creator": "\"Người tạo\" không được phép để trống",
+        "category": "\"Danh mục\" không được phép để trống",
+        "template": "\"Mẫu\" không được phép để trống"
       }
     },
     "success": {

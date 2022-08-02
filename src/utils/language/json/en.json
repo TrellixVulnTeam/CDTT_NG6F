@@ -1321,6 +1321,18 @@
         "confirmation-2": "collection?",
         "warning-label": "Something went wrong",
         "warning-description": "Cannot delete a collection that contains NFT items. Please move all NFTs to another collection and try again."
+      },
+      "validate": {
+        "avatar": "\"Avatar\" is required",
+        "thumbnail": "\"Thumbnail\" is required",
+        "banner": "\"Banner\" is required",
+        "name": "\"Name\" is not allowed to be empty",
+        "network": "\"Network\" is not allowed to be empty",
+        "contract-address": "\"Contract Address\" is not allowed to be empty",
+        "default-payment-by": "\"Default Payment\" is not allowed to be empty",
+        "creator": "\"Creator\" is not allowed to be empty",
+        "category": "\"Category\" is not allowed to be empty",
+        "template": "\"Template\" is not allowed to be empty"
       }
     },
     "success": {
