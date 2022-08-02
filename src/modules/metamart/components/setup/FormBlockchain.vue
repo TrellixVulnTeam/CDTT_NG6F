@@ -57,6 +57,9 @@
           }
         }
       }
+      &-item:last-child {
+        margin-bottom: 0;
+      }
       .creator {
         .el-input__inner {
           padding-left: 40px;
