@@ -11,7 +11,7 @@
         <base-table
           :data="dataCollection"
           :showPagination="showPagination"
-          :paginationInfo="paginationInfo"
+          :paginationInfo="getPaginationInfo"
           :table="query"
           @sizeChange="handleSizeChange"
           @currentChange="handleCurrentChange"
@@ -54,7 +54,7 @@
                 <base-icon icon="icon-edit" size="24" />
               </span>
               <span @click="handleDelete(scope.row)">
-                <base-icon icon="icon-delete" size="24" />
+                <base-icon icon="icon-delete-new" size="22" />
               </span>
             </div>
           </template>
@@ -62,31 +62,28 @@
         </base-table>
       </div>
     </div>
-
-    <popup-delete type="delete-collection"/>
   </div>
 </template>
 
 <script lang="ts">
 import {Component, Mixins, Prop, } from 'vue-property-decorator'
 import CardCollection from "@/modules/metamart/components/CardCollection.vue";
-import BasePagination from "@/components/base/pagination/BasePagination.vue";
-import PopupDelete from "./popup/PopupDelete.vue"
+// import BasePagination from "@/components/base/pagination/BasePagination.vue";
 import {PaginationInterface} from "@/interface";
 import PopupMixin from '@/mixins/popup';
 @Component({
-  components: {BasePagination, CardCollection, PopupDelete}
+  components: { CardCollection}
 })
 export default class TabCollection extends Mixins(PopupMixin) {
   //Props
-  @Prop({ required: false, type: Boolean, default: true }) showPagination!: boolean
-  @Prop({ required: false, type: String, default: '' }) paginationInfo!: string
+  // @Prop({ required: false, type: Boolean, default: true }) showPagination!: boolean
+  // @Prop({ required: false, type: String, default: '' }) paginationInfo!: string
   @Prop({ required: true, type: Array }) data!: Array<Record<string, any>>
   @Prop({required: false, type: Object, default: () => {return {}}})query!: PaginationInterface;
 
-  // get getPaginationInfo(): any {
-  //   return this.$t('paging.customers')
-  // }
+  get getPaginationInfo(): any {
+    return this.$t('paging.collection')
+  }
 
   //fake data
   dataCollection = [
@@ -197,10 +194,7 @@ export default class TabCollection extends Mixins(PopupMixin) {
   }
   handleDelete(row: any): void {
     console.log("Delete Clicked:", row);
-    this.setOpenPopup({
-      popupName: 'popup-metamart-delete',
-      isOpen: true
-    })
+    this.$emit('delete', row)
   }
 }
 </script>

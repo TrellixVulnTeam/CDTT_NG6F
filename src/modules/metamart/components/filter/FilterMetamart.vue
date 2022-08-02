@@ -104,7 +104,7 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <el-button v-if="this.$route.name === 'Collection'" class="add-btn ml-auto" @click="$emit('click', 'popup-create-collection')">{{ $t('button.add-new') }}</el-button>
+    <el-button v-if="this.$route.name === 'Collection'" class="add-btn add-collection ml-auto" @click="$emit('click', 'popup-create-collection')">{{ $t('button.add-new') }}</el-button>
     <el-button v-if="this.$route.name === 'Category'" class="add-btn ml-auto" @click="$emit('click', 'popup-create-category')">{{ $t('button.add-new') }}</el-button>
     <div v-if="this.$route.name === 'Nft'" class="ml-auto">
       <el-dropdown trigger="click" @command="handleCommand">
@@ -240,6 +240,14 @@
       color: var(--bc-color-white);
       background-color: var(--bc-theme-primary);
       margin-right: 12px;
+    }
+    .add-collection {
+      height: 48px;
+      margin-right: 24px;
+      border-radius: 6px;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
     }
     .excel-btn {
       margin-right: 24px;

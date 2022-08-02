@@ -59,7 +59,7 @@
                     <i class="el-icon-more" style="padding: 5px"></i>
                     <el-dropdown-menu class="dropdown-sort" slot="dropdown">
                       <el-dropdown-item>Update metadata</el-dropdown-item>
-                      <el-dropdown-item>Off-chain</el-dropdown-item>
+                      <el-dropdown-item>{{scope.row.status === 'Off-chain' ? 'On-chain': 'Off-chain'}}</el-dropdown-item>
                       <el-dropdown-item command="delete-nft">Delete</el-dropdown-item>
                     </el-dropdown-menu>
                   </el-dropdown>
