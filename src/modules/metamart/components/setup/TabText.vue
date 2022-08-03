@@ -38,7 +38,7 @@
   ::v-deep.tab-description {
     .el-textarea__inner {
       border-radius: 8px;
-      height: 300px;
+      min-height: 300px !important;
     }
   }
 </style>

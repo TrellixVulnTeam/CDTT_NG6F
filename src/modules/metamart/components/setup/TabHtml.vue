@@ -19,7 +19,7 @@
     @Prop({ required: false, type: String, default: '' }) tabActive!: string
 
     content = '<p><br></p>'
-    buttons = ['bold', 'italic', 'underline', 'ul', 'ol']
+    buttons = ['bold', 'italic', 'underline', 'ul', 'ol', 'link']
 
     config = {
       spellcheck: false,
@@ -28,7 +28,7 @@
       autofocus: true,
       showXPathInStatusbar: false,
       language: 'vi',
-      minHeight: 120,
+      minHeight: 300,
       i18n: {
         vi: {
           'Type something': 'Nhập mô tả...',
@@ -51,6 +51,8 @@
     }
 
     created(): void {
+      const language = localStorage.getItem('bc-lang') || ''
+      this.config.language = language
       const elm = filter(this.metaData, elm => elm.type === this.tabActive)[0]
       this.content = elm.value
     }
@@ -68,12 +70,13 @@
   ::v-deep.tab-html {
     .jodit-container {
       padding: 0 10px;
+      border-radius: 8px;
       .jodit-toolbar__box {
         background: transparent;
       }
-      .jodit-wysiwyg {
-        min-height: 120px !important;
-      }
+      // .jodit-wysiwyg {
+      //   min-height: 120px !important;
+      // }
     }
   }
 </style>
