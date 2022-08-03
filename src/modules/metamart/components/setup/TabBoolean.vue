@@ -54,8 +54,8 @@
     }
 
     created(): void {
-      const elm = filter(this.metaData, elm => elm.type === this.tabActive)[0]
-      this.data = [...elm.value]
+      // const elm = filter(this.metaData, elm => elm.type === this.tabActive)[0]
+      // this.data = [...elm.value]
     }
 
     handleClickAdd(): void {

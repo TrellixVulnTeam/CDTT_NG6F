@@ -18,8 +18,8 @@
     description = ''
 
     created(): void {
-      const elm = filter(this.metaData, elm => elm.type === this.tabActive)[0]
-      this.description = elm.value
+      // const elm = filter(this.metaData, elm => elm.type === this.tabActive)[0]
+      // this.description = elm.value
     }
 
     handleInput(text: string): void {

@@ -6,6 +6,15 @@ export class NftRepository extends BaseRepository {
     super('nft/api/v1/')
   }
 
+  async getTemplateMetaData(params: Record<string, any>): Promise<any> {
+    try {
+      const rs = await request.get(`${this.prefix}/bo/setup/template/detail`, { params })
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+
   async getListAccount(params: Record<string, any>): Promise<any> {
     try {
       const rs = await request.get(`${this.prefix}/account/search`, { params })
@@ -70,7 +79,7 @@ export class NftRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
-  
+
   async getCategories(): Promise<Array<Record<string, any>>> {
     try {
       const result = await request.get(`${this.prefix}/categories`)

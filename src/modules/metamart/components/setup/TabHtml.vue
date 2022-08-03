@@ -53,8 +53,6 @@
     created(): void {
       const language = localStorage.getItem('bc-lang') || ''
       this.config.language = language
-      const elm = filter(this.metaData, elm => elm.type === this.tabActive)[0]
-      this.content = elm.value
     }
 
     debounceInput = debounce((text: string) => {

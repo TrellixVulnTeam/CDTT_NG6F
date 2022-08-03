@@ -44,18 +44,18 @@
     @Prop({ required: false, type: Array, default: [] }) metaData!: Array<Record<string, any>>
     @Prop({ required: false, type: String, default: '' }) tabActive!: string
 
-    data: Record<string, any> | Array<Record<string, any>> = {}
+    data: Array<Record<string, any>> = []
     typePopup = 'add'
     rowCurrent: Record<string, any> = {}
 
     @Watch('metaData') watchMetadata(): void {
-      const elm = filter(this.metaData, elm => elm.type === this.tabActive)[0]
-      this.data = [...elm.value]
+      // const elm = filter(this.metaData, elm => elm.type === this.tabActive)[0]
+      // this.data = [...elm.value]
     }
 
     created(): void {
-      const elm = filter(this.metaData, elm => elm.type === this.tabActive)[0]
-      this.data = [...elm.value]
+      // const elm = filter(this.metaData, elm => elm.type === this.tabActive)[0]
+      // this.data = [...elm.value]
     }
 
     handleClickAdd(): void {

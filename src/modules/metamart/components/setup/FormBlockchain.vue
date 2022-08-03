@@ -32,16 +32,13 @@
 <script lang="ts">
   import { Component, Mixins } from 'vue-property-decorator'
   import FormatInputMixin from '@/mixins/formatInput'
+  import { namespace } from 'vuex-class'
+
+  const bcNft = namespace('bcNft')
+
   @Component
   export default class FormBlockchain extends Mixins(FormatInputMixin) {
-    form: Record<string, any> = {
-      copies: '',
-      contractAddress: '0x1EACE3C7af307A5840c3eF44c5e01547BF2DEf0C',
-      tokenId: '#15687',
-      network: 'Ethereum',
-      tokenStandard: 'ERC1155',
-      creator: 'LynKey (lynkey@gmail.com)'
-    }
+    @bcNft.State('initBlockchain') form!: Record<string, any>
   }
 </script>
 

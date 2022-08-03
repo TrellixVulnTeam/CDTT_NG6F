@@ -5,10 +5,10 @@
         v-for="item in metaTypes"
         :key="item.id"
         class="text-base text-desc tab-item"
-        :class="tabActive === item.value ? 'tab-active' : null"
-        @click="handleChangeTab(item.value)"
+        :class="idTabActive === item.metaTypeId ? 'tab-active' : null"
+        @click="handleChangeTab(item)"
       >
-        {{ item.title }}
+        {{ getName(item.metaTypeName) }}
       </div>
     </div>
     <div class="tab-meta__content" v-loading="isLoading">
@@ -29,37 +29,18 @@
   import TabBoolean from './TabBoolean.vue'
   import PreviewMetaData from './PreviewMetaData.vue'
 
+  import { namespace } from 'vuex-class'
+  const bcNft = namespace('bcNft')
+
+  import { IMetaTypes } from '../../interface'
+
   @Component({ components: { TabText, PreviewMetaData, TabHtml, TabMap, TabFile, TabBoolean } })
   export default class TabMetaData extends Vue {
+    @bcNft.State('metaTypes') metaTypes!: IMetaTypes[]
     isLoading = false
+
     tabActive = 'TEXT'
-    metaTypes: Array<Record<string, any>> = [
-      {
-        id: 0,
-        title: this.$t('tab_description'),
-        value: 'TEXT'
-      },
-      {
-        id: 1,
-        title: this.$t('tab_detail'),
-        value: 'HTML'
-      },
-      {
-        id: 2,
-        title: this.$t('tab_polices'),
-        value: 'MAP'
-      },
-      {
-        id: 3,
-        title: this.$t('tab_ebrochures'),
-        value: 'FILE'
-      },
-      {
-        id: 4,
-        title: this.$t('tab_feature'),
-        value: 'BOOLEAN'
-      }
-    ]
+    idTabActive = 0
 
     metaData: Array<Record<string, any>> = [
       {
@@ -126,10 +107,20 @@
       }
     }
 
-    handleChangeTab(value: string): void {
-      this.isLoading = true
-      this.tabActive = value
-      this.isLoading = false
+    created(): void {
+      this.idTabActive = this.metaTypes[0].metaTypeId
+      this.tabActive = this.metaTypes[0].typeTab
+    }
+
+    getName(metaTypeName: string): string {
+      const language = localStorage.getItem('bc-lang') || ''
+      const parseJson = JSON.parse(metaTypeName)
+      return parseJson[language]
+    }
+
+    handleChangeTab(item: IMetaTypes): void {
+      this.tabActive = item.typeTab
+      this.idTabActive = item.metaTypeId
     }
 
     handleUpdate(data: Array<Record<string, any>>): void {
