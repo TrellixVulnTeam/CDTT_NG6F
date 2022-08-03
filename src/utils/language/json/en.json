@@ -1304,7 +1304,8 @@
         "default-payment-by": "Default payment by",
         "creator": "Creator",
         "category": "Category",
-        "template": "Template"
+        "template": "Template",
+        "nft-detail": "Nft detail"
       },
       "subtitle": {
         "name": "Token name cannot be changed in future"
@@ -1375,6 +1376,7 @@
   "label_royal-fee": "Royalty fee",
   "label_position-top-nft": "Position on TOP NFT section",
   "label_position-hot-nft": "Position on HOT NFT section",
+  "label_project": "Project",
   "tab_description": "Description",
   "tab_detail": "Detail",
   "tab_polices": "Policies",

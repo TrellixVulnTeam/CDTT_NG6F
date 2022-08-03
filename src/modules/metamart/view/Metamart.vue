@@ -11,8 +11,37 @@
       </div>
     </div>
     <filter-metamart :tabs="tabs" isChangeTab="isChangeTab" @click="handleOpen" @selectCommand="handleSelectCommand" />
-    <tab-nft v-if="$route.name === 'Nft'" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :nftProps="nftData" :query="query" v-loading="isLoading"  @selectCommand="handleSelectCommand" />
-    <tab-collection v-if="$route.name === 'Collection'" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="collectionData" v-loading="isLoading" @delete="handleDeleteCollection"/>
+ 
+    <tab-nft
+      v-if="$route.name === 'Nft'"
+      @sizeChange="handleSizeChange"
+      @pageChange="handlePageChange"
+      :nftProps="nftData"
+      :query="query"
+      v-loading="isLoading"
+      @selectCommand="handleSelectCommand"
+      @rowClick="handleRowClick"
+    />
+    <tab-collection v-if="$route.name === 'Collection'" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="collectionData" v-loading="isLoading" />
+    <tab-nft
+      v-if="$route.name === 'Nft'"
+      @sizeChange="handleSizeChange"
+      @pageChange="handlePageChange"
+      :nftProps="nftData"
+      :query="query"
+      v-loading="isLoading"
+      @selectCommand="handleSelectCommand"
+    />
+    <tab-collection
+      v-if="$route.name === 'Collection'"
+      @sizeChange="handleSizeChange"
+      @pageChange="handlePageChange"
+      :query="query"
+      :data="collectionData"
+      v-loading="isLoading"
+      @delete="handleDeleteCollection"
+    />
+
     <tab-category v-if="$route.name === 'Category'" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="collectionData" v-loading="isLoading" />
 
     <popup-choosetype @continues="handleToPopupform($event)" />
@@ -21,7 +50,8 @@
     <popup-create-collection />
     <popup-create-nft />
     <popup-public-onchain />
-    <popup-delete :type="deleteType"/>
+    <popup-delete :type="deleteType" />
+    <popup-nft-detail />
   </div>
 </template>
 
@@ -39,6 +69,8 @@
   import PopupPublicOnchain from '../components/popup/PopupPublicOnchain.vue'
   import PopupDelete from '../components/popup/PopupDelete.vue'
   import PopupMixin from '@/mixins/popup'
+  import PopupNftDetail from '../components/popup/PopupNftDetail.vue'
+
   import axios from 'axios'
   //Interface
   interface IQuery {
@@ -50,7 +82,22 @@
     type?: string | null | undefined
   }
 
-  @Component({ components: { FilterMetamart, TabNft, TabCollection, TabCategory, PopupChoosetype, PopupCreateCollection, PopupForm, PopupCreate, PopupCreateNft, PopupPublicOnchain, PopupDelete } })
+  @Component({
+    components: {
+      FilterMetamart,
+      TabNft,
+      TabCollection,
+      TabCategory,
+      PopupChoosetype,
+      PopupCreateCollection,
+      PopupForm,
+      PopupCreate,
+      PopupCreateNft,
+      PopupPublicOnchain,
+      PopupDelete,
+      PopupNftDetail
+    }
+  })
   export default class Metamart extends Mixins(PopupMixin) {
     tabs: Array<Record<string, any>> = [
       {
@@ -81,7 +128,7 @@
       orderBy: 'desc',
       type: null
     }
-    
+
     deleteType = ''
     // objType: Record<string, any> = {
     //   Nft: 'Nft',
@@ -221,9 +268,14 @@
       }
     }
 
-    //Delete
+    handleRowClick(row: Record<string, any>): void {
+      this.setOpenPopup({
+        popupName: 'popup-nft-detail',
+        isOpen: true
+      })
+    }
     handleDeleteCollection(value: Record<string, any>): void {
-      console.log(">>>deleteCollection:", value);
+      // console.log(">>>deleteCollection:", value);
       this.deleteType = 'delete-collection'
       this.setOpenPopup({
         popupName: 'popup-metamart-delete',
