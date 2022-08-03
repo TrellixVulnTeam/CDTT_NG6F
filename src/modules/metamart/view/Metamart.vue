@@ -11,7 +11,7 @@
       </div>
     </div>
     <filter-metamart :tabs="tabs" isChangeTab="isChangeTab" @click="handleOpen" @selectCommand="handleSelectCommand" />
-    <<<<<<< HEAD
+ 
     <tab-nft
       v-if="$route.name === 'Nft'"
       @sizeChange="handleSizeChange"
@@ -23,7 +23,6 @@
       @rowClick="handleRowClick"
     />
     <tab-collection v-if="$route.name === 'Collection'" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="collectionData" v-loading="isLoading" />
-    =======
     <tab-nft
       v-if="$route.name === 'Nft'"
       @sizeChange="handleSizeChange"
@@ -42,7 +41,7 @@
       v-loading="isLoading"
       @delete="handleDeleteCollection"
     />
-    >>>>>>> 916a19780c9eaab7796d703087852e6f2fdaf5aa
+
     <tab-category v-if="$route.name === 'Category'" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="collectionData" v-loading="isLoading" />
 
     <popup-choosetype @continues="handleToPopupform($event)" />
