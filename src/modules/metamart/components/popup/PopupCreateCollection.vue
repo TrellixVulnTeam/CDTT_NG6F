@@ -197,7 +197,7 @@
                 <span class="block-title__asterisk"> *</span>
               </h2>
               <el-select v-model="collection.category" placeholder="Choose category">
-                <el-option v-for="(option, index) in categories" :label="option" :value="option" :key="index"></el-option>
+                <el-option v-for="(option, index) in categories" :label="option.categoryName" :value="option.categoryCode" :key="index"></el-option>
               </el-select>
             </section>
           </el-form-item>
@@ -287,6 +287,7 @@
     networks: Array<Record<string, any>> = []
     contracts: Array<Record<string, any>> = []
     creators: Array<Record<string, any>> = []
+    categories: Array<Record<string, any>> = []
 
     rules: Record<string, any> = {
       avatarUrl: [
@@ -368,16 +369,8 @@
       {name: 'Ethereum', currency: 'ETH'},
       {name: 'LynKey', currency: 'LYNK'},
     ]
-    categories = ['Real Estate', 'Family House', 'Penthouse']
     templates = ['NFT Real Estate', 'NFT Family House', 'NFT Penthouse']
 
-    @Watch('collection.contractAddress') handleNetworkFill(value: string): void {
-      this.contracts.forEach((item: Record<string, any>) => {
-        if (item.contractAddress === value) {
-          this.collection.network = item.network
-        }
-      })
-    }
     @Watch('collection.network') handleNetworkChange(): void {
       this.getContractList()
     }
@@ -427,6 +420,7 @@
       this.getNetworkList()
       this.getContractList()
       this.getCreatorList()
+      this.getCategoryList()
     }
     handleClose():void {
       //@ts-ignore
@@ -451,6 +445,7 @@
       await apiNft.getListNetwork()
         .then((res: any) => {
           this.networks = res.content
+          this.collection.network = res.content[0].networkName
         })
         .catch(e => {
           console.log(e)
@@ -460,7 +455,7 @@
     async getContractList():Promise<void> {
       let param = {
         type: 'NFT',
-        network: this.collection.network ? this.collection.network.match(/\(([^)]+)\)/)[1] : '' //temporary solution
+        network: this.collection.network.match(/\(([^)]+)\)/)[1] //temporary solution
       }
       console.log(param);
       await apiNft.getListContractAddress(param)
@@ -479,6 +474,16 @@
       await apiNft.getListCreator(param)
         .then((res: any) => {
           this.creators = res.content
+        })
+        .catch(e => {
+          console.log(e);
+        })
+    }
+
+    async getCategoryList():Promise<void> {
+      await apiNft.getCategories()
+        .then((res: any) => {
+          this.categories = res.content
         })
         .catch(e => {
           console.log(e);
