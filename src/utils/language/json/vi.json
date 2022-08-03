@@ -535,6 +535,7 @@
     "sort": {
       "latest": "Ngày tạo muộn nhất",
       "earliest": "Ngày tạo sớm nhất",
+      "oldest": "Ngày tạo cũ nhất",
       "price-highToLow": "Giá: Từ cao xuống thấp",
       "price-lowToHigh": "Giá: Từ thấp lên cao"
     },
