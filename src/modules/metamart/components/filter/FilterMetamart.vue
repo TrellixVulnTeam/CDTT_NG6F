@@ -93,7 +93,7 @@
           <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}
         </span>
         <el-dropdown-menu class="header-downloadapp dropdown-sort" slot="dropdown">
-          <el-dropdown-item v-for="(value, index) in sorts" :key="index" :class="sortActive === value.command ? 'active' : null" :command="value.command" :divided="value.divided">
+          <el-dropdown-item v-for="(value, index) in sortMetamart" :key="index" :class="sortActive === value.command ? 'active' : null" :command="value.command" :divided="value.divided">
             <span class="be-flex">
               <span class="be-flex-item">
                 {{ value.label }}
@@ -104,7 +104,7 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <el-button v-if="this.$route.name === 'Collection'" class="add-btn ml-auto" @click="$emit('click', 'popup-create-collection')">{{ $t('button.add-new') }}</el-button>
+    <el-button v-if="this.$route.name === 'Collection'" class="add-btn add-collection ml-auto" @click="$emit('click', 'popup-create-collection')">{{ $t('button.add-new') }}</el-button>
     <el-button v-if="this.$route.name === 'Category'" class="add-btn ml-auto" @click="$emit('click', 'popup-create-category')">{{ $t('button.add-new') }}</el-button>
     <div v-if="this.$route.name === 'Nft'" class="ml-auto">
       <el-dropdown trigger="click" @command="handleCommand">
@@ -155,6 +155,38 @@
   })
   export default class FilterMetamart extends Mixins(PopupMixin) {
     // @Prop({ required: true }) isChangeTab!: boolean
+    get sortMetamart(): Record<string, any> { 
+      let sorts = [
+        {
+          command: 'LATEST',
+          label: this.$i18n.t('nft.sort.latest'),
+          divided: false,
+          i18n: 'nft.sort.latest'
+        },
+        {
+          command: 'EARLIEST',
+          label: this.$i18n.t('nft.sort.earliest'),
+          divided: false,
+          i18n: 'nft.sort.earliest'
+        },
+        ...(this.$route.name === 'Collection' ? [] : [
+          {
+            command: 'Price: High to low',
+            label: this.$i18n.t('nft.sort.price-highToLow'),
+            divided: false,
+            i18n: 'nft.sort.price-highToLow'
+          },
+          {
+            command: 'Price: Low to high',
+            label: this.$i18n.t('nft.sort.price-lowToHigh'),
+            divided: false,
+            i18n: 'nft.sort.price-lowToHigh'
+          }
+        ])
+      ]
+      return sorts
+    }
+
     filter = {
       value: {
         search: '',
@@ -172,32 +204,7 @@
       // }
     }
 
-    sorts: Array<Record<string, any>> = [
-      {
-        command: 'LATEST',
-        label: this.$i18n.t('nft.sort.latest'),
-        divided: false,
-        i18n: 'nft.sort.latest'
-      },
-      {
-        command: 'EARLIEST',
-        label: this.$i18n.t('nft.sort.earliest'),
-        divided: false,
-        i18n: 'nft.sort.earliest'
-      },
-      {
-        command: 'Price: High to low',
-        label: this.$i18n.t('nft.sort.price-highToLow'),
-        divided: false,
-        i18n: 'nft.sort.price-highToLow'
-      },
-      {
-        command: 'Price: Low to high',
-        label: this.$i18n.t('nft.sort.price-lowToHigh'),
-        divided: false,
-        i18n: 'nft.sort.price-lowToHigh'
-      }
-    ]
+    
     handleOpen(): void {
       let filterName = ''
       switch (this.$route.name) {
@@ -240,6 +247,14 @@
       color: var(--bc-color-white);
       background-color: var(--bc-theme-primary);
       margin-right: 12px;
+    }
+    .add-collection {
+      height: 48px;
+      margin-right: 24px;
+      border-radius: 6px;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
     }
     .excel-btn {
       margin-right: 24px;

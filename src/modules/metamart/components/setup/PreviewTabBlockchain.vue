@@ -13,7 +13,7 @@
         <p class="text-desc text-base">{{ initBlockchain.tokenId }}</p>
       </div>
       <div class="be-flex align-center jc-space-between list-item">
-        <p class="text-base text-semibold">{{ $t('label_network') }}</p>
+        <p class="text-base text-semibold">{{ $t('label_blockchain') }}</p>
         <p class="text-desc text-base">{{ initBlockchain.network }}</p>
       </div>
       <div class="be-flex align-center jc-space-between list-item">

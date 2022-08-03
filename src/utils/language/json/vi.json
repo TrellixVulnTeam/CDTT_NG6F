@@ -196,7 +196,7 @@
     "change-chart": "Biểu đồ",
     "buy": "Mua",
     "transfer": "Chuyển",
-    "add new": "Thêm mới",
+    "add-new": "Thêm mới",
     "import file": "Nhập file",
     "create": "Thêm"
   },
@@ -215,7 +215,8 @@
     "buyer": "người mua",
     "times": "số lần sử dụng thiết bị",
     "results": "Bản ghi",
-    "events": "hoạt động"
+    "events": "hoạt động",
+    "collection": "bộ sưu tập"
   },
   "label": {
     "invalid-amount": "Số lượng không hợp lệ",
@@ -1254,7 +1255,7 @@
       "collection": "BỘ SƯU TẬP",
       "category": "DANH MỤC",
       "network": "MẠNG",
-      "creator": "NHÀ SÁNG LẬP"
+      "creator": "NGƯỜI TẠO"
     },
     "collection": {
       "filter": {
@@ -1287,17 +1288,29 @@
         "name": "Tên token không thể bị thay đổi trong tương lai"
       },
       "upload": {
-        "size": "Kích thức tải lên",
+        "size": "Kích thước tải lên",
         "max": "Tối đa",
-        "drop": "Thả tệp ở đây hoặc",
+        "drop": "Kéo và thả hoặc",
         "click": "nhấn để tải lên",
-        "preview": "Tải tệp lên để xem trước NFT hoàn toàn mới của bạn"
+        "preview": "Tải tệp lên để xem trước bộ sưu tập hoàn toàn mới của bạn"
       },
       "delete": {
         "confirmation-1": "Bạn có chắc rằng bạn muốn xoá bộ sưu tập ",
         "confirmation-2": " này không?",
         "warning-label": "Đã xảy ra sự cố",
         "warning-description": "Không thể xóa một bộ sưu tập có chứa các NFT. Vui lòng di chuyển tất cả NFT sang bộ sưu tập khác và thử lại."
+      },
+      "validate": {
+        "avatar": "\"Ảnh đại diện\" là bắt buộc",
+        "thumbnail": "\"Hình thu nhỏ\" là bắt buộc",
+        "banner": "\"Ảnh bìa\" là bắt buộc",
+        "name": "\"Tên bộ sưu tập\" không được phép để trống",
+        "network": "\"Mạng\" không được phép để trống",
+        "contract-address": "\"Địa chỉ hợp đồng\" không được phép để trống",
+        "default-payment-by": "\"Phương thức thanh toán mặc định\" không được phép để trống",
+        "creator": "\"Người tạo\" không được phép để trống",
+        "category": "\"Danh mục\" không được phép để trống",
+        "template": "\"Mẫu\" không được phép để trống"
       }
     },
     "success": {
@@ -1326,7 +1339,7 @@
   "label_long-desc": "Mô tả",
   "setup_empty-nft": "Tải tệp lên để xem trước NFT hoàn toàn mới của bạn",
   "label_copies": "Số bản sao",
-  "label_contract-address": "Địa chỉ contract",
+  "label_contract-address": "Địa chỉ hợp đồng",
   "label_token-id": "Token ID",
   "label_blockchain-network": "Mạng",
   "label_token-standard": "Tiêu chuẩn",
@@ -1341,5 +1354,39 @@
   "label_royal-fee": "Phí bản quyền",
   "label_position-top-nft": "Vị trí trên phần TOP NFT",
   "label_position-hot-nft": "Vị trí trên phần HOT NFT",
-  "label_project": "Dự án"
+  "label_project": "Dự án",
+  "tabs_description": "Mô tả",
+  "tabs_detail": "Chi tiết",
+  "tabs_policies": "Chính sách",
+  "tabs_ebrochures": "eBrochures",
+  "tabs_feature": "Tính năng",
+  "label_add-policy": "Thêm chính sách",
+  "popup_add-policy": "Thêm chính sách",
+  "popup_edit-policy": "Sửa",
+  "label_name": "Tên",
+  "label_annotate": "Chú thích",
+  "label_type": "Loại",
+  "label_number": "Dạng số",
+  "label_text": "Dạng chữ",
+  "label_value": "Giá trị",
+  "validate_must-enter-name": "Vui lòng nhập tên",
+  "validate_must-enter-type": "Vui lòng chọn loại",
+  "validate_must-enter-desc": "Vui lòng nhập mô tả",
+  "validate_must-enter-value": "Vui lòng nhập giá trị",
+  "popup_delete": "Xóa",
+  "popup_label-delete": "Bạn có chắc chắn muốn xóa chính sách này không ",
+  "popup_label-delete-file": "Bạn có chắc chắn muốn xóa tập tin này không ",
+  "popup_label-delete-boolean": "Bạn có chắc chắn muốn xóa tính năng này không ",
+  "label_size": "Kích thước",
+  "label_add-file": "Thêm file",
+  "popup_add-file": "Thêm file",
+  "popup_add-feature": "Thêm tính năng",
+  "popup_edit-file": "Sửa",
+  "label_file-attach": "Đính kèm tập tin",
+  "validate_must-enter-file": "Vui lòng chỌn tập tin",
+  "label_download": "Tải xuống",
+  "label_feature-status": "Tình trạng tính năng",
+  "label_add-feature": "Thêm tính năng",
+  "label_upload-desc": "Kéo và thả hoặc",
+  "label_click-to-upload": "bấm để tải lên"
 }

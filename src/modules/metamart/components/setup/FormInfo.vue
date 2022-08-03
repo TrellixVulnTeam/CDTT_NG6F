@@ -2,7 +2,7 @@
   <div class="form-info">
     <el-form>
       <el-form-item :label="$t('label_collection')" class="is-required">
-        <el-select v-model="form.collectionId" class="w-100" clearable :placeholder="$t('label_collection')">
+        <el-select v-model="form.collectionId" class="w-100" :placeholder="$t('label_collection')">
           <el-option v-for="item in listCollection" :key="item.id" :label="item.collectionName" :value="item.id" />
         </el-select>
       </el-form-item>
@@ -29,7 +29,7 @@
 
       <!-- thumbnail -->
       <el-form-item :label="$t('label_thumbnail')" class="is-required">
-        <div class="text-disable text-xs">PNG, GIF, WEBG, JPG, JPEG.</div>
+        <div class="text-disable text-xs">PNG, GIF, WEBG, MP4 or MP3 (Max 100mb).</div>
 
         <el-upload
           v-show="!form.thumbnail"
@@ -42,7 +42,9 @@
           accept=".jpg, .jpeg, .png, .gif,"
           :on-change="handleChangeThumbnail"
         >
-          <div class="el-upload__text text-base">Drop file here or <span class="text-hyperlink">click to upload</span></div>
+          <div class="el-upload__text text-base">
+            {{ $t('label_upload-desc') }} <span class="text-hyperlink">{{ $t('label_click-to-upload') }}</span>
+          </div>
         </el-upload>
         <div v-if="form.thumbnail" class="list-thumbnail">
           <div class="wrap-img">
@@ -57,7 +59,7 @@
 
       <!-- list file -->
       <el-form-item :label="$t('label_upload-file')" class="is-required">
-        <div class="text-disable text-xs">PNG, GIF, WEBG, JPG, JPEG.</div>
+        <div class="text-disable text-xs">PNG, GIF, WEBG, MP4 or MP3 (Max 100mb).</div>
 
         <el-upload
           v-show="!fileList.length"
@@ -71,7 +73,9 @@
           accept=".jpg, .jpeg, .png, .gif,"
           :on-change="handleChangeListFile"
         >
-          <div class="el-upload__text text-base">Drop file here or <span class="text-hyperlink">click to upload</span></div>
+          <div class="el-upload__text text-base">
+            {{ $t('label_upload-desc') }} <span class="text-hyperlink">{{ $t('label_click-to-upload') }}</span>
+          </div>
         </el-upload>
         <div v-if="fileList.length" class="list-thumbnail">
           <div v-for="file in fileList" :key="file.uid" class="wrap-img">
@@ -95,7 +99,7 @@
       </el-form-item>
 
       <el-form-item :label="$t('label_short-desc')" class="is-required">
-        <el-input type="textarea" :rows="3" :placeholder="$t('label_short-desc')" v-model="form.shortDescription"> </el-input>
+        <el-input type="textarea" :rows="3" :placeholder="$t('label_short-desc')" v-model="form.shortDescription" maxlength="200" show-word-limit> </el-input>
       </el-form-item>
 
       <div class="mb-24 wrap-editor">
@@ -148,7 +152,7 @@
       minHeight: 120,
       i18n: {
         vi: {
-          'Type something': 'Nhập mô tả...',
+          // 'Type something': 'Nhập mô tả...',
           'Search for': 'Nhập tìm kiếm',
           'Open in new tab': 'Mở tab mới',
           'No follow': 'Theo dõi liên kết',
@@ -159,6 +163,9 @@
           'or click': 'hoặc chọn từ máy tính',
           'Alternative text': 'Văn bản thay thế'
           // URL: 'Liên kết'
+        },
+        en: {
+          'Type something': 'Type something...'
         }
       }
     }
@@ -186,6 +193,7 @@
     async created(): Promise<void> {
       const result = await apiNft.getListCollection({ page: 1, limit: 1000 })
       this.listCollection = result.content
+      this.form.collectionId = this.listCollection[0].id
       this.listCategory = await apiNft.getListCategory()
       this.setListCollection(result.content)
     }
@@ -218,6 +226,9 @@
       .el-upload {
         &-dragger {
           height: 148px;
+          .el-upload__text {
+            font-size: 16px;
+          }
         }
         &-list {
           display: none;
@@ -290,6 +301,7 @@
       }
       .jodit-container {
         padding: 0 10px;
+        min-height: 180px !important;
         .jodit-toolbar__box {
           background: transparent;
         }

@@ -22,11 +22,11 @@
         </keep-alive>
       </div>
     </div>
-    <div class="footer" slot="footer">
+    <div class="footer footer-popup" slot="footer">
       <div class="wrap-button">
         <div class="btn-right">
-          <el-button class="btn-default btn-400 btn-h-40 btn-close">{{ $t('button.cancel') }}</el-button>
-          <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border" style="font-size: 14px; font-weight: 600">{{ $t('button.create') }}</el-button>
+          <el-button class="btn-default btn-400 btn-h-40 btn-close" @click="handleCancel">{{ $t('button.cancel') }}</el-button>
+          <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border btn-save" style="font-size: 14px">{{ $t('button.create') }}</el-button>
         </div>
       </div>
     </div>
@@ -34,14 +34,17 @@
 </template>
 
 <script lang="ts">
-  import { Component, Prop, Vue } from 'vue-property-decorator'
+  import { Component, Mixins, Prop, Vue } from 'vue-property-decorator'
 
   import TabInfo from '../setup/TabInfo.vue'
   import TabBlockchain from '../setup/TabBlockchain.vue'
   import TabSetting from '../setup/TabSetting.vue'
+  import TabMetaData from '../setup/TabMeta.vue'
 
-  @Component({ components: { TabInfo, TabBlockchain, TabSetting } })
-  export default class PopupCreateNft extends Vue {
+  import PopupMixin from '@/mixins/popup'
+
+  @Component({ components: { TabInfo, TabBlockchain, TabSetting, TabMetaData } })
+  export default class PopupCreateNft extends Mixins(PopupMixin) {
     @Prop({ required: false, type: String, default: 'add' }) typePopup!: 'add' | 'edit'
 
     arrTab: Array<Record<string, any>> = [
@@ -73,14 +76,19 @@
           return 'TabBlockchain'
         case 'SETTING':
           return 'TabSetting'
-
         default:
-          return ''
+          return 'TabMetaData'
       }
     }
 
     handleClose(): void {
       return
+    }
+    handleCancel(): void {
+      this.setOpenPopup({
+        popupName: 'popup-create-nft',
+        isOpen: false
+      })
     }
   }
 </script>
@@ -105,6 +113,13 @@
       &__main {
         flex: 1;
       }
+    }
+  }
+  ::v-deep.footer-popup {
+    .btn-save {
+      width: 100px;
+      height: 40px;
+      font-weight: 400;
     }
   }
 </style>

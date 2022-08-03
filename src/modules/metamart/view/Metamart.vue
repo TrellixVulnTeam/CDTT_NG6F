@@ -11,6 +11,7 @@
       </div>
     </div>
     <filter-metamart :tabs="tabs" isChangeTab="isChangeTab" @click="handleOpen" @selectCommand="handleSelectCommand" />
+    <<<<<<< HEAD
     <tab-nft
       v-if="$route.name === 'Nft'"
       @sizeChange="handleSizeChange"
@@ -22,6 +23,26 @@
       @rowClick="handleRowClick"
     />
     <tab-collection v-if="$route.name === 'Collection'" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="collectionData" v-loading="isLoading" />
+    =======
+    <tab-nft
+      v-if="$route.name === 'Nft'"
+      @sizeChange="handleSizeChange"
+      @pageChange="handlePageChange"
+      :nftProps="nftData"
+      :query="query"
+      v-loading="isLoading"
+      @selectCommand="handleSelectCommand"
+    />
+    <tab-collection
+      v-if="$route.name === 'Collection'"
+      @sizeChange="handleSizeChange"
+      @pageChange="handlePageChange"
+      :query="query"
+      :data="collectionData"
+      v-loading="isLoading"
+      @delete="handleDeleteCollection"
+    />
+    >>>>>>> 916a19780c9eaab7796d703087852e6f2fdaf5aa
     <tab-category v-if="$route.name === 'Category'" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="collectionData" v-loading="isLoading" />
 
     <popup-choosetype @continues="handleToPopupform($event)" />
@@ -50,7 +71,7 @@
   import PopupDelete from '../components/popup/PopupDelete.vue'
   import PopupMixin from '@/mixins/popup'
   import PopupNftDetail from '../components/popup/PopupNftDetail.vue'
-  
+
   import axios from 'axios'
   //Interface
   interface IQuery {
@@ -251,6 +272,14 @@
     handleRowClick(row: Record<string, any>): void {
       this.setOpenPopup({
         popupName: 'popup-nft-detail',
+        isOpen: true
+      })
+    }
+    handleDeleteCollection(value: Record<string, any>): void {
+      // console.log(">>>deleteCollection:", value);
+      this.deleteType = 'delete-collection'
+      this.setOpenPopup({
+        popupName: 'popup-metamart-delete',
         isOpen: true
       })
     }
