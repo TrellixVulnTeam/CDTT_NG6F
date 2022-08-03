@@ -65,7 +65,7 @@
       {
         id: 0,
         type: 'TEXT',
-        value: '111'
+        value: ''
       },
       {
         id: 1,

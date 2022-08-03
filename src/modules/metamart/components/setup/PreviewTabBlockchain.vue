@@ -5,19 +5,19 @@
     </div>
     <div class="list">
       <div class="be-flex align-center jc-space-between list-item">
-        <p class="text-base text-semibold">{{ $t('label_contract-address') }}</p>
+        <p class="text-base">{{ $t('label_contract-address') }}</p>
         <p class="text-hyperlink text-base">{{ initBlockchain.contractAddress | formatTransactionCode(5) }}</p>
       </div>
       <div class="be-flex align-center jc-space-between list-item">
-        <p class="text-base text-semibold">{{ $t('label_token-id') }}</p>
+        <p class="text-base">{{ $t('label_token-id') }}</p>
         <p class="text-desc text-base">{{ initBlockchain.tokenId }}</p>
       </div>
       <div class="be-flex align-center jc-space-between list-item">
-        <p class="text-base text-semibold">{{ $t('label_blockchain') }}</p>
+        <p class="text-base">{{ $t('label_blockchain') }}</p>
         <p class="text-desc text-base">{{ initBlockchain.network }}</p>
       </div>
       <div class="be-flex align-center jc-space-between list-item">
-        <p class="text-base text-semibold">{{ $t('label_token-standard') }}</p>
+        <p class="text-base">{{ $t('label_token-standard') }}</p>
         <p class="text-desc text-base">{{ initBlockchain.tokenStandard }}</p>
       </div>
     </div>

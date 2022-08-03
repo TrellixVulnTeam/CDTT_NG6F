@@ -6,7 +6,8 @@
     <div class="content">
       <!-- type text -->
       <div class="type-text" v-if="tabActive === 'TEXT'">
-        <p class="text-base break-work" v-html="data.value" />
+        <p v-if="data.value" class="text-base break-work" v-html="data.value" />
+        <p v-else class="text-base text-disable">{{ $t('label_long-desc') }}</p>
       </div>
 
       <!-- type html -->

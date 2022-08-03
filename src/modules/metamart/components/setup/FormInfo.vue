@@ -146,13 +146,13 @@
       spellcheck: false,
       showCharsCounter: false,
       showWordsCounter: false,
-      autofocus: true,
+      autofocus: false,
       showXPathInStatusbar: false,
-      language: 'vi',
-      minHeight: 120,
+      language: 'en',
+      minHeight: 180,
       i18n: {
         vi: {
-          // 'Type something': 'Nhập mô tả...',
+          'Type something': 'Nhập mô tả',
           'Search for': 'Nhập tìm kiếm',
           'Open in new tab': 'Mở tab mới',
           'No follow': 'Theo dõi liên kết',
@@ -191,6 +191,8 @@
     }
 
     async created(): Promise<void> {
+      const language = localStorage.getItem('bc-lang') || ''
+      this.config.language = language
       const result = await apiNft.getListCollection({ page: 1, limit: 1000 })
       this.listCollection = result.content
       this.form.collectionId = this.listCollection[0].id
