@@ -11,7 +11,7 @@
       </div>
     </div>
     <filter-metamart :tabs="tabs" isChangeTab="isChangeTab" @click="handleOpen" @selectCommand="handleSelectCommand" />
- 
+
     <tab-nft
       v-if="$route.name === 'Nft'"
       @sizeChange="handleSizeChange"
@@ -21,16 +21,6 @@
       v-loading="isLoading"
       @selectCommand="handleSelectCommand"
       @rowClick="handleRowClick"
-    />
-    <tab-collection v-if="$route.name === 'Collection'" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="collectionData" v-loading="isLoading" />
-    <tab-nft
-      v-if="$route.name === 'Nft'"
-      @sizeChange="handleSizeChange"
-      @pageChange="handlePageChange"
-      :nftProps="nftData"
-      :query="query"
-      v-loading="isLoading"
-      @selectCommand="handleSelectCommand"
     />
     <tab-collection
       v-if="$route.name === 'Collection'"
@@ -42,7 +32,7 @@
       @delete="handleDeleteCollection"
     />
 
-    <tab-category v-if="$route.name === 'Category'" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="collectionData" v-loading="isLoading" />
+    <tab-category v-if="$route.name === 'Category'" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="categoryData" v-loading="isLoading" />
 
     <popup-choosetype @continues="handleToPopupform($event)" />
     <popup-form @collection="handleOpenCreate($event)" />
@@ -70,6 +60,8 @@
   import PopupDelete from '../components/popup/PopupDelete.vue'
   import PopupMixin from '@/mixins/popup'
   import PopupNftDetail from '../components/popup/PopupNftDetail.vue'
+  import getRepository from '@/services'
+  import { NftRepository } from '@/services/repositories/nft'
 
   import axios from 'axios'
   //Interface
@@ -81,6 +73,7 @@
     total: number
     type?: string | null | undefined
   }
+  const apiNft: NftRepository = getRepository('nft')
 
   @Component({
     components: {
@@ -119,6 +112,7 @@
 
     collectionData: Array<Record<string, any>> = []
     nftData: Array<Record<string, any>> = []
+    categoryData: Array<Record<string, any>> = []
 
     query: IQuery = {
       page: 1,
@@ -136,6 +130,17 @@
     // }
     created(): void {
       this.init()
+    }
+    async getCategoryList(): Promise<void> {
+      let params: any
+      await apiNft
+        .getCategories(params)
+        .then((res: any) => {
+          this.categoryData = res.content
+        })
+        .catch(e => {
+          console.log(e)
+        })
     }
     async getNftItem(): Promise<void> {
       try {
@@ -176,7 +181,7 @@
     async init(): Promise<void> {
       if (this.$route.name === 'Nft') await this.getNftItem()
       if (this.$route.name === 'Collection') await this.getCollection()
-      if (this.$route.name === 'Category') await this.getCollection()
+      if (this.$route.name === 'Category') await this.getCategoryList()
     }
 
     resetQuery(): void {
@@ -196,6 +201,8 @@
         })
       if (this.isChangeTab && tab.id === 2) {
         this.getCollection()
+      } else if (this.isChangeTab && tab.id === 3) {
+        this.getCategoryList()
       } else {
         this.getNftItem()
       }

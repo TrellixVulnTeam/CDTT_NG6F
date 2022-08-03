@@ -14,44 +14,42 @@
           <div style="margin-right: 400px">Số thành viên</div>
         </li> -->
         <li v-for="value in data" :key="value.id">
-          <unit-item ref="unitItem" :value="value" :dataDetail="dataDetail" :is-search="isSearch" :parent="[]" />
+          <unit-item ref="unitItem" :value="value" :dataDetail="dataDetail" :is-search="isSearch" :parent="[]" @delete="handleDelete"/>
         </li>
       </ul>
       <!-- <base-pagination :table="table" :info="'nhóm'" @sizeChange="handleSizeChange" @currentChange="handleCurrentChange"/> -->
     </div>
+     <popup-delete />
   </div>
 </template>
 <script lang="ts">
-  import { Component, Watch } from 'vue-property-decorator'
+  import { Component, Watch, Prop } from 'vue-property-decorator'
   import PopupMixin from '@/mixins/popup'
   import UnitItem from './unit/UnitItem.vue'
+  import PopupDelete from './popup/PopupDelete.vue'
+
   @Component({
     components: {
-      UnitItem
+      UnitItem,
+      PopupDelete
     }
   })
   export default class TabCategory extends PopupMixin {
     dataList = []
-
     isLoading = false
     tabActive = 'ACTIVE'
     dataDetail: Record<string, unknown> = {}
     isSearch = false
     locationId = 0
     parentIdProp: any = null
-
+    @Prop({ required: true, type: Array }) data!: Array<Record<string, any>>
     categoryIds: any = []
-    data: any = [
-      { id: 369, code: 'KHCN102', name: 'Real Estate', parentId: 0, levelDepth: 0, treePath: '', position: 0, numOfChild : 1 },
-      { id: 350, code: '', name: 'Real Estate 1', parentId: 0, levelDepth: 0, treePath: '', position: 0, numOfChild: 2 },
-      { id: 343, code: 'HN', name: 'Real Estate 2', parentId: 0, levelDepth: 0, treePath: '', position: 0 },
-      { id: 366, code: 'NB35', name: 'Real Estate 3', parentId: 0, levelDepth: 0, treePath: '' },
-      { id: 293, code: '1309', name: 'Real Estate 4', parentId: 0, levelDepth: 2, treePath: '278,283', position: 0 },
-      { id: 291, code: '1309', name: 'Real Estate 5', parentId: 0, levelDepth: 2, treePath: '278,283', position: 0 },
-      { id: 250, code: '1309', name: 'Fire', parentId: 0, levelDepth: 2, treePath: '278,283', position: 0 },
-      { id: 270, code: '1309', name: 'Water', parentId: 0, levelDepth: 2, treePath: '278,283', position: 0 },
-      { id: 280, code: '1309', name: 'Element', parentId: 0, levelDepth: 2, treePath: '278,283', position: 0 }
-    ]
+    handleDelete() {
+      this.setOpenPopup({
+        popupName: 'popup-metamart-delete',
+        isOpen: true
+      })
+    }
   }
 </script>
 
