@@ -3,7 +3,7 @@
     <div class="title-popup" slot="title">
       <span>{{ $t('metamart.collection.popup.title') }}</span>
     </div>
-    <div class="content" v-loading="isLoading">
+    <div class="content">
       <main class="content-left">
         <!-- Upload avatar & thumbnail -->
         <el-form :model="collection" :rules="rules" ref="collection">
@@ -172,19 +172,20 @@
                 {{ $t('metamart.collection.popup.creator') }}
                 <span class="block-title__asterisk"> *</span>
               </h2>
-              <el-select v-model="collection.creator" placeholder="Choose creator" class="select-prefix-icon">
-                <el-option v-for="(item) in creators" :label="`${item.name} (${item.email})`" :value="item.name" :key="item.name">
+              <el-select 
+                filterable
+                remote
+                v-model="collection.creator" 
+                placeholder="Choose creator"
+              >
+                <el-option v-for="(item) in creators" :label="`${item.accountName} (${item.username})`" :value="item.username" :key="item.username">
                   <template>
                     <div class="be-flex wallet-item">
-                      <base-icon :icon="getIcon(item.currency)" size="24" />
-                      <span style="margin-left: 10px">{{ item.name }}</span>
-                      <span style="margin-left: 4px">({{ item.email }})</span>
+                      <span style="margin-left: 10px">{{ item.accountName }}</span>
+                      <span style="margin-left: 4px">({{ item.username }})</span>
                     </div>
                   </template>
                 </el-option>
-                <div class="select-icon" slot="prefix">
-                  <base-icon :icon="getCreatorIcon(collection.creator)" size="24" />
-                </div>
               </el-select>
             </section>
           </el-form-item>
@@ -261,7 +262,6 @@
   import NftDetail from './NftDetail.vue'
   import { NftRepository } from '@/services/repositories/nft'
   import getRepository from '@/services'
-import { forEach } from 'lodash'
 
   const apiNft: NftRepository = getRepository('nft')
 
@@ -286,6 +286,7 @@ import { forEach } from 'lodash'
     activeBannerUid = 0
     networks: Array<Record<string, any>> = []
     contracts: Array<Record<string, any>> = []
+    creators: Array<Record<string, any>> = []
 
     rules: Record<string, any> = {
       avatarUrl: [
@@ -367,11 +368,6 @@ import { forEach } from 'lodash'
       {name: 'Ethereum', currency: 'ETH'},
       {name: 'LynKey', currency: 'LYNK'},
     ]
-    creators = [
-      { name: 'Artmond275', email: 'artmond275@gmail.com', currency: 'BTC'},
-      { name: 'Dhman', email: 'dhman@gmail.com', currency: 'ETH'},
-      { name: 'LynKey', email: 'lynkey@gmail.com', currency: 'LYNK'}
-    ]
     categories = ['Real Estate', 'Family House', 'Penthouse']
     templates = ['NFT Real Estate', 'NFT Family House', 'NFT Penthouse']
 
@@ -427,18 +423,10 @@ import { forEach } from 'lodash'
     getIcon(currency: string): string {
       return currency ? `icon-${currency.toLocaleLowerCase()}` : 'icon-lynk'
     }
-    getCreatorIcon(creator: string): string {
-      let result = ''
-      this.creators.forEach(elm => {
-        if (elm.name === creator) {
-          result = elm.currency
-        }
-      })
-      return this.getIcon(result)
-    }
     handleOpen():void {
       this.getNetworkList()
       this.getContractList()
+      this.getCreatorList()
     }
     handleClose():void {
       //@ts-ignore
@@ -481,6 +469,19 @@ import { forEach } from 'lodash'
         })
         .catch(e => {
           console.log(e)
+        })
+    }
+
+    async getCreatorList():Promise<void> {
+      let param = {
+        businessPartner: 'SYSTEM'
+      }
+      await apiNft.getListCreator(param)
+        .then((res: any) => {
+          this.creators = res.content
+        })
+        .catch(e => {
+          console.log(e);
         })
     }
   }
