@@ -2,7 +2,7 @@
   <div class="form-info">
     <el-form>
       <el-form-item :label="$t('label_collection')" class="is-required">
-        <el-select v-model="form.collectionId" class="w-100" clearable :placeholder="$t('label_collection')">
+        <el-select v-model="form.collectionId" class="w-100" :placeholder="$t('label_collection')">
           <el-option v-for="item in listCollection" :key="item.id" :label="item.collectionName" :value="item.id" />
         </el-select>
       </el-form-item>
@@ -193,6 +193,7 @@
     async created(): Promise<void> {
       const result = await apiNft.getListCollection({ page: 1, limit: 1000 })
       this.listCollection = result.content
+      this.form.collectionId = this.listCollection[0].id
       this.listCategory = await apiNft.getListCategory()
       this.setListCollection(result.content)
     }
