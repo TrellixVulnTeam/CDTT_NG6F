@@ -3,7 +3,7 @@
     <el-form class="form-setting">
       <div class="content-left">
         <el-form-item :label="$t('label_service-fee')">
-          <el-input v-model="form.serviceFee" type="number" :placeholder="$t('label_service-fee')">
+          <el-input v-model="form.serviceFee" type="number" :placeholder="$t('label_service-fee')" @keypress.native="onlyNumber($event)">
             <div class="suffix" slot="suffix">%</div>
           </el-input>
         </el-form-item>
@@ -29,15 +29,15 @@
 
       <div class="content-right">
         <el-form-item :label="$t('label_royal-fee')">
-          <el-input v-model="form.royalFee" type="number" :placeholder="$t('label_royal-fee')">
+          <el-input v-model="form.royalFee" type="number" :placeholder="$t('label_royal-fee')" @keypress.native="onlyNumber($event)">
             <div class="suffix" slot="suffix">%</div>
           </el-input>
         </el-form-item>
         <el-form-item :label="$t('label_position-top-nft')">
-          <el-input v-model="form.positionTopNft" type="number" :placeholder="$t('label_position-top-nft')" />
+          <el-input v-model="form.positionTopNft" type="number" :placeholder="$t('label_position-top-nft')" @keypress.native="onlyNumber($event)" />
         </el-form-item>
         <el-form-item :label="$t('label_position-hot-nft')">
-          <el-input v-model="form.positionHotNft" type="number" :placeholder="$t('label_position-hot-nft')" />
+          <el-input v-model="form.positionHotNft" type="number" :placeholder="$t('label_position-hot-nft')" @keypress.native="onlyNumber($event)" />
         </el-form-item>
       </div>
     </el-form>
@@ -45,16 +45,16 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue, Prop } from 'vue-property-decorator'
-
+  import { Component, Prop, Mixins } from 'vue-property-decorator'
+  import FormatInputMixin from '@/mixins/formatInput'
   @Component
-  export default class TabSetting extends Vue {
+  export default class TabSetting extends Mixins(FormatInputMixin) {
     @Prop({ required: false, type: String, default: 'add' }) typePopup!: 'add' | 'edit'
 
     form: Record<string, any> = {
       serviceFee: '',
-      topNft: false,
-      hotNft: false
+      topNft: true,
+      hotNft: true
     }
   }
 </script>

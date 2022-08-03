@@ -1,6 +1,6 @@
 <template>
   <div class="tab-description">
-    <el-input type="textarea" :rows="10" :placeholder="$t('label_long-desc')" v-model="description" @input="handleInput"> </el-input>
+    <el-input type="textarea" :placeholder="$t('label_long-desc')" v-model="description" @input="handleInput" :maxlength="200" show-word-limit> </el-input>
   </div>
 </template>
 
@@ -34,4 +34,11 @@
   }
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+  ::v-deep.tab-description {
+    .el-textarea__inner {
+      border-radius: 8px;
+      height: 300px;
+    }
+  }
+</style>

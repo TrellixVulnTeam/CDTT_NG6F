@@ -2,7 +2,7 @@
   <div class="form-blockchain">
     <el-form>
       <el-form-item :label="$t('label_copies')" class="is-required">
-        <el-input type="number" v-model="form.copies" :placeholder="$t('label_copies')" />
+        <el-input type="number" v-model="form.copies" :placeholder="$t('label_copies')" @keypress.native="onlyNumber($event)" />
       </el-form-item>
       <el-form-item :label="$t('label_contract-address')" class="is-required">
         <el-input v-model="form.contractAddress" :placeholder="$t('label_contract-address')" disabled />
@@ -30,10 +30,10 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator'
-
+  import { Component, Mixins } from 'vue-property-decorator'
+  import FormatInputMixin from '@/mixins/formatInput'
   @Component
-  export default class FormBlockchain extends Vue {
+  export default class FormBlockchain extends Mixins(FormatInputMixin) {
     form: Record<string, any> = {
       copies: '',
       contractAddress: '0x1EACE3C7af307A5840c3eF44c5e01547BF2DEf0C',
