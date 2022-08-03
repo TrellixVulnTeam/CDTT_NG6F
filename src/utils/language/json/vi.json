@@ -1280,7 +1280,8 @@
         "default-payment-by": "Phương thức thanh toán mặc định bởi",
         "creator": "Người tạo",
         "category": "Danh mục",
-        "template": "Mẫu"
+        "template": "Mẫu",
+        "nft-detail": "Chi tiết NFT"
       },
       "subtitle": {
         "name": "Tên token không thể bị thay đổi trong tương lai"
@@ -1303,6 +1304,7 @@
       "title": "THÀNH CÔNG",
       "delete-collection": "Bạn đã xóa bộ sưu tập thành công"
     }
+  
   },
   "filter_pending": "Chờ xử lý",
   "filter_processing": "Đang xử lý",
@@ -1338,5 +1340,6 @@
   "label_hot-nft-desc": "Khi tính năng này được bật, NFT này sẽ xuất hiện trong phần HOT NFT",
   "label_royal-fee": "Phí bản quyền",
   "label_position-top-nft": "Vị trí trên phần TOP NFT",
-  "label_position-hot-nft": "Vị trí trên phần HOT NFT"
+  "label_position-hot-nft": "Vị trí trên phần HOT NFT",
+  "label_project": "Dự án"
 }

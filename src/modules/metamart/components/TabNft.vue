@@ -12,6 +12,7 @@
             @sizeChange="handleSizeChange"
             @currentChange="handleCurrentChange"
             class="collection-table"
+            @rowClick="handleRowClick"
           >
             <el-table-column label="#" type="index" align="center" width="40" />
             <el-table-column type="selection" :selectable="handleSelectable" align="center" width="40" />
@@ -208,6 +209,9 @@
     }
     handleCommand(command: string): void {
       this.$emit('selectCommand', command)
+    }
+    handleRowClick(row: Record<string, any>): void {
+      this.$emit('rowClick', row.row)
     }
   }
 </script>

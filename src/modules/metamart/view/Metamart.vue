@@ -11,7 +11,16 @@
       </div>
     </div>
     <filter-metamart :tabs="tabs" isChangeTab="isChangeTab" @click="handleOpen" @selectCommand="handleSelectCommand" />
-    <tab-nft v-if="$route.name === 'Nft'" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :nftProps="nftData" :query="query" v-loading="isLoading"  @selectCommand="handleSelectCommand" />
+    <tab-nft
+      v-if="$route.name === 'Nft'"
+      @sizeChange="handleSizeChange"
+      @pageChange="handlePageChange"
+      :nftProps="nftData"
+      :query="query"
+      v-loading="isLoading"
+      @selectCommand="handleSelectCommand"
+      @rowClick="handleRowClick"
+    />
     <tab-collection v-if="$route.name === 'Collection'" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="collectionData" v-loading="isLoading" />
     <tab-category v-if="$route.name === 'Category'" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="collectionData" v-loading="isLoading" />
 
@@ -21,7 +30,8 @@
     <popup-create-collection />
     <popup-create-nft />
     <popup-public-onchain />
-    <popup-delete :type="deleteType"/>
+    <popup-delete :type="deleteType" />
+    <popup-nft-detail />
   </div>
 </template>
 
@@ -39,6 +49,8 @@
   import PopupPublicOnchain from '../components/popup/PopupPublicOnchain.vue'
   import PopupDelete from '../components/popup/PopupDelete.vue'
   import PopupMixin from '@/mixins/popup'
+  import PopupNftDetail from '../components/popup/PopupNftDetail.vue'
+  
   import axios from 'axios'
   //Interface
   interface IQuery {
@@ -50,7 +62,22 @@
     type?: string | null | undefined
   }
 
-  @Component({ components: { FilterMetamart, TabNft, TabCollection, TabCategory, PopupChoosetype, PopupCreateCollection, PopupForm, PopupCreate, PopupCreateNft, PopupPublicOnchain, PopupDelete } })
+  @Component({
+    components: {
+      FilterMetamart,
+      TabNft,
+      TabCollection,
+      TabCategory,
+      PopupChoosetype,
+      PopupCreateCollection,
+      PopupForm,
+      PopupCreate,
+      PopupCreateNft,
+      PopupPublicOnchain,
+      PopupDelete,
+      PopupNftDetail
+    }
+  })
   export default class Metamart extends Mixins(PopupMixin) {
     tabs: Array<Record<string, any>> = [
       {
@@ -81,7 +108,7 @@
       orderBy: 'desc',
       type: null
     }
-    
+
     deleteType = ''
     // objType: Record<string, any> = {
     //   Nft: 'Nft',
@@ -219,6 +246,13 @@
           isOpen: true
         })
       }
+    }
+
+    handleRowClick(row: Record<string, any>): void {
+      this.setOpenPopup({
+        popupName: 'popup-nft-detail',
+        isOpen: true
+      })
     }
   }
 </script>
