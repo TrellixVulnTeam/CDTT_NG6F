@@ -163,13 +163,20 @@
           divided: false,
           i18n: 'nft.sort.latest'
         },
-        {
-          command: 'EARLIEST',
-          label: this.$i18n.t('nft.sort.earliest'),
-          divided: false,
-          i18n: 'nft.sort.earliest'
-        },
-        ...(this.$route.name === 'Collection' ? [] : [
+        ...(this.$route.name === 'Collection' ? [
+          {
+            command: 'OLDEST',
+            label: this.$i18n.t('nft.sort.oldest'),
+            divided: false,
+            i18n: 'nft.sort.oldest'
+          },
+        ] : [
+          {
+            command: 'EARLIEST',
+            label: this.$i18n.t('nft.sort.earliest'),
+            divided: false,
+            i18n: 'nft.sort.earliest'
+          },
           {
             command: 'Price: High to low',
             label: this.$i18n.t('nft.sort.price-highToLow'),
