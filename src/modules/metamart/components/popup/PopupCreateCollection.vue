@@ -1,9 +1,9 @@
 <template>
-  <base-popup name="popup-create-collection" class="popup-create-collection" width="1040px" :close="handleClose">
+  <base-popup name="popup-create-collection" class="popup-create-collection" width="1040px" :open="handleOpen" :close="handleClose">
     <div class="title-popup" slot="title">
       <span>{{ $t('metamart.collection.popup.title') }}</span>
     </div>
-    <div class="content" v-loading="isLoading">
+    <div class="content">
       <main class="content-left">
         <!-- Upload avatar & thumbnail -->
         <el-form :model="collection" :rules="rules" ref="collection">
@@ -119,7 +119,7 @@
                 <span class="block-title__asterisk"> *</span>
               </h2>
               <el-select v-model="collection.network" placeholder="Ethereum (ERC-1155)">
-                <el-option v-for="(option, index) in networks" :label="option" :value="option" :key="index"></el-option>
+                <el-option v-for="(option, index) in networks" :label="option.networkName" :value="option.networkName" :key="index"></el-option>
               </el-select>
             </section>
           </el-form-item>
@@ -138,7 +138,7 @@
                 placeholder="Select a contract address"
                 
               >
-                <el-option v-for="(option, index) in contracts" :label="option | formatTransactionCode(10)" :value="option" :key="index"></el-option>
+                <el-option v-for="(option, index) in contracts" :label="option.contractAddress | formatTransactionCode(10)" :value="option.contractAddress" :key="index"></el-option>
               </el-select>
             </section>
           </el-form-item>
@@ -172,19 +172,20 @@
                 {{ $t('metamart.collection.popup.creator') }}
                 <span class="block-title__asterisk"> *</span>
               </h2>
-              <el-select v-model="collection.creator" placeholder="Choose creator" class="select-prefix-icon">
-                <el-option v-for="(item) in creators" :label="`${item.name} (${item.email})`" :value="item.name" :key="item.name">
+              <el-select 
+                filterable
+                remote
+                v-model="collection.creator" 
+                placeholder="Choose creator"
+              >
+                <el-option v-for="(item) in creators" :label="`${item.accountName} (${item.username})`" :value="item.username" :key="item.username">
                   <template>
                     <div class="be-flex wallet-item">
-                      <base-icon :icon="getIcon(item.currency)" size="24" />
-                      <span style="margin-left: 10px">{{ item.name }}</span>
-                      <span style="margin-left: 4px">({{ item.email }})</span>
+                      <span style="margin-left: 10px">{{ item.accountName }}</span>
+                      <span style="margin-left: 4px">({{ item.username }})</span>
                     </div>
                   </template>
                 </el-option>
-                <div class="select-icon" slot="prefix">
-                  <base-icon :icon="getCreatorIcon(collection.creator)" size="24" />
-                </div>
               </el-select>
             </section>
           </el-form-item>
@@ -256,9 +257,14 @@
 </template>
 
 <script lang="ts">
-  import { Component, Mixins } from 'vue-property-decorator'
+  import { Component, Mixins, Watch } from 'vue-property-decorator'
   import PopupMixin from '@/mixins/popup'
   import NftDetail from './NftDetail.vue'
+  import { NftRepository } from '@/services/repositories/nft'
+  import getRepository from '@/services'
+
+  const apiNft: NftRepository = getRepository('nft')
+
   @Component({ components: { NftDetail } })
   export default class PopupCreateCollection extends Mixins(PopupMixin) {
     imageClick: any = {}
@@ -277,9 +283,10 @@
       category: '',
       template: '',
     }
-    isCreated = false
-    checkResult: any = false
     activeBannerUid = 0
+    networks: Array<Record<string, any>> = []
+    contracts: Array<Record<string, any>> = []
+    creators: Array<Record<string, any>> = []
 
     rules: Record<string, any> = {
       avatarUrl: [
@@ -327,7 +334,7 @@
       payment: [
         {
           required: true,
-          message: this.$t('metamart.collection.validate.payment'),
+          message: this.$t('metamart.collection.validate.default-payment-by'),
           trigger: 'change'
         }
       ],
@@ -355,26 +362,25 @@
     }
 
     // fake data
-    networks = ['Ethereum (ERC1155)', 'Binance (ERC1155)']
-    contracts = [
-      '0x38eba9029a88032399c367325c757249c282177035183fb5382745d88237a401',
-      '0x046f3c93472e035e5ae5ec7a7c750d5bceefd7cf8ca7f27065ceb3193c105937',
-      '0x0bd96b709c185be9135e3a3b1b3481f0c59215704b4b0289a97e124d9c90e116',
-    ]
     optionByToken = [
       {name: 'Bitcoin', currency: 'BTC'},
       {name: 'Tether', currency: 'USDT'},
       {name: 'Ethereum', currency: 'ETH'},
       {name: 'LynKey', currency: 'LYNK'},
     ]
-    creators = [
-      { name: 'Artmond275', email: 'artmond275@gmail.com', currency: 'BTC'},
-      { name: 'Dhman', email: 'dhman@gmail.com', currency: 'ETH'},
-      { name: 'LynKey', email: 'lynkey@gmail.com', currency: 'LYNK'}
-    ]
     categories = ['Real Estate', 'Family House', 'Penthouse']
     templates = ['NFT Real Estate', 'NFT Family House', 'NFT Penthouse']
 
+    @Watch('collection.contractAddress') handleNetworkFill(value: string): void {
+      this.contracts.forEach((item: Record<string, any>) => {
+        if (item.contractAddress === value) {
+          this.collection.network = item.network
+        }
+      })
+    }
+    @Watch('collection.network') handleNetworkChange(): void {
+      this.getContractList()
+    }
     handleAvatarChange(file: any): void {
       this.collection.avatarUrl = URL.createObjectURL(file.raw)
       this.avatarPreviewing = file.name
@@ -406,7 +412,6 @@
     handleBannerRemove(banner: any): void {
       console.log('>>remove banner:', banner);
       console.log('>>banners:', this.collection.bannerUrl);
-      // this.bannerUrl.shift(banner)
       this.collection.bannerUrl = this.collection.bannerUrl.filter((item: any) => item !== banner)
       this.imageClick = this.collection.bannerUrl[0]
     }
@@ -418,14 +423,10 @@
     getIcon(currency: string): string {
       return currency ? `icon-${currency.toLocaleLowerCase()}` : 'icon-lynk'
     }
-    getCreatorIcon(creator: string): string {
-      let result = ''
-      this.creators.forEach(elm => {
-        if (elm.name === creator) {
-          result = elm.currency
-        }
-      })
-      return this.getIcon(result)
+    handleOpen():void {
+      this.getNetworkList()
+      this.getContractList()
+      this.getCreatorList()
     }
     handleClose():void {
       //@ts-ignore
@@ -442,6 +443,46 @@
           alert('Created')
         }
       })
+      console.log('>>>Collection:', this.collection);
+    }
+
+    //call API
+    async getNetworkList():Promise<void> {
+      await apiNft.getListNetwork()
+        .then((res: any) => {
+          this.networks = res.content
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    }
+
+    async getContractList():Promise<void> {
+      let param = {
+        type: 'NFT',
+        network: this.collection.network ? this.collection.network.match(/\(([^)]+)\)/)[1] : '' //temporary solution
+      }
+      console.log(param);
+      await apiNft.getListContractAddress(param)
+        .then((res: any) => {
+          this.contracts = res.content
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    }
+
+    async getCreatorList():Promise<void> {
+      let param = {
+        businessPartner: 'SYSTEM'
+      }
+      await apiNft.getListCreator(param)
+        .then((res: any) => {
+          this.creators = res.content
+        })
+        .catch(e => {
+          console.log(e);
+        })
     }
   }
 </script>
