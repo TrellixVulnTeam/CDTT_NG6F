@@ -1,29 +1,28 @@
 <template>
   <base-popup name="popup-metamart-delete" class="popup-delete" width="400px" :open="handleOpen" :close="handleClose">
     <div class="title-popup" slot="title">
-      <span>{{$t('button.delete')}}</span>
+      <span>{{ $t('button.delete') }}</span>
     </div>
     <div class="content" style="padding-bottom: 24px">
       <span v-if="type === 'delete-collection'" class="content-text">
-        {{$t('metamart.collection.delete.confirmation-1')}} <span class="content-text__item">The Mike Tyson</span> {{$t('metamart.collection.delete.confirmation-2')}}
+        {{ $t('metamart.collection.delete.confirmation-1') }} <span class="content-text__item">The Mike Tyson</span> {{ $t('metamart.collection.delete.confirmation-2') }}
       </span>
-      <span v-if="type === 'delete-nft'" class="content-text">
-        Are you sure you want to delete this <span class="content-text__item">The Myth Virtual Tour</span> item?
-      </span>
+      <span v-else-if="type === 'delete-nft'" class="content-text"> Are you sure you want to delete this <span class="content-text__item">The Myth Virtual Tour</span> item? </span>
+      <span v-else class="content-text"> Are you sure you want to delete this category ? </span>
     </div>
     <div v-if="isHaveNft" class="notification">
       <div class="notification-title">
         <div class="notification-title__icon">
-          <img src="../../../../icons/png/alert.png" alt="icon alert">
+          <img src="../../../../icons/png/alert.png" alt="icon alert" />
         </div>
-        <p class="notification-title__text">{{$t('metamart.collection.delete.warning-label')}}</p>
+        <p class="notification-title__text">{{ $t('metamart.collection.delete.warning-label') }}</p>
       </div>
-      <p class="notification-subtitle">{{$t('metamart.collection.delete.warning-description')}}</p>
+      <p class="notification-subtitle">{{ $t('metamart.collection.delete.warning-description') }}</p>
     </div>
     <div class="footer" slot="footer">
       <div class="be-flex jc-flex-end">
         <el-button class="btn-default btn-close btn-h-40 mr-16" @click="handleCancel">{{ $t('button.cancel') }}</el-button>
-        <el-button class="btn-default delete-btn" :disabled="isHaveNft" @click="handleSubmit">{{$t('button.confirm')}}</el-button>
+        <el-button class="btn-default delete-btn" :disabled="isHaveNft" @click="handleSubmit">{{ $t('button.confirm') }}</el-button>
       </div>
     </div>
     <popup-verify-email @submit="handleDelete"></popup-verify-email>
@@ -36,32 +35,32 @@
   import { Component, Mixins, Prop } from 'vue-property-decorator'
   import PopupVerifyEmail from './PopupVerifyEmail.vue'
   import PopupSuccess from './PopupSuccess.vue'
-  import EventBus from '@/utils/eventBus';
-  
+  import EventBus from '@/utils/eventBus'
+
   @Component({
-    components: {PopupVerifyEmail, PopupSuccess}
+    components: { PopupVerifyEmail, PopupSuccess }
   })
   export default class PopupDelete extends Mixins(PopupMixin) {
-    @Prop({required: false, type: Array, default: []}) selectedNft!: Array<Record<string, any>>
-    @Prop({required: true, type: String, default: ''}) type!: string
+    @Prop({ required: false, type: Array, default: [] }) selectedNft!: Array<Record<string, any>>
+    @Prop({ required: true, type: String, default: '' }) type!: string
 
-    isHaveNft = false;
+    isHaveNft = false
 
     created(): void {
-      EventBus.$on("closePopup", this.handleCancel);
+      EventBus.$on('closePopup', this.handleCancel)
     }
     destroyed(): void {
-      EventBus.$off("closePopup", this.handleCancel);
+      EventBus.$off('closePopup', this.handleCancel)
     }
 
-    handleCancel():void {
+    handleCancel(): void {
       this.setOpenPopup({
         popupName: 'popup-metamart-delete',
         isOpen: false
       })
     }
-    handleSubmit():void {
-      if(this.isHaveNft) {
+    handleSubmit(): void {
+      if (this.isHaveNft) {
         return
       } else {
         this.setOpenPopup({
@@ -70,7 +69,7 @@
         })
       }
     }
-    handleDelete():void {
+    handleDelete(): void {
       //if success
       this.setOpenPopup({
         popupName: 'popup-metamart-success',

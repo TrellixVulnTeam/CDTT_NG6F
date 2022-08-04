@@ -2,7 +2,7 @@
   <div class="employee--item">
     <div class="channel-router flex">
       <div
-        v-if="value.numOfChild > 0 && !isSearch"
+        v-if="value.subCategory && !isSearch"
         :class="{ 'drown-menu-tranfroms-select': isOpen, 'drown-menu-tranfroms-unselect': !isOpen }"
         class="drown-menu"
         @click="handleOpenClick(value)"
@@ -10,9 +10,9 @@
         <base-icon icon="arrow-down" class="style__icon-arrow-down" style="margin-right: -5px" />
       </div>
       <div v-else style="display: block; width: 21px; height: 1px" />
-      <div v-if="value.treePath == null" class="name flex-item" style="margin-left: 24px">{{ value.name }}</div>
-      <div v-else-if="value.locationCode" class="name flex-item" style="margin-left: 24px">{{ value.locationCode + ' - ' + value.name }}</div>
-      <div class="name flex-item row-click" @click="handleRowClick(value.id)">{{ value.name }}</div>
+      <!-- <div v-if="value.treePath == null" class="name flex-item" style="margin-left: 24px">{{ value.categoryName }}</div> -->
+      <div v-if="value.locationCode" class="name flex-item" style="margin-left: 24px">{{ value.categoryCode + ' - ' + value.categoryName}}</div>
+      <div class="name flex-item row-click" @click="handleRowClick(value.id)">{{ value.categoryName }}</div>
 
       <div class="action-group">
         <div class="action flex-left-right">
@@ -46,7 +46,7 @@
     </div>
     <div :class="isOpenChild ? 'list-childs-select' : null" class="list-childs">
       <unit-item-child
-        v-for="item in value.children"
+        v-for="item in value.subCategory"
         :key="item.id"
         :value="item"
         @create="createItem"
@@ -58,6 +58,7 @@
         class="child-item"
       />
     </div>
+   
   </div>
 </template>
 
@@ -67,16 +68,17 @@
   import PopupMixin from '@/mixins/popup'
   const UnitItemChild = () => import('../unit/UnitItem.vue')
   import EventBus from '@/utils/eventBus'
+  import PopupDelete from '../popup/PopupDelete.vue'
 
   const beUser = namespace('beUser')
   const beEmployee = namespace('beEmployee')
-  @Component({ components: { UnitItemChild } })
+  @Component({ components: { UnitItemChild, PopupDelete } })
   export default class UnitItem extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Object, default: {} }) value!: Record<string, any>
     @Prop({ required: false, type: Array, default: [] }) parent!: []
     @Prop({ required: false, type: String, default: '' }) checkValue!: string
     @Prop({ required: false, type: Boolean, default: false }) isSearch!: boolean
-
+    type = 'delete-category'
     @beUser.State('user') user!: any
     @beUser.State('role') roleMembers!: any
     @beEmployee.Action('setUnitDetail') setUnitDetail!: (payload: Record<string, any>) => void
@@ -162,10 +164,6 @@
       this.$emit('delete', row)
       // this.isConflickClick = true
       // this.checkListChildren(row.parentId, row.id)
-      this.setOpenPopup({
-        popupName: 'delete-group',
-        isOpen: true
-      })
     }
 
     handleOpenClick(value: Record<string, any>): void {
@@ -179,11 +177,6 @@
         { id: 369, code: 'KHCN102', name: 'Real Estate', parentId: 0, levelDepth: 1, treePath: '', position: 0, numOfChild : 0 }
         ]
         value.children = data
-        // this.apiCate.getListCategory(temp).then((res: any) => {
-        //   value.children = res.content
-        //   this.isOpen = !this.isOpen
-        //   this.$forceUpdate()
-        // })
       } else {
         this.isOpen = !this.isOpen
       }

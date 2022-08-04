@@ -196,8 +196,21 @@
                 {{ $t('metamart.collection.popup.category') }}
                 <span class="block-title__asterisk"> *</span>
               </h2>
-              <el-select v-model="collection.category" placeholder="Choose category">
-                <el-option v-for="(option, index) in categories" :label="option.categoryName" :value="option.categoryCode" :key="index"></el-option>
+              <el-select
+                filterable
+                remote
+                multiple
+                v-model="collection.category" 
+                placeholder="Choose category"
+              >
+                <el-option 
+                  v-for="(option, index) in categories" 
+                  :label="option.categoryName" 
+                  :value="option.categoryCode" 
+                  :key="index"
+                  :style="{ 'margin-left': `${(option.levelDepth ? option.levelDepth : 0) * 15}px` }"
+                >
+                </el-option>
               </el-select>
             </section>
           </el-form-item>
@@ -208,7 +221,12 @@
                 {{ $t('metamart.collection.popup.template') }}
                 <span class="block-title__asterisk"> *</span>
               </h2>
-              <el-select v-model="collection.template" placeholder="Choose template">
+              <el-select
+                filterable
+                remote
+                v-model="collection.template" 
+                placeholder="Choose template"
+              >
                 <el-option v-for="(option, index) in templates" :label="option" :value="option" :key="index"></el-option>
               </el-select>
             </section>
@@ -262,6 +280,7 @@
   import NftDetail from './NftDetail.vue'
   import { NftRepository } from '@/services/repositories/nft'
   import getRepository from '@/services'
+  import { filter } from 'lodash'
 
   const apiNft: NftRepository = getRepository('nft')
 
@@ -280,7 +299,7 @@
       contractAddress: '',
       payment: 'LYNK',
       creator: '',
-      category: '',
+      category: [],
       template: '',
     }
     activeBannerUid = 0
@@ -288,6 +307,7 @@
     contracts: Array<Record<string, any>> = []
     creators: Array<Record<string, any>> = []
     categories: Array<Record<string, any>> = []
+    categoriesClone: Array<Record<string, any>> = []
 
     rules: Record<string, any> = {
       avatarUrl: [
@@ -425,6 +445,8 @@
     handleClose():void {
       //@ts-ignore
       this.$refs['collection'].resetFields();
+      this.categories = []
+      this.categoriesClone = []
     }
     handleReset():void {
       //@ts-ignore
@@ -455,7 +477,7 @@
     async getContractList():Promise<void> {
       let param = {
         type: 'NFT',
-        network: this.collection.network.match(/\(([^)]+)\)/)[1] //temporary solution
+        network: this.collection.network
       }
       console.log(param);
       await apiNft.getListContractAddress(param)
@@ -481,13 +503,23 @@
     }
 
     async getCategoryList():Promise<void> {
-      await apiNft.getCategories()
+      await apiNft.getCategories({})
         .then((res: any) => {
-          this.categories = res.content
+          this.categoriesClone = res.content
+          this.recursiveCategoryChild(res.content)
         })
         .catch(e => {
           console.log(e);
         })
+    }
+    recursiveCategoryChild(list: Array<Record<string, any>>): void {
+      for (let i = 0; i < list.length; i++) {
+        this.categories.push(list[i])
+        if (list[i].subCategory !== null) {
+          const listParent = filter(list[i].subCategory, value => value.parentId === list[i].id)
+          this.recursiveCategoryChild(listParent)
+        }
+      }
     }
   }
 </script>

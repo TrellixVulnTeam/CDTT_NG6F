@@ -80,9 +80,9 @@ export class NftRepository extends BaseRepository {
     }
   }
 
-  async getCategories(): Promise<Array<Record<string, any>>> {
+  async getCategories(params: Record<string, any>): Promise<Array<Record<string, any>>> {
     try {
-      const result = await request.get(`${this.prefix}/categories`)
+      const result = await request.get(`${this.prefix}/categories`, { params })
       return result.data.data
     } catch (error) {
       return Promise.reject(error)
