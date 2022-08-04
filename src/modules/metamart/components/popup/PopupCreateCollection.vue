@@ -503,7 +503,7 @@
     }
 
     async getCategoryList():Promise<void> {
-      await apiNft.getCategories()
+      await apiNft.getCategories({})
         .then((res: any) => {
           this.categoriesClone = res.content
           this.recursiveCategoryChild(res.content)
