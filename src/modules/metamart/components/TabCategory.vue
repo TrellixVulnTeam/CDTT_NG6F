@@ -14,7 +14,7 @@
           <div style="margin-right: 400px">Số thành viên</div>
         </li> -->
         <li v-for="value in data" :key="value.id">
-          <unit-item ref="unitItem" :value="value" :dataDetail="dataDetail" :is-search="isSearch" :parent="[]" @delete="handleDelete"/>
+          <unit-item ref="unitItem" :value="value" :dataDetail="dataDetail" :is-search="isSearch" :parent="[]" @delete="handleDelete" @create="handleCreate" @edit="handleEdit"/>
         </li>
       </ul>
       <!-- <base-pagination :table="table" :info="'nhóm'" @sizeChange="handleSizeChange" @currentChange="handleCurrentChange"/> -->
@@ -27,11 +27,13 @@
   import PopupMixin from '@/mixins/popup'
   import UnitItem from './unit/UnitItem.vue'
   import PopupDelete from './popup/PopupDelete.vue'
+  import PopupCreateCategory from './popup/PopupCreateCategory.vue'
 
   @Component({
     components: {
       UnitItem,
-      PopupDelete
+      PopupDelete,
+      PopupCreateCategory
     }
   })
   export default class TabCategory extends PopupMixin {
@@ -42,13 +44,21 @@
     isSearch = false
     locationId = 0
     parentIdProp: any = null
+    type = ''
     @Prop({ required: true, type: Array }) data!: Array<Record<string, any>>
+
     categoryIds: any = []
-    handleDelete() {
+    handleDelete(): void {
       this.setOpenPopup({
         popupName: 'popup-metamart-delete',
         isOpen: true
       })
+    }
+    handleCreate(): void {
+      this.$emit('create')
+    }
+    handleEdit(): void {
+      this.$emit('edit')
     }
   }
 </script>

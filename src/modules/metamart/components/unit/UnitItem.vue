@@ -11,7 +11,7 @@
       </div>
       <div v-else style="display: block; width: 21px; height: 1px" />
       <!-- <div v-if="value.treePath == null" class="name flex-item" style="margin-left: 24px">{{ value.categoryName }}</div> -->
-      <div v-if="value.locationCode" class="name flex-item" style="margin-left: 24px">{{ value.categoryCode + ' - ' + value.categoryName}}</div>
+      <div v-if="value.locationCode" class="name flex-item" style="margin-left: 24px">{{ value.categoryCode + ' - ' + value.categoryName }}</div>
       <div class="name flex-item row-click" @click="handleRowClick(value.id)">{{ value.categoryName }}</div>
 
       <div class="action-group">
@@ -19,7 +19,7 @@
           <div @click="handleAddGroup(value)">
             <el-tooltip :enterable="false" class="item-tooltip" effect="dark" content="Add new" placement="top">
               <el-button class="is-create-color is-none-border icon-btn icon-middle custom-button p-0" style="background: transparent">
-               <base-icon icon="icon-add" size="18" />
+                <base-icon icon="icon-add" size="18" />
               </el-button>
             </el-tooltip>
           </div>
@@ -36,8 +36,8 @@
         <div class="action flex-left-right">
           <div @click="handleDeleteGroup(value)">
             <el-tooltip :enterable="false" class="item-tooltip" effect="dark" content="Xóa nhóm" placement="top">
-              <el-button style="margin-left: 8px;background: transparent" class="is-create-color is-none-border icon-btn icon-middle custom-button p-0">
-              <base-icon icon="icon-delete" size="24" />
+              <el-button style="margin-left: 8px; background: transparent" class="is-create-color is-none-border icon-btn icon-middle custom-button p-0">
+                <base-icon icon="icon-delete" size="24" />
               </el-button>
             </el-tooltip>
           </div>
@@ -58,7 +58,6 @@
         class="child-item"
       />
     </div>
-   
   </div>
 </template>
 
@@ -69,10 +68,11 @@
   const UnitItemChild = () => import('../unit/UnitItem.vue')
   import EventBus from '@/utils/eventBus'
   import PopupDelete from '../popup/PopupDelete.vue'
+  import PopupCreateCategory from '../popup/PopupCreateCategory.vue'
 
   const beUser = namespace('beUser')
   const beEmployee = namespace('beEmployee')
-  @Component({ components: { UnitItemChild, PopupDelete } })
+  @Component({ components: { UnitItemChild, PopupDelete, PopupCreateCategory } })
   export default class UnitItem extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Object, default: {} }) value!: Record<string, any>
     @Prop({ required: false, type: Array, default: [] }) parent!: []
@@ -87,10 +87,10 @@
     isOpen = false
     childParent: Array<Record<string, any>> = []
     created(): void {
-      EventBus.$on("reloadDropdown", () => {
-        this.isOpen = false;   
-        EventBus.$off("reloadDropdown");
-      });
+      EventBus.$on('reloadDropdown', () => {
+        this.isOpen = false
+        EventBus.$off('reloadDropdown')
+      })
     }
     check = false
     checkRole(listRole: Record<string, any>): void {
@@ -123,7 +123,7 @@
       this.$emit('group-info', id)
     }
     handleIsOpen(): void {
-      this.isOpen = false;
+      this.isOpen = false
     }
     dataPopup = {}
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -146,24 +146,18 @@
       // this.isConflickClick = true
       this.idCategory = row.id
       this.$emit('create', row.id)
-      this.setOpenPopup({
-        popupName: 'create-group',
-        isOpen: true
-      })
     }
     handleEditGroup(row: Record<string, any>): void {
       // this.dataDetail = row
       // this.isConflickClick = true
       this.$emit('edit', row)
-      this.setOpenPopup({
-        popupName: 'edit-group',
-        isOpen: true
-      })
+      console.log(row)
     }
     handleDeleteGroup(row: Record<string, any>): void {
       this.$emit('delete', row)
       // this.isConflickClick = true
       // this.checkListChildren(row.parentId, row.id)
+      console.log(row.id)
     }
 
     handleOpenClick(value: Record<string, any>): void {
@@ -173,10 +167,6 @@
       console.log('chil', value)
       if (!this.isOpen && value.numOfChild) {
         this.isOpen = !this.isOpen
-        const data = [
-        { id: 369, code: 'KHCN102', name: 'Real Estate', parentId: 0, levelDepth: 1, treePath: '', position: 0, numOfChild : 0 }
-        ]
-        value.children = data
       } else {
         this.isOpen = !this.isOpen
       }
@@ -224,7 +214,7 @@
     // padding: 13px 15px;
     // border-radius: 5px;
     font-size: 16px;
-    // font-weight: 400; 
+    // font-weight: 400;
     min-height: 46px;
     margin-bottom: 1px;
     border-bottom: 1px solid #dbdbdb;
@@ -248,7 +238,6 @@
           visibility: visible;
         }
       }
-      
     }
     .drown-menu,
     .bookmarks,

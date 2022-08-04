@@ -105,7 +105,7 @@
       </el-dropdown>
     </div>
     <el-button v-if="this.$route.name === 'Collection'" class="add-btn add-collection ml-auto" @click="$emit('click', 'popup-create-collection')">{{ $t('button.add-new') }}</el-button>
-    <el-button v-if="this.$route.name === 'Category'" class="add-btn ml-auto" @click="$emit('click', 'popup-create-category')">{{ $t('button.add-new') }}</el-button>
+    <el-button v-if="this.$route.name === 'Category'" class="add-btn ml-auto" @click="$emit('openCategoryPopup')">{{ $t('button.add-new') }}</el-button>
     <div v-if="this.$route.name === 'Nft'" class="ml-auto">
       <el-dropdown trigger="click" @command="handleCommand">
         <el-button style="width: auto !important; margin-right: 12px">
@@ -138,12 +138,12 @@
     </div>
     <popup-filter-collection />
     <popup-filter-nft />
-    <popup-create-category />
+  
   </div>
 </template>
 
 <script lang="ts">
-  import { Component, Mixins } from 'vue-property-decorator'
+  import { Component, Mixins, Prop } from 'vue-property-decorator'
   import BaseIcon from '@/components/base/icon/BaseIcon.vue'
   import PopupMixin from '@/mixins/popup'
   import PopupFilterCollection from '../popup/PopupFilterCollection.vue'
@@ -155,7 +155,8 @@
   })
   export default class FilterMetamart extends Mixins(PopupMixin) {
     // @Prop({ required: true }) isChangeTab!: boolean
-    get sortMetamart(): Record<string, any> { 
+    @Prop() listCategory: any
+    get sortMetamart(): Record<string, any> {
       let sorts = [
         {
           command: 'LATEST',
@@ -163,33 +164,35 @@
           divided: false,
           i18n: 'nft.sort.latest'
         },
-        ...(this.$route.name === 'Collection' ? [
-          {
-            command: 'OLDEST',
-            label: this.$i18n.t('nft.sort.oldest'),
-            divided: false,
-            i18n: 'nft.sort.oldest'
-          },
-        ] : [
-          {
-            command: 'EARLIEST',
-            label: this.$i18n.t('nft.sort.earliest'),
-            divided: false,
-            i18n: 'nft.sort.earliest'
-          },
-          {
-            command: 'Price: High to low',
-            label: this.$i18n.t('nft.sort.price-highToLow'),
-            divided: false,
-            i18n: 'nft.sort.price-highToLow'
-          },
-          {
-            command: 'Price: Low to high',
-            label: this.$i18n.t('nft.sort.price-lowToHigh'),
-            divided: false,
-            i18n: 'nft.sort.price-lowToHigh'
-          }
-        ])
+        ...(this.$route.name === 'Collection'
+          ? [
+              {
+                command: 'OLDEST',
+                label: this.$i18n.t('nft.sort.oldest'),
+                divided: false,
+                i18n: 'nft.sort.oldest'
+              }
+            ]
+          : [
+              {
+                command: 'EARLIEST',
+                label: this.$i18n.t('nft.sort.earliest'),
+                divided: false,
+                i18n: 'nft.sort.earliest'
+              },
+              {
+                command: 'Price: High to low',
+                label: this.$i18n.t('nft.sort.price-highToLow'),
+                divided: false,
+                i18n: 'nft.sort.price-highToLow'
+              },
+              {
+                command: 'Price: Low to high',
+                label: this.$i18n.t('nft.sort.price-lowToHigh'),
+                divided: false,
+                i18n: 'nft.sort.price-lowToHigh'
+              }
+            ])
       ]
       return sorts
     }
@@ -214,7 +217,9 @@
       this.$emit('searchData', this.filter.value.search)
       console.log(this.filter.value.search)
     }
-     
+    handleReload(): void {
+      this.$emit('reload')
+    }
     handleOpen(): void {
       let filterName = ''
       switch (this.$route.name) {

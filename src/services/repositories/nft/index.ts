@@ -3,7 +3,7 @@ import { BaseRepository } from '@/services/base'
 
 export class NftRepository extends BaseRepository {
   constructor() {
-    super('nft/api/v1/')
+    super('nft/api/v1')
   }
 
   async getListAccount(params: Record<string, any>): Promise<any> {
@@ -43,6 +43,22 @@ export class NftRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+  async createCategory(params: Record<string, any>): Promise<Array<Record<string, any>>> {
+    try {
+      const result = await request.post(`${this.prefix}/category`, params )
+      return result.data.data
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+  async editCategory(params: Record<string, any>, id: Record<string, any>): Promise<Array<Record<string, any>>> {
+    try {
+      const result = await request.put(`${this.prefix}/category/${id}`, params, id)
+      return result.data.data
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
 
   async getListNetwork(): Promise<Array<Record<string, any>>> {
     try {
@@ -52,7 +68,6 @@ export class NftRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
-
   async getListContractAddress(params: Record<string, any>): Promise<Array<Record<string, any>>> {
     try {
       const result = await request.get(`${this.prefix}/nft-asset/list`, { params })
@@ -61,7 +76,6 @@ export class NftRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
-
   async getListCreator(params: Record<string, any>): Promise<Array<Record<string, any>>> {
     try {
       const result = await request.get(`${this.prefix}/account/search`, { params })
@@ -70,7 +84,6 @@ export class NftRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
-
   async getCategories(params: Record<string, any>): Promise<Array<Record<string, any>>> {
     try {
       const result = await request.get(`${this.prefix}/categories`, { params })
