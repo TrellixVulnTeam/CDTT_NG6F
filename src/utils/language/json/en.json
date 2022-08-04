@@ -1335,6 +1335,14 @@
         "creator": "\"Creator\" is not allowed to be empty",
         "category": "\"Category\" is not allowed to be empty",
         "template": "\"Template\" is not allowed to be empty"
+      },
+      "placeholder": {
+        "name": "Enter collection name",
+        "description": "e. g. \"After purchasing you'll be able to get the real T-Shirt\"",
+        "contract-address": "Select a contract address",
+        "creator": "Choose creator",
+        "category": "Choose category",
+        "template": "Choose template"
       }
     },
     "success": {

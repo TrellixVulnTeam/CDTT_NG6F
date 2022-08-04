@@ -16,6 +16,7 @@ import { FeeRepository } from './repositories/fee'
 import { InventoryRepository } from './repositories/inventory'
 import { NftRepository } from './repositories/nft'
 import {FeeNftRepository} from './repositories/feenft'
+import UploadRepository from './repositories/upload'
 type RepositoryName =
   | 'verify'
   | 'auth'
@@ -35,6 +36,7 @@ type RepositoryName =
   | 'inventory'
   | 'nft'
   | 'feenft'
+  | 'upload'
 
 export default function getRepository(name: RepositoryName): any {
   switch (name) {
@@ -74,6 +76,8 @@ export default function getRepository(name: RepositoryName): any {
       return new NftRepository()
     case 'feenft':
       return new FeeNftRepository()
+    case 'upload':
+      return new UploadRepository()
     default:
       return null
   }

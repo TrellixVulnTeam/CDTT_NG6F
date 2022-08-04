@@ -7,14 +7,14 @@
       <main class="content-left">
         <!-- Upload avatar & thumbnail -->
         <el-form :model="collection" :rules="rules" ref="collection">
-          <el-form-item prop="avatarUrl">
+          <el-form-item prop="avatar">
             <section class="upload block">
               <h2 class="block-title" style="margin-bottom: 0px;">
                 {{ $t('metamart.collection.popup.avatar') }}
                 <span class="block-title__asterisk"> *</span>
               </h2>
               <span class="block__subtitle">PNG, JPG. {{$t('metamart.collection.upload.size')}}: 60x60 ({{$t('metamart.collection.upload.max')}} 5mb).</span>
-              <el-input v-model="collection.avatarUrl" style="display:none"></el-input>
+              <el-input v-model="collection.avatar" style="display:none"></el-input>
               <el-upload 
                 action="javascript:;" 
                 class="upload-avatar" 
@@ -24,10 +24,10 @@
                 :show-file-list="false" 
                 accept=".jpg, .jpeg, .png"
               >
-                <div class="el-upload__text" v-if="!collection.avatarUrl">{{$t('metamart.collection.upload.drop')}} <em>{{$t('metamart.collection.upload.click')}}</em></div>
-                <div class="upload-wrapper" v-if="collection.avatarUrl">
-                  <img :src="collection.avatarUrl" :alt="avatarPreviewing" class="upload-wrapper__preview" />
-                  <span class="cursor icon-x upload-wrapper__icon" @click.stop="collection.avatarUrl = ''">
+                <div class="el-upload__text" v-if="!collection.avatar">{{$t('metamart.collection.upload.drop')}} <em>{{$t('metamart.collection.upload.click')}}</em></div>
+                <div class="upload-wrapper" v-if="collection.avatar">
+                  <img :src="collection.avatar" :alt="avatarPreviewing" class="upload-wrapper__preview" />
+                  <span class="cursor icon-x upload-wrapper__icon" @click.stop="collection.avatar = ''">
                     <base-icon icon="icon-delete-circle" size="26" />
                   </span>
                 </div>
@@ -35,19 +35,19 @@
             </section>
           </el-form-item>
 
-          <el-form-item prop="thumbnailUrl">
+          <el-form-item prop="thumb">
             <section class="upload block">
               <h2 class="block-title" style="margin-bottom: 0px;">
                 {{ $t('metamart.collection.popup.thumbnail') }}
                 <span class="block-title__asterisk"> *</span>
               </h2>
               <span class="block__subtitle">PNG, JPG. {{$t('metamart.collection.upload.size')}}: 285x190 ({{$t('metamart.collection.upload.max')}} 5mb).</span>
-              <el-input v-model="collection.thumbnailUrl" style="display:none"></el-input>
+              <el-input v-model="collection.thumb" style="display:none"></el-input>
               <el-upload action="javascript:;" class="upload-thumbnail" drag :on-change="handleThumbnailChange" :auto-upload="false" :show-file-list="false" accept=".jpg, .jpeg, .png,">
-                <div class="el-upload__text" v-if="!collection.thumbnailUrl">{{$t('metamart.collection.upload.drop')}} <em>{{$t('metamart.collection.upload.click')}}</em></div>
-                <div class="upload-wrapper" v-if="collection.thumbnailUrl">
-                  <img :src="collection.thumbnailUrl" :alt="thumbnailPreviewing" class="upload-wrapper__preview" />
-                  <span class="cursor icon-x upload-wrapper__icon" @click.stop="collection.thumbnailUrl = ''" >
+                <div class="el-upload__text" v-if="!collection.thumb">{{$t('metamart.collection.upload.drop')}} <em>{{$t('metamart.collection.upload.click')}}</em></div>
+                <div class="upload-wrapper" v-if="collection.thumb">
+                  <img :src="collection.thumb" :alt="thumbnailPreviewing" class="upload-wrapper__preview" />
+                  <span class="cursor icon-x upload-wrapper__icon" @click.stop="collection.thumb = ''" >
                     <base-icon icon="icon-delete-circle" size="26" />
                   </span>
                 </div>
@@ -56,33 +56,33 @@
           </el-form-item>
 
           <!-- Upload banner -->
-          <el-form-item prop="bannerUrl">
+          <el-form-item prop="banners">
             <section class="upload block">
               <h2 class="block-title" style="margin-bottom: 0px;">
                 {{ $t('metamart.collection.popup.banner') }}
                 <span class="block-title__asterisk"> *</span>
               </h2>
               <span class="block__subtitle">PNG, GIF, WEBG, MP4 or MP3. {{$t('metamart.collection.upload.size')}}: 1200X260 ({{$t('metamart.collection.upload.max')}} 5mb).</span>
-              <el-input v-model="collection.bannerUrl[0]" style="display:none"></el-input>
+              <el-input v-model="collection.banners[0]" style="display:none"></el-input>
               <el-upload action="javascript:;" class="upload-banner" drag :on-change="handleBannerChange" :auto-upload="false" :show-file-list="false" accept=".jpg, .jpeg, .png, .gif, .webg" >
-                <div class="el-upload__text" v-if="!collection.bannerUrl[0]">{{$t('metamart.collection.upload.drop')}} <em>{{$t('metamart.collection.upload.click')}}</em></div>
-                <div class="upload-wrapper" v-if="collection.bannerUrl[0]">
-                  <img :src="imageClick.url" :alt="bannerPreviewing" class="upload-wrapper__preview" />
+                <div class="el-upload__text" v-if="!collection.banners[0]">{{$t('metamart.collection.upload.drop')}} <em>{{$t('metamart.collection.upload.click')}}</em></div>
+                <div class="upload-wrapper" v-if="collection.banners[0]">
+                  <img :src="imageClick.mediaUrl" :alt="bannerPreviewing" class="upload-wrapper__preview" />
                   <span class="cursor icon-x upload-wrapper__icon" @click.stop="handleBannerRemove(imageClick)">
                     <base-icon icon="icon-delete-circle" size="26" />
                   </span>
                 </div>
               </el-upload>
-              <div v-if="collection.bannerUrl[0]" class="banner-list">
-                <div v-for="(item, index) of collection.bannerUrl" :key="index" class="flex jc-space-center" style="width: 84px">
+              <div v-if="collection.banners[0]" class="banner-list">
+                <div v-for="(item, index) of collection.banners" :key="index" class="flex jc-space-center" style="width: 84px">
                   <div :class="{ active: (item.uid === activeBannerUid), 'banner-list__image': true }">
                     <div class="banner-list__image-spacing" >
-                      <img :src="item.url" :alt="item.name" @click="handleImageClick(item)"/>
+                      <img :src="item.mediaUrl" :alt="item.name" @click="handleImageClick(item)"/>
                     </div>
                   </div>
                 </div>
                 <el-upload action="javascript:;"  class="upload-banner-list" :auto-upload="false" accept=".jpg, .jpeg, .png, .bmp" :on-change="handleListBanner"
-                :file-list="collection.bannerUrl" :show-file-list="false"
+                :file-list="collection.banners" :show-file-list="false"
                 >
                   <i class="el-icon-plus"></i>
                 </el-upload>
@@ -90,14 +90,14 @@
             </section>
           </el-form-item>
           
-          <el-form-item prop="name">
+          <el-form-item prop="collectionName">
             <section class="name block">
               <h2 class="block-title" style="margin-bottom: 0px;">
                 {{ $t('metamart.collection.popup.name') }}
                 <span class="block-title__asterisk"> *</span>
               </h2>
               <span class="block__subtitle">{{$t('metamart.collection.subtitle.name')}}</span>
-              <el-input v-model="collection.name" placeholder="Enter collection name" ></el-input>
+              <el-input v-model="collection.collectionName" placeholder="Enter collection name" ></el-input>
             </section>
           </el-form-item>
 
@@ -143,13 +143,13 @@
             </section>
           </el-form-item>
 
-          <el-form-item prop="payment">
+          <el-form-item prop="currency">
             <section class="payment block">
               <h2 class="block-title">
                 {{ $t('metamart.collection.popup.default-payment-by') }}
                 <span class="block-title__asterisk"> *</span>
               </h2>
-              <el-select v-model="collection.payment" class="select-prefix-icon">
+              <el-select v-model="collection.currency" class="select-prefix-icon">
                 <el-option v-for="(item, index) in optionByToken" :label="`${item.name} (${item.currency})`" :value="item.currency" :key="index">
                   <template>
                     <div class="be-flex wallet-item">
@@ -160,13 +160,13 @@
                   </template>
                 </el-option>
                 <div class="select-icon" slot="prefix">
-                  <base-icon :icon="getIcon(collection.payment)" size="24" />
+                  <base-icon :icon="getIcon(collection.currency)" size="24" />
                 </div>
               </el-select>
             </section>
           </el-form-item>
 
-          <el-form-item prop="creator">
+          <el-form-item prop="creatorId">
             <section class="creator block">
               <h2 class="block-title">
                 {{ $t('metamart.collection.popup.creator') }}
@@ -175,22 +175,24 @@
               <el-select 
                 filterable
                 remote
-                v-model="collection.creator" 
+                v-model="collection.creatorId" 
                 placeholder="Choose creator"
               >
-                <el-option v-for="(item) in creators" :label="`${item.accountName} (${item.username})`" :value="item.username" :key="item.username">
-                  <template>
-                    <div class="be-flex wallet-item">
-                      <span style="margin-left: 10px">{{ item.accountName }}</span>
-                      <span style="margin-left: 4px">({{ item.username }})</span>
-                    </div>
-                  </template>
-                </el-option>
+                <div class="" v-infinite-scroll="loadMoreCreator" infinite-scroll-delay="500">
+                  <el-option v-for="(item) in creators" :label="`${item.accountName} (${item.username})`" :value="item.id" :key="item.id">
+                    <template>
+                      <div class="be-flex wallet-item">
+                        <span style="margin-left: 10px">{{ item.accountName }}</span>
+                        <span style="margin-left: 4px">({{ item.username }})</span>
+                      </div>
+                    </template>
+                  </el-option>
+                </div>
               </el-select>
             </section>
           </el-form-item>
           
-          <el-form-item prop="category">
+          <el-form-item prop="categoryIds">
             <section class="category block">
               <h2 class="block-title">
                 {{ $t('metamart.collection.popup.category') }}
@@ -199,14 +201,13 @@
               <el-select
                 filterable
                 remote
-                multiple
-                v-model="collection.category" 
+                v-model="collection.categoryIds" 
                 placeholder="Choose category"
               >
                 <el-option 
                   v-for="(option, index) in categories" 
                   :label="option.categoryName" 
-                  :value="option.categoryCode" 
+                  :value="option.id" 
                   :key="index"
                   :style="{ 'margin-left': `${(option.levelDepth ? option.levelDepth : 0) * 15}px` }"
                 >
@@ -215,7 +216,7 @@
             </section>
           </el-form-item>
 
-          <el-form-item prop="template">
+          <el-form-item prop="templateId">
             <section class="template block">
               <h2 class="block-title">
                 {{ $t('metamart.collection.popup.template') }}
@@ -224,10 +225,13 @@
               <el-select
                 filterable
                 remote
-                v-model="collection.template" 
+                clearable
+                v-model="collection.templateId" 
                 placeholder="Choose template"
               >
-                <el-option v-for="(option, index) in templates" :label="option" :value="option" :key="index"></el-option>
+                <div class="" v-infinite-scroll="loadMoreTemplate" infinite-scroll-delay="500">
+                  <el-option v-for="(option) in templates" :label="option.templateName" :value="option.id" :key="option.id"></el-option>
+                </div>
               </el-select>
             </section>
           </el-form-item>
@@ -239,24 +243,26 @@
         <section class="preview block">
           <h2 class="block-title">{{ $t('metamart.collection.popup.preview') }}</h2>
           <div class="preview-wrapper">
-            <p class="preview-wrapper__message" v-if="!collection.avatarUrl && !collection.thumbnailUrl">{{$t('metamart.collection.upload.preview')}}</p>
-            <div class="preview-wrapper__thumbnail" v-if="collection.thumbnailUrl">
-              <img :src="collection.thumbnailUrl" :alt="thumbnailPreviewing" />
+            <p class="preview-wrapper__message" v-if="!collection.avatar && !collection.thumb">{{$t('metamart.collection.upload.preview')}}</p>
+            <div class="preview-wrapper__thumbnail" v-if="collection.thumb">
+              <img :src="collection.thumb" :alt="thumbnailPreviewing" />
             </div>
-            <div class="preview-wrapper__avatar" v-if="collection.avatarUrl">
-              <img :src="collection.avatarUrl" :alt="avatarPreviewing" />
+            <div class="preview-wrapper__avatar" v-if="collection.avatar">
+              <img :src="collection.avatar" :alt="avatarPreviewing" />
               <base-icon class="icon-active" icon="icon-status1" size="26" />
               <base-icon class="icon-verified" icon="icon-verified" size="17" />
             </div>
-            <div class="preview-wrapper__detail" v-if="collection.avatarUrl && collection.thumbnailUrl">
-              <p class="brand">{{ collection.name }}</p>
-              <p v-if="collection.creator" class="__name">
-                by 
-                <span class="__name-link">
-                  {{collection.creator}}
-                  <base-icon icon="icon-user-verified" size="12" />
-                </span>
-              </p>
+            <div class="preview-wrapper__detail" v-if="collection.avatar && collection.thumb">
+              <p class="brand">{{ collection.collectionName }}</p>
+              <div v-for="creator in creators" :key="creator.id">
+                <p v-if="collection.creatorId === creator.id" class="__name">
+                  by 
+                  <span class="__name-link">
+                    {{creator.accountName}}
+                    <base-icon icon="icon-user-verified" size="12" />
+                  </span>
+                </p>
+              </div>
               <p class="__description">{{ collection.description }}</p>
             </div>
           </div>
@@ -279,28 +285,35 @@
   import PopupMixin from '@/mixins/popup'
   import NftDetail from './NftDetail.vue'
   import { NftRepository } from '@/services/repositories/nft'
+  import UploadRepository from '@/services/repositories/upload'
   import getRepository from '@/services'
   import { filter } from 'lodash'
+  import { namespace } from 'vuex-class'
 
+  const bcAuth = namespace('beAuth')
   const apiNft: NftRepository = getRepository('nft')
+  const apiUpload: UploadRepository = getRepository('upload')
 
   @Component({ components: { NftDetail } })
   export default class PopupCreateCollection extends Mixins(PopupMixin) {
+    @bcAuth.State('user') user!: Record<string, any>
+    
+    userId = this.$store.state.beAuth.user.userId
     imageClick: any = {}
     avatarPreviewing = ''
     thumbnailPreviewing = ''
     collection: Record<string,any> = {
-      avatarUrl: '',
-      thumbnailUrl: '',
-      bannerUrl: [],
-      name:'',
+      avatar: '',
+      thumb: '',
+      banners: [],
+      collectionName:'',
       description: '',
       network: '',
       contractAddress: '',
-      payment: 'LYNK',
-      creator: '',
-      category: [],
-      template: '',
+      currency: 'LYNK',
+      creatorId: '',
+      categoryIds: '',
+      templateId: '',
     }
     activeBannerUid = 0
     networks: Array<Record<string, any>> = []
@@ -308,30 +321,31 @@
     creators: Array<Record<string, any>> = []
     categories: Array<Record<string, any>> = []
     categoriesClone: Array<Record<string, any>> = []
+    templates: Array<Record<string, any>> = []
 
     rules: Record<string, any> = {
-      avatarUrl: [
+      avatar: [
         {
           required: true,
           message: this.$t('metamart.collection.validate.avatar'),
           trigger: 'change'
         }
       ],
-      thumbnailUrl: [
+      thumb: [
         {
           required: true,
           message: this.$t('metamart.collection.validate.thumbnail'),
           trigger: 'change'
         }
       ],
-      bannerUrl: [
+      banners: [
         {
           required: true,
           message: this.$t('metamart.collection.validate.banner'),
           trigger: 'change'
         }
       ],
-      name: [
+      collectionName: [
         {
           required: true,
           message: this.$t('metamart.collection.validate.name'),
@@ -352,28 +366,28 @@
           trigger: 'change'
         }
       ],
-      payment: [
+      currency: [
         {
           required: true,
           message: this.$t('metamart.collection.validate.default-payment-by'),
           trigger: 'change'
         }
       ],
-      creator: [
+      creatorId: [
         {
           required: true,
           message: this.$t('metamart.collection.validate.creator'),
           trigger: 'change'
         }
       ],
-      category: [
+      categoryIds: [
         {
           required: true,
           message: this.$t('metamart.collection.validate.category'),
           trigger: 'change'
         }
       ],
-      template: [
+      templateId: [
         {
           required: true,
           message: this.$t('metamart.collection.validate.template'),
@@ -389,44 +403,68 @@
       {name: 'Ethereum', currency: 'ETH'},
       {name: 'LynKey', currency: 'LYNK'},
     ]
-    templates = ['NFT Real Estate', 'NFT Family House', 'NFT Penthouse']
 
     @Watch('collection.network') handleNetworkChange(): void {
+      //@ts-ignore
+      this.$refs['collection'].fields.find((f: any) => f.prop === 'contractAddress').resetField()
       this.getContractList()
     }
-    handleAvatarChange(file: any): void {
-      this.collection.avatarUrl = URL.createObjectURL(file.raw)
-      this.avatarPreviewing = file.name
+    async handleAvatarChange(file: any): Promise<void> {
+      // this.collection.avatar = URL.createObjectURL(file.raw)
+      // this.avatarPreviewing = file.name
+      const formData = new FormData()
+      formData.append('files', file.raw)
+      formData.append('type', 'AVATAR_COLLECTION')
+      formData.append('userId', this.userId)
+      await apiUpload.uploadImage(formData)
+        .then((res: any) => {
+          this.collection.avatar = res.success[0].url
+          this.avatarPreviewing = res.success[0].name
+        })
+        .catch(e => {
+          console.log(e);
+        })
     }
-    handleThumbnailChange(file: any): void {
-      this.collection.thumbnailUrl = URL.createObjectURL(file.raw)
-      this.thumbnailPreviewing = file.name
+    async handleThumbnailChange(file: any): Promise<void> {
+      const formData = new FormData()
+      formData.append('files', file.raw)
+      formData.append('type', 'THUMB_COLLECTION')
+      formData.append('userId', this.userId)
+      await apiUpload.uploadImage(formData)
+        .then((res: any) => {
+          this.collection.thumb = res.success[0].url
+          this.thumbnailPreviewing = res.success[0].name
+        })
+        .catch(e => {
+          console.log(e);
+        })
     }
-    handleBannerChange(file: any): void {
-      console.log(">>>file,", file)
-      this.collection.bannerUrl.unshift({
-        name: file.name,
-        url: URL.createObjectURL(file.raw)
-      })
-      this.imageClick = this.collection.bannerUrl[0]
-      console.log('fileUrl', URL.createObjectURL(file.raw));
-      console.log('banner', this.collection.bannerUrl);
+    async handleBannerChange(file: any): Promise<void> {
+      // this.collection.banners.unshift({
+      //   name: file.name,
+      //   url: URL.createObjectURL(file.raw)
+      // })
+      // this.imageClick = this.collection.banners[0]
+      // console.log('fileUrl', URL.createObjectURL(file.raw));
+      // console.log('banner', this.collection.banners);
+      this.uploadBanner(file.raw)
     }
     handleClearUpload(): void {
-      this.collection.avatarUrl = ''
-      this.collection.thumbnailUrl = ''
+      this.collection.avatar = ''
+      this.collection.thumb = ''
     }
     handleListBanner(file: any): void {
-      this.collection.bannerUrl.unshift({
-        name: file.name,
-        url: URL.createObjectURL(file.raw)
-      })
+      // this.collection.banners.unshift({
+      //   name: file.name,
+      //   url: URL.createObjectURL(file.raw)
+      // })
+      this.uploadBanner(file.raw)
     }
     handleBannerRemove(banner: any): void {
       console.log('>>remove banner:', banner);
-      console.log('>>banners:', this.collection.bannerUrl);
-      this.collection.bannerUrl = this.collection.bannerUrl.filter((item: any) => item !== banner)
-      this.imageClick = this.collection.bannerUrl[0]
+      console.log('>>banners:', this.collection.banners);
+      this.collection.banners = this.collection.banners.filter((item: any) => item !== banner)
+      this.imageClick = this.collection.banners[0]
     }
     handleImageClick(image: any): void {
       this.imageClick = image;
@@ -439,14 +477,19 @@
     handleOpen():void {
       this.getNetworkList()
       this.getContractList()
-      this.getCreatorList()
+      this.getCreatorList(this.queryCreatorList)
       this.getCategoryList()
+      this.getTemplateList(this.queryTemplateList)
     }
     handleClose():void {
       //@ts-ignore
       this.$refs['collection'].resetFields();
       this.categories = []
       this.categoriesClone = []
+      this.setOpenPopup({
+        popupName: 'popup-create-collection',
+        isOpen: false
+      })
     }
     handleReset():void {
       //@ts-ignore
@@ -456,13 +499,43 @@
       //@ts-ignore
       this.$refs['collection']?.validate((valid: any) => {
         if (valid) {
-          alert('Created')
+          this.collection.network = this.collection.network.match(/\(([^)]+)\)/)[1]
+          apiNft.createCollection(this.collection)
+            .then((res: any) => {
+              this.handleClose()
+              this.$message.success("Create collection successful")
+            })
+            .catch(e => {
+              console.log(e);
+            })
         }
       })
-      console.log('>>>Collection:', this.collection);
+      // let temp = JSON.stringify(this.collection)
+      // this.collection.categoryIds = JSON.stringify(this.collection.categoryIds)
+      // console.log('>>>JSON:', this.collection);
     }
 
     //call API
+    async uploadBanner(file: any):Promise<void> {
+      const formData = new FormData()
+      formData.append('files', file)
+      formData.append('type', 'BANNER_COLLECTION')
+      formData.append('userId', this.userId)
+      await apiUpload.uploadImage(formData)
+        .then((res: any) => {
+          console.log(res);
+          this.collection.banners.unshift({
+            name: res.success[0].name,
+            mediaUrl: res.success[0].url,
+            "mediaType": "IMAGE"
+          })
+          this.imageClick = this.collection.banners[0]
+        })
+        .catch(e => {
+          console.log(e);
+        })
+    }
+
     async getNetworkList():Promise<void> {
       await apiNft.getListNetwork()
         .then((res: any) => {
@@ -489,20 +562,31 @@
         })
     }
 
-    async getCreatorList():Promise<void> {
-      let param = {
-        businessPartner: 'SYSTEM'
-      }
+    //api list creator
+    queryCreatorList = {
+      page: 1,
+      limit: 20,
+      businessPartner: 'SYSTEM',
+      search: ''
+    }
+    loadMoreCreator(): void { 
+      this.queryCreatorList.page += 1
+      this.getTemplateList(this.queryCreatorList)
+    }
+    async getCreatorList(param: Record<string,any>):Promise<void> {
       await apiNft.getListCreator(param)
         .then((res: any) => {
           this.creators = res.content
+          this.collection.creatorId = res.content[0].id
         })
         .catch(e => {
           console.log(e);
         })
     }
 
+    //api list category
     async getCategoryList():Promise<void> {
+      //@ts-ignore
       await apiNft.getCategories({})
         .then((res: any) => {
           this.categoriesClone = res.content
@@ -520,6 +604,27 @@
           this.recursiveCategoryChild(listParent)
         }
       }
+    }
+
+    //api list template
+    queryTemplateList = {
+      page: 1,
+      limit: 20,
+      search: ''
+    }
+    loadMoreTemplate(): void { 
+      this.queryTemplateList.page += 1
+      this.getTemplateList(this.queryTemplateList)
+    }
+    async getTemplateList(param: Record<string,any>):Promise<void> {
+      await apiNft.getListTemplate(param) 
+        .then((res: any) => {
+          console.log("Template:", res.content);
+          this.templates = res.content
+        })
+        .catch(e => {
+          console.log(e);
+        })
     }
   }
 </script>
