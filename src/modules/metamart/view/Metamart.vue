@@ -10,7 +10,7 @@
         <!-- <el-button type="primary" @click="handleOpen('popup-choosetype')" style="margin-right: 24px;">Create</el-button> -->
       </div>
     </div>
-    <filter-metamart :tabs="tabs" isChangeTab="isChangeTab" @click="handleOpen" @selectCommand="handleSelectCommand" />
+    <filter-metamart :tabs="tabs" isChangeTab="isChangeTab" @click="handleOpen" @selectCommand="handleSelectCommand" @searchData="handleSearch" />
 
     <tab-nft
       v-if="$route.name === 'Nft'"
@@ -62,7 +62,7 @@
   import PopupNftDetail from '../components/popup/PopupNftDetail.vue'
   import getRepository from '@/services'
   import { NftRepository } from '@/services/repositories/nft'
-
+  import { debounce } from 'lodash'
   import axios from 'axios'
   //Interface
   interface IQuery {
@@ -113,7 +113,8 @@
     collectionData: Array<Record<string, any>> = []
     nftData: Array<Record<string, any>> = []
     categoryData: Array<Record<string, any>> = []
-
+    params: Array<Record<string, any>> = []
+    searchData = ''
     query: IQuery = {
       page: 1,
       limit: 10,
@@ -121,6 +122,17 @@
       sortBy: 'name',
       orderBy: 'desc',
       type: null
+    }
+    debounceInit = debounce(() => {
+      this.getCategoryList()
+    }, 300)
+    handleSearch(data: any) {
+      if (!data) {
+        this.debounceInit()
+      }
+      this.searchData = data
+      console.log(this.params)
+      this.debounceInit()
     }
 
     deleteType = ''
@@ -132,7 +144,13 @@
       this.init()
     }
     async getCategoryList(): Promise<void> {
-      let params: any
+      let params
+      if (this.searchData) {
+        params = {
+          search: this.searchData
+        }
+      }
+
       await apiNft
         .getCategories(params)
         .then((res: any) => {

@@ -1,7 +1,7 @@
 <!-- eslint-disable prettier/prettier -->
 <template>
   <div class="pb-24 pt-24 be-flex align-center kyc-filter">
-    <el-input v-model="filter.value.search" class="input-search" :placeholder="$t('placeholder.search')">
+    <el-input v-model="filter.value.search" class="input-search" :placeholder="$t('placeholder.search')" @input="handleChange">
       <span slot="prefix" class="prefix-search">
         <base-icon icon="icon-search" size="24" />
       </span>
@@ -210,8 +210,11 @@
       //   toPrice: false
       // }
     }
-
-    
+    handleChange(): void {
+      this.$emit('searchData', this.filter.value.search)
+      console.log(this.filter.value.search)
+    }
+     
     handleOpen(): void {
       let filterName = ''
       switch (this.$route.name) {
