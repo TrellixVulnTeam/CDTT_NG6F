@@ -2,7 +2,7 @@
   <div class="form-info">
     <el-form>
       <el-form-item :label="$t('label_collection')" class="is-required">
-        <el-select v-model="form.collectionId" class="w-100" clearable :placeholder="$t('label_collection')">
+        <el-select v-model="form.collectionId" class="w-100" :placeholder="$t('label_collection')">
           <el-option v-for="item in listCollection" :key="item.id" :label="item.collectionName" :value="item.id" />
         </el-select>
       </el-form-item>
@@ -24,15 +24,15 @@
       </el-form-item>
 
       <el-form-item :label="$t('label_nft-name')" class="is-required">
-        <el-input v-model="form.name" :placeholder="$t('label_nft-name')" />
+        <el-input v-model="form.itemName" :placeholder="$t('label_nft-name')" />
       </el-form-item>
 
       <!-- thumbnail -->
       <el-form-item :label="$t('label_thumbnail')" class="is-required">
-        <div class="text-disable text-xs">PNG, GIF, WEBG, JPG, JPEG.</div>
+        <div class="text-disable text-xs">PNG, GIF, WEBG, MP4 or MP3 (Max 100mb).</div>
 
         <el-upload
-          v-show="!form.thumbnail"
+          v-show="!form.thumb"
           class="upload-demo upload-thumbnail"
           drag
           action=""
@@ -42,12 +42,14 @@
           accept=".jpg, .jpeg, .png, .gif,"
           :on-change="handleChangeThumbnail"
         >
-          <div class="el-upload__text text-base">Drop file here or <span class="text-hyperlink">click to upload</span></div>
+          <div class="el-upload__text text-base">
+            {{ $t('label_upload-desc') }} <span class="text-hyperlink">{{ $t('label_click-to-upload') }}</span>
+          </div>
         </el-upload>
-        <div v-if="form.thumbnail" class="list-thumbnail">
+        <div v-if="form.thumb" class="list-thumbnail">
           <div class="wrap-img">
-            <img :src="form.thumbnail" alt="" />
-            <span class="cursor icon-x" @click="form.thumbnail = ''">
+            <img :src="form.thumb" alt="" />
+            <span class="cursor icon-x" @click="form.thumb = ''">
               <base-icon icon="icon-delete-circle" size="20" />
             </span>
           </div>
@@ -57,24 +59,26 @@
 
       <!-- list file -->
       <el-form-item :label="$t('label_upload-file')" class="is-required">
-        <div class="text-disable text-xs">PNG, GIF, WEBG, JPG, JPEG.</div>
+        <div class="text-disable text-xs">PNG, GIF, WEBG, MP4 or MP3 (Max 100mb).</div>
 
         <el-upload
-          v-show="!fileList.length"
+          v-show="!form.medias.length"
           class="upload-demo upload-thumbnail"
           drag
           action=""
           :show-file-list="true"
           :auto-upload="false"
-          :file-list="fileList"
+          :file-list="form.medias"
           list-type="picture"
           accept=".jpg, .jpeg, .png, .gif,"
           :on-change="handleChangeListFile"
         >
-          <div class="el-upload__text text-base">Drop file here or <span class="text-hyperlink">click to upload</span></div>
+          <div class="el-upload__text text-base">
+            {{ $t('label_upload-desc') }} <span class="text-hyperlink">{{ $t('label_click-to-upload') }}</span>
+          </div>
         </el-upload>
-        <div v-if="fileList.length" class="list-thumbnail">
-          <div v-for="file in fileList" :key="file.uid" class="wrap-img">
+        <div v-if="form.medias.length" class="list-thumbnail">
+          <div v-for="file in form.medias" :key="file.uid" class="wrap-img">
             <img :src="file.url" alt="" />
             <span class="cursor icon-x" @click="removeFile(file.uid)">
               <base-icon icon="icon-delete-circle" size="20" />
@@ -95,12 +99,12 @@
       </el-form-item>
 
       <el-form-item :label="$t('label_short-desc')" class="is-required">
-        <el-input type="textarea" :rows="3" :placeholder="$t('label_short-desc')" v-model="form.shortDescription"> </el-input>
+        <el-input type="textarea" :rows="3" :placeholder="$t('label_short-desc')" v-model="form.shortDescription" maxlength="200" show-word-limit> </el-input>
       </el-form-item>
 
       <div class="mb-24 wrap-editor">
         <div class="text-base text-semibold label">{{ $t('label_long-desc') }}</div>
-        <jodit-editor :config="config" :buttons="buttons" v-model="content" />
+        <jodit-editor :config="config" :buttons="buttons" v-model="form.description" />
       </div>
     </el-form>
   </div>
@@ -116,39 +120,31 @@
 
   import getRepository from '@/services'
   import { NftRepository } from '@/services/repositories/nft'
+  import { ITabInfo } from '../../interface'
   const apiNft: NftRepository = getRepository('nft')
 
   const bcNft = namespace('bcNft')
 
-  interface IForm {
-    collectionId: number | null
-    categoryId: number | null
-    productCode: string
-    name: string
-    thumbnail: string[] | string
-    files: string[] | string
-    shortDescription: string
-    description: string
-  }
   @Component({ components: { JoditEditor } })
   export default class FormInfo extends Vue {
     @bcNft.Mutation('SET_INIT_NFT') setinitInfo!: (data: Record<string, any>) => void
-    @bcNft.Mutation('SET_LIST_COLLECTION') setListCollection!: (list: Array<Record<string, any>>) => void
+    @bcNft.State('listCollection') listCollection!: Array<Record<string, any>>
+    @bcNft.State('listCategory') listCategory!: Array<Record<string, any>>
+    @bcNft.State('initInfo') form!: ITabInfo
 
-    content = '<p><br></p>'
     buttons = ['bold', 'italic', 'underline', 'ul', 'ol']
 
     config = {
       spellcheck: false,
       showCharsCounter: false,
       showWordsCounter: false,
-      autofocus: true,
+      autofocus: false,
       showXPathInStatusbar: false,
-      language: 'vi',
-      minHeight: 120,
+      language: 'en',
+      minHeight: 180,
       i18n: {
         vi: {
-          'Type something': 'Nhập mô tả...',
+          'Type something': 'Nhập mô tả',
           'Search for': 'Nhập tìm kiếm',
           'Open in new tab': 'Mở tab mới',
           'No follow': 'Theo dõi liên kết',
@@ -159,52 +155,37 @@
           'or click': 'hoặc chọn từ máy tính',
           'Alternative text': 'Văn bản thay thế'
           // URL: 'Liên kết'
+        },
+        en: {
+          'Type something': 'Type something...'
         }
       }
     }
-
-    form: IForm = {
-      collectionId: null,
-      categoryId: null,
-      productCode: '',
-      name: '',
-      thumbnail: '',
-      files: '',
-      shortDescription: '',
-      description: ''
-    }
-    listCollection: Array<Record<string, any>> = []
-    listCategory: Array<Record<string, any>> = []
-
-    fileList: Array<Record<string, any>> = []
-    urlThumbnail = ''
 
     @Watch('form', { deep: true }) handleWatchForm(newForm: Record<string, any>): void {
       this.setinitInfo(newForm)
     }
 
     async created(): Promise<void> {
-      const result = await apiNft.getListCollection({ page: 1, limit: 1000 })
-      this.listCollection = result.content
-      this.listCategory = await apiNft.getListCategory()
-      this.setListCollection(result.content)
+      const language = localStorage.getItem('bc-lang') || ''
+      this.config.language = language
     }
 
     async handleChangeThumbnail(file: Record<string, any>): Promise<void> {
       console.log(file)
-      this.form.thumbnail = file.url
+      this.form.thumb = file.url
     }
 
-    handleChangeListFile(list: Record<string, any>, fileList: Array<Record<string, any>>): void {
-      this.fileList = [...fileList]
+    handleChangeListFile(list: Record<string, any>, medias: Array<Record<string, any>>): void {
+      this.form.medias = [...medias]
     }
 
     handleAddMoreFile(file: Record<string, any>): void {
-      this.fileList.push(file)
+      this.form.medias.push(file)
     }
 
     removeFile(uid: number): void {
-      this.fileList = filter(this.fileList, file => file.uid !== uid)
+      this.form.medias = filter(this.form.medias, file => file.uid !== uid)
     }
   }
 </script>
@@ -218,6 +199,9 @@
       .el-upload {
         &-dragger {
           height: 148px;
+          .el-upload__text {
+            font-size: 16px;
+          }
         }
         &-list {
           display: none;
@@ -290,6 +274,7 @@
       }
       .jodit-container {
         padding: 0 10px;
+        min-height: 180px !important;
         .jodit-toolbar__box {
           background: transparent;
         }

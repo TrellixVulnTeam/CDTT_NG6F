@@ -10,10 +10,48 @@
         <!-- <el-button type="primary" @click="handleOpen('popup-choosetype')" style="margin-right: 24px;">Create</el-button> -->
       </div>
     </div>
-    <filter-metamart :tabs="tabs" isChangeTab="isChangeTab" @click="handleOpen" @selectCommand="handleSelectCommand" />
-    <tab-nft v-if="$route.name === 'Nft'" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :nftProps="nftData" :query="query" v-loading="isLoading"  @selectCommand="handleSelectCommand" />
-    <tab-collection v-if="$route.name === 'Collection'" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="collectionData" v-loading="isLoading" @delete="handleDeleteCollection"/>
-    <tab-category v-if="$route.name === 'Category'" @sizeChange="handleSizeChange" @pageChange="handlePageChange" :query="query" :data="collectionData" v-loading="isLoading" />
+    <filter-metamart
+      :tabs="tabs"
+      isChangeTab="isChangeTab"
+      @click="handleOpen"
+      @selectCommand="handleSelectCommand"
+      @searchData="handleSearch"
+      @reload="debounceInit"
+      :listCategory="listCategory"
+      @openCategoryPopup="handleOpenCategory"
+    />
+
+    <tab-nft
+      v-if="$route.name === 'Nft'"
+      @sizeChange="handleSizeChange"
+      @pageChange="handlePageChange"
+      :nftProps="nftData"
+      :query="query"
+      v-loading="isLoading"
+      @selectCommand="handleSelectCommand"
+      @rowClick="handleRowClick"
+    />
+    <tab-collection
+      v-if="$route.name === 'Collection'"
+      @sizeChange="handleSizeChange"
+      @pageChange="handlePageChange"
+      :query="query"
+      :data="listCategory"
+      v-loading="isLoading"
+      @delete="handleDeleteCollection"
+    />
+
+    <tab-category
+      v-if="$route.name === 'Category'"
+      @sizeChange="handleSizeChange"
+      @pageChange="handlePageChange"
+      :query="query"
+      :data="categoryData"
+      v-loading="isLoading"
+      :listCategory="listCategory"
+      @edit="handleEditCategory"
+      @create="handleOpenCategory"
+    />
 
     <popup-choosetype @continues="handleToPopupform($event)" />
     <popup-form @collection="handleOpenCreate($event)" />
@@ -21,7 +59,9 @@
     <popup-create-collection />
     <popup-create-nft />
     <popup-public-onchain />
-    <popup-delete :type="deleteType"/>
+    <popup-delete :type="deleteType" />
+    <popup-nft-detail />
+    <popup-create-category :listCategory="listCategory" :type="this.type" />
   </div>
 </template>
 
@@ -39,7 +79,12 @@
   import PopupPublicOnchain from '../components/popup/PopupPublicOnchain.vue'
   import PopupDelete from '../components/popup/PopupDelete.vue'
   import PopupMixin from '@/mixins/popup'
+  import PopupNftDetail from '../components/popup/PopupNftDetail.vue'
+  import getRepository from '@/services'
+  import { NftRepository } from '@/services/repositories/nft'
+  import { debounce, filter } from 'lodash'
   import axios from 'axios'
+  import PopupCreateCategory from '../components/popup/PopupCreateCategory.vue'
   //Interface
   interface IQuery {
     page?: number
@@ -49,9 +94,27 @@
     total: number
     type?: string | null | undefined
   }
+  const apiNft: NftRepository = getRepository('nft')
 
-  @Component({ components: { FilterMetamart, TabNft, TabCollection, TabCategory, PopupChoosetype, PopupCreateCollection, PopupForm, PopupCreate, PopupCreateNft, PopupPublicOnchain, PopupDelete } })
+  @Component({
+    components: {
+      FilterMetamart,
+      TabNft,
+      TabCollection,
+      TabCategory,
+      PopupChoosetype,
+      PopupCreateCollection,
+      PopupForm,
+      PopupCreate,
+      PopupCreateNft,
+      PopupPublicOnchain,
+      PopupDelete,
+      PopupNftDetail,
+      PopupCreateCategory
+    }
+  })
   export default class Metamart extends Mixins(PopupMixin) {
+    listCategory: Array<Record<string, any>> = []
     tabs: Array<Record<string, any>> = [
       {
         id: 1,
@@ -69,10 +132,11 @@
         routeName: 'Category'
       }
     ]
-
     collectionData: Array<Record<string, any>> = []
     nftData: Array<Record<string, any>> = []
-
+    categoryData: Array<Record<string, any>> = []
+    params: Array<Record<string, any>> = []
+    searchData = ''
     query: IQuery = {
       page: 1,
       limit: 10,
@@ -81,7 +145,18 @@
       orderBy: 'desc',
       type: null
     }
-    
+    debounceInit = debounce(() => {
+      this.getCategoryList()
+    }, 300)
+    handleSearch(data: any): void {
+      if (!data) {
+        this.debounceInit()
+      }
+      this.searchData = data
+      console.log(this.params)
+      this.debounceInit()
+    }
+
     deleteType = ''
     // objType: Record<string, any> = {
     //   Nft: 'Nft',
@@ -89,6 +164,33 @@
     // }
     created(): void {
       this.init()
+    }
+    async getCategoryList(): Promise<void> {
+      let params
+      if (this.searchData) {
+        params = {
+          search: this.searchData
+        }
+      }
+
+      await apiNft
+        .getCategories(params)
+        .then((res: any) => {
+          this.categoryData = res.content
+          this.recursiveCategoryChild(res.content)
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    }
+    recursiveCategoryChild(list: Array<Record<string, any>>): void {
+      for (let i = 0; i < list.length; i++) {
+        this.listCategory.push(list[i])
+        if (list[i].subCategory !== null) {
+          const listParent = filter(list[i].subCategory, value => value.parentId === list[i].id)
+          this.recursiveCategoryChild(listParent)
+        }
+      }
     }
     async getNftItem(): Promise<void> {
       try {
@@ -121,7 +223,7 @@
     isLoading = false
     isChangeTab = false
     isConflickClick = false
-    type = 'add'
+    type = ''
     isOpen = false
     direction = ''
     data: Array<Record<string, any>> = []
@@ -129,7 +231,7 @@
     async init(): Promise<void> {
       if (this.$route.name === 'Nft') await this.getNftItem()
       if (this.$route.name === 'Collection') await this.getCollection()
-      if (this.$route.name === 'Category') await this.getCollection()
+      if (this.$route.name === 'Category') await this.getCategoryList()
     }
 
     resetQuery(): void {
@@ -149,6 +251,8 @@
         })
       if (this.isChangeTab && tab.id === 2) {
         this.getCollection()
+      } else if (this.isChangeTab && tab.id === 3) {
+        this.getCategoryList()
       } else {
         this.getNftItem()
       }
@@ -163,9 +267,24 @@
       this.query.page = page
       this.init()
     }
-    handleOpen(popupName: string) {
+
+    handleOpen(popupName: string): void {
       this.setOpenPopup({
         popupName: popupName,
+        isOpen: true
+      })
+    }
+    handleOpenCategory(): void {
+      this.type = 'add'
+      this.setOpenPopup({
+        popupName: 'popup-create-category',
+        isOpen: true
+      })
+    }
+    handleEditCategory(): void {
+      this.type = 'edit'
+      this.setOpenPopup({
+        popupName: 'popup-create-category',
         isOpen: true
       })
     }
@@ -221,9 +340,14 @@
       }
     }
 
-    //Delete
+    handleRowClick(row: Record<string, any>): void {
+      this.setOpenPopup({
+        popupName: 'popup-nft-detail',
+        isOpen: true
+      })
+    }
     handleDeleteCollection(value: Record<string, any>): void {
-      console.log(">>>deleteCollection:", value);
+      // console.log(">>>deleteCollection:", value);
       this.deleteType = 'delete-collection'
       this.setOpenPopup({
         popupName: 'popup-metamart-delete',

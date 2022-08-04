@@ -296,7 +296,7 @@
       display: flex;
       .round {
         width: 320px;
-        height: 196px;
+        // height: 196px;
         margin-right: 24px;
         padding: 24px;
         text-align: center;
@@ -359,8 +359,8 @@
         }
       }
       .progress {
-        width: calc(91vw - 445px);
-        height: 196px;
+        flex: 1;
+        // height: 196px;
         padding: 24px;
         text-align: center;
         .title {
@@ -399,7 +399,7 @@
     // tab active
     .table {
       margin-top: 24px;
-      width: 91vw;
+      // width: 91vw;
       // .tab-header {
       //   height: 24px;
       //   border-bottom: 1px solid var(--bc-line);

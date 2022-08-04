@@ -1,5 +1,5 @@
 <template>
-  <div class="be-flex tab-blockchain">
+  <div class="be-flex mb-24 tab-blockchain">
     <form-blockchain />
     <preview-tab-blockchain />
   </div>

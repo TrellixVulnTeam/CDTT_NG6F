@@ -12,6 +12,7 @@
             @sizeChange="handleSizeChange"
             @currentChange="handleCurrentChange"
             class="collection-table"
+            @rowClick="handleRowClick"
           >
             <el-table-column label="#" type="index" align="center" width="40" />
             <el-table-column type="selection" :selectable="handleSelectable" align="center" width="40" />
@@ -55,11 +56,11 @@
                   <span @click="handleEdit(scope.row)">
                     <base-icon icon="icon-edit" size="24" />
                   </span>
-                  <el-dropdown trigger="click" @command="handleCommand">
-                    <i class="el-icon-more" style="padding: 5px"></i>
+                  <el-dropdown trigger="click" @command="handleCommand" >
+                    <i class="el-icon-more" style="padding: 5px" @click="handleConflictClick"></i>
                     <el-dropdown-menu class="dropdown-sort" slot="dropdown">
                       <el-dropdown-item>Update metadata</el-dropdown-item>
-                      <el-dropdown-item>{{scope.row.status === 'Off-chain' ? 'On-chain': 'Off-chain'}}</el-dropdown-item>
+                      <el-dropdown-item>{{ scope.row.status === 'Off-chain' ? 'On-chain' : 'Off-chain' }}</el-dropdown-item>
                       <el-dropdown-item command="delete-nft">Delete</el-dropdown-item>
                     </el-dropdown-menu>
                   </el-dropdown>
@@ -186,6 +187,7 @@
         status: 'Off-chain'
       }
     ]
+    isConflictClick = false
     handleSelectable(row: Record<string, any>) {
       if (row.status === 'On-chain') {
         return false
@@ -208,6 +210,20 @@
     }
     handleCommand(command: string): void {
       this.$emit('selectCommand', command)
+    }
+    handleRowClick(row: Record<string, any>): void {
+      if (this.isConflictClick) {
+        this.isConflictClick = false
+        return
+      }
+      this.$emit('rowClick', row.row)
+    }
+    handleEdit(row: Record<string, any>): void {
+      this.isConflictClick = true
+      this.$emit('edit', row)
+    }
+    handleConflictClick(row: Record<string, any>): void {
+      this.isConflictClick = true
     }
   }
 </script>

@@ -1,24 +1,31 @@
 <template>
   <base-popup name="popup-create-category" class="popup-filter-collection" width="600px" :close="handleClose">
     <div class="title-popup" slot="title">
-      <span>Add new category</span>
+      <span>{{ this.type == 'edit' ? 'Edit category' : 'Add new category' }}</span>
     </div>
     <div class="content" v-loading="isLoading">
       <div class="content-block">
         <p class="content-block__title">Category</p>
-        <el-select v-model="filterCollection.category" placeholder="Category">
-          <el-option v-for="(option, index) in category" :label="option" :value="option" :key="index"></el-option>
-        </el-select>
+        <el-input v-model="query.categoryName" placeholder="Category" />
       </div>
       <div class="content-block">
         <p class="content-block__title">Parent category</p>
-        <el-select v-model="filterCollection.network" placeholder="--">
-          <el-option v-for="(option, index) in network" :label="option" :value="option" :key="index"></el-option>
+        <el-select filterable remote v-model="query.parentId" placeholder="Choose category">
+          <el-option
+            v-for="(option, index) in listCategory"
+            :label="option.categoryName"
+            :value="option.id"
+            :key="index"
+            :style="{ 'margin-left': `${(option.levelDepth ? option.levelDepth : 0) * 15}px` }"
+            clearable
+            reserve-keyword
+          >
+          </el-option>
         </el-select>
       </div>
       <div class="content-block">
         <p class="content-block__title">Description</p>
-        <el-input type="textarea" v-model="text" rows="4"/>
+        <el-input type="textarea" v-model="query.description" rows="4" />
       </div>
     </div>
 
@@ -36,6 +43,10 @@
 <script lang="ts">
   import { Component, Mixins, Prop, Watch } from 'vue-property-decorator'
   import PopupMixin from '@/mixins/popup'
+  import getRepository from '@/services'
+  import { NftRepository } from '@/services/repositories/nft'
+
+  const apiNft: NftRepository = getRepository('nft')
 
   @Component
   export default class PopupFilterCollection extends Mixins(PopupMixin) {
@@ -45,15 +56,57 @@
       { name: 'Dhman', email: 'dhman@gmail.com' },
       { name: 'LynKey', email: 'lynkey@gmail.com' }
     ]
-    category = ['Real Estate', 'Family House', 'Penthouse']
-    network = ['Ethereum (ERC1155)', 'Binance (ERC1155)']
+    @Prop({ required: false, type: String, default: 'add' }) type!: 'add' | 'edit'
+    @Prop() listCategory!: any
+    query = {
+      categoryName: '',
+      parentId: '',
+      description: ''
+    }
+    async createCategory(): Promise<void> {
+      if (this.query && this.type == 'add') {
+        await apiNft
+          .createCategory(this.query)
+          .then((res: any) => {
+            this.$message.success('Create category successfully')
+          })
+          .catch(e => {
+            console.log(e)
+          })
+      }
+    }
+    async editCategory(): Promise<void> {
+      await apiNft
+        .editCategory(this.query, this.listCategory.id)
+        .then((res: any) => {
+          this.$message.success('Edit category successfully')
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    }
 
-    filterCollection = {
-      creator: '',
-      category: '',
-      network: '',
-      date1: '',
-      date2: '',
+    handleClose(): void {
+      this.handleReset()
+    }
+    handleReset(): void {
+      this.query = {
+        categoryName: '',
+        parentId: '',
+        description: ''
+      }
+    }
+    handleApply(): void {
+      if (this.type == 'add') {
+        this.createCategory()
+      } else {
+        this.editCategory()
+      }
+      this.setOpenPopup({
+        popupName: 'popup-create-category',
+        isOpen: false
+      })
+      this.$emit('reload')
     }
   }
 </script>

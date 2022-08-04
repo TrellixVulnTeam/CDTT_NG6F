@@ -2,7 +2,7 @@
   <div class="employee--item">
     <div class="channel-router flex">
       <div
-        v-if="value.numOfChild > 0 && !isSearch"
+        v-if="value.subCategory && !isSearch"
         :class="{ 'drown-menu-tranfroms-select': isOpen, 'drown-menu-tranfroms-unselect': !isOpen }"
         class="drown-menu"
         @click="handleOpenClick(value)"
@@ -10,16 +10,16 @@
         <base-icon icon="arrow-down" class="style__icon-arrow-down" style="margin-right: -5px" />
       </div>
       <div v-else style="display: block; width: 21px; height: 1px" />
-      <div v-if="value.treePath == null" class="name flex-item" style="margin-left: 24px">{{ value.name }}</div>
-      <div v-else-if="value.locationCode" class="name flex-item" style="margin-left: 24px">{{ value.locationCode + ' - ' + value.name }}</div>
-      <div class="name flex-item row-click" @click="handleRowClick(value.id)">{{ value.name }}</div>
+      <!-- <div v-if="value.treePath == null" class="name flex-item" style="margin-left: 24px">{{ value.categoryName }}</div> -->
+      <div v-if="value.locationCode" class="name flex-item" style="margin-left: 24px">{{ value.categoryCode + ' - ' + value.categoryName }}</div>
+      <div class="name flex-item row-click" @click="handleRowClick(value.id)">{{ value.categoryName }}</div>
 
       <div class="action-group">
         <div class="action flex-left-right">
           <div @click="handleAddGroup(value)">
             <el-tooltip :enterable="false" class="item-tooltip" effect="dark" content="Add new" placement="top">
               <el-button class="is-create-color is-none-border icon-btn icon-middle custom-button p-0" style="background: transparent">
-               <base-icon icon="icon-add" size="18" />
+                <base-icon icon="icon-add" size="18" />
               </el-button>
             </el-tooltip>
           </div>
@@ -36,8 +36,8 @@
         <div class="action flex-left-right">
           <div @click="handleDeleteGroup(value)">
             <el-tooltip :enterable="false" class="item-tooltip" effect="dark" content="Xóa nhóm" placement="top">
-              <el-button style="margin-left: 8px;background: transparent" class="is-create-color is-none-border icon-btn icon-middle custom-button p-0">
-              <base-icon icon="icon-delete" size="24" />
+              <el-button style="margin-left: 8px; background: transparent" class="is-create-color is-none-border icon-btn icon-middle custom-button p-0">
+                <base-icon icon="icon-delete" size="24" />
               </el-button>
             </el-tooltip>
           </div>
@@ -46,7 +46,7 @@
     </div>
     <div :class="isOpenChild ? 'list-childs-select' : null" class="list-childs">
       <unit-item-child
-        v-for="item in value.children"
+        v-for="item in value.subCategory"
         :key="item.id"
         :value="item"
         @create="createItem"
@@ -67,16 +67,18 @@
   import PopupMixin from '@/mixins/popup'
   const UnitItemChild = () => import('../unit/UnitItem.vue')
   import EventBus from '@/utils/eventBus'
+  import PopupDelete from '../popup/PopupDelete.vue'
+  import PopupCreateCategory from '../popup/PopupCreateCategory.vue'
 
   const beUser = namespace('beUser')
   const beEmployee = namespace('beEmployee')
-  @Component({ components: { UnitItemChild } })
+  @Component({ components: { UnitItemChild, PopupDelete, PopupCreateCategory } })
   export default class UnitItem extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Object, default: {} }) value!: Record<string, any>
     @Prop({ required: false, type: Array, default: [] }) parent!: []
     @Prop({ required: false, type: String, default: '' }) checkValue!: string
     @Prop({ required: false, type: Boolean, default: false }) isSearch!: boolean
-
+    type = 'delete-category'
     @beUser.State('user') user!: any
     @beUser.State('role') roleMembers!: any
     @beEmployee.Action('setUnitDetail') setUnitDetail!: (payload: Record<string, any>) => void
@@ -85,10 +87,10 @@
     isOpen = false
     childParent: Array<Record<string, any>> = []
     created(): void {
-      EventBus.$on("reloadDropdown", () => {
-        this.isOpen = false;   
-        EventBus.$off("reloadDropdown");
-      });
+      EventBus.$on('reloadDropdown', () => {
+        this.isOpen = false
+        EventBus.$off('reloadDropdown')
+      })
     }
     check = false
     checkRole(listRole: Record<string, any>): void {
@@ -121,7 +123,7 @@
       this.$emit('group-info', id)
     }
     handleIsOpen(): void {
-      this.isOpen = false;
+      this.isOpen = false
     }
     dataPopup = {}
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -144,28 +146,18 @@
       // this.isConflickClick = true
       this.idCategory = row.id
       this.$emit('create', row.id)
-      this.setOpenPopup({
-        popupName: 'create-group',
-        isOpen: true
-      })
     }
     handleEditGroup(row: Record<string, any>): void {
       // this.dataDetail = row
       // this.isConflickClick = true
       this.$emit('edit', row)
-      this.setOpenPopup({
-        popupName: 'edit-group',
-        isOpen: true
-      })
+      console.log(row)
     }
     handleDeleteGroup(row: Record<string, any>): void {
       this.$emit('delete', row)
       // this.isConflickClick = true
       // this.checkListChildren(row.parentId, row.id)
-      this.setOpenPopup({
-        popupName: 'delete-group',
-        isOpen: true
-      })
+      console.log(row.id)
     }
 
     handleOpenClick(value: Record<string, any>): void {
@@ -175,15 +167,6 @@
       console.log('chil', value)
       if (!this.isOpen && value.numOfChild) {
         this.isOpen = !this.isOpen
-        const data = [
-        { id: 369, code: 'KHCN102', name: 'Real Estate', parentId: 0, levelDepth: 1, treePath: '', position: 0, numOfChild : 0 }
-        ]
-        value.children = data
-        // this.apiCate.getListCategory(temp).then((res: any) => {
-        //   value.children = res.content
-        //   this.isOpen = !this.isOpen
-        //   this.$forceUpdate()
-        // })
       } else {
         this.isOpen = !this.isOpen
       }
@@ -231,7 +214,7 @@
     // padding: 13px 15px;
     // border-radius: 5px;
     font-size: 16px;
-    // font-weight: 400; 
+    // font-weight: 400;
     min-height: 46px;
     margin-bottom: 1px;
     border-bottom: 1px solid #dbdbdb;
@@ -255,7 +238,6 @@
           visibility: visible;
         }
       }
-      
     }
     .drown-menu,
     .bookmarks,

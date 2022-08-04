@@ -1,17 +1,20 @@
 <template>
   <div class="preview-nft">
     <div class="content" v-if="isShowNft">
-      <div class="content__avatar" :class="!initInfo.thumbnail ? 'empty-avt' : null">
-        <img v-if="initInfo.thumbnail" :src="initInfo.thumbnail" alt="" />
+      <div class="content__avatar" :class="!initInfo.thumb ? 'empty-avt' : null">
+        <img v-if="initInfo.thumb" :src="initInfo.thumb" alt="" />
         <base-icon v-else icon="icon-no-image" size="24" class="d-iflex" />
       </div>
       <div class="content__info">
         <div style="height: 80px">
-          <div class="be-flex align-center title">
-            <span class="nft-body-small text-desc text-overflow-1">{{ getNameCollection }} </span>
-            <base-icon icon="icon-verified" size="12" class="d-iflex" style="padding-left: 2px" />
+          <div class="be-flex align-center jc-space-between title">
+            <div class="be-flex align-center">
+              <span class="nft-body-small text-desc text-overflow-1">{{ getNameCollection }} </span>
+              <base-icon icon="icon-verified" size="12" class="d-iflex" style="padding-left: 2px" />
+            </div>
+            <base-icon icon="icon-3dot" size="20" class="d-iflex" />
           </div>
-          <div class="nft-header6 text-semibold text-overflow-1">{{ initInfo.name }}</div>
+          <div class="nft-header6 text-semibold text-overflow-1">{{ initInfo.itemName }}</div>
           <div class="be-flex align-center price">
             <div class="icon"><base-icon icon="icon-lynk" alt="" class="d-block" size="16" /></div>
             <span class="nft-body-small">

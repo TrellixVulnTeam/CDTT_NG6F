@@ -1,5 +1,5 @@
 <template>
-  <base-popup name="popup-create-nft" class="popup-create-nft" width="1280px" :close="handleClose">
+  <base-popup name="popup-create-nft" class="popup-create-nft" width="1280px" :close="handleClose" :open="handleOpen">
     <div class="title-popup" slot="title">
       <span> {{ typePopup === 'add' ? $t('popup_add-nft') : $t('popup_edit-nft') }}</span>
     </div>
@@ -22,11 +22,11 @@
         </keep-alive>
       </div>
     </div>
-    <div class="footer" slot="footer">
+    <div class="footer footer-popup" slot="footer">
       <div class="wrap-button">
         <div class="btn-right">
-          <el-button class="btn-default btn-400 btn-h-40 btn-close">{{ $t('button.cancel') }}</el-button>
-          <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border" style="font-size: 14px; font-weight: 600">{{ $t('button.create') }}</el-button>
+          <el-button class="btn-default btn-400 btn-h-40 btn-close" @click="handleCancel">{{ $t('button.cancel') }}</el-button>
+          <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border btn-save" style="font-size: 14px">{{ $t('button.create') }}</el-button>
         </div>
       </div>
     </div>
@@ -34,15 +34,32 @@
 </template>
 
 <script lang="ts">
-  import { Component, Prop, Vue } from 'vue-property-decorator'
+  import { Component, Mixins, Prop } from 'vue-property-decorator'
 
   import TabInfo from '../setup/TabInfo.vue'
   import TabBlockchain from '../setup/TabBlockchain.vue'
   import TabSetting from '../setup/TabSetting.vue'
+  import TabMetaData from '../setup/TabMeta.vue'
 
-  @Component({ components: { TabInfo, TabBlockchain, TabSetting } })
-  export default class PopupCreateNft extends Vue {
+  import PopupMixin from '@/mixins/popup'
+
+  import getRepository from '@/services'
+  import { NftRepository } from '@/services/repositories/nft'
+  const apiNft: NftRepository = getRepository('nft')
+
+  import { namespace } from 'vuex-class'
+  const bcNft = namespace('bcNft')
+
+  @Component({ components: { TabInfo, TabBlockchain, TabSetting, TabMetaData } })
+  export default class PopupCreateNft extends Mixins(PopupMixin) {
     @Prop({ required: false, type: String, default: 'add' }) typePopup!: 'add' | 'edit'
+
+    @bcNft.Mutation('SET_LIST_COLLECTION') setListCollection!: (list: Array<Record<string, any>>) => void
+    @bcNft.Mutation('SET_LIST_CATEGORY') setListCategory!: (list: Array<Record<string, any>>) => void
+    @bcNft.Mutation('SET_INIT_NFT') setInitInfo!: (info: Record<string, any>) => void
+    @bcNft.Mutation('RESET_INIT') resetInit!: () => void
+    @bcNft.Action('getTemplateMetaData') getTemplateMetaData!: (id: number) => void
+    @bcNft.State('initInfo') form!: Record<string, any>
 
     arrTab: Array<Record<string, any>> = [
       {
@@ -73,14 +90,35 @@
           return 'TabBlockchain'
         case 'SETTING':
           return 'TabSetting'
-
         default:
-          return ''
+          return 'TabMetaData'
       }
     }
 
     handleClose(): void {
-      return
+      this.resetInit()
+    }
+
+    async handleOpen(): Promise<void> {
+      this.tabActive = 'INFO'
+      const result = await apiNft.getListCollection({ page: 1, limit: 1000 })
+      const listCategory = await apiNft.getListCategory()
+
+      if (this.typePopup === 'add') {
+        this.setInitInfo({ ...this.form, collectionId: result.content[0].id })
+      }
+
+      this.setListCollection(result.content)
+      this.setListCategory(listCategory)
+      this.getTemplateMetaData(result.content[0].id)
+    }
+
+    handleCancel(): void {
+      this.resetInit()
+      this.setOpenPopup({
+        popupName: 'popup-create-nft',
+        isOpen: false
+      })
     }
   }
 </script>
@@ -105,6 +143,13 @@
       &__main {
         flex: 1;
       }
+    }
+  }
+  ::v-deep.footer-popup {
+    .btn-save {
+      width: 100px;
+      height: 40px;
+      font-weight: 400;
     }
   }
 </style>

@@ -40,6 +40,10 @@
     @include break-word-webkit;
 }
 
+.break-work {
+    @include break-word;
+}
+
 .align-center {
     align-items: center;
 }

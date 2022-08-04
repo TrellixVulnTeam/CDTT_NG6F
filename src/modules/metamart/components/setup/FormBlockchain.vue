@@ -2,7 +2,7 @@
   <div class="form-blockchain">
     <el-form>
       <el-form-item :label="$t('label_copies')" class="is-required">
-        <el-input v-model="form.copies" :placeholder="$t('label_copies')" />
+        <el-input type="number" v-model="form.copies" :placeholder="$t('label_copies')" @keypress.native="onlyNumber($event)" />
       </el-form-item>
       <el-form-item :label="$t('label_contract-address')" class="is-required">
         <el-input v-model="form.contractAddress" :placeholder="$t('label_contract-address')" disabled />
@@ -11,12 +11,12 @@
         <el-input v-model="form.tokenId" :placeholder="$t('label_token-id')" disabled />
       </el-form-item>
       <el-form-item :label="$t('label_blockchain-network')" class="is-required">
-        <el-input v-model="form.network" :placeholder="$t('label_network')" disabled />
+        <el-input v-model="form.network" :placeholder="$t('label_blockchain')" disabled />
       </el-form-item>
       <el-form-item :label="$t('label_token-standard')" class="is-required">
         <el-input v-model="form.tokenStandard" :placeholder="$t('label_token-standard')" disabled />
       </el-form-item>
-      <el-form-item :label="$t('label_creator')" class="creator is-required">
+      <el-form-item :label="$t('label_creator')" class="creator is-required hide-arrow">
         <el-select v-model="form.creator" class="select-prefix-icon w-100" disabled>
           <template slot="prefix">
             <div class="d-iflex select-icon">
@@ -30,18 +30,15 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator'
+  import { Component, Mixins } from 'vue-property-decorator'
+  import FormatInputMixin from '@/mixins/formatInput'
+  import { namespace } from 'vuex-class'
+
+  const bcNft = namespace('bcNft')
 
   @Component
-  export default class FormBlockchain extends Vue {
-    form: Record<string, any> = {
-      copies: '',
-      contractAddress: '0x1EACE3C7af307A5840c3eF44c5e01547BF2DEf0C',
-      tokenId: '#15687',
-      network: 'Ethereum',
-      tokenStandard: 'ERC1155',
-      creator: 'LynKey (lynkey@gmail.com)'
-    }
+  export default class FormBlockchain extends Mixins(FormatInputMixin) {
+    @bcNft.State('initBlockchain') form!: Record<string, any>
   }
 </script>
 
@@ -56,6 +53,15 @@
             color: #5b616e;
           }
         }
+        &__label {
+          font-size: 16px;
+          line-height: 24px;
+          font-weight: 600;
+        }
+      }
+
+      &-item:last-child {
+        margin-bottom: 0;
       }
       .creator {
         .el-input__inner {

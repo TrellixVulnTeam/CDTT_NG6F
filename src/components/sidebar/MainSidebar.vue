@@ -307,6 +307,7 @@
     background: #ffffff;
     height: 100vh;
     width: 80px;
+    overflow-y: auto;
 
     .style_router_home {
       margin: 0px 10px 10px 10px;
@@ -501,7 +502,7 @@
     display: unset;
     flex-wrap: unset;
     padding: 12px;
-    width: 80px;
+    width: 106px;
   }
   .color-add-menu {
     color: var(--bc-color-grey190);

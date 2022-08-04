@@ -559,6 +559,7 @@
     "sort": {
       "latest": "Latest",
       "earliest": "Earliest",
+      "oldest":"Oldest",
       "price-highToLow": "Price: High to low",
       "price-lowToHigh": "Price: Low to high"
     },
@@ -1304,7 +1305,8 @@
         "default-payment-by": "Default payment by",
         "creator": "Creator",
         "category": "Category",
-        "template": "Template"
+        "template": "Template",
+        "nft-detail": "Nft detail"
       },
       "subtitle": {
         "name": "Token name cannot be changed in future"
@@ -1321,6 +1323,26 @@
         "confirmation-2": "collection?",
         "warning-label": "Something went wrong",
         "warning-description": "Cannot delete a collection that contains NFT items. Please move all NFTs to another collection and try again."
+      },
+      "validate": {
+        "avatar": "\"Avatar\" is required",
+        "thumbnail": "\"Thumbnail\" is required",
+        "banner": "\"Banner\" is required",
+        "name": "\"Name\" is not allowed to be empty",
+        "network": "\"Network\" is not allowed to be empty",
+        "contract-address": "\"Contract Address\" is not allowed to be empty",
+        "default-payment-by": "\"Default Payment\" is not allowed to be empty",
+        "creator": "\"Creator\" is not allowed to be empty",
+        "category": "\"Category\" is not allowed to be empty",
+        "template": "\"Template\" is not allowed to be empty"
+      },
+      "placeholder": {
+        "name": "Enter collection name",
+        "description": "e. g. \"After purchasing you'll be able to get the real T-Shirt\"",
+        "contract-address": "Select a contract address",
+        "creator": "Choose creator",
+        "category": "Choose category",
+        "template": "Choose template"
       }
     },
     "success": {
@@ -1348,7 +1370,7 @@
   "label_long-desc": "Description",
   "setup_empty-nft": "Upload file to preview your brand new NFT",
   "label_copies": "Number of copies",
-  "label_contract-address": "Contract address",
+  "label_contract-address": "Contract Address",
   "label_token-id": "Token ID",
   "label_blockchain-network": "Blockchain network",
   "label_token-standard": "Token Standard",
@@ -1362,5 +1384,40 @@
   "label_hot-nft-desc": "When this feature is enabled, this NFT will appear in the Hot NFT section",
   "label_royal-fee": "Royalty fee",
   "label_position-top-nft": "Position on TOP NFT section",
-  "label_position-hot-nft": "Position on HOT NFT section"
+  "label_position-hot-nft": "Position on HOT NFT section",
+  "label_project": "Project",
+  "tab_description": "Description",
+  "tab_detail": "Detail",
+  "tab_polices": "Policies",
+  "tab_ebrochures": "eBrochures",
+  "tab_feature": "Features",
+  "label_add-policy": "Add policy",
+  "popup_add-policy": "Add policy",
+  "popup_edit-policy": "Edit",
+  "label_name": "Name",
+  "label_annotate": "Annotate",
+  "label_type": "Type",
+  "label_number": "Number",
+  "label_text": "Text",
+  "label_value": "Value",
+  "validate_must-enter-name": "Please enter name",
+  "validate_must-enter-type": "Please select type",
+  "validate_must-enter-desc": "Please enter description",
+  "validate_must-enter-value": "Please enter value",
+  "popup_delete": "DELETE",
+  "popup_label-delete": "Are you sure you want to delete this policy ",
+  "popup_label-delete-file": "Are you sure you want to delete this file ",
+  "popup_label-delete-boolean": "Are you sure you want to delete this feature ",
+  "label_size": "Size",
+  "label_add-file": "Add file",
+  "popup_add-file": "Add file",
+  "popup_add-feature": "Add feature",
+  "popup_edit-file": "Edit",
+  "label_file-attach": "File attach",
+  "validate_must-enter-file": "Please select file attach",
+  "label_download": "Download",
+  "label_feature-status": "Feature status",
+  "label_add-feature": "Add feature",
+  "label_upload-desc": "Drag and drop or",
+  "label_click-to-upload": "Click to upload"
 }
