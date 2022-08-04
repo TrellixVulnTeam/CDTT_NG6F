@@ -392,6 +392,8 @@
     templates = ['NFT Real Estate', 'NFT Family House', 'NFT Penthouse']
 
     @Watch('collection.network') handleNetworkChange(): void {
+      //@ts-ignore
+      this.$refs['collection'].fields.find((f: any) => f.prop === 'contractAddress').resetField()
       this.getContractList()
     }
     handleAvatarChange(file: any): void {
@@ -503,6 +505,7 @@
     }
 
     async getCategoryList():Promise<void> {
+      //@ts-ignore
       await apiNft.getCategories({})
         .then((res: any) => {
           this.categoriesClone = res.content
