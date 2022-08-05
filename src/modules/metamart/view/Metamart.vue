@@ -19,6 +19,7 @@
       @reload="debounceInit"
       :listCategory="listCategory"
       @openCategoryPopup="handleOpenCategory"
+      @sort="handleSortChange"
     />
 
     <tab-nft
@@ -140,7 +141,6 @@
       limit: 20,
       total: 20,
       sortBy: 'name',
-      orderBy: 'desc',
       type: null
     }
     debounceInit = debounce(() => {
@@ -199,7 +199,7 @@
     async getNftItem(): Promise<void> {
       try {
         this.isLoading = true
-        const result = await apiNft.getNftItem({...this.query, orderBy:'', total: null, type: null, sortBy: null, search: this.searchData})
+        const result = await apiNft.getNftItem({...this.query, total: null, type: null, sortBy: null, search: this.searchData})
         console.log('nft called', result)
         this.nftData = result.content || []
         this.query.total = result.totalElements
@@ -212,7 +212,7 @@
     async getCollection(): Promise<void> {
       try {
         this.isLoading = true
-        const result = await apiNft.getNftCollection({...this.query, orderBy: '', total: null, type: null, sortBy: null, search: this.searchData })
+        const result = await apiNft.getNftCollection({...this.query, total: null, type: null, sortBy: null, search: this.searchData })
         console.log('collection called', result)
         this.collectionData = result.content || []
         this.query.total = result.totalElements
@@ -260,6 +260,17 @@
       } else {
         this.getNftItem()
       }
+    }
+
+    handleSortChange(command: string): void {
+      console.log("Sort:", command)
+      this.query.orderBy = command
+      if (this.$route.name === "Collection") {
+        this.getCollection()
+      } else if (this.$route.name === "Nft") {
+        this.getNftItem()
+      }
+
     }
 
     //handleChangeSize

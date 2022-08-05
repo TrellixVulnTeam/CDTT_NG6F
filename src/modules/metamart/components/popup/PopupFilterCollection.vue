@@ -45,7 +45,7 @@
       <div class="content-block">
         <p class="content-block__title">{{$t('metamart.collection.filter.network')}}</p>
         <el-select v-model="filterCollection.network" :placeholder="$t('metamart.collection.filter.network')">
-          <el-option v-for="(option, index) in networks" :label="option.networkName" :value="option.networkName" :key="index"></el-option>
+          <el-option v-for="(option, index) in networks" :label="option.networkName" :value="option.network" :key="index"></el-option>
         </el-select>
       </div>
       <div class="content-block">
@@ -54,7 +54,7 @@
               <el-date-picker :placeholder="$t('metamart.collection.filter.from-date')" 
                 format="MM/dd/yyyy"
                 value-format="timestamp"
-                v-model="filterCollection.date1" 
+                v-model="filterCollection.fromCreatedAt" 
                 prefix-icon="el-icon-date"
                 type="date"
                 class="input-small"
@@ -64,7 +64,7 @@
               <el-date-picker :placeholder=" $t('metamart.collection.filter.to-date')" 
                 format="MM/dd/yyyy"
                 value-format="timestamp"
-                v-model="filterCollection.date2" 
+                v-model="filterCollection.toCreatedAt" 
                 prefix-icon="el-icon-date"
                 type="date"
                 class="input-small"
@@ -99,28 +99,28 @@
 
     filterCollection = {
       creatorId: '',
-      category: '',
+      categoryId: '',
       network: '',
-      date1: '',
-      date2: '',
+      fromCreatedAt: '',
+      toCreatedAt: '',
     }
     handleClose(): void {
       this.filterCollection = {
         creatorId: '',
-        category: '',
+        categoryId: '',
         network: '',
-        date1: '',
-        date2: '',
+        fromCreatedAt: '',
+        toCreatedAt: '',
       }
       this.$emit('reset-query')
     }
     handleReset(): void {
       this.filterCollection = {
         creatorId: '',
-        category: '',
+        categoryId: '',
         network: '',
-        date1: '',
-        date2: '',
+        fromCreatedAt: '',
+        toCreatedAt: '',
       }
     }
     handleApply(): void {

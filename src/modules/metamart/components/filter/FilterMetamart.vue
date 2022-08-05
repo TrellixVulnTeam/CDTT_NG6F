@@ -88,7 +88,7 @@
       </div>
     </div>
     <div v-if="this.$route.name !=='Category'">
-      <el-dropdown class="sort" trigger="click">
+      <el-dropdown class="sort" trigger="click" @command="handleSort">
         <span class="sort-title" style="font-size: 16px">
           <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}
         </span>
@@ -184,49 +184,70 @@
     categories: Array<Record<string, any>> = []
     categoriesClone: Array<Record<string, any>> = []
     networks: Array<Record<string, any>> = []
+    sortActive = ''
 
     created(): void {
       this.init()
     }
 
-    get sortMetamart(): Record<string, any> {
-      let sorts = [
-        {
-          command: 'LATEST',
-          label: this.$i18n.t('nft.sort.latest'),
-          divided: false,
-          i18n: 'nft.sort.latest'
-        },
-        ...(this.$route.name === 'Collection'
-          ? [
-              {
-                command: 'OLDEST',
-                label: this.$i18n.t('nft.sort.oldest'),
-                divided: false,
-                i18n: 'nft.sort.oldest'
-              }
-            ]
-          : [
-              {
-                command: 'EARLIEST',
-                label: this.$i18n.t('nft.sort.earliest'),
-                divided: false,
-                i18n: 'nft.sort.earliest'
-              },
-              {
-                command: 'Price: High to low',
-                label: this.$i18n.t('nft.sort.price-highToLow'),
-                divided: false,
-                i18n: 'nft.sort.price-highToLow'
-              },
-              {
-                command: 'Price: Low to high',
-                label: this.$i18n.t('nft.sort.price-lowToHigh'),
-                divided: false,
-                i18n: 'nft.sort.price-lowToHigh'
-              }
-            ])
-      ]
+    get sortMetamart(): Array<any> {
+      let sorts: Array<Record<string, any>> = []
+      if (this.$route.name === "Collection") {
+        sorts = [
+          {
+            command: 'CREATED_AT_DESC',
+            label: this.$i18n.t('nft.sort.latest'),
+            divided: false,
+            i18n: 'nft.sort.latest'
+          },
+          {
+            command: 'CREATED_AT_ASC',
+            label: this.$i18n.t('nft.sort.oldest'),
+            divided: false,
+            i18n: 'nft.sort.oldest'
+          }
+        ]
+      } else if (this.$route.name === "Nft") {
+        sorts = [
+          {
+            command: 'ITEM',
+            label: 'Item',
+            divided: false,
+            i18n: 'nft.sort.item'
+          },
+          {
+            command: 'CREATOR',
+            label: 'Creator',
+            divided: false,
+            i18n: 'nft.sort.item'
+          },
+          {
+            command: 'COLLECTION',
+            label: 'Collection',
+            divided: false,
+            i18n: 'nft.sort.item'
+          },
+          {
+            command: 'CATEGORY',
+            label: 'Category',
+            divided: false,
+            i18n: 'nft.sort.item'
+          },
+          {
+            command: 'NETWORK',
+            label: 'Network',
+            divided: false,
+            i18n: 'nft.sort.item'
+          },
+          {
+            command: 'BLOCKCHAIN_STATUS',
+            label: 'Status',
+            divided: false,
+            i18n: 'nft.sort.item'
+          },
+        ]
+      }
+      
       return sorts
     }
 
@@ -292,6 +313,10 @@
     }
     handleCommand(command: string): void {
       this.$emit('selectCommand', command)
+    }
+    handleSort(command: string): void {
+      this.sortActive = command
+      this.$emit('sort', command)
     }
 
     //Call Api

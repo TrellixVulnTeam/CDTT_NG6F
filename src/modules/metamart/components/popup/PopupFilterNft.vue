@@ -8,7 +8,7 @@
     <div class="content-block">
       <p class="content-block__title">Collection</p>
       <el-select 
-        v-model="filterCollection.collection" 
+        v-model="filterNft.collectionId" 
         placeholder="Collection"
         filterable
         remote
@@ -22,7 +22,7 @@
      <div class="content-block">
         <p class="content-block__title">Creator</p>
         <el-select 
-          v-model="filterCollection.creator" 
+          v-model="filterNft.creatorId" 
           placeholder="Creator" 
           class="select-prefix-icon"
           filterable
@@ -51,7 +51,7 @@
         <el-select 
           filterable
           remote
-          v-model="filterCollection.categoryId" 
+          v-model="filterNft.categoryId" 
           placeholder="Category"
         >
           <el-option 
@@ -67,13 +67,13 @@
 
       <div class="content-block">
         <p class="content-block__title">Network</p>
-        <el-select v-model="filterCollection.network" placeholder="Network">
-          <el-option v-for="(option, index) in networks" :label="option.networkName" :value="option.networkName" :key="index"></el-option>
+        <el-select v-model="filterNft.network" placeholder="Network">
+          <el-option v-for="(option, index) in networks" :label="option.networkName" :value="option.network" :key="index"></el-option>
         </el-select>
       </div>
       <div class="content-block">
         <p class="content-block__title">Status</p>
-        <el-select v-model="filterCollection.status" placeholder="Status">
+        <el-select v-model="filterNft.statusBlockchain" placeholder="Status">
           <el-option v-for="(option, index) in status" :label="option" :value="option" :key="index"></el-option>
         </el-select>
       </div>
@@ -84,7 +84,7 @@
             placeholder="From Date"
             format="MM/dd/yyyy"
             value-format="timestamp"
-            v-model="filterCollection.date1"
+            v-model="filterNft.fromCreatedAt"
             prefix-icon="el-icon-date"
             type="date"
             class="input-small"
@@ -95,7 +95,7 @@
             placeholder="To Date"
             format="MM/dd/yyyy"
             value-format="timestamp"
-            v-model="filterCollection.date2"
+            v-model="filterNft.toCreatedAt"
             prefix-icon="el-icon-date"
             type="date"
             class="input-small"
@@ -128,20 +128,68 @@
     @Prop() categories: any
     @Prop() networks: any
 
-    status = ['On-chain', 'Off-chain']
+    get pickerOption(): any {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const _this = this
+      return {
+        disabledDate(time: Date) {
+          return _this.disableTime(time, 'from-to')
+        }
+      }
+    }
+    get pickerOption2(): any {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const _this = this
+      return {
+        disabledDate(time: Date) {
+          return _this.disableTime(time, 'to-from')
+        }
+      }
+    }
+    disableTime(time: Date, type: string): any {
+      if (type === 'from-to') {
+        if (this.filterNft.fromCreatedAt) {
+          return time.getTime() / 1000 < new Date(this.filterNft.fromCreatedAt).getTime() / 1000 - 7 * 60 * 60
+        }
+      } else {
+        if (this.filterNft.toCreatedAt) {
+          return time.getTime() / 1000 > new Date(this.filterNft.toCreatedAt).getTime() / 1000
+        }
+      }
+    }
 
-    filterCollection = {
-      creator: '',
+    status = ['ON_CHAIN', 'OFF_CHAIN']
+
+    filterNft = {
+      collectionId: '',
+      creatorId: '',
       categoryId: '',
       network: '',
-      date1: '',
-      date2: '',
-      status: '',
-      collection: ''
+      statusBlockchain: '',
+      fromCreatedAt: '',
+      toCreatedAt: '',
     }
 
     handleClose(): void {
       this.$emit('reset-query')
+    }
+
+    handleApply(): void {
+      console.log("Apply filter");
+      let fromDate = ''
+      let toDate = ''
+      if (this.filterNft.fromCreatedAt) {
+        fromDate = this.$options.filters?.formatReferral(this.filterNft.fromCreatedAt)
+      }
+      if (this.filterNft.toCreatedAt) {
+        toDate = this.$options.filters?.formatReferral(this.filterNft.toCreatedAt + 86399000)
+      }
+      this.filterNft = {
+        ...this.filterNft,
+        fromCreatedAt: fromDate,
+        toCreatedAt: toDate
+      }
+      console.log(this.filterNft);
     }
 
     //Collection
