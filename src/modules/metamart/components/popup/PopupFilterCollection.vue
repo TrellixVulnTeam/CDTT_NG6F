@@ -6,31 +6,46 @@
     <div class="content" v-loading="isLoading">
       <div class="content-block">
         <p class="content-block__title">{{$t('metamart.collection.filter.creator')}}</p>
-        <el-select v-model="filterCollection.creator" :placeholder="$t('metamart.collection.filter.creator')" class="select-prefix-icon">
-          <el-option v-for="(item, index) in creators" :label="`${item.name} (${item.email})`" :value="item.name" :key="index">
+        <el-select 
+          filterable
+          remote
+          :remote-method="remoteCreatorList"
+          v-model="filterCollection.creatorId" 
+          :placeholder="$t('metamart.collection.filter.creator')" 
+          class="select-prefix-icon"
+        >
+          <el-option v-for="(item, index) in creators" :label="`${item.accountName} (${item.username})`" :value="item.id" :key="index">
             <template>
               <div class="be-flex wallet-item">
-                <base-icon :icon="getIcon(item.currency)" size="24" />
-                <span style="margin-left: 10px">{{ item.name }}</span>
-                <span style="margin-left: 4px">({{ item.email }})</span>
+                <span style="margin-left: 10px">{{ item.accountName }}</span>
+                <span style="margin-left: 4px">({{ item.username }})</span>
               </div>
             </template>
           </el-option>
-          <div class="select-icon" slot="prefix">
-            <base-icon :icon="getCreatorIcon(filterCollection.creator)" size="16" />
-          </div>
         </el-select>
       </div>
       <div class="content-block">
         <p class="content-block__title">{{$t('metamart.collection.filter.category')}}</p>
-        <el-select v-model="filterCollection.category" :placeholder="$t('metamart.collection.filter.category')">
-          <el-option v-for="(option, index) in category" :label="option" :value="option" :key="index"></el-option>
+        <el-select 
+          filterable
+          remote
+          v-model="filterCollection.categoryId" 
+          :placeholder="$t('metamart.collection.filter.category')"
+        >
+          <el-option 
+            v-for="(option, index) in categories" 
+            :label="option.categoryName" 
+            :value="option.id" 
+            :key="index"
+            :style="{ 'margin-left': `${(option.levelDepth ? option.levelDepth : 0) * 15}px` }"
+          >
+          </el-option>
         </el-select>
       </div>
       <div class="content-block">
         <p class="content-block__title">{{$t('metamart.collection.filter.network')}}</p>
         <el-select v-model="filterCollection.network" :placeholder="$t('metamart.collection.filter.network')">
-          <el-option v-for="(option, index) in network" :label="option" :value="option" :key="index"></el-option>
+          <el-option v-for="(option, index) in networks" :label="option.networkName" :value="option.networkName" :key="index"></el-option>
         </el-select>
       </div>
       <div class="content-block">
@@ -76,51 +91,48 @@
 
   @Component
   export default class PopupFilterCollection extends Mixins(PopupMixin) {
-    // fake data
-    creators = [
-      { name: 'Artmond275', email: 'artmond275@gmail.com', currency: 'BTC'},
-      { name: 'Dhman', email: 'dhman@gmail.com', currency: 'ETH'},
-      { name: 'LynKey', email: 'lynkey@gmail.com', currency: 'LYNK'}
-    ]
-    category = ['Real Estate', 'Family House', 'Penthouse']
-    network = ['Ethereum (ERC1155)', 'Binance (ERC1155)']
+    @Prop() creators: any
+    @Prop() categories: any
+    @Prop() networks: any
+
+    isLoading = false
 
     filterCollection = {
-      creator: '',
+      creatorId: '',
       category: '',
       network: '',
       date1: '',
       date2: '',
     }
-    getIcon(currency: string): string {
-      return currency ? `icon-${currency.toLocaleLowerCase()}` : 'icon-lynk'
-    }
-    getCreatorIcon(creator: string): string {
-      let result = ''
-      this.creators.forEach(elm => {
-        if (elm.name === creator) {
-          result = elm.currency
-        }
-      })
-      return this.getIcon(result)
-    }
     handleClose(): void {
       this.filterCollection = {
-        creator: '',
+        creatorId: '',
         category: '',
         network: '',
         date1: '',
         date2: '',
       }
+      this.$emit('reset-query')
     }
     handleReset(): void {
       this.filterCollection = {
-        creator: '',
+        creatorId: '',
         category: '',
         network: '',
         date1: '',
         date2: '',
       }
+    }
+    handleApply(): void {
+      console.log("Click apply");
+    }
+
+    //Creator load more
+    remoteCreatorList(query: string): void {
+      this.$emit("remote-creator", query)
+    }
+    loadMoreCreator(): void {
+      this.$emit('load-more-creator')
     }
   }
 </script>
@@ -158,32 +170,37 @@
         margin-bottom: 24px;
         .el-select {
           width: 100%;
+          .el-input__inner {
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 24px;
+          }
         }
         .input-error {
           .el-input__inner {
             border-color: #cf202f;
           }
         }
-        .select-prefix-icon {
-          .el-input__inner {
-            padding-left: 40px;
-          }
-          .el-input__prefix {
-            left: 12px;
-            .select-icon {
-              width: 24px;
-              height: 24px;
-              position: absolute;
-              top: 50%;
-              transform: translateY(-50%);
-              border-radius: 50%;
-              background-color: var(--bc-bg-neutral);
-              .span-icon {
-                vertical-align: middle;
-              }
-            }
-          }
-        }
+        // .select-prefix-icon {
+        //   .el-input__inner {
+        //     padding-left: 40px;
+        //   }
+        //   .el-input__prefix {
+        //     left: 12px;
+        //     .select-icon {
+        //       width: 24px;
+        //       height: 24px;
+        //       position: absolute;
+        //       top: 50%;
+        //       transform: translateY(-50%);
+        //       border-radius: 50%;
+        //       background-color: var(--bc-bg-neutral);
+        //       .span-icon {
+        //         vertical-align: middle;
+        //       }
+        //     }
+        //   }
+        // }
         &__title {
           @include text(14px, 20px, 400, #0a0b0d);
           margin-bottom: 8px;

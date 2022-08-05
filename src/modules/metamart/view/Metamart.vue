@@ -145,7 +145,11 @@
       type: null
     }
     debounceInit = debounce(() => {
-      this.getCategoryList()
+      if (this.$route.name === "Category") {
+        this.getCategoryList()
+      } else if (this.$route.name === "Collection") {
+        this.getCollection()
+      }
     }, 300)
     handleSearch(data: any): void {
       if (!data) {
@@ -207,7 +211,7 @@
     async getCollection(): Promise<void> {
       try {
         this.isLoading = true
-        const result = await apiNft.getNftCollection({...this.query, orderBy: 'CREATED_AT_DESC', total: null, type: null, sortBy: null })
+        const result = await apiNft.getNftCollection({...this.query, orderBy: '', total: null, type: null, sortBy: null, search: this.searchData })
         console.log('collection called', result)
         this.collectionData = result.content || []
         this.query.total = result.totalElements
