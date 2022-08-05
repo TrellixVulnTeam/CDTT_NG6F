@@ -95,6 +95,15 @@
       height: 100% !important;
       .jodit-toolbar__box {
         background: transparent;
+        height: 62px;
+        display: flex;
+        align-items: center;
+      }
+      .jodit-toolbar-button__icon {
+        .jodit-icon {
+          width: 18px;
+          height: 18px;
+        }
       }
       // .jodit-wysiwyg {
       //   min-height: 120px !important;

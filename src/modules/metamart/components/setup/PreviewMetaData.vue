@@ -107,15 +107,16 @@
       p {
         padding: 0 12px 14px;
         position: relative;
-        &::after {
-          content: '';
-          position: absolute;
-          width: 100%;
-          height: 2px;
-          background: #0151fc;
-          bottom: 0;
-          left: 0;
-        }
+        border-bottom: 2px solid #0151fc;
+        // &::after {
+        //   content: '';
+        //   position: absolute;
+        //   width: 100%;
+        //   height: 2px;
+        //   background: #0151fc;
+        //   bottom: 0;
+        //   left: 0;
+        // }
       }
     }
 

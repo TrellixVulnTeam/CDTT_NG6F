@@ -59,7 +59,7 @@
 <style scoped lang="scss">
   ::v-deep.tab-description {
     .el-textarea__inner {
-      border-radius: 8px;
+      border-radius: 4px;
       min-height: 300px !important;
     }
   }

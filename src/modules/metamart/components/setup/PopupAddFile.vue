@@ -9,7 +9,7 @@
           <el-input v-model="form.name" :placeholder="$t('label_name')" />
         </el-form-item>
         <el-form-item :label="$t('label_file-attach')" prop="fileName">
-          <div v-if="isShowUpload" class="text-disable text-xs">DOC, PDF, XLS</div>
+          <div v-if="isShowUpload" class="text-disable text-xs">DOC, PDF, XLS (Max 100mb)</div>
 
           <el-upload
             v-show="isShowUpload"
@@ -21,7 +21,9 @@
             accept=".doc,.docx, .pdf, .xls, .xlsx"
             :on-change="handleChangeFile"
           >
-            <div class="el-upload__text text-base">Drop file here or <span class="text-hyperlink">click to upload</span></div>
+            <div class="el-upload__text text-base">
+              {{ $t('label_upload-desc') }} <span class="text-hyperlink">{{ $t('label_click-to-upload') }}</span>
+            </div>
           </el-upload>
           <div v-if="!isShowUpload" class="be-flex align-center jc-space-between show-file">
             <div class="be-flex align-center left">
