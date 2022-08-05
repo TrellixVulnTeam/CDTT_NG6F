@@ -16,7 +16,7 @@
 
       <div class="action-group">
         <div class="action flex-left-right">
-          <div @click="handleAddGroup(value)">
+          <div v-if="value.levelDepth !== 2" @click="handleAddGroup(value)">
             <el-tooltip :enterable="false" class="item-tooltip" effect="dark" content="Add new" placement="top">
               <el-button class="is-create-color is-none-border icon-btn icon-middle custom-button p-0" style="background: transparent">
                 <base-icon icon="icon-add" size="18" />
@@ -146,18 +146,28 @@
       // this.isConflickClick = true
       this.idCategory = row.id
       this.$emit('create', row.id)
+      this.setOpenPopup({
+        popupName: 'popup-create-category',
+        isOpen: true
+      })
     }
     handleEditGroup(row: Record<string, any>): void {
       // this.dataDetail = row
       // this.isConflickClick = true
       this.$emit('edit', row)
-      console.log(row)
+      this.setOpenPopup({
+        popupName: 'popup-edit-category',
+        isOpen: true
+      })
     }
     handleDeleteGroup(row: Record<string, any>): void {
       this.$emit('delete', row)
       // this.isConflickClick = true
       // this.checkListChildren(row.parentId, row.id)
-      console.log(row.id)
+      this.setOpenPopup({
+        popupName: 'popup-delete-category',
+        isOpen: true
+      })
     }
 
     handleOpenClick(value: Record<string, any>): void {
