@@ -60,9 +60,9 @@ export class NftRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
-  async editCategory(params: Record<string, any>, id: Record<string, any>): Promise<Array<Record<string, any>>> {
+  async updateCategory(id: string | number, params: Record<string, any>): Promise<Array<Record<string, any>>> {
     try {
-      const result = await request.put(`${this.prefix}/category/${id}`, params, id)
+      const result = await request.put(`${this.prefix}/category/${id}`, params)
       return result.data.data
     } catch (error) {
       return Promise.reject(error)
