@@ -119,4 +119,13 @@ export class NftRepository extends BaseRepository {
       return Promise.reject(error)
     } 
   }
+
+  async getNftCollection(params: Record<string, any>): Promise<any> {
+    try {
+      const result = await request.get(`${this.prefix}/bo/collection/list`, { params })
+      return Promise.resolve(result.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    } 
+  }
 }
