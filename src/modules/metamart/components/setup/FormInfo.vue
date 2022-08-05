@@ -70,7 +70,7 @@
           :auto-upload="false"
           :file-list="form.medias"
           list-type="picture"
-          accept=".jpg, .jpeg, .png, .gif,"
+          accept=".jpg, .jpeg, .png, .gif,.mp4"
           :on-change="handleChangeListFile"
         >
           <div class="el-upload__text text-base">
@@ -79,7 +79,8 @@
         </el-upload>
         <div v-if="form.medias.length" class="list-thumbnail">
           <div v-for="file in form.medias" :key="file.uid" class="wrap-img">
-            <img :src="file.url" alt="" />
+            <img v-if="file.mediaType === 'IMAGE'" :src="file.mediaUrl" alt="" />
+            <video v-else :src="file.mediaUrl" />
             <span class="cursor icon-x" @click="removeFile(file.uid)">
               <base-icon icon="icon-delete-circle" size="20" />
             </span>
@@ -90,7 +91,7 @@
             :auto-upload="false"
             :show-file-list="false"
             list-type="picture"
-            accept=".jpg, .jpeg, .png, .gif,"
+            accept=".jpg, .jpeg, .png, .gif,.mp4"
             :on-change="handleAddMoreFile"
           >
             <div class="add-thumbnail"><base-icon icon="icon-plus-square" size="40" /></div>
@@ -121,9 +122,13 @@
   import getRepository from '@/services'
   import { NftRepository } from '@/services/repositories/nft'
   import { ITabInfo } from '../../interface'
+  import UploadRepository from '@/services/repositories/upload'
+  import { includes } from 'lodash'
   const apiNft: NftRepository = getRepository('nft')
+  const apiUpload: UploadRepository = getRepository('upload')
 
   const bcNft = namespace('bcNft')
+  const bcAuth = namespace('beAuth')
 
   @Component({ components: { JoditEditor } })
   export default class FormInfo extends Vue {
@@ -132,7 +137,7 @@
     @bcNft.State('listCategory') listCategory!: Array<Record<string, any>>
     @bcNft.State('initInfo') form!: ITabInfo
 
-    @bcNft.Action('getTemplateMetaData') getTemplateMetaData!: (id: number) => void
+    @bcAuth.State('user') user!: Record<string, any>
 
     buttons = ['bold', 'italic', 'underline', 'ul', 'ol']
 
@@ -164,26 +169,62 @@
       }
     }
 
-    @Watch('form', { deep: true }) handleWatchForm(newForm: Record<string, any>): void {
-      this.setinitInfo(newForm)
-    }
+    // @Watch('form', { deep: true }) handleWatchForm(newForm: Record<string, any>): void {
+    //   this.setinitInfo(newForm)
+    // }
 
     async created(): Promise<void> {
       const language = localStorage.getItem('bc-lang') || ''
       this.config.language = language
     }
 
-    async handleChangeThumbnail(file: Record<string, any>): Promise<void> {
-      console.log(file)
-      this.form.thumb = file.url
+    getFileType(file: Record<string, any>): string {
+      const IMAGE = ['png', 'jpg', 'jpeg', 'gif']
+      const lastDot = file.name.lastIndexOf('.')
+      const fileType = file.name.substring(lastDot + 1).toLowerCase()
+      return includes(IMAGE, fileType) ? 'IMAGE' : 'VIDEO'
     }
 
-    handleChangeListFile(list: Record<string, any>, medias: Array<Record<string, any>>): void {
-      this.form.medias = [...medias]
+    async handleChangeThumbnail(file: Record<string, any>): Promise<void> {
+      this.form.thumb = file.url
+      const formData = new FormData()
+      formData.append('files', file.raw)
+      formData.append('type', 'THUMB_NFT')
+      formData.append('userId', this.user.userId)
+      const result = await apiUpload.uploadImage(formData)
+      console.log(result)
+      this.form.thumb = result.success[0].url
+    }
+
+    async handleChangeListFile(rawFile: Record<string, any>): Promise<void> {
+      let file = {
+        mediaUrl: rawFile.url,
+        uid: rawFile.uid,
+        mediaType: this.getFileType(rawFile)
+      }
+      console.log(file)
+
+      this.form.medias = [...this.form.medias, file]
+
+      const formData = new FormData()
+      formData.append('files', rawFile.raw)
+      formData.append('type', 'MEDIA_NFT')
+      formData.append('userId', this.user.userId)
+      const result = await apiUpload.uploadImage(formData)
+      console.log(result)
+
+      file = {
+        ...file,
+        mediaUrl: result.success[0].url
+      }
+
+      this.form.medias.pop()
+
+      this.form.medias = [...this.form.medias, file]
     }
 
     handleAddMoreFile(file: Record<string, any>): void {
-      this.form.medias.push(file)
+      this.handleChangeListFile(file)
     }
 
     removeFile(uid: number): void {
@@ -191,7 +232,9 @@
     }
 
     handleSelectCollection(collectionId: number): void {
-      this.getTemplateMetaData(collectionId)
+      this.form.categoryId = null
+      const collection = filter(this.listCollection, elm => elm.id === collectionId)[0]
+      this.$emit('selectCollection', collection)
     }
   }
 </script>
@@ -227,7 +270,8 @@
             display: inline-flex;
           }
         }
-        img {
+        img,
+        video {
           width: 72px;
           height: 72px;
           object-fit: cover;

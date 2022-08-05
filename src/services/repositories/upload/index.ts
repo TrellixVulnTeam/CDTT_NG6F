@@ -19,7 +19,6 @@ export default class UploadRepository extends BaseRepository {
   }
   async uploadImage(data: Record<string, any>): Promise<any> {
     try {
-      console.log('data: ', data)
       const result = await request.post(`${this.prefix}/upload`, data)
       return result.data.data
     } catch (error) {

@@ -1,6 +1,6 @@
 <template>
   <div class="tab-info">
-    <form-info />
+    <form-info @selectCollection="handleSelectCollection" />
     <preview-nft />
   </div>
 </template>
@@ -13,6 +13,10 @@
   @Component({ components: { FormInfo, PreviewNft } })
   export default class TabInfo extends Vue {
     @Prop({ required: false, type: String, default: 'add' }) typePopup!: 'add' | 'edit'
+
+    handleSelectCollection(collection: Record<string, any>): void {
+      this.$emit('selectCollection', collection)
+    }
   }
 </script>
 
