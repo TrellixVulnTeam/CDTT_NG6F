@@ -7,38 +7,68 @@
     <div class="content" v-loading="isLoading">
     <div class="content-block">
       <p class="content-block__title">Collection</p>
-      <el-select v-model="filterCollection.collection" placeholder="Collection">
-        <el-option v-for="(option, index) in collection" :label="option" :value="option" :key="index"></el-option>
+      <el-select 
+        v-model="filterCollection.collection" 
+        placeholder="Collection"
+        filterable
+        remote
+        :remote-method="remoteCollectionList"
+      >
+        <div v-infinite-scroll="loadMoreCollection" infinite-scroll-delay="500">
+          <el-option v-for="(option, index) in collections" :label="option.collectionName" :value="option.id" :key="index"></el-option>
+        </div>
       </el-select>
     </div>
      <div class="content-block">
         <p class="content-block__title">Creator</p>
-        <el-select v-model="filterCollection.creator" placeholder="Creator" class="select-prefix-icon">
+        <el-select 
+          v-model="filterCollection.creator" 
+          placeholder="Creator" 
+          class="select-prefix-icon"
+          filterable
+          remote
+          :remote-method="remoteCreatorList"
+        >
           <template slot="prefix">
             <div class="select-icon">
               <base-icon icon="logo-login" size="14" />
             </div>
           </template>
-          <el-option v-for="(option, index) in creator" :label="option.name" :value="option.name" :key="index">
-            <template>
-              <div class="be-flex wallet-item">
-                <span style="margin-left: 10px">{{ option.name }}</span>
-                <span style="margin-left: 4px">({{ option.email }})</span>
-              </div>
-            </template>
-          </el-option>
+          <div v-infinite-scroll="loadMoreCreator" infinite-scroll-delay="500">
+            <el-option v-for="(option, index) in creators" :label="`${option.accountName} (${option.username})`" :value="option.id" :key="index">
+              <template>
+                <div class="be-flex wallet-item">
+                  <span style="margin-left: 10px">{{ option.accountName }}</span>
+                  <span style="margin-left: 4px">({{ option.username }})</span>
+                </div>
+              </template>
+            </el-option>
+          </div>
         </el-select>
       </div>
       <div class="content-block">
         <p class="content-block__title">Category</p>
-        <el-select v-model="filterCollection.category" placeholder="Category">
-          <el-option v-for="(option, index) in category" :label="option" :value="option" :key="index"></el-option>
+        <el-select 
+          filterable
+          remote
+          v-model="filterCollection.categoryId" 
+          placeholder="Category"
+        >
+          <el-option 
+            v-for="(option, index) in categories" 
+            :label="option.categoryName" 
+            :value="option.id" 
+            :key="index"
+            :style="{ 'margin-left': `${(option.levelDepth ? option.levelDepth : 0) * 15}px` }"
+          >
+          </el-option>
         </el-select>
       </div>
+
       <div class="content-block">
         <p class="content-block__title">Network</p>
         <el-select v-model="filterCollection.network" placeholder="Network">
-          <el-option v-for="(option, index) in network" :label="option" :value="option" :key="index"></el-option>
+          <el-option v-for="(option, index) in networks" :label="option.networkName" :value="option.networkName" :key="index"></el-option>
         </el-select>
       </div>
       <div class="content-block">
@@ -92,25 +122,42 @@
   import PopupMixin from '@/mixins/popup'
 
   @Component
-  export default class PopupFilterCollection extends Mixins(PopupMixin) {
-    creator = [
-      { name: 'Artmond275', email: 'artmond275@gmail.com' },
-      { name: 'Dhman', email: 'dhman@gmail.com' },
-      { name: 'LynKey', email: 'lynkey@gmail.com' }
-    ]
-    category = ['Real Estate', 'Family House', 'Penthouse']
-    network = ['Ethereum (ERC1155)', 'Binance (ERC1155)']
+  export default class PopupFilterNft extends Mixins(PopupMixin) {
+    @Prop() collections: any
+    @Prop() creators: any
+    @Prop() categories: any
+    @Prop() networks: any
+
     status = ['On-chain', 'Off-chain']
-    collection = ['Metro Retro', 'Metro Retro 2', 'Metro Retro 3']
 
     filterCollection = {
       creator: '',
-      category: '',
+      categoryId: '',
       network: '',
       date1: '',
       date2: '',
       status: '',
       collection: ''
+    }
+
+    handleClose(): void {
+      this.$emit('reset-query')
+    }
+
+    //Collection
+    remoteCollectionList(query: string): void {
+      this.$emit("remote-collection", query)
+    }
+    loadMoreCollection(): void {
+      this.$emit('load-more-collection')
+    }
+
+    //Creator
+    remoteCreatorList(query: string): void {
+      this.$emit("remote-creator", query)
+    }
+    loadMoreCreator(): void {
+      this.$emit('load-more-creator')
     }
   }
 </script>
@@ -148,6 +195,9 @@
         margin-bottom: 24px;
         .el-select {
           width: 100%;
+          .el-input__inner {
+            @include text(16px, 24px, 400, #0a0b0d)
+          }
         }
         .input-error {
           .el-input__inner {
@@ -188,6 +238,7 @@
             width: 256px;
             .el-input__inner {
               width: 100%;
+              font-size: 16px;
             }
           }
           .delimiter {

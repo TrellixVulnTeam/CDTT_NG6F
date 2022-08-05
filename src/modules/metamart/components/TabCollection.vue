@@ -9,26 +9,26 @@
           <card-collection :data="dataCollection" />
         </div> -->
         <base-table
-          :data="dataCollection"
-          :showPagination="showPagination"
+          :data="data"
+
           :paginationInfo="getPaginationInfo"
           :table="query"
           @sizeChange="handleSizeChange"
           @currentChange="handleCurrentChange"
           class="collection-table"
         >
-          <el-table-column label="#" type="index" align="center" width="40" />
+          <el-table-column label="#" type="index" :index="indexMethod" align="center" width="40" />
           <el-table-column :label="$t('metamart.table.collection')" align="left" min-width="387">
             <template slot-scope="scope">
               <div class="wrap-item">
-                <img :src="scope.row.collectionImage" alt="" class="item-img" width="40px" height="40px" />
+                <img :src="scope.row.avatar" alt="" class="item-img" width="40px" height="40px" />
                 <p>{{ scope.row.collectionName }}</p>
               </div>
             </template>
           </el-table-column>
           <el-table-column :label="$t('metamart.table.category')" align="left" width="270">
             <template slot-scope="scope">
-              <p>{{ scope.row.category }}</p>
+              <p>{{ scope.row.categoryName }}</p>
             </template>
           </el-table-column>
           <el-table-column :label="$t('metamart.table.network')" align="left" width="130">
@@ -42,8 +42,8 @@
           <el-table-column :label="$t('metamart.table.creator')" align="left" width="200">
             <template slot-scope="scope">
               <div class="item-text">
-                <p class="item-text__name">{{ scope.row.ownerName }}</p>
-                <p class="item-text__code">{{ scope.row.username }}</p>
+                <p class="item-text__name">{{ scope.row.creatorName }}</p>
+                <p class="item-text__code">{{ scope.row.creatorUsername }}</p>
               </div>
             </template>
           </el-table-column>
@@ -85,101 +85,9 @@ export default class TabCollection extends Mixins(PopupMixin) {
     return this.$t('paging.collection')
   }
 
-  //fake data
-  dataCollection = [
-    {
-      collectionName: 'Meta Angels',
-      collectionImage: "http://loremflickr.com/640/480",
-      category: 'Real Estate', 
-      networkName: "Ethereum",
-      network: "ERC1155",
-      ownerName: "LynKey",
-      username: "lynkey@gmail.com",
-    },
-    {
-      collectionName: 'Virtual Tourism',
-      collectionImage: "http://loremflickr.com/640/480",
-      category: 'Virtual Tourism', 
-      networkName: "Ethereum",
-      network: "ERC1155",
-      ownerName: "Dhman",
-      username: "dhman@gmail.com",
-    },
-    {
-      collectionName: 'The Mike Tyson',
-      collectionImage: "http://loremflickr.com/640/480",
-      category: 'Family House', 
-      networkName: "Ethereum",
-      network: "ERC1155",
-      ownerName: "Artmond275",
-      username: "artmond275@gmail.com",
-    },
-    {
-      collectionName: 'Virtual Tourism',
-      collectionImage: "http://loremflickr.com/640/480",
-      category: 'Real Estate', 
-      networkName: "Ethereum",
-      network: "ERC1155",
-      ownerName: "LynKey",
-      username: "lynkey@gmail.com",
-    },
-    {
-      collectionName: 'Virtual Tourism',
-      collectionImage: "http://loremflickr.com/640/480",
-      category: 'Real Estate', 
-      networkName: "Ethereum",
-      network: "ERC1155",
-      ownerName: "LynKey",
-      username: "lynkey@gmail.com",
-    },
-    {
-      collectionName: 'Virtual Tourism',
-      collectionImage: "http://loremflickr.com/640/480",
-      category: 'Real Estate', 
-      networkName: "Ethereum",
-      network: "ERC1155",
-      ownerName: "LynKey",
-      username: "lynkey@gmail.com",
-    },
-    {
-      collectionName: 'Virtual Tourism',
-      collectionImage: "http://loremflickr.com/640/480",
-      category: 'Real Estate', 
-      networkName: "Ethereum",
-      network: "ERC1155",
-      ownerName: "LynKey",
-      username: "lynkey@gmail.com",
-    },
-    {
-      collectionName: 'Virtual Tourism',
-      collectionImage: "http://loremflickr.com/640/480",
-      category: 'Real Estate', 
-      networkName: "Ethereum",
-      network: "ERC1155",
-      ownerName: "LynKey",
-      username: "lynkey@gmail.com",
-    },
-    {
-      collectionName: 'Virtual Tourism',
-      collectionImage: "http://loremflickr.com/640/480",
-      category: 'Real Estate', 
-      networkName: "Ethereum",
-      network: "ERC1155",
-      ownerName: "LynKey",
-      username: "lynkey@gmail.com",
-    },
-    {
-      collectionName: 'Virtual Tourism',
-      collectionImage: "http://loremflickr.com/640/480",
-      category: 'Real Estate', 
-      networkName: "Ethereum",
-      network: "ERC1155",
-      ownerName: "LynKey",
-      username: "lynkey@gmail.com",
-    },
-    
-  ]
-
+  indexMethod(index: number): number {
+    return (this.query.page - 1) * this.query.limit + index + 1
+  }
   handleSizeChange(value: number): void {
     this.query.limit = value
     this.query.page = 1
@@ -234,6 +142,7 @@ export default class TabCollection extends Mixins(PopupMixin) {
           gap: 8px;
           .item-img {
             border-radius: 4px;
+            object-fit: cover;
           }
         }
         .item-text {

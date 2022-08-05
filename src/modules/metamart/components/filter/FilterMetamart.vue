@@ -136,8 +136,25 @@
         </div>
       </el-button>
     </div>
-    <popup-filter-collection />
-    <popup-filter-nft />
+    <popup-filter-collection 
+      :creators="creators" 
+      :categories="categories" 
+      :networks="networks" 
+      @reset-query="resetQuery"
+      @load-more-creator="loadMoreCreator"
+      @remote-creator="remoteCreatorList"
+    />
+    <popup-filter-nft 
+      :collections="collections" 
+      :creators="creators" 
+      :categories="categories" 
+      :networks="networks" 
+      @reset-query="resetQuery"
+      @load-more-collection="loadMoreCollection" 
+      @remote-collection="remoteCollectionList"
+      @load-more-creator="loadMoreCreator"
+      @remote-creator="remoteCreatorList"
+    />
   
   </div>
 </template>
@@ -149,6 +166,11 @@
   import PopupFilterCollection from '../popup/PopupFilterCollection.vue'
   import PopupFilterNft from '../popup/PopupFilterNft.vue'
   import PopupCreateCategory from '../popup/PopupCreateCategory.vue'
+  import { NftRepository } from '@/services/repositories/nft'
+  import getRepository from '@/services'
+  import { debounce, filter, trim } from 'lodash'
+  
+  const apiNft: NftRepository = getRepository('nft')
 
   @Component({
     components: { BaseIcon, PopupFilterCollection, PopupFilterNft, PopupCreateCategory }
@@ -156,6 +178,17 @@
   export default class FilterMetamart extends Mixins(PopupMixin) {
     // @Prop({ required: true }) isChangeTab!: boolean
     @Prop() listCategory: any
+
+    collections: Array<Record<string, any>> = []
+    creators: Array<Record<string, any>> = []
+    categories: Array<Record<string, any>> = []
+    categoriesClone: Array<Record<string, any>> = []
+    networks: Array<Record<string, any>> = []
+
+    created(): void {
+      this.init()
+    }
+
     get sortMetamart(): Record<string, any> {
       let sorts = [
         {
@@ -213,6 +246,12 @@
       //   toPrice: false
       // }
     }
+    init(): void {
+      this.getCreatorList('')
+      this.getCategoryList()
+      this.getNetworkList()
+      this.getCollectionList('')
+    }
     handleChange(): void {
       this.$emit('searchData', this.filter.value.search)
       console.log(this.filter.value.search)
@@ -238,9 +277,116 @@
         isOpen: true
       })
     }
-
+    resetQuery(): void {
+      this.queryCreatorList = {
+        page: 1,
+        limit: 20,
+        businessPartner: 'SYSTEM',
+        search: ''
+      }
+      this.queryCollectionList = {
+        page: 1,
+        limit: 20,
+        search: ''
+      }
+    }
     handleCommand(command: string): void {
       this.$emit('selectCommand', command)
+    }
+
+    //Call Api
+    //api creator
+    queryCreatorList = {
+      page: 1,
+      limit: 20,
+      businessPartner: 'SYSTEM',
+      search: ''
+    }
+    loadMoreCreator(): void { 
+      this.queryCreatorList.limit += 20
+      const a = debounce(this.getCreatorList, 500)
+      a(this.queryCreatorList.search)
+    }
+    remoteCreatorList(query: string): void {
+      this.queryCreatorList.search = trim(query)
+      const a = debounce(this.getCreatorList, 500)
+      a(query)
+    }
+    async getCreatorList(search: string):Promise<void> {
+      await apiNft.getListCreator({
+          page: this.queryCreatorList.page,
+          limit: this.queryCreatorList.limit,
+          businessPartner: 'SYSTEM',
+          search: trim(search) ? trim(search) : ''
+        })
+        .then((res: any) => {
+          this.creators = res.content
+        })
+        .catch(e => {
+          console.log(e);
+        })
+    }
+
+    //api category
+    async getCategoryList():Promise<void> {
+      await apiNft.getCategories({})
+        .then((res: any) => {
+          // this.categoriesClone = res.content
+          this.recursiveCategoryChild(res.content)
+        })
+        .catch(e => {
+          console.log(e);
+        })
+    }
+    recursiveCategoryChild(list: Array<Record<string, any>>): void {
+      for (let i = 0; i < list.length; i++) {
+        this.categories.push(list[i])
+        if (list[i].subCategory !== null) {
+          const listParent = filter(list[i].subCategory, value => value.parentId === list[i].id)
+          this.recursiveCategoryChild(listParent)
+        }
+      }
+    }
+
+    //api network
+    async getNetworkList():Promise<void> {
+      await apiNft.getListNetwork()
+        .then((res: any) => {
+          this.networks = res.content
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    }
+
+    //api collection
+    queryCollectionList = {
+      page: 1,
+      limit: 20,
+      search: ''
+    }
+    loadMoreCollection(): void {
+      this.queryCollectionList.limit += 20
+      const a = debounce(this.getCollectionList, 500)
+      a(this.queryCollectionList.search)
+    }
+    remoteCollectionList(query: string): void {
+      this.queryCollectionList.search = trim(query)
+      const a = debounce(this.getCollectionList, 500)
+      a(query)
+    }
+    async getCollectionList(search: string): Promise<void> {
+      try {
+        const result = await apiNft.getNftCollection({
+          page: this.queryCollectionList.page,
+          limit: this.queryCollectionList.limit,
+          search: trim(search) ? trim(search) : ''
+        })
+        // this.collections = this.collections.concat(result.content)
+        this.collections = result.content
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 </script>
