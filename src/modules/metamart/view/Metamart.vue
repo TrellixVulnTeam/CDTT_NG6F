@@ -26,7 +26,6 @@
       @sizeChange="handleSizeChange"
       @pageChange="handlePageChange"
       :nftProps="nftData"
-      :query="query"
       v-loading="isLoading"
       @selectCommand="handleSelectCommand"
       @rowClick="handleRowClick"
@@ -36,7 +35,7 @@
       @sizeChange="handleSizeChange"
       @pageChange="handlePageChange"
       :query="query"
-      :data="listCategory"
+      :data="collectionData"
       v-loading="isLoading"
       @delete="handleDeleteCollection"
     />
@@ -139,14 +138,18 @@
     searchData = ''
     query: IQuery = {
       page: 1,
-      limit: 10,
+      limit: 20,
       total: 20,
       sortBy: 'name',
       orderBy: 'desc',
       type: null
     }
     debounceInit = debounce(() => {
-      this.getCategoryList()
+      if (this.$route.name === "Category") {
+        this.getCategoryList()
+      } else if (this.$route.name === "Collection") {
+        this.getCollection()
+      }
     }, 300)
     handleSearch(data: any): void {
       if (!data) {
@@ -208,10 +211,10 @@
     async getCollection(): Promise<void> {
       try {
         this.isLoading = true
-        const result = await axios.get(`https://626362ffc430dc560d2e80d3.mockapi.io/api/v1/CardCollection/`, { params: { ...this.query, total: null } })
+        const result = await apiNft.getNftCollection({...this.query, orderBy: '', total: null, type: null, sortBy: null, search: this.searchData })
         console.log('collection called', result)
-        this.collectionData = result.data.items || []
-        this.query.total = result.data.count
+        this.collectionData = result.content || []
+        this.query.total = result.totalElements
         this.isLoading = false
       } catch (error) {
         this.isLoading = false

@@ -571,7 +571,7 @@
     }
     loadMoreCreator(): void { 
       this.queryCreatorList.page += 1
-      this.getTemplateList(this.queryCreatorList)
+      this.getCreatorList(this.queryCreatorList)
     }
     async getCreatorList(param: Record<string,any>):Promise<void> {
       await apiNft.getListCreator(param)
