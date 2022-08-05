@@ -2,7 +2,7 @@
   <div class="form-info">
     <el-form>
       <el-form-item :label="$t('label_collection')" class="is-required">
-        <el-select v-model="form.collectionId" class="w-100" :placeholder="$t('label_collection')">
+        <el-select v-model="form.collectionId" class="w-100" :placeholder="$t('label_collection')" @change="handleSelectCollection">
           <el-option v-for="item in listCollection" :key="item.id" :label="item.collectionName" :value="item.id" />
         </el-select>
       </el-form-item>
@@ -132,6 +132,8 @@
     @bcNft.State('listCategory') listCategory!: Array<Record<string, any>>
     @bcNft.State('initInfo') form!: ITabInfo
 
+    @bcNft.Action('getTemplateMetaData') getTemplateMetaData!: (id: number) => void
+
     buttons = ['bold', 'italic', 'underline', 'ul', 'ol']
 
     config = {
@@ -186,6 +188,10 @@
 
     removeFile(uid: number): void {
       this.form.medias = filter(this.form.medias, file => file.uid !== uid)
+    }
+
+    handleSelectCollection(collectionId: number): void {
+      this.getTemplateMetaData(collectionId)
     }
   }
 </script>

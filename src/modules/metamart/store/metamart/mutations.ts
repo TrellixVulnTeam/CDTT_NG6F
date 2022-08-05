@@ -21,7 +21,7 @@ const mutations: MutationTree<IAuth> = {
       type.typeTab = listData.length ? listData[0].metaValueType : ''
     })
     state.metaDatas = data.metaDatas
-    state.metaTypes = data.metaTypes
+    state.metaTypes = filter(data.metaTypes, elm => elm.metaType !== 'INFO')
   },
   RESET_INIT: state => {
     state.initInfo = {

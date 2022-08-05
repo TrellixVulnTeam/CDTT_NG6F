@@ -1,41 +1,41 @@
 <template>
   <div class="preview">
     <div class="mb-24 tab">
-      <p class="text-hyperlink text-base text-semibold">{{ getTitle }}</p>
+      <p class="text-hyperlink text-base text-semibold">{{ tabName }}</p>
     </div>
     <div class="content">
       <!-- type text -->
       <div class="type-text" v-if="tabActive === 'TEXT'">
-        <p v-if="data.value" class="text-base break-work" v-html="data.value" />
+        <p v-if="dataPreview.length" class="text-base break-work" v-html="$options.filters.formatMetaText(dataPreview[0].metaValue)" />
         <p v-else class="text-base text-disable">{{ $t('label_long-desc') }}</p>
       </div>
 
       <!-- type html -->
       <div class="type-html" v-if="tabActive === 'HTML'">
-        <div v-html="data.value"></div>
+        <div v-html="$options.filters.formatMetaText(dataPreview[0].metaValue)"></div>
       </div>
 
       <!-- type map -->
       <div class="type-map" v-if="tabActive === 'MAP'">
-        <div v-for="item in data.value" :key="item.id" class="be-flex align-center jc-space-between map-item">
+        <div v-for="item in dataPreview" :key="item.id" class="be-flex align-center jc-space-between map-item">
           <div class="left">
-            <div class="text-base text-overflow-1">{{ item.name }}</div>
-            <div class="text-sm text-desc text-overflow-1" v-if="item.annotate">({{ item.annotate }})</div>
+            <div class="text-base text-overflow-1">{{ item.metaName }}</div>
+            <div class="text-sm text-desc text-overflow-1" v-if="item.metaAnnotation">({{ item.metaAnnotation }})</div>
           </div>
           <div class="text-right right">
-            <div class="text-base text-desc text-overflow-1">{{ item.desc }}</div>
+            <div class="text-base text-desc text-overflow-1">{{ item.metaValue }}</div>
           </div>
         </div>
       </div>
 
       <!-- type file -->
       <div class="type-file" v-if="tabActive === 'FILE'">
-        <div v-for="file in data.value" :key="file.id" class="be-flex align-center file">
+        <div v-for="file in dataPreview" :key="file.id" class="be-flex align-center file">
           <base-icon :icon="getIconFile(file)" size="48" class="d-iflex" />
           <div class="info">
-            <p class="text-overflow-1 text-base text-semibold">{{ file.name }}</p>
+            <p class="text-overflow-1 text-base text-semibold">{{ file.metaName }}</p>
             <div class="be-flex align-center">
-              <span class="text-desc nft-body-small">{{ file.size | bytesToSize }}</span>
+              <span class="text-desc nft-body-small">{{ file.metaStatisValue | bytesToSize }}</span>
               <div class="circle"></div>
               <div class="be-flex align-center">
                 <base-icon icon="icon-download-blue" size="24" class="d-iflex" />
@@ -48,10 +48,10 @@
 
       <!-- type boolean -->
       <div class="type-boolean" v-if="tabActive === 'BOOLEAN'">
-        <div v-for="item in data.value" :key="item.id" class="be-flex align-center feature">
-          <base-icon v-if="item.status" icon="icon-tick" size="20" class="d-iflex" />
+        <div v-for="item in dataPreview" :key="item.id" class="be-flex align-center feature">
+          <base-icon v-if="item.metaValue === 'true'" icon="icon-tick" size="20" class="d-iflex" />
           <base-icon v-else icon="icon-x-red" size="20" class="d-iflex" />
-          <p class="text-base text-overflow-1" style="color: #28344b">{{ item.name }}</p>
+          <p class="text-base text-overflow-1" style="color: #28344b">{{ item.metaName }}</p>
         </div>
       </div>
     </div>
@@ -63,40 +63,32 @@
   import filter from 'lodash/filter'
   import includes from 'lodash/includes'
 
+  import { namespace } from 'vuex-class'
+  const bcNft = namespace('bcNft')
+
   @Component
   export default class PreviewMetaData extends Vue {
-    @Prop({ required: false, type: String, default: 'DESC' }) tabActive!: string
-    @Prop({ required: false, type: Array, default: () => [] }) metaData!: Array<Record<string, any>>
+    @Prop({ required: false, type: Number, default: 0 }) idTabActive!: number
+    @Prop({ required: false, type: String, default: '' }) tabName!: string
+    @Prop({ required: false, type: String, default: '' }) tabActive!: string
+    @Prop({ required: false, type: Array, default: () => [] }) dataPreview!: Array<Record<string, any>>
 
-    data: Record<string, any> = {}
+    @bcNft.State('metaDatas') metaDatas!: Array<Record<string, any>>
 
-    @Watch('tabActive') watchTabActive(): void {
-      this.data = filter(this.metaData, elm => elm.type === this.tabActive)[0]
-    }
+    data: Array<Record<string, any>> | Record<string, any> = []
 
-    get getTitle(): string {
-      switch (this.tabActive) {
-        case 'TEXT':
-          return this.$t('tab_description') as string
-        case 'HTML':
-          return this.$t('tab_detail') as string
-        case 'MAP':
-          return this.$t('tab_polices') as string
-        case 'FILE':
-          return this.$t('tab_ebrochures') as string
-        default:
-          return this.$t('tab_feature') as string
-      }
-    }
+    // @Watch('idTabActive') watchTabActive(): void {
+    //   this.data = filter(this.metaDatas, elm => elm.metaTypeId === this.idTabActive)
+    // }
 
-    created(): void {
-      this.data = filter(this.metaData, elm => elm.type === this.tabActive)[0]
-    }
+    // created(): void {
+    //   this.data = filter(this.metaDatas, elm => elm.metaTypeId === this.idTabActive)
+    // }
 
     getIconFile(file: Record<string, any>): string {
       const arrFileWord = ['doc', 'docx']
       const arrFilePdf = ['pdf']
-      const fileType = file.fileType.toLowerCase()
+      const fileType = file.metaAnnotation.toLowerCase()
       return includes(arrFileWord, fileType) ? 'icon-word' : includes(arrFilePdf, fileType) ? 'icon-pdf' : 'icon-excel'
     }
   }
@@ -108,6 +100,7 @@
     padding: 24px;
     border: 1px solid #dbdbdb;
     border-radius: 8px;
+    margin-left: 24px;
 
     .tab {
       border-bottom: 1px solid #dbdbdb;

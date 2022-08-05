@@ -1,13 +1,13 @@
 <template>
   <div class="tab-map">
     <base-table :data="data" :showPagination="false">
-      <el-table-column :label="$t('label_nft-name')" prop="name">
+      <el-table-column :label="$t('label_nft-name')" prop="metaName">
         <template slot-scope="scope">
-          <p>{{ scope.row.name }}</p>
-          <p class="nft-body-small text-desc" v-if="scope.row.annotate">({{ scope.row.annotate }})</p>
+          <p>{{ scope.row.metaName }}</p>
+          <p class="nft-body-small text-desc" v-if="scope.row.metaAnnotation">({{ scope.row.metaAnnotation }})</p>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('label_long-desc')" prop="desc" align="right"> </el-table-column>
+      <el-table-column :label="$t('label_long-desc')" prop="metaValue" align="right"> </el-table-column>
       <el-table-column align="right" width="100px">
         <template slot-scope="scope">
           <span @click="handleCallAction('edit', scope.row)">
@@ -26,7 +26,7 @@
       </div>
     </base-table>
     <popup-add-map :typePopup="typePopup" :rowCurrent="rowCurrent" @confirm="handleConfirm" @edit="handleEdit" />
-    <popup-delete :rowCurrent="rowCurrent" :tabActive="tabActive" @delete="handleDelete" />
+    <popup-delete :rowCurrent="rowCurrent" @delete="handleDelete" />
   </div>
 </template>
 
@@ -39,23 +39,21 @@
   import PopupAddMap from './PopupAddMap.vue'
   import PopupDelete from './PopupDelete.vue'
 
+  import { namespace } from 'vuex-class'
+  const bcNft = namespace('bcNft')
+
   @Component({ components: { PopupAddMap, PopupDelete } })
   export default class TabMap extends Mixins(PopupMixin) {
-    @Prop({ required: false, type: Array, default: [] }) metaData!: Array<Record<string, any>>
-    @Prop({ required: false, type: String, default: '' }) tabActive!: string
+    @Prop({ required: false, type: Number, default: 0 }) idTabActive!: number
+
+    @bcNft.State('metaDatas') metaDatas!: Array<Record<string, any>>
 
     data: Array<Record<string, any>> = []
     typePopup = 'add'
     rowCurrent: Record<string, any> = {}
 
-    @Watch('metaData') watchMetadata(): void {
-      // const elm = filter(this.metaData, elm => elm.type === this.tabActive)[0]
-      // this.data = [...elm.value]
-    }
-
     created(): void {
-      // const elm = filter(this.metaData, elm => elm.type === this.tabActive)[0]
-      // this.data = [...elm.value]
+      this.data = filter(this.metaDatas, elm => elm.metaTypeId === this.idTabActive)
     }
 
     handleClickAdd(): void {
@@ -83,33 +81,33 @@
     }
 
     handleDelete(): void {
-      const data = filter(this.data, elm => elm.id !== this.rowCurrent.id)
-      const indexMeta = findIndex(this.metaData, elm => elm.type === this.tabActive)
-      const _metaData = [...this.metaData]
-      _metaData[indexMeta].value = data
-      this.$emit('update', _metaData)
+      // const data = filter(this.data, elm => elm.id !== this.rowCurrent.id)
+      // const indexMeta = findIndex(this.metaData, elm => elm.type === this.tabActive)
+      // const _metaData = [...this.metaData]
+      // _metaData[indexMeta].value = data
+      // this.$emit('update', _metaData)
     }
 
     handleEdit(form: Record<string, any>): void {
-      const _data = [...(this.data as Array<Record<string, any>>)]
-      const index = findIndex(_data, elm => elm.id === form.id)
-      _data[index] = { ...form }
-      const indexMeta = findIndex(this.metaData, elm => elm.type === this.tabActive)
-      const _metaData = [...this.metaData]
-      _metaData[indexMeta].value = _data
-      this.$emit('update', _metaData)
+      // const _data = [...(this.data as Array<Record<string, any>>)]
+      // const index = findIndex(_data, elm => elm.id === form.id)
+      // _data[index] = { ...form }
+      // const indexMeta = findIndex(this.metaData, elm => elm.type === this.tabActive)
+      // const _metaData = [...this.metaData]
+      // _metaData[indexMeta].value = _data
+      // this.$emit('update', _metaData)
     }
 
     handleConfirm(form: Record<string, any>): void {
-      const _data = [...(this.data as Array<Record<string, any>>)]
-      _data.unshift({
-        ...form,
-        id: Math.random()
-      })
-      const index = findIndex(this.metaData, elm => elm.type === this.tabActive)
-      const _metaData = [...this.metaData]
-      _metaData[index].value = _data
-      this.$emit('update', _metaData)
+      // const _data = [...(this.data as Array<Record<string, any>>)]
+      // _data.unshift({
+      //   ...form,
+      //   id: Math.random()
+      // })
+      // const index = findIndex(this.metaData, elm => elm.type === this.tabActive)
+      // const _metaData = [...this.metaData]
+      // _metaData[index].value = _data
+      // this.$emit('update', _metaData)
     }
   }
 </script>

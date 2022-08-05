@@ -17,9 +17,9 @@
       </div>
       <div class="content__main">
         <!-- <tab-info :typePopup="typePopup" /> -->
-        <keep-alive>
-          <component :is="getComponent" :typePopup="typePopup" />
-        </keep-alive>
+        <!-- <keep-alive> -->
+        <component :is="getComponent" :typePopup="typePopup" />
+        <!-- </keep-alive> -->
       </div>
     </div>
     <div class="footer footer-popup" slot="footer">

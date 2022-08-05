@@ -358,3 +358,15 @@ export function bytesToSize(bytes: number): string {
   const i = Math.floor(Math.floor(Math.log(bytes) / Math.log(1024)))
   return Math.round(bytes / Math.pow(1024, i)) + ' ' + sizes[i]
 }
+
+export function formatMetaText(text: string): string {
+  const language = localStorage.getItem('bc-lang') || ''
+  const parseJson = JSON.parse(text)
+  return (parseJson[language] as string).replace(/\n/g, '<br>')
+}
+
+export function formatMetaHtml(text: string): string {
+  const language = localStorage.getItem('bc-lang') || ''
+  const parseJson = JSON.parse(text)
+  return parseJson[language]
+}

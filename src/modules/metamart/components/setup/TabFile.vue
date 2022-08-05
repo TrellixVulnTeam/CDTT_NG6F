@@ -2,11 +2,11 @@
   <div class="tab-file">
     <base-table :data="data" :showPagination="false">
       <el-table-column label="#" type="index" width="56px" align="center" />
-      <el-table-column :label="$t('label_nft-name')" prop="name"> </el-table-column>
-      <el-table-column :label="$t('label_type')" prop="fileType" align="right"> </el-table-column>
-      <el-table-column :label="$t('label_size')" prop="size" align="right">
+      <el-table-column :label="$t('label_nft-name')" prop="metaName"> </el-table-column>
+      <el-table-column :label="$t('label_type')" prop="metaAnnotation" align="right"> </el-table-column>
+      <el-table-column :label="$t('label_size')" prop="metaStatisValue" align="right">
         <template slot-scope="scope">
-          <p>{{ scope.row.size | bytesToSize }}</p>
+          <p>{{ scope.row.metaStatisValue | bytesToSize }}</p>
         </template>
       </el-table-column>
       <el-table-column align="right" width="100px">
@@ -27,7 +27,7 @@
       </div>
     </base-table>
     <popup-add-file :typePopup="typePopup" :rowCurrent="rowCurrent" @confirm="handleConfirm" @edit="handleEdit" @confirmDelete="handleCallAction('delete', rowCurrent)" />
-    <popup-delete :rowCurrent="rowCurrent" :tabActive="tabActive" @delete="handleDelete" />
+    <popup-delete :rowCurrent="rowCurrent" @delete="handleDelete" />
   </div>
 </template>
 
@@ -40,23 +40,27 @@
   import PopupAddFile from './PopupAddFile.vue'
   import PopupDelete from './PopupDelete.vue'
 
+  import { namespace } from 'vuex-class'
+  import { IMetaDataFile } from '../../interface'
+  const bcNft = namespace('bcNft')
+
   @Component({ components: { PopupAddFile, PopupDelete } })
   export default class TabFile extends Mixins(PopupMixin) {
-    @Prop({ required: false, type: Array, default: [] }) metaData!: Array<Record<string, any>>
-    @Prop({ required: false, type: String, default: '' }) tabActive!: string
+    @Prop({ required: false, type: Number, default: 0 }) idTabActive!: number
 
-    data: Array<Record<string, any>> = []
+    @bcNft.State('metaDatas') metaDatas!: Array<Record<string, any>>
+
+    data: IMetaDataFile[] = []
     typePopup = 'add'
     rowCurrent: Record<string, any> = {}
 
-    @Watch('metaData') watchMetadata(): void {
-      const elm = filter(this.metaData, elm => elm.type === this.tabActive)[0]
-      this.data = [...elm.value]
-    }
+    // @Watch('metaData') watchMetadata(): void {
+    //   const elm = filter(this.metaData, elm => elm.type === this.tabActive)[0]
+    //   this.data = [...elm.value]
+    // }
 
     created(): void {
-      const elm = filter(this.metaData, elm => elm.type === this.tabActive)[0]
-      this.data = [...elm.value]
+      this.data = filter(this.metaDatas, elm => elm.metaTypeId === this.idTabActive) as IMetaDataFile[]
     }
 
     handleClickAdd(): void {
@@ -84,33 +88,33 @@
     }
 
     handleDelete(): void {
-      const data = filter(this.data, elm => elm.id !== this.rowCurrent.id)
-      const indexMeta = findIndex(this.metaData, elm => elm.type === this.tabActive)
-      const _metaData = [...this.metaData]
-      _metaData[indexMeta].value = data
-      this.$emit('update', _metaData)
+      // const data = filter(this.data, elm => elm.id !== this.rowCurrent.id)
+      // const indexMeta = findIndex(this.metaData, elm => elm.type === this.tabActive)
+      // const _metaData = [...this.metaData]
+      // _metaData[indexMeta].value = data
+      // this.$emit('update', _metaData)
     }
 
     handleEdit(form: Record<string, any>): void {
-      const _data = [...this.data]
-      const index = findIndex(_data, elm => elm.id === form.id)
-      _data[index] = { ...form }
-      const indexMeta = findIndex(this.metaData, elm => elm.type === this.tabActive)
-      const _metaData = [...this.metaData]
-      _metaData[indexMeta].value = _data
-      this.$emit('update', _metaData)
+      // const _data = [...this.data]
+      // const index = findIndex(_data, elm => elm.id === form.id)
+      // _data[index] = { ...form }
+      // const indexMeta = findIndex(this.metaData, elm => elm.type === this.tabActive)
+      // const _metaData = [...this.metaData]
+      // _metaData[indexMeta].value = _data
+      // this.$emit('update', _metaData)
     }
 
     handleConfirm(form: Record<string, any>): void {
-      const _data = [...this.data]
-      _data.unshift({
-        ...form,
-        id: Math.random()
-      })
-      const index = findIndex(this.metaData, elm => elm.type === this.tabActive)
-      const _metaData = [...this.metaData]
-      _metaData[index].value = _data
-      this.$emit('update', _metaData)
+      // const _data = [...this.data]
+      // _data.unshift({
+      //   ...form,
+      //   id: Math.random()
+      // })
+      // const index = findIndex(this.metaData, elm => elm.type === this.tabActive)
+      // const _metaData = [...this.metaData]
+      // _metaData[index].value = _data
+      // this.$emit('update', _metaData)
     }
   }
 </script>

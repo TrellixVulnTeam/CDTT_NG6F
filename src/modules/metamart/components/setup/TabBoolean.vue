@@ -2,10 +2,10 @@
   <div class="tab-boolean">
     <base-table :data="data" :showPagination="false">
       <el-table-column label="#" type="index" width="56px" align="center" />
-      <el-table-column :label="$t('label_nft-name')" prop="name"> </el-table-column>
+      <el-table-column :label="$t('label_nft-name')" prop="metaName"> </el-table-column>
       <el-table-column prop="status" align="right">
         <template slot-scope="scope">
-          <el-switch v-model="scope.row.status" active-color="#129961"> </el-switch>
+          <el-switch v-model="scope.row.metaValue" active-value="true" inactive-value="false" active-color="#129961"> </el-switch>
         </template>
       </el-table-column>
       <el-table-column align="right" width="100px">
@@ -26,7 +26,7 @@
       </div>
     </base-table>
     <popup-add-feature :typePopup="typePopup" :rowCurrent="rowCurrent" @confirm="handleConfirm" @edit="handleEdit" @confirmDelete="handleCallAction('delete', rowCurrent)" />
-    <popup-delete :rowCurrent="rowCurrent" :tabActive="tabActive" @delete="handleDelete" />
+    <popup-delete :rowCurrent="rowCurrent" @delete="handleDelete" />
   </div>
 </template>
 
@@ -39,23 +39,21 @@
   import PopupAddFeature from './PopupAddFeature.vue'
   import PopupDelete from './PopupDelete.vue'
 
+  import { namespace } from 'vuex-class'
+  const bcNft = namespace('bcNft')
+
   @Component({ components: { PopupAddFeature, PopupDelete } })
   export default class TabBoolean extends Mixins(PopupMixin) {
-    @Prop({ required: false, type: Array, default: [] }) metaData!: Array<Record<string, any>>
-    @Prop({ required: false, type: String, default: '' }) tabActive!: string
+    @Prop({ required: false, type: Number, default: 0 }) idTabActive!: number
+
+    @bcNft.State('metaDatas') metaDatas!: Array<Record<string, any>>
 
     data: Array<Record<string, any>> = []
     typePopup = 'add'
     rowCurrent: Record<string, any> = {}
 
-    @Watch('metaData') watchMetadata(): void {
-      const elm = filter(this.metaData, elm => elm.type === this.tabActive)[0]
-      this.data = [...elm.value]
-    }
-
     created(): void {
-      // const elm = filter(this.metaData, elm => elm.type === this.tabActive)[0]
-      // this.data = [...elm.value]
+      this.data = filter(this.metaDatas, elm => elm.metaTypeId === this.idTabActive)
     }
 
     handleClickAdd(): void {
@@ -83,33 +81,15 @@
     }
 
     handleDelete(): void {
-      const data = filter(this.data, elm => elm.id !== this.rowCurrent.id)
-      const indexMeta = findIndex(this.metaData, elm => elm.type === this.tabActive)
-      const _metaData = [...this.metaData]
-      _metaData[indexMeta].value = data
-      this.$emit('update', _metaData)
+      this.$emit('update')
     }
 
     handleEdit(form: Record<string, any>): void {
-      const _data = [...this.data]
-      const index = findIndex(_data, elm => elm.id === form.id)
-      _data[index] = { ...form }
-      const indexMeta = findIndex(this.metaData, elm => elm.type === this.tabActive)
-      const _metaData = [...this.metaData]
-      _metaData[indexMeta].value = _data
-      this.$emit('update', _metaData)
+      this.$emit('update')
     }
 
     handleConfirm(form: Record<string, any>): void {
-      const _data = [...this.data]
-      _data.unshift({
-        ...form,
-        id: Math.random()
-      })
-      const index = findIndex(this.metaData, elm => elm.type === this.tabActive)
-      const _metaData = [...this.metaData]
-      _metaData[index].value = _data
-      this.$emit('update', _metaData)
+      this.$emit('update')
     }
   }
 </script>

@@ -32,3 +32,21 @@ export interface IMetaTypes {
   typeTab: TabType
   [x: string]: any
 }
+
+export interface IMetaDataFile {
+  [x: string]: any
+  id: number
+  itemId: null | number
+  metaDescription: string
+  metaIcon: string
+  metaMaximum: null | number
+  metaMinimum: null | number
+  metaName: string
+  metaStatisValue: string
+  metaType: string
+  metaTypeAvatar: null | string
+  metaTypeId: number
+  metaTypePosition: number
+  metaValue: string
+  metaValueType: 'FILE'
+}
