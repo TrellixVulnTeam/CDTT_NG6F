@@ -1,34 +1,48 @@
 <template>
-  <base-popup name="popup-create-category" class="popup-filter-collection" width="600px" :close="handleClose">
+  <base-popup name="popup-create-category" class="popup-filter-collection" width="600px" :close="handleClose" :open="handleOpen">
     <div class="title-popup" slot="title">
-      <span>{{ this.type == 'edit' ? 'Edit category' : 'Add new category' }}</span>
+      <span>{{ $t('Add new category') }}</span>
     </div>
-    <div class="content" v-loading="isLoading">
-      <div class="content-block">
-        <p class="content-block__title">Category</p>
-        <el-input v-model="query.categoryName" placeholder="Category" />
-      </div>
-      <div class="content-block">
-        <p class="content-block__title">Parent category</p>
-        <el-select filterable remote v-model="query.parentId" placeholder="Choose category">
-          <el-option
-            v-for="(option, index) in listCategory"
-            :label="option.categoryName"
-            :value="option.id"
-            :key="index"
-            :style="{ 'margin-left': `${(option.levelDepth ? option.levelDepth : 0) * 15}px` }"
-            clearable
-            reserve-keyword
-          >
-          </el-option>
-        </el-select>
-      </div>
-      <div class="content-block">
-        <p class="content-block__title">Description</p>
-        <el-input type="textarea" v-model="query.description" rows="4" />
-      </div>
+    <div class="body-content">
+      <el-form ref="dataInput" :model="dataInput" :rules="rules">
+        <el-row>
+          <el-col>
+            <div class="col-style">
+              <el-form-item label="Category" class="select" prop="categoryName">
+                <el-input clearable placeholder="Category" v-model="dataInput.categoryName" ref="categoryName" style="color: #181b22"></el-input>
+              </el-form-item>
+              <el-form-item label="Parent category">
+                <el-select
+                  class="select w-100"
+                  @change="handleListCustomer"
+                  :remote-method="remoteCustomerCategory"
+                  v-model="dataInput.parentId"
+                  :loading="isCategoryLoading"
+                  filterable
+                  clearable
+                  reserve-keyword
+                  placeholder="Parent category"
+                >
+                  <el-option
+                    v-for="(option, index) in listCategory"
+                    :label="option.categoryName"
+                    :value="option.id"
+                    :key="index"
+                    :style="{ 'margin-left': `${(option.levelDepth ? option.levelDepth : 0) * 15}px` }"
+                    clearable
+                    reserve-keyword
+                  >
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="Description" class="select">
+                <el-input clearable type="textarea" :rows="4" placeholder="Description..." v-model="dataInput.description"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+      </el-form>
     </div>
-
     <div class="footer" slot="footer">
       <div class="wrap-button">
         <div class="btn-right">
@@ -45,28 +59,36 @@
   import PopupMixin from '@/mixins/popup'
   import getRepository from '@/services'
   import { NftRepository } from '@/services/repositories/nft'
+  import { debounce, filter, findIndex, forEach, trim } from 'lodash'
 
   const apiNft: NftRepository = getRepository('nft')
 
   @Component
-  export default class PopupFilterCollection extends Mixins(PopupMixin) {
+  export default class PopupCreateCategory extends Mixins(PopupMixin) {
     text = ''
-    creator = [
-      { name: 'Artmond275', email: 'artmond275@gmail.com' },
-      { name: 'Dhman', email: 'dhman@gmail.com' },
-      { name: 'LynKey', email: 'lynkey@gmail.com' }
-    ]
-    @Prop({ required: false, type: String, default: 'add' }) type!: 'add' | 'edit'
+    @Prop() idCategory: any
     @Prop() listCategory!: any
-    query = {
+    @Prop({ required: false, type: Object, default: {} }) dataDetail!: Record<string, any>
+    dataInput: any = {
       categoryName: '',
       parentId: '',
       description: ''
     }
+    isCategoryLoading = false
+    fullNameLength = false
+    rules: any = {
+      categoryName: [
+        {
+          required: true,
+          message: 'This field can not be blank',
+          trigger: 'blur'
+        }
+      ]
+    }
     async createCategory(): Promise<void> {
-      if (this.query && this.type == 'add') {
+      {
         await apiNft
-          .createCategory(this.query)
+          .createCategory(this.dataInput)
           .then((res: any) => {
             this.$message.success('Create category successfully')
           })
@@ -75,38 +97,87 @@
           })
       }
     }
-    async editCategory(): Promise<void> {
-      await apiNft
-        .editCategory(this.query, this.listCategory.id)
-        .then((res: any) => {
-          this.$message.success('Edit category successfully')
-        })
-        .catch(e => {
-          console.log(e)
-        })
+    handleListCustomer(id: string): void {
+      const customerCategoryList: any = []
+      forEach(id, elm => {
+        customerCategoryList.push(this.listCategory.filter((item: any) => item.id == elm))
+      })
+      this.pushCustomerCategoryList(customerCategoryList)
     }
-
+    pushCustomerCategoryList(data: any): void {
+      const item: any = []
+      forEach(data, elm => {
+        item.push(elm[0])
+      })
+      // this.customer.customerCategoryList = item
+    }
+    remoteCustomerCategory(query: string): void {
+      this.isCategoryLoading = true
+      // if (trim(query) === '') {
+      //   this.isSearchCate = false
+      // } else {
+      //   this.isSearchCate = true
+      // }
+      // this.queryCustomerCategory.search = trim(query)
+      // this.queryCustomerCategory.page = 1
+      // this.queryCustomerCategory.limit = 1000
+      // const a = debounce(this.getCustomerCategory, 500)
+      // a(query)
+    }
+    handleOpen(): void {
+      ;(this.dataInput.categoryName = null), (this.dataInput.parentId = null)
+      this.dataInput.description = null
+      this.fullNameLength = false
+      this.dataInput.parentId = this.idCategory ? this.idCategory : null
+    }
     handleClose(): void {
-      this.handleReset()
-    }
-    handleReset(): void {
-      this.query = {
-        categoryName: '',
-        parentId: '',
-        description: ''
-      }
-    }
-    handleApply(): void {
-      if (this.type == 'add') {
-        this.createCategory()
-      } else {
-        this.editCategory()
-      }
+      // @ts-ignore
+      this.$refs.dataInput.clearValidate()
+
+      this.idCategory = null
+      ;(this.dataInput.parentId = null), (this.idCategory = null)
       this.setOpenPopup({
         popupName: 'popup-create-category',
         isOpen: false
       })
-      this.$emit('reload')
+      ;(this.dataInput.name = null), (this.dataInput.parentId = null)
+      this.dataInput.description = null
+      this.dataInput.code = null
+    }
+    handleReset(): void {
+      // @ts-ignore
+      this.$refs.dataInput.clearValidate()
+      this.dataInput = {}
+    }
+    handleApply(): void {
+      let a: any = this.$refs.dataInput
+      if (trim(this.dataInput.categoryName) === '') {
+        this.fullNameLength = true
+      }
+      a.validate((valid: any) => {
+        if (valid) {
+          if (!this.fullNameLength) {
+            apiNft
+              .createCategory(this.dataInput)
+              .then((res: any) => {
+                if (res.status === 'Error') {
+                  this.$message.error(res.message)
+                  this.handleClose()
+                } else {
+                  this.$message.success('Create category successfully')
+                  this.handleClose()
+                  this.$emit('load')
+                }
+              })
+              .catch(er => {
+                this.$message.error(er.message)
+              })
+          } else {
+            console.log('error validate data!')
+            return false
+          }
+        }
+      })
     }
   }
 </script>
@@ -118,83 +189,86 @@
     font-weight: $weight;
     color: $color;
   }
-  ::v-deep.popup-filter-collection {
-    .content {
-      .wrapper {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        .content-block {
-          .el-input__inner {
-            width: 256px;
-          }
-          &:last-child {
-            .content-block__label {
-              padding-left: 20px;
-            }
-            .content-block__wrap {
-              text-align: right;
-            }
-          }
-        }
+  .popup-create-category {
+    .be-btn-danger:hover {
+      border-color: var(--be-button-hover-color);
+    }
+    .body-content {
+      margin: 0px auto;
+      margin-top: 20px;
+      width: 560px;
+      position: relative;
+    }
+    .el-input__suffix {
+      right: 0 !important;
+    }
+    textarea.el-textarea__inner {
+      // font-family: "Open Sans";
+      color: #2b2b2b;
+    }
+    .wrap-option {
+      .item-name {
+        display: block;
+        width: 285px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        padding-right: 5px;
       }
-      &-block {
-        width: 100%;
-        height: auto;
-        margin-bottom: 24px;
-        .el-select {
-          width: 100%;
-        }
-        .input-error {
-          .el-input__inner {
-            border-color: #cf202f;
-          }
-        }
-        .select-prefix-icon {
-          .el-input__inner {
-            padding-left: 40px;
-          }
-        }
-        &__title {
-          @include text(14px, 20px, 400, #0a0b0d);
-          margin-bottom: 8px;
-        }
-        .el-input__prefix {
-          left: 12px;
-          .select-icon {
-            width: 24px;
-            height: 24px;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            border-radius: 50%;
-            background-color: var(--bc-bg-neutral);
-            .span-icon {
-              vertical-align: middle;
-            }
-          }
-        }
-        &__alert {
-          margin-top: 4px;
-          @include text(14px, 20px, 400, #cf202f);
-        }
-        &__inputs {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          .el-input {
-            width: 256px;
-            .el-input__inner {
-              width: 100%;
-            }
-          }
-          .delimiter {
-            width: 8px;
-            height: 2px;
-            background-color: #dbdbdb;
-          }
-        }
+    }
+    .child-option {
+      margin-left: 15px;
+    }
+    .bottom {
+      background-color: var(--be-status-bg-processing);
+      border-top: 1px solid var(--be-border-color);
+      padding: 11px 16px 11px 20px;
+      .bt-top {
+        justify-content: flex-end;
       }
+    }
+    .select {
+      color: #8f8f8f !important;
+      width: 100%;
+    }
+    .el-form-item__content {
+      font-size: none;
+    }
+    .group-button-cencel {
+      padding: 11px 20px;
+      font-size: 14px;
+      color: #363636;
+      font-weight: 400;
+    }
+    .group-button-save {
+      padding: 11px 20px;
+      background-color: #f07525;
+      color: #fff;
+    }
+    .hide-option {
+      display: none;
+    }
+    .group-button-save:hover {
+      border-color: var(--be-button-hover-color);
+    }
+    .el-form-item__label {
+      font-size: 12px;
+      margin-top: -15px;
+      margin-bottom: -9px;
+      color: #8f8f8f;
+    }
+    input.el-input__inner {
+      font-size: 14px;
+      color: #181b22;
+    }
+    ::placeholder {
+      color: #8f8f8f !important;
+    }
+    .el-form-item__label:before {
+      float: right;
+    }
+    textarea.el-textarea__inner {
+      font-family: 'Open Sans';
     }
   }
 </style>

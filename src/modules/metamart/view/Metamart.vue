@@ -50,6 +50,7 @@
       :listCategory="listCategory"
       @edit="handleEditCategory"
       @create="handleOpenCategory"
+      @load="debounceInit"
     />
 
     <popup-choosetype @continues="handleToPopupform($event)" />
@@ -60,7 +61,6 @@
     <popup-public-onchain />
     <popup-delete :type="deleteType" />
     <popup-nft-detail />
-    <popup-create-category :listCategory="listCategory" :type="this.type" />
   </div>
 </template>
 
@@ -83,7 +83,6 @@
   import { NftRepository } from '@/services/repositories/nft'
   import { debounce, filter } from 'lodash'
   import axios from 'axios'
-  import PopupCreateCategory from '../components/popup/PopupCreateCategory.vue'
   //Interface
   interface IQuery {
     page?: number
@@ -108,8 +107,7 @@
       PopupCreateNft,
       PopupPublicOnchain,
       PopupDelete,
-      PopupNftDetail,
-      PopupCreateCategory
+      PopupNftDetail
     }
   })
   export default class Metamart extends Mixins(PopupMixin) {
