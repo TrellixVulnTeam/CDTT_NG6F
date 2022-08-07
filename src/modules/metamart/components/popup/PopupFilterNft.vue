@@ -120,6 +120,7 @@
 <script lang="ts">
   import { Component, Mixins, Prop, Watch } from 'vue-property-decorator'
   import PopupMixin from '@/mixins/popup'
+  import EventBus from '@/utils/eventBus'
 
   @Component
   export default class PopupFilterNft extends Mixins(PopupMixin) {
@@ -172,10 +173,25 @@
 
     handleClose(): void {
       this.$emit('reset-query')
+      this.setOpenPopup({
+        popupName:'popup-filter-nft',
+        isOpen: false
+      })
+    }
+
+    handleReset(): void {
+      this.filterNft = {
+        collectionId: '',
+        creatorId: '',
+        categoryId: '',
+        network: '',
+        statusBlockchain: '',
+        fromCreatedAt: '',
+        toCreatedAt: '',
+      }
     }
 
     handleApply(): void {
-      console.log("Apply filter");
       let fromDate = ''
       let toDate = ''
       if (this.filterNft.fromCreatedAt) {
@@ -189,7 +205,9 @@
         fromCreatedAt: fromDate,
         toCreatedAt: toDate
       }
-      console.log(this.filterNft);
+      EventBus.$emit('filter', this.filterNft)
+      this.handleClose()
+      this.handleReset()
     }
 
     //Collection
