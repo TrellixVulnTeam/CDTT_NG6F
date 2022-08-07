@@ -18,7 +18,7 @@
       <div class="content__main">
         <!-- <tab-info :typePopup="typePopup" /> -->
         <!-- <keep-alive> -->
-        <component :is="getComponent" :typePopup="typePopup" />
+        <component :is="getComponent" :typePopup="typePopup" @selectCollection="handleSelectCollection" />
         <!-- </keep-alive> -->
       </div>
     </div>
@@ -101,16 +101,27 @@
 
     async handleOpen(): Promise<void> {
       this.tabActive = 'INFO'
-      const result = await apiNft.getListCollection({ page: 1, limit: 1000 })
-      const listCategory = await apiNft.getListCategory()
+      const result = await apiNft.getNftCollection({ page: 1, limit: 1000 })
+      const listCategory = await apiNft.getCategories({ parentId: result.content[0].categoryId, onlyOneTree: 1 })
 
       if (this.typePopup === 'add') {
         this.setInitInfo({ ...this.form, collectionId: result.content[0].id })
       }
 
       this.setListCollection(result.content)
-      this.setListCategory(listCategory)
+      this.setListCategory(listCategory.content)
       this.getTemplateMetaData(result.content[0].id)
+    }
+
+    async handleSelectCollection(collection: Record<string, any>): Promise<void> {
+      console.log(collection)
+
+      const result = await apiNft.getNftCollection({ page: 1, limit: 1000 })
+      const listCategory = await apiNft.getCategories({ parentId: collection.categoryId, onlyOneTree: 1 })
+
+      this.setListCollection(result.content)
+      this.setListCategory(listCategory.content)
+      this.getTemplateMetaData(collection.id)
     }
 
     handleCancel(): void {
