@@ -45,7 +45,7 @@
       <div class="content-block">
         <p class="content-block__title">{{$t('metamart.collection.filter.network')}}</p>
         <el-select v-model="filterCollection.network" :placeholder="$t('metamart.collection.filter.network')">
-          <el-option v-for="(option, index) in networks" :label="option.networkName" :value="option.networkName" :key="index"></el-option>
+          <el-option v-for="(option, index) in networks" :label="option.networkName" :value="option.network" :key="index"></el-option>
         </el-select>
       </div>
       <div class="content-block">
@@ -54,7 +54,7 @@
               <el-date-picker :placeholder="$t('metamart.collection.filter.from-date')" 
                 format="MM/dd/yyyy"
                 value-format="timestamp"
-                v-model="filterCollection.date1" 
+                v-model="filterCollection.fromCreatedAt" 
                 prefix-icon="el-icon-date"
                 type="date"
                 class="input-small"
@@ -64,7 +64,7 @@
               <el-date-picker :placeholder=" $t('metamart.collection.filter.to-date')" 
                 format="MM/dd/yyyy"
                 value-format="timestamp"
-                v-model="filterCollection.date2" 
+                v-model="filterCollection.toCreatedAt" 
                 prefix-icon="el-icon-date"
                 type="date"
                 class="input-small"
@@ -88,6 +88,7 @@
 <script lang="ts">
   import { Component, Mixins, Prop, Watch } from 'vue-property-decorator'
   import PopupMixin from '@/mixins/popup'
+  import EventBus from '@/utils/eventBus'
 
   @Component
   export default class PopupFilterCollection extends Mixins(PopupMixin) {
@@ -97,34 +98,76 @@
 
     isLoading = false
 
+    get pickerOption(): any {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const _this = this
+      return {
+        disabledDate(time: Date) {
+          return _this.disableTime(time, 'from-to')
+        }
+      }
+    }
+    get pickerOption2(): any {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const _this = this
+      return {
+        disabledDate(time: Date) {
+          return _this.disableTime(time, 'to-from')
+        }
+      }
+    }
+    disableTime(time: Date, type: string): any {
+      if (type === 'from-to') {
+        if (this.filterCollection.fromCreatedAt) {
+          return time.getTime() / 1000 < new Date(this.filterCollection.fromCreatedAt).getTime() / 1000 - 7 * 60 * 60
+        }
+      } else {
+        if (this.filterCollection.toCreatedAt) {
+          return time.getTime() / 1000 > new Date(this.filterCollection.toCreatedAt).getTime() / 1000
+        }
+      }
+    }
+
     filterCollection = {
       creatorId: '',
-      category: '',
+      categoryId: '',
       network: '',
-      date1: '',
-      date2: '',
+      fromCreatedAt: '',
+      toCreatedAt: '',
     }
     handleClose(): void {
-      this.filterCollection = {
-        creatorId: '',
-        category: '',
-        network: '',
-        date1: '',
-        date2: '',
-      }
       this.$emit('reset-query')
+      this.setOpenPopup({
+        popupName:'popup-filter-collection',
+        isOpen: false
+      })
     }
     handleReset(): void {
       this.filterCollection = {
         creatorId: '',
-        category: '',
+        categoryId: '',
         network: '',
-        date1: '',
-        date2: '',
+        fromCreatedAt: '',
+        toCreatedAt: '',
       }
     }
     handleApply(): void {
-      console.log("Click apply");
+      let fromDate = ''
+      let toDate = ''
+      if (this.filterCollection.fromCreatedAt) {
+        fromDate = this.$options.filters?.formatReferral(this.filterCollection.fromCreatedAt)
+      }
+      if (this.filterCollection.toCreatedAt) {
+        toDate = this.$options.filters?.formatReferral(this.filterCollection.toCreatedAt + 86399000)
+      }
+      this.filterCollection = {
+        ...this.filterCollection,
+        fromCreatedAt: fromDate,
+        toCreatedAt: toDate
+      }
+      EventBus.$emit('filter', this.filterCollection)
+      this.handleClose()
+      this.handleReset()
     }
 
     //Creator load more

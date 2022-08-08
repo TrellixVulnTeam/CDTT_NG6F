@@ -175,6 +175,7 @@
               <el-select 
                 filterable
                 remote
+                :remote-method="remoteCreatorList"
                 v-model="collection.creatorId" 
                 placeholder="Choose creator"
               >
@@ -225,6 +226,7 @@
               <el-select
                 filterable
                 remote
+                :remote-method="remoteTemplateList"
                 clearable
                 v-model="collection.templateId" 
                 placeholder="Choose template"
@@ -287,7 +289,7 @@
   import { NftRepository } from '@/services/repositories/nft'
   import UploadRepository from '@/services/repositories/upload'
   import getRepository from '@/services'
-  import { filter } from 'lodash'
+  import { debounce, filter, trim } from 'lodash'
   import { namespace } from 'vuex-class'
 
   const bcAuth = namespace('beAuth')
@@ -477,9 +479,9 @@
     handleOpen():void {
       this.getNetworkList()
       this.getContractList()
-      this.getCreatorList(this.queryCreatorList)
+      this.getCreatorList('')
       this.getCategoryList()
-      this.getTemplateList(this.queryTemplateList)
+      this.getTemplateList('')
     }
     handleClose():void {
       //@ts-ignore
@@ -570,14 +572,27 @@
       search: ''
     }
     loadMoreCreator(): void { 
-      this.queryCreatorList.page += 1
-      this.getCreatorList(this.queryCreatorList)
+      this.queryCreatorList.limit += 20
+      const a = debounce(this.getCreatorList, 500)
+      a(this.queryCreatorList.search)
     }
-    async getCreatorList(param: Record<string,any>):Promise<void> {
-      await apiNft.getListCreator(param)
+    remoteCreatorList(query: string): void {
+      this.queryCreatorList.search = trim(query)
+      const a = debounce(this.getCreatorList, 500)
+      a(query)
+    }
+    async getCreatorList(search: string):Promise<void> {
+      await apiNft.getListCreator({
+          page: this.queryCreatorList.page,
+          limit: this.queryCreatorList.limit,
+          businessPartner: 'SYSTEM',
+          search: trim(search) ? trim(search) : ''
+        })
         .then((res: any) => {
           this.creators = res.content
-          this.collection.creatorId = res.content[0].id
+          if(!trim(search)) {
+            this.collection.creatorId = res.content[0].id
+          }
         })
         .catch(e => {
           console.log(e);
@@ -613,13 +628,22 @@
       search: ''
     }
     loadMoreTemplate(): void { 
-      this.queryTemplateList.page += 1
-      this.getTemplateList(this.queryTemplateList)
+      this.queryTemplateList.limit += 20
+      const a = debounce(this.getTemplateList, 500)
+      a(this.queryTemplateList.search)
     }
-    async getTemplateList(param: Record<string,any>):Promise<void> {
-      await apiNft.getListTemplate(param) 
+    remoteTemplateList(query: string): void {
+      this.queryTemplateList.search = trim(query)
+      const a = debounce(this.getTemplateList, 500)
+      a(query)
+    }
+    async getTemplateList(search: string):Promise<void> {
+      await apiNft.getListTemplate({
+          page: this.queryTemplateList.page,
+          limit: this.queryTemplateList.limit,
+          search: trim(search) ? trim(search) : ''
+        }) 
         .then((res: any) => {
-          console.log("Template:", res.content);
           this.templates = res.content
         })
         .catch(e => {
@@ -651,6 +675,9 @@
           display: flex;
           justify-content: center;
           align-items: center;
+          .el-upload__text {
+            font-size: 16px;
+          }
           .upload-wrapper {
             &__preview {
               width: 100%;
@@ -912,7 +939,7 @@
           }
         }
         &__subtitle {
-          font-size: 14px;
+          font-size: 12px;
           font-weight: 400;
           color: #5b616e;
         }
