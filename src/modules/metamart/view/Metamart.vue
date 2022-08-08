@@ -19,13 +19,15 @@
       @reload="debounceInit"
       :listCategory="listCategory"
       @openCategoryPopup="handleOpenCategory"
+      @sort="handleSortChange"
     />
 
     <tab-nft
       v-if="$route.name === 'Nft'"
       @sizeChange="handleSizeChange"
       @pageChange="handlePageChange"
-      :nftProps="nftData"
+      :data="nftData"
+      :query="query"
       v-loading="isLoading"
       @selectCommand="handleSelectCommand"
       @rowClick="handleRowClick"
@@ -83,6 +85,7 @@
   import { NftRepository } from '@/services/repositories/nft'
   import { debounce, filter } from 'lodash'
   import axios from 'axios'
+  import EventBus from '@/utils/eventBus'
   //Interface
   interface IQuery {
     page?: number
@@ -138,15 +141,14 @@
       page: 1,
       limit: 20,
       total: 20,
-      sortBy: 'name',
-      orderBy: 'desc',
-      type: null
     }
     debounceInit = debounce(() => {
       if (this.$route.name === "Category") {
         this.getCategoryList()
       } else if (this.$route.name === "Collection") {
         this.getCollection()
+      } else if (this.$route.name === "Nft") {
+        this.getNftItem()
       }
     }, 300)
     handleSearch(data: any): void {
@@ -165,7 +167,23 @@
     // }
     created(): void {
       this.init()
+      EventBus.$on('filter', this.handleFilter)
     }
+
+    destroy(): void {
+      EventBus.$off('filter')
+    }
+
+    handleFilter(value: Record<string, any>) {
+      console.log("Filter:", value);
+      this.query = {...this.query, ...value}
+      if (this.$route.name === "Nft") {
+        this.getNftItem()
+      } else if (this.$route.name === "Collection") {
+        this.getCollection()
+      }
+    }
+
     async getCategoryList(): Promise<void> {
       let params
       if (this.searchData) {
@@ -196,10 +214,10 @@
     async getNftItem(): Promise<void> {
       try {
         this.isLoading = true
-        const result = await axios.get(`https://627220cac455a64564bc4e6a.mockapi.io/api/nft/nftItem`, { params: { ...this.query, total: null } })
+        const result = await apiNft.getNftItem({...this.query, total: null, type: null, search: this.searchData})
         console.log('nft called', result)
-        this.nftData = result.data.items || []
-        this.query.total = result.data.count
+        this.nftData = result.content || []
+        this.query.total = result.totalElements
         this.isLoading = false
       } catch (error) {
         this.isLoading = false
@@ -209,7 +227,7 @@
     async getCollection(): Promise<void> {
       try {
         this.isLoading = true
-        const result = await apiNft.getNftCollection({...this.query, orderBy: '', total: null, type: null, sortBy: null, search: this.searchData })
+        const result = await apiNft.getNftCollection({...this.query, total: null, type: null, search: this.searchData })
         console.log('collection called', result)
         this.collectionData = result.content || []
         this.query.total = result.totalElements
@@ -250,6 +268,11 @@
         .catch(() => {
           return
         })
+      this.query = {
+        page: 1,
+        limit: 20,
+        total: 20,
+      }
       if (this.isChangeTab && tab.id === 2) {
         this.getCollection()
       } else if (this.isChangeTab && tab.id === 3) {
@@ -257,6 +280,17 @@
       } else {
         this.getNftItem()
       }
+    }
+
+    handleSortChange(command: string): void {
+      console.log("Sort:", command)
+      this.query.orderBy = command
+      if (this.$route.name === "Collection") {
+        this.getCollection()
+      } else if (this.$route.name === "Nft") {
+        this.getNftItem()
+      }
+
     }
 
     //handleChangeSize
