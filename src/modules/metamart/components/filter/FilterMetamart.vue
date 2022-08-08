@@ -143,6 +143,7 @@
       @reset-query="resetQuery"
       @load-more-creator="loadMoreCreator"
       @remote-creator="remoteCreatorList"
+      @remote-category="remoteCategoryList"
     />
     <popup-filter-nft 
       :collections="collections" 
@@ -154,6 +155,7 @@
       @remote-collection="remoteCollectionList"
       @load-more-creator="loadMoreCreator"
       @remote-creator="remoteCreatorList"
+      @remote-category="remoteCategoryList"
     />
   
   </div>
@@ -269,7 +271,7 @@
     }
     init(): void {
       this.getCreatorList('')
-      this.getCategoryList()
+      this.getCategoryList('')
       this.getNetworkList()
       this.getCollectionList('')
     }
@@ -353,11 +355,21 @@
     }
 
     //api category
-    async getCategoryList():Promise<void> {
-      await apiNft.getCategories({})
+    remoteCategoryList(query: string): void {
+      const a = debounce(this.getCategoryList, 500)
+      a(query)
+    }
+    async getCategoryList(search: string):Promise<void> {
+      await apiNft.getCategories({
+        search: trim(search) ? trim(search) : null
+      })
         .then((res: any) => {
-          // this.categoriesClone = res.content
-          this.recursiveCategoryChild(res.content)
+          if (trim(search)) {
+            this.categories = res.content
+          } else {
+            this.categories = []
+            this.recursiveCategoryChild(res.content)
+          }
         })
         .catch(e => {
           console.log(e);

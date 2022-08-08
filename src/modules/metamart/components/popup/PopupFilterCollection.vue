@@ -29,7 +29,8 @@
         <el-select 
           filterable
           remote
-          v-model="filterCollection.categoryId" 
+          :remote-method="remoteCategoryList"
+          v-model="filterCollection.categoryId"
           :placeholder="$t('metamart.collection.filter.category')"
         >
           <el-option 
@@ -150,6 +151,8 @@
         fromCreatedAt: '',
         toCreatedAt: '',
       }
+      EventBus.$emit('filter', this.filterCollection)
+      this.handleClose()
     }
     handleApply(): void {
       let fromDate = ''
@@ -167,7 +170,6 @@
       }
       EventBus.$emit('filter', this.filterCollection)
       this.handleClose()
-      this.handleReset()
     }
 
     //Creator load more
@@ -176,6 +178,11 @@
     }
     loadMoreCreator(): void {
       this.$emit('load-more-creator')
+    }
+
+    //Category
+    remoteCategoryList(query: string): void {
+      this.$emit('remote-category', query)
     }
   }
 </script>
