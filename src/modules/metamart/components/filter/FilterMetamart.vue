@@ -88,7 +88,7 @@
       </div>
     </div>
     <div v-if="this.$route.name !=='Category'">
-      <el-dropdown class="sort" trigger="click">
+      <el-dropdown class="sort" trigger="click" @command="handleSort">
         <span class="sort-title" style="font-size: 16px">
           <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}
         </span>
@@ -143,6 +143,7 @@
       @reset-query="resetQuery"
       @load-more-creator="loadMoreCreator"
       @remote-creator="remoteCreatorList"
+      @remote-category="remoteCategoryList"
     />
     <popup-filter-nft 
       :collections="collections" 
@@ -154,6 +155,7 @@
       @remote-collection="remoteCollectionList"
       @load-more-creator="loadMoreCreator"
       @remote-creator="remoteCreatorList"
+      @remote-category="remoteCategoryList"
     />
   
   </div>
@@ -184,49 +186,70 @@
     categories: Array<Record<string, any>> = []
     categoriesClone: Array<Record<string, any>> = []
     networks: Array<Record<string, any>> = []
+    sortActive = ''
 
     created(): void {
       this.init()
     }
 
-    get sortMetamart(): Record<string, any> {
-      let sorts = [
-        {
-          command: 'LATEST',
-          label: this.$i18n.t('nft.sort.latest'),
-          divided: false,
-          i18n: 'nft.sort.latest'
-        },
-        ...(this.$route.name === 'Collection'
-          ? [
-              {
-                command: 'OLDEST',
-                label: this.$i18n.t('nft.sort.oldest'),
-                divided: false,
-                i18n: 'nft.sort.oldest'
-              }
-            ]
-          : [
-              {
-                command: 'EARLIEST',
-                label: this.$i18n.t('nft.sort.earliest'),
-                divided: false,
-                i18n: 'nft.sort.earliest'
-              },
-              {
-                command: 'Price: High to low',
-                label: this.$i18n.t('nft.sort.price-highToLow'),
-                divided: false,
-                i18n: 'nft.sort.price-highToLow'
-              },
-              {
-                command: 'Price: Low to high',
-                label: this.$i18n.t('nft.sort.price-lowToHigh'),
-                divided: false,
-                i18n: 'nft.sort.price-lowToHigh'
-              }
-            ])
-      ]
+    get sortMetamart(): Array<any> {
+      let sorts: Array<Record<string, any>> = []
+      if (this.$route.name === "Collection") {
+        sorts = [
+          {
+            command: 'CREATED_AT_DESC',
+            label: this.$i18n.t('nft.sort.latest'),
+            divided: false,
+            i18n: 'nft.sort.latest'
+          },
+          {
+            command: 'CREATED_AT_ASC',
+            label: this.$i18n.t('nft.sort.oldest'),
+            divided: false,
+            i18n: 'nft.sort.oldest'
+          }
+        ]
+      } else if (this.$route.name === "Nft") {
+        sorts = [
+          {
+            command: 'ITEM',
+            label: this.$i18n.t('nft.sort.item'),
+            divided: false,
+            i18n: 'nft.sort.item'
+          },
+          {
+            command: 'CREATOR',
+            label: this.$i18n.t('nft.sort.creator'),
+            divided: false,
+            i18n: 'nft.sort.creator'
+          },
+          {
+            command: 'COLLECTION',
+            label: this.$i18n.t('nft.sort.collection'),
+            divided: false,
+            i18n: 'nft.sort.collection'
+          },
+          {
+            command: 'CATEGORY',
+            label: this.$i18n.t('nft.sort.category'),
+            divided: false,
+            i18n: 'nft.sort.category'
+          },
+          {
+            command: 'NETWORK',
+            label: this.$i18n.t('nft.sort.network'),
+            divided: false,
+            i18n: 'nft.sort.network'
+          },
+          {
+            command: 'BLOCKCHAIN_STATUS',
+            label: this.$i18n.t('nft.sort.status'),
+            divided: false,
+            i18n: 'nft.sort.status'
+          },
+        ]
+      }
+      
       return sorts
     }
 
@@ -248,7 +271,7 @@
     }
     init(): void {
       this.getCreatorList('')
-      this.getCategoryList()
+      this.getCategoryList('')
       this.getNetworkList()
       this.getCollectionList('')
     }
@@ -293,6 +316,10 @@
     handleCommand(command: string): void {
       this.$emit('selectCommand', command)
     }
+    handleSort(command: string): void {
+      this.sortActive = command
+      this.$emit('sort', command)
+    }
 
     //Call Api
     //api creator
@@ -328,11 +355,21 @@
     }
 
     //api category
-    async getCategoryList():Promise<void> {
-      await apiNft.getCategories({})
+    remoteCategoryList(query: string): void {
+      const a = debounce(this.getCategoryList, 500)
+      a(query)
+    }
+    async getCategoryList(search: string):Promise<void> {
+      await apiNft.getCategories({
+        search: trim(search) ? trim(search) : null
+      })
         .then((res: any) => {
-          // this.categoriesClone = res.content
-          this.recursiveCategoryChild(res.content)
+          if (trim(search)) {
+            this.categories = res.content
+          } else {
+            this.categories = []
+            this.recursiveCategoryChild(res.content)
+          }
         })
         .catch(e => {
           console.log(e);

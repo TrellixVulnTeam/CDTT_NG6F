@@ -11,6 +11,18 @@ export interface ITabInfo {
   description: string
 }
 
+export interface ITabBlockchain {
+  totalSupply: string
+  totalMint: string
+  contractAddress: string
+  tokenId: string | number
+  network: string
+  networkName: string
+  creatorName: string
+  creatorUsername: string
+  creatorId: number
+}
+
 export interface ITabSetting {
   serviceFee: string | number
   creatorFee: string | number

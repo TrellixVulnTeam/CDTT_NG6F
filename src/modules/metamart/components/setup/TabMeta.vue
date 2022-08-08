@@ -13,7 +13,7 @@
     </div>
     <div class="tab-meta__content" v-loading="isLoading">
       <!-- <keep-alive> -->
-      <component :is="getComponent" class="flex-1" :idTabActive="idTabActive" @update="handleUpdate" />
+      <component :is="getComponent" class="flex-1" :idTabActive="idTabActive" @update="handleUpdate" :tabActive="tabActive" />
       <!-- </keep-alive> -->
       <preview-meta-data :dataPreview="dataPreview" :idTabActive="idTabActive" :tabActive="tabActive" :tabName="getNameTabPreview" />
     </div>

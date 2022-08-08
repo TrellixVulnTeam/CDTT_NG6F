@@ -58,6 +58,7 @@
     @bcNft.Mutation('SET_LIST_CATEGORY') setListCategory!: (list: Array<Record<string, any>>) => void
     @bcNft.Mutation('SET_INIT_NFT') setInitInfo!: (info: Record<string, any>) => void
     @bcNft.Mutation('RESET_INIT') resetInit!: () => void
+    @bcNft.Mutation('SET_INIT_FORM_BLOCKCHAIN') setInitFormBlockchain!: (collection: Record<string, any>) => void
     @bcNft.Action('getTemplateMetaData') getTemplateMetaData!: (id: number) => void
     @bcNft.State('initInfo') form!: Record<string, any>
 
@@ -106,6 +107,7 @@
 
       if (this.typePopup === 'add') {
         this.setInitInfo({ ...this.form, collectionId: result.content[0].id })
+        this.setInitFormBlockchain(result.content[0])
       }
 
       this.setListCollection(result.content)
@@ -121,6 +123,7 @@
 
       this.setListCollection(result.content)
       this.setListCategory(listCategory.content)
+      this.setInitFormBlockchain(collection)
       this.getTemplateMetaData(collection.id)
     }
 

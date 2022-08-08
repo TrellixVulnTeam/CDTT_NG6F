@@ -8,29 +8,31 @@
         <p class="text-base">{{ $t('label_contract-address') }}</p>
         <p class="text-hyperlink text-base">{{ initBlockchain.contractAddress | formatTransactionCode(5) }}</p>
       </div>
-      <div class="be-flex align-center jc-space-between list-item">
+      <div v-if="typePopup === 'edit'" class="be-flex align-center jc-space-between list-item">
         <p class="text-base">{{ $t('label_token-id') }}</p>
         <p class="text-desc text-base">{{ initBlockchain.tokenId }}</p>
       </div>
       <div class="be-flex align-center jc-space-between list-item">
         <p class="text-base">{{ $t('label_blockchain') }}</p>
-        <p class="text-desc text-base">{{ initBlockchain.network }}</p>
+        <p class="text-desc text-base">{{ initBlockchain.networkName }}</p>
       </div>
       <div class="be-flex align-center jc-space-between list-item">
         <p class="text-base">{{ $t('label_token-standard') }}</p>
-        <p class="text-desc text-base">{{ initBlockchain.tokenStandard }}</p>
+        <p class="text-desc text-base">{{ initBlockchain.network }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator'
+  import { Component, Vue, Prop } from 'vue-property-decorator'
   import { namespace } from 'vuex-class'
 
   const bcNft = namespace('bcNft')
   @Component
   export default class PreviewTabBlockchain extends Vue {
+    @Prop({ required: false, type: String, default: 'add' }) typePopup!: 'add' | 'edit'
+
     @bcNft.State('initBlockchain') initBlockchain!: Record<string, any>
   }
 </script>

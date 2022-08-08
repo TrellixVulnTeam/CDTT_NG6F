@@ -2,43 +2,40 @@
   <div class="form-blockchain">
     <el-form>
       <el-form-item :label="$t('label_copies')" class="is-required">
-        <el-input type="number" v-model="form.copies" :placeholder="$t('label_copies')" @keypress.native="onlyNumber($event)" />
+        <el-input type="number" v-model="form.totalMint" :placeholder="$t('label_copies')" @keypress.native="onlyNumber($event)" />
       </el-form-item>
       <el-form-item :label="$t('label_contract-address')" class="is-required">
         <el-input v-model="form.contractAddress" :placeholder="$t('label_contract-address')" disabled />
       </el-form-item>
-      <el-form-item :label="$t('label_token-id')" class="is-required">
+      <el-form-item v-if="typePopup === 'edit'" :label="$t('label_token-id')" class="is-required">
         <el-input v-model="form.tokenId" :placeholder="$t('label_token-id')" disabled />
       </el-form-item>
       <el-form-item :label="$t('label_blockchain-network')" class="is-required">
-        <el-input v-model="form.network" :placeholder="$t('label_blockchain')" disabled />
+        <el-input v-model="form.networkName" :placeholder="$t('label_blockchain')" disabled />
       </el-form-item>
       <el-form-item :label="$t('label_token-standard')" class="is-required">
-        <el-input v-model="form.tokenStandard" :placeholder="$t('label_token-standard')" disabled />
+        <el-input v-model="form.network" :placeholder="$t('label_token-standard')" disabled />
       </el-form-item>
       <el-form-item :label="$t('label_creator')" class="creator is-required hide-arrow">
-        <el-select v-model="form.creator" class="select-prefix-icon w-100" disabled>
-          <template slot="prefix">
-            <div class="d-iflex select-icon">
-              <base-icon icon="icon-lynk" size="24" class="d-iflex" />
-            </div>
-          </template>
-        </el-select>
+        <el-input :value="`${form.creatorName} (${form.creatorUsername})`" disabled />
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script lang="ts">
-  import { Component, Mixins } from 'vue-property-decorator'
+  import { Component, Mixins, Prop } from 'vue-property-decorator'
   import FormatInputMixin from '@/mixins/formatInput'
   import { namespace } from 'vuex-class'
+  import { ITabBlockchain } from '../../interface'
 
   const bcNft = namespace('bcNft')
 
   @Component
   export default class FormBlockchain extends Mixins(FormatInputMixin) {
-    @bcNft.State('initBlockchain') form!: Record<string, any>
+    @Prop({ required: false, type: String, default: 'add' }) typePopup!: 'add' | 'edit'
+
+    @bcNft.State('initBlockchain') form!: ITabBlockchain
   }
 </script>
 
@@ -62,17 +59,6 @@
 
       &-item:last-child {
         margin-bottom: 0;
-      }
-      .creator {
-        .el-input__inner {
-          padding-left: 40px;
-        }
-        .el-input__prefix {
-          margin-left: 7px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
       }
     }
   }

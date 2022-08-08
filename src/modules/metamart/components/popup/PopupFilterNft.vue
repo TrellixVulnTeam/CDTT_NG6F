@@ -2,14 +2,14 @@
 <template>
   <base-popup name="popup-filter-nft" class="popup-filter-collection" width="600px" :close="handleClose">
     <div class="title-popup" slot="title">
-      <span>Filter</span>
+      <span>{{ $t('metamart.nft.filter.title') }}</span>
     </div>
     <div class="content" v-loading="isLoading">
     <div class="content-block">
-      <p class="content-block__title">Collection</p>
+      <p class="content-block__title">{{ $t('metamart.nft.filter.collection') }}</p>
       <el-select 
-        v-model="filterCollection.collection" 
-        placeholder="Collection"
+        v-model="filterNft.collectionId" 
+        :placeholder="$t('metamart.nft.filter.collection')"
         filterable
         remote
         :remote-method="remoteCollectionList"
@@ -20,10 +20,10 @@
       </el-select>
     </div>
      <div class="content-block">
-        <p class="content-block__title">Creator</p>
+        <p class="content-block__title">{{ $t('metamart.nft.filter.creator') }}</p>
         <el-select 
-          v-model="filterCollection.creator" 
-          placeholder="Creator" 
+          v-model="filterNft.creatorId" 
+          :placeholder="$t('metamart.nft.filter.creator')" 
           class="select-prefix-icon"
           filterable
           remote
@@ -47,12 +47,13 @@
         </el-select>
       </div>
       <div class="content-block">
-        <p class="content-block__title">Category</p>
+        <p class="content-block__title">{{ $t('metamart.nft.filter.category') }}</p>
         <el-select 
           filterable
           remote
-          v-model="filterCollection.categoryId" 
-          placeholder="Category"
+          :remote-method="remoteCategoryList"
+          v-model="filterNft.categoryId" 
+          :placeholder="$t('metamart.nft.filter.category')"
         >
           <el-option 
             v-for="(option, index) in categories" 
@@ -66,25 +67,25 @@
       </div>
 
       <div class="content-block">
-        <p class="content-block__title">Network</p>
-        <el-select v-model="filterCollection.network" placeholder="Network">
+        <p class="content-block__title">{{ $t('metamart.nft.filter.network') }}</p>
+        <el-select v-model="filterNft.network" :placeholder="$t('metamart.nft.filter.network')">
           <el-option v-for="(option, index) in networks" :label="option.networkName" :value="option.networkName" :key="index"></el-option>
         </el-select>
       </div>
       <div class="content-block">
-        <p class="content-block__title">Status</p>
-        <el-select v-model="filterCollection.status" placeholder="Status">
+        <p class="content-block__title">{{ $t('metamart.nft.filter.status') }}</p>
+        <el-select v-model="filterNft.statusBlockchain" :placeholder="$t('metamart.nft.filter.status')">
           <el-option v-for="(option, index) in status" :label="option" :value="option" :key="index"></el-option>
         </el-select>
       </div>
       <div class="content-block">
-        <p class="content-block__title">Created Date</p>
+        <p class="content-block__title">{{ $t('metamart.nft.filter.created-date') }}</p>
         <div class="content-block__inputs">
           <el-date-picker
-            placeholder="From Date"
+            :placeholder="$t('metamart.nft.filter.from-date')"
             format="MM/dd/yyyy"
             value-format="timestamp"
-            v-model="filterCollection.date1"
+            v-model="filterNft.fromCreatedAt"
             prefix-icon="el-icon-date"
             type="date"
             class="input-small"
@@ -92,10 +93,10 @@
           ></el-date-picker>
           <span style="display: block; width: 8px; height: 2px; background-color: #dbdbdb"></span>
           <el-date-picker
-            placeholder="To Date"
+            :placeholder="$t('metamart.nft.filter.to-date')"
             format="MM/dd/yyyy"
             value-format="timestamp"
-            v-model="filterCollection.date2"
+            v-model="filterNft.toCreatedAt"
             prefix-icon="el-icon-date"
             type="date"
             class="input-small"
@@ -109,8 +110,8 @@
     <div class="footer" slot="footer">
       <div class="wrap-button">
         <div class="btn-right">
-          <el-button class="btn-default btn-400 btn-h-40 btn-close" @click="handleReset">Reset</el-button>
-          <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border" style="font-size: 14px; font-weight: 600" @click="handleApply">Apply</el-button>
+          <el-button class="btn-default btn-400 btn-h-40 btn-close" @click="handleReset">{{ $t('metamart.button.reset') }}</el-button>
+          <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border" style="font-size: 14px; font-weight: 600" @click="handleApply">{{ $t('metamart.button.apply') }}</el-button>
         </div>
       </div>
     </div>
@@ -120,6 +121,7 @@
 <script lang="ts">
   import { Component, Mixins, Prop, Watch } from 'vue-property-decorator'
   import PopupMixin from '@/mixins/popup'
+  import EventBus from '@/utils/eventBus'
 
   @Component
   export default class PopupFilterNft extends Mixins(PopupMixin) {
@@ -128,20 +130,88 @@
     @Prop() categories: any
     @Prop() networks: any
 
-    status = ['On-chain', 'Off-chain']
+    get pickerOption(): any {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const _this = this
+      return {
+        disabledDate(time: Date) {
+          return _this.disableTime(time, 'from-to')
+        }
+      }
+    }
+    get pickerOption2(): any {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const _this = this
+      return {
+        disabledDate(time: Date) {
+          return _this.disableTime(time, 'to-from')
+        }
+      }
+    }
+    disableTime(time: Date, type: string): any {
+      if (type === 'from-to') {
+        if (this.filterNft.fromCreatedAt) {
+          return time.getTime() / 1000 < new Date(this.filterNft.fromCreatedAt).getTime() / 1000 - 7 * 60 * 60
+        }
+      } else {
+        if (this.filterNft.toCreatedAt) {
+          return time.getTime() / 1000 > new Date(this.filterNft.toCreatedAt).getTime() / 1000
+        }
+      }
+    }
 
-    filterCollection = {
-      creator: '',
+    status = ['ON_CHAIN', 'OFF_CHAIN']
+
+    filterNft = {
+      collectionId: '',
+      creatorId: '',
       categoryId: '',
       network: '',
-      date1: '',
-      date2: '',
-      status: '',
-      collection: ''
+      statusBlockchain: '',
+      fromCreatedAt: '',
+      toCreatedAt: '',
     }
 
     handleClose(): void {
       this.$emit('reset-query')
+      this.setOpenPopup({
+        popupName:'popup-filter-nft',
+        isOpen: false
+      })
+    }
+
+    handleReset(): void {
+      this.filterNft = {
+        collectionId: '',
+        creatorId: '',
+        categoryId: '',
+        network: '',
+        statusBlockchain: '',
+        fromCreatedAt: '',
+        toCreatedAt: '',
+      }
+      EventBus.$emit('filter', this.filterNft)
+      this.handleClose()
+    }
+
+    handleApply(): void {
+      let fromDate = ''
+      let toDate = ''
+      if (this.filterNft.fromCreatedAt) {
+        fromDate = this.$options.filters?.formatReferral(this.filterNft.fromCreatedAt)
+      }
+      if (this.filterNft.toCreatedAt) {
+        toDate = this.$options.filters?.formatReferral(this.filterNft.toCreatedAt + 86399000)
+      }
+      this.filterNft = {
+        ...this.filterNft,
+        //@ts-ignore
+        network: this.filterNft.network.match(/\(([^)]+)\)/)[1],
+        fromCreatedAt: fromDate,
+        toCreatedAt: toDate
+      }
+      EventBus.$emit('filter', this.filterNft)
+      this.handleClose()
     }
 
     //Collection
@@ -158,6 +228,11 @@
     }
     loadMoreCreator(): void {
       this.$emit('load-more-creator')
+    }
+
+    //Category
+    remoteCategoryList(query: string): void {
+      this.$emit('remote-category', query)
     }
   }
 </script>
