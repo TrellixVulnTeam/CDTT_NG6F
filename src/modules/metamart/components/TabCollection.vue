@@ -62,17 +62,19 @@
         </base-table>
       </div>
     </div>
+    <popup-edit-collection :editData="editData"/>
   </div>
 </template>
 
 <script lang="ts">
 import {Component, Mixins, Prop, } from 'vue-property-decorator'
-import CardCollection from "@/modules/metamart/components/CardCollection.vue";
+// import CardCollection from "@/modules/metamart/components/CardCollection.vue";
 // import BasePagination from "@/components/base/pagination/BasePagination.vue";
+import PopupEditCollection from './popup/PopupEditCollection.vue'
 import {PaginationInterface} from "@/interface";
 import PopupMixin from '@/mixins/popup';
 @Component({
-  components: { CardCollection}
+  components: { PopupEditCollection }
 })
 export default class TabCollection extends Mixins(PopupMixin) {
   //Props
@@ -80,6 +82,8 @@ export default class TabCollection extends Mixins(PopupMixin) {
   // @Prop({ required: false, type: String, default: '' }) paginationInfo!: string
   @Prop({ required: true, type: Array }) data!: Array<Record<string, any>>
   @Prop({required: false, type: Object, default: () => {return {}}})query!: PaginationInterface;
+
+  editData: Record<string, any> = {}
 
   get getPaginationInfo(): any {
     return this.$t('paging.collection')
@@ -99,6 +103,11 @@ export default class TabCollection extends Mixins(PopupMixin) {
   }
   handleEdit(row: any): void {
     console.log("Edit Clicked:", row);
+    this.editData = row
+    this.setOpenPopup({
+      popupName: 'popup-edit-collection',
+      isOpen: true
+    })
   }
   handleDelete(row: any): void {
     console.log("Delete Clicked:", row);

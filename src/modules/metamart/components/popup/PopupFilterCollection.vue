@@ -46,7 +46,7 @@
       <div class="content-block">
         <p class="content-block__title">{{$t('metamart.collection.filter.network')}}</p>
         <el-select v-model="filterCollection.network" :placeholder="$t('metamart.collection.filter.network')">
-          <el-option v-for="(option, index) in networks" :label="option.networkName" :value="option.network" :key="index"></el-option>
+          <el-option v-for="(option, index) in networks" :label="option.networkName" :value="option.networkName" :key="index"></el-option>
         </el-select>
       </div>
       <div class="content-block">

@@ -99,7 +99,7 @@
       return (this.query.page - 1) * this.query.limit + index + 1
     }
     handleSelectable(row: Record<string, any>) {
-      if (row.status === 'On-chain') {
+      if (row.isOnChain === 'YES') {
         return false
       } else {
         return true
