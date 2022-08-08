@@ -22,6 +22,14 @@ export class AuthRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+  async getEmailVerification(params: Record<string, any>): Promise<any> {
+    try {
+      const rs = await request.post(`${this.prefix}/0/resendCode`, params )
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
 
   async getVisitorId(): Promise<string> {
     try {

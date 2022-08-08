@@ -51,6 +51,9 @@
       @edit="handleEditCategory"
       @create="handleOpenCategory"
       @load="debounceInit"
+      @delete="handleDeleteCategory"
+      @delete-category="handleGetCategoryId"
+      :idDelete ="idDelete"
     />
 
     <popup-choosetype @continues="handleToPopupform($event)" />
@@ -59,7 +62,6 @@
     <popup-create-collection />
     <popup-create-nft />
     <popup-public-onchain />
-    <popup-delete :type="deleteType" />
     <popup-nft-detail />
   </div>
 </template>
@@ -142,10 +144,11 @@
       orderBy: 'desc',
       type: null
     }
+    idDelete : string | number = 0
     debounceInit = debounce(() => {
-      if (this.$route.name === "Category") {
+      if (this.$route.name === 'Category') {
         this.getCategoryList()
-      } else if (this.$route.name === "Collection") {
+      } else if (this.$route.name === 'Collection') {
         this.getCollection()
       }
     }, 300)
@@ -156,6 +159,10 @@
       this.searchData = data
       console.log(this.params)
       this.debounceInit()
+    }
+    handleGetCategoryId(id: number | string): void {
+      this.idDelete = id
+      console.log(this.idDelete, 'id delete')
     }
 
     deleteType = ''
@@ -209,7 +216,7 @@
     async getCollection(): Promise<void> {
       try {
         this.isLoading = true
-        const result = await apiNft.getNftCollection({...this.query, orderBy: '', total: null, type: null, sortBy: null, search: this.searchData })
+        const result = await apiNft.getNftCollection({ ...this.query, orderBy: '', total: null, type: null, sortBy: null, search: this.searchData })
         console.log('collection called', result)
         this.collectionData = result.content || []
         this.query.total = result.totalElements
@@ -289,6 +296,12 @@
         isOpen: true
       })
     }
+    handleDeleteCategory(): void {
+      this.setOpenPopup({
+        popupName: 'popup-metamart-delete',
+        isOpen: true
+      })
+    }
     handleToPopupform(direction: string): void {
       console.log(direction)
       if (direction === '2') {
@@ -333,11 +346,11 @@
           isOpen: true
         })
       } else if (command === 'delete-nft') {
-        this.deleteType = 'delete-nft'
-        this.setOpenPopup({
-          popupName: 'popup-metamart-delete',
-          isOpen: true
-        })
+        // this.deleteType = 'delete-nft'
+        // this.setOpenPopup({
+        //   popupName: 'popup-metamart-delete',
+        //   isOpen: true
+        // })
       }
     }
 
