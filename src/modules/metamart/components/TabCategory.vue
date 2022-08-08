@@ -31,24 +31,26 @@
       <!-- <base-pagination :table="table" :info="'nhóm'" @sizeChange="handleSizeChange" @currentChange="handleCurrentChange"/> -->
     </div>
     <popup-create-category :idCategory="parentIdProp" :listCategory="listCategory" @load="loadData"/>
-    <popup-delete />
     <popup-edit-category :dataDetail="dataDetail" @load="loadData" :listCategory="listCategory"/>
+    <popup-delete :idDelete="idDelete" />
   </div>
 </template>
 <script lang="ts">
   import { Component, Watch, Prop } from 'vue-property-decorator'
   import PopupMixin from '@/mixins/popup'
   import UnitItem from './unit/UnitItem.vue'
-  import PopupDelete from './popup/PopupDelete.vue'
   import PopupCreateCategory from './popup/PopupCreateCategory.vue'
   import PopupEditCategory from './popup/PopupEditCategory.vue'
+  import getRepository from '@/services'
+  import { NftRepository } from '@/services/repositories/nft'
+  import PopupDelete from './popup/PopupDelete.vue'
 
   @Component({
     components: {
       UnitItem,
-      PopupDelete,
       PopupCreateCategory,
-      PopupEditCategory
+      PopupEditCategory,
+      PopupDelete
     }
   })
   export default class TabCategory extends PopupMixin {
@@ -60,12 +62,12 @@
     isSearch = false
     locationId = 0
     parentIdProp: any = null
-    type = ''
     idArea = ''
     @Prop({ required: true, type: Array }) data!: Array<Record<string, any>>
-    deleteId: any = 0
     categoryIds: any = []
     idCategory: any = null
+    idDelete: any = null
+    type = 'delete-category'
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     editItem(data: Record<string, any>) {
       this.dataDetail = data
@@ -82,14 +84,13 @@
       // console.log('idParent',id)
     }
     deleteItem(data: Record<string, any>): void {
-      this.deleteId = data.id
-      console.log(">>>data", data);
+      this.idDelete = data.id
+      console.log('>>>data', data)
+      console.log(this.idDelete)
+      this.$emit('delete-category', data.id)
     }
     handleDelete(): void {
-      this.setOpenPopup({
-        popupName: 'popup-metamart-delete',
-        isOpen: true
-      })
+      this.$emit('delete')
     }
     handleCreate(): void {
       this.$emit('create')

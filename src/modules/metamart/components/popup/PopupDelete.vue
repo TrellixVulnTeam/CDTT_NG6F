@@ -32,10 +32,18 @@
 
 <script lang="ts">
   import PopupMixin from '@/mixins/popup'
-  import { Component, Mixins, Prop } from 'vue-property-decorator'
+  import { Component, Mixins, Prop, Emit } from 'vue-property-decorator'
   import PopupVerifyEmail from './PopupVerifyEmail.vue'
   import PopupSuccess from './PopupSuccess.vue'
   import EventBus from '@/utils/eventBus'
+  import { namespace } from 'vuex-class'
+  const beAuth = namespace('beAuth')
+  import getRepository from '@/services'
+  import { AuthRepository } from '@/services/repositories/auth'
+  import { NftRepository } from '@/services/repositories/nft'
+
+  const apiUser: AuthRepository = getRepository('auth')
+  const apiNft: NftRepository = getRepository('nft')
 
   @Component({
     components: { PopupVerifyEmail, PopupSuccess }
@@ -43,8 +51,51 @@
   export default class PopupDelete extends Mixins(PopupMixin) {
     @Prop({ required: false, type: Array, default: [] }) selectedNft!: Array<Record<string, any>>
     @Prop({ required: true, type: String, default: '' }) type!: string
+    @Prop({ required: false, type: Object, default: {} }) dataDetail!: Record<string, any>
+    @beAuth.State('user') user!: Record<string, any>
+    @Prop() idDelete!: any
+
+    value = ''
+
+    emailVerification = {
+      email: this.user.email,
+      type: 'EMAIL',
+      userType: 'EMPLOYEE'
+    }
 
     isHaveNft = false
+    async getEmailVerification(): Promise<void> {
+      let params = {
+        email: this.user.email,
+        type: 'EMAIL',
+        userType: 'EMPLOYEE'
+      }
+      await apiUser
+        .getEmailVerification(params)
+        .then((res: any) => {
+          this.$message.success('Code sent, please check your email')
+          console.log(res)
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    }
+    async deleteCategory(): Promise<void> {
+      let params = {
+        verificationCode: this.value,
+        type: 'EMAIL',
+        email: this.user.email
+      }
+      console.log(params, 'params xoa category')
+      await apiNft
+        .deleteCategory(this.idDelete, params)
+        .then((res: any) => {
+          this.$message.success('Success')
+        })
+        .catch(e => {
+          this.$message.error('Error')
+        })
+    }
 
     created(): void {
       EventBus.$on('closePopup', this.handleCancel)
@@ -67,18 +118,25 @@
           popupName: 'popup-metamart-verify-email',
           isOpen: true
         })
+        console.log(this.type)
+      }
+      if (this.$route.name === 'Category') {
+        console.log('This is category')
+        this.getEmailVerification()
       }
     }
-    handleDelete(): void {
+    handleDelete(value: any): void {
+      if (this.$route.name === 'Category') {
+        this.value = value
+        this.deleteCategory()
+        console.log(this.idDelete)
+      }
       //if success
-      this.setOpenPopup({
-        popupName: 'popup-metamart-success',
-        isOpen: true
-      })
-      this.setOpenPopup({
-        popupName: 'popup-metamart-verify-email',
-        isOpen: false
-      })
+      // Tạm đóng cái này
+      // this.setOpenPopup({
+      //   popupName: 'popup-metamart-verify-email',
+      //   isOpen: false
+      // })
     }
   }
 </script>
