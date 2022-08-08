@@ -213,39 +213,39 @@
         sorts = [
           {
             command: 'ITEM',
-            label: 'Item',
+            label: this.$i18n.t('nft.sort.item'),
             divided: false,
             i18n: 'nft.sort.item'
           },
           {
             command: 'CREATOR',
-            label: 'Creator',
+            label: this.$i18n.t('nft.sort.creator'),
             divided: false,
-            i18n: 'nft.sort.item'
+            i18n: 'nft.sort.creator'
           },
           {
             command: 'COLLECTION',
-            label: 'Collection',
+            label: this.$i18n.t('nft.sort.collection'),
             divided: false,
-            i18n: 'nft.sort.item'
+            i18n: 'nft.sort.collection'
           },
           {
             command: 'CATEGORY',
-            label: 'Category',
+            label: this.$i18n.t('nft.sort.category'),
             divided: false,
-            i18n: 'nft.sort.item'
+            i18n: 'nft.sort.category'
           },
           {
             command: 'NETWORK',
-            label: 'Network',
+            label: this.$i18n.t('nft.sort.network'),
             divided: false,
-            i18n: 'nft.sort.item'
+            i18n: 'nft.sort.network'
           },
           {
             command: 'BLOCKCHAIN_STATUS',
-            label: 'Status',
+            label: this.$i18n.t('nft.sort.status'),
             divided: false,
-            i18n: 'nft.sort.item'
+            i18n: 'nft.sort.status'
           },
         ]
       }
