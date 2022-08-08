@@ -1,3 +1,4 @@
+import { ITabBlockchain } from './../../interface/index'
 import { filter, forEach } from 'lodash'
 import { MutationTree } from 'vuex'
 import { IAuth } from '.'
@@ -14,6 +15,19 @@ const mutations: MutationTree<IAuth> = {
   },
   SET_LIST_CATEGORY: (state, data) => {
     state.listCategory = data
+  },
+  SET_INIT_FORM_BLOCKCHAIN: (state, collection: ITabBlockchain) => {
+    state.initBlockchain = {
+      totalSupply: '',
+      totalMint: '',
+      contractAddress: collection.contractAddress,
+      tokenId: '',
+      network: collection.network,
+      networkName: collection.networkName,
+      creatorName: collection.creatorName,
+      creatorUsername: collection.creatorUsername,
+      creatorId: collection.creatorId
+    }
   },
   SET_LIST_META: (state, data) => {
     forEach(data.metaTypes, type => {
