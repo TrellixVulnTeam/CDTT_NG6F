@@ -177,8 +177,10 @@
     handleFilter(value: Record<string, any>) {
       console.log("Filter:", value);
       this.query = {...this.query, ...value}
-      if(this.$route.name === "Nft") {
+      if (this.$route.name === "Nft") {
         this.getNftItem()
+      } else if (this.$route.name === "Collection") {
+        this.getCollection()
       }
     }
 
@@ -272,7 +274,6 @@
         total: 20,
       }
       if (this.isChangeTab && tab.id === 2) {
-        console.log(this.query);
         this.getCollection()
       } else if (this.isChangeTab && tab.id === 3) {
         this.getCategoryList()
