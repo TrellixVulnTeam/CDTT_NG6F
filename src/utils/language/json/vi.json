@@ -537,7 +537,13 @@
       "earliest": "Ngày tạo sớm nhất",
       "oldest": "Ngày tạo cũ nhất",
       "price-highToLow": "Giá: Từ cao xuống thấp",
-      "price-lowToHigh": "Giá: Từ thấp lên cao"
+      "price-lowToHigh": "Giá: Từ thấp lên cao",
+      "item": "Sản phẩm",
+      "creator": "Người tạo",
+      "collection": "Bộ sưu tập",
+      "category": "Danh mục",
+      "network": "Mạng",
+      "status": "Trạng thái"
     },
     "filter": {
       "category": "Danh mục",
@@ -1312,6 +1318,27 @@
         "creator": "\"Người tạo\" không được phép để trống",
         "category": "\"Danh mục\" không được phép để trống",
         "template": "\"Mẫu\" không được phép để trống"
+      },
+      "placeholder": {
+        "name": "Nhập tên bộ sưu tập",
+        "description": "e. g. \"Sau khi mua, bạn sẽ có thể nhận được chiếc áo phông thật\"",
+        "contract-address": "Chọn một địa chỉ hợp đồng",
+        "creator": "Chọn người tạo",
+        "category": "Chọn danh mục",
+        "template": "Chọn mẫu"
+      }
+    },
+    "nft": {
+      "filter": {
+        "title": "BỘ LỌC",
+        "collection": "Bộ sưu tập",
+        "creator": "Người tạo",
+        "category": "Danh mục",
+        "network": "Mạng",
+        "status": "Trạng thái",
+        "created-date": "Ngày tạo",
+        "from-date": "Từ ngày",
+        "to-date": "Đến ngày"
       }
     },
     "success": {

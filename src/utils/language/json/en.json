@@ -561,7 +561,13 @@
       "earliest": "Earliest",
       "oldest": "Oldest",
       "price-highToLow": "Price: High to low",
-      "price-lowToHigh": "Price: Low to high"
+      "price-lowToHigh": "Price: Low to high",
+      "item": "Item",
+      "creator": "Creator",
+      "collection": "Collection",
+      "category": "Category",
+      "network": "Network",
+      "status": "Status"
     },
     "filter": {
       "category": "Category",
@@ -1343,6 +1349,19 @@
         "creator": "Choose creator",
         "category": "Choose category",
         "template": "Choose template"
+      }
+    },
+    "nft": {
+      "filter": {
+        "title": "FILTER",
+        "collection": "Collection",
+        "creator": "Creator",
+        "category": "Category",
+        "network": "Network",
+        "status": "Status",
+        "created-date": "Created Date",
+        "from-date": "From Date",
+        "to-date": "To date"
       }
     },
     "success": {
