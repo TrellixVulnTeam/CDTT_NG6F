@@ -1,32 +1,35 @@
 <template>
   <base-popup name="popup-add-map" class="popup-add-map" width="600px" :close="handleClose" :open="handleOpen">
     <div class="title-popup" slot="title">
-      <span>{{ typePopup === 'add' ? $t('popup_add-file') : $t('popup_edit-file') }}</span>
+      <span>{{ getName }}</span>
     </div>
     <div class="content">
       <el-form :model="form" :rules="rules" ref="popup-add-map">
-        <el-form-item :label="$t('label_name')" prop="name">
-          <el-input v-model="form.name" :placeholder="$t('label_name')" />
+        <el-form-item :label="$t('label_name')" prop="metaName">
+          <el-input v-model="form.metaName" :placeholder="$t('label_name')" />
         </el-form-item>
         <el-form-item :label="$t('label_annotate')">
-          <el-input v-model="form.annotate" :placeholder="$t('label_annotate')" />
+          <el-input v-model="form.metaAnnotation" :placeholder="$t('label_annotate')" />
         </el-form-item>
-        <el-form-item :label="$t('label_type')" prop="type">
+        <!-- <el-form-item :label="$t('label_type')" prop="type">
           <el-select v-model="form.type" class="w-100">
             <el-option :label="$t('label_number')" value="number" />
             <el-option :label="$t('label_text')" value="text" />
           </el-select>
+        </el-form-item> -->
+        <el-form-item :label="$t('label_long-desc')" prop="metaDescription">
+          <el-input v-model="form.metaDescription" :placeholder="$t('label_long-desc')" />
         </el-form-item>
-        <el-form-item :label="$t('label_long-desc')" prop="desc">
-          <el-input v-model="form.desc" :placeholder="$t('label_long-desc')" />
-        </el-form-item>
-        <el-form-item v-if="form.type === 'number'" :label="$t('label_value')" prop="value">
-          <el-input type="number" v-model="form.value" :placeholder="$t('label_value')" />
+        <el-form-item :label="$t('label_value')" prop="metaValue">
+          <el-input v-model="form.metaValue" :placeholder="$t('label_value')" />
         </el-form-item>
       </el-form>
     </div>
     <div class="footer" slot="footer">
-      <div class="be-flex wrap-button">
+      <div class="be-flex wrap-button" :class="typePopup === 'add' ? 'jc-flex-end' : 'jc-space-between'">
+        <div class="left" v-if="typePopup === 'edit'">
+          <el-button class="btn-default btn-close btn-h-40 mr-16" @click="handleDelete">{{ $t('button.delete') }}</el-button>
+        </div>
         <div class="btn-right">
           <el-button class="btn-default btn-close btn-h-40 mr-16" @click="handleCancel">{{ $t('button.cancel') }}</el-button>
           <button type="button" class="btn-default-bg text-sm ml-auto add-member" @click="handleSubmit">
@@ -43,23 +46,32 @@
 
   import PopupMixin from '@/mixins/popup'
 
+  import { namespace } from 'vuex-class'
+  import { IMetaMap, IMetaTypes } from '../../interface'
+  import filter from 'lodash/filter'
+  const bcNft = namespace('bcNft')
+
   @Component({
     components: {}
   })
   export default class PopupAddMap extends Mixins(PopupMixin) {
     @Prop({ required: false, type: String, default: 'add' }) typePopup!: string
     @Prop({ required: false, type: Object, default: () => ({}) }) rowCurrent!: Record<string, any>
+    @Prop({ required: false, type: Number, default: 0 }) idTabActive!: number
 
-    form: Record<string, any> = {
-      name: '',
-      annotate: '',
-      type: 'number',
-      desc: '',
-      value: ''
+    @bcNft.State('metaTypes') metaTypes!: IMetaTypes[]
+
+    form: IMetaMap = {
+      metaName: '',
+      metaAnnotation: '',
+      metaValueType: 'MAP',
+      metaDescription: '',
+      metaValue: '',
+      metaTypeId: 0
     }
 
     rules: Record<string, any> = {
-      name: [
+      metaName: [
         {
           required: true,
           message: this.$t('validate_must-enter-name'),
@@ -73,20 +85,30 @@
           trigger: 'change'
         }
       ],
-      desc: [
+      metaDescription: [
         {
           required: true,
           message: this.$t('validate_must-enter-desc'),
           trigger: 'blur'
         }
       ],
-      value: [
+      metaValue: [
         {
           required: true,
           message: this.$t('validate_must-enter-value'),
           trigger: 'blur'
         }
       ]
+    }
+
+    get getName(): string {
+      if (this.metaTypes.length) {
+        const type = filter(this.metaTypes, elm => elm.metaTypeId === this.idTabActive)
+        const language = localStorage.getItem('bc-lang') || ''
+        const parseJson = JSON.parse(type[0].metaTypeName)
+        return this.typePopup === 'add' ? this.$t('popup_add') + ' ' + parseJson[language] : this.$t('popup_edit') + ' ' + parseJson[language]
+      }
+      return ''
     }
 
     handleClose(): void {
@@ -98,11 +120,12 @@
         this.form = { ...this.form, ...this.rowCurrent }
       } else {
         this.form = {
-          name: '',
-          annotate: '',
-          type: 'number',
-          desc: '',
-          value: ''
+          metaName: '',
+          metaAnnotation: '',
+          metaValueType: 'MAP',
+          metaDescription: '',
+          metaValue: '',
+          metaTypeId: this.idTabActive
         }
       }
     }
@@ -126,6 +149,10 @@
         isOpen: false
       })
     }
+
+    handleDelete(): void {
+      this.$emit('confirmDelete')
+    }
   }
 </script>
 
@@ -133,7 +160,6 @@
   .popup-add-map {
     .footer {
       .wrap-button {
-        justify-content: flex-end;
         .add-member {
           height: 40px;
           font-weight: 400;

@@ -62,3 +62,12 @@ export interface IMetaDataFile {
   metaValue: string
   metaValueType: 'FILE'
 }
+
+export interface IMetaMap {
+  metaName?: string
+  metaAnnotation?: string
+  metaValueType?: string
+  metaValue?: string
+  metaDescription?: string
+  [x: string]: any
+}

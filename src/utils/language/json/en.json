@@ -559,7 +559,7 @@
     "sort": {
       "latest": "Latest",
       "earliest": "Earliest",
-      "oldest":"Oldest",
+      "oldest": "Oldest",
       "price-highToLow": "Price: High to low",
       "price-lowToHigh": "Price: Low to high"
     },
@@ -1419,5 +1419,7 @@
   "label_feature-status": "Feature status",
   "label_add-feature": "Add feature",
   "label_upload-desc": "Drag and drop or",
-  "label_click-to-upload": "Click to upload"
+  "label_click-to-upload": "Click to upload",
+  "popup_add": "Add",
+  "popup_edit": "Edit"
 }

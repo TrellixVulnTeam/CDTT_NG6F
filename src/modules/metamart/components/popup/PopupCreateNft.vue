@@ -12,7 +12,9 @@
           :class="tabActive === item.value ? 'tab-active' : null"
           @click="tabActive = item.value"
         >
-          {{ item.title }}
+          <p>{{ item.title }}</p>
+          <base-icon v-if="item.value === 'INFO' && isInvalidInfo" icon="icon-alert" size="24" class="d-iflex" style="padding-left: 10px" />
+          <base-icon v-if="item.value === 'BLOCKCHAIN' && isInvalidBlockchain" icon="icon-alert" size="24" class="d-iflex" style="padding-left: 10px" />
         </div>
       </div>
       <div class="content__main">
@@ -26,7 +28,7 @@
       <div class="wrap-button">
         <div class="btn-right">
           <el-button class="btn-default btn-400 btn-h-40 btn-close" @click="handleCancel">{{ $t('button.cancel') }}</el-button>
-          <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border btn-save" style="font-size: 14px">{{ $t('button.create') }}</el-button>
+          <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border btn-save" style="font-size: 14px" @click="handleCreateNft">{{ $t('button.create') }}</el-button>
         </div>
       </div>
     </div>
@@ -34,7 +36,7 @@
 </template>
 
 <script lang="ts">
-  import { Component, Mixins, Prop } from 'vue-property-decorator'
+  import { Component, Mixins, Prop, Watch } from 'vue-property-decorator'
 
   import TabInfo from '../setup/TabInfo.vue'
   import TabBlockchain from '../setup/TabBlockchain.vue'
@@ -48,6 +50,7 @@
   const apiNft: NftRepository = getRepository('nft')
 
   import { namespace } from 'vuex-class'
+  import { forEach, some } from 'lodash'
   const bcNft = namespace('bcNft')
 
   @Component({ components: { TabInfo, TabBlockchain, TabSetting, TabMetaData } })
@@ -60,7 +63,11 @@
     @bcNft.Mutation('RESET_INIT') resetInit!: () => void
     @bcNft.Mutation('SET_INIT_FORM_BLOCKCHAIN') setInitFormBlockchain!: (collection: Record<string, any>) => void
     @bcNft.Action('getTemplateMetaData') getTemplateMetaData!: (id: number) => void
-    @bcNft.State('initInfo') form!: Record<string, any>
+
+    @bcNft.State('initInfo') initInfo!: Record<string, any>
+    @bcNft.State('initBlockchain') initBlockchain!: Record<string, any>
+    @bcNft.State('metaDatas') metaDatas!: Array<Record<string, any>>
+    @bcNft.State('initSetting') initSetting!: Record<string, any>
 
     arrTab: Array<Record<string, any>> = [
       {
@@ -83,6 +90,28 @@
 
     tabActive = 'INFO'
 
+    isInvalidInfo = false
+    isInvalidBlockchain = false
+
+    @Watch('initInfo', { deep: true, immediate: true }) handleWatchInfo(): void {
+      if (this.isInvalidInfo) {
+        const form = {
+          ...this.initInfo,
+          ...this.initBlockchain,
+          ...this.initSetting,
+          totalSupply: this.initBlockchain.totalMint,
+          avatar: this.initInfo.thumb,
+          metaDatas: this.metaDatas
+        }
+        this.checkIsValidForm(form)
+      }
+    }
+    @Watch('initBlockchain', { deep: true, immediate: true }) handleWatchBlockchain(): void {
+      if (this.isInvalidBlockchain) {
+        this.checkIsValidBlockchain()
+      }
+    }
+
     get getComponent(): string {
       switch (this.tabActive) {
         case 'INFO':
@@ -101,12 +130,14 @@
     }
 
     async handleOpen(): Promise<void> {
+      this.isInvalidInfo = false
+      this.isInvalidBlockchain = false
       this.tabActive = 'INFO'
       const result = await apiNft.getNftCollection({ page: 1, limit: 1000 })
       const listCategory = await apiNft.getCategories({ parentId: result.content[0].categoryId, onlyOneTree: 1 })
 
       if (this.typePopup === 'add') {
-        this.setInitInfo({ ...this.form, collectionId: result.content[0].id })
+        this.setInitInfo({ ...this.initInfo, collectionId: result.content[0].id })
         this.setInitFormBlockchain(result.content[0])
       }
 
@@ -127,6 +158,55 @@
       this.getTemplateMetaData(collection.id)
     }
 
+    checkIsValidForm(form: Record<string, any>): void {
+      const listValueCheckInfo = ['categoryId', 'productCode', 'itemName', 'thumb', 'medias', 'shortDescription', 'description']
+
+      for (let index = 0; index < listValueCheckInfo.length; index++) {
+        if (listValueCheckInfo[index] === 'medias' && !form[listValueCheckInfo[index]].length) {
+          console.log(listValueCheckInfo[index])
+          this.isInvalidInfo = true
+          break
+        } else if (listValueCheckInfo[index] === 'description' && form[listValueCheckInfo[index]] === '<p><br></p>') {
+          this.isInvalidInfo = true
+          break
+        } else if (!form[listValueCheckInfo[index]]) {
+          this.isInvalidInfo = true
+          break
+        } else {
+          this.isInvalidInfo = false
+        }
+      }
+    }
+
+    checkIsValidBlockchain(): void {
+      if (!this.initBlockchain.totalMint) {
+        this.isInvalidBlockchain = true
+      } else {
+        this.isInvalidBlockchain = false
+      }
+    }
+
+    async handleCreateNft(): Promise<void> {
+      try {
+        const form = {
+          ...this.initInfo,
+          ...this.initBlockchain,
+          ...this.initSetting,
+          totalSupply: this.initBlockchain.totalMint,
+          avatar: this.initInfo.thumb,
+          metaDatas: this.metaDatas
+        }
+        this.checkIsValidForm(form)
+        this.checkIsValidBlockchain()
+
+        console.log(this.isInvalidInfo)
+
+        console.log(form)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
     handleCancel(): void {
       this.resetInit()
       this.setOpenPopup({
@@ -145,6 +225,8 @@
         width: 100px;
         margin-right: 100px;
         .menu-item {
+          display: flex;
+          align-items: center;
           &:hover {
             color: var(--bc-text-primary);
           }

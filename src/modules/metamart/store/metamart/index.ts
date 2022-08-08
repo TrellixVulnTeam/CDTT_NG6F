@@ -27,7 +27,7 @@ const state: IAuth = {
     collectionId: null,
     categoryId: null,
     shortDescription: '',
-    description: '<p><br></p>'
+    description: ''
   },
   initBlockchain: {
     totalSupply: '',

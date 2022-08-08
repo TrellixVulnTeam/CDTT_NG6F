@@ -1318,7 +1318,6 @@
       "title": "THÀNH CÔNG",
       "delete-collection": "Bạn đã xóa bộ sưu tập thành công"
     }
-  
   },
   "filter_pending": "Chờ xử lý",
   "filter_processing": "Đang xử lý",
@@ -1389,5 +1388,7 @@
   "label_feature-status": "Tình trạng tính năng",
   "label_add-feature": "Thêm tính năng",
   "label_upload-desc": "Kéo và thả hoặc",
-  "label_click-to-upload": "bấm để tải lên"
+  "label_click-to-upload": "bấm để tải lên",
+  "popup_add": "Thêm",
+  "popup_edit": "Sửa"
 }

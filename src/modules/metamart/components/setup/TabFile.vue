@@ -98,6 +98,15 @@
       this.setListMetaData(metaDatas)
 
       this.data = filter(this.data, elm => elm.id !== this.rowCurrent.id) as IMetaDataFile[]
+      this.$emit('update')
+      this.setOpenPopup({
+        popupName: 'popup-setup-delete',
+        isOpen: false
+      })
+      this.setOpenPopup({
+        popupName: 'popup-add-file',
+        isOpen: false
+      })
       // this.key = Math.random()
     }
 
@@ -109,12 +118,14 @@
       this.data[indexItemData] = form
       this.key = Math.random()
       this.$forceUpdate()
+      this.$emit('update')
     }
 
     handleConfirm(form: IMetaDataFile): void {
       const id = +uniqueId()
       this.metaDatas.push({ ...form, id })
       this.data.push({ ...form, id })
+      this.$emit('update')
     }
   }
 </script>

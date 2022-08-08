@@ -53,6 +53,25 @@ const mutations: MutationTree<IAuth> = {
       shortDescription: '',
       description: ''
     }
+    state.initBlockchain = {
+      totalSupply: '',
+      totalMint: '',
+      contractAddress: '',
+      tokenId: '',
+      network: '',
+      networkName: '',
+      creatorName: '',
+      creatorUsername: '',
+      creatorId: 0
+    }
+    state.initSetting = {
+      serviceFee: '',
+      creatorFee: '',
+      hotPosition: '',
+      topPosition: '',
+      statusTop: false,
+      statusHot: false
+    }
   }
 }
 export default mutations

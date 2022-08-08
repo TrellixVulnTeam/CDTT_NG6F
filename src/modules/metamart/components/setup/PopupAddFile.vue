@@ -1,7 +1,7 @@
 <template>
   <base-popup name="popup-add-file" class="popup-add-file" width="600px" :close="handleClose" :open="handleOpen">
     <div class="title-popup" slot="title">
-      <span>{{ typePopup === 'add' ? $t('popup_add-file') : $t('popup_edit-file') }}</span>
+      <span>{{ getName }}</span>
     </div>
     <div class="content">
       <el-form :model="form" :rules="rules" ref="popup-add-file">
@@ -41,8 +41,8 @@
       </el-form>
     </div>
     <div class="footer" slot="footer">
-      <div class="be-flex wrap-button">
-        <div class="left">
+      <div class="be-flex wrap-button" :class="typePopup === 'add' ? 'jc-flex-end' : 'jc-space-between'">
+        <div class="left" v-if="typePopup === 'edit'">
           <el-button class="btn-default btn-close btn-h-40 mr-16" @click="handleDelete">{{ $t('button.delete') }}</el-button>
         </div>
         <div class="btn-right">
@@ -69,6 +69,10 @@
 
   const apiUpload: UploadRepository = getRepository('upload')
 
+  import { IMetaTypes } from '../../interface'
+  import filter from 'lodash/filter'
+  const bcNft = namespace('bcNft')
+
   interface IForm {
     metaName?: string
     fileName?: string
@@ -86,6 +90,7 @@
     @Prop({ required: false, type: Number, default: 0 }) idTabActive!: number
 
     @bcAuth.State('user') user!: Record<string, any>
+    @bcNft.State('metaTypes') metaTypes!: IMetaTypes[]
 
     form: IForm = {
       metaName: '',
@@ -115,6 +120,16 @@
           trigger: 'change'
         }
       ]
+    }
+
+    get getName(): string {
+      if (this.metaTypes.length) {
+        const type = filter(this.metaTypes, elm => elm.metaTypeId === this.idTabActive)
+        const language = localStorage.getItem('bc-lang') || ''
+        const parseJson = JSON.parse(type[0].metaTypeName)
+        return this.typePopup === 'add' ? this.$t('popup_add') + ' ' + parseJson[language] : this.$t('popup_edit') + ' ' + parseJson[language]
+      }
+      return ''
     }
 
     get getIconFile(): string {
@@ -239,7 +254,6 @@
 
     .footer {
       .wrap-button {
-        justify-content: space-between;
         .add-member {
           height: 40px;
           font-weight: 400;
