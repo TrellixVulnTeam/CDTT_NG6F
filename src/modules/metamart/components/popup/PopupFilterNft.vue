@@ -2,14 +2,14 @@
 <template>
   <base-popup name="popup-filter-nft" class="popup-filter-collection" width="600px" :close="handleClose">
     <div class="title-popup" slot="title">
-      <span>Filter</span>
+      <span>{{ $t('metamart.nft.filter.title') }}</span>
     </div>
     <div class="content" v-loading="isLoading">
     <div class="content-block">
-      <p class="content-block__title">Collection</p>
+      <p class="content-block__title">{{ $t('metamart.nft.filter.collection') }}</p>
       <el-select 
         v-model="filterNft.collectionId" 
-        placeholder="Collection"
+        :placeholder="$t('metamart.nft.filter.collection')"
         filterable
         remote
         :remote-method="remoteCollectionList"
@@ -20,10 +20,10 @@
       </el-select>
     </div>
      <div class="content-block">
-        <p class="content-block__title">Creator</p>
+        <p class="content-block__title">{{ $t('metamart.nft.filter.creator') }}</p>
         <el-select 
           v-model="filterNft.creatorId" 
-          placeholder="Creator" 
+          :placeholder="$t('metamart.nft.filter.creator')" 
           class="select-prefix-icon"
           filterable
           remote
@@ -47,13 +47,13 @@
         </el-select>
       </div>
       <div class="content-block">
-        <p class="content-block__title">Category</p>
+        <p class="content-block__title">{{ $t('metamart.nft.filter.category') }}</p>
         <el-select 
           filterable
           remote
           :remote-method="remoteCategoryList"
           v-model="filterNft.categoryId" 
-          placeholder="Category"
+          :placeholder="$t('metamart.nft.filter.category')"
         >
           <el-option 
             v-for="(option, index) in categories" 
@@ -67,22 +67,22 @@
       </div>
 
       <div class="content-block">
-        <p class="content-block__title">Network</p>
-        <el-select v-model="filterNft.network" placeholder="Network">
-          <el-option v-for="(option, index) in networks" :label="option.networkName" :value="option.network" :key="index"></el-option>
+        <p class="content-block__title">{{ $t('metamart.nft.filter.network') }}</p>
+        <el-select v-model="filterNft.network" :placeholder="$t('metamart.nft.filter.network')">
+          <el-option v-for="(option, index) in networks" :label="option.networkName" :value="option.networkName" :key="index"></el-option>
         </el-select>
       </div>
       <div class="content-block">
-        <p class="content-block__title">Status</p>
-        <el-select v-model="filterNft.statusBlockchain" placeholder="Status">
+        <p class="content-block__title">{{ $t('metamart.nft.filter.status') }}</p>
+        <el-select v-model="filterNft.statusBlockchain" :placeholder="$t('metamart.nft.filter.status')">
           <el-option v-for="(option, index) in status" :label="option" :value="option" :key="index"></el-option>
         </el-select>
       </div>
       <div class="content-block">
-        <p class="content-block__title">Created Date</p>
+        <p class="content-block__title">{{ $t('metamart.nft.filter.created-date') }}</p>
         <div class="content-block__inputs">
           <el-date-picker
-            placeholder="From Date"
+            :placeholder="$t('metamart.nft.filter.from-date')"
             format="MM/dd/yyyy"
             value-format="timestamp"
             v-model="filterNft.fromCreatedAt"
@@ -93,7 +93,7 @@
           ></el-date-picker>
           <span style="display: block; width: 8px; height: 2px; background-color: #dbdbdb"></span>
           <el-date-picker
-            placeholder="To Date"
+            :placeholder="$t('metamart.nft.filter.to-date')"
             format="MM/dd/yyyy"
             value-format="timestamp"
             v-model="filterNft.toCreatedAt"
@@ -110,8 +110,8 @@
     <div class="footer" slot="footer">
       <div class="wrap-button">
         <div class="btn-right">
-          <el-button class="btn-default btn-400 btn-h-40 btn-close" @click="handleReset">Reset</el-button>
-          <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border" style="font-size: 14px; font-weight: 600" @click="handleApply">Apply</el-button>
+          <el-button class="btn-default btn-400 btn-h-40 btn-close" @click="handleReset">{{ $t('metamart.button.reset') }}</el-button>
+          <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border" style="font-size: 14px; font-weight: 600" @click="handleApply">{{ $t('metamart.button.apply') }}</el-button>
         </div>
       </div>
     </div>
@@ -205,6 +205,8 @@
       }
       this.filterNft = {
         ...this.filterNft,
+        //@ts-ignore
+        network: this.filterNft.network.match(/\(([^)]+)\)/)[1],
         fromCreatedAt: fromDate,
         toCreatedAt: toDate
       }
