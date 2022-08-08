@@ -202,6 +202,7 @@
               <el-select
                 filterable
                 remote
+                :remote-method="remoteCategoryList"
                 v-model="collection.categoryIds" 
                 placeholder="Choose category"
               >
@@ -480,7 +481,7 @@
       this.getNetworkList()
       this.getContractList()
       this.getCreatorList('')
-      this.getCategoryList()
+      this.getCategoryList('')
       this.getTemplateList('')
     }
     handleClose():void {
@@ -600,12 +601,22 @@
     }
 
     //api list category
-    async getCategoryList():Promise<void> {
-      //@ts-ignore
-      await apiNft.getCategories({})
+    remoteCategoryList(query: string): void {
+      const a = debounce(this.getCategoryList, 500)
+      a(query)
+    }
+    async getCategoryList(search: string):Promise<void> {
+      await apiNft.getCategories({
+        search: trim(search) ? trim(search) : null
+      })
         .then((res: any) => {
-          this.categoriesClone = res.content
-          this.recursiveCategoryChild(res.content)
+          if (trim(search)) {
+            // this.categoriesClone = res.content
+            this.categories = res.content
+          } else {
+            this.categories = []
+            this.recursiveCategoryChild(res.content)
+          }
         })
         .catch(e => {
           console.log(e);
@@ -641,7 +652,7 @@
       await apiNft.getListTemplate({
           page: this.queryTemplateList.page,
           limit: this.queryTemplateList.limit,
-          search: trim(search) ? trim(search) : ''
+          search: trim(search) ? trim(search) : null
         }) 
         .then((res: any) => {
           this.templates = res.content
@@ -677,6 +688,10 @@
           align-items: center;
           .el-upload__text {
             font-size: 16px;
+            color: var(--bc-text-discript);
+            em {
+              color: #0A34C7;
+            }
           }
           .upload-wrapper {
             &__preview {
@@ -841,11 +856,10 @@
             }
             &__message {
               text-align: center;
-              font-size: 14px;
+              font-size: 16px;
               line-height: 24px;
-              width: 180px;
               height: 48px;
-              margin: 182px auto;
+              margin: auto 20px;
               color: #5b616e;
             }
             &__frame {
@@ -941,7 +955,7 @@
         &__subtitle {
           font-size: 12px;
           font-weight: 400;
-          color: #5b616e;
+          color: var(--bc-text-disabled);
         }
         &-suggestion {
           font-size: 12px;
