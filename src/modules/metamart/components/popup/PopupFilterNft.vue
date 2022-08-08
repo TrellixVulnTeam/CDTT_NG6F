@@ -51,6 +51,7 @@
         <el-select 
           filterable
           remote
+          :remote-method="remoteCategoryList"
           v-model="filterNft.categoryId" 
           placeholder="Category"
         >
@@ -189,6 +190,8 @@
         fromCreatedAt: '',
         toCreatedAt: '',
       }
+      EventBus.$emit('filter', this.filterNft)
+      this.handleClose()
     }
 
     handleApply(): void {
@@ -207,7 +210,6 @@
       }
       EventBus.$emit('filter', this.filterNft)
       this.handleClose()
-      this.handleReset()
     }
 
     //Collection
@@ -224,6 +226,11 @@
     }
     loadMoreCreator(): void {
       this.$emit('load-more-creator')
+    }
+
+    //Category
+    remoteCategoryList(query: string): void {
+      this.$emit('remote-category', query)
     }
   }
 </script>
