@@ -52,6 +52,7 @@ export class NftRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+
   async createCategory(params: Record<string, any>): Promise<Array<Record<string, any>>> {
     try {
       const result = await request.post(`${this.prefix}/category`, params)
@@ -63,6 +64,17 @@ export class NftRepository extends BaseRepository {
   async updateCategory(id: string | number, params: Record<string, any>): Promise<Array<Record<string, any>>> {
     try {
       const result = await request.put(`${this.prefix}/category/${id}`, params)
+      return result.data.data
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+  async deleteCategory(id: string | number, data: Record<string, any>): Promise<Array<Record<string, any>>> {
+    try {
+      console.log(data)
+      const result = await request.delete(`${this.prefix}/category/${id}`, { data })
+      console.log(result)
+
       return result.data.data
     } catch (error) {
       return Promise.reject(error)
@@ -136,5 +148,14 @@ export class NftRepository extends BaseRepository {
     } catch (error) {
       return Promise.reject(error)
     } 
+  }
+
+  async editCollection(data: Record<string, any>): Promise<any> {
+    try {
+      const result = await request.put(`${this.prefix}/bo/collection/update`, data)
+      return Promise.resolve(result.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
   }
 }

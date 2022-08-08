@@ -165,7 +165,7 @@
       // this.isConflickClick = true
       // this.checkListChildren(row.parentId, row.id)
       this.setOpenPopup({
-        popupName: 'popup-delete-category',
+        popupName: 'popup-metamart-delete',
         isOpen: true
       })
     }

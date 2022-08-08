@@ -53,6 +53,9 @@
       @edit="handleEditCategory"
       @create="handleOpenCategory"
       @load="debounceInit"
+      @delete="handleDeleteCategory"
+      @delete-category="handleGetCategoryId"
+      :idDelete ="idDelete"
     />
 
     <popup-choosetype @continues="handleToPopupform($event)" />
@@ -61,7 +64,6 @@
     <popup-create-collection />
     <popup-create-nft />
     <popup-public-onchain />
-    <popup-delete :type="deleteType" />
     <popup-nft-detail />
   </div>
 </template>
@@ -142,10 +144,11 @@
       limit: 20,
       total: 20,
     }
+    idDelete : string | number = 0
     debounceInit = debounce(() => {
-      if (this.$route.name === "Category") {
+      if (this.$route.name === 'Category') {
         this.getCategoryList()
-      } else if (this.$route.name === "Collection") {
+      } else if (this.$route.name === 'Collection') {
         this.getCollection()
       } else if (this.$route.name === "Nft") {
         this.getNftItem()
@@ -158,6 +161,10 @@
       this.searchData = data
       console.log(this.params)
       this.debounceInit()
+    }
+    handleGetCategoryId(id: number | string): void {
+      this.idDelete = id
+      console.log(this.idDelete, 'id delete')
     }
 
     deleteType = ''
@@ -323,6 +330,12 @@
         isOpen: true
       })
     }
+    handleDeleteCategory(): void {
+      this.setOpenPopup({
+        popupName: 'popup-metamart-delete',
+        isOpen: true
+      })
+    }
     handleToPopupform(direction: string): void {
       console.log(direction)
       if (direction === '2') {
@@ -367,11 +380,11 @@
           isOpen: true
         })
       } else if (command === 'delete-nft') {
-        this.deleteType = 'delete-nft'
-        this.setOpenPopup({
-          popupName: 'popup-metamart-delete',
-          isOpen: true
-        })
+        // this.deleteType = 'delete-nft'
+        // this.setOpenPopup({
+        //   popupName: 'popup-metamart-delete',
+        //   isOpen: true
+        // })
       }
     }
 
