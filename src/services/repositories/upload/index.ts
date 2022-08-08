@@ -8,7 +8,7 @@ export default class UploadRepository extends BaseRepository {
   async uploadFile(data: Record<string, any>): Promise<any> {
     try {
       // delete request.defaults.headers.common['Authorization']
-      const result = await request.post(`${this.prefix}/upload`, data.data, {
+      const result = await request.post(`${this.prefix}/upload`, data, {
         headers: { 'Content-Type': 'multipart/form-data' },
         onUploadProgress: data.progress
       })

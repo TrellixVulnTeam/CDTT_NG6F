@@ -37,6 +37,9 @@ const mutations: MutationTree<IAuth> = {
     state.metaDatas = data.metaDatas
     state.metaTypes = filter(data.metaTypes, elm => elm.metaType !== 'INFO')
   },
+  SET_LIST_METADATA: (state, data) => {
+    state.metaDatas = data
+  },
   RESET_INIT: state => {
     state.initInfo = {
       collectionId: state.listCollection[0].id,
