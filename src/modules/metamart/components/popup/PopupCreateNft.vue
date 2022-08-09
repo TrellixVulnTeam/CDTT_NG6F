@@ -154,18 +154,29 @@
       this.setListCategory(listCategory.content)
 
       this.$nextTick(() => {
-        // set value cho shortDescription, description ở component FormInfo
-        const refFormInfo = this.$root.$refs.FormInfo
-        const language = localStorage.getItem('bc-lang') || ''
-        if (this.typePopup === 'edit') {
-          const parseJson = JSON.parse(this.initInfo.shortDescription)
-          //@ts-ignore
-          refFormInfo.shortDescription = parseJson[language]
-        } else {
-          //@ts-ignore
-          refFormInfo.shortDescription = this.initInfo.shortDescription
-        }
+        this.handleFillValueDescription()
       })
+    }
+
+    handleFillValueDescription(): void {
+      // set value cho shortDescription, description ở component FormInfo
+      const refFormInfo = this.$root.$refs.FormInfo
+      const language = localStorage.getItem('bc-lang') || ''
+      if (this.typePopup === 'edit') {
+        const parseJsonShortDescription = JSON.parse(this.initInfo.shortDescription)
+        const parseJsonDescription = JSON.parse(this.initInfo.description)
+        //@ts-ignore
+        refFormInfo.shortDescription = parseJsonShortDescription[language]
+        //@ts-ignore
+        refFormInfo.description = parseJsonDescription[language]
+        //@ts-ignore
+        console.log(refFormInfo.description)
+      } else {
+        //@ts-ignore
+        refFormInfo.shortDescription = this.initInfo.shortDescription
+        //@ts-ignore
+        refFormInfo.description = this.initInfo.description
+      }
     }
 
     async handleSelectCollection(collection: Record<string, any>): Promise<void> {
