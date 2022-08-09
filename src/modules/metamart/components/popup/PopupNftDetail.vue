@@ -31,12 +31,12 @@
       </div>
       <div class="ml-auto detail-nft-right">
         <div class="be-scroll-custom wrap-fixed-top">
-          <div class="detail-nft-folder text-overflow-2">{{ nftItem.itemName }}</div>
+          <div class="detail-nft-folder text-overflow-2">{{ nftItem.collectionName }}</div>
           <div class="ck-text-description detail-nft-des" v-if="textDescription">
             <div id="text-description" :class="showClass ? 'text-overflow-2' : null" style="line-height: 24px" v-html="textDescription"></div>
             <div v-if="numOfLine > 2" style="margin-top: 5px" :class="!showClass ? 'text-rotate' : null" @click="showClass = !showClass">
               <div>
-                <span class="nft-body-base text-hyperlink cursor text-medium read-more">{{ showClass ? $t('market-detail.read-more') : $t('market-detail.hide-more') }}</span>
+                <span class="nft-body-base text-hyperlink cursor text-medium read-more">{{ showClass ? $t('read-more') : $t('hide-more') }}</span>
                 <base-icon v-if="coinMain === 'LYNK'" icon="icon-down" class="icon-rotate" style="padding-left: 4px" />
                 <base-icon v-else icon="icon-down-clm" class="icon-rotate" style="padding-left: 4px" />
               </div>
@@ -101,7 +101,7 @@
 </template>
 
 <script lang="ts">
-  import { Component, Mixins, Prop, Vue } from 'vue-property-decorator'
+  import { Component, Mixins, Prop, Vue, Watch } from 'vue-property-decorator'
   import PopupMixin from '@/mixins/popup'
   import NftDetail from './NftDetail.vue'
   import { SwiperOptions } from 'swiper'
@@ -114,78 +114,24 @@
   import 'swiper/swiper-bundle.css'
   @Component({ components: { NftDetail, Swiper, SwiperSlide, TabInfo } })
   export default class PopupNftDetail extends Mixins(PopupMixin) {
+    // @Prop({ required: false, type: Object }) nftItem!: Record<string, any>
+    @Prop({ required: true, type: Object, default: () => ({}) }) creator!: Record<string, any>
+    @Prop({ required: true, type: Array, default: () => [] }) owners!: Array<Record<string, any>>
+    @Prop({ required: true, type: Array, default: () => [] }) medias!: Array<Record<string, any>>
+    @Prop({ required: true, type: Array, default: () => [] }) policies!: Array<Record<string, any>>
+    @Prop() nftItem!: any
+    // @Prop() medias: any
+    @Prop({ required: false, type: Array, default: () => [] }) metaData!: Array<Record<string, any>>
+    @Prop({ required: false, type: Array, default: () => [] }) metaType!: Array<Record<string, any>>
+    textDescription = ''
     ClickActive = 0
     showClass = false
-    nftItem = {
-      avatar: 'http://loremflickr.com/640/480',
-      creatorAvatar: 'https://s3.ap-southeast-1.amazonaws.com/lynkey-production/blockchain/marketplace/user-profile/lynkey-avatar.png',
-      itemName: 'The Myth Virtual Tour #22',
-      creatorName: 'Lynkee',
-      contractAddress: '0x180af53a...060634a0ea',
-      itemCode: '1653032642000042',
-      network: 'ERC1155',
-      networkName: 'Ethereum',
-      project: ''
-    }
-    textDescription = 'Lörem ipsum möbelhund plav televalens bevis. Repod vamotäde hemin vese, måde. Knytkonferens disa. Ov hypora opost spår och'
     coinMain = 'Not Lynk'
     numOfLine = 0
-    mediaList = [
-      {
-        id: 1,
-        mediaType: 'IMAGE',
-        mediaUrl: 'http://loremflickr.com/640/480'
-      },
-      {
-        id: 2,
-        mediaType: 'IMAGE',
-        mediaUrl: 'https://media-cdn-v2.laodong.vn/Storage/NewsPortal/2022/7/12/1067210/A866ecd311b84577a3a4.jpg'
-      },
-      {
-        id: 3,
-        mediaType: 'IMAGE',
-        mediaUrl: 'http://loremflickr.com/640/480'
-      },
-      {
-        id: 4,
-        mediaType: 'IMAGE',
-        mediaUrl: 'http://loremflickr.com/640/480'
-      },
-      {
-        id: 5,
-        mediaType: 'IMAGE',
-        mediaUrl: 'http://loremflickr.com/640/480'
-      },
-      {
-        id: 6,
-        mediaType: 'IMAGE',
-        mediaUrl: 'http://loremflickr.com/640/480'
-      },
-      {
-        id: 7,
-        mediaType: 'IMAGE',
-        mediaUrl: 'http://loremflickr.com/640/480'
-      },
-      {
-        id: 8,
-        mediaType: 'IMAGE',
-        mediaUrl: 'http://loremflickr.com/640/480'
-      },
-      {
-        id: 9,
-        mediaType: 'IMAGE',
-        mediaUrl: 'http://loremflickr.com/640/480'
-      },
-      {
-        id: 10,
-        mediaType: 'IMAGE',
-        mediaUrl: 'http://loremflickr.com/640/480'
-      }
-    ]
-    mediaLink = {
-      mediaUrl: 'http://loremflickr.com/640/480'
+    get mediaList(): Array<Record<string, any>> {
+      return this.medias
     }
-
+    mediaLink = {}
     get isShow(): boolean {
       return false
     }
@@ -202,25 +148,24 @@
         clickable: true
       }
     }
-
     handleShowMedia(item): void {
-      // const active = filter(this.mediaList, elm => elm.id === item.id)
-      // this.mediaList.forEach(elm => {
-      //   if (elm.id == item.id) {
-      //     this.ClickActive = true
-      //     this.mediaList.forEach(elm => {
-      //       if (elm) {
-      //         this.ClickActive = false
-      //       }
-      //     })
-      //   }
-      // })
       if (item.id) {
         this.ClickActive = item.id
         console.log(this.ClickActive)
       }
       this.nftItem.avatar = item.mediaUrl
     }
+    checkLengthText(text): void {
+      let el = document.getElementById(`${text}`) as HTMLElement
+      let divHeight = el.offsetHeight
+      let lineHeight = parseInt(el.style.lineHeight)
+      let lines = divHeight / lineHeight
+      if (lines > 3) {
+        this.showClass = true
+        this.numOfLine = lines
+      }
+    }
+  
     handleClickArrow(type: string): void {
       if (type === 'next') {
         //@ts-ignore
@@ -228,6 +173,22 @@
       } else {
         //@ts-ignore
         this.$refs['swiperRef']?.$swiper.slidePrev()
+      }
+    }
+    @Watch('medias', { deep: true, immediate: true }) handleWatchMedias(item: Record<string, any>): void {
+      this.mediaLink = this.mediaList[0]
+      this.ClickActive = this.mediaList[0]?.id
+    }
+    @Watch('nftItem', { deep: true, immediate: true }) handleWatchItemNft(item: Record<string, any>): void {
+      if (item.description) {
+        const language = window.localStorage.getItem('bc-lang')!
+        if (item.description) {
+          const objDesc = JSON.parse(this.nftItem.description)
+          this.textDescription = objDesc[language]
+          this.$nextTick(() => {
+            this.checkLengthText('text-description')
+          })
+        }
       }
     }
   }

@@ -2,7 +2,7 @@
   <base-popup name="popup-edit-collection" class="popup-edit-collection" width="1040px" :open="handleOpen" :close="handleClose">
     <div class="title-popup" slot="title">
       <!-- <span>{{ $t('metamart.collection.popup.title') }}</span> -->
-      <span>EDIT COLLECTION</span>
+      <span>{{ $t('metamart.collection.popup.edit') }}</span>
     </div>
     <div class="content">
       <main class="content-left">
@@ -115,12 +115,11 @@
 
           <el-form-item prop="collectionName">
             <section class="name block">
-              <h2 class="block-title" style="margin-bottom: 0px">
+              <h2 class="block-title">
                 {{ $t('metamart.collection.popup.name') }}
                 <span class="block-title__asterisk"> *</span>
               </h2>
-              <span class="block__subtitle">{{ $t('metamart.collection.subtitle.name') }}</span>
-              <el-input v-model="collection.collectionName" placeholder="Enter collection name"></el-input>
+              <el-input v-model="collection.collectionName" :placeholder="$t('metamart.collection.placeholder.name')"></el-input>
             </section>
           </el-form-item>
 
@@ -133,7 +132,7 @@
               <el-input
                 v-model="collection.description"
                 type="textarea"
-                placeholder='e. g. "After purchasing you&apos;ll be able to get the real T-Shirt"'
+                :placeholder="$t('metamart.collection.placeholder.description')"
                 maxlength="200"
                 show-word-limit
                 rows="4"
@@ -160,7 +159,7 @@
                 <span class="block-title__asterisk"> *</span>
               </h2>
               <!-- <el-input v-model="collection.contractAddress" placeholder="Select a contract address" ></el-input> -->
-              <el-select filterable remote v-model="collection.contractAddress" placeholder="Select a contract address">
+              <el-select filterable remote v-model="collection.contractAddress" :placeholder="$t('metamart.collection.placeholder.contract-address')">
                 <el-option
                   v-for="(option, index) in contracts"
                   :label="option.contractAddress | formatTransactionCode(10)"
@@ -200,7 +199,7 @@
                 {{ $t('metamart.collection.popup.creator') }}
                 <span class="block-title__asterisk"> *</span>
               </h2>
-              <el-select filterable remote :remote-method="remoteCreatorList" v-model="collection.creatorId" placeholder="Choose creator">
+              <el-select filterable remote :remote-method="remoteCreatorList" v-model="collection.creatorId" :placeholder="$t('metamart.collection.placeholder.creator')">
                 <div class="" v-infinite-scroll="loadMoreCreator" infinite-scroll-delay="500">
                   <el-option v-for="item in creators" :label="`${item.accountName} (${item.username})`" :value="item.id" :key="item.id">
                     <template>
@@ -221,7 +220,7 @@
                 {{ $t('metamart.collection.popup.category') }}
                 <span class="block-title__asterisk"> *</span>
               </h2>
-              <el-select filterable remote :remote-method="remoteCategoryList" v-model="collection.categoryIds" placeholder="Choose category">
+              <el-select filterable remote :remote-method="remoteCategoryList" v-model="collection.categoryIds" :placeholder="$t('metamart.collection.placeholder.category')">
                 <el-option
                   v-for="(option, index) in categories"
                   :label="option.categoryName"
@@ -240,7 +239,7 @@
                 {{ $t('metamart.collection.popup.template') }}
                 <span class="block-title__asterisk"> *</span>
               </h2>
-              <el-select filterable remote :remote-method="remoteTemplateList" clearable v-model="collection.templateId" placeholder="Choose template">
+              <el-select filterable remote :remote-method="remoteTemplateList" clearable v-model="collection.templateId" :placeholder="$t('metamart.collection.placeholder.template')">
                 <div class="" v-infinite-scroll="loadMoreTemplate" infinite-scroll-delay="500">
                   <el-option v-for="option in templates" :label="option.templateName" :value="option.id" :key="option.id"></el-option>
                 </div>

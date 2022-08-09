@@ -80,7 +80,7 @@
       categoryName: [
         {
           required: true,
-          message: 'This field can not be blank',
+          message: this.$t('member.validate.empty-category'),
           trigger: 'blur'
         }
       ]
@@ -90,7 +90,7 @@
         await apiNft
           .createCategory(this.dataInput)
           .then((res: any) => {
-            this.$message.success('Create category successfully')
+            this.$message.success(`${this.$t('notify.create-category-success')}`)
           })
           .catch(e => {
             console.log(e)

@@ -66,12 +66,17 @@
     <popup-form @collection="handleOpenCreate($event)" />
     <popup-create />
     <popup-create-collection />
-    <popup-create-nft :typePopup="typePopupCreateNft" />
+    <popup-create-nft :typePopup="typePopupCreateNft" @reload="init" />
     <popup-public-onchain />
-    <popup-nft-detail />
-    <popup-create-category :listCategory="listCategory" :type="this.type" />
-    <popup-template @create="handleCreateTemplate" />
-    <popup-banner :type="bannerType" :banner="bannerEdit" />
+    <popup-nft-detail
+      :nftItem="detailNft.nftItem"
+      :metaData="detailNft.metaDatas"
+      :metaType="detailNft.metaTypes"
+      :creator="detailNft.creator"
+      :owners="detailNft.owners"
+      :medias="detailNft.medias"
+      :policies="detailNft.policies"
+    />
   </div>
 </template>
 
@@ -168,6 +173,7 @@
         routeName: 'Banner'
       }
     ]
+    detailNft: Record<string, any> = {}
     collectionData: Array<Record<string, any>> = []
     nftData: Array<Record<string, any>> = []
     categoryData: Array<Record<string, any>> = []
@@ -429,10 +435,8 @@
     }
 
     handleRowClick(row: Record<string, any>): void {
-      this.setOpenPopup({
-        popupName: 'popup-nft-detail',
-        isOpen: true
-      })
+      // this.OpenPopupEditNft(row)
+      this.OpenNFtDetail(row)
     }
     handleDeleteCollection(value: Record<string, any>): void {
       // console.log(">>>deleteCollection:", value);
@@ -451,6 +455,19 @@
     handleCreateTemplate(payload: string): void {
       this.$router.push({ name: 'CreateTemplate', query: { template: payload } })
     }
+    async OpenNFtDetail(row: Record<string, any>): Promise<void> {
+      const result = await apiNft.getDetailNft(row.itemId)
+      this.detailNft = result
+      // this.setOpenPopup({
+      //   popupName: 'popup-create-nft',
+      //   isOpen: true
+      // })
+      this.setOpenPopup({
+        popupName: 'popup-nft-detail',
+        isOpen: true
+      })
+      console.log(this.detailNft)
+    }
 
     async OpenPopupEditNft(row: Record<string, any>): Promise<void> {
       this.typePopupCreateNft = 'edit'
@@ -463,7 +480,7 @@
         totalSupply: result.nftItem.totalSupply,
         totalMint: result.nftItem.totalSupply,
         contractAddress: result.nftItem.contractAddress,
-        tokenId: '',
+        tokenId: result.nftItem.itemCode,
         network: result.nftItem.network,
         networkName: result.nftItem.networkName,
         creatorName: result.nftItem.creatorName,
@@ -471,12 +488,12 @@
         creatorId: result.nftItem.creatorId
       }
       const initSetting = {
-        serviceFee: '',
+        serviceFee: result.nftItem.serviceFee,
         creatorFee: result.nftItem.creatorFee,
-        hotPosition: '',
-        topPosition: '',
-        statusTop: false,
-        statusHot: false
+        hotPosition: result.nftItem.hotPosition,
+        topPosition: result.nftItem.topPosition,
+        statusTop: result.nftItem.hotPosition ? true : false,
+        statusHot: result.nftItem.topPosition ? true : false
       }
 
       this.setDetailNft({ initInfo, initBlockchain, initSetting, metaTypes, metaDatas })

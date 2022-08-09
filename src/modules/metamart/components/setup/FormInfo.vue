@@ -105,14 +105,14 @@
 
       <div class="mb-24 wrap-editor">
         <div class="text-base text-semibold label">{{ $t('label_long-desc') }}</div>
-        <jodit-editor :config="config" :buttons="buttons" v-model="form.description" />
+        <jodit-editor :config="config" :buttons="buttons" v-model="description" />
       </div>
     </el-form>
   </div>
 </template>
 
 <script lang="ts">
-  import { Component, Vue, Prop } from 'vue-property-decorator'
+  import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
   import { namespace } from 'vuex-class'
 
   import filter from 'lodash/filter'
@@ -173,29 +173,53 @@
     }
 
     shortDescription = ''
+    description = ''
 
     // @Watch('form', { deep: true }) handleWatchForm(newForm: Record<string, any>): void {
     //   this.setInitInfo(newForm)
     // }
 
+    @Watch('description') watchContent(_new: string): void {
+      this.debounceInputHtml(_new, this)
+    }
+
     async created(): Promise<void> {
       console.log('aaa')
       this.$root.$refs.FormInfo = this
 
-      // const language = localStorage.getItem('bc-lang') || ''
-      // this.config.language = language
-      // if (this.typePopup === 'edit') {
-      //   const parseJson = JSON.parse(this.form.shortDescription)
+      const language = localStorage.getItem('bc-lang') || ''
 
-      //   this.shortDescription = parseJson[language]
-      // } else {
-      //   this.shortDescription = this.form.shortDescription
-      // }
+      if (this.typePopup === 'edit') {
+        this.config.language = language
+        const parseJsonShortDescription = JSON.parse(this.form.shortDescription)
+        const parseJsonDescription = JSON.parse(this.form.description)
+        this.shortDescription = parseJsonShortDescription[language]
+        this.description = parseJsonDescription[language]
+      } else {
+        this.shortDescription = this.form.shortDescription
+      }
     }
+
+    debounceInputHtml = debounce((text: string, _this: any) => {
+      const language = localStorage.getItem('bc-lang') || ''
+
+      if (_this.typePopup === 'edit') {
+        let parseJson: Record<string, any> = JSON.parse(_this.form.description)
+
+        parseJson = {
+          ...parseJson,
+          [language]: _this.description
+        }
+        _this.form.description = JSON.stringify(parseJson)
+      } else {
+        _this.form.description = text
+      }
+    }, 500)
 
     handleInput(text: string): void {
       this.debounceInput(text, this)
     }
+
     debounceInput = debounce((text: string, _this: any) => {
       const language = localStorage.getItem('bc-lang') || ''
 

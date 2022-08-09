@@ -376,7 +376,9 @@
     "NOT_ENOUGH_QUANTITY": "Don't have enough quantity",
     "INVALID_VERIFICATION": "Invalid verification code",
     "EXPIRED_VERIFICATION": "Expired verification code",
-    "USER_LOCKED": "Account has been locked"
+    "USER_LOCKED": "Account has been locked",
+    "collection-has-nft": "Unable to delete collection containing active item",
+    "create-category-success": "Create category successfully"    
   },
   "logout": {
     "title": "Sign out",
@@ -1054,7 +1056,8 @@
       "lastnameLength": "Minimum 2 characters",
       "firstnameLength": "Minimum 2 characters",
       "wrong-lynk": "Please enter amount LYNK",
-      "wrong-vesting": "Please enter vesting month"
+      "wrong-vesting": "Please enter vesting month",
+      "empty-category": "\"Category\" is not allowed to be empty"
     }
   },
   "exception": {
@@ -1301,7 +1304,8 @@
         "to-date": "To date"
       },
       "popup": {
-        "title": "ADD NEW COLLECTION",
+        "create": "ADD NEW COLLECTION",
+        "edit": "EDIT COLLECTION",
         "preview": "Preview",
         "avatar": "Avatar",
         "thumbnail": "Thumbnail",
@@ -1391,7 +1395,8 @@
     },
     "success": {
       "title": "CONGRATULATIONS",
-      "delete-collection": "You have successfully deleted the collection"
+      "delete-collection": "You have successfully deleted the collection",
+      "delete-category": "You have successfully deleted the category"
     }
   },
   "filter_pending": "Pending",
@@ -1399,6 +1404,7 @@
   "filter_success": "Success",
   "filter_failed": "Failed",
   "popup_add-nft": "ADD NEW NFT",
+  "popup_edit-nft": "EDIT NFT",
   "popup_edt-nft": "EDIT NFT",
   "label_information": "Information",
   "label_blockchain": "Blockchain",
