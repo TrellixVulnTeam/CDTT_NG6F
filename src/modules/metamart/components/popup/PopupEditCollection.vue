@@ -309,8 +309,9 @@
   @Component({ components: { NftDetail } })
   export default class PopupEditCollection extends Mixins(PopupMixin) {
     @bcAuth.State('user') user!: Record<string, any>
-    @Prop({ required: true, type: Object }) editData!: Record<string, any>
+    @Prop() editData!: any
 
+    isDisable = false
     userId = this.$store.state.beAuth.user.userId
     imageClick: any = {}
     avatarPreviewing = ''
@@ -415,7 +416,8 @@
       { name: 'Bitcoin', currency: 'BTC' },
       { name: 'Tether', currency: 'USDT' },
       { name: 'Ethereum', currency: 'ETH' },
-      { name: 'LynKey', currency: 'LYNK' }
+      { name: 'LynKey', currency: 'LYNK' },
+      { name: 'Cleverme', currency: 'CLM'}
     ]
 
     @Watch('collection.network') handleNetworkChange(): void {
@@ -423,6 +425,13 @@
       this.$refs['collection'].fields.find((f: any) => f.prop === 'contractAddress').resetField()
       this.getContractList()
     }
+
+    getDescriptionByLang(data: any) {
+      let lang = localStorage.getItem("bc-lang") || '';
+      let dataDescription = JSON.parse(data)
+      return dataDescription[lang]
+    }
+
     async handleAvatarChange(file: any): Promise<void> {
       // this.collection.avatar = URL.createObjectURL(file.raw)
       // this.avatarPreviewing = file.name
@@ -492,20 +501,25 @@
     }
     handleOpen(): void {
       console.log("Edit Data:", this.editData);
-      this.collection = {
-        collectionId: this.editData.id,
-        avatar: this.editData.avatar,
-        thumb: this.editData.featured,
-        banners: [],
-        collectionName: this.editData.collectionName,
-        description: JSON.parse(this.editData.description).en,
-        network: this.editData.network,
-        contractAddress: this.editData.contractAddress,
-        currency: this.editData.currency,
-        creatorId: this.editData.creatorId,
-        categoryIds: this.editData.categoryId,
-        templateId: ''
+      if (this.editData.collection.numOfItems > 0) {
+        this.isDisable = true
       }
+
+      this.collection = {
+        collectionId: this.editData.collection.id,
+        avatar: this.editData.collection.avatar,
+        thumb: this.editData.collection.featured,
+        banners: this.editData.medias,
+        collectionName: this.editData.collection.collectionName,
+        description: this.getDescriptionByLang(this.editData.collection.description),
+        network: this.editData.collection.network,
+        contractAddress: this.editData.collection.contractAddress,
+        currency: this.editData.collection.currency,
+        creatorId: this.editData.collection.creatorId,
+        categoryIds: this.editData.categories[0].id,
+        templateId: this.editData.collection.templateId
+      }
+      this.getDescriptionByLang(this.editData.collection.description)
       this.getNetworkList()
       this.getContractList()
       this.getCreatorList('')
@@ -517,6 +531,7 @@
       this.$refs['collection'].resetFields()
       this.categories = []
       this.categoriesClone = []
+      this.collection = []
       this.setOpenPopup({
         popupName: 'popup-edit-collection',
         isOpen: false
@@ -524,18 +539,18 @@
     }
     handleReset(): void {
       this.collection = {
-        collectionId: this.editData.id,
-        avatar: this.editData.avatar,
-        thumb: this.editData.featured,
-        banners: [],
-        collectionName: this.editData.collectionName,
-        description: JSON.parse(this.editData.description).en,
-        network: this.editData.network,
-        contractAddress: this.editData.contractAddress,
-        currency: this.editData.currency,
-        creatorId: this.editData.creatorId,
-        categoryIds: this.editData.categoryId,
-        templateId: ''
+        collectionId: this.editData.collection.id,
+        avatar: this.editData.collection.avatar,
+        thumb: this.editData.collection.featured,
+        banners: this.editData.medias,
+        collectionName: this.editData.collection.collectionName,
+        description: this.getDescriptionByLang(this.editData.collection.description),
+        network: this.editData.collection.network,
+        contractAddress: this.editData.collection.contractAddress,
+        currency: this.editData.collection.currency,
+        creatorId: this.editData.collection.creatorId,
+        categoryIds: this.editData.categories[0].id,
+        templateId: this.editData.collection.templateId
       }
     }
     handleSave(): void {

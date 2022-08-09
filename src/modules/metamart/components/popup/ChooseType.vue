@@ -3,7 +3,7 @@
     <div class="title-popup" slot="title">
       <span>CHOOSE TYPE</span>
     </div>
-    <div class="content" v-loading="isLoading">
+    <div class="content">
       <span class="content-description">
           Choose “Single” for one of a kind or “Multiple” if you want
           to sell one collectible multiple times
