@@ -1343,7 +1343,8 @@
     },
     "success": {
       "title": "THÀNH CÔNG",
-      "delete-collection": "Bạn đã xóa bộ sưu tập thành công"
+      "delete-collection": "Bạn đã xóa bộ sưu tập thành công",
+      "delete-success": "Bạn đã xóa danh mục thành công"
     }
   },
   "filter_pending": "Chờ xử lý",

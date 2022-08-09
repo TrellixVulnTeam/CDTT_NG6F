@@ -1366,7 +1366,8 @@
     },
     "success": {
       "title": "CONGRATULATIONS",
-      "delete-collection": "You have successfully deleted the collection"
+      "delete-collection": "You have successfully deleted the collection",
+      "delete-category": "You have successfully deleted the category"
     }
   },
   "filter_pending": "Pending",

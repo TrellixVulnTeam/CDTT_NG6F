@@ -90,7 +90,15 @@
       await apiNft
         .deleteCategory(this.idDelete, params)
         .then((res: any) => {
-          this.$message.success('Success')
+          this.setOpenPopup({
+            popupName: 'popup-metamart-verify-email',
+            isOpen: false
+          })
+          this.setOpenPopup({
+            popupName: 'popup-metamart-success',
+            isOpen: true
+          })
+          this.$emit('load')
         })
         .catch(e => {
           this.$message.error('Error')

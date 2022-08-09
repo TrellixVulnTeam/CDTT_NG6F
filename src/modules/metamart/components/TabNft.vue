@@ -55,7 +55,7 @@
                   <span @click="handleEdit(scope.row)">
                     <base-icon icon="icon-edit" size="24" />
                   </span>
-                  <el-dropdown trigger="click" @command="handleCommand" >
+                  <el-dropdown trigger="click" @command="handleCommand">
                     <i class="el-icon-more" style="padding: 5px" @click="handleConflictClick"></i>
                     <el-dropdown-menu class="dropdown-sort" slot="dropdown">
                       <el-dropdown-item>Update metadata</el-dropdown-item>
@@ -93,7 +93,7 @@
       }
     })
     query!: PaginationInterface
-    
+
     isConflictClick = false
     indexMethod(index: number): number {
       return (this.query.page - 1) * this.query.limit + index + 1
@@ -145,7 +145,11 @@
     font-weight: $weight;
     color: $color;
   }
-  .wallet-table {
+  ::v-deep.wallet-table {
+    .el-checkbox__inner {
+      width: 18px;
+      height: 18px;
+    }
     &__below {
       padding: 0 24px;
       .wrapper {
