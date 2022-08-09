@@ -101,7 +101,7 @@
           this.$emit('load')
         })
         .catch(e => {
-          this.$message.error('Error')
+          console.log(e)
         })
     }
 

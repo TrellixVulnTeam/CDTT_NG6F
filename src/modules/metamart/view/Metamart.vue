@@ -65,7 +65,16 @@
     <popup-create-collection />
     <popup-create-nft />
     <popup-public-onchain />
-    <popup-nft-detail />
+    <popup-nft-detail
+      :nftItem="detailNft.nftItem"
+      :metaData="detailNft.metaDatas"
+      :metaType="detailNft.metaTypes"
+      :creator="detailNft.creator"
+      :owners="detailNft.owners"
+      :medias="detailNft.medias"
+      :policies="detailNft.policies"
+     
+    />
   </div>
 </template>
 
@@ -135,6 +144,7 @@
         routeName: 'Category'
       }
     ]
+    detailNft: Record<string, any> = {}
     collectionData: Array<Record<string, any>> = []
     nftData: Array<Record<string, any>> = []
     categoryData: Array<Record<string, any>> = []
@@ -389,10 +399,8 @@
     }
 
     handleRowClick(row: Record<string, any>): void {
-      this.setOpenPopup({
-        popupName: 'popup-nft-detail',
-        isOpen: true
-      })
+      // this.OpenPopupEditNft(row)
+      this.OpenPopupEditNft(row)
     }
     handleDeleteCollection(value: Record<string, any>): void {
       // console.log(">>>deleteCollection:", value);
@@ -405,12 +413,16 @@
 
     async OpenPopupEditNft(row: Record<string, any>): Promise<void> {
       const result = await apiNft.getDetailNft(row.itemId)
-      console.log(result)
-
+      this.detailNft = result
       // this.setOpenPopup({
       //   popupName: 'popup-create-nft',
       //   isOpen: true
       // })
+      this.setOpenPopup({
+        popupName: 'popup-nft-detail',
+        isOpen: true
+      })
+      console.log(this.detailNft)
     }
   }
 </script>

@@ -13,7 +13,7 @@
             class="collection-table"
             @rowClick="handleRowClick"
           >
-            <el-table-column label="#" type="index" :index="indexMethod" align="center" width="40" />
+            <el-table-column label="#" type="index" :index="indexMethod" align="center" width="50" />
             <el-table-column type="selection" :selectable="handleSelectable" align="center" width="40" />
             <el-table-column :label="$t('inventory.table.item')" align="left" min-width="347">
               <template slot-scope="scope">

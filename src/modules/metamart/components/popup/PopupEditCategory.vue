@@ -1,4 +1,4 @@
-<template>
+  <template>
   <base-popup name="popup-edit-category" :hiddenFooter="true" width="600px" :closeClickModal="false" :open="handleOpen" :close="handleClose" class="editgroup">
     <div slot="title">{{ $t('Edit category') }}</div>
     <div class="body-content">

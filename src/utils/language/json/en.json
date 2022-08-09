@@ -375,7 +375,8 @@
     "NOT_ENOUGH_QUANTITY": "Don't have enough quantity",
     "INVALID_VERIFICATION": "Invalid verification code",
     "EXPIRED_VERIFICATION": "Expired verification code",
-    "USER_LOCKED": "Account has been locked"
+    "USER_LOCKED": "Account has been locked",
+    "create-category-success": "Create category successfully"
   },
   "logout": {
     "title": "Sign out",
@@ -1051,7 +1052,8 @@
       "lastnameLength": "Minimum 2 characters",
       "firstnameLength": "Minimum 2 characters",
       "wrong-lynk": "Please enter amount LYNK",
-      "wrong-vesting": "Please enter vesting month"
+      "wrong-vesting": "Please enter vesting month",
+      "empty-category": "\"Category\" is not allowed to be empty"
     }
   },
   "exception": {
@@ -1441,5 +1443,10 @@
   "label_upload-desc": "Drag and drop or",
   "label_click-to-upload": "Click to upload",
   "popup_add": "Add",
-  "popup_edit": "Edit"
+  "popup_edit": "Edit",
+  "read-more": "Read more",
+  "hide-more": "Show less",
+  "error-category-contain-data": "Can't delete category containing active collections and items",
+  "invalid-code": "Invalid verification code"
+
 }
