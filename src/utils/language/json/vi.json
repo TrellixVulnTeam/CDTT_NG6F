@@ -354,7 +354,8 @@
     "NOT_ENOUGH_QUANTITY": "Không đủ số lượng",
     "INVALID_VERIFICATION": "Mã xác thực không hợp lệ",
     "EXPIRED_VERIFICATION": "Mã xác thực đã hết hạn",
-    "USER_LOCKED": "Tài khoản của bạn đã bị khóa"
+    "USER_LOCKED": "Tài khoản của bạn đã bị khóa",
+    "collection-has-nft": "Không thể xóa bộ sưu tập có chứa sản phẩm đang hoạt động"
   },
   "logout": {
     "title": "Đăng xuất",
