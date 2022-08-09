@@ -9,7 +9,7 @@
         <span v-if="tabActive === 'FILE'" class="text-desc">{{ $t('popup_label-delete-file') }}</span>
         <span v-if="tabActive === 'BOOLEAN'" class="text-desc">{{ $t('popup_label-delete-boolean') }}</span>
 
-        <span>"{{ rowCurrent.name }}"?</span>
+        <span>"{{ rowCurrent.metaName }}"?</span>
       </p>
     </div>
     <div class="footer" slot="footer">

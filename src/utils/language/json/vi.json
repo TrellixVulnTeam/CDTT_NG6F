@@ -216,7 +216,8 @@
     "times": "số lần sử dụng thiết bị",
     "results": "Bản ghi",
     "events": "hoạt động",
-    "collection": "bộ sưu tập"
+    "collection": "bộ sưu tập",
+    "nft": "sản phẩm"
   },
   "label": {
     "invalid-amount": "Số lượng không hợp lệ",
@@ -533,11 +534,17 @@
   },
   "nft": {
     "sort": {
-      "latest": "Ngày tạo muộn nhất",
+      "latest": "Mới nhất",
       "earliest": "Ngày tạo sớm nhất",
-      "oldest": "Ngày tạo cũ nhất",
+      "oldest": "Cũ nhất",
       "price-highToLow": "Giá: Từ cao xuống thấp",
-      "price-lowToHigh": "Giá: Từ thấp lên cao"
+      "price-lowToHigh": "Giá: Từ thấp lên cao",
+      "item": "Sản phẩm",
+      "creator": "Người tạo",
+      "collection": "Bộ sưu tập",
+      "category": "Danh mục",
+      "network": "Mạng",
+      "status": "Trạng thái"
     },
     "filter": {
       "category": "Danh mục",
@@ -1314,6 +1321,27 @@
         "creator": "\"Người tạo\" không được phép để trống",
         "category": "\"Danh mục\" không được phép để trống",
         "template": "\"Mẫu\" không được phép để trống"
+      },
+      "placeholder": {
+        "name": "Nhập tên bộ sưu tập",
+        "description": "e. g. \"Sau khi mua, bạn sẽ có thể nhận được chiếc áo phông thật\"",
+        "contract-address": "Chọn một địa chỉ hợp đồng",
+        "creator": "Chọn người tạo",
+        "category": "Chọn danh mục",
+        "template": "Chọn mẫu"
+      }
+    },
+    "nft": {
+      "filter": {
+        "title": "BỘ LỌC",
+        "collection": "Bộ sưu tập",
+        "creator": "Người tạo",
+        "category": "Danh mục",
+        "network": "Mạng",
+        "status": "Trạng thái",
+        "created-date": "Ngày tạo",
+        "from-date": "Từ ngày",
+        "to-date": "Đến ngày"
       }
     },
     "template": {
@@ -1419,5 +1447,7 @@
   "label_feature-status": "Tình trạng tính năng",
   "label_add-feature": "Thêm tính năng",
   "label_upload-desc": "Kéo và thả hoặc",
-  "label_click-to-upload": "bấm để tải lên"
+  "label_click-to-upload": "bấm để tải lên",
+  "popup_add": "Thêm",
+  "popup_edit": "Sửa"
 }

@@ -1,13 +1,13 @@
 <template>
   <div class="tab-map">
-    <base-table :data="data" :showPagination="false">
-      <el-table-column :label="$t('label_nft-name')" prop="name">
+    <base-table :data="data" :showPagination="false" :key="key">
+      <el-table-column :label="$t('label_nft-name')" prop="metaName">
         <template slot-scope="scope">
-          <p>{{ scope.row.name }}</p>
-          <p class="nft-body-small text-desc" v-if="scope.row.annotate">({{ scope.row.annotate }})</p>
+          <p>{{ scope.row.metaName }}</p>
+          <p class="nft-body-small text-desc" v-if="scope.row.metaAnnotation">({{ scope.row.metaAnnotation }})</p>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('label_long-desc')" prop="desc" align="right"> </el-table-column>
+      <el-table-column :label="$t('label_long-desc')" prop="metaValue" align="right"> </el-table-column>
       <el-table-column align="right" width="100px">
         <template slot-scope="scope">
           <span @click="handleCallAction('edit', scope.row)">
@@ -25,8 +25,15 @@
         </div>
       </div>
     </base-table>
-    <popup-add-map :typePopup="typePopup" :rowCurrent="rowCurrent" @confirm="handleConfirm" @edit="handleEdit" />
-    <popup-delete :rowCurrent="rowCurrent" :tabActive="tabActive" @delete="handleDelete" />
+    <popup-add-map
+      :typePopup="typePopup"
+      :idTabActive="idTabActive"
+      :rowCurrent="rowCurrent"
+      @confirmDelete="handleCallAction('delete', rowCurrent)"
+      @confirm="handleConfirm"
+      @edit="handleEdit"
+    />
+    <popup-delete :rowCurrent="rowCurrent" @delete="handleDelete" />
   </div>
 </template>
 
@@ -39,23 +46,25 @@
   import PopupAddMap from './PopupAddMap.vue'
   import PopupDelete from './PopupDelete.vue'
 
+  import { namespace } from 'vuex-class'
+  import { IMetaMap } from '../../interface'
+  import uniqueId from 'lodash/uniqueId'
+  const bcNft = namespace('bcNft')
+
   @Component({ components: { PopupAddMap, PopupDelete } })
   export default class TabMap extends Mixins(PopupMixin) {
-    @Prop({ required: false, type: Array, default: [] }) metaData!: Array<Record<string, any>>
-    @Prop({ required: false, type: String, default: '' }) tabActive!: string
+    @Prop({ required: false, type: Number, default: 0 }) idTabActive!: number
+
+    @bcNft.State('metaDatas') metaDatas!: Array<Record<string, any>>
+    @bcNft.Mutation('SET_LIST_METADATA') setListMetaData!: (list: Array<Record<string, any>>) => void
 
     data: Array<Record<string, any>> = []
     typePopup = 'add'
     rowCurrent: Record<string, any> = {}
-
-    @Watch('metaData') watchMetadata(): void {
-      // const elm = filter(this.metaData, elm => elm.type === this.tabActive)[0]
-      // this.data = [...elm.value]
-    }
+    key = 0
 
     created(): void {
-      // const elm = filter(this.metaData, elm => elm.type === this.tabActive)[0]
-      // this.data = [...elm.value]
+      this.data = filter(this.metaDatas, elm => elm.metaTypeId === this.idTabActive)
     }
 
     handleClickAdd(): void {
@@ -83,33 +92,36 @@
     }
 
     handleDelete(): void {
-      const data = filter(this.data, elm => elm.id !== this.rowCurrent.id)
-      const indexMeta = findIndex(this.metaData, elm => elm.type === this.tabActive)
-      const _metaData = [...this.metaData]
-      _metaData[indexMeta].value = data
-      this.$emit('update', _metaData)
-    }
+      const metaDatas = filter(this.metaDatas, elm => elm.id !== this.rowCurrent.id)
+      this.setListMetaData(metaDatas)
 
-    handleEdit(form: Record<string, any>): void {
-      const _data = [...(this.data as Array<Record<string, any>>)]
-      const index = findIndex(_data, elm => elm.id === form.id)
-      _data[index] = { ...form }
-      const indexMeta = findIndex(this.metaData, elm => elm.type === this.tabActive)
-      const _metaData = [...this.metaData]
-      _metaData[indexMeta].value = _data
-      this.$emit('update', _metaData)
-    }
-
-    handleConfirm(form: Record<string, any>): void {
-      const _data = [...(this.data as Array<Record<string, any>>)]
-      _data.unshift({
-        ...form,
-        id: Math.random()
+      this.data = filter(this.data, elm => elm.id !== this.rowCurrent.id)
+      this.$emit('update')
+      this.setOpenPopup({
+        popupName: 'popup-setup-delete',
+        isOpen: false
       })
-      const index = findIndex(this.metaData, elm => elm.type === this.tabActive)
-      const _metaData = [...this.metaData]
-      _metaData[index].value = _data
-      this.$emit('update', _metaData)
+      this.setOpenPopup({
+        popupName: 'popup-add-map',
+        isOpen: false
+      })
+    }
+
+    handleEdit(form: IMetaMap): void {
+      const indexItemMetaData = findIndex(this.metaDatas, elm => elm.id === form.id)
+      const indexItemData = findIndex(this.data, elm => elm.id === form.id)
+
+      this.metaDatas[indexItemMetaData] = form
+      this.data[indexItemData] = form
+      this.key = Math.random()
+      this.$emit('update')
+    }
+
+    handleConfirm(form: IMetaMap): void {
+      const id = +uniqueId()
+      this.metaDatas.push({ ...form, id })
+      this.data.push({ ...form, id })
+      this.$emit('update')
     }
   }
 </script>

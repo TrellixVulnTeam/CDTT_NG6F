@@ -11,6 +11,18 @@ export interface ITabInfo {
   description: string
 }
 
+export interface ITabBlockchain {
+  totalSupply: string
+  totalMint: string
+  contractAddress: string
+  tokenId: string | number
+  network: string
+  networkName: string
+  creatorName: string
+  creatorUsername: string
+  creatorId: number
+}
+
 export interface ITabSetting {
   serviceFee: string | number
   creatorFee: string | number
@@ -30,5 +42,32 @@ export interface IMetaTypes {
   metaTypeName: string
   templateId: number
   typeTab: TabType
+  [x: string]: any
+}
+
+export interface IMetaDataFile {
+  [x: string]: any
+  id: number
+  itemId: null | number
+  metaDescription: string
+  metaIcon: string
+  metaMaximum: null | number
+  metaMinimum: null | number
+  metaName: string
+  metaStatisValue: string
+  metaType: string
+  metaTypeAvatar: null | string
+  metaTypeId: number
+  metaTypePosition: number
+  metaValue: string
+  metaValueType: 'FILE'
+}
+
+export interface IMetaMap {
+  metaName?: string
+  metaAnnotation?: string
+  metaValueType?: string
+  metaValue?: string
+  metaDescription?: string
   [x: string]: any
 }

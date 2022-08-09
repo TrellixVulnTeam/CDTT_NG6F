@@ -12,10 +12,10 @@
       </div>
     </div>
     <div class="tab-meta__content" v-loading="isLoading">
-      <keep-alive>
-        <component :is="getComponent" class="flex-1" :tabActive="tabActive" :metaData="metaData" @update="handleUpdate" />
-      </keep-alive>
-      <preview-meta-data :tabActive="tabActive" :metaData="metaData" />
+      <!-- <keep-alive> -->
+      <component :is="getComponent" class="flex-1" :idTabActive="idTabActive" @update="handleUpdate" :tabActive="tabActive" />
+      <!-- </keep-alive> -->
+      <preview-meta-data :dataPreview="dataPreview" :idTabActive="idTabActive" :tabActive="tabActive" :tabName="getNameTabPreview" />
     </div>
   </div>
 </template>
@@ -33,64 +33,18 @@
   const bcNft = namespace('bcNft')
 
   import { IMetaTypes } from '../../interface'
+  import { filter } from 'lodash'
 
   @Component({ components: { TabText, PreviewMetaData, TabHtml, TabMap, TabFile, TabBoolean } })
   export default class TabMetaData extends Vue {
     @bcNft.State('metaTypes') metaTypes!: IMetaTypes[]
+    @bcNft.State('metaDatas') metaDatas!: Array<Record<string, any>>
     isLoading = false
 
     tabActive = 'TEXT'
     idTabActive = 0
 
-    metaData: Array<Record<string, any>> = [
-      {
-        id: 0,
-        type: 'TEXT',
-        value: ''
-      },
-      {
-        id: 1,
-        type: 'HTML',
-        value: '<p><strong><em><u>đây là mô tả</u></em></strong></p>'
-      },
-      {
-        id: 2,
-        type: 'MAP',
-        value: [
-          {
-            id: 0,
-            name: 'Project',
-            desc: 'Crystal Holidays',
-            annotate: '',
-            type: 'text'
-          },
-          {
-            id: 1,
-            name: 'Week',
-            desc: '18 weeks',
-            annotate: '',
-            type: 'text'
-          },
-          {
-            id: 2,
-            name: 'High season',
-            annotate: 'a week per year',
-            desc: 'From 21st April',
-            type: 'text'
-          }
-        ]
-      },
-      {
-        id: 3,
-        type: 'FILE',
-        value: [{ id: 0, name: 'eBrochures PDF', fileType: 'PDF', size: 1539060, fileName: 'eBrochures' }]
-      },
-      {
-        id: 4,
-        type: 'BOOLEAN',
-        value: [{ id: 0, name: 'Community room', status: true }]
-      }
-    ]
+    dataPreview: Array<Record<string, any>> = []
 
     get getComponent(): string {
       switch (this.tabActive) {
@@ -107,9 +61,18 @@
       }
     }
 
+    get getNameTabPreview(): string {
+      if (!this.idTabActive) return ''
+      const tabActive = filter(this.metaTypes, type => type.metaTypeId === this.idTabActive)[0]
+      const language = localStorage.getItem('bc-lang') || ''
+      const parseJson = JSON.parse(tabActive.metaTypeName)
+      return parseJson[language]
+    }
+
     created(): void {
       this.idTabActive = this.metaTypes[0].metaTypeId
       this.tabActive = this.metaTypes[0].typeTab
+      this.dataPreview = filter(this.metaDatas, elm => elm.metaTypeId === this.idTabActive)
     }
 
     getName(metaTypeName: string): string {
@@ -121,12 +84,13 @@
     handleChangeTab(item: IMetaTypes): void {
       this.tabActive = item.typeTab
       this.idTabActive = item.metaTypeId
+      this.dataPreview = filter(this.metaDatas, elm => elm.metaTypeId === this.idTabActive)
     }
 
-    handleUpdate(data: Array<Record<string, any>>): void {
-      console.log('>?', data)
+    handleUpdate(): void {
+      console.log(this.metaDatas)
 
-      this.metaData = [...data]
+      this.dataPreview = filter(this.metaDatas, elm => elm.metaTypeId === this.idTabActive)
     }
   }
 </script>
@@ -157,10 +121,10 @@
       .flex-1 {
         flex: 1;
       }
-      .preview {
-        width: 360px;
-        margin-left: 24px;
-      }
+      // .preview {
+      //   width: 360px;
+      //   margin-left: 24px;
+      // }
     }
   }
 </style>

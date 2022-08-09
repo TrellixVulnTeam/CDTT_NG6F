@@ -1,11 +1,11 @@
 <template>
   <div class="tab-boolean">
-    <base-table :data="data" :showPagination="false">
+    <base-table :data="data" :showPagination="false" :key="key">
       <el-table-column label="#" type="index" width="56px" align="center" />
-      <el-table-column :label="$t('label_nft-name')" prop="name"> </el-table-column>
+      <el-table-column :label="$t('label_nft-name')" prop="metaName"> </el-table-column>
       <el-table-column prop="status" align="right">
         <template slot-scope="scope">
-          <el-switch v-model="scope.row.status" active-color="#129961"> </el-switch>
+          <el-switch v-model="scope.row.metaValue" active-value="true" inactive-value="false" active-color="#129961"> </el-switch>
         </template>
       </el-table-column>
       <el-table-column align="right" width="100px">
@@ -21,12 +21,19 @@
       <div class="append" slot="append">
         <div class="be-flex align-center cursor" @click="handleClickAdd">
           <base-icon icon="icon-add-circle" size="40" />
-          <span class="text-hyperlink text-sm" style="padding-left: 12px">{{ $t('label_add-feature') }}</span>
+          <span class="text-hyperlink text-sm" style="padding-left: 12px">{{ getLabel }}</span>
         </div>
       </div>
     </base-table>
-    <popup-add-feature :typePopup="typePopup" :rowCurrent="rowCurrent" @confirm="handleConfirm" @edit="handleEdit" @confirmDelete="handleCallAction('delete', rowCurrent)" />
-    <popup-delete :rowCurrent="rowCurrent" :tabActive="tabActive" @delete="handleDelete" />
+    <popup-add-feature
+      :typePopup="typePopup"
+      :rowCurrent="rowCurrent"
+      :idTabActive="idTabActive"
+      @confirm="handleConfirm"
+      @edit="handleEdit"
+      @confirmDelete="handleCallAction('delete', rowCurrent)"
+    />
+    <popup-delete :rowCurrent="rowCurrent" @delete="handleDelete" />
   </div>
 </template>
 
@@ -34,28 +41,47 @@
   import { Component, Prop, Mixins, Watch } from 'vue-property-decorator'
   import filter from 'lodash/filter'
   import findIndex from 'lodash/findIndex'
+  import uniqueId from 'lodash/uniqueId'
 
   import PopupMixin from '@/mixins/popup'
   import PopupAddFeature from './PopupAddFeature.vue'
   import PopupDelete from './PopupDelete.vue'
 
+  import { namespace } from 'vuex-class'
+  const bcNft = namespace('bcNft')
+
   @Component({ components: { PopupAddFeature, PopupDelete } })
   export default class TabBoolean extends Mixins(PopupMixin) {
-    @Prop({ required: false, type: Array, default: [] }) metaData!: Array<Record<string, any>>
-    @Prop({ required: false, type: String, default: '' }) tabActive!: string
+    @Prop({ required: false, type: Number, default: 0 }) idTabActive!: number
+
+    @bcNft.State('metaDatas') metaDatas!: Array<Record<string, any>>
+    @bcNft.State('metaTypes') metaTypes!: Array<Record<string, any>>
+    @bcNft.Mutation('SET_LIST_METADATA') setListMetaData!: (list: Array<Record<string, any>>) => void
 
     data: Array<Record<string, any>> = []
     typePopup = 'add'
     rowCurrent: Record<string, any> = {}
+    key = 0
 
-    @Watch('metaData') watchMetadata(): void {
-      const elm = filter(this.metaData, elm => elm.type === this.tabActive)[0]
-      this.data = [...elm.value]
+    get getLabel(): string {
+      if (this.metaTypes.length) {
+        const type = filter(this.metaTypes, elm => elm.metaTypeId === this.idTabActive)
+        const language = localStorage.getItem('bc-lang') || ''
+        const parseJson = JSON.parse(type[0].metaTypeName)
+        return this.typePopup === 'add'
+          ? this.$t('popup_add') + ' ' + (parseJson[language] as string).toLowerCase()
+          : this.$t('popup_edit') + ' ' + (parseJson[language] as string).toLowerCase()
+      }
+      return ''
+    }
+
+    @Watch('idTabActive') changeTab(newTabId: number): void {
+      this.data = filter(this.metaDatas, elm => elm.metaTypeId === newTabId)
+      this.$emit('update')
     }
 
     created(): void {
-      // const elm = filter(this.metaData, elm => elm.type === this.tabActive)[0]
-      // this.data = [...elm.value]
+      this.data = filter(this.metaDatas, elm => elm.metaTypeId === this.idTabActive)
     }
 
     handleClickAdd(): void {
@@ -83,33 +109,36 @@
     }
 
     handleDelete(): void {
-      const data = filter(this.data, elm => elm.id !== this.rowCurrent.id)
-      const indexMeta = findIndex(this.metaData, elm => elm.type === this.tabActive)
-      const _metaData = [...this.metaData]
-      _metaData[indexMeta].value = data
-      this.$emit('update', _metaData)
+      const metaDatas = filter(this.metaDatas, elm => elm.id !== this.rowCurrent.id)
+      this.setListMetaData(metaDatas)
+
+      this.data = filter(this.data, elm => elm.id !== this.rowCurrent.id)
+      this.$emit('update')
+      this.setOpenPopup({
+        popupName: 'popup-setup-delete',
+        isOpen: false
+      })
+      this.setOpenPopup({
+        popupName: 'popup-add-feature',
+        isOpen: false
+      })
     }
 
     handleEdit(form: Record<string, any>): void {
-      const _data = [...this.data]
-      const index = findIndex(_data, elm => elm.id === form.id)
-      _data[index] = { ...form }
-      const indexMeta = findIndex(this.metaData, elm => elm.type === this.tabActive)
-      const _metaData = [...this.metaData]
-      _metaData[indexMeta].value = _data
-      this.$emit('update', _metaData)
+      const indexItemMetaData = findIndex(this.metaDatas, elm => elm.id === form.id)
+      const indexItemData = findIndex(this.data, elm => elm.id === form.id)
+
+      this.metaDatas[indexItemMetaData] = form
+      this.data[indexItemData] = form
+      this.key = Math.random()
+      this.$emit('update')
     }
 
     handleConfirm(form: Record<string, any>): void {
-      const _data = [...this.data]
-      _data.unshift({
-        ...form,
-        id: Math.random()
-      })
-      const index = findIndex(this.metaData, elm => elm.type === this.tabActive)
-      const _metaData = [...this.metaData]
-      _metaData[index].value = _data
-      this.$emit('update', _metaData)
+      const id = +uniqueId()
+      this.metaDatas.push({ ...form, id })
+      this.data = filter(this.metaDatas, elm => elm.metaTypeId === this.idTabActive)
+      this.$emit('update')
     }
   }
 </script>

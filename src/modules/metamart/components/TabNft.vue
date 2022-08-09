@@ -4,9 +4,8 @@
       <div class="wallet-table__below">
         <div class="wrapper">
           <base-table
-            :data="dataCollection"
-            :showPagination="showPagination"
-            :paginationInfo="paginationInfo"
+            :data="data"
+            :paginationInfo="getPaginationInfo"
             :table="query"
             @selectionChange="handleSelectionChange"
             @sizeChange="handleSizeChange"
@@ -14,22 +13,22 @@
             class="collection-table"
             @rowClick="handleRowClick"
           >
-            <el-table-column label="#" type="index" align="center" width="40" />
+            <el-table-column label="#" type="index" :index="indexMethod" align="center" width="40" />
             <el-table-column type="selection" :selectable="handleSelectable" align="center" width="40" />
             <el-table-column :label="$t('inventory.table.item')" align="left" min-width="347">
               <template slot-scope="scope">
                 <div class="wrap-item">
-                  <img :src="scope.row.nftImage" alt="" class="item-img" width="40px" height="40px" />
+                  <img :src="scope.row.thumb" alt="" class="item-img" width="40px" height="40px" />
                   <div class="item-text">
-                    <p class="item-text__name">{{ scope.row.nftName }}</p>
-                    <p class="item-text__code">#{{ scope.row.nftId }}</p>
+                    <p class="item-text__name">{{ scope.row.itemName }}</p>
+                    <p class="item-text__code">#{{ scope.row.itemCode }}</p>
                   </div>
                 </div>
               </template>
             </el-table-column>
             <el-table-column :label="$t('metamart.table.category')" align="left" width="270">
               <template slot-scope="scope">
-                <p>{{ scope.row.category }}</p>
+                <p>{{ scope.row.categoryName }}</p>
               </template>
             </el-table-column>
             <el-table-column :label="$t('metamart.table.network')" align="left" width="130">
@@ -42,11 +41,11 @@
             </el-table-column>
             <el-table-column :label="$t('inventory.table.status')" align="center" width="200">
               <template slot-scope="scope">
-                <div v-if="scope.row.status === 'Off-chain'" class="box-status-table locked">
-                  <span class="fs-12 fw-500">{{ scope.row.status }}</span>
+                <div v-if="scope.row.isOnChain === 'NO'" class="box-status-table locked">
+                  <span class="fs-12 fw-500">Off-chain</span>
                 </div>
                 <div v-else class="box-status-table">
-                  <span class="fs-12 fw-500">{{ scope.row.status }}</span>
+                  <span class="fs-12 fw-500">On-chain</span>
                 </div>
               </template>
             </el-table-column>
@@ -56,11 +55,11 @@
                   <span @click="handleEdit(scope.row)">
                     <base-icon icon="icon-edit" size="24" />
                   </span>
-                  <el-dropdown trigger="click" @command="handleCommand" >
+                  <el-dropdown trigger="click" @command="handleCommand">
                     <i class="el-icon-more" style="padding: 5px" @click="handleConflictClick"></i>
                     <el-dropdown-menu class="dropdown-sort" slot="dropdown">
                       <el-dropdown-item>Update metadata</el-dropdown-item>
-                      <el-dropdown-item>{{ scope.row.status === 'Off-chain' ? 'On-chain' : 'Off-chain' }}</el-dropdown-item>
+                      <el-dropdown-item>{{ scope.row.isOnChain === 'NO' ? 'On-chain' : 'Off-chain' }}</el-dropdown-item>
                       <el-dropdown-item command="delete-nft">Delete</el-dropdown-item>
                     </el-dropdown-menu>
                   </el-dropdown>
@@ -83,9 +82,9 @@
     components: { BasePagination }
   })
   export default class TabNFT extends Vue {
+    @Prop({ required: true, type: Array }) data!: Array<Record<string, any>>
     @Prop({ required: false, type: Boolean, default: true }) showPagination!: boolean
     @Prop({ required: false, type: String, default: '' }) paginationInfo!: string
-    @Prop({ required: true, type: Array }) nftProps!: Array<Record<string, any>>
     @Prop({
       required: false,
       type: Object,
@@ -94,102 +93,18 @@
       }
     })
     query!: PaginationInterface
-    //fake data
-    dataCollection = [
-      {
-        nftName: 'The Myth Virtual Tour #31',
-        nftId: '113256',
-        nftImage: 'http://loremflickr.com/640/480',
-        category: 'Real Estate',
-        networkName: 'Ethereum',
-        network: 'ERC1155',
-        status: 'On-chain'
-      },
-      {
-        nftName: 'The Myth Virtual Tour #32',
-        nftId: '113256',
-        nftImage: 'http://loremflickr.com/640/480',
-        category: 'Virtual Tourism',
-        networkName: 'Ethereum',
-        network: 'ERC1155',
-        status: 'On-chain'
-      },
-      {
-        nftName: 'The Myth Virtual Tour #33',
-        nftId: '113256',
-        nftImage: 'http://loremflickr.com/640/480',
-        category: 'Family House',
-        networkName: 'Ethereum',
-        network: 'ERC1155',
-        status: 'On-chain'
-      },
-      {
-        nftName: 'The Myth Virtual Tour #34',
-        nftId: '113256',
-        nftImage: 'http://loremflickr.com/640/480',
-        category: 'Real Estate',
-        networkName: 'Ethereum',
-        network: 'ERC1155',
-        status: 'Off-chain'
-      },
-      {
-        nftName: 'The Myth Virtual Tour #35',
-        nftId: '113256',
-        nftImage: 'http://loremflickr.com/640/480',
-        category: 'Real Estate',
-        networkName: 'Ethereum',
-        network: 'ERC1155',
-        status: 'Off-chain'
-      },
-      {
-        nftName: 'The Myth Virtual Tour #36',
-        nftId: '113256',
-        nftImage: 'http://loremflickr.com/640/480',
-        category: 'Real Estate',
-        networkName: 'Ethereum',
-        network: 'ERC1155',
-        status: 'On-chain'
-      },
-      {
-        nftName: 'The Myth Virtual Tour #37',
-        nftId: '113256',
-        nftImage: 'http://loremflickr.com/640/480',
-        category: 'Real Estate',
-        networkName: 'Ethereum',
-        network: 'ERC1155',
-        status: 'Off-chain'
-      },
-      {
-        nftName: 'The Myth Virtual Tour #38',
-        nftId: '113256',
-        nftImage: 'http://loremflickr.com/640/480',
-        category: 'Real Estate',
-        networkName: 'Ethereum',
-        network: 'ERC1155',
-        status: 'On-chain'
-      },
-      {
-        nftName: 'The Myth Virtual Tour #39',
-        nftId: '113256',
-        nftImage: 'http://loremflickr.com/640/480',
-        category: 'Real Estate',
-        networkName: 'Ethereum',
-        network: 'ERC1155',
-        status: 'Off-chain'
-      },
-      {
-        nftName: 'The Myth Virtual Tour #38',
-        nftId: '113256',
-        nftImage: 'http://loremflickr.com/640/480',
-        category: 'Real Estate',
-        networkName: 'Ethereum',
-        network: 'ERC1155',
-        status: 'Off-chain'
-      }
-    ]
+
     isConflictClick = false
+
+    get getPaginationInfo(): any {
+      return this.$t('paging.nft')
+    }
+
+    indexMethod(index: number): number {
+      return (this.query.page - 1) * this.query.limit + index + 1
+    }
     handleSelectable(row: Record<string, any>) {
-      if (row.status === 'On-chain') {
+      if (row.isOnChain === 'YES') {
         return false
       } else {
         return true
@@ -262,6 +177,7 @@
             gap: 8px;
             .item-img {
               border-radius: 4px;
+              object-fit: cover;
             }
           }
           .item-text {

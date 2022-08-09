@@ -52,6 +52,7 @@ export class NftRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+
   async createCategory(params: Record<string, any>): Promise<Array<Record<string, any>>> {
     try {
       const result = await request.post(`${this.prefix}/category`, params)
@@ -60,9 +61,20 @@ export class NftRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
-  async editCategory(params: Record<string, any>, id: Record<string, any>): Promise<Array<Record<string, any>>> {
+  async updateCategory(id: string | number, params: Record<string, any>): Promise<Array<Record<string, any>>> {
     try {
-      const result = await request.put(`${this.prefix}/category/${id}`, params, id)
+      const result = await request.put(`${this.prefix}/category/${id}`, params)
+      return result.data.data
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+  async deleteCategory(id: string | number, data: Record<string, any>): Promise<Array<Record<string, any>>> {
+    try {
+      console.log(data)
+      const result = await request.delete(`${this.prefix}/category/${id}`, { data })
+      console.log(result)
+
       return result.data.data
     } catch (error) {
       return Promise.reject(error)
@@ -93,7 +105,7 @@ export class NftRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
-  async getCategories(params: Record<string, any>): Promise<Array<Record<string, any>>> {
+  async getCategories(params: Record<string, any>): Promise<Record<string, any>> {
     try {
       const result = await request.get(`${this.prefix}/categories`, { params })
       return result.data.data
@@ -113,7 +125,51 @@ export class NftRepository extends BaseRepository {
 
   async createCollection(data: Record<string, any>): Promise<any> {
     try {
-      const result = await request.post(`${this.prefix}bo/collection/create`, data)
+      const result = await request.post(`${this.prefix}/bo/collection/create`, data)
+      return Promise.resolve(result.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+
+  async getNftCollection(params: Record<string, any>): Promise<any> {
+    try {
+      const result = await request.get(`${this.prefix}/bo/collection/list`, { params })
+      return Promise.resolve(result.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+
+  async getNftItem(params: Record<string, any>): Promise<any> {
+    try {
+      const result = await request.get(`${this.prefix}/bo/item/list`, { params })
+      return Promise.resolve(result.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+
+  async editCollection(data: Record<string, any>): Promise<any> {
+    try {
+      const result = await request.put(`${this.prefix}/bo/collection/update`, data)
+      return Promise.resolve(result.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+
+  async createNft(data: Record<string, any>): Promise<any> {
+    try {
+      const result = await request.post(`${this.prefix}/bo/item/create`, data)
+      return Promise.resolve(result.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+  async getDetailNft(id: number): Promise<any> {
+    try {
+      const result = await request.get(`${this.prefix}/item/${id}/detail`)
       return Promise.resolve(result.data.data)
     } catch (error) {
       return Promise.reject(error)
@@ -123,6 +179,22 @@ export class NftRepository extends BaseRepository {
     try {
       const rs = await request.get(`${this.prefix}/banners`, { params })
       return Promise.resolve(rs.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+  async createBanner(params: Record<string, any>): Promise<any> {
+    try {
+      const rs = await request.post(`${this.prefix}/banner`, params)
+      return Promise.resolve(rs.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+  async updateBanner(bannerId: number, params: Record<string, any>): Promise<any> {
+    try {
+      const rs = await request.put(`${this.prefix}/banner/${bannerId}`, params)
+      return Promise.resolve(rs.data)
     } catch (error) {
       return Promise.reject(error)
     }

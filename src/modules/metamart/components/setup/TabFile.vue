@@ -1,20 +1,20 @@
 <template>
   <div class="tab-file">
-    <base-table :data="data" :showPagination="false">
+    <base-table :data="data" :showPagination="false" :key="key">
       <el-table-column label="#" type="index" width="56px" align="center" />
-      <el-table-column :label="$t('label_nft-name')" prop="name"> </el-table-column>
-      <el-table-column :label="$t('label_type')" prop="fileType" align="right"> </el-table-column>
-      <el-table-column :label="$t('label_size')" prop="size" align="right">
+      <el-table-column :label="$t('label_nft-name')" prop="metaName"> </el-table-column>
+      <el-table-column :label="$t('label_type')" prop="metaAnnotation" align="right"> </el-table-column>
+      <el-table-column :label="$t('label_size')" prop="metaStatisValue" align="right">
         <template slot-scope="scope">
-          <p>{{ scope.row.size | bytesToSize }}</p>
+          <p>{{ scope.row.metaStatisValue | bytesToSize }}</p>
         </template>
       </el-table-column>
       <el-table-column align="right" width="100px">
         <template slot-scope="scope">
-          <span @click="handleCallAction('edit', scope.row)">
+          <span @click="handleCallAction('edit', scope.row, scope.$index)">
             <base-icon icon="icon-edit" size="20" />
           </span>
-          <span style="padding-left: 16px" @click="handleCallAction('delete', scope.row)">
+          <span style="padding-left: 16px" @click="handleCallAction('delete', scope.row, scope.$index)">
             <base-icon icon="icon-delete-2" size="20" />
           </span>
         </template>
@@ -26,7 +26,14 @@
         </div>
       </div>
     </base-table>
-    <popup-add-file :typePopup="typePopup" :rowCurrent="rowCurrent" @confirm="handleConfirm" @edit="handleEdit" @confirmDelete="handleCallAction('delete', rowCurrent)" />
+    <popup-add-file
+      :typePopup="typePopup"
+      :idTabActive="idTabActive"
+      :rowCurrent="rowCurrent"
+      @confirm="handleConfirm"
+      @edit="handleEdit"
+      @confirmDelete="handleCallAction('delete', rowCurrent)"
+    />
     <popup-delete :rowCurrent="rowCurrent" :tabActive="tabActive" @delete="handleDelete" />
   </div>
 </template>
@@ -34,29 +41,32 @@
 <script lang="ts">
   import { Component, Prop, Mixins, Watch } from 'vue-property-decorator'
   import filter from 'lodash/filter'
+  import uniqueId from 'lodash/uniqueId'
   import findIndex from 'lodash/findIndex'
 
   import PopupMixin from '@/mixins/popup'
   import PopupAddFile from './PopupAddFile.vue'
   import PopupDelete from './PopupDelete.vue'
 
+  import { namespace } from 'vuex-class'
+  import { IMetaDataFile } from '../../interface'
+  const bcNft = namespace('bcNft')
+
   @Component({ components: { PopupAddFile, PopupDelete } })
   export default class TabFile extends Mixins(PopupMixin) {
-    @Prop({ required: false, type: Array, default: [] }) metaData!: Array<Record<string, any>>
+    @Prop({ required: false, type: Number, default: 0 }) idTabActive!: number
     @Prop({ required: false, type: String, default: '' }) tabActive!: string
 
-    data: Array<Record<string, any>> = []
+    @bcNft.State('metaDatas') metaDatas!: Array<Record<string, any>>
+    @bcNft.Mutation('SET_LIST_METADATA') setListMetaData!: (list: Array<Record<string, any>>) => void
+
+    data: IMetaDataFile[] = []
     typePopup = 'add'
     rowCurrent: Record<string, any> = {}
-
-    @Watch('metaData') watchMetadata(): void {
-      const elm = filter(this.metaData, elm => elm.type === this.tabActive)[0]
-      this.data = [...elm.value]
-    }
+    key = 0
 
     created(): void {
-      const elm = filter(this.metaData, elm => elm.type === this.tabActive)[0]
-      this.data = [...elm.value]
+      this.data = filter(this.metaDatas, elm => elm.metaTypeId === this.idTabActive) as IMetaDataFile[]
     }
 
     handleClickAdd(): void {
@@ -67,7 +77,7 @@
       })
     }
 
-    handleCallAction(type: 'edit' | 'delete', row: Record<string, any>): void {
+    handleCallAction(type: 'edit' | 'delete', row: Record<string, any>, index: number): void {
       this.rowCurrent = row
       this.typePopup = type
       if (type === 'edit') {
@@ -84,33 +94,38 @@
     }
 
     handleDelete(): void {
-      const data = filter(this.data, elm => elm.id !== this.rowCurrent.id)
-      const indexMeta = findIndex(this.metaData, elm => elm.type === this.tabActive)
-      const _metaData = [...this.metaData]
-      _metaData[indexMeta].value = data
-      this.$emit('update', _metaData)
-    }
+      const metaDatas = filter(this.metaDatas, elm => elm.id !== this.rowCurrent.id)
+      this.setListMetaData(metaDatas)
 
-    handleEdit(form: Record<string, any>): void {
-      const _data = [...this.data]
-      const index = findIndex(_data, elm => elm.id === form.id)
-      _data[index] = { ...form }
-      const indexMeta = findIndex(this.metaData, elm => elm.type === this.tabActive)
-      const _metaData = [...this.metaData]
-      _metaData[indexMeta].value = _data
-      this.$emit('update', _metaData)
-    }
-
-    handleConfirm(form: Record<string, any>): void {
-      const _data = [...this.data]
-      _data.unshift({
-        ...form,
-        id: Math.random()
+      this.data = filter(this.data, elm => elm.id !== this.rowCurrent.id) as IMetaDataFile[]
+      this.$emit('update')
+      this.setOpenPopup({
+        popupName: 'popup-setup-delete',
+        isOpen: false
       })
-      const index = findIndex(this.metaData, elm => elm.type === this.tabActive)
-      const _metaData = [...this.metaData]
-      _metaData[index].value = _data
-      this.$emit('update', _metaData)
+      this.setOpenPopup({
+        popupName: 'popup-add-file',
+        isOpen: false
+      })
+      // this.key = Math.random()
+    }
+
+    handleEdit(form: IMetaDataFile): void {
+      const indexItemMetaData = findIndex(this.metaDatas, elm => elm.id === form.id)
+      const indexItemData = findIndex(this.data, elm => elm.id === form.id)
+
+      this.metaDatas[indexItemMetaData] = form
+      this.data[indexItemData] = form
+      this.key = Math.random()
+      this.$forceUpdate()
+      this.$emit('update')
+    }
+
+    handleConfirm(form: IMetaDataFile): void {
+      const id = +uniqueId()
+      this.metaDatas.push({ ...form, id })
+      this.data.push({ ...form, id })
+      this.$emit('update')
     }
   }
 </script>

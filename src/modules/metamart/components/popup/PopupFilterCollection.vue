@@ -6,31 +6,47 @@
     <div class="content" v-loading="isLoading">
       <div class="content-block">
         <p class="content-block__title">{{$t('metamart.collection.filter.creator')}}</p>
-        <el-select v-model="filterCollection.creator" :placeholder="$t('metamart.collection.filter.creator')" class="select-prefix-icon">
-          <el-option v-for="(item, index) in creators" :label="`${item.name} (${item.email})`" :value="item.name" :key="index">
+        <el-select 
+          filterable
+          remote
+          :remote-method="remoteCreatorList"
+          v-model="filterCollection.creatorId" 
+          :placeholder="$t('metamart.collection.filter.creator')" 
+          class="select-prefix-icon"
+        >
+          <el-option v-for="(item, index) in creators" :label="`${item.accountName} (${item.username})`" :value="item.id" :key="index">
             <template>
               <div class="be-flex wallet-item">
-                <base-icon :icon="getIcon(item.currency)" size="24" />
-                <span style="margin-left: 10px">{{ item.name }}</span>
-                <span style="margin-left: 4px">({{ item.email }})</span>
+                <span style="margin-left: 10px">{{ item.accountName }}</span>
+                <span style="margin-left: 4px">({{ item.username }})</span>
               </div>
             </template>
           </el-option>
-          <div class="select-icon" slot="prefix">
-            <base-icon :icon="getCreatorIcon(filterCollection.creator)" size="16" />
-          </div>
         </el-select>
       </div>
       <div class="content-block">
         <p class="content-block__title">{{$t('metamart.collection.filter.category')}}</p>
-        <el-select v-model="filterCollection.category" :placeholder="$t('metamart.collection.filter.category')">
-          <el-option v-for="(option, index) in category" :label="option" :value="option" :key="index"></el-option>
+        <el-select 
+          filterable
+          remote
+          :remote-method="remoteCategoryList"
+          v-model="filterCollection.categoryId"
+          :placeholder="$t('metamart.collection.filter.category')"
+        >
+          <el-option 
+            v-for="(option, index) in categories" 
+            :label="option.categoryName" 
+            :value="option.id" 
+            :key="index"
+            :style="{ 'margin-left': `${(option.levelDepth ? option.levelDepth : 0) * 15}px` }"
+          >
+          </el-option>
         </el-select>
       </div>
       <div class="content-block">
         <p class="content-block__title">{{$t('metamart.collection.filter.network')}}</p>
-        <el-select v-model="filterCollection.network" :placeholder="$t('metamart.collection.filter.network')">
-          <el-option v-for="(option, index) in network" :label="option" :value="option" :key="index"></el-option>
+        <el-select v-model="filterCollection.networkName" :placeholder="$t('metamart.collection.filter.network')">
+          <el-option v-for="(option, index) in networks" :label="option.networkName" :value="option.networkName" :key="index"></el-option>
         </el-select>
       </div>
       <div class="content-block">
@@ -39,7 +55,7 @@
               <el-date-picker :placeholder="$t('metamart.collection.filter.from-date')" 
                 format="MM/dd/yyyy"
                 value-format="timestamp"
-                v-model="filterCollection.date1" 
+                v-model="filterCollection.fromCreatedAt" 
                 prefix-icon="el-icon-date"
                 type="date"
                 class="input-small"
@@ -49,7 +65,7 @@
               <el-date-picker :placeholder=" $t('metamart.collection.filter.to-date')" 
                 format="MM/dd/yyyy"
                 value-format="timestamp"
-                v-model="filterCollection.date2" 
+                v-model="filterCollection.toCreatedAt" 
                 prefix-icon="el-icon-date"
                 type="date"
                 class="input-small"
@@ -73,54 +89,113 @@
 <script lang="ts">
   import { Component, Mixins, Prop, Watch } from 'vue-property-decorator'
   import PopupMixin from '@/mixins/popup'
+  import EventBus from '@/utils/eventBus'
 
   @Component
   export default class PopupFilterCollection extends Mixins(PopupMixin) {
-    // fake data
-    creators = [
-      { name: 'Artmond275', email: 'artmond275@gmail.com', currency: 'BTC'},
-      { name: 'Dhman', email: 'dhman@gmail.com', currency: 'ETH'},
-      { name: 'LynKey', email: 'lynkey@gmail.com', currency: 'LYNK'}
-    ]
-    category = ['Real Estate', 'Family House', 'Penthouse']
-    network = ['Ethereum (ERC1155)', 'Binance (ERC1155)']
+    @Prop() creators: any
+    @Prop() categories: any
+    @Prop() networks: any
+
+    @Watch('$route', { immediate: true, deep: true })
+    onUrlChange() {
+      this.filterCollection = {
+        creatorId: '',
+        categoryId: '',
+        networkName: '',
+        fromCreatedAt: '',
+        toCreatedAt: '',
+      }
+    }
+
+    isLoading = false
+
+    get pickerOption(): any {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const _this = this
+      return {
+        disabledDate(time: Date) {
+          return _this.disableTime(time, 'from-to')
+        }
+      }
+    }
+    get pickerOption2(): any {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const _this = this
+      return {
+        disabledDate(time: Date) {
+          return _this.disableTime(time, 'to-from')
+        }
+      }
+    }
+    disableTime(time: Date, type: string): any {
+      if (type === 'from-to') {
+        if (this.filterCollection.fromCreatedAt) {
+          return time.getTime() / 1000 < new Date(this.filterCollection.fromCreatedAt).getTime() / 1000 - 7 * 60 * 60
+        }
+      } else {
+        if (this.filterCollection.toCreatedAt) {
+          return time.getTime() / 1000 > new Date(this.filterCollection.toCreatedAt).getTime() / 1000
+        }
+      }
+    }
 
     filterCollection = {
-      creator: '',
-      category: '',
-      network: '',
-      date1: '',
-      date2: '',
-    }
-    getIcon(currency: string): string {
-      return currency ? `icon-${currency.toLocaleLowerCase()}` : 'icon-lynk'
-    }
-    getCreatorIcon(creator: string): string {
-      let result = ''
-      this.creators.forEach(elm => {
-        if (elm.name === creator) {
-          result = elm.currency
-        }
-      })
-      return this.getIcon(result)
+      creatorId: '',
+      categoryId: '',
+      networkName: '',
+      fromCreatedAt: '',
+      toCreatedAt: '',
     }
     handleClose(): void {
-      this.filterCollection = {
-        creator: '',
-        category: '',
-        network: '',
-        date1: '',
-        date2: '',
-      }
+      this.$emit('reset-query')
+      this.setOpenPopup({
+        popupName:'popup-filter-collection',
+        isOpen: false
+      })
     }
     handleReset(): void {
       this.filterCollection = {
-        creator: '',
-        category: '',
-        network: '',
-        date1: '',
-        date2: '',
+        creatorId: '',
+        categoryId: '',
+        networkName: '',
+        fromCreatedAt: '',
+        toCreatedAt: '',
       }
+      EventBus.$emit('filter', this.filterCollection)
+      this.handleClose()
+    }
+    handleApply(): void {
+      let fromDate = ''
+      let toDate = ''
+      if (this.filterCollection.fromCreatedAt) {
+        fromDate = this.$options.filters?.formatReferral(this.filterCollection.fromCreatedAt)
+      }
+      if (this.filterCollection.toCreatedAt) {
+        toDate = this.$options.filters?.formatReferral(this.filterCollection.toCreatedAt + 86399000)
+      }
+      this.filterCollection = {
+        ...this.filterCollection,
+        //@ts-ignore
+        // network: this.filterCollection.network.match(/\(([^)]+)\)/)[1],
+        fromCreatedAt: fromDate,
+        toCreatedAt: toDate
+      }
+      EventBus.$emit('filter', this.filterCollection)
+      this.handleClose()
+    }
+
+    //Creator load more
+    remoteCreatorList(query: string): void {
+      this.$emit("remote-creator", query)
+    }
+    loadMoreCreator(): void {
+      this.$emit('load-more-creator')
+    }
+
+    //Category
+    remoteCategoryList(query: string): void {
+      this.$emit('remote-category', query)
     }
   }
 </script>
@@ -158,32 +233,43 @@
         margin-bottom: 24px;
         .el-select {
           width: 100%;
+          .el-input__inner {
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 24px;
+            height: 48px;
+          }
+        }
+        .el-date-editor {
+          .el-input__inner {
+            height: 48px;
+          }
         }
         .input-error {
           .el-input__inner {
             border-color: #cf202f;
           }
         }
-        .select-prefix-icon {
-          .el-input__inner {
-            padding-left: 40px;
-          }
-          .el-input__prefix {
-            left: 12px;
-            .select-icon {
-              width: 24px;
-              height: 24px;
-              position: absolute;
-              top: 50%;
-              transform: translateY(-50%);
-              border-radius: 50%;
-              background-color: var(--bc-bg-neutral);
-              .span-icon {
-                vertical-align: middle;
-              }
-            }
-          }
-        }
+        // .select-prefix-icon {
+        //   .el-input__inner {
+        //     padding-left: 40px;
+        //   }
+        //   .el-input__prefix {
+        //     left: 12px;
+        //     .select-icon {
+        //       width: 24px;
+        //       height: 24px;
+        //       position: absolute;
+        //       top: 50%;
+        //       transform: translateY(-50%);
+        //       border-radius: 50%;
+        //       background-color: var(--bc-bg-neutral);
+        //       .span-icon {
+        //         vertical-align: middle;
+        //       }
+        //     }
+        //   }
+        // }
         &__title {
           @include text(14px, 20px, 400, #0a0b0d);
           margin-bottom: 8px;

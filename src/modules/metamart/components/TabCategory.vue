@@ -14,29 +14,47 @@
           <div style="margin-right: 400px">Số thành viên</div>
         </li> -->
         <li v-for="value in data" :key="value.id">
-          <unit-item ref="unitItem" :value="value" :dataDetail="dataDetail" :is-search="isSearch" :parent="[]" @delete="handleDelete" @create="handleCreate" @edit="handleEdit"/>
+        <unit-item
+            ref="unitItem"
+            @edit="editItem"
+            @detail="detailItem"
+            @create="createItem"
+            @delete="deleteItem"
+            @idLocation="getIdArea"
+            :value="value"
+            :dataDetail="dataDetail"
+            :is-search="isSearch"
+            :parent="[]"
+          />
         </li>
       </ul>
       <!-- <base-pagination :table="table" :info="'nhóm'" @sizeChange="handleSizeChange" @currentChange="handleCurrentChange"/> -->
     </div>
-     <popup-delete />
+    <popup-create-category :idCategory="parentIdProp" :listCategory="listCategory" @load="loadData"/>
+    <popup-edit-category :dataDetail="dataDetail" @load="loadData" :listCategory="listCategory"/>
+    <popup-delete :idDelete="idDelete" />
   </div>
 </template>
 <script lang="ts">
   import { Component, Watch, Prop } from 'vue-property-decorator'
   import PopupMixin from '@/mixins/popup'
   import UnitItem from './unit/UnitItem.vue'
-  import PopupDelete from './popup/PopupDelete.vue'
   import PopupCreateCategory from './popup/PopupCreateCategory.vue'
+  import PopupEditCategory from './popup/PopupEditCategory.vue'
+  import getRepository from '@/services'
+  import { NftRepository } from '@/services/repositories/nft'
+  import PopupDelete from './popup/PopupDelete.vue'
 
   @Component({
     components: {
       UnitItem,
-      PopupDelete,
-      PopupCreateCategory
+      PopupCreateCategory,
+      PopupEditCategory,
+      PopupDelete
     }
   })
   export default class TabCategory extends PopupMixin {
+    @Prop() listCategory!: any
     dataList = []
     isLoading = false
     tabActive = 'ACTIVE'
@@ -44,21 +62,50 @@
     isSearch = false
     locationId = 0
     parentIdProp: any = null
-    type = ''
+    idArea = ''
     @Prop({ required: true, type: Array }) data!: Array<Record<string, any>>
-
     categoryIds: any = []
+    idCategory: any = null
+    idDelete: any = null
+    type = 'delete-category'
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    editItem(data: Record<string, any>) {
+      this.dataDetail = data
+      // console.log('row1', data)
+    }
+    detailItem(data: Record<string, any>): void {
+      this.dataDetail = data
+      this.idCategory = data.id
+    }
+    createItem(data: Record<string, any>): void {
+      console.log('thanh', data)
+      this.parentIdProp = data
+      console.log(this.parentIdProp)
+      // console.log('idParent',id)
+    }
+    deleteItem(data: Record<string, any>): void {
+      this.idDelete = data.id
+      console.log('>>>data', data)
+      console.log(this.idDelete)
+      this.$emit('delete-category', data.id)
+    }
     handleDelete(): void {
-      this.setOpenPopup({
-        popupName: 'popup-metamart-delete',
-        isOpen: true
-      })
+      this.$emit('delete')
     }
     handleCreate(): void {
       this.$emit('create')
     }
     handleEdit(): void {
       this.$emit('edit')
+    }
+    getIdArea(id: string): void {
+      this.idArea = id
+    }
+    loadData(): void {
+      // location.reload()
+      // this.isShowExpand = false
+      // this.paginitInfo.parentId = 0
+      this.$emit('load')
     }
   }
 </script>

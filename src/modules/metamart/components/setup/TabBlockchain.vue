@@ -1,7 +1,7 @@
 <template>
   <div class="be-flex mb-24 tab-blockchain">
-    <form-blockchain />
-    <preview-tab-blockchain />
+    <form-blockchain :typePopup="typePopup" />
+    <preview-tab-blockchain :typePopup="typePopup" />
   </div>
 </template>
 

@@ -13,10 +13,14 @@
   import debounce from 'lodash/debounce'
   import findIndex from 'lodash/findIndex'
 
+  import { namespace } from 'vuex-class'
+  const bcNft = namespace('bcNft')
+
   @Component({ components: { JoditEditor } })
   export default class TabHtml extends Vue {
-    @Prop({ required: false, type: Array, default: [] }) metaData!: Array<Record<string, any>>
-    @Prop({ required: false, type: String, default: '' }) tabActive!: string
+    @Prop({ required: false, type: Number, default: 0 }) idTabActive!: number
+
+    @bcNft.State('metaDatas') metaDatas!: Array<Record<string, any>>
 
     content = '<p><br></p>'
     buttons = ['bold', 'italic', 'underline', 'ul', 'ol', 'link']
@@ -47,34 +51,66 @@
     }
 
     @Watch('content') watchContent(_new: string): void {
-      this.debounceInput(_new)
+      this.debounceInput(_new, this)
     }
 
     created(): void {
       const language = localStorage.getItem('bc-lang') || ''
       this.config.language = language
+      const content = filter(this.metaDatas, elm => elm.metaTypeId === this.idTabActive)[0].metaValue
+      this.content = JSON.parse(content)[language]
     }
 
-    debounceInput = debounce((text: string) => {
-      const index = findIndex(this.metaData, elm => elm.type === this.tabActive)
-      const _metaData = [...this.metaData]
-      _metaData[index].value = text
-      this.$emit('update', _metaData)
+    debounceInput = debounce((text: string, _this: any) => {
+      const language = localStorage.getItem('bc-lang') || ''
+
+      let data = filter(_this.metaDatas, elm => elm.metaTypeId === _this.idTabActive)[0]
+      let parseJson: Record<string, any> = JSON.parse(data.metaValue)
+
+      parseJson = {
+        ...parseJson,
+        [language]: _this.content
+      }
+
+      data = {
+        ...data,
+        metaValue: JSON.stringify(parseJson)
+      }
+
+      const index = findIndex(_this.metaDatas, (elm: Record<string, any>) => elm.metaTypeId === _this.idTabActive)
+
+      _this.metaDatas[index] = data
+
+      _this.$emit('update')
     }, 500)
   }
 </script>
 
 <style scoped lang="scss">
   ::v-deep.tab-html {
+    width: 667px;
     .jodit-container {
       padding: 0 10px;
       border-radius: 8px;
+      height: 100% !important;
       .jodit-toolbar__box {
         background: transparent;
+        height: 62px;
+        display: flex;
+        align-items: center;
+      }
+      .jodit-toolbar-button__icon {
+        .jodit-icon {
+          width: 18px;
+          height: 18px;
+        }
       }
       // .jodit-wysiwyg {
       //   min-height: 120px !important;
       // }
+    }
+    .jodit_sticky > .jodit-toolbar__box {
+      position: initial;
     }
   }
 </style>

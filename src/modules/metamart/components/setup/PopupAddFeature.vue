@@ -1,22 +1,22 @@
 <template>
   <base-popup name="popup-add-feature" class="popup-add-feature" width="600px" :close="handleClose" :open="handleOpen">
     <div class="title-popup" slot="title">
-      <span>{{ typePopup === 'add' ? $t('popup_add-feature') : $t('popup_edit-file') }}</span>
+      <span>{{ getName }}</span>
     </div>
     <div class="content">
       <el-form :model="form" :rules="rules" ref="popup-add-feature">
-        <el-form-item :label="$t('label_name')" prop="name">
-          <el-input v-model="form.name" :placeholder="$t('label_name')" />
+        <el-form-item :label="$t('label_name')" prop="metaName">
+          <el-input v-model="form.metaName" :placeholder="$t('label_name')" />
         </el-form-item>
         <div class="be-flex align-center jc-space-between mb-24">
           <div class="text-body-small">{{ $t('label_feature-status') }}</div>
-          <el-switch v-model="form.status" active-color="#129961"> </el-switch>
+          <el-switch v-model="form.metaValue" active-value="true" inactive-value="false" active-color="#129961"> </el-switch>
         </div>
       </el-form>
     </div>
     <div class="footer" slot="footer">
-      <div class="be-flex wrap-button">
-        <div class="left">
+      <div class="be-flex wrap-button" :class="typePopup === 'add' ? 'jc-flex-end' : 'jc-space-between'">
+        <div class="left" v-if="typePopup === 'edit'">
           <el-button class="btn-default btn-close btn-h-40 mr-16" @click="handleDelete">{{ $t('button.delete') }}</el-button>
         </div>
         <div class="btn-right">
@@ -32,28 +32,47 @@
 
 <script lang="ts">
   import { Component, Mixins, Prop } from 'vue-property-decorator'
-  import includes from 'lodash/includes'
 
   import PopupMixin from '@/mixins/popup'
+
+  import { namespace } from 'vuex-class'
+  import { IMetaTypes } from '../../interface'
+  import filter from 'lodash/filter'
+  const bcNft = namespace('bcNft')
 
   @Component
   export default class PopupAddFeature extends Mixins(PopupMixin) {
     @Prop({ required: false, type: String, default: 'add' }) typePopup!: string
     @Prop({ required: false, type: Object, default: () => ({}) }) rowCurrent!: Record<string, any>
+    @Prop({ required: false, type: Number, default: 0 }) idTabActive!: number
+
+    @bcNft.State('metaTypes') metaTypes!: IMetaTypes[]
 
     form: Record<string, any> = {
-      name: '',
-      status: false
+      metaName: '',
+      metaValue: 'false',
+      metaValueType: 'BOOLEAN',
+      metaTypeId: 0
     }
 
     rules: Record<string, any> = {
-      name: [
+      metaName: [
         {
           required: true,
           message: this.$t('validate_must-enter-name'),
           trigger: 'blur'
         }
       ]
+    }
+
+    get getName(): string {
+      if (this.metaTypes.length) {
+        const type = filter(this.metaTypes, elm => elm.metaTypeId === this.idTabActive)
+        const language = localStorage.getItem('bc-lang') || ''
+        const parseJson = JSON.parse(type[0].metaTypeName)
+        return this.typePopup === 'add' ? this.$t('popup_add') + ' ' + parseJson[language] : this.$t('popup_edit') + ' ' + parseJson[language]
+      }
+      return ''
     }
 
     handleClose(): void {
@@ -65,8 +84,10 @@
         this.form = { ...this.rowCurrent }
       } else {
         this.form = {
-          name: '',
-          status: false
+          metaName: '',
+          metaValue: 'false',
+          metaValueType: 'BOOLEAN',
+          metaTypeId: this.idTabActive
         }
       }
     }
@@ -121,7 +142,6 @@
 
     .footer {
       .wrap-button {
-        justify-content: space-between;
         .add-member {
           height: 40px;
           font-weight: 400;
