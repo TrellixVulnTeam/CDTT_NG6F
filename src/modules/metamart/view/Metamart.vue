@@ -63,7 +63,7 @@
     <popup-form @collection="handleOpenCreate($event)" />
     <popup-create />
     <popup-create-collection />
-    <popup-create-nft />
+    <popup-create-nft :typePopup="typePopupCreateNft" />
     <popup-public-onchain />
     <popup-nft-detail />
   </div>
@@ -100,6 +100,9 @@
   }
   const apiNft: NftRepository = getRepository('nft')
 
+  import { namespace } from 'vuex-class'
+  const bcNft = namespace('bcNft')
+
   @Component({
     components: {
       FilterMetamart,
@@ -117,6 +120,8 @@
     }
   })
   export default class Metamart extends Mixins(PopupMixin) {
+    @bcNft.Mutation('SET_DETAIL_NFT') setDetailNft!: (PopupNftDetail: Record<string, any>) => void
+
     listCategory: Array<Record<string, any>> = []
     tabs: Array<Record<string, any>> = [
       {
@@ -146,6 +151,9 @@
       total: 20
     }
     idDelete: string | number = 0
+
+    typePopupCreateNft = 'add'
+
     debounceInit = debounce(() => {
       if (this.$route.name === 'Category') {
         this.getCategoryList()
@@ -370,6 +378,7 @@
 
     handleSelectCommand(command: string): void {
       if (command === 'add-nft') {
+        this.typePopupCreateNft = 'add'
         this.setOpenPopup({
           popupName: 'popup-create-nft',
           isOpen: true
@@ -404,13 +413,38 @@
     }
 
     async OpenPopupEditNft(row: Record<string, any>): Promise<void> {
+      this.typePopupCreateNft = 'edit'
       const result = await apiNft.getDetailNft(row.itemId)
       console.log(result)
+      const initInfo = { ...result.nftItem, medias: result.medias }
+      const metaDatas = result.metaDatas
+      const metaTypes = result.metaTypes
+      const initBlockchain = {
+        totalSupply: result.nftItem.totalSupply,
+        totalMint: result.nftItem.totalSupply,
+        contractAddress: result.nftItem.contractAddress,
+        tokenId: '',
+        network: result.nftItem.network,
+        networkName: result.nftItem.networkName,
+        creatorName: result.nftItem.creatorName,
+        creatorUsername: '',
+        creatorId: result.nftItem.creatorId
+      }
+      const initSetting = {
+        serviceFee: '',
+        creatorFee: result.nftItem.creatorFee,
+        hotPosition: '',
+        topPosition: '',
+        statusTop: false,
+        statusHot: false
+      }
 
-      // this.setOpenPopup({
-      //   popupName: 'popup-create-nft',
-      //   isOpen: true
-      // })
+      this.setDetailNft({ initInfo, initBlockchain, initSetting, metaTypes, metaDatas })
+
+      this.setOpenPopup({
+        popupName: 'popup-create-nft',
+        isOpen: true
+      })
     }
   }
 </script>

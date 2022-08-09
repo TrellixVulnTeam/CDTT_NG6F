@@ -50,7 +50,7 @@
   const apiNft: NftRepository = getRepository('nft')
 
   import { namespace } from 'vuex-class'
-  import { forEach, some } from 'lodash'
+  import EventBus from '@/utils/eventBus'
   const bcNft = namespace('bcNft')
 
   @Component({ components: { TabInfo, TabBlockchain, TabSetting, TabMetaData } })
@@ -130,29 +130,49 @@
     }
 
     async handleOpen(): Promise<void> {
+      /*
+      Các data để binding với các form lưu ở trong bcNft
+      */
+
       this.isInvalidInfo = false
       this.isInvalidBlockchain = false
       this.tabActive = 'INFO'
+
       const result = await apiNft.getNftCollection({ page: 1, limit: 1000 })
-      const listCategory = await apiNft.getCategories({ parentId: result.content[0].categoryId, onlyOneTree: 1 })
+      let listCategory: Record<string, any> = {}
 
       if (this.typePopup === 'add') {
         this.setInitInfo({ ...this.initInfo, collectionId: result.content[0].id })
+        listCategory = await apiNft.getCategories({ parentId: result.content[0].categoryId, onlyOneTree: 1 })
         this.setInitFormBlockchain(result.content[0])
+        this.getTemplateMetaData(result.content[0].id)
+      } else {
+        listCategory = await apiNft.getCategories({ parentId: this.initInfo.categoryId, onlyOneTree: 1 })
       }
 
       this.setListCollection(result.content)
       this.setListCategory(listCategory.content)
-      this.getTemplateMetaData(result.content[0].id)
+
+      this.$nextTick(() => {
+        // set value cho shortDescription, description ở component FormInfo
+        const refFormInfo = this.$root.$refs.FormInfo
+        const language = localStorage.getItem('bc-lang') || ''
+        if (this.typePopup === 'edit') {
+          const parseJson = JSON.parse(this.initInfo.shortDescription)
+          //@ts-ignore
+          refFormInfo.shortDescription = parseJson[language]
+        } else {
+          //@ts-ignore
+          refFormInfo.shortDescription = this.initInfo.shortDescription
+        }
+      })
     }
 
     async handleSelectCollection(collection: Record<string, any>): Promise<void> {
       console.log(collection)
 
-      const result = await apiNft.getNftCollection({ page: 1, limit: 1000 })
       const listCategory = await apiNft.getCategories({ parentId: collection.categoryId, onlyOneTree: 1 })
 
-      this.setListCollection(result.content)
       this.setListCategory(listCategory.content)
       this.setInitFormBlockchain(collection)
       this.getTemplateMetaData(collection.id)
