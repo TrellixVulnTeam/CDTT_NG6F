@@ -31,6 +31,7 @@
       v-loading="isLoading"
       @selectCommand="handleSelectCommand"
       @rowClick="handleRowClick"
+      @edit="OpenPopupEditNft"
     />
     <tab-collection
       v-if="$route.name === 'Collection'"
@@ -55,7 +56,7 @@
       @load="debounceInit"
       @delete="handleDeleteCategory"
       @delete-category="handleGetCategoryId"
-      :idDelete ="idDelete"
+      :idDelete="idDelete"
     />
 
     <popup-choosetype @continues="handleToPopupform($event)" />
@@ -142,15 +143,15 @@
     query: IQuery = {
       page: 1,
       limit: 20,
-      total: 20,
+      total: 20
     }
-    idDelete : string | number = 0
+    idDelete: string | number = 0
     debounceInit = debounce(() => {
       if (this.$route.name === 'Category') {
         this.getCategoryList()
       } else if (this.$route.name === 'Collection') {
         this.getCollection()
-      } else if (this.$route.name === "Nft") {
+      } else if (this.$route.name === 'Nft') {
         this.getNftItem()
       }
     }, 300)
@@ -182,11 +183,11 @@
     }
 
     handleFilter(value: Record<string, any>) {
-      console.log("Filter:", value);
-      this.query = {...this.query, ...value}
-      if (this.$route.name === "Nft") {
+      console.log('Filter:', value)
+      this.query = { ...this.query, ...value }
+      if (this.$route.name === 'Nft') {
         this.getNftItem()
-      } else if (this.$route.name === "Collection") {
+      } else if (this.$route.name === 'Collection') {
         this.getCollection()
       }
     }
@@ -221,7 +222,7 @@
     async getNftItem(): Promise<void> {
       try {
         this.isLoading = true
-        const result = await apiNft.getNftItem({...this.query, total: null, type: null, search: this.searchData})
+        const result = await apiNft.getNftItem({ ...this.query, total: null, type: null, search: this.searchData })
         console.log('nft called', result)
         this.nftData = result.content || []
         this.query.total = result.totalElements
@@ -234,7 +235,7 @@
     async getCollection(): Promise<void> {
       try {
         this.isLoading = true
-        const result = await apiNft.getNftCollection({...this.query, total: null, type: null, search: this.searchData })
+        const result = await apiNft.getNftCollection({ ...this.query, total: null, type: null, search: this.searchData })
         console.log('collection called', result)
         this.collectionData = result.content || []
         this.query.total = result.totalElements
@@ -278,7 +279,7 @@
       this.query = {
         page: 1,
         limit: 20,
-        total: 20,
+        total: 20
       }
       if (this.isChangeTab && tab.id === 2) {
         this.getCollection()
@@ -290,14 +291,13 @@
     }
 
     handleSortChange(command: string): void {
-      console.log("Sort:", command)
+      console.log('Sort:', command)
       this.query.orderBy = command
-      if (this.$route.name === "Collection") {
+      if (this.$route.name === 'Collection') {
         this.getCollection()
-      } else if (this.$route.name === "Nft") {
+      } else if (this.$route.name === 'Nft') {
         this.getNftItem()
       }
-
     }
 
     //handleChangeSize
@@ -401,6 +401,16 @@
         popupName: 'popup-metamart-delete',
         isOpen: true
       })
+    }
+
+    async OpenPopupEditNft(row: Record<string, any>): Promise<void> {
+      const result = await apiNft.getDetailNft(row.itemId)
+      console.log(result)
+
+      // this.setOpenPopup({
+      //   popupName: 'popup-create-nft',
+      //   isOpen: true
+      // })
     }
   }
 </script>

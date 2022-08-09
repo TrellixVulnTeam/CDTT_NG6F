@@ -201,7 +201,9 @@
 
         console.log(this.isInvalidInfo)
 
-        console.log(form)
+        if (!this.isInvalidInfo && !this.isInvalidBlockchain) {
+          await apiNft.createNft(form)
+        }
       } catch (error) {
         console.log(error)
       }
