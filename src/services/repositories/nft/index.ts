@@ -198,4 +198,12 @@ export class NftRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+  async getDetailCollection (id: string | number): Promise<Record<string, any>> {
+    try {
+      const result = await request.get(`${this.prefix}/bo/collection/${id}/detail`)
+      return Promise.resolve(result.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
 }

@@ -109,14 +109,28 @@ export default class TabCollection extends Mixins(PopupMixin) {
     this.query.page = value
     this.$emit('pageChange', value)
   }
-  handleEdit(row: any): void {
+  async handleEdit(row: any): Promise<any> {
     console.log("Edit Clicked:", row);
-    this.editData = row
+
+    await this.getDetailCollection(row.id)
+
     this.setOpenPopup({
       popupName: 'popup-edit-collection',
       isOpen: true
     })
   }
+  
+  async getDetailCollection(id: any): Promise<any> {
+    await apiNft.getDetailCollection(id)
+      .then((res: any) => {
+        console.log("RES COLLECTION: ", res);
+        this.editData = res.data
+      })
+      .catch(e => {
+        console.log(e);
+      })
+  }
+
   async handleDelete(row: any): Promise<any> {
     console.log("Delete Clicked:", row);
     this.deleteData = {
