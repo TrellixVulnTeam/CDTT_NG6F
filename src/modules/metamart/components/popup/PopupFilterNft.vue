@@ -206,7 +206,7 @@
       this.filterNft = {
         ...this.filterNft,
         //@ts-ignore
-        network: this.filterNft.network.match(/\(([^)]+)\)/)[1],
+        // network: this.filterNft.network.match(/\(([^)]+)\)/)[1],
         fromCreatedAt: fromDate,
         toCreatedAt: toDate
       }
