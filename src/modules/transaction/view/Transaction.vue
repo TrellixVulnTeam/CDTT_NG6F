@@ -1,28 +1,34 @@
 <template>
   <div class="w-100 transaction">
-
     <div class="bg-white box-shadow" style="margin-bottom: 24px">
       <div class="bg-white wallet-header">
         <div class="be-flex align-center jc-space-between wallet-header__above">
           <div class="wallet-header__above-tabs be-flex">
-            <div class="tab-item cursor" v-for="tab in getTabsHeader" :key="tab.id" :class="$route.params.token === tab.title ? 'tab-active' : null" @click="handleChangeTabsHeader(tab)">
+            <div
+              class="tab-item cursor"
+              v-for="tab in getTabsHeader"
+              :key="tab.id"
+              :class="$route.params.token === tab.title ? 'tab-active' : null"
+              @click="handleChangeTabsHeader(tab)"
+            >
               <span class="text-base">{{ $t(`menu.${tab.title}`) }}</span>
             </div>
           </div>
         </div>
       </div>
-      <div class="container wallet-header be-flex" style="width: calc(100% - 48px); padding:24px 24px">
+      <div class="container wallet-header be-flex" style="width: calc(100% - 48px); padding: 24px 24px">
         <div v-for="(value, i) in dataHeaderCard" :key="i" class="items-card">
           <div class="item be-flex top">
-          <span class="text1">
-            {{ renderTitleCard(value.transactionType) }}
-          </span>
+            <span class="text1">
+              {{ renderTitleCard(value.transactionType) }}
+            </span>
             <div>
               <base-icon :icon="renderIconCard(value.transactionType)" size="24" />
             </div>
           </div>
           <div class="item">
-            <p class="number2">{{ value.totalAmount | convertAmountDecimal(tabHeaderActive) }}
+            <p class="number2">
+              {{ value.totalAmount | convertAmountDecimal(tabHeaderActive) }}
               <a class="tabActiveHeader">{{ tabHeaderActive }}</a>
             </p>
           </div>
@@ -33,7 +39,7 @@
       </div>
     </div>
     <div class="w-100 bo-kyc box-shadow">
-      <div class="bg-white wallet-header ">
+      <div class="bg-white wallet-header">
         <div class="be-flex align-center jc-space-between wallet-header__above">
           <div class="wallet-header__above-tabs be-flex">
             <div class="tab-item cursor" v-for="tab in tabs" :key="tab.id" :class="$route.name === tab.routeName ? 'tab-active' : null" @click="handleChangeTab(tab)">
@@ -240,13 +246,14 @@
       // apiKyc.getListApprove({ page: 1, limit: 20 }).then(res => {
       //   this.listApproveBy = res.content || []
       // })
-      if(this.coinMain === 'CLM'){
-          this.query = {...this.query, currency: this.coinMain}
-          this.$router.push({params: {token: this.coinMain}})  
-          this.tabHeaderActive = this.$route.path.split('/')[2]
-          await this.init()
-      }if(this.coinMain === 'LYNK'){
-        this.query = {...this.query, currency: this.coinMain}
+      if (this.coinMain === 'CLM') {
+        this.query = { ...this.query, currency: this.coinMain }
+        this.$router.push({ params: { token: this.coinMain } })
+        this.tabHeaderActive = this.$route.path.split('/')[2]
+        await this.init()
+      }
+      if (this.coinMain === 'LYNK') {
+        this.query = { ...this.query, currency: this.coinMain }
         this.tabHeaderActive = this.$route.path.split('/')[2]
         await this.init()
       }
@@ -346,13 +353,13 @@
     }
     handleChangeTabsHeader(tab: Record<string, any>): void {
       this.resetQuery()
-      this.$router.push({ params: {token: tab.title} })
+      this.$router.push({ params: { token: tab.title } })
       // this.query.tabBalance = this.kycStatus[tab.title]
       this.tabHeaderActive = tab.title
       this.query.page = 1
       this.query.limit = 10
       this.query.orderBy = 1
-      this.query.currency = tab.title.toUpperCase();
+      this.query.currency = tab.title.toUpperCase()
       let refs2: any = this.$refs['filter']
       if (refs2) {
         refs2.handleReset()
@@ -400,7 +407,7 @@
         toAmount: null,
         bonusType: null,
         fromAddress: null,
-        toAddress: null,
+        toAddress: null
       }
     }
     isCopy = ''
@@ -443,7 +450,7 @@
         page: 1,
         limit: 10
       }
-      console.log(this.query , filter, 'note')
+      console.log(this.query, filter, 'note')
       this.debounceInit()
     }
 

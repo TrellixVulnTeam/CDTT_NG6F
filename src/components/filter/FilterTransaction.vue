@@ -27,8 +27,11 @@
       </el-dropdown>
     </div>
     <el-button type="button" class="export-excel" :loading="isExporting" @click="handleExport" v-if="showBtnExportExcel">
-      <base-icon icon="icon-excel" size="22"/>
+      <base-icon icon="icon-excel" size="22" />
     </el-button>
+    <el-button type="button" class="ml-2" @click="handleClickButton('popup-add-transfer')" v-if="showBtnTransfer"><span>Add Transfer</span> </el-button>
+    <el-button type="button" class="ml-2" @click="handleClickButton('popup-add-crowdsale')" v-if="showBtnCrowdsale"><span>Add Crowdsale</span> </el-button>
+    <el-button type="button" class="ml-2" @click="handleClickButton('popup-add-deposit')" v-if="showBtn"><span>Add Deposit</span> </el-button>
   </div>
 </template>
 
@@ -102,18 +105,16 @@
     }
 
     searchText = debounce((value: string, sortActive: string, sorts: Record<any, any>[]) => {
-      var filterOrderBy
-      var itemOrderBy
+      let filterOrderBy
+      let itemOrderBy
       if (this.type == 'transaction' || this.type == 'customer-transaction') {
         itemOrderBy = sorts.find(itemCode => {
           return itemCode.command == sortActive
         })
         filterOrderBy = { orderBy: itemOrderBy?.index }
-      }  else {
+      } else {
         filterOrderBy = { orderBy: sortActive }
       }
-
-
 
       this.$emit('filter', {
         ...this.filter,
@@ -137,9 +138,9 @@
     }
     handleSort(command: string): void {
       this.sortActive = command
-      var item: any = {}
+      let item: any = {}
       if (this.type == 'transaction' || this.type == 'customer-transaction') {
-         item = this.sorts.find(itemCode => {
+        item = this.sorts.find(itemCode => {
           return itemCode.command == this.sortActive
         })
         this.$emit('filter', { orderBy: item?.index })
@@ -171,13 +172,13 @@
         clearTimeout(timeOut)
       }, 500)
     }
-    created():void {
+    created(): void {
       EventBus.$on('end-export', this.handleEndExport)
     }
-    destroyed():void {
+    destroyed(): void {
       EventBus.$off('end-export', this.handleEndExport)
     }
-    handleEndExport():void{
+    handleEndExport(): void {
       this.isExporting = false
     }
   }
