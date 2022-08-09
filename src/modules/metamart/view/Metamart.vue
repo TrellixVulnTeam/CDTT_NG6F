@@ -468,6 +468,7 @@
         isOpen: true
       })
   }
+}
 </script>
 
 <style scoped lang="scss">
