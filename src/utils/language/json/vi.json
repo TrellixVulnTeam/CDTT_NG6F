@@ -286,7 +286,8 @@
     "specialCharacter": "Tối thiểu 1 ký tự đặc biệt",
     "password-correct": "Mật khẩu không khớp",
     "wrong-country": "Vui lòng chọn quốc gia",
-    "wrong-phone-number": "Vui lòng nhập số điện thoại"
+    "wrong-phone-number": "Vui lòng nhập số điện thoại",
+    "empty-category": "'Danh mục' không được để trống"
   },
   "notify": {
     "500": "Không thể kết nối đến máy chủ",
@@ -355,7 +356,9 @@
     "INVALID_VERIFICATION": "Mã xác thực không hợp lệ",
     "EXPIRED_VERIFICATION": "Mã xác thực đã hết hạn",
     "USER_LOCKED": "Tài khoản của bạn đã bị khóa",
-    "collection-has-nft": "Không thể xóa bộ sưu tập có chứa sản phẩm đang hoạt động"
+    "collection-has-nft": "Không thể xóa bộ sưu tập có chứa sản phẩm đang hoạt động",
+    "invalid-code": "Mã xác thực không chính xác",
+    "create-category-success": "Tạo danh mục thành công"
   },
   "logout": {
     "title": "Đăng xuất",
@@ -1346,7 +1349,8 @@
     },
     "success": {
       "title": "THÀNH CÔNG",
-      "delete-collection": "Bạn đã xóa bộ sưu tập thành công"
+      "delete-collection": "Bạn đã xóa bộ sưu tập thành công",
+      "delete-success": "Bạn đã xóa danh mục thành công"
     }
   },
   "filter_pending": "Chờ xử lý",
@@ -1421,7 +1425,5 @@
   "label_upload-desc": "Kéo và thả hoặc",
   "label_click-to-upload": "bấm để tải lên",
   "popup_add": "Thêm",
-  "popup_edit": "Sửa",
-  "notify_add-nft-success": "Thêm NFT thành công",
-  "notify_edit-nft-success": "Sửa NFT thành công"
+  "popup_edit": "Sửa"
 }

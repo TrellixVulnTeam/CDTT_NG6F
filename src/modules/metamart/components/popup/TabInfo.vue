@@ -36,14 +36,14 @@
     </div>
     <div class="content-about popup-tour-details" v-else-if="tabActive === 'DETAILS'">
       <div class="content-about1 content color-primary">
-        <div id="text-detail" class="content-header body-base text-regular">Test data</div>
+        <div id="text-detail" class="content-header body-base text-regular">{{ nftItem.shortDescription }}</div>
       </div>
     </div>
 
     <div class="content-about popup-tour-details" v-else-if="tabActive === 'POLICIES'">
       <div class="content-about1">
-        <div class="content-about1-title">{{ $t('label_project')}}</div>
-        <div class="content-about1-code text-gray1">{{ nftItem.project }}</div>
+        <!-- <div class="content-about1-title">{{ $t('label_project')}}</div>
+        <div class="content-about1-code text-gray1">{{ nftItem.project }}</div> -->
       </div>
       <!-- <div class="tour-details text-hyperlink cursor" @click="handleTourDetail">
         {{ $t('detail-nft.header.tour-details') }}

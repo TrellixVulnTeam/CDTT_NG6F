@@ -13,7 +13,7 @@
             class="collection-table"
             @rowClick="handleRowClick"
           >
-            <el-table-column label="#" type="index" :index="indexMethod" align="center" width="40" />
+            <el-table-column label="#" type="index" :index="indexMethod" align="center" width="50" />
             <el-table-column type="selection" :selectable="handleSelectable" align="center" width="40" />
             <el-table-column :label="$t('inventory.table.item')" align="left" min-width="347">
               <template slot-scope="scope">
@@ -150,7 +150,11 @@
     font-weight: $weight;
     color: $color;
   }
-  .wallet-table {
+  ::v-deep.wallet-table {
+    .el-checkbox__inner {
+      width: 18px;
+      height: 18px;
+    }
     &__below {
       padding: 0 24px;
       .wrapper {
