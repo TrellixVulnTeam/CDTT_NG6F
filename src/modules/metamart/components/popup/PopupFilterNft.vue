@@ -271,7 +271,13 @@
         .el-select {
           width: 100%;
           .el-input__inner {
-            @include text(16px, 24px, 400, #0a0b0d)
+            @include text(16px, 24px, 400, #0a0b0d);
+            height: 48px;
+          }
+        }
+        .el-date-editor {
+          .el-input__inner {
+            height: 48px;
           }
         }
         .input-error {

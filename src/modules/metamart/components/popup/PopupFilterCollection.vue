@@ -226,6 +226,12 @@
             font-weight: 400;
             font-size: 16px;
             line-height: 24px;
+            height: 48px;
+          }
+        }
+        .el-date-editor {
+          .el-input__inner {
+            height: 48px;
           }
         }
         .input-error {
