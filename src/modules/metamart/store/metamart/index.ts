@@ -20,7 +20,7 @@ const state: IAuth = {
   initInfo: {
     itemName: '',
     avatar: '',
-    avatarType: '',
+    avatarType: 'IMAGE',
     productCode: '',
     thumb: '',
     medias: [],

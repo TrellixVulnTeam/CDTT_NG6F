@@ -216,7 +216,8 @@
     "times": "số lần sử dụng thiết bị",
     "results": "Bản ghi",
     "events": "hoạt động",
-    "collection": "bộ sưu tập"
+    "collection": "bộ sưu tập",
+    "nft": "sản phẩm"
   },
   "label": {
     "invalid-amount": "Số lượng không hợp lệ",
@@ -355,6 +356,7 @@
     "INVALID_VERIFICATION": "Mã xác thực không hợp lệ",
     "EXPIRED_VERIFICATION": "Mã xác thực đã hết hạn",
     "USER_LOCKED": "Tài khoản của bạn đã bị khóa",
+    "collection-has-nft": "Không thể xóa bộ sưu tập có chứa sản phẩm đang hoạt động",
     "invalid-code": "Mã xác thực không chính xác",
     "create-category-success": "Tạo danh mục thành công"
   },
@@ -536,9 +538,9 @@
   },
   "nft": {
     "sort": {
-      "latest": "Ngày tạo muộn nhất",
+      "latest": "Mới nhất",
       "earliest": "Ngày tạo sớm nhất",
-      "oldest": "Ngày tạo cũ nhất",
+      "oldest": "Cũ nhất",
       "price-highToLow": "Giá: Từ cao xuống thấp",
       "price-lowToHigh": "Giá: Từ thấp lên cao",
       "item": "Sản phẩm",
@@ -1278,7 +1280,8 @@
         "to-date": "Đến ngày"
       },
       "popup": {
-        "title": "THÊM BỘ SƯU TẬP MỚI",
+        "create": "THÊM BỘ SƯU TẬP MỚI",
+        "edit": "SỬA BỘ SƯU TẬP",
         "preview": "Xem trước",
         "avatar": "Ảnh đại diện",
         "thumbnail": "Hình thu nhỏ",
@@ -1355,6 +1358,7 @@
   "filter_success": "Thành công",
   "filter_failed": "Lỗi",
   "popup_add-nft": "Thêm NFT",
+  "popup_edit-nft": "Sửa NFT",
   "popup_edt-nft": "Sửa NFT",
   "label_information": "Thông tin",
   "label_blockchain": "Blockchain",
@@ -1421,8 +1425,5 @@
   "label_upload-desc": "Kéo và thả hoặc",
   "label_click-to-upload": "bấm để tải lên",
   "popup_add": "Thêm",
-  "popup_edit": "Sửa",
-  "read-more": "Xem thêm",
-  "hide-more": "Ẩn bớt",
-  "popup-delete-category-error":"Không thể xóa danh mục có chứa bộ sưu tập hoặc sản phẩm đang hoạt động"
+  "popup_edit": "Sửa"
 }

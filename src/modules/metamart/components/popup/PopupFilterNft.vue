@@ -68,14 +68,14 @@
 
       <div class="content-block">
         <p class="content-block__title">{{ $t('metamart.nft.filter.network') }}</p>
-        <el-select v-model="filterNft.network" :placeholder="$t('metamart.nft.filter.network')">
+        <el-select v-model="filterNft.networkName" :placeholder="$t('metamart.nft.filter.network')">
           <el-option v-for="(option, index) in networks" :label="option.networkName" :value="option.networkName" :key="index"></el-option>
         </el-select>
       </div>
       <div class="content-block">
         <p class="content-block__title">{{ $t('metamart.nft.filter.status') }}</p>
         <el-select v-model="filterNft.statusBlockchain" :placeholder="$t('metamart.nft.filter.status')">
-          <el-option v-for="(option, index) in status" :label="option" :value="option" :key="index"></el-option>
+          <el-option v-for="(option, index) in status" :label="option.label" :value="option.value" :key="index"></el-option>
         </el-select>
       </div>
       <div class="content-block">
@@ -130,6 +130,19 @@
     @Prop() categories: any
     @Prop() networks: any
 
+    @Watch('$route', { immediate: true, deep: true })
+    onUrlChange() {
+      this.filterNft = {
+        collectionId: '',
+        creatorId: '',
+        categoryId: '',
+        networkName: '',
+        statusBlockchain: '',
+        fromCreatedAt: '',
+        toCreatedAt: '',
+      }
+    }
+
     get pickerOption(): any {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const _this = this
@@ -160,13 +173,16 @@
       }
     }
 
-    status = ['ON_CHAIN', 'OFF_CHAIN']
+    status = [
+      {label: 'On-chain', value: 'ON_CHAIN'},
+      {label: 'Off-chain', value: 'OFF_CHAIN'},
+    ]
 
     filterNft = {
       collectionId: '',
       creatorId: '',
       categoryId: '',
-      network: '',
+      networkName: '',
       statusBlockchain: '',
       fromCreatedAt: '',
       toCreatedAt: '',
@@ -185,7 +201,7 @@
         collectionId: '',
         creatorId: '',
         categoryId: '',
-        network: '',
+        networkName: '',
         statusBlockchain: '',
         fromCreatedAt: '',
         toCreatedAt: '',
@@ -206,7 +222,7 @@
       this.filterNft = {
         ...this.filterNft,
         //@ts-ignore
-        network: this.filterNft.network.match(/\(([^)]+)\)/)[1],
+        // network: this.filterNft.network.match(/\(([^)]+)\)/)[1],
         fromCreatedAt: fromDate,
         toCreatedAt: toDate
       }
@@ -271,7 +287,13 @@
         .el-select {
           width: 100%;
           .el-input__inner {
-            @include text(16px, 24px, 400, #0a0b0d)
+            @include text(16px, 24px, 400, #0a0b0d);
+            height: 48px;
+          }
+        }
+        .el-date-editor {
+          .el-input__inner {
+            height: 48px;
           }
         }
         .input-error {

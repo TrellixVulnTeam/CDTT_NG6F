@@ -1,5 +1,5 @@
-import { ITabBlockchain } from './../../interface/index'
-import { filter, forEach } from 'lodash'
+import { ITabBlockchain, ITabInfo, ITabSetting, IMetaTypes } from './../../interface/index'
+import { filter, forEach, map } from 'lodash'
 import { MutationTree } from 'vuex'
 import { IAuth } from '.'
 
@@ -40,6 +40,31 @@ const mutations: MutationTree<IAuth> = {
   SET_LIST_METADATA: (state, data) => {
     state.metaDatas = data
   },
+
+  SET_DETAIL_NFT: (
+    state,
+    data: { initInfo: ITabInfo; initBlockchain: ITabBlockchain; initSetting: ITabSetting; metaTypes: Array<Record<string, any>>; metaDatas: IMetaTypes[] }
+  ) => {
+    const { initInfo, initBlockchain, initSetting, metaTypes, metaDatas } = data
+    state.initInfo = initInfo
+    state.initBlockchain = initBlockchain
+    state.initSetting = initSetting
+
+    const listId = map(metaDatas, meta => meta.metaTypeId)
+    const listIdType = map(metaTypes, meta => meta.metaTypeId)
+    console.log(listId)
+    console.log(listIdType)
+
+    forEach(metaTypes, type => {
+      const listData = filter(metaDatas, data => type.metaTypeId === data.metaTypeId)
+      console.log('listData', listData)
+
+      type.typeTab = listData.length ? listData[0].metaValueType : ''
+    })
+    state.metaDatas = metaDatas
+    state.metaTypes = filter(metaTypes, elm => elm.metaType !== 'INFO') as IMetaTypes[]
+  },
+
   RESET_INIT: state => {
     state.initInfo = {
       collectionId: state.listCollection[0].id,

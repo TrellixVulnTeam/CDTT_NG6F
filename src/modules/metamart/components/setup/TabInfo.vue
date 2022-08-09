@@ -1,6 +1,6 @@
 <template>
   <div class="tab-info">
-    <form-info @selectCollection="handleSelectCollection" />
+    <form-info @selectCollection="handleSelectCollection" :typePopup="typePopup" />
     <preview-nft />
   </div>
 </template>

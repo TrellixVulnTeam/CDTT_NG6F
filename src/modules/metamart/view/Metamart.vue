@@ -63,7 +63,7 @@
     <popup-form @collection="handleOpenCreate($event)" />
     <popup-create />
     <popup-create-collection />
-    <popup-create-nft />
+    <popup-create-nft :typePopup="typePopupCreateNft" @reload="init" />
     <popup-public-onchain />
     <popup-nft-detail
       :nftItem="detailNft.nftItem"
@@ -95,7 +95,7 @@
   import PopupNftDetail from '../components/popup/PopupNftDetail.vue'
   import getRepository from '@/services'
   import { NftRepository } from '@/services/repositories/nft'
-  import { debounce, filter } from 'lodash'
+  import { debounce, filter, trim } from 'lodash'
   import axios from 'axios'
   import EventBus from '@/utils/eventBus'
   //Interface
@@ -108,6 +108,9 @@
     type?: string | null | undefined
   }
   const apiNft: NftRepository = getRepository('nft')
+
+  import { namespace } from 'vuex-class'
+  const bcNft = namespace('bcNft')
 
   @Component({
     components: {
@@ -126,6 +129,8 @@
     }
   })
   export default class Metamart extends Mixins(PopupMixin) {
+    @bcNft.Mutation('SET_DETAIL_NFT') setDetailNft!: (PopupNftDetail: Record<string, any>) => void
+
     listCategory: Array<Record<string, any>> = []
     tabs: Array<Record<string, any>> = [
       {
@@ -156,6 +161,9 @@
       total: 20
     }
     idDelete: string | number = 0
+
+    typePopupCreateNft = 'add'
+
     debounceInit = debounce(() => {
       if (this.$route.name === 'Category') {
         this.getCategoryList()
@@ -169,7 +177,7 @@
       if (!data) {
         this.debounceInit()
       }
-      this.searchData = data
+      this.searchData = trim(data)
       console.log(this.params)
       this.debounceInit()
     }
@@ -291,6 +299,7 @@
         limit: 20,
         total: 20
       }
+      this.searchData = ''
       if (this.isChangeTab && tab.id === 2) {
         this.getCollection()
       } else if (this.isChangeTab && tab.id === 3) {
@@ -380,6 +389,7 @@
 
     handleSelectCommand(command: string): void {
       if (command === 'add-nft') {
+        this.typePopupCreateNft = 'add'
         this.setOpenPopup({
           popupName: 'popup-create-nft',
           isOpen: true
@@ -400,7 +410,7 @@
 
     handleRowClick(row: Record<string, any>): void {
       // this.OpenPopupEditNft(row)
-      this.OpenPopupEditNft(row)
+      this.OpenNFtDetail(row)
     }
     handleDeleteCollection(value: Record<string, any>): void {
       // console.log(">>>deleteCollection:", value);
@@ -410,8 +420,7 @@
         isOpen: true
       })
     }
-
-    async OpenPopupEditNft(row: Record<string, any>): Promise<void> {
+    async OpenNFtDetail(row: Record<string, any>): Promise<void> {
       const result = await apiNft.getDetailNft(row.itemId)
       this.detailNft = result
       // this.setOpenPopup({
@@ -424,6 +433,40 @@
       })
       console.log(this.detailNft)
     }
+
+    async OpenPopupEditNft(row: Record<string, any>): Promise<void> {
+      this.typePopupCreateNft = 'edit'
+      const result = await apiNft.getDetailNft(row.itemId)
+      console.log(result)
+      const initInfo = { ...result.nftItem, medias: result.medias }
+      const metaDatas = result.metaDatas
+      const metaTypes = result.metaTypes
+      const initBlockchain = {
+        totalSupply: result.nftItem.totalSupply,
+        totalMint: result.nftItem.totalSupply,
+        contractAddress: result.nftItem.contractAddress,
+        tokenId: result.nftItem.itemCode,
+        network: result.nftItem.network,
+        networkName: result.nftItem.networkName,
+        creatorName: result.nftItem.creatorName,
+        creatorUsername: '',
+        creatorId: result.nftItem.creatorId
+      }
+      const initSetting = {
+        serviceFee: result.nftItem.serviceFee,
+        creatorFee: result.nftItem.creatorFee,
+        hotPosition: result.nftItem.hotPosition,
+        topPosition: result.nftItem.topPosition,
+        statusTop: result.nftItem.hotPosition ? true : false,
+        statusHot: result.nftItem.topPosition ? true : false
+      }
+
+      this.setDetailNft({ initInfo, initBlockchain, initSetting, metaTypes, metaDatas })
+
+      this.setOpenPopup({
+        popupName: 'popup-create-nft',
+        isOpen: true
+      })
   }
 </script>
 

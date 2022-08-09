@@ -234,7 +234,8 @@
     "times": "times",
     "results": "results",
     "events": "events",
-    "collection": "collections"
+    "collection": "collections",
+    "nft": "items"
   },
   "label": {
     "invalid-amount": "Invalid amount",
@@ -376,7 +377,8 @@
     "INVALID_VERIFICATION": "Invalid verification code",
     "EXPIRED_VERIFICATION": "Expired verification code",
     "USER_LOCKED": "Account has been locked",
-    "create-category-success": "Create category successfully"
+    "collection-has-nft": "Unable to delete collection containing active item",
+    "create-category-success": "Create category successfully"    
   },
   "logout": {
     "title": "Sign out",
@@ -1300,7 +1302,8 @@
         "to-date": "To date"
       },
       "popup": {
-        "title": "ADD NEW COLLECTION",
+        "create": "ADD NEW COLLECTION",
+        "edit": "EDIT COLLECTION",
         "preview": "Preview",
         "avatar": "Avatar",
         "thumbnail": "Thumbnail",
@@ -1377,6 +1380,7 @@
   "filter_success": "Success",
   "filter_failed": "Failed",
   "popup_add-nft": "ADD NEW NFT",
+  "popup_edit-nft": "EDIT NFT",
   "popup_edt-nft": "EDIT NFT",
   "label_information": "Information",
   "label_blockchain": "Blockchain",
@@ -1443,10 +1447,5 @@
   "label_upload-desc": "Drag and drop or",
   "label_click-to-upload": "Click to upload",
   "popup_add": "Add",
-  "popup_edit": "Edit",
-  "read-more": "Read more",
-  "hide-more": "Show less",
-  "error-category-contain-data": "Can't delete category containing active collections and items",
-  "invalid-code": "Invalid verification code"
-
+  "popup_edit": "Edit"
 }

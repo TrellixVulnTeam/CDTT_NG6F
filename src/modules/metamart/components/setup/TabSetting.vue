@@ -3,7 +3,7 @@
     <el-form class="form-setting">
       <div class="content-left">
         <el-form-item :label="$t('label_service-fee')">
-          <el-input v-model="form.serviceFee" type="number" :placeholder="$t('label_service-fee')" @keypress.native="onlyNumber($event)">
+          <el-input v-model="form.serviceFee" :placeholder="$t('label_service-fee')" @keypress.native="onlyNumber($event)">
             <div class="suffix" slot="suffix">%</div>
           </el-input>
         </el-form-item>
@@ -29,15 +29,15 @@
 
       <div class="content-right">
         <el-form-item :label="$t('label_royal-fee')">
-          <el-input v-model="form.creatorFee" type="number" :placeholder="$t('label_royal-fee')" @keypress.native="onlyNumber($event)">
+          <el-input v-model="form.creatorFee" :placeholder="$t('label_royal-fee')" @keypress.native="onlyNumber($event)">
             <div class="suffix" slot="suffix">%</div>
           </el-input>
         </el-form-item>
         <el-form-item :label="$t('label_position-top-nft')">
-          <el-input v-model="form.topPosition" type="number" :placeholder="$t('label_position-top-nft')" @keypress.native="onlyNumber($event)" />
+          <el-input v-model="form.topPosition" :disabled="!form.statusTop" :placeholder="$t('label_position-top-nft')" @keypress.native="onlyNumber($event)" />
         </el-form-item>
         <el-form-item :label="$t('label_position-hot-nft')">
-          <el-input v-model="form.hotPosition" type="number" :placeholder="$t('label_position-hot-nft')" @keypress.native="onlyNumber($event)" />
+          <el-input v-model="form.hotPosition" :disabled="!form.statusHot" :placeholder="$t('label_position-hot-nft')" @keypress.native="onlyNumber($event)" />
         </el-form-item>
       </div>
     </el-form>

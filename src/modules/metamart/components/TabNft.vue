@@ -5,7 +5,7 @@
         <div class="wrapper">
           <base-table
             :data="data"
-            :paginationInfo="paginationInfo"
+            :paginationInfo="getPaginationInfo"
             :table="query"
             @selectionChange="handleSelectionChange"
             @sizeChange="handleSizeChange"
@@ -95,6 +95,11 @@
     query!: PaginationInterface
 
     isConflictClick = false
+
+    get getPaginationInfo(): any {
+      return this.$t('paging.nft')
+    }
+
     indexMethod(index: number): number {
       return (this.query.page - 1) * this.query.limit + index + 1
     }

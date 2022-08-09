@@ -183,6 +183,10 @@ request.interceptors.response.use(
         message = i18n.tc('notify.incorrect-old-pass')
       }
 
+      if (data.status === 'DONT_DELETE' && data.message === 'You can\'t delete this') {
+        message = i18n.tc('notify.collection-has-nft')
+      }
+      
       if (!message) {
         message = i18n.tc('notify.' + data.status)
       }

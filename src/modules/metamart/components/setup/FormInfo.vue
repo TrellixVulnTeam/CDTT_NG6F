@@ -78,10 +78,10 @@
           </div>
         </el-upload>
         <div v-if="form.medias.length" class="list-thumbnail">
-          <div v-for="file in form.medias" :key="file.uid" class="wrap-img">
+          <div v-for="file in form.medias" :key="file.id" class="wrap-img">
             <img v-if="file.mediaType === 'IMAGE'" :src="file.mediaUrl" alt="" />
             <video v-else :src="file.mediaUrl" />
-            <span class="cursor icon-x" @click="removeFile(file.uid)">
+            <span class="cursor icon-x" @click="removeFile(file.id)">
               <base-icon icon="icon-delete-circle" size="20" />
             </span>
           </div>
@@ -100,31 +100,32 @@
       </el-form-item>
 
       <el-form-item :label="$t('label_short-desc')" class="is-required">
-        <el-input type="textarea" :rows="3" :placeholder="$t('label_short-desc')" v-model="form.shortDescription" maxlength="200" show-word-limit> </el-input>
+        <el-input type="textarea" :rows="3" :placeholder="$t('label_short-desc')" v-model="shortDescription" @input="handleInput" maxlength="200" show-word-limit> </el-input>
       </el-form-item>
 
       <div class="mb-24 wrap-editor">
         <div class="text-base text-semibold label">{{ $t('label_long-desc') }}</div>
-        <jodit-editor :config="config" :buttons="buttons" v-model="form.description" />
+        <jodit-editor :config="config" :buttons="buttons" v-model="description" />
       </div>
     </el-form>
   </div>
 </template>
 
 <script lang="ts">
-  import { Component, Vue, Watch } from 'vue-property-decorator'
+  import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
   import { namespace } from 'vuex-class'
 
   import filter from 'lodash/filter'
+  import debounce from 'lodash/debounce'
+  import findIndex from 'lodash/findIndex'
+
   import { JoditEditor } from 'jodit-vue'
   import 'jodit/build/jodit.min.css'
 
   import getRepository from '@/services'
-  import { NftRepository } from '@/services/repositories/nft'
   import { ITabInfo } from '../../interface'
   import UploadRepository from '@/services/repositories/upload'
   import { includes } from 'lodash'
-  const apiNft: NftRepository = getRepository('nft')
   const apiUpload: UploadRepository = getRepository('upload')
 
   const bcNft = namespace('bcNft')
@@ -132,7 +133,9 @@
 
   @Component({ components: { JoditEditor } })
   export default class FormInfo extends Vue {
-    @bcNft.Mutation('SET_INIT_NFT') setinitInfo!: (data: Record<string, any>) => void
+    @Prop({ required: false, type: String, default: 'add' }) typePopup!: 'add' | 'edit'
+
+    @bcNft.Mutation('SET_INIT_NFT') setInitInfo!: (data: Record<string, any>) => void
     @bcNft.State('listCollection') listCollection!: Array<Record<string, any>>
     @bcNft.State('listCategory') listCategory!: Array<Record<string, any>>
     @bcNft.State('initInfo') form!: ITabInfo
@@ -169,14 +172,69 @@
       }
     }
 
+    shortDescription = ''
+    description = ''
+
     // @Watch('form', { deep: true }) handleWatchForm(newForm: Record<string, any>): void {
-    //   this.setinitInfo(newForm)
+    //   this.setInitInfo(newForm)
     // }
 
-    async created(): Promise<void> {
-      const language = localStorage.getItem('bc-lang') || ''
-      this.config.language = language
+    @Watch('description') watchContent(_new: string): void {
+      this.debounceInputHtml(_new, this)
     }
+
+    async created(): Promise<void> {
+      console.log('aaa')
+      this.$root.$refs.FormInfo = this
+
+      const language = localStorage.getItem('bc-lang') || ''
+
+      if (this.typePopup === 'edit') {
+        this.config.language = language
+        const parseJsonShortDescription = JSON.parse(this.form.shortDescription)
+        const parseJsonDescription = JSON.parse(this.form.description)
+        this.shortDescription = parseJsonShortDescription[language]
+        this.description = parseJsonDescription[language]
+      } else {
+        this.shortDescription = this.form.shortDescription
+      }
+    }
+
+    debounceInputHtml = debounce((text: string, _this: any) => {
+      const language = localStorage.getItem('bc-lang') || ''
+
+      if (_this.typePopup === 'edit') {
+        let parseJson: Record<string, any> = JSON.parse(_this.form.description)
+
+        parseJson = {
+          ...parseJson,
+          [language]: _this.description
+        }
+        _this.form.description = JSON.stringify(parseJson)
+      } else {
+        _this.form.description = text
+      }
+    }, 500)
+
+    handleInput(text: string): void {
+      this.debounceInput(text, this)
+    }
+
+    debounceInput = debounce((text: string, _this: any) => {
+      const language = localStorage.getItem('bc-lang') || ''
+
+      if (_this.typePopup === 'edit') {
+        let parseJson: Record<string, any> = JSON.parse(_this.form.shortDescription)
+
+        parseJson = {
+          ...parseJson,
+          [language]: _this.shortDescription
+        }
+        _this.form.shortDescription = JSON.stringify(parseJson)
+      } else {
+        _this.form.shortDescription = text
+      }
+    }, 500)
 
     getFileType(file: Record<string, any>): string {
       const IMAGE = ['png', 'jpg', 'jpeg', 'gif']
@@ -199,7 +257,7 @@
     async handleChangeListFile(rawFile: Record<string, any>): Promise<void> {
       let file = {
         mediaUrl: rawFile.url,
-        uid: rawFile.uid,
+        id: rawFile.uid,
         mediaType: this.getFileType(rawFile)
       }
       console.log(file)
@@ -227,8 +285,8 @@
       this.handleChangeListFile(file)
     }
 
-    removeFile(uid: number): void {
-      this.form.medias = filter(this.form.medias, file => file.uid !== uid)
+    removeFile(id: number): void {
+      this.form.medias = filter(this.form.medias, file => file.id !== id)
     }
 
     handleSelectCollection(collectionId: number): void {

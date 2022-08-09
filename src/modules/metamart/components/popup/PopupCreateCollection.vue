@@ -1,7 +1,7 @@
 <template>
   <base-popup name="popup-create-collection" class="popup-create-collection" width="1040px" :open="handleOpen" :close="handleClose">
     <div class="title-popup" slot="title">
-      <span>{{ $t('metamart.collection.popup.title') }}</span>
+      <span>{{ $t('metamart.collection.popup.create') }}</span>
     </div>
     <div class="content">
       <main class="content-left">
@@ -92,12 +92,11 @@
           
           <el-form-item prop="collectionName">
             <section class="name block">
-              <h2 class="block-title" style="margin-bottom: 0px;">
+              <h2 class="block-title">
                 {{ $t('metamart.collection.popup.name') }}
                 <span class="block-title__asterisk"> *</span>
               </h2>
-              <span class="block__subtitle">{{$t('metamart.collection.subtitle.name')}}</span>
-              <el-input v-model="collection.collectionName" placeholder="Enter collection name" ></el-input>
+              <el-input v-model="collection.collectionName" :placeholder="$t('metamart.collection.placeholder.name')" ></el-input>
             </section>
           </el-form-item>
 
@@ -108,7 +107,7 @@
                   ({{ $t('metamart.collection.popup.optional') }})
                 </span>
               </h2>
-              <el-input v-model="collection.description" type="textarea" placeholder="e. g. &quot;After purchasing you'll be able to get the real T-Shirt&quot;" maxlength="200" show-word-limit rows="4"/>
+              <el-input v-model="collection.description" type="textarea" :placeholder="$t('metamart.collection.placeholder.description')" maxlength="200" show-word-limit rows="4"/>
             </section>
           </el-form-item>
 
@@ -135,7 +134,7 @@
                 filterable
                 remote
                 v-model="collection.contractAddress" 
-                placeholder="Select a contract address"
+                :placeholder="$t('metamart.collection.placeholder.contract-address')"
                 
               >
                 <el-option v-for="(option, index) in contracts" :label="option.contractAddress | formatTransactionCode(10)" :value="option.contractAddress" :key="index"></el-option>
@@ -177,7 +176,7 @@
                 remote
                 :remote-method="remoteCreatorList"
                 v-model="collection.creatorId" 
-                placeholder="Choose creator"
+                :placeholder="$t('metamart.collection.placeholder.creator')"
               >
                 <div class="" v-infinite-scroll="loadMoreCreator" infinite-scroll-delay="500">
                   <el-option v-for="(item) in creators" :label="`${item.accountName} (${item.username})`" :value="item.id" :key="item.id">
@@ -204,7 +203,7 @@
                 remote
                 :remote-method="remoteCategoryList"
                 v-model="collection.categoryIds" 
-                placeholder="Choose category"
+                :placeholder="$t('metamart.collection.placeholder.category')"
               >
                 <el-option 
                   v-for="(option, index) in categories" 
@@ -230,7 +229,7 @@
                 :remote-method="remoteTemplateList"
                 clearable
                 v-model="collection.templateId" 
-                placeholder="Choose template"
+                :placeholder="$t('metamart.collection.placeholder.template')"
               >
                 <div class="" v-infinite-scroll="loadMoreTemplate" infinite-scroll-delay="500">
                   <el-option v-for="(option) in templates" :label="option.templateName" :value="option.id" :key="option.id"></el-option>
@@ -325,6 +324,7 @@
     categories: Array<Record<string, any>> = []
     categoriesClone: Array<Record<string, any>> = []
     templates: Array<Record<string, any>> = []
+    templatesClone: Array<Record<string, any>> = []
 
     rules: Record<string, any> = {
       avatar: [
@@ -605,7 +605,7 @@
       const a = debounce(this.getCategoryList, 500)
       a(query)
     }
-    async getCategoryList(search: string):Promise<void> {
+    async getCategoryList(search: string):Promise<any> {
       await apiNft.getCategories({
         search: trim(search) ? trim(search) : null
       })
@@ -613,6 +613,7 @@
           if (trim(search)) {
             // this.categoriesClone = res.content
             this.categories = res.content
+            this.categories.forEach(function(v){ delete v.levelDepth });
           } else {
             this.categories = []
             this.recursiveCategoryChild(res.content)
@@ -639,14 +640,25 @@
       search: ''
     }
     loadMoreTemplate(): void { 
-      this.queryTemplateList.limit += 20
-      const a = debounce(this.getTemplateList, 500)
-      a(this.queryTemplateList.search)
+      this.queryTemplateList.page += 1
+      // const a = debounce(this.getTemplateList, 500)
+      // a(this.queryTemplateList.search)
+      apiNft.getListTemplate(this.queryTemplateList)
+        .then((res: any) => {
+          this.templates = [...this.templates, ...res.content]
+        })
     }
-    remoteTemplateList(query: string): void {
-      this.queryTemplateList.search = trim(query)
-      const a = debounce(this.getTemplateList, 500)
-      a(query)
+    async remoteTemplateList(query: string): Promise<any> {
+      if (query !== '') {
+        this.queryTemplateList.page = 1
+        this.queryTemplateList.search = trim(query)
+        await apiNft.getListTemplate(this.queryTemplateList)
+          .then((res: any) => {
+            this.templates = res.content || []
+          })
+      } else {
+        this.templates = this.templatesClone
+      }
     }
     async getTemplateList(search: string):Promise<void> {
       await apiNft.getListTemplate({
@@ -656,6 +668,7 @@
         }) 
         .then((res: any) => {
           this.templates = res.content
+          this.templatesClone = res.content
         })
         .catch(e => {
           console.log(e);
