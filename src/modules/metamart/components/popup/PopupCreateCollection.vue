@@ -1,7 +1,7 @@
 <template>
   <base-popup name="popup-create-collection" class="popup-create-collection" width="1040px" :open="handleOpen" :close="handleClose">
     <div class="title-popup" slot="title">
-      <span>{{ $t('metamart.collection.popup.title') }}</span>
+      <span>{{ $t('metamart.collection.popup.create') }}</span>
     </div>
     <div class="content">
       <main class="content-left">
@@ -92,11 +92,10 @@
           
           <el-form-item prop="collectionName">
             <section class="name block">
-              <h2 class="block-title" style="margin-bottom: 0px;">
+              <h2 class="block-title">
                 {{ $t('metamart.collection.popup.name') }}
                 <span class="block-title__asterisk"> *</span>
               </h2>
-              <span class="block__subtitle">{{$t('metamart.collection.subtitle.name')}}</span>
               <el-input v-model="collection.collectionName" :placeholder="$t('metamart.collection.placeholder.name')" ></el-input>
             </section>
           </el-form-item>

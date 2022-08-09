@@ -376,7 +376,8 @@
     "NOT_ENOUGH_QUANTITY": "Don't have enough quantity",
     "INVALID_VERIFICATION": "Invalid verification code",
     "EXPIRED_VERIFICATION": "Expired verification code",
-    "USER_LOCKED": "Account has been locked"
+    "USER_LOCKED": "Account has been locked",
+    "collection-has-nft": "Unable to delete collection containing active item"
   },
   "logout": {
     "title": "Sign out",
@@ -1299,7 +1300,8 @@
         "to-date": "To date"
       },
       "popup": {
-        "title": "ADD NEW COLLECTION",
+        "create": "ADD NEW COLLECTION",
+        "edit": "EDIT COLLECTION",
         "preview": "Preview",
         "avatar": "Avatar",
         "thumbnail": "Thumbnail",
