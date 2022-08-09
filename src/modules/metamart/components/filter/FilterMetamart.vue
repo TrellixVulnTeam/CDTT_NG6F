@@ -79,21 +79,27 @@
           </el-button>
         </div>
       </el-popover> -->
-      
-      <div v-if="this.$route.name !=='Category'" slot="reference" class="cursor text-filter" style="font-size: 16px" @click="handleOpen">
+
+      <div v-if="this.$route.name !== 'Category'" slot="reference" class="cursor text-filter" style="font-size: 16px" @click="handleOpen">
         <span>
           <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="18" />
         </span>
         {{ $t('kyc.filter.filter') }}
       </div>
     </div>
-    <div v-if="this.$route.name !=='Category'">
+    <div v-if="this.$route.name !== 'Category'">
       <el-dropdown class="sort" trigger="click">
         <span class="sort-title" style="font-size: 16px">
           <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}
         </span>
         <el-dropdown-menu class="header-downloadapp dropdown-sort" slot="dropdown">
-          <el-dropdown-item v-for="(value, index) in sortMetamart" :key="index" :class="sortActive === value.command ? 'active' : null" :command="value.command" :divided="value.divided">
+          <el-dropdown-item
+            v-for="(value, index) in sortMetamart"
+            :key="index"
+            :class="sortActive === value.command ? 'active' : null"
+            :command="value.command"
+            :divided="value.divided"
+          >
             <span class="be-flex">
               <span class="be-flex-item">
                 {{ value.label }}
@@ -104,8 +110,11 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <el-button v-if="this.$route.name === 'Collection'" class="add-btn add-collection ml-auto" @click="$emit('click', 'popup-create-collection')">{{ $t('button.add-new') }}</el-button>
+    <el-button v-if="this.$route.name === 'Collection'" class="add-btn add-collection ml-auto" @click="$emit('click', 'popup-create-collection')">{{
+      $t('button.add-new')
+    }}</el-button>
     <el-button v-if="this.$route.name === 'Category'" class="add-btn ml-auto" @click="$emit('openCategoryPopup')">{{ $t('button.add-new') }}</el-button>
+    <el-button v-if="$route.name === 'Template'" class="add-btn add-collection ml-auto" @click="$emit('openPopupTemplate')">{{ $t('button.add-new') }}</el-button>
     <div v-if="this.$route.name === 'Nft'" class="ml-auto">
       <el-dropdown trigger="click" @command="handleCommand">
         <el-button style="width: auto !important; margin-right: 12px">
@@ -138,7 +147,6 @@
     </div>
     <popup-filter-collection />
     <popup-filter-nft />
-  
   </div>
 </template>
 

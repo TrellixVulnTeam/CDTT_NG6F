@@ -243,7 +243,7 @@
     }
   }
   ::v-deep.base-popup .el-dialog__footer {
-      display: none;
+    display: none;
   }
 
   .content {
@@ -377,7 +377,7 @@
       margin-top: 16px;
       margin-bottom: 24px;
       padding: 0px 20px;
-    
+
       .btn-change {
         color: #115bfc;
         cursor: pointer;
@@ -953,7 +953,7 @@
       .detail-nft-right {
         // max-width: calc(100% - 40px);
         margin: 16px auto 0;
-        
+
         .detail-heading {
           &-address {
             font-size: 14px;

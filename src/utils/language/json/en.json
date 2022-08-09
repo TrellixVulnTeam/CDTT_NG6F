@@ -559,7 +559,7 @@
     "sort": {
       "latest": "Latest",
       "earliest": "Earliest",
-      "oldest":"Oldest",
+      "oldest": "Oldest",
       "price-highToLow": "Price: High to low",
       "price-lowToHigh": "Price: Low to high"
     },
@@ -707,6 +707,8 @@
     "metamart-nft": "NFT item",
     "metamart-collection": "Collection",
     "metamart-category": "Category",
+    "metamart-template": "Template",
+    "metamart-banner": "Banner",
     "put-on-sale": "Put on sale",
     "bid": "Bid",
     "offer": "Offer",
@@ -1343,6 +1345,35 @@
         "creator": "Choose creator",
         "category": "Choose category",
         "template": "Choose template"
+      }
+    },
+    "template": {
+      "popup": {
+        "add-new": {
+          "title": "ADD NEW TEMPLATE",
+          "active-btn": "Create",
+          "passive-btn": "Cancel",
+          "content-title": "Template",
+          "alert": "Template must not empty"
+        },
+        "meta-data": {
+          "title": "CHOOSE METADATA TYPE",
+          "active-btn": "Continues",
+          "passive-btn": "Cancel",
+          "meta-type": {
+            "info": "Information",
+            "text": "Text",
+            "html": "HTML",
+            "policies": "Policies",
+            "feature": "Feature",
+            "attach": "Attachment",
+            "group": "Group"
+          }
+        }
+      },
+      "create": {
+        "advance-btn": "Advanced setting",
+        "save-btn": "Save"
       }
     },
     "success": {

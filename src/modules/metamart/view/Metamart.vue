@@ -19,6 +19,7 @@
       @reload="debounceInit"
       :listCategory="listCategory"
       @openCategoryPopup="handleOpenCategory"
+      @openPopupTemplate="handleOpenPopupTemplate"
     />
 
     <tab-nft
@@ -53,6 +54,8 @@
       @create="handleOpenCategory"
     />
 
+    <tab-template v-if="$route.name === 'Template'" />
+    <tab-banner v-if="$route.name === 'Banner'" />
     <popup-choosetype @continues="handleToPopupform($event)" />
     <popup-form @collection="handleOpenCreate($event)" />
     <popup-create />
@@ -62,6 +65,7 @@
     <popup-delete :type="deleteType" />
     <popup-nft-detail />
     <popup-create-category :listCategory="listCategory" :type="this.type" />
+    <popup-template @create="handleCreateTemplate" />
   </div>
 </template>
 
@@ -71,6 +75,8 @@
   import TabNft from '../components/TabNft.vue'
   import TabCategory from '../components/TabCategory.vue'
   import TabCollection from '../components/TabCollection.vue'
+  import TabTemplate from '../components/TabTemplate.vue'
+  import TabBanner from '../components/TabBanner.vue'
   import PopupForm from '../components/popup/PopupForm.vue'
   import PopupChoosetype from '../components/popup/ChooseType.vue'
   import PopupCreate from '../components/popup/PopupCreate.vue'
@@ -85,6 +91,7 @@
   import { debounce, filter } from 'lodash'
   import axios from 'axios'
   import PopupCreateCategory from '../components/popup/PopupCreateCategory.vue'
+  import PopupTemplate from '../components/popup/PopupTemplate.vue'
   //Interface
   interface IQuery {
     page?: number
@@ -110,7 +117,10 @@
       PopupPublicOnchain,
       PopupDelete,
       PopupNftDetail,
-      PopupCreateCategory
+      PopupCreateCategory,
+      TabTemplate,
+      TabBanner,
+      PopupTemplate
     }
   })
   export default class Metamart extends Mixins(PopupMixin) {
@@ -130,6 +140,17 @@
         id: 3,
         title: 'metamart-category',
         routeName: 'Category'
+      },
+      /* ,
+      {
+        id: 4,
+        title: 'metamart-template',
+        routeName: 'Template'
+      } */
+      {
+        id: 4,
+        title: 'metamart-banner',
+        routeName: 'Banner'
       }
     ]
     collectionData: Array<Record<string, any>> = []
@@ -269,6 +290,8 @@
     }
 
     handleOpen(popupName: string): void {
+      console.log('280')
+
       this.setOpenPopup({
         popupName: popupName,
         isOpen: true
@@ -353,6 +376,15 @@
         popupName: 'popup-metamart-delete',
         isOpen: true
       })
+    }
+    handleOpenPopupTemplate(): void {
+      this.setOpenPopup({
+        popupName: 'popup-template',
+        isOpen: true
+      })
+    }
+    handleCreateTemplate(payload: string): void {
+      this.$router.push({ name: 'CreateTemplate', query: { template: payload } })
     }
   }
 </script>

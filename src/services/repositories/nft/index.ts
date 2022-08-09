@@ -54,7 +54,7 @@ export class NftRepository extends BaseRepository {
   }
   async createCategory(params: Record<string, any>): Promise<Array<Record<string, any>>> {
     try {
-      const result = await request.post(`${this.prefix}/category`, params )
+      const result = await request.post(`${this.prefix}/category`, params)
       return result.data.data
     } catch (error) {
       return Promise.reject(error)
@@ -108,15 +108,23 @@ export class NftRepository extends BaseRepository {
       return result.data.data
     } catch (error) {
       return Promise.reject(error)
-    } 
+    }
   }
-  
+
   async createCollection(data: Record<string, any>): Promise<any> {
     try {
       const result = await request.post(`${this.prefix}bo/collection/create`, data)
       return Promise.resolve(result.data.data)
     } catch (error) {
       return Promise.reject(error)
-    } 
+    }
+  }
+  async getListBanners(params: Record<string, any>): Promise<any> {
+    try {
+      const rs = await request.get(`${this.prefix}/banners`, { params })
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
   }
 }

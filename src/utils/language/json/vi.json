@@ -684,6 +684,8 @@
     "metamart-nft": "NFT item",
     "metamart-category": "Phân loại",
     "metamart-collection": "Bộ sưu tập",
+    "metamart-template": "Mẫu",
+    "metamart-banner": "Banner",
     "put-on-sale": "Đăng bán",
     "bid": "Đấu giá",
     "offer": "Trả giá",
@@ -1314,11 +1316,39 @@
         "template": "\"Mẫu\" không được phép để trống"
       }
     },
+    "template": {
+      "popup": {
+        "add-new": {
+          "title": "THÊM MẪU MỚI",
+          "active-btn": "Tạo",
+          "passive-btn": "Huỷ",
+          "content-title": "Mẫu",
+          "alert": "Mẫu không được bỏ trống"
+        },
+        "meta-data": {
+          "title": "CHOOSE METADATA TYPE",
+          "active-btn": "Tiếp tục",
+          "passive-btn": "Huỷ",
+          "meta-type": {
+            "info": "Thông tin",
+            "text": "Văn bản",
+            "html": "HTML",
+            "policies": "Các chính sách",
+            "feature": "Tính năng",
+            "attach": "Đính kèm",
+            "group": "Nhóm"
+          }
+        }
+      },
+      "create": {
+        "advance-btn": "Cài đặt nâng cao",
+        "save-btn": "Lưu"
+      }
+    },
     "success": {
       "title": "THÀNH CÔNG",
       "delete-collection": "Bạn đã xóa bộ sưu tập thành công"
     }
-  
   },
   "filter_pending": "Chờ xử lý",
   "filter_processing": "Đang xử lý",
