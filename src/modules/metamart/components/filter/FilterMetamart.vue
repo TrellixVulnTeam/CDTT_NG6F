@@ -318,6 +318,7 @@
         limit: 20,
         search: ''
       }
+      this.getCategoryList('')
     }
     handleCommand(command: string): void {
       this.$emit('selectCommand', command)
@@ -372,6 +373,7 @@
         .then((res: any) => {
           if (trim(search)) {
             this.categories = res.content
+            this.categories.forEach(function(v){ delete v.levelDepth });
           } else {
             this.categories = []
             this.recursiveCategoryChild(res.content)
