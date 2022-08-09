@@ -147,12 +147,29 @@ export class NftRepository extends BaseRepository {
       return Promise.resolve(result.data.data)
     } catch (error) {
       return Promise.reject(error)
-    } 
+    }
   }
 
   async editCollection(data: Record<string, any>): Promise<any> {
     try {
       const result = await request.put(`${this.prefix}/bo/collection/update`, data)
+      return Promise.resolve(result.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+
+  async createNft(data: Record<string, any>): Promise<any> {
+    try {
+      const result = await request.post(`${this.prefix}/bo/item/create`, data)
+      return Promise.resolve(result.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+  async getDetailNft(id: number): Promise<any> {
+    try {
+      const result = await request.get(`${this.prefix}/item/${id}/detail`)
       return Promise.resolve(result.data.data)
     } catch (error) {
       return Promise.reject(error)
