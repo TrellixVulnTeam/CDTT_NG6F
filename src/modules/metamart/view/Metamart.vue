@@ -86,7 +86,7 @@
   import PopupNftDetail from '../components/popup/PopupNftDetail.vue'
   import getRepository from '@/services'
   import { NftRepository } from '@/services/repositories/nft'
-  import { debounce, filter } from 'lodash'
+  import { debounce, filter, trim } from 'lodash'
   import axios from 'axios'
   import EventBus from '@/utils/eventBus'
   //Interface
@@ -159,7 +159,7 @@
       if (!data) {
         this.debounceInit()
       }
-      this.searchData = data
+      this.searchData = trim(data)
       console.log(this.params)
       this.debounceInit()
     }
