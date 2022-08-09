@@ -216,7 +216,8 @@
     "times": "số lần sử dụng thiết bị",
     "results": "Bản ghi",
     "events": "hoạt động",
-    "collection": "bộ sưu tập"
+    "collection": "bộ sưu tập",
+    "nft": "sản phẩm"
   },
   "label": {
     "invalid-amount": "Số lượng không hợp lệ",
@@ -533,9 +534,9 @@
   },
   "nft": {
     "sort": {
-      "latest": "Ngày tạo muộn nhất",
+      "latest": "Mới nhất",
       "earliest": "Ngày tạo sớm nhất",
-      "oldest": "Ngày tạo cũ nhất",
+      "oldest": "Cũ nhất",
       "price-highToLow": "Giá: Từ cao xuống thấp",
       "price-lowToHigh": "Giá: Từ thấp lên cao",
       "item": "Sản phẩm",
