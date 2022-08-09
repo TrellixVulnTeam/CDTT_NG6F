@@ -80,7 +80,14 @@ export class NftRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
-
+  async deleteCollection(id: string | number, params: Record<string, any>): Promise<Array<Record<string, any>>> {
+    try {
+      const result = await request.delete(`${this.prefix}/bo/collection/${id}/delete`, { params })
+      return result.data.data
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
   async getListNetwork(): Promise<Array<Record<string, any>>> {
     try {
       const result = await request.get(`${this.prefix}/nft-asset/list?type=NFT`)
@@ -178,6 +185,14 @@ export class NftRepository extends BaseRepository {
   async getDetailNft(id: number): Promise<any> {
     try {
       const result = await request.get(`${this.prefix}/item/${id}/detail`)
+      return Promise.resolve(result.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+  async checkValidDeleteCollection(id: number): Promise<any> {
+    try {
+      const result = await request.post(`${this.prefix}/bo/collection/${id}/delete/validate`)
       return Promise.resolve(result.data.data)
     } catch (error) {
       return Promise.reject(error)
