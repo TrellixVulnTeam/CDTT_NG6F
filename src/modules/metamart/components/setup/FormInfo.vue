@@ -1,8 +1,17 @@
 <template>
   <div class="form-info">
     <el-form>
-      <el-form-item :label="$t('label_collection')" class="is-required">
-        <el-select v-model="form.collectionId" class="w-100" :placeholder="$t('label_collection')" @change="handleSelectCollection">
+      <el-form-item :label="$t('label_collection')" class="is-required hide-suffix">
+        <el-select
+          v-model="form.collectionId"
+          filterable
+          remote
+          reserve-keyword
+          :remote-method="handleFindCollection"
+          class="w-100"
+          :placeholder="$t('label_collection')"
+          @change="handleSelectCollection"
+        >
           <el-option v-for="item in listCollection" :key="item.id" :label="item.collectionName" :value="item.id" />
         </el-select>
       </el-form-item>
@@ -288,6 +297,10 @@
       const collection = filter(this.listCollection, elm => elm.id === collectionId)[0]
       this.$emit('selectCollection', collection)
     }
+
+    handleFindCollection(text: string): void {
+      this.$emit('findCollection', text)
+    }
   }
 </script>
 
@@ -357,6 +370,11 @@
           font-size: 16px;
           line-height: 24px;
           font-weight: 600;
+        }
+      }
+      .hide-suffix {
+        .el-input__suffix {
+          display: none;
         }
       }
     }

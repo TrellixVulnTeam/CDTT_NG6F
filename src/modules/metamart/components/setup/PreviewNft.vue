@@ -50,11 +50,11 @@
   @Component
   export default class PreviewNft extends Vue {
     @bcNft.State('initInfo') initInfo!: Record<string, any>
-    @bcNft.State('listCollection') listCollection!: Array<Record<string, any>>
+    @bcNft.State('listOriginCollection') listOriginCollection!: Array<Record<string, any>>
 
     get getNameCollection(): string {
-      if (this.initInfo?.collectionId && this.listCollection.length) {
-        const collection = filter(this.listCollection, elm => elm.id === this.initInfo.collectionId)[0]
+      if (this.initInfo?.collectionId && this.listOriginCollection.length) {
+        const collection = filter(this.listOriginCollection, elm => elm.id === this.initInfo.collectionId)[0]
         return collection.collectionName
       }
 

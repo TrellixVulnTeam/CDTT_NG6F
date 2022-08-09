@@ -13,6 +13,9 @@ const mutations: MutationTree<IAuth> = {
   SET_LIST_COLLECTION: (state, data) => {
     state.listCollection = data
   },
+  SET_LIST_ORIGIN_COLLECTION: (state, data) => {
+    state.listOriginCollection = data
+  },
   SET_LIST_CATEGORY: (state, data) => {
     state.listCategory = data
   },

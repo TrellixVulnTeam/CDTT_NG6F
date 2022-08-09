@@ -10,6 +10,7 @@ export interface IAuth {
   initSetting: ITabSetting
   initMetaData: Record<string, any>
   listCollection: Array<Record<string, any>>
+  listOriginCollection: Array<Record<string, any>>
   listCategory: Array<Record<string, any>>
   metaTypes: IMetaTypes[]
   metaDatas: Array<Record<string, any>>
@@ -52,6 +53,7 @@ const state: IAuth = {
     statusHot: false
   },
   listCollection: [],
+  listOriginCollection: [],
   listCategory: [],
   metaTypes: [],
   metaDatas: []

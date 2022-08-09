@@ -18,7 +18,7 @@
             action=""
             :show-file-list="true"
             :auto-upload="false"
-            accept=".doc,.docx, .pdf, .xls, .xlsx"
+            accept=".doc,.docx, .pdf, .xls, .xlsx,.ppt,.pptx"
             :on-change="handleChangeFile"
           >
             <div class="el-upload__text text-base">
@@ -27,7 +27,7 @@
           </el-upload>
           <div v-if="!isShowUpload" class="be-flex align-center jc-space-between show-file">
             <div class="be-flex align-center left">
-              <base-icon :icon="getIconFile" size="48" />
+              <img :src="getIconFile(form.metaAnnotation)" />
               <div class="info">
                 <p class="text-semibold text-base text-overflow-1">{{ form.fileName }}</p>
                 <p class="text-body-small text-desc">{{ form.metaStatisValue | bytesToSize }}</p>
@@ -80,6 +80,7 @@
     metaStatisValue?: number
     metaValueType?: string
     metaValue?: string
+    metaIcon?: string
     [x: string]: any
   }
 
@@ -98,7 +99,8 @@
       metaAnnotation: '',
       metaStatisValue: 0,
       metaValueType: 'FILE',
-      metaValue: ''
+      metaValue: '',
+      metaIcon: ''
     }
 
     rawFile: Record<string, any> = {}
@@ -132,11 +134,21 @@
       return ''
     }
 
-    get getIconFile(): string {
+    getIconFile(metaAnnotation: string): string {
       if (this.isShowUpload) return ''
-      const arrFileWord = ['doc', 'docx']
-      const arrFilePdf = ['pdf']
-      return includes(arrFileWord, this.form.metaAnnotation) ? 'icon-word' : includes(arrFilePdf, this.form.metaAnnotation) ? 'icon-pdf' : 'icon-excel'
+      const objType = {
+        doc: 'https://lynkey-production.s3.ap-southeast-1.amazonaws.com/blockchain/icon/icon-doc.png',
+        docx: 'https://lynkey-production.s3.ap-southeast-1.amazonaws.com/blockchain/icon/icon-doc.png',
+        pdf: 'https://lynkey-production.s3.ap-southeast-1.amazonaws.com/blockchain/icon/icon-pdf.png',
+        xls: 'https://lynkey-production.s3.ap-southeast-1.amazonaws.com/blockchain/icon/icon-excel.png',
+        xlsx: 'https://lynkey-production.s3.ap-southeast-1.amazonaws.com/blockchain/icon/icon-excel.png',
+        ppt: 'https://lynkey-production.s3.ap-southeast-1.amazonaws.com/blockchain/icon/icon-ppt.png',
+        pptx: 'https://lynkey-production.s3.ap-southeast-1.amazonaws.com/blockchain/icon/icon-ppt.png'
+      }
+      return objType[metaAnnotation]
+      // const arrFileWord = ['doc', 'docx']
+      // const arrFilePdf = ['pdf']
+      // return includes(arrFileWord, this.form.metaAnnotation) ? 'icon-word' : includes(arrFilePdf, this.form.metaAnnotation) ? 'icon-pdf' : 'icon-excel'
     }
 
     getInfoFile(file: Record<string, any>): void {
@@ -162,7 +174,8 @@
           metaStatisValue: 0,
           metaValueType: 'FILE',
           metaValue: '',
-          metaTypeId: this.idTabActive
+          metaTypeId: this.idTabActive,
+          metaIcon: ''
         }
         this.rawFile = {}
         this.isShowUpload = true
@@ -177,11 +190,12 @@
 
       const formData = new FormData()
       formData.append('files', file.raw)
-      formData.append('type', 'META_FILE')
+      formData.append('type', 'METADATA_FILE')
       formData.append('userId', this.user.userId)
       const result = await apiUpload.uploadFile(formData)
       this.form.metaValue = result.success[0].url
       this.form.metaStatisValue = result.success[0].size
+      this.form.metaIcon = this.getIconFile(this.form.metaAnnotation as string)
     }
 
     handleClearFile(): void {
@@ -191,7 +205,8 @@
         fileName: '',
         metaAnnotation: '',
         metaStatisValue: 0,
-        metaValue: ''
+        metaValue: '',
+        metaIcon: ''
       }
     }
 
