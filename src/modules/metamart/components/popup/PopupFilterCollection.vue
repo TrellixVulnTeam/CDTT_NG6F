@@ -45,7 +45,7 @@
       </div>
       <div class="content-block">
         <p class="content-block__title">{{$t('metamart.collection.filter.network')}}</p>
-        <el-select v-model="filterCollection.network" :placeholder="$t('metamart.collection.filter.network')">
+        <el-select v-model="filterCollection.networkName" :placeholder="$t('metamart.collection.filter.network')">
           <el-option v-for="(option, index) in networks" :label="option.networkName" :value="option.networkName" :key="index"></el-option>
         </el-select>
       </div>
@@ -97,6 +97,17 @@
     @Prop() categories: any
     @Prop() networks: any
 
+    @Watch('$route', { immediate: true, deep: true })
+    onUrlChange() {
+      this.filterCollection = {
+        creatorId: '',
+        categoryId: '',
+        networkName: '',
+        fromCreatedAt: '',
+        toCreatedAt: '',
+      }
+    }
+
     isLoading = false
 
     get pickerOption(): any {
@@ -132,7 +143,7 @@
     filterCollection = {
       creatorId: '',
       categoryId: '',
-      network: '',
+      networkName: '',
       fromCreatedAt: '',
       toCreatedAt: '',
     }
@@ -147,7 +158,7 @@
       this.filterCollection = {
         creatorId: '',
         categoryId: '',
-        network: '',
+        networkName: '',
         fromCreatedAt: '',
         toCreatedAt: '',
       }

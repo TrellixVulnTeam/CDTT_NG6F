@@ -281,6 +281,7 @@
         limit: 20,
         total: 20
       }
+      this.searchData = ''
       if (this.isChangeTab && tab.id === 2) {
         this.getCollection()
       } else if (this.isChangeTab && tab.id === 3) {

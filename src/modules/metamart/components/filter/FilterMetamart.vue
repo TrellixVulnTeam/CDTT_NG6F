@@ -162,7 +162,7 @@
 </template>
 
 <script lang="ts">
-  import { Component, Mixins, Prop } from 'vue-property-decorator'
+  import { Component, Mixins, Prop, Watch } from 'vue-property-decorator'
   import BaseIcon from '@/components/base/icon/BaseIcon.vue'
   import PopupMixin from '@/mixins/popup'
   import PopupFilterCollection from '../popup/PopupFilterCollection.vue'
@@ -187,6 +187,12 @@
     categoriesClone: Array<Record<string, any>> = []
     networks: Array<Record<string, any>> = []
     sortActive = ''
+
+    @Watch('$route', { immediate: true, deep: true })
+    onUrlChange() {
+      this.filter.value.search = ''
+      this.sortActive = ''
+    }
 
     created(): void {
       this.init()
