@@ -73,7 +73,6 @@
       :owners="detailNft.owners"
       :medias="detailNft.medias"
       :policies="detailNft.policies"
-     
     />
   </div>
 </template>
@@ -438,7 +437,14 @@
       this.typePopupCreateNft = 'edit'
       const result = await apiNft.getDetailNft(row.itemId)
       console.log(result)
-      const initInfo = { ...result.nftItem, medias: result.medias }
+
+      const language = localStorage.getItem('bc-lang') || ''
+      const parseJsonShortDescription = JSON.parse(result.nftItem.shortDescription)
+      const parseJsonDescription = JSON.parse(result.nftItem.description)
+      const description = parseJsonShortDescription[language]
+      const shortDescription = parseJsonDescription[language]
+
+      const initInfo = { ...result.nftItem, medias: result.medias, description, shortDescription }
       const metaDatas = result.metaDatas
       const metaTypes = result.metaTypes
       const initBlockchain = {
@@ -467,8 +473,8 @@
         popupName: 'popup-create-nft',
         isOpen: true
       })
+    }
   }
-}
 </script>
 
 <style scoped lang="scss">

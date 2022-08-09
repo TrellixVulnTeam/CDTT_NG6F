@@ -33,7 +33,7 @@
       @confirm="handleConfirm"
       @edit="handleEdit"
     />
-    <popup-delete :rowCurrent="rowCurrent" @delete="handleDelete" />
+    <popup-delete :rowCurrent="rowCurrent" :tabActive="tabActive" @delete="handleDelete" />
   </div>
 </template>
 
@@ -54,6 +54,7 @@
   @Component({ components: { PopupAddMap, PopupDelete } })
   export default class TabMap extends Mixins(PopupMixin) {
     @Prop({ required: false, type: Number, default: 0 }) idTabActive!: number
+    @Prop({ required: false, type: String, default: '' }) tabActive!: string
 
     @bcNft.State('metaDatas') metaDatas!: Array<Record<string, any>>
     @bcNft.Mutation('SET_LIST_METADATA') setListMetaData!: (list: Array<Record<string, any>>) => void

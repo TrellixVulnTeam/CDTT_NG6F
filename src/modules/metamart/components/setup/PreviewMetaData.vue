@@ -12,7 +12,7 @@
 
       <!-- type html -->
       <div class="type-html" v-if="tabActive === 'HTML'">
-        <div v-html="$options.filters.formatMetaText(dataPreview[0].metaValue)"></div>
+        <div v-html="dataPreview[0].metaValue"></div>
       </div>
 
       <!-- type map -->

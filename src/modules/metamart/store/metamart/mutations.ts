@@ -34,6 +34,14 @@ const mutations: MutationTree<IAuth> = {
       const listData = filter(data.metaDatas, data => type.metaTypeId === data.metaTypeId)
       type.typeTab = listData.length ? listData[0].metaValueType : ''
     })
+    const language = localStorage.getItem('bc-lang') || ''
+    forEach(data.metaDatas, elm => {
+      if (elm.metaValueType === 'TEXT' || elm.metaValueType === 'HTML') {
+        const parseJson = JSON.parse(elm.metaValue)
+        elm.metaValue = parseJson[language]
+      }
+    })
+
     state.metaDatas = data.metaDatas
     state.metaTypes = filter(data.metaTypes, elm => elm.metaType !== 'INFO')
   },

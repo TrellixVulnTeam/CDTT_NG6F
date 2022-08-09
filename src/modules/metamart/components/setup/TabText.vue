@@ -24,27 +24,27 @@
 
     created(): void {
       this.data = filter(this.metaDatas, elm => elm.metaTypeId === this.idTabActive)[0]
-      const language = localStorage.getItem('bc-lang') || ''
-      const parseJson = JSON.parse(this.data.metaValue)
-      this.description = parseJson[language]
+      // const language = localStorage.getItem('bc-lang') || ''
+      // const parseJson = JSON.parse(this.data.metaValue)
+      this.description = this.data.metaValue
     }
 
     handleInput(text: string): void {
       this.debounceInput(text, this)
     }
     debounceInput = debounce((text: string, _this: any) => {
-      const language = localStorage.getItem('bc-lang') || ''
+      // const language = localStorage.getItem('bc-lang') || ''
 
-      let parseJson: Record<string, any> = JSON.parse(_this.data.metaValue)
+      // let parseJson: Record<string, any> = JSON.parse(_this.data.metaValue)
 
-      parseJson = {
-        ...parseJson,
-        [language]: _this.description
-      }
+      // parseJson = {
+      //   ...parseJson,
+      //   [language]: _this.description
+      // }
 
       _this.data = {
         ..._this.data,
-        metaValue: JSON.stringify(parseJson)
+        metaValue: text
       }
 
       const index = findIndex(_this.metaDatas, (elm: Record<string, any>) => elm.metaTypeId === _this.idTabActive)

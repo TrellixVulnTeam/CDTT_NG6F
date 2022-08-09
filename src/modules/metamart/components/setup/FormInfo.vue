@@ -100,12 +100,12 @@
       </el-form-item>
 
       <el-form-item :label="$t('label_short-desc')" class="is-required">
-        <el-input type="textarea" :rows="3" :placeholder="$t('label_short-desc')" v-model="shortDescription" @input="handleInput" maxlength="200" show-word-limit> </el-input>
+        <el-input type="textarea" :rows="3" :placeholder="$t('label_short-desc')" v-model="form.shortDescription" maxlength="200" show-word-limit> </el-input>
       </el-form-item>
 
       <div class="mb-24 wrap-editor">
         <div class="text-base text-semibold label">{{ $t('label_long-desc') }}</div>
-        <jodit-editor :config="config" :buttons="buttons" v-model="description" />
+        <jodit-editor :config="config" :buttons="buttons" v-model="form.description" />
       </div>
     </el-form>
   </div>
@@ -175,29 +175,23 @@
     shortDescription = ''
     description = ''
 
-    // @Watch('form', { deep: true }) handleWatchForm(newForm: Record<string, any>): void {
-    //   this.setInitInfo(newForm)
+    // @Watch('description') watchContent(_new: string): void {
+    //   this.debounceInputHtml(_new, this)
     // }
 
-    @Watch('description') watchContent(_new: string): void {
-      this.debounceInputHtml(_new, this)
-    }
-
     async created(): Promise<void> {
-      console.log('aaa')
-      this.$root.$refs.FormInfo = this
-
-      const language = localStorage.getItem('bc-lang') || ''
-
-      if (this.typePopup === 'edit') {
-        this.config.language = language
-        const parseJsonShortDescription = JSON.parse(this.form.shortDescription)
-        const parseJsonDescription = JSON.parse(this.form.description)
-        this.shortDescription = parseJsonShortDescription[language]
-        this.description = parseJsonDescription[language]
-      } else {
-        this.shortDescription = this.form.shortDescription
-      }
+      // this.$root.$refs.FormInfo = this
+      // const language = localStorage.getItem('bc-lang') || ''
+      // if (this.typePopup === 'edit') {
+      //   this.config.language = language
+      //   const parseJsonShortDescription = JSON.parse(this.form.shortDescription)
+      //   const parseJsonDescription = JSON.parse(this.form.description)
+      //   this.shortDescription = parseJsonShortDescription[language]
+      //   this.description = parseJsonDescription[language]
+      // } else {
+      //   this.shortDescription = this.form.shortDescription
+      //   this.description = this.form.description
+      // }
     }
 
     debounceInputHtml = debounce((text: string, _this: any) => {
@@ -216,9 +210,9 @@
       }
     }, 500)
 
-    handleInput(text: string): void {
-      this.debounceInput(text, this)
-    }
+    // handleInput(text: string): void {
+    //   this.debounceInput(text, this)
+    // }
 
     debounceInput = debounce((text: string, _this: any) => {
       const language = localStorage.getItem('bc-lang') || ''

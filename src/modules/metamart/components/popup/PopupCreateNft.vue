@@ -162,13 +162,22 @@
       this.setListCollection(result.content)
       this.setListCategory(this.listCategory)
 
-      this.$nextTick(() => {
-        this.handleFillValueDescription()
-      })
+      // this.$nextTick(() => {
+      //   this.handleFillValueDescription()
+      // })
     }
 
     recursiveCategoryChild(list: Array<Record<string, any>>): void {
       for (let i = 0; i < list.length; i++) {
+        const lastElm = this.listCategory[this.listCategory.length - 1]
+        if (!lastElm) {
+          list[i].levelDepth = 0
+        } else {
+          if (lastElm.levelDepth < list[i].levelDepth) {
+            list[i].levelDepth = lastElm.levelDepth + 1
+          }
+        }
+
         this.listCategory.push(list[i])
         if (list[i].subCategory !== null) {
           const listParent = filter(list[i].subCategory, value => value.parentId === list[i].id)
@@ -200,9 +209,9 @@
 
     async handleSelectCollection(collection: Record<string, any>): Promise<void> {
       console.log(collection)
-
+      this.listCategory = []
       const listCategory = await apiNft.getCategories({ parentId: collection.categoryId, onlyOneTree: 1 })
-      this.recursiveCategoryChild(listCategory.content)
+      this.recursiveCategoryChild([listCategory])
       this.setListCategory(this.listCategory)
       this.setInitFormBlockchain(collection)
       this.getTemplateMetaData(collection.id)
