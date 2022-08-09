@@ -1276,7 +1276,8 @@
         "to-date": "Đến ngày"
       },
       "popup": {
-        "title": "THÊM BỘ SƯU TẬP MỚI",
+        "create": "THÊM BỘ SƯU TẬP MỚI",
+        "edit": "SỬA BỘ SƯU TẬP",
         "preview": "Xem trước",
         "avatar": "Ảnh đại diện",
         "thumbnail": "Hình thu nhỏ",
