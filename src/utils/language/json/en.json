@@ -234,7 +234,8 @@
     "times": "times",
     "results": "results",
     "events": "events",
-    "collection": "collections"
+    "collection": "collections",
+    "nft": "items"
   },
   "label": {
     "invalid-amount": "Invalid amount",

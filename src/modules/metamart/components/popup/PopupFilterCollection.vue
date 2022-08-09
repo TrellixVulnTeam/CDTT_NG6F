@@ -166,7 +166,7 @@
       this.filterCollection = {
         ...this.filterCollection,
         //@ts-ignore
-        network: this.filterCollection.network.match(/\(([^)]+)\)/)[1],
+        // network: this.filterCollection.network.match(/\(([^)]+)\)/)[1],
         fromCreatedAt: fromDate,
         toCreatedAt: toDate
       }
