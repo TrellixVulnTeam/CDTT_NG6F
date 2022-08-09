@@ -80,7 +80,8 @@ export function convertAmountDecimal(amount: string | number, currency: string):
     ETH: 8,
     BTC: 8,
     BUSD: 2,
-    PERCENT: 2
+    PERCENT: 2,
+    HUB: 2
   }
 
   if (!amount) {
