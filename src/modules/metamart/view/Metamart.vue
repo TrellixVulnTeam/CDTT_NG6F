@@ -63,7 +63,7 @@
     <popup-form @collection="handleOpenCreate($event)" />
     <popup-create />
     <popup-create-collection />
-    <popup-create-nft :typePopup="typePopupCreateNft" />
+    <popup-create-nft :typePopup="typePopupCreateNft" @reload="init" />
     <popup-public-onchain />
     <popup-nft-detail />
   </div>
@@ -424,7 +424,7 @@
         totalSupply: result.nftItem.totalSupply,
         totalMint: result.nftItem.totalSupply,
         contractAddress: result.nftItem.contractAddress,
-        tokenId: '',
+        tokenId: result.nftItem.itemCode,
         network: result.nftItem.network,
         networkName: result.nftItem.networkName,
         creatorName: result.nftItem.creatorName,
@@ -432,12 +432,12 @@
         creatorId: result.nftItem.creatorId
       }
       const initSetting = {
-        serviceFee: '',
+        serviceFee: result.nftItem.serviceFee,
         creatorFee: result.nftItem.creatorFee,
-        hotPosition: '',
-        topPosition: '',
-        statusTop: false,
-        statusHot: false
+        hotPosition: result.nftItem.hotPosition,
+        topPosition: result.nftItem.topPosition,
+        statusTop: result.nftItem.hotPosition ? true : false,
+        statusHot: result.nftItem.topPosition ? true : false
       }
 
       this.setDetailNft({ initInfo, initBlockchain, initSetting, metaTypes, metaDatas })

@@ -1352,6 +1352,7 @@
   "filter_success": "Thành công",
   "filter_failed": "Lỗi",
   "popup_add-nft": "Thêm NFT",
+  "popup_edit-nft": "Sửa NFT",
   "popup_edt-nft": "Sửa NFT",
   "label_information": "Thông tin",
   "label_blockchain": "Blockchain",
@@ -1418,5 +1419,7 @@
   "label_upload-desc": "Kéo và thả hoặc",
   "label_click-to-upload": "bấm để tải lên",
   "popup_add": "Thêm",
-  "popup_edit": "Sửa"
+  "popup_edit": "Sửa",
+  "notify_add-nft-success": "Thêm NFT thành công",
+  "notify_edit-nft-success": "Sửa NFT thành công"
 }

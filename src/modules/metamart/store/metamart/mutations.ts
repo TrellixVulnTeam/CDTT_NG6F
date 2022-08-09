@@ -1,5 +1,5 @@
 import { ITabBlockchain, ITabInfo, ITabSetting, IMetaTypes } from './../../interface/index'
-import { filter, forEach } from 'lodash'
+import { filter, forEach, map } from 'lodash'
 import { MutationTree } from 'vuex'
 import { IAuth } from '.'
 
@@ -50,8 +50,15 @@ const mutations: MutationTree<IAuth> = {
     state.initBlockchain = initBlockchain
     state.initSetting = initSetting
 
+    const listId = map(metaDatas, meta => meta.metaTypeId)
+    const listIdType = map(metaTypes, meta => meta.metaTypeId)
+    console.log(listId)
+    console.log(listIdType)
+
     forEach(metaTypes, type => {
       const listData = filter(metaDatas, data => type.metaTypeId === data.metaTypeId)
+      console.log('listData', listData)
+
       type.typeTab = listData.length ? listData[0].metaValueType : ''
     })
     state.metaDatas = metaDatas

@@ -1375,6 +1375,7 @@
   "filter_success": "Success",
   "filter_failed": "Failed",
   "popup_add-nft": "ADD NEW NFT",
+  "popup_edit-nft": "EDIT NFT",
   "popup_edt-nft": "EDIT NFT",
   "label_information": "Information",
   "label_blockchain": "Blockchain",
@@ -1441,5 +1442,7 @@
   "label_upload-desc": "Drag and drop or",
   "label_click-to-upload": "Click to upload",
   "popup_add": "Add",
-  "popup_edit": "Edit"
+  "popup_edit": "Edit",
+  "notify_add-nft-success": "Create NFT successfully",
+  "notify_edit-nft-success": "Update NFT successfully"
 }

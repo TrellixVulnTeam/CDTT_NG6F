@@ -55,6 +55,7 @@ export interface IMetaDataFile {
   metaMinimum: null | number
   metaName: string
   metaStatisValue: string
+  metaStaticValue: string
   metaType: string
   metaTypeAvatar: null | string
   metaTypeId: number
