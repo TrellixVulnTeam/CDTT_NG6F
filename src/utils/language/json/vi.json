@@ -166,7 +166,8 @@
     "email": "Email",
     "f-name": "Họ",
     "l-name": "Tên",
-    "amount-deposit": "Số lượng USDT",
+    "amount-deposit-BUSD": "Số lượng BUSD",
+    "amount-deposit-USDT": "Số lượng USDT",
     "vesting": "Số tháng",
     "amount-lynk": "Số lượng LYNK"
   },

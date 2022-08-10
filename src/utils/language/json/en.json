@@ -174,7 +174,8 @@
     "email": "Email",
     "f-name": "First name",
     "l-name": "Last name",
-    "amount-deposit": "Amount USDT",
+    "amount-deposit-USDT": "Amount USDT",
+    "amount-deposit-BUSD": "Amount BUSD",
     "amount-available": "Available amount",
     "vesting": "Month",
     "amount-lynk": "Amount LYNK"
