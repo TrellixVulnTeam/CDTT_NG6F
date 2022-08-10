@@ -1009,7 +1009,8 @@
       "lastnameLength": "Nhập tối thiểu 2 ký tự",
       "firstnameLength": "Nhập tối thiểu 2 ký tự",
       "wrong-lynk": "Vui lòng nhập số lượng LYNK",
-      "wrong-vesting": "Vui lòng nhập số tháng vesting"
+      "wrong-vesting": "Vui lòng nhập số tháng vesting",
+      "empty-category": "'Danh mục' không được để trống"
     }
   },
   "exception": {
@@ -1425,7 +1426,9 @@
       "delete-success": "Bạn đã xóa banner thành công",
       "delete-invalid-code": "Mã xác thực không chính xác",
       "delete-expired-code": "Mã xác thực đã hết hiệu lực",
-      "delete-locked": "Tài khoản của bạn đã bị khóa"
+      "delete-locked": "Tài khoản của bạn đã bị khóa",
+      "save": "Lưu",
+      "btn-delete": "Xoá"
     },
     "success": {
       "title": "THÀNH CÔNG",
@@ -1507,8 +1510,8 @@
   "label_click-to-upload": "bấm để tải lên",
   "popup_add": "Thêm",
   "popup_edit": "Sửa",
-  "edit_category": "Sửa nhóm",
-  "delete_category": "Xóa nhóm",
+  "edit_category": "Sửa danh mục",
+  "delete_category": "Xóa danh mục",
   "parent_category": "Danh mục cha",
   "popup_category-delete": "Bạn chắc chắn muốn xóa danh mục này ?"
 }
