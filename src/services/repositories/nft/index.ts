@@ -190,6 +190,30 @@ export class NftRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+  async getListBanners(params: Record<string, any>): Promise<any> {
+    try {
+      const rs = await request.get(`${this.prefix}/banners`, { params })
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+  async createBanner(params: Record<string, any>): Promise<any> {
+    try {
+      const rs = await request.post(`${this.prefix}/banner`, params)
+      return Promise.resolve(rs.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+  async updateBanner(bannerId: number, params: Record<string, any>): Promise<any> {
+    try {
+      const rs = await request.put(`${this.prefix}/banner/${bannerId}`, params)
+      return Promise.resolve(rs.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
   async checkValidDeleteCollection(id: number): Promise<any> {
     try {
       const result = await request.post(`${this.prefix}/bo/collection/${id}/delete/validate`)
@@ -202,6 +226,14 @@ export class NftRepository extends BaseRepository {
     try {
       const result = await request.get(`${this.prefix}/bo/collection/${id}/detail`)
       return Promise.resolve(result.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+  async deleteBanner(bannerId: number, params: Record<string, any>): Promise<any> {
+    try {
+      const rs = await request.delete(`${this.prefix}/banner/${bannerId}`, { data: params })
+      return Promise.resolve(rs.data)
     } catch (error) {
       return Promise.reject(error)
     }

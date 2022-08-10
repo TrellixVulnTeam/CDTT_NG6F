@@ -20,6 +20,7 @@
       :listCategory="listCategory"
       @openCategoryPopup="handleOpenCategory"
       @sort="handleSortChange"
+      @openPopupTemplate="handleOpenPopupTemplate"
     />
 
     <tab-nft
@@ -59,6 +60,8 @@
       :idDelete="idDelete"
     />
 
+    <tab-template v-if="$route.name === 'Template'" />
+    <tab-banner v-if="$route.name === 'Banner'" @edit="openEditBanner" :filter="filterBanner" />
     <popup-choosetype @continues="handleToPopupform($event)" />
     <popup-form @collection="handleOpenCreate($event)" />
     <popup-create />
@@ -74,6 +77,7 @@
       :medias="detailNft.medias"
       :policies="detailNft.policies"
     />
+    <popup-banner :type="bannerType" :banner="bannerEdit" @close="bannerType = 'add'" />
   </div>
 </template>
 
@@ -83,6 +87,8 @@
   import TabNft from '../components/TabNft.vue'
   import TabCategory from '../components/TabCategory.vue'
   import TabCollection from '../components/TabCollection.vue'
+  import TabTemplate from '../components/TabTemplate.vue'
+  import TabBanner from '../components/TabBanner.vue'
   import PopupForm from '../components/popup/PopupForm.vue'
   import PopupChoosetype from '../components/popup/ChooseType.vue'
   import PopupCreate from '../components/popup/PopupCreate.vue'
@@ -96,6 +102,9 @@
   import { NftRepository } from '@/services/repositories/nft'
   import { debounce, filter, trim } from 'lodash'
   import axios from 'axios'
+  import PopupCreateCategory from '../components/popup/PopupCreateCategory.vue'
+  import PopupTemplate from '../components/popup/PopupTemplate.vue'
+  import PopupBanner from '../components/popup/PopupBanner.vue'
   import EventBus from '@/utils/eventBus'
   //Interface
   interface IQuery {
@@ -124,12 +133,23 @@
       PopupCreateNft,
       PopupPublicOnchain,
       PopupDelete,
-      PopupNftDetail
+      PopupNftDetail,
+      PopupCreateCategory,
+      TabTemplate,
+      TabBanner,
+      PopupTemplate,
+      PopupBanner
     }
   })
   export default class Metamart extends Mixins(PopupMixin) {
     @bcNft.Mutation('SET_DETAIL_NFT') setDetailNft!: (PopupNftDetail: Record<string, any>) => void
-
+    filterBanner: Record<string, any> = {
+      search: '',
+      orderBy: 'NAME',
+      orderType: 'ASC'
+    }
+    bannerEdit: Record<string, any> = {}
+    bannerType = 'add'
     listCategory: Array<Record<string, any>> = []
     tabs: Array<Record<string, any>> = [
       {
@@ -146,6 +166,17 @@
         id: 3,
         title: 'metamart-category',
         routeName: 'Category'
+      },
+      /* ,
+      {
+        id: 4,
+        title: 'metamart-template',
+        routeName: 'Template'
+      } */
+      {
+        id: 4,
+        title: 'metamart-banner',
+        routeName: 'Banner'
       }
     ]
     detailNft: Record<string, any> = {}
@@ -172,13 +203,21 @@
         this.getNftItem()
       }
     }, 300)
+    debounceForBanner = debounce((payload: string, _this: any): void => {
+      _this.filterBanner.search = payload
+    }, 300)
     handleSearch(data: any): void {
-      if (!data) {
+      // if (!data) {
+      //   this.debounceInit()
+      // }
+      // console.log(this.params)
+      if (this.$route.name !== 'Banner') {
+        this.searchData = trim(data)
         this.debounceInit()
+      } else {
+        const searchData = trim(data)
+        this.debounceForBanner(searchData, this)
       }
-      this.searchData = trim(data)
-      console.log(this.params)
-      this.debounceInit()
     }
     handleGetCategoryId(id: number | string): void {
       this.idDelete = id
@@ -315,6 +354,8 @@
         this.getCollection()
       } else if (this.$route.name === 'Nft') {
         this.getNftItem()
+      } else if (this.$route.name === 'Banner') {
+        this.filterBanner.orderBy = command
       }
     }
 
@@ -329,6 +370,8 @@
     }
 
     handleOpen(popupName: string): void {
+      console.log('280')
+
       this.setOpenPopup({
         popupName: popupName,
         isOpen: true
@@ -419,6 +462,15 @@
         isOpen: true
       })
     }
+    handleOpenPopupTemplate(): void {
+      this.setOpenPopup({
+        popupName: 'popup-template',
+        isOpen: true
+      })
+    }
+    handleCreateTemplate(payload: string): void {
+      this.$router.push({ name: 'CreateTemplate', query: { template: payload } })
+    }
     async OpenNFtDetail(row: Record<string, any>): Promise<void> {
       const result = await apiNft.getDetailNft(row.itemId)
       this.detailNft = result
@@ -471,6 +523,14 @@
 
       this.setOpenPopup({
         popupName: 'popup-create-nft',
+        isOpen: true
+      })
+    }
+    openEditBanner(payload: Record<string, any>): void {
+      this.bannerType = 'edit'
+      this.bannerEdit = payload.banner
+      this.setOpenPopup({
+        popupName: payload.popupName,
         isOpen: true
       })
     }

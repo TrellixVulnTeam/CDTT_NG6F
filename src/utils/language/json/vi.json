@@ -548,7 +548,9 @@
       "collection": "Bộ sưu tập",
       "category": "Danh mục",
       "network": "Mạng",
-      "status": "Trạng thái"
+      "status": "Trạng thái",
+      "name": "Tên banner",
+      "position": "Vị trí"
     },
     "filter": {
       "category": "Danh mục",
@@ -695,6 +697,8 @@
     "metamart-nft": "NFT item",
     "metamart-category": "Phân loại",
     "metamart-collection": "Bộ sưu tập",
+    "metamart-template": "Mẫu",
+    "metamart-banner": "Banner",
     "put-on-sale": "Đăng bán",
     "bid": "Đấu giá",
     "offer": "Trả giá",
@@ -1346,6 +1350,72 @@
         "from-date": "Từ ngày",
         "to-date": "Đến ngày"
       }
+    },
+    "template": {
+      "popup": {
+        "add-new": {
+          "title": "THÊM MẪU MỚI",
+          "active-btn": "Tạo",
+          "passive-btn": "Huỷ",
+          "content-title": "Mẫu",
+          "alert": "Mẫu không được bỏ trống"
+        },
+        "meta-data": {
+          "title": "CHOOSE METADATA TYPE",
+          "active-btn": "Tiếp tục",
+          "passive-btn": "Huỷ",
+          "meta-type": {
+            "info": "Thông tin",
+            "text": "Văn bản",
+            "html": "HTML",
+            "policies": "Các chính sách",
+            "feature": "Tính năng",
+            "attach": "Đính kèm",
+            "group": "Nhóm"
+          }
+        }
+      },
+      "create": {
+        "advance-btn": "Cài đặt nâng cao",
+        "save-btn": "Lưu"
+      }
+    },
+    "banner": {
+      "popup": {
+        "add-banner": "Thêm banner",
+        "edit-banner": "Sửa banner",
+        "display-name": "Tên hiển thị",
+        "descript": {
+          "primary": "Mô tả",
+          "sub": "(Tuỳ chọn)"
+        },
+        "upload": "File tải lên",
+        "url": "URL",
+        "position": "Vị trí",
+        "placeholder": {
+          "name": "Nhập vào tên hiển thị",
+          "description": "VD: \"Sau khi mua, bạn sẽ có thể nhận được chiếc áo phông thật\"",
+          "upload": "PNG, JPG, GIF. Kích thước: 464x308 (tối đa 5mb).",
+          "upload-inner": "Kéo thả hoặc",
+          "upload-inner-em": "click để tải lên",
+          "link": "Nhập liên kết",
+          "position": "VD: \"1\""
+        },
+        "delete": "Xoá",
+        "delete-message-first": "Bạn có chắc chắn muốn xoá banner",
+        "delete-message-second": "?",
+        "confirm": "Xác nhận"
+      },
+      "table": {
+        "link": "liên kết",
+        "position": "vị trí",
+        "pagination-info": "banner"
+      },
+      "sent-code": "Đã gửi mã, vui lòng kiểm tra email của bạn",
+      "delete-success": "Bạn đã xóa banner thành công",
+      "delete-invalid-code": "Mã xác thực không chính xác",
+      "delete-expired-code": "Mã xác thực đã hết hiệu lực",
+      "delete-locked": "Tài khoản của bạn đã bị khóa"
     },
     "success": {
       "title": "THÀNH CÔNG",
