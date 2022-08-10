@@ -71,13 +71,7 @@
           <span class="sub"> {{ data.position.subtitle }}</span>
           <span class="required" v-if="data.position.required" style="color: #cf202f"> *</span>
         </p>
-        <el-input
-          v-model="data.position.value"
-          :placeholder="data.position.placeholder"
-          class="content-row__input"
-          @keypress.native="onlyNumber($event)"
-          @keyup.native="numberFormat($event)"
-        ></el-input>
+        <el-input v-model="data.position.value" :placeholder="data.position.placeholder" class="content-row__input" @keypress.native="onlyNumber($event)"></el-input>
       </div>
     </div>
     <div class="footer" slot="footer">
