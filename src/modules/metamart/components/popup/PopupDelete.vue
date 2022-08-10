@@ -87,7 +87,7 @@
       await apiUser
         .getEmailVerification(params)
         .then((res: any) => {
-          this.$message.success('Code sent, please check your email')
+          this.$message.success(`${this.$t('notify.send-code')}`)
           console.log(res)
         })
         .catch(e => {
