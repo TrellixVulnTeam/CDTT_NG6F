@@ -84,7 +84,7 @@
                   {{ $t('metamart.collection.upload.drop') }} <em>{{ $t('metamart.collection.upload.click') }}</em>
                 </div>
                 <div class="upload-wrapper" v-if="collection.banners[0]">
-                  <img :src="imageClick.mediaUrl" :alt="bannerPreviewing" class="upload-wrapper__preview" />
+                  <img :src="imageClick.mediaUrl" class="upload-wrapper__preview" />
                   <span class="cursor icon-x upload-wrapper__icon" @click.stop="handleBannerRemove(imageClick)">
                     <base-icon icon="icon-delete-circle" size="26" />
                   </span>
@@ -146,7 +146,7 @@
                 {{ $t('metamart.collection.popup.network') }}
                 <span class="block-title__asterisk"> *</span>
               </h2>
-              <el-select v-model="collection.network" placeholder="Ethereum (ERC-1155)">
+              <el-select v-model="collection.network" placeholder="Ethereum (ERC-1155)" :disabled="isDisable">
                 <el-option v-for="(option, index) in networks" :label="option.networkName" :value="option.networkName" :key="index"></el-option>
               </el-select>
             </section>
@@ -159,7 +159,7 @@
                 <span class="block-title__asterisk"> *</span>
               </h2>
               <!-- <el-input v-model="collection.contractAddress" placeholder="Select a contract address" ></el-input> -->
-              <el-select filterable remote v-model="collection.contractAddress" :placeholder="$t('metamart.collection.placeholder.contract-address')">
+              <el-select filterable remote v-model="collection.contractAddress" :placeholder="$t('metamart.collection.placeholder.contract-address')" :disabled="isDisable">
                 <el-option
                   v-for="(option, index) in contracts"
                   :label="option.contractAddress | formatTransactionCode(10)"
@@ -176,12 +176,12 @@
                 {{ $t('metamart.collection.popup.default-payment-by') }}
                 <span class="block-title__asterisk"> *</span>
               </h2>
-              <el-select v-model="collection.currency" class="select-prefix-icon">
-                <el-option v-for="(item, index) in optionByToken" :label="`${item.name} (${item.currency})`" :value="item.currency" :key="index">
+              <el-select v-model="collection.currency" class="select-prefix-icon" :disabled="isDisable">
+                <el-option v-for="(item, index) in currencies" :label="`${item.currencyName} (${item.currency})`" :value="item.currency" :key="index">
                   <template>
                     <div class="be-flex wallet-item">
                       <base-icon :icon="getIcon(item.currency)" size="24" />
-                      <span class="d-ib" style="margin-left: 10px">{{ item.name }}</span>
+                      <span class="d-ib" style="margin-left: 10px">{{ item.currencyName }}</span>
                       <span class="d-ib" style="margin-left: 4px">({{ item.currency.toUpperCase() }})</span>
                     </div>
                   </template>
@@ -199,7 +199,7 @@
                 {{ $t('metamart.collection.popup.creator') }}
                 <span class="block-title__asterisk"> *</span>
               </h2>
-              <el-select filterable remote :remote-method="remoteCreatorList" v-model="collection.creatorId" :placeholder="$t('metamart.collection.placeholder.creator')">
+              <el-select filterable remote :remote-method="remoteCreatorList" v-model="collection.creatorId" :placeholder="$t('metamart.collection.placeholder.creator')" :disabled="isDisable">
                 <div class="" v-infinite-scroll="loadMoreCreator" infinite-scroll-delay="500">
                   <el-option v-for="item in creators" :label="`${item.accountName} (${item.username})`" :value="item.id" :key="item.id">
                     <template>
@@ -337,6 +337,8 @@
     categories: Array<Record<string, any>> = []
     categoriesClone: Array<Record<string, any>> = []
     templates: Array<Record<string, any>> = []
+    currencies: Array<Record<string, any>> = []
+    baseCurrency = ''
 
     rules: Record<string, any> = {
       avatar: [
@@ -411,19 +413,18 @@
       ]
     }
 
-    // fake data
-    optionByToken = [
-      { name: 'Bitcoin', currency: 'BTC' },
-      { name: 'Tether', currency: 'USDT' },
-      { name: 'Ethereum', currency: 'ETH' },
-      { name: 'LynKey', currency: 'LYNK' },
-      { name: 'Cleverme', currency: 'CLM'}
-    ]
-
-    @Watch('collection.network') handleNetworkChange(): void {
+    @Watch('collection.network') handleNetworkChange(newVal: any): void {
       //@ts-ignore
       this.$refs['collection'].fields.find((f: any) => f.prop === 'contractAddress').resetField()
       this.getContractList()
+      console.log("New Network", newVal);
+      this.networks.forEach((network: any) => {
+        if (network.networkName === newVal) {
+          this.baseCurrency = network.baseCurrency
+        }
+      })
+      console.log(">>>base Cur:",this.baseCurrency);
+      this.getCurrencyList(this.baseCurrency)
     }
 
     getDescriptionByLang(data: any) {
@@ -512,13 +513,14 @@
         banners: this.editData.medias,
         collectionName: this.editData.collection.collectionName,
         description: this.getDescriptionByLang(this.editData.collection.description),
-        network: this.editData.collection.network,
+        network: this.editData.collection.networkName,
         contractAddress: this.editData.collection.contractAddress,
         currency: this.editData.collection.currency,
         creatorId: this.editData.collection.creatorId,
-        categoryIds: this.editData.categories[0].id,
+        categoryIds: this.editData.categories[0]?.id,
         templateId: this.editData.collection.templateId
       }
+      this.imageClick = this.editData.medias[0]
       this.getDescriptionByLang(this.editData.collection.description)
       this.getNetworkList()
       this.getContractList()
@@ -545,13 +547,14 @@
         banners: this.editData.medias,
         collectionName: this.editData.collection.collectionName,
         description: this.getDescriptionByLang(this.editData.collection.description),
-        network: this.editData.collection.network,
+        network: this.editData.collection.networkName,
         contractAddress: this.editData.collection.contractAddress,
         currency: this.editData.collection.currency,
         creatorId: this.editData.collection.creatorId,
-        categoryIds: this.editData.categories[0].id,
+        categoryIds: this.editData.categories[0]?.id,
         templateId: this.editData.collection.templateId
       }
+      this.imageClick = this.editData.medias[0]
     }
     handleSave(): void {
       //@ts-ignore
@@ -563,6 +566,7 @@
             .then((res: any) => {
               this.handleClose()
               this.$message.success('Edit collection successful')
+              this.$parent.$emit('reload')
             })
             .catch(e => {
               console.log(e)
@@ -593,6 +597,20 @@
         })
         .catch(e => {
           console.log(e)
+        })
+    }
+
+    async getCurrencyList(param: any): Promise<void> {
+      let params = {
+        baseCurrency: param
+      }
+      await apiNft.getListCurrency(params)
+        .then((res: any) => {
+          this.currencies = res
+          this.collection.currency = res[0].currency
+        })
+        .catch(e => {
+          console.log(e);
         })
     }
 

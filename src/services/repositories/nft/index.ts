@@ -206,6 +206,14 @@ export class NftRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+  async getListCurrency(params: Record<string, any>): Promise<Array<Record<string, any>>> {
+    try {
+      const result = await request.get(`${this.prefix}/currencies`, { params })
+      return result.data.data
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
   async updateBanner(bannerId: number, params: Record<string, any>): Promise<any> {
     try {
       const rs = await request.put(`${this.prefix}/banner/${bannerId}`, params)
@@ -226,14 +234,6 @@ export class NftRepository extends BaseRepository {
     try {
       const result = await request.get(`${this.prefix}/bo/collection/${id}/detail`)
       return Promise.resolve(result.data)
-    } catch (error) {
-      return Promise.reject(error)
-    }
-  }
-  async deleteBanner(bannerId: number, params: Record<string, any>): Promise<any> {
-    try {
-      const rs = await request.delete(`${this.prefix}/banner/${bannerId}`, { data: params })
-      return Promise.resolve(rs.data)
     } catch (error) {
       return Promise.reject(error)
     }
