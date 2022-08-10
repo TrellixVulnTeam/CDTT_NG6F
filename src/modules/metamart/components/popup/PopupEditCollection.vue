@@ -146,7 +146,7 @@
                 {{ $t('metamart.collection.popup.network') }}
                 <span class="block-title__asterisk"> *</span>
               </h2>
-              <el-select v-model="collection.network" placeholder="Ethereum (ERC-1155)" :disabled="isDisable">
+              <el-select v-model="collection.network" placeholder="Ethereum (ERC-1155)" :disabled="isDisable" @change="handleNetworkChange">
                 <el-option v-for="(option, index) in networks" :label="option.networkName" :value="option.networkName" :key="index"></el-option>
               </el-select>
             </section>
@@ -162,7 +162,7 @@
               <el-select filterable remote v-model="collection.contractAddress" :placeholder="$t('metamart.collection.placeholder.contract-address')" :disabled="isDisable">
                 <el-option
                   v-for="(option, index) in contracts"
-                  :label="option.contractAddress | formatTransactionCode(10)"
+                  :label="option.contractAddress"
                   :value="option.contractAddress"
                   :key="index"
                 ></el-option>
@@ -429,13 +429,31 @@
       ]
     }
 
-    @Watch('collection.network') handleNetworkChange(newVal: any): void {
-      //@ts-ignore
-      this.$refs['collection'].fields.find((f: any) => f.prop === 'contractAddress').resetField()
+    
+
+    // @Watch('collection.network') handleNetworkChange(newVal: any): void {
+    //   //@ts-ignore
+    //   // this.$refs['collection'].fields.find((f: any) => f.prop === 'contractAddress').resetField()
+    //   //@ts-ignore
+    //   // this.$refs['collection'].fields.find((f: any) => f.prop === 'currency').resetField()
+    //   this.collection.contractAddress = ''
+    //   this.getContractList()
+    //   console.log("New Network", newVal);
+    //   this.networks.forEach((network: any) => {
+    //     if (network.networkName === newVal) {
+    //       this.baseCurrency = network.baseCurrency
+    //     }
+    //   })
+    //   console.log(">>>base Cur:",this.baseCurrency);
+    //   this.getCurrencyList(this.baseCurrency)
+    // }
+
+    handleNetworkChange(value: any): void {
+      this.collection.contractAddress = ''
+      this.collection.currency = ''
       this.getContractList()
-      console.log("New Network", newVal);
       this.networks.forEach((network: any) => {
-        if (network.networkName === newVal) {
+        if (network.networkName === value) {
           this.baseCurrency = network.baseCurrency
         }
       })
@@ -521,6 +539,7 @@
       if (this.editData.collection.numOfItems > 0) {
         this.isDisable = true
       }
+      this.baseCurrency = this.editData.collection.currency
 
       this.collection = {
         collectionId: this.editData.collection.id,
@@ -543,6 +562,7 @@
       this.getCreatorList('')
       this.getCategoryList('')
       this.getTemplateList('')
+      this.getCurrencyList(this.baseCurrency)
     }
     handleClose(): void {
       //@ts-ignore
@@ -561,6 +581,7 @@
       })
     }
     handleReset(): void {
+      this.baseCurrency = this.editData.collection.currency
       this.collection = {
         collectionId: this.editData.collection.id,
         avatar: this.editData.collection.avatar,
@@ -576,6 +597,7 @@
         templateId: this.editData.collection.templateId
       }
       this.getCategoryList('')
+      this.getCurrencyList(this.baseCurrency)
       this.imageClick = this.editData.medias[0]
     }
     handleSave(): void {
@@ -629,7 +651,7 @@
       await apiNft.getListCurrency(params)
         .then((res: any) => {
           this.currencies = res
-          this.collection.currency = res[0].currency
+          // this.collection.currency = res[0].currency
         })
         .catch(e => {
           console.log(e);
@@ -641,7 +663,7 @@
         .getListNetwork()
         .then((res: any) => {
           this.networks = res.content
-          this.collection.network = res.content[0].networkName
+          // this.collection.network = res.content[0].networkName
         })
         .catch(e => {
           console.log(e)

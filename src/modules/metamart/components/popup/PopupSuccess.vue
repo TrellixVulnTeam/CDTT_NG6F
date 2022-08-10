@@ -40,6 +40,7 @@
         popupName: 'popup-metamart-delete',
         isOpen: false
       })
+      EventBus.$emit('reloadMetamart')
 
       if (this.$route.query) {
         this.$router.replace({ query: undefined })
