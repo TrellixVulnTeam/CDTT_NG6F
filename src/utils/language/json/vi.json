@@ -216,8 +216,10 @@
     "times": "số lần sử dụng thiết bị",
     "results": "Bản ghi",
     "events": "hoạt động",
+    "collections": "bộ sưu tập",
     "collection": "bộ sưu tập",
-    "nft": "sản phẩm"
+    "NFTs": "sản phẩm",
+    "NFT": "sản phẩm"
   },
   "label": {
     "invalid-amount": "Số lượng không hợp lệ",
