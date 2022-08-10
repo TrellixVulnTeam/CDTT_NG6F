@@ -141,7 +141,7 @@
         subtitle: this.$i18n.t('metamart.banner.popup.descript.sub'),
         placeholder: this.$i18n.t('metamart.banner.popup.placeholder.description'),
         value: '',
-        required: true,
+        required: false,
         alert: true
       },
       upload: {
