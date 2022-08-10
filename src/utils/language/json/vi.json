@@ -364,7 +364,9 @@
     "create-category-success": "Tạo danh mục thành công",
     "invalid-royal-fee": "Phí bản quyền phải nhỏ hơn {maxCreatorFee}%",
     "create-category-fail": "Không thể chọn danh mục cha là cấp 3",
-    "invalid-delete-nft": "Không thể xóa NFT này"
+    "invalid-delete-nft": "Không thể xóa NFT này",
+    "update-category-success": "Cập nhật danh mục thành công",
+    "update-category-fail":"Không thể chọn danh mục cha là chính mình hoặc là cấp 3"
   },
   "logout": {
     "title": "Đăng xuất",
@@ -1434,7 +1436,7 @@
     "success": {
       "title": "THÀNH CÔNG",
       "delete-collection": "Bạn đã xóa bộ sưu tập thành công",
-      "delete-success": "Bạn đã xóa danh mục thành công",
+      "delete-category": "Bạn đã xóa danh mục thành công",
       "delete-nft": "Bạn đã xóa sản phẩm thành công"
     }
   },

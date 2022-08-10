@@ -383,8 +383,10 @@
     "collection-has-nft": "Unable to delete collection containing active item",
     "create-category-success": "Create category successfully",
     "invalid-royal-fee": "Royalty fee must be less than {maxCreatorFee}%",
+    "create-category-fail": "Can't choose category as level 3",
+    "update-category-success": "Update category successfully",
     "invalid-delete-nft": "Unable to delete this NFT item",
-    "create-category-fail": "Can't choose category as level 3"
+    "update-category-fail": "Can't choose parent category as yourself or level 3"
   },
   "logout": {
     "title": "Sign out",
