@@ -4,7 +4,7 @@
     <div class="title-popup" slot="title">
       <span>{{ $t('metamart.nft.filter.title') }}</span>
     </div>
-    <div class="content" v-loading="isLoading">
+    <div class="content">
     <div class="content-block">
       <p class="content-block__title">{{ $t('metamart.nft.filter.collection') }}</p>
       <el-select 

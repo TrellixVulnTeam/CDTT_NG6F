@@ -20,7 +20,7 @@
       <div class="content__main">
         <!-- <tab-info :typePopup="typePopup" /> -->
         <!-- <keep-alive> -->
-        <component :is="getComponent" :typePopup="typePopup" @selectCollection="handleSelectCollection" />
+        <component :is="getComponent" :typePopup="typePopup" @selectCollection="handleSelectCollection" @findCollection="handleFindCollection" />
         <!-- </keep-alive> -->
       </div>
     </div>
@@ -55,6 +55,7 @@
 
   import { namespace } from 'vuex-class'
   import EventBus from '@/utils/eventBus'
+  import { trim } from 'lodash'
   const bcNft = namespace('bcNft')
 
   @Component({ components: { TabInfo, TabBlockchain, TabSetting, TabMetaData } })
@@ -62,6 +63,7 @@
     @Prop({ required: false, type: String, default: 'add' }) typePopup!: 'add' | 'edit'
 
     @bcNft.Mutation('SET_LIST_COLLECTION') setListCollection!: (list: Array<Record<string, any>>) => void
+    @bcNft.Mutation('SET_LIST_ORIGIN_COLLECTION') setListOriginCollection!: (list: Array<Record<string, any>>) => void
     @bcNft.Mutation('SET_LIST_CATEGORY') setListCategory!: (list: Array<Record<string, any>>) => void
     @bcNft.Mutation('SET_INIT_NFT') setInitInfo!: (info: Record<string, any>) => void
     @bcNft.Mutation('RESET_INIT') resetInit!: () => void
@@ -72,6 +74,7 @@
     @bcNft.State('initBlockchain') initBlockchain!: Record<string, any>
     @bcNft.State('metaDatas') metaDatas!: Array<Record<string, any>>
     @bcNft.State('initSetting') initSetting!: Record<string, any>
+    @bcNft.State('listOriginCollection') listOriginCollection!: Array<Record<string, any>>
 
     arrTab: Array<Record<string, any>> = [
       {
@@ -160,15 +163,25 @@
       }
 
       this.setListCollection(result.content)
+      this.setListOriginCollection(result.content)
       this.setListCategory(this.listCategory)
 
-      this.$nextTick(() => {
-        this.handleFillValueDescription()
-      })
+      // this.$nextTick(() => {
+      //   this.handleFillValueDescription()
+      // })
     }
 
     recursiveCategoryChild(list: Array<Record<string, any>>): void {
       for (let i = 0; i < list.length; i++) {
+        const lastElm = this.listCategory[this.listCategory.length - 1]
+        if (!lastElm) {
+          list[i].levelDepth = 0
+        } else {
+          if (lastElm.levelDepth < list[i].levelDepth) {
+            list[i].levelDepth = lastElm.levelDepth + 1
+          }
+        }
+
         this.listCategory.push(list[i])
         if (list[i].subCategory !== null) {
           const listParent = filter(list[i].subCategory, value => value.parentId === list[i].id)
@@ -200,9 +213,10 @@
 
     async handleSelectCollection(collection: Record<string, any>): Promise<void> {
       console.log(collection)
-
+      this.setListCollection(this.listOriginCollection)
+      this.listCategory = []
       const listCategory = await apiNft.getCategories({ parentId: collection.categoryId, onlyOneTree: 1 })
-      this.recursiveCategoryChild(listCategory.content)
+      this.recursiveCategoryChild([listCategory])
       this.setListCategory(this.listCategory)
       this.setInitFormBlockchain(collection)
       this.getTemplateMetaData(collection.id)
@@ -259,7 +273,7 @@
             await apiNft.updateNft({ ...form, itemId: this.initInfo.id })
             message = this.$t('notify_edit-nft-success') as string
           }
-          this.$message({ message, duration: 5000 })
+          this.$message.success({ message, duration: 5000 })
 
           this.setOpenPopup({
             popupName: 'popup-create-nft',
@@ -270,6 +284,11 @@
       } catch (error) {
         console.log(error)
       }
+    }
+
+    async handleFindCollection(text: string): Promise<void> {
+      const result = await apiNft.getNftCollection({ page: 1, limit: 1000, search: trim(text) })
+      this.setListCollection(result.content)
     }
 
     handleCancel(): void {

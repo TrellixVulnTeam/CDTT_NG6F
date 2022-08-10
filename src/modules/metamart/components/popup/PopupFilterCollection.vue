@@ -3,7 +3,7 @@
     <div class="title-popup" slot="title">
       <span>{{$t('metamart.collection.filter.filter')}}</span>
     </div>
-    <div class="content" v-loading="isLoading">
+    <div class="content">
       <div class="content-block">
         <p class="content-block__title">{{$t('metamart.collection.filter.creator')}}</p>
         <el-select 
@@ -107,8 +107,6 @@
         toCreatedAt: '',
       }
     }
-
-    isLoading = false
 
     get pickerOption(): any {
       // eslint-disable-next-line @typescript-eslint/no-this-alias

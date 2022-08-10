@@ -361,9 +361,7 @@ export function bytesToSize(bytes: number): string {
 
 export function formatMetaText(text: string): string {
   if (!text) return ''
-  const language = localStorage.getItem('bc-lang') || ''
-  const parseJson = JSON.parse(text)
-  return (parseJson[language] as string).replace(/\n/g, '<br>')
+  return text.replace(/\n/g, '<br>')
 }
 
 export function formatMetaHtml(text: string): string {

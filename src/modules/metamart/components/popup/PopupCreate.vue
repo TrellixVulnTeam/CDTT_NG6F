@@ -3,7 +3,7 @@
     <div class="title-popup" slot="title">
       <span>COLLECTION ERC-1155</span>
     </div>
-    <div class="content" v-loading="isLoading">
+    <div class="content">
       <div class="avatar block">
           <div class="avatar-frame">
               <img src="../../../../icons/png/circle.png" alt="avatar" class="avatar-frame__image">

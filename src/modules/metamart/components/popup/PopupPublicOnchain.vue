@@ -32,7 +32,7 @@
 
   @Component({ components: {} })
   export default class PopupPublicOnchain extends Mixins(PopupMixin) {
-    @Prop({required: true, type: Object}) dataDetail!: Record<string, any>
+    // @Prop({required: true, type: Object}) dataDetail!: Record<string, any>
     quantity = ''
   }
 </script>

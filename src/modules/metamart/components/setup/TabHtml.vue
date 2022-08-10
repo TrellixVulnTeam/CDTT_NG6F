@@ -58,7 +58,7 @@
       const language = localStorage.getItem('bc-lang') || ''
       this.config.language = language
       const content = filter(this.metaDatas, elm => elm.metaTypeId === this.idTabActive)[0].metaValue
-      this.content = JSON.parse(content)[language]
+      this.content = content
     }
 
     debounceInput = debounce((text: string, _this: any) => {

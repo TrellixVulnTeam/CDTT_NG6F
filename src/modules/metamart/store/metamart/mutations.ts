@@ -13,6 +13,9 @@ const mutations: MutationTree<IAuth> = {
   SET_LIST_COLLECTION: (state, data) => {
     state.listCollection = data
   },
+  SET_LIST_ORIGIN_COLLECTION: (state, data) => {
+    state.listOriginCollection = data
+  },
   SET_LIST_CATEGORY: (state, data) => {
     state.listCategory = data
   },
@@ -34,6 +37,14 @@ const mutations: MutationTree<IAuth> = {
       const listData = filter(data.metaDatas, data => type.metaTypeId === data.metaTypeId)
       type.typeTab = listData.length ? listData[0].metaValueType : ''
     })
+    const language = localStorage.getItem('bc-lang') || ''
+    forEach(data.metaDatas, elm => {
+      if (elm.metaValueType === 'TEXT' || elm.metaValueType === 'HTML') {
+        const parseJson = JSON.parse(elm.metaValue)
+        elm.metaValue = parseJson[language]
+      }
+    })
+
     state.metaDatas = data.metaDatas
     state.metaTypes = filter(data.metaTypes, elm => elm.metaType !== 'INFO')
   },

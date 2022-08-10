@@ -12,7 +12,7 @@
 
       <!-- type html -->
       <div class="type-html" v-if="tabActive === 'HTML'">
-        <div v-html="$options.filters.formatMetaText(dataPreview[0].metaValue)"></div>
+        <div v-html="dataPreview[0].metaValue"></div>
       </div>
 
       <!-- type map -->
@@ -31,15 +31,15 @@
       <!-- type file -->
       <div class="type-file" v-if="tabActive === 'FILE'">
         <div v-for="file in dataPreview" :key="file.id" class="be-flex align-center file">
-          <base-icon :icon="getIconFile(file)" size="48" class="d-iflex" />
+          <img :src="getIconFile(file)" class="d-iflex" />
           <div class="info">
             <p class="text-overflow-1 text-base text-semibold">{{ file.metaName }}</p>
             <div class="be-flex align-center">
               <span class="text-desc nft-body-small">{{ file.metaStatisValue | bytesToSize }}</span>
               <div class="circle"></div>
               <div class="be-flex align-center">
-                <base-icon icon="icon-download-blue" size="24" class="d-iflex" />
-                <span class="text-hyperlink nft-body-small" style="padding-left: 6px">{{ $t('label_download') }}</span>
+                <base-icon icon="icon-download-blue" size="24" class="d-iflex cursor" />
+                <span class="text-hyperlink nft-body-small cursor" style="padding-left: 6px" @click="handleDownload(file.metaValue)">{{ $t('label_download') }}</span>
               </div>
             </div>
           </div>
@@ -86,10 +86,20 @@
     // }
 
     getIconFile(file: Record<string, any>): string {
-      const arrFileWord = ['doc', 'docx']
-      const arrFilePdf = ['pdf']
-      const fileType = file.metaAnnotation.toLowerCase()
-      return includes(arrFileWord, fileType) ? 'icon-word' : includes(arrFilePdf, fileType) ? 'icon-pdf' : 'icon-excel'
+      const objType = {
+        doc: 'https://lynkey-production.s3.ap-southeast-1.amazonaws.com/blockchain/icon/icon-doc.png',
+        docx: 'https://lynkey-production.s3.ap-southeast-1.amazonaws.com/blockchain/icon/icon-doc.png',
+        pdf: 'https://lynkey-production.s3.ap-southeast-1.amazonaws.com/blockchain/icon/icon-pdf.png',
+        xls: 'https://lynkey-production.s3.ap-southeast-1.amazonaws.com/blockchain/icon/icon-excel.png',
+        xlsx: 'https://lynkey-production.s3.ap-southeast-1.amazonaws.com/blockchain/icon/icon-excel.png',
+        ppt: 'https://lynkey-production.s3.ap-southeast-1.amazonaws.com/blockchain/icon/icon-ppt.png',
+        pptx: 'https://lynkey-production.s3.ap-southeast-1.amazonaws.com/blockchain/icon/icon-ppt.png'
+      }
+      return objType[file.metaAnnotation.toLowerCase()]
+    }
+
+    handleDownload(url: string): void {
+      window.open(url, '_blank')
     }
   }
 </script>
