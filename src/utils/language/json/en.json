@@ -1544,5 +1544,7 @@
   "edit_category": "Edit category",
   "delete_category": "Delete category",
   "parent_category": "Parent category",
-  "popup_category-delete": "Are you sure you want to delete this category ?"
+  "popup_category-delete": "Are you sure you want to delete this category ?",
+  "notify_add-nft-success": "Create NFT successfully",
+  "notify_edit-nft-success": "Update NFT successfully"
 }

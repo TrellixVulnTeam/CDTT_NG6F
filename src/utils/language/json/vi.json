@@ -366,7 +366,7 @@
     "create-category-fail": "Không thể chọn danh mục cha là cấp 3",
     "invalid-delete-nft": "Không thể xóa NFT này",
     "update-category-success": "Cập nhật danh mục thành công",
-    "update-category-fail":"Không thể chọn danh mục cha là chính mình hoặc là cấp 3"
+    "update-category-fail": "Không thể chọn danh mục cha là chính mình hoặc là cấp 3"
   },
   "logout": {
     "title": "Đăng xuất",
@@ -1523,5 +1523,7 @@
   "edit_category": "Sửa danh mục",
   "delete_category": "Xóa danh mục",
   "parent_category": "Danh mục cha",
-  "popup_category-delete": "Bạn chắc chắn muốn xóa danh mục này ?"
+  "popup_category-delete": "Bạn chắc chắn muốn xóa danh mục này ?",
+  "notify_add-nft-success": "Thêm NFT thành công",
+  "notify_edit-nft-success": "Sửa NFT thành công"
 }
