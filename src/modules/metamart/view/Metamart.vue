@@ -507,8 +507,8 @@
       const language = localStorage.getItem('bc-lang') || ''
       const parseJsonShortDescription = JSON.parse(result.nftItem.shortDescription)
       const parseJsonDescription = JSON.parse(result.nftItem.description)
-      const description = parseJsonShortDescription[language]
-      const shortDescription = parseJsonDescription[language]
+      const description = parseJsonDescription[language]
+      const shortDescription = parseJsonShortDescription[language]
 
       const initInfo = { ...result.nftItem, medias: result.medias, description, shortDescription }
       const metaDatas = result.metaDatas
