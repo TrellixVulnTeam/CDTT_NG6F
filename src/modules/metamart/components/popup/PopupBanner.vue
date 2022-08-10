@@ -59,7 +59,7 @@
             {{ $t('metamart.banner.popup.placeholder.upload-inner') }} <em>{{ $t('metamart.banner.popup.placeholder.upload-inner-em') }}</em>
           </div>
           <div class="preview" v-else>
-            <img :src="data.upload.value" style="width: 100%; object-fit: cover" />
+            <img :src="data.upload.value" style="width: 100%; object-fit: cover; height: 100%" />
             <base-icon icon="icon-delete-circle" class="preview-del" size="40" @click.native.stop="handleDeleteImage" />
           </div>
         </el-upload>
@@ -274,25 +274,25 @@
     handleReset(): void {
       this.data = {
         displayName: {
-          title: 'Display name',
+          title: this.$i18n.t('metamart.banner.popup.display-name'),
           subtitle: '',
           value: '',
-          placeholder: 'Enter display name',
+          placeholder: this.$i18n.t('metamart.banner.popup.placeholder.name'),
           required: true,
           alert: true
         },
         descript: {
-          title: 'Description',
-          subtitle: ' (Optional)',
-          placeholder: `e. g. "After purchasing you'll be able to get the real T-Shirt"`,
+          title: this.$i18n.t('metamart.banner.popup.descript.primary'),
+          subtitle: this.$i18n.t('metamart.banner.popup.descript.sub'),
+          placeholder: this.$i18n.t('metamart.banner.popup.placeholder.description'),
           value: '',
-          required: true,
+          required: false,
           alert: true
         },
         upload: {
-          title: 'Upload file',
+          title: this.$i18n.t('metamart.banner.popup.upload'),
           subtitle: '',
-          placeholder: 'PNG, JPG, GIF. Upload size: 464x308 (Max 5mb).',
+          placeholder: this.$i18n.t('metamart.banner.popup.placeholder.upload'),
           value: '',
           required: true,
           alert: true
@@ -300,15 +300,15 @@
         url: {
           title: 'URL',
           subtitle: '',
-          placeholder: 'Enter link',
+          placeholder: this.$i18n.t('metamart.banner.popup.placeholder.link'),
           value: '',
           required: true,
           alert: true
         },
         position: {
-          title: 'Position',
+          title: this.$i18n.t('metamart.banner.popup.position'),
           subtitle: '',
-          placeholder: `e. g. “1”`,
+          placeholder: this.$i18n.t('metamart.banner.popup.placeholder.position'),
           value: '',
           required: false,
           alert: true
@@ -386,10 +386,14 @@
             &.el-textarea {
               .el-textarea__inner {
                 min-height: 89px !important;
+                word-break: break-word;
               }
             }
           }
           &__upload {
+            .el-upload__text {
+              font-size: 16px;
+            }
             .el-upload {
               width: 100%;
               &-dragger {
@@ -408,6 +412,9 @@
                   display: flex;
                   justify-content: center;
                   align-content: center;
+                  img {
+                    border-radius: 8px;
+                  }
                   &-del {
                     position: absolute;
                     top: -28px;

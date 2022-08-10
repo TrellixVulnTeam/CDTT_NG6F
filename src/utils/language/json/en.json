@@ -1426,10 +1426,10 @@
         "position": "Position",
         "placeholder": {
           "name": "Enter display name",
-          "description": "`e. g. \"After purchasing you'll be able to get the real T-Shirt\"",
+          "description": "e. g. \"After purchasing you'll be able to get the real T-Shirt\"",
           "upload": "PNG, JPG, GIF. Upload size: 464x308 (Max 5mb).",
           "upload-inner": "Drag and drop or",
-          "upload-inner-em": "click to upload",
+          "upload-inner-em": "Click to upload",
           "link": "Enter link",
           "position": "e. g. “1”"
         },

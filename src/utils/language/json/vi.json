@@ -1337,7 +1337,7 @@
       },
       "placeholder": {
         "name": "Nhập tên bộ sưu tập",
-        "description": "e. g. \"Sau khi mua, bạn sẽ có thể nhận được chiếc áo phông thật\"",
+        "description": "VD: \"Sau khi mua, bạn sẽ có thể nhận được chiếc áo phông thật\"",
         "contract-address": "Chọn một địa chỉ hợp đồng",
         "creator": "Chọn người tạo",
         "category": "Chọn danh mục",

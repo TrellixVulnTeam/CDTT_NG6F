@@ -210,6 +210,7 @@
                 type: 'error'
               })
               this.$router.push({ name: 'login' })
+              break
           }
         }
         console.log(error)
