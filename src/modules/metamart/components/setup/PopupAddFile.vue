@@ -186,6 +186,12 @@
     async handleChangeFile(file: Record<string, any>): Promise<void> {
       console.log(file)
 
+      if (!this.$options.filters?.validateFormatFile(file, 'MEDIA_NFT')) {
+        const message = this.$t('notify_invalid-file-type') as string
+        this.$message.error(message)
+        return
+      }
+
       file.percentage = 1
 
       const processFunction = function (progressEvent) {

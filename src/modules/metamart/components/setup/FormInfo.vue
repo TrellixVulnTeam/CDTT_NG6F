@@ -48,7 +48,7 @@
           :show-file-list="true"
           :auto-upload="false"
           list-type="picture"
-          accept=".jpg, .jpeg, .png, .gif,"
+          accept=".jpg, .jpeg, .png, .gif"
           :on-change="handleChangeThumbnail"
         >
           <div class="el-upload__text text-base">
@@ -248,6 +248,12 @@
     }
 
     async handleChangeThumbnail(file: Record<string, any>): Promise<void> {
+      if (!this.$options.filters?.validateFormatFile(file, 'THUMB_NFT')) {
+        const message = this.$t('notify_invalid-file-type') as string
+        this.$message.error(message)
+        return
+      }
+
       this.form.thumb = file.url
       const formData = new FormData()
       formData.append('files', file.raw)
@@ -259,6 +265,12 @@
     }
 
     async handleChangeListFile(rawFile: Record<string, any>): Promise<void> {
+      if (!this.$options.filters?.validateFormatFile(rawFile, 'MEDIA_NFT')) {
+        const message = this.$t('notify_invalid-file-type') as string
+        this.$message.error(message)
+        return
+      }
+
       rawFile.percentage = 1
 
       const processFunction = function (progressEvent) {
