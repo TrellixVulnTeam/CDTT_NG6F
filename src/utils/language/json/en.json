@@ -1447,7 +1447,9 @@
       "delete-success": "You have successfully deleted the banner",
       "delete-invalid-code": "Incorrect verification code",
       "delete-expired-code": "Expired verification code",
-      "delete-locked": "Account has been locked"
+      "delete-locked": "Account has been locked",
+      "save": "Save",
+      "btn-delete": "Delete"
     },
     "success": {
       "title": "CONGRATULATIONS",
