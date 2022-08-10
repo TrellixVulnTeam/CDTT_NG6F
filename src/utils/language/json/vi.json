@@ -1515,5 +1515,6 @@
   "edit_category": "Sửa danh mục",
   "delete_category": "Xóa danh mục",
   "parent_category": "Danh mục cha",
-  "popup_category-delete": "Bạn chắc chắn muốn xóa danh mục này ?"
+  "popup_category-delete": "Bạn chắc chắn muốn xóa danh mục này ?",
+  "popup-delete-category-error": "Danh mục này chứa dữ liệu và không thể xóa"
 }
