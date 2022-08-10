@@ -14,7 +14,7 @@
           <div style="margin-right: 400px">Số thành viên</div>
         </li> -->
         <li v-for="value in data" :key="value.id">
-        <unit-item
+          <unit-item
             ref="unitItem"
             @edit="editItem"
             @detail="detailItem"
@@ -30,9 +30,9 @@
       </ul>
       <!-- <base-pagination :table="table" :info="'nhóm'" @sizeChange="handleSizeChange" @currentChange="handleCurrentChange"/> -->
     </div>
-    <popup-create-category :idCategory="parentIdProp" :listCategory="listCategory" @load="loadData"/>
-    <popup-edit-category :dataDetail="dataDetail" @load="loadData" :listCategory="listCategory"/>
-    <popup-delete :idDelete="idDelete" @load="loadData"/>
+    <popup-create-category :idCategory="parentIdProp" :listCategory="listCategory" @load="loadData" />
+    <popup-edit-category :dataDetail="dataDetail" @load="loadData" :listCategory="listCategory" />
+    <popup-delete :idDelete="idDelete" />
   </div>
 </template>
 <script lang="ts">
@@ -44,7 +44,6 @@
   import getRepository from '@/services'
   import { NftRepository } from '@/services/repositories/nft'
   import PopupDelete from './popup/PopupDelete.vue'
-
   @Component({
     components: {
       UnitItem,
@@ -109,7 +108,6 @@
     }
   }
 </script>
-
 <style scoped lang="scss">
   .main {
     // min-height: 200px;
@@ -125,7 +123,6 @@
       padding-left: 45px;
       display: flex;
       align-items: center;
-
       .group-code {
         width: 112px;
       }
