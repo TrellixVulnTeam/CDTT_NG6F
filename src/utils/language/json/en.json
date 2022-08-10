@@ -1436,7 +1436,10 @@
         "delete": "Delete",
         "delete-message-first": "Are you sure you want to delete this",
         "delete-message-second": "banner?",
-        "confirm": "Confirm"
+        "confirm": "Confirm",
+        "alert-name": "Display name is required",
+        "alert-upload": "File is required",
+        "alert-url": "URL is required"
       },
       "table": {
         "link": "link",

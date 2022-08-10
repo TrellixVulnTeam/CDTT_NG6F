@@ -1414,7 +1414,10 @@
         "delete": "Xoá",
         "delete-message-first": "Bạn có chắc chắn muốn xoá banner",
         "delete-message-second": "?",
-        "confirm": "Xác nhận"
+        "confirm": "Xác nhận",
+        "alert-name": "Tên hiển thị là bắt buộc",
+        "alert-upload": "File là bắt buộc",
+        "alert-url": "URL là bắt buộc"
       },
       "table": {
         "link": "liên kết",

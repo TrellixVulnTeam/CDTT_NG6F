@@ -16,7 +16,7 @@
           class="content-row__input"
           :class="{ red: data.displayName.alert === false }"
         ></el-input>
-        <p class="content-row__alert" v-if="data.displayName.alert === false">{{ alert }}</p>
+        <p class="content-row__alert" v-if="data.displayName.alert === false">{{ $t('metamart.banner.popup.alert-name') }}</p>
       </div>
       <div class="content-row">
         <p class="content-row__title">
@@ -34,7 +34,6 @@
           :maxlength="200"
           :show-word-limit="true"
         ></el-input>
-        <p class="content-row__alert" v-if="data.descript.alert === false">{{ alert }}</p>
       </div>
       <div class="content-row">
         <p class="content-row__title">
@@ -63,7 +62,7 @@
             <base-icon icon="icon-delete-circle" class="preview-del" size="40" @click.native.stop="handleDeleteImage" />
           </div>
         </el-upload>
-        <p class="content-row__alert" v-if="data.upload.alert === false">{{ alert }}</p>
+        <p class="content-row__alert" v-if="data.upload.alert === false">{{ $t('metamart.banner.popup.alert-upload') }}</p>
       </div>
       <div class="content-row">
         <p class="content-row__title">
@@ -72,7 +71,7 @@
           <span class="required" v-if="data.url.required" style="color: #cf202f"> *</span>
         </p>
         <el-input v-model="data.url.value" :placeholder="data.url.placeholder" class="content-row__input" :class="{ red: data.url.alert === false }"></el-input>
-        <p class="content-row__alert" v-if="data.url.alert === false">{{ alert }}</p>
+        <p class="content-row__alert" v-if="data.url.alert === false">{{ $t('metamart.banner.popup.alert-url') }}</p>
       </div>
       <div class="content-row">
         <p class="content-row__title">
@@ -124,7 +123,6 @@
     @bcAuth.State('user') user!: Record<string, any>
     userId = this.$store.state.beAuth.user.userId
     fileList = []
-    alert = 'This field must not be empty'
     disabled = false
     uploadType = ''
     data = {
