@@ -111,6 +111,9 @@
     }
 
     get getDisableBtn(): boolean {
+      if (this.urlSystem && this.urlSystem['api.auto.test'] !== '1') {
+        return !(this.form.email && this.form.password && this.isVerifyCaptcha)
+      }
       return !(this.form.email && this.form.password && this.checkCaptcha)
     }
 
