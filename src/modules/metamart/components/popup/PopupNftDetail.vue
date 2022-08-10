@@ -105,6 +105,7 @@
     showClass = false
     coinMain = 'Not Lynk'
     numOfLine = 0
+
     get mediaList(): Array<Record<string, any>> {
       return this.medias
     }
