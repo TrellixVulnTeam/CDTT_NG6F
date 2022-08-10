@@ -49,7 +49,7 @@
                 <div class="sack-create-title text-desc">
                   {{ $t('label_creator') }}
                 </div>
-                <div vi class="sack-create-icon">
+                <div class="sack-create-icon">
                   <div>
                     <!-- <bc-media v-if="nftItem && nftItem.creatorAvatar" :url="nftItem && nftItem.creatorAvatar" :radius="100" :size="12" /> -->
                     <img v-if="nftItem && nftItem.creatorAvatar" :src="nftItem.creatorAvatar" />
@@ -58,7 +58,7 @@
                   </div>
 
                   <div class="text-overflow-1 text-hyperlink" @click="handleViewCreator(nftItem.creatorId)">
-                    <span v-if="nftItem && nftItem.creatorName && nftItem.creatorName.length > 15">{{ nftItem && nftItem.creatorName | formatTransactionCode(5, 5) }}</span>
+                    <span v-if="nftItem && nftItem.creatorName && nftItem.creatorName.length > 15">{{ nftItem && nftItem.creatorName | formatTransactionCode(5) }}</span>
                     <span v-else>{{ nftItem && nftItem.creatorName }}</span>
                   </div>
                   <div v-if="nftItem && nftItem.creatorIsVerified === 'YES'" class="verified">

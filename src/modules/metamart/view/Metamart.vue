@@ -475,10 +475,6 @@
     async OpenNFtDetail(row: Record<string, any>): Promise<void> {
       const result = await apiNft.getDetailNft(row.itemId)
       this.detailNft = result
-      // this.setOpenPopup({
-      //   popupName: 'popup-create-nft',
-      //   isOpen: true
-      // })
       this.setOpenPopup({
         popupName: 'popup-nft-detail',
         isOpen: true
