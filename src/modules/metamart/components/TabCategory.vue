@@ -3,7 +3,7 @@
   <div class="w-100 bg-white wallet-table">
     <div class="wallet-table__below">
       <div class="wrapper">
-        <div class="group-name">CATEGORY</div>
+        <div class="group-name">{{ $t('nft.sort.category')}}</div>
         <!-- <div class="group-code">Mã nhóm</div>
       <div class="group-member">Số thành viên</div> -->
         <div class="group-placeholder"></div>

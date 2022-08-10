@@ -1,39 +1,28 @@
-  <template>
+<template>
   <base-popup name="popup-edit-category" :hiddenFooter="true" width="600px" :closeClickModal="false" :open="handleOpen" :close="handleClose" class="editgroup">
-    <div slot="title">{{ $t('Edit category') }}</div>
+    <div slot="title">{{ $t('edit_category') }}</div>
     <div class="body-content">
       <el-form ref="dataInput" :model="dataInput" :rules="rules">
         <el-row>
           <el-col>
             <div class="col-style">
-              <el-form-item label="Category" class="select" prop="categoryName">
-                <el-input clearable placeholder="Category" v-model="dataInput.categoryName" ref="categoryName" style="color: #181b22"></el-input>
+              <el-form-item :label="$t('metamart.collection.popup.category')" class="select" prop="categoryName">
+                <el-input clearable :placeholder="$t('metamart.collection.popup.category')  " v-model="dataInput.categoryName" ref="categoryName" style="color: #181b22"></el-input>
               </el-form-item>
-              <el-form-item label="Parent category">
-                <el-select
-                  class="select w-100"
-                  @change="handleListCustomer"
-                  v-model="dataInput.parentId"
-                  :loading="isCategoryLoading"
-                  filterable
-                  clearable
-                  reserve-keyword
-                  placeholder="Parent category"
-                >
+              <el-form-item :label="$t('parent_category')">
+                <el-select class="select w-100" remote :remote-method="remoteCategoryList" v-model="dataInput.parentId" filterable :placeholder="$t('parent_category')">
                   <el-option
-                    v-for="(option, index) in listCategory"
+                    v-for="(option, index) in categories"
                     :label="option.categoryName"
                     :value="option.id"
                     :key="index"
                     :style="{ 'margin-left': `${(option.levelDepth ? option.levelDepth : 0) * 15}px` }"
-                    clearable
-                    reserve-keyword
                   >
                   </el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="Description" class="select">
-                <el-input clearable type="textarea" :rows="4" placeholder="Description" v-model="dataInput.description"></el-input>
+              <el-form-item :label="$t('metamart.collection.popup.description')" class="select">
+                <el-input clearable type="textarea" :rows="4" :placeholder="$t('metamart.collection.popup.description')" v-model="dataInput.description"></el-input>
               </el-form-item>
             </div>
           </el-col>
@@ -60,6 +49,8 @@
   import { debounce, filter, findIndex, forEach, trim } from 'lodash'
   import { namespace } from 'vuex-class'
   import EventBus from '@/utils/eventBus'
+  const apiNft: NftRepository = getRepository('nft')
+
   const beUser = namespace('beUser')
   @Component({ components: {} })
   export default class PopupEditCategory extends Mixins(PopupMixin) {
@@ -68,6 +59,7 @@
     @Prop({ required: false, type: Object, default: {} }) dataDetail!: Record<string, any>
     showPicutreInitial = true
     @Prop() listCategory!: any
+    categories: Array<Record<string, any>> = this.listCategory
     dataInput: any = {
       categoryName: '',
       parentId: '',
@@ -206,6 +198,40 @@
         .catch(e => {
           console.log(e)
         })
+    }
+    remoteCategoryList(query: string): void {
+      const a = debounce(this.getCategoryList, 500)
+      a(query)
+    }
+    async getCategoryList(search: string): Promise<any> {
+      await apiNft
+        .getCategories({
+          search: trim(search) ? trim(search) : null
+        })
+        .then((res: any) => {
+          if (trim(search)) {
+            // this.categoriesClone = res.content
+            this.categories = res.content
+            this.categories.forEach(function (v) {
+              delete v.levelDepth
+            })
+          } else {
+            this.categories = []
+            this.recursiveCategoryChild(res.content)
+          }
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    }
+    recursiveCategoryChild(list: Array<Record<string, any>>): void {
+      for (let i = 0; i < list.length; i++) {
+        this.categories.push(list[i])
+        if (list[i].subCategory !== null) {
+          const listParent = filter(list[i].subCategory, value => value.parentId === list[i].id)
+          this.recursiveCategoryChild(listParent)
+        }
+      }
     }
   }
 </script>

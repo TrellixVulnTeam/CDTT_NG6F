@@ -19,7 +19,7 @@
           <div v-if="value.levelDepth !== 2" @click="handleAddGroup(value)">
             <el-tooltip :enterable="false" class="item-tooltip" effect="dark" :content="$t('button.add-new')" placement="top">
               <el-button class="is-create-color is-none-border icon-btn icon-middle custom-button p-0" style="background: transparent">
-                <base-icon icon="icon-add" size="18" />
+                <base-icon icon="icon-add" size="17" />
               </el-button>
             </el-tooltip>
           </div>
@@ -37,7 +37,7 @@
           <div @click="handleDeleteGroup(value)">
             <el-tooltip :enterable="false" class="item-tooltip" effect="dark" :content="$t('delete_category')" placement="top">
               <el-button style="margin-left: 8px; background: transparent" class="is-create-color is-none-border icon-btn icon-middle custom-button p-0">
-                <base-icon icon="icon-delete" size="24" />
+                <base-icon icon="icon-delete-new" size="20" />
               </el-button>
             </el-tooltip>
           </div>
