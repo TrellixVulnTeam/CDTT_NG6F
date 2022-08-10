@@ -186,7 +186,9 @@ request.interceptors.response.use(
       if (data.status === 'DONT_DELETE' && data.message === 'You can\'t delete this') {
         message = i18n.tc('notify.collection-has-nft')
       }
-      
+      if (data.message === 'Parent category invalid !') {
+        message = i18n.tc('notify.create-category-fail')
+      }
       if (!message) {
         message = i18n.tc('notify.' + data.status)
       }

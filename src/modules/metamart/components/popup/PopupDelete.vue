@@ -3,12 +3,15 @@
     <div class="title-popup" slot="title">
       <span>{{ $t('button.delete') }}</span>
     </div>
-    <div class="content" style="padding-bottom: 24px" v-loading="isLoading" >
+    <div class="content" style="padding-bottom: 24px" v-loading="isLoading">
       <span v-if="this.$route.name === 'Collection'" class="content-text">
-        {{ $t('metamart.collection.delete.confirmation-1') }} <span class="content-text__item">{{this.collectionDelete.collectionName}}</span> {{ $t('metamart.collection.delete.confirmation-2') }}
+        {{ $t('metamart.collection.delete.confirmation-1') }} <span class="content-text__item">{{ this.collectionDelete.collectionName }}</span>
+        {{ $t('metamart.collection.delete.confirmation-2') }}
       </span>
-      <span v-else-if="this.$route.name === 'Nft'" class="content-text"> Are you sure you want to delete this <span class="content-text__item">The Myth Virtual Tour</span> item? </span>
-      <span v-else class="content-text"> Are you sure you want to delete this category ? </span>
+      <span v-else-if="this.$route.name === 'Nft'" class="content-text">
+        Are you sure you want to delete this <span class="content-text__item">The Myth Virtual Tour</span> item?
+      </span>
+      <span v-else class="content-text"> {{ $t('popup_category-delete') }} </span>
       <div v-if="isHaveNft" class="notification">
         <div class="notification-title">
           <div class="notification-title__icon">
@@ -51,7 +54,7 @@
   export default class PopupDelete extends Mixins(PopupMixin) {
     @beAuth.State('user') user!: Record<string, any>
     @Prop() idDelete!: any
-    @Prop({required: false, type: Object, default: {} }) collectionDelete!: Record<string, any>
+    @Prop({ required: false, type: Object, default: {} }) collectionDelete!: Record<string, any>
 
     isLoading = false
     value = ''
@@ -66,7 +69,8 @@
 
     async checkValidCollection(): Promise<void> {
       this.isLoading = true
-      await apiNft.checkValidDeleteCollection(this.collectionDelete.id) 
+      await apiNft
+        .checkValidDeleteCollection(this.collectionDelete.id)
         .then(res => {
           this.isHaveNft = false
           this.isLoading = false
@@ -86,7 +90,7 @@
       await apiUser
         .getEmailVerification(params)
         .then((res: any) => {
-          this.$message.success('Code sent, please check your email')
+          this.$message.success(`${this.$t('notify.send-code')}`)
           console.log(res)
         })
         .catch(e => {
@@ -121,8 +125,9 @@
       let params = {
         verificationCode: this.value
       }
-      console.log('params xoa collection', params )
-      await apiNft.deleteCollection(this.collectionDelete.id, params)
+      console.log('params xoa collection', params)
+      await apiNft
+        .deleteCollection(this.collectionDelete.id, params)
         .then((res: any) => {
           this.deleteType = 'delete-collection'
           this.setOpenPopup({
@@ -135,7 +140,7 @@
           })
         })
         .catch((e: any) => {
-          console.log("Fail RES:", e.response)
+          console.log('Fail RES:', e.response)
         })
     }
 
@@ -150,7 +155,7 @@
         this.checkValidCollection()
       }
     }
-    handleClose(): void { 
+    handleClose(): void {
       this.setOpenPopup({
         popupName: 'popup-metamart-delete',
         isOpen: false
@@ -174,8 +179,11 @@
         }
       }
       if (this.$route.name === 'Category') {
-        console.log('This is category')
         this.getEmailVerification()
+        this.setOpenPopup({
+          popupName: 'popup-metamart-verify-email',
+          isOpen: true
+        })
       }
     }
     handleDelete(value: any): void {
