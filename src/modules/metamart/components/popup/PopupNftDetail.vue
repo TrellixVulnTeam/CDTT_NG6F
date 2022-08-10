@@ -49,16 +49,16 @@
                 <div class="sack-create-title text-desc">
                   {{ $t('label_creator') }}
                 </div>
-                <div vi class="sack-create-icon">
+                <div class="sack-create-icon">
                   <div>
                     <!-- <bc-media v-if="nftItem && nftItem.creatorAvatar" :url="nftItem && nftItem.creatorAvatar" :radius="100" :size="12" /> -->
-                    <base-icon v-if="nftItem && nftItem.creatorAvatar" icon="icon-lynk" size="48" :radius="100" style="display: inline-flex" />
+                    <img v-if="nftItem && nftItem.creatorAvatar" :src="nftItem.creatorAvatar" />
 
                     <base-icon v-else icon="default-avatar" size="48" style="display: inline-flex" />
                   </div>
 
                   <div class="text-overflow-1 text-hyperlink" @click="handleViewCreator(nftItem.creatorId)">
-                    <span v-if="nftItem && nftItem.creatorName && nftItem.creatorName.length > 15">{{ nftItem && nftItem.creatorName | formatTransactionCode(5, 5) }}</span>
+                    <span v-if="nftItem && nftItem.creatorName && nftItem.creatorName.length > 15">{{ nftItem && nftItem.creatorName | formatTransactionCode(5) }}</span>
                     <span v-else>{{ nftItem && nftItem.creatorName }}</span>
                   </div>
                   <div v-if="nftItem && nftItem.creatorIsVerified === 'YES'" class="verified">
@@ -69,30 +69,7 @@
               </div>
             </div>
           </div>
-          <div class="isMobile">
-            <div class="sack-owner-create">
-              <div class="sack-create">
-                <div vi class="sack-create-icon">
-                  <div @click="handleViewCreator(nftItem.creatorId)">
-                    <bc-media v-if="nftItem && nftItem.creatorAvatar" :url="nftItem && nftItem.creatorAvatar" :radius="100" :size="12" />
-                    <base-icon v-else icon="default-avatar" size="48" style="display: inline-flex" />
-                  </div>
 
-                  <div v-if="nftItem && nftItem.creatorIsVerified === 'YES'" class="verified">
-                    <base-icon icon="icon-verified" size="16" class="d-iflex" />
-                  </div>
-                  <div v-if="nftItem && nftItem.creatorIsNew === 'YES'" class="new-circle"></div>
-                </div>
-                <div class="sack-create-title text-desc">
-                  {{ $t('detail-nft.header.creator') }}
-                </div>
-                <div class="text-overflow-1 text-hyperlink user-style" @click="handleViewCreator(nftItem.creatorId)">
-                  <span v-if="nftItem && nftItem.creatorName && nftItem.creatorName.length > 15">{{ nftItem && nftItem.creatorName | formatTransactionCode(5, 5) }}</span>
-                  <span v-else>{{ nftItem && nftItem.creatorName }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
           <tab-info :nftItem="nftItem" />
         </div>
       </div>
@@ -128,6 +105,7 @@
     showClass = false
     coinMain = 'Not Lynk'
     numOfLine = 0
+
     get mediaList(): Array<Record<string, any>> {
       return this.medias
     }
@@ -148,14 +126,14 @@
         clickable: true
       }
     }
-    handleShowMedia(item): void {
+    handleShowMedia(item: Record<string, any>): void {
       if (item.id) {
         this.ClickActive = item.id
         console.log(this.ClickActive)
       }
       this.nftItem.avatar = item.mediaUrl
     }
-    checkLengthText(text): void {
+    checkLengthText(text: string): void {
       let el = document.getElementById(`${text}`) as HTMLElement
       let divHeight = el.offsetHeight
       let lineHeight = parseInt(el.style.lineHeight)
@@ -165,7 +143,7 @@
         this.numOfLine = lines
       }
     }
-  
+
     handleClickArrow(type: string): void {
       if (type === 'next') {
         //@ts-ignore
@@ -180,7 +158,7 @@
       this.ClickActive = this.mediaList[0]?.id
     }
     @Watch('nftItem', { deep: true, immediate: true }) handleWatchItemNft(item: Record<string, any>): void {
-      if (item.description) {
+      if (item?.description) {
         const language = window.localStorage.getItem('bc-lang')!
         if (item.description) {
           const objDesc = JSON.parse(this.nftItem.description)

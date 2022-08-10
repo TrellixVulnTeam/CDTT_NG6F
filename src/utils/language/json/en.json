@@ -383,7 +383,8 @@
     "create-category-success": "Create category successfully",
     "invalid-royal-fee": "Royalty fee must be less than {maxCreatorFee}%",
     "create-category-fail": "Can't choose category as level 3",
-    "update-category-success": "Update category successfully"
+    "update-category-success": "Update category successfully",
+    "invalid-delete-nft": "Unable to delete this NFT item"
   },
   "logout": {
     "title": "Sign out",
@@ -1366,6 +1367,23 @@
         "template": "Choose template"
       }
     },
+    "nft": {
+      "filter": {
+        "title": "FILTER",
+        "collection": "Collection",
+        "creator": "Creator",
+        "category": "Category",
+        "network": "Network",
+        "status": "Status",
+        "created-date": "Created Date",
+        "from-date": "From date",
+        "to-date": "To date"
+      },
+      "delete": {
+        "confirmation-1": "Are you sure you want to delete this",
+        "confirmation-2": "item ?"
+      }
+    },
     "template": {
       "popup": {
         "add-new": {
@@ -1430,12 +1448,15 @@
       "delete-success": "You have successfully deleted the banner",
       "delete-invalid-code": "Incorrect verification code",
       "delete-expired-code": "Expired verification code",
-      "delete-locked": "Account has been locked"
+      "delete-locked": "Account has been locked",
+      "save": "Save",
+      "btn-delete": "Delete"
     },
     "success": {
       "title": "CONGRATULATIONS",
       "delete-collection": "You have successfully deleted the collection",
-      "delete-category": "You have successfully deleted the category"
+      "delete-category": "You have successfully deleted the category",
+      "delete-nft": "You have successfully deleted the item"
     }
   },
   "filter_pending": "Pending",

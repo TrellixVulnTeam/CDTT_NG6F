@@ -101,7 +101,7 @@
   import PopupNftDetail from '../components/popup/PopupNftDetail.vue'
   import getRepository from '@/services'
   import { NftRepository } from '@/services/repositories/nft'
-  import { debounce, filter, trim } from 'lodash'
+  import { debounce, filter, forEach, map, trim } from 'lodash'
   import axios from 'axios'
   import PopupCreateCategory from '../components/popup/PopupCreateCategory.vue'
   import PopupTemplate from '../components/popup/PopupTemplate.vue'
@@ -475,10 +475,19 @@
     async OpenNFtDetail(row: Record<string, any>): Promise<void> {
       const result = await apiNft.getDetailNft(row.itemId)
       this.detailNft = result
-      // this.setOpenPopup({
-      //   popupName: 'popup-create-nft',
-      //   isOpen: true
-      // })
+
+      const metaTypes: Array<Record<string, any>> = []
+      forEach(result.metaTypes, type => {
+        const listData = filter(result.metaDatas, data => data.metaTypeId === type.metaTypeId)
+        if (listData.length) {
+          metaTypes.push({ ...type, typeTab: listData[0].metaValueType })
+        }
+        if (type.metaType === 'INFO') {
+          metaTypes.push(type)
+        }
+      })
+
+      this.detailNft.metaTypes = metaTypes
       this.setOpenPopup({
         popupName: 'popup-nft-detail',
         isOpen: true

@@ -492,6 +492,11 @@
       this.$refs['collection'].resetFields();
       this.categories = []
       this.categoriesClone = []
+      this.queryTemplateList = {
+        page: 1,
+        limit: 20,
+        search: ''
+      }
       this.setOpenPopup({
         popupName: 'popup-create-collection',
         isOpen: false
@@ -500,6 +505,7 @@
     handleReset():void {
       //@ts-ignore
       this.$refs['collection'].resetFields();
+      this.getCategoryList('')
     }
     handleSave():void {
       //@ts-ignore
