@@ -25,4 +25,16 @@ export default class UploadRepository extends BaseRepository {
       console.log(error)
     }
   }
+
+  async uploadFileCreateNft(data: Record<string, any>): Promise<any> {
+    try {
+      const result = await request.post(`${this.prefix}/upload`, data.data, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+        onUploadProgress: data.progress
+      })
+      return result.data.data
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }

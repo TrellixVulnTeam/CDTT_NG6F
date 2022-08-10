@@ -33,9 +33,10 @@
                 <p class="text-body-small text-desc">{{ form.metaStatisValue | bytesToSize }}</p>
               </div>
             </div>
-            <div class="cursor" @click="handleClearFile">
+            <div v-if="rawFile.percentage === 100" class="cursor" @click="handleClearFile">
               <base-icon icon="icon-delete-circle-bg" size="24" />
             </div>
+            <el-progress v-else type="circle" :percentage="rawFile.percentage" class="progress-file" status="success"></el-progress>
           </div>
         </el-form-item>
       </el-form>
@@ -184,15 +185,28 @@
 
     async handleChangeFile(file: Record<string, any>): Promise<void> {
       console.log(file)
+
+      file.percentage = 1
+
+      const processFunction = function (progressEvent) {
+        let progress = (progressEvent.loaded / progressEvent.total) * 100
+        file.percentage = progress
+      }
+
       this.rawFile = file
       this.getInfoFile(file)
-      this.isShowUpload = false
 
+      this.isShowUpload = false
+      const data: Record<string, any> = {}
       const formData = new FormData()
       formData.append('files', file.raw)
       formData.append('type', 'METADATA_FILE')
       formData.append('userId', this.user.userId)
-      const result = await apiUpload.uploadFile(formData)
+      data.data = formData
+      data.progress = processFunction
+      const result = await apiUpload.uploadFileCreateNft(data)
+      console.log(file)
+
       this.form.metaValue = result.success[0].url
       this.form.metaStatisValue = result.success[0].size
       this.form.metaIcon = this.getIconFile(this.form.metaAnnotation as string)
@@ -263,6 +277,12 @@
           p:last-child {
             margin-top: 4px;
           }
+        }
+      }
+      .progress-file {
+        .el-progress-circle {
+          width: 60px !important;
+          height: 60px !important;
         }
       }
     }
