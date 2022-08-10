@@ -32,7 +32,7 @@
     </div>
     <popup-create-category :idCategory="parentIdProp" :listCategory="listCategory" @load="loadData" />
     <popup-edit-category :dataDetail="dataDetail" @load="loadData" :listCategory="listCategory" />
-    <popup-delete :idDelete="idDelete" />
+    <popup-delete :idDelete="idDelete" @load="loadData"/>
   </div>
 </template>
 <script lang="ts">

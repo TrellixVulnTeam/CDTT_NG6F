@@ -362,7 +362,8 @@
     "invalid-code": "Mã xác thực không chính xác",
     "create-category-success": "Tạo danh mục thành công",
     "invalid-royal-fee": "Phí bản quyền phải nhỏ hơn {maxCreatorFee}%",
-    "create-category-fail": "Không thể chọn danh mục cha là cấp 3"
+    "create-category-fail": "Không thể chọn danh mục cha là cấp 3",
+    "update-category-success": "Cập nhật danh mục thành công"
   },
   "logout": {
     "title": "Đăng xuất",

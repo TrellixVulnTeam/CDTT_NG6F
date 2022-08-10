@@ -187,7 +187,6 @@
       if (this.$route.name === 'Category') {
         this.value = value
         this.deleteCategory()
-        console.log(this.idDelete)
       } else if (this.$route.name === 'Collection') {
         this.value = value
         this.deleteCollection()
