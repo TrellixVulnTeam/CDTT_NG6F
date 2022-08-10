@@ -173,7 +173,7 @@
                   this.handleClose()
                   console.log(this.dataInput)
                 } else {
-                  this.$message.success('Update category successfully')
+                  this.$message.success(`${this.$t('notify.update-category-success')}`)
                   this.$emit('load')
                   this.handleClose()
                   EventBus.$emit('reloadDropdown')
