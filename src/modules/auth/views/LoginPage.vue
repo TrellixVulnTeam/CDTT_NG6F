@@ -19,7 +19,7 @@
           >
           <!-- <span @click="handleForgotPass" class="text-base text-hyperlink cursor">{{ $t('login.forgot') }}</span> -->
         </div>
-        <div class="captcha be-flex jc-space-center mt-2">
+        <div class="captcha be-flex jc-space-center mt-2" v-if="urlSystem && urlSystem['api.auto.test'] !== '1'">
           <vue-recaptcha ref="recaptcha" :loadRecaptchaScript="true" :language="language" :sitekey="siteKey" @verify="verifyCaptcha" @expired="expiredCaptcha"></vue-recaptcha>
         </div>
         <el-button :loading="isLoading" :class="getDisableBtn ? 'btn--disabled' : null" class="btn w-100 is-none-border cursor" @click="handleLogin"
@@ -61,6 +61,7 @@
     @bcAuth.Action('login') login!: (data: Record<string, any>) => Promise<void>
     @bcAuth.Action('logout') logout!: () => Promise<void>
     @beBase.State('siteKey') siteKey!: string
+    @beBase.State('urlSystem') urlSystem!: Record<string, any>
 
     showPass = false
     language = 'en'
