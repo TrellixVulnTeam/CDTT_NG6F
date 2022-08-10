@@ -362,6 +362,7 @@
     "invalid-code": "Mã xác thực không chính xác",
     "create-category-success": "Tạo danh mục thành công",
     "invalid-royal-fee": "Phí bản quyền phải nhỏ hơn {maxCreatorFee}%",
+    "create-category-fail": "Không thể chọn danh mục cha là cấp 3",
     "invalid-delete-nft": "Không thể xóa NFT này"
   },
   "logout": {

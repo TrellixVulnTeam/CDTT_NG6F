@@ -12,7 +12,7 @@
         {{ $t('metamart.nft.delete.confirmation-1') }} <span class="content-text__item">{{ this.itemDelete.itemName }}</span> 
         {{ $t('metamart.nft.delete.confirmation-2') }}
       </span>
-      <span v-else class="content-text"> Are you sure you want to delete this category ? </span>
+      <span v-else class="content-text"> {{ $t('popup_category-delete') }} </span>
       <div v-if="isHaveNft" class="notification">
         <div class="notification-title">
           <div class="notification-title__icon">
