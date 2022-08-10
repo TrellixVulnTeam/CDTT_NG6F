@@ -2,8 +2,8 @@
   <div class="tab-info">
     <div class="be-scroll-custom list-item">
       <div class="be-flex">
-        <div v-for="tab in metaType" :key="tab.metaTypeId" class="item" :class="tabActive === tab.metaType ? 'active' : null" @click="handleChangeTab(tab)">
-          {{ tab.metaTypeName }}
+        <div v-for="tab in metaTypes" :key="tab.metaTypesId" class="item" :class="tabActive === tab.metaTypes ? 'active' : null" @click="handleChangeTab(tab)">
+          {{ tab.metaType }}
         </div>
       </div>
     </div>
@@ -133,41 +133,10 @@
   export default class TabInfo extends Mixins(PopupMixin) {
     @beBase.State('coinMain') coinMain!: string
     @Prop({ required: false, type: Object, default: () => ({}) }) nftItem!: Record<string, any>
-    // @Prop({ required: false, type: Array, default: () => [] }) metaType!: Array<Record<string, any>>
-    metaType = [
-      {
-        id: 1,
-        metaTypeId: 1,
-        metaType: 'INFO',
-        metaTypeName: 'NFT info'
-      },
-      {
-        id: 2,
-        metaTypeId: 2,
-        metaType: 'DETAILS',
-        metaTypeName: 'Details'
-      },
-      {
-        id: 3,
-        metaTypeId: 3,
-        metaType: 'POLICIES',
-        metaTypeName: 'Policies'
-      },
-      {
-        id: 4,
-        metaTypeId: 4,
-        metaType: 'EBROCHURES',
-        metaTypeName: 'eBrochures'
-      },
-      {
-        id: 5,
-        metaTypeId: 5,
-        metaType: 'PROPERTIES',
-        metaTypeName: 'Properties'
-      }
-    ]
-    @Prop({ required: false, type: Array, default: () => [] }) metaData!: Array<Record<string, any>>
-    @Prop({ required: false, type: Array, default: () => [] }) policies!: Array<Record<string, any>>
+    @Prop({ required: true, type: Array, default: () => [] }) policies!: Array<Record<string, any>>
+
+    @Prop({ required: false, type: Array, default: () => [] }) metaDatas!: Array<Record<string, any>>
+    @Prop({ required: false, type: Array, default: () => [] }) metaTypes!: Array<Record<string, any>>
 
     tabActive = 'INFO'
     tabDisplayActive = 'FIXED'
@@ -177,13 +146,13 @@
     // created(): void {
     //   try {
     //     const language = window.localStorage.getItem('bc-lang')!
-    //     this.arrMeta = filter(this.metaData, elm => elm.metaType === this.tabActive)
-    //     this.metaData.forEach(ele => {
-    //       if (ele.metaType === 'TOUR_SCHEDULE') {
+    //     this.arrMeta = filter(this.metaDatas, elm => elm.metaTypes === this.tabActive)
+    //     this.metaDatas.forEach(ele => {
+    //       if (ele.metaTypes === 'TOUR_SCHEDULE') {
     //         this.textTour = JSON.parse(ele.metaValue)[language].replace(/\\n/g, '<br>')
-    //       } else if (ele.metaType === 'DESCRIPTION') {
+    //       } else if (ele.metaTypes === 'DESCRIPTION') {
     //         this.textDescription = JSON.parse(ele.metaValue)[language].replace(/\\n/g, '<br>')
-    //       } else if (ele.metaType === 'DETAIL') {
+    //       } else if (ele.metaTypes === 'DETAIL') {
     //         this.textDetail = JSON.parse(ele.metaValue)[language].replace(/\\n/g, '<br>')
     //       }
     //     })
@@ -192,9 +161,9 @@
     //   }
     // }
 
-    // typeName(metaTypeName: string): string {
+    // typeName(metaTypesName: string): string {
     //   const language = window.localStorage.getItem('bc-lang')!
-    //   return JSON.parse(metaTypeName)[language].replace(/\\n/g, '<br>')
+    //   return JSON.parse(metaTypesName)[language].replace(/\\n/g, '<br>')
     // }
 
     get totalCirculating(): number {
@@ -209,7 +178,7 @@
       }
       return ''
 
-      // const tour = filter(this.metaData, elm => elm.metaType === 'TOUR_SCHEDULE')
+      // const tour = filter(this.metaDatas, elm => elm.metaTypes === 'TOUR_SCHEDULE')
       // if (tour.length) {
       //   const objDesc = JSON.parse(tour[0].metaDescription)
       //   return objDesc[language].replace(/\\n/g, '<br>')
@@ -218,20 +187,20 @@
     }
 
     handleChangeTab(tab: Record<string, any>): void {
-      const tabName = tab.metaType
+      const tabName = tab.metaTypes
       const tabDisplayType = tab.displayType
-      this.tabActive = tab.metaType
+      this.tabActive = tab.metaTypes
       this.tabDisplayActive = tab.displayType
       if (tabDisplayType === 'FIXED') {
-        this.arrMeta = filter(this.metaData, elm => elm.metaType === tabName)
+        this.arrMeta = filter(this.metaDatas, elm => elm.metaTypes === tabName)
         if (this.arrMeta.length) {
           this.metaValueType = this.arrMeta[0].metaValueType
         }
       } else {
-        const metaType = filter(this.metaType, elm => elm.metaType === tabName)
-        const metaTypeName = metaType[0].metaTypeName
-        const meta = filter(this.metaData, elm => elm.metaType === tabName)
-        meta[0]['metaTypeName'] = metaTypeName
+        const metaTypes = filter(this.metaTypes, elm => elm.metaTypes === tabName)
+        const metaTypesName = metaTypes[0].metaTypesName
+        const meta = filter(this.metaDatas, elm => elm.metaTypes === tabName)
+        meta[0]['metaTypesName'] = metaTypesName
         if (tabName === 'POLICY') {
           this.$emit('changeTabPolicy', meta)
         } else {

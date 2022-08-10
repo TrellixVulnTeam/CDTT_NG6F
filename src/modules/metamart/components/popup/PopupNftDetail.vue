@@ -70,7 +70,7 @@
             </div>
           </div>
 
-          <tab-info :nftItem="nftItem" />
+          <tab-info :nftItem="nftItem" :metaDatas="metaData" :metaTypes="metaType" />
         </div>
       </div>
     </div>
