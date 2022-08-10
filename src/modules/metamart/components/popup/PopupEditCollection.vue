@@ -227,6 +227,7 @@
                 :remote-method="remoteCategoryList" 
                 v-model="collection.categoryIds" 
                 :placeholder="$t('metamart.collection.placeholder.category')"
+                :disabled="isDisable"
               >
                 <el-option
                   v-for="(option, index) in categories"
@@ -253,6 +254,7 @@
                 clearable 
                 v-model="collection.templateId" 
                 :placeholder="$t('metamart.collection.placeholder.template')"
+                :disabled="isDisable"
               >
                 <div class="" v-infinite-scroll="loadMoreTemplate" infinite-scroll-delay="500">
                   <el-option v-for="option in templates" :label="option.templateName" :value="option.id" :key="option.id"></el-option>
@@ -548,6 +550,11 @@
       this.categories = []
       this.categoriesClone = []
       this.collection = []
+      this.queryTemplateList = {
+        page: 1,
+        limit: 20,
+        search: ''
+      }
       this.setOpenPopup({
         popupName: 'popup-edit-collection',
         isOpen: false
@@ -568,6 +575,7 @@
         categoryIds: this.editData.categories[0]?.id,
         templateId: this.editData.collection.templateId
       }
+      this.getCategoryList('')
       this.imageClick = this.editData.medias[0]
     }
     handleSave(): void {
