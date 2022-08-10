@@ -20,7 +20,7 @@
       </el-table-column>
       <el-table-column :label="$t('metamart.banner.table.link')" width="350" align="left">
         <template slot-scope="sc">
-          <p class="banner-table__link">{{ sc.row.objectUrl !== null ? sc.row.objectUrl : '' }}</p>
+          <p class="banner-table__link" :title="sc.row.objectUrl !== null ? sc.row.objectUrl : ''">{{ sc.row.objectUrl !== null ? sc.row.objectUrl : '' }}</p>
         </template>
       </el-table-column>
       <el-table-column :label="$t('metamart.banner.table.position')" width="165" align="right">

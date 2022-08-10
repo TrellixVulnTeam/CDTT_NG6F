@@ -42,6 +42,7 @@
       :data="collectionData"
       v-loading="isLoading"
       @delete="handleDeleteCollection"
+      @reload="init"
     />
 
     <tab-category
@@ -65,7 +66,7 @@
     <popup-choosetype @continues="handleToPopupform($event)" />
     <popup-form @collection="handleOpenCreate($event)" />
     <popup-create />
-    <popup-create-collection />
+    <popup-create-collection @reload="init" />
     <popup-create-nft :typePopup="typePopupCreateNft" @reload="init" />
     <popup-public-onchain />
     <popup-nft-detail

@@ -234,8 +234,10 @@
     "times": "times",
     "results": "results",
     "events": "events",
-    "collection": "collections",
-    "nft": "items"
+    "collections": "collections",
+    "collection": "collection",
+    "NFTs": "items",
+    "NFT": "item"
   },
   "label": {
     "invalid-amount": "Invalid amount",
