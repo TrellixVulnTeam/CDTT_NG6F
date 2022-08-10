@@ -97,7 +97,12 @@
     isConflictClick = false
 
     get getPaginationInfo(): any {
-      return this.$t('paging.nft')
+      //@ts-ignore
+      if (this.query.total > 1) {
+        return this.$t('paging.NFTs')
+      } else {
+        return this.$t('paging.NFT')
+      }
     }
 
     indexMethod(index: number): number {

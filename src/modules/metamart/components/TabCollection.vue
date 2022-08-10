@@ -94,7 +94,12 @@ export default class TabCollection extends Mixins(PopupMixin) {
   editData: Record<string, any> = {}
 
   get getPaginationInfo(): any {
-    return this.$t('paging.collection')
+    //@ts-ignore
+    if (this.query.total > 1) {
+      return this.$t('paging.collections')
+    } else {
+      return this.$t('paging.collection')
+    }
   }
 
   indexMethod(index: number): number {
