@@ -114,7 +114,7 @@
       if (this.urlSystem && this.urlSystem['api.auto.test'] !== '1') {
         return !(this.form.email && this.form.password && this.isVerifyCaptcha)
       }
-      return !(this.form.email && this.form.password && this.checkCaptcha)
+      return !(this.form.email && this.form.password)
     }
 
     verifyCaptcha(captcha: string): void {
