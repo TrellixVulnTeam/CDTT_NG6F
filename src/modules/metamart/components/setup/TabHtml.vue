@@ -53,6 +53,10 @@
     @Watch('content') watchContent(_new: string): void {
       this.debounceInput(_new, this)
     }
+    @Watch('idTabActive') watchIdTabActive(_new: number): void {
+      const content = filter(this.metaDatas, elm => elm.metaTypeId === this.idTabActive)[0].metaValue
+      this.content = content
+    }
 
     created(): void {
       const language = localStorage.getItem('bc-lang') || ''
@@ -62,19 +66,19 @@
     }
 
     debounceInput = debounce((text: string, _this: any) => {
-      const language = localStorage.getItem('bc-lang') || ''
+      // const language = localStorage.getItem('bc-lang') || ''
 
       let data = filter(_this.metaDatas, elm => elm.metaTypeId === _this.idTabActive)[0]
-      let parseJson: Record<string, any> = JSON.parse(data.metaValue)
+      // let parseJson: Record<string, any> = JSON.parse(data.metaValue)
 
-      parseJson = {
-        ...parseJson,
-        [language]: _this.content
-      }
+      // parseJson = {
+      //   ...parseJson,
+      //   [language]: _this.content
+      // }
 
       data = {
         ...data,
-        metaValue: JSON.stringify(parseJson)
+        metaValue: text
       }
 
       const index = findIndex(_this.metaDatas, (elm: Record<string, any>) => elm.metaTypeId === _this.idTabActive)

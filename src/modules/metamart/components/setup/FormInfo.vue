@@ -38,7 +38,7 @@
 
       <!-- thumbnail -->
       <el-form-item :label="$t('label_thumbnail')" class="is-required">
-        <div class="text-disable text-xs">PNG, JPG, JPEG, GIF (Max 20mb).</div>
+        <div class="text-disable text-xs">PNG, JPG, JPEG, GIF</div>
 
         <el-upload
           v-show="!form.thumb"
@@ -48,7 +48,7 @@
           :show-file-list="true"
           :auto-upload="false"
           list-type="picture"
-          accept=".jpg, .jpeg, .png, .gif,"
+          accept=".jpg, .jpeg, .png, .gif"
           :on-change="handleChangeThumbnail"
         >
           <div class="el-upload__text text-base">
@@ -68,7 +68,7 @@
 
       <!-- list file -->
       <el-form-item :label="$t('label_upload-file')" class="is-required">
-        <div class="text-disable text-xs">PNG, JPG, JPEG, GIF, MP4 (Max 20mb).</div>
+        <div class="text-disable text-xs">PNG, JPG, JPEG, GIF, MP4</div>
 
         <el-upload
           v-show="!form.medias.length"
@@ -248,6 +248,12 @@
     }
 
     async handleChangeThumbnail(file: Record<string, any>): Promise<void> {
+      if (!this.$options.filters?.validateFormatFile(file, 'THUMB_NFT')) {
+        const message = this.$t('notify_invalid-file-type') as string
+        this.$message.error(message)
+        return
+      }
+
       this.form.thumb = file.url
       const formData = new FormData()
       formData.append('files', file.raw)
@@ -255,10 +261,21 @@
       formData.append('userId', this.user.userId)
       const result = await apiUpload.uploadImage(formData)
       console.log(result)
-      this.form.thumb = result.success[0].url
+      if (result.success.length) {
+        this.form.thumb = result.success[0].url
+      } else {
+        const message = this.$t('notify_upload-fail') as string
+        this.$message.error(message)
+      }
     }
 
     async handleChangeListFile(rawFile: Record<string, any>): Promise<void> {
+      if (!this.$options.filters?.validateFormatFile(rawFile, 'MEDIA_NFT')) {
+        const message = this.$t('notify_invalid-file-type') as string
+        this.$message.error(message)
+        return
+      }
+
       rawFile.percentage = 1
 
       const processFunction = function (progressEvent) {
@@ -266,20 +283,12 @@
         rawFile.percentage = progress
       }
 
-      // let file = {
-      //   mediaUrl: rawFile.url,
-      //   id: rawFile.uid,
-      //   mediaType: this.getFileType(rawFile)
-      // }
-
       rawFile = {
         ...rawFile,
         mediaUrl: rawFile.url,
         id: rawFile.uid,
         mediaType: this.getFileType(rawFile)
       }
-
-      // console.log(file)
 
       this.form.medias = [...this.form.medias, rawFile]
       const data: Record<string, any> = {}
@@ -293,10 +302,12 @@
       const result = await apiUpload.uploadFileCreateNft(data)
       console.log(result)
 
-      // const file = {
-      //   ...rawFile,
-      //   mediaUrl: result.success[0].url
-      // }
+      if (result.success.length) {
+        this.form.medias[this.form.medias.length - 1].mediaUrl = result.success[0].url
+      } else {
+        const message = this.$t('notify_upload-fail') as string
+        this.$message.error(message)
+      }
 
       this.form.medias[this.form.medias.length - 1].mediaUrl = result.success[0].url
 

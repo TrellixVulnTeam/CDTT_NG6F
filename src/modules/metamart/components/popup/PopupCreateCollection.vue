@@ -137,7 +137,7 @@
                 :placeholder="$t('metamart.collection.placeholder.contract-address')"
                 
               >
-                <el-option v-for="(option, index) in contracts" :label="option.contractAddress | formatTransactionCode(10)" :value="option.contractAddress" :key="index"></el-option>
+                <el-option v-for="(option, index) in contracts" :label="option.contractAddress" :value="option.contractAddress" :key="index"></el-option>
               </el-select>
             </section>
           </el-form-item>
@@ -492,6 +492,11 @@
       this.$refs['collection'].resetFields();
       this.categories = []
       this.categoriesClone = []
+      this.queryTemplateList = {
+        page: 1,
+        limit: 20,
+        search: ''
+      }
       this.setOpenPopup({
         popupName: 'popup-create-collection',
         isOpen: false
@@ -500,6 +505,7 @@
     handleReset():void {
       //@ts-ignore
       this.$refs['collection'].resetFields();
+      this.getCategoryList('')
     }
     handleSave():void {
       //@ts-ignore
@@ -577,6 +583,7 @@
       await apiNft.getListContractAddress(param)
         .then((res: any) => {
           this.contracts = res.content
+          this.collection.contractAddress = res.content[0].contractAddress
         })
         .catch(e => {
           console.log(e)

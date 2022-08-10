@@ -1,12 +1,13 @@
 <template>
-  <base-popup name="popup-nft-detail" class="popup-nft-detail" width="1040px">
+  <base-popup name="popup-nft-detail" class="popup-nft-detail" width="1040px" :open="handleOpen" :close="handleClose">
     <div class="title-popup" slot="title">
       <span>{{ $t('metamart.collection.popup.nft-detail') }}</span>
     </div>
     <div class="content">
       <div class="detail-nft-left">
-        <img :src="nftItem.avatar" class="content-media-avatar" alt="" />
-        <bc-media :isShow="isShow" :url="mediaLink.mediaUrl" :radius="16" class="content-media-avatar isPc" />
+        <img :src="mediaLink && mediaLink.mediaUrl" v-if="mediaLink.mediaType === 'IMAGE'" class="content-media-avatar" alt="" />
+        <video v-else :src="mediaLink.mediaUrl" playsinline :autoplay="true" loop muted></video>
+        <!-- <bc-media :isShow="isShow" :url="mediaLink.mediaUrl" :radius="16" class="content-media-avatar isPc" /> -->
         <div class="slide-scroll-detail isPc">
           <swiper v-if="mediaList.length" :options="swiperOption" class="row-nft" ref="swiperRef">
             <swiper-slide v-for="(item, index) in mediaList" :key="index" class="item">
@@ -30,8 +31,8 @@
         </div>
       </div>
       <div class="ml-auto detail-nft-right">
-        <div class="be-scroll-custom wrap-fixed-top">
-          <div class="detail-nft-folder text-overflow-2">{{ nftItem.collectionName }}</div>
+        <div class="wrap-fixed-top">
+          <div class="detail-nft-folder text-overflow-2">{{ nftItem && nftItem.collectionName }}</div>
           <div class="ck-text-description detail-nft-des" v-if="textDescription">
             <div id="text-description" :class="showClass ? 'text-overflow-2' : null" style="line-height: 24px" v-html="textDescription"></div>
             <div v-if="numOfLine > 2" style="margin-top: 5px" :class="!showClass ? 'text-rotate' : null" @click="showClass = !showClass">
@@ -49,16 +50,16 @@
                 <div class="sack-create-title text-desc">
                   {{ $t('label_creator') }}
                 </div>
-                <div vi class="sack-create-icon">
+                <div class="sack-create-icon">
                   <div>
                     <!-- <bc-media v-if="nftItem && nftItem.creatorAvatar" :url="nftItem && nftItem.creatorAvatar" :radius="100" :size="12" /> -->
-                    <base-icon v-if="nftItem && nftItem.creatorAvatar" icon="icon-lynk" size="48" :radius="100" style="display: inline-flex" />
+                    <img v-if="nftItem && nftItem.creatorAvatar" :src="nftItem.creatorAvatar" />
 
                     <base-icon v-else icon="default-avatar" size="48" style="display: inline-flex" />
                   </div>
 
                   <div class="text-overflow-1 text-hyperlink" @click="handleViewCreator(nftItem.creatorId)">
-                    <span v-if="nftItem && nftItem.creatorName && nftItem.creatorName.length > 15">{{ nftItem && nftItem.creatorName | formatTransactionCode(5, 5) }}</span>
+                    <span v-if="nftItem && nftItem.creatorName && nftItem.creatorName.length > 15">{{ nftItem && nftItem.creatorName | formatTransactionCode(5) }}</span>
                     <span v-else>{{ nftItem && nftItem.creatorName }}</span>
                   </div>
                   <div v-if="nftItem && nftItem.creatorIsVerified === 'YES'" class="verified">
@@ -69,31 +70,8 @@
               </div>
             </div>
           </div>
-          <div class="isMobile">
-            <div class="sack-owner-create">
-              <div class="sack-create">
-                <div vi class="sack-create-icon">
-                  <div @click="handleViewCreator(nftItem.creatorId)">
-                    <bc-media v-if="nftItem && nftItem.creatorAvatar" :url="nftItem && nftItem.creatorAvatar" :radius="100" :size="12" />
-                    <base-icon v-else icon="default-avatar" size="48" style="display: inline-flex" />
-                  </div>
 
-                  <div v-if="nftItem && nftItem.creatorIsVerified === 'YES'" class="verified">
-                    <base-icon icon="icon-verified" size="16" class="d-iflex" />
-                  </div>
-                  <div v-if="nftItem && nftItem.creatorIsNew === 'YES'" class="new-circle"></div>
-                </div>
-                <div class="sack-create-title text-desc">
-                  {{ $t('detail-nft.header.creator') }}
-                </div>
-                <div class="text-overflow-1 text-hyperlink user-style" @click="handleViewCreator(nftItem.creatorId)">
-                  <span v-if="nftItem && nftItem.creatorName && nftItem.creatorName.length > 15">{{ nftItem && nftItem.creatorName | formatTransactionCode(5, 5) }}</span>
-                  <span v-else>{{ nftItem && nftItem.creatorName }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <tab-info :nftItem="nftItem" />
+          <tab-info v-if="isShowTabInfo" :nftItem="nftItem" :metaDatas="metaData" :metaTypes="metaType" ref="tabInfo" />
         </div>
       </div>
     </div>
@@ -128,8 +106,13 @@
     showClass = false
     coinMain = 'Not Lynk'
     numOfLine = 0
+    isShowTabInfo = false
+
     get mediaList(): Array<Record<string, any>> {
-      return this.medias
+      if (this.nftItem) {
+        return [{ id: Math.random(), mediaType: this.nftItem.mediaType, mediaUrl: this.nftItem.avatar }, ...this.medias]
+      }
+      return []
     }
     mediaLink = {}
     get isShow(): boolean {
@@ -148,14 +131,22 @@
         clickable: true
       }
     }
-    handleShowMedia(item): void {
-      if (item.id) {
-        this.ClickActive = item.id
-        console.log(this.ClickActive)
-      }
-      this.nftItem.avatar = item.mediaUrl
+
+    handleOpen(): void {
+      console.log('handleOpen')
+
+      this.isShowTabInfo = true
     }
-    checkLengthText(text): void {
+
+    handleClose(): void {
+      this.isShowTabInfo = false
+    }
+
+    handleShowMedia(item: Record<string, any>): void {
+      this.ClickActive = item.id
+      this.mediaLink = { ...item }
+    }
+    checkLengthText(text: string): void {
       let el = document.getElementById(`${text}`) as HTMLElement
       let divHeight = el.offsetHeight
       let lineHeight = parseInt(el.style.lineHeight)
@@ -227,7 +218,7 @@
       border-radius: 8px !important;
     }
     .swiper-slide {
-      width: 87px !important;
+      width: 97px !important;
     }
     img {
       // width: 630px;
@@ -1100,6 +1091,7 @@
   }
   .slide-scroll-detail {
     position: relative;
+    margin-top: 12px;
   }
   .btn-crousel {
     top: 50%;

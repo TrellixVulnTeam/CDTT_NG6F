@@ -2,8 +2,8 @@
   <div class="tab-info">
     <div class="be-scroll-custom list-item">
       <div class="be-flex">
-        <div v-for="tab in metaType" :key="tab.metaTypeId" class="item" :class="tabActive === tab.metaType ? 'active' : null" @click="handleChangeTab(tab)">
-          {{ tab.metaTypeName }}
+        <div v-for="tab in metaTypes" :key="tab.id" class="item" :class="idTabActive === tab.metaTypeId ? 'active' : null" @click="handleChangeTab(tab)">
+          {{ getName(tab.metaTypeName) }}
         </div>
       </div>
     </div>
@@ -34,87 +34,48 @@
         <div class="content-about1-code text-gray1">{{ nftItem.networkName }}</div>
       </div>
     </div>
-    <div class="content-about popup-tour-details" v-else-if="tabActive === 'DETAILS'">
-      <div class="content-about1 content color-primary">
-        <div id="text-detail" class="content-header body-base text-regular">{{ nftItem.shortDescription }}</div>
-      </div>
+
+    <div class="content-about type-html" v-if="tabActive === 'HTML'">
+      <p id="text-description" class="content-header body-base text-regular" v-html="$options.filters.formatMetaHtml(data[0].metaValue)"></p>
     </div>
 
-    <div class="content-about popup-tour-details" v-else-if="tabActive === 'POLICIES'">
-      <div class="content-about1">
-        <!-- <div class="content-about1-title">{{ $t('label_project')}}</div>
-        <div class="content-about1-code text-gray1">{{ nftItem.project }}</div> -->
-      </div>
-      <!-- <div class="tour-details text-hyperlink cursor" @click="handleTourDetail">
-        {{ $t('detail-nft.header.tour-details') }}
-      </div> -->
-    </div>
-
-    <div class="content-about popup-tour-details" v-else-if="tabActive === 'DESCRIPTION' && tabDisplayActive === 'FIXED'">
-      <div class="content-about1 content color-primary">
-        <div id="text-description" class="content-header body-base text-regular" v-html="textTour">description</div>
-      </div>
-    </div>
-
-    <div class="content-about" v-else-if="tabActive === 'PERFORMANCE'">
-      <div class="content-about1">
-        <div class="content-about1-title">Targeted Investor IRR</div>
-        <div class="cursor text-gray1">{{ nftItem.irr == null ? '0' : nftItem.irr }}%</div>
-      </div>
-      <div class="content-about1">
-        <div class="content-about1-title">Total Invested</div>
-        <div class="content-about1-code text-gray1">${{ nftItem.totalVolume | convertAmountDecimal('USD') }} (avg ${{ nftItem.totalTrade | convertAmountDecimal('USD') }})</div>
-      </div>
-      <div class="content-about1">
-        <div class="content-about1-title">Transaction Volume</div>
-        <div class="content-about1-code text-gray1">${{ nftItem.totalVolume | convertAmountDecimal('USD') }}</div>
-      </div>
-      <div class="content-about1">
-        <div class="content-about1-title">Tokens for sale</div>
-        <div class="content-about1-code text-gray1">{{ nftItem.totalListing | formatNumber }} ({{ nftItem.totalListing }}% of total supply)</div>
-      </div>
-      <div class="content-about1">
-        <div class="content-about1-title">Asking price</div>
-        <div class="content-about1-code" style="max-width: 272px">
-          <div class="asking-price-title">
-            <div class="price-min title-one text-gray1">Min ${{ nftItem.floorPrice | convertAmountDecimal('USD') }}</div>
-            <div class="price-avg title-one text-gray1">Avg ${{ nftItem.averagePrice | convertAmountDecimal('USD') }}</div>
-            <div class="price-max title-one text-gray1">Max ${{ nftItem.highestPrice | convertAmountDecimal('USD') }}</div>
-          </div>
-          <div class="asking-price-line"></div>
+    <div class="content-about popup-tour-details type-map" v-if="tabActive === 'MAP'">
+      <div v-for="item in data" :key="item.id" class="be-flex align-center jc-space-between map-item">
+        <div class="left">
+          <div class="text-base text-overflow-1">{{ item.metaName }}</div>
+          <div class="text-sm text-desc text-overflow-1" v-if="item.metaAnnotation">({{ item.metaAnnotation }})</div>
+        </div>
+        <div class="text-right right">
+          <div class="text-base text-desc text-overflow-1">{{ item.metaValue }}</div>
         </div>
       </div>
     </div>
 
-    <div v-else class="content-about">
-      <div class="wrap" v-if="metaValueType === 'FILE'">
-        <div class="content-title text-l text-bold"></div>
-        <div class="content-attachment">
-          <div class="be-flex" v-for="(item, index) in arrMeta" :key="index">
-            <!-- <base-icon :icon="item.metaIcon" size="40" /> -->
-            <img :src="item.metaIcon" alt="" />
-            <div class="info">
-              <div class="header-6 text-semibold title text-overflow-1">{{ item.metaName }}</div>
-              <div class="be-flex align-center">
-                <span class="body-small text-medium data">{{ item.metaDescription }}</span>
-                <span class="dot"></span>
-                <div class="be-flex align-center download" @click="handleDownload(item.metaValue)">
-                  <base-icon icon="icon-download" size="20" class="lh-default icon-download" />
-                  <span class="body-small text-medium">{{ $t('market-detail.download') }}</span>
-                </div>
-              </div>
+    <div class="content-about popup-tour-details" v-if="tabActive === 'TEXT'">
+      <p id="text-description" class="content-header body-base text-regular" v-html="textTour">description</p>
+    </div>
+
+    <div class="content-about type-file" v-if="tabActive === 'FILE'">
+      <div v-for="file in data" :key="file.id" class="be-flex align-center file">
+        <img :src="file.metaIcon" class="d-iflex" />
+        <div class="info">
+          <p class="text-overflow-1 text-base text-semibold">{{ file.metaName }}</p>
+          <div class="be-flex align-center">
+            <span class="text-desc nft-body-small">{{ file.metaStatisValue | bytesToSize }}</span>
+            <div class="circle"></div>
+            <div class="be-flex align-center">
+              <base-icon icon="icon-download-blue" size="24" class="d-iflex cursor" />
+              <span class="text-hyperlink nft-body-small cursor" style="padding-left: 6px" @click="handleDownload(file.metaValue)">{{ $t('label_download') }}</span>
             </div>
           </div>
         </div>
       </div>
-      <div class="wrap wrap-map" v-if="metaValueType === 'MAP'">
-        <div class="sack-map" v-for="(item, index) in arrMeta" :key="index">
-          <div class="sack-map-content">
-            <div class="sack-map-title">{{ item.metaName }}</div>
-            <div class="sack-map-code text-desc">{{ item.metaValue }}</div>
-          </div>
-          <div class="sack-map-desc" v-if="item.metaDescription">({{ item.metaDescription }})</div>
-        </div>
+    </div>
+    <div class="content-about type-boolean" v-if="tabActive === 'BOOLEAN'">
+      <div v-for="item in data" :key="item.id" class="be-flex align-center feature">
+        <base-icon v-if="item.metaValue === 'true'" icon="icon-tick" size="20" class="d-iflex" />
+        <base-icon v-else icon="icon-x-red" size="20" class="d-iflex" />
+        <p class="text-base text-overflow-1" style="color: #28344b">{{ item.metaName }}</p>
       </div>
     </div>
   </div>
@@ -133,69 +94,24 @@
   export default class TabInfo extends Mixins(PopupMixin) {
     @beBase.State('coinMain') coinMain!: string
     @Prop({ required: false, type: Object, default: () => ({}) }) nftItem!: Record<string, any>
-    // @Prop({ required: false, type: Array, default: () => [] }) metaType!: Array<Record<string, any>>
-    metaType = [
-      {
-        id: 1,
-        metaTypeId: 1,
-        metaType: 'INFO',
-        metaTypeName: 'NFT info'
-      },
-      {
-        id: 2,
-        metaTypeId: 2,
-        metaType: 'DETAILS',
-        metaTypeName: 'Details'
-      },
-      {
-        id: 3,
-        metaTypeId: 3,
-        metaType: 'POLICIES',
-        metaTypeName: 'Policies'
-      },
-      {
-        id: 4,
-        metaTypeId: 4,
-        metaType: 'EBROCHURES',
-        metaTypeName: 'eBrochures'
-      },
-      {
-        id: 5,
-        metaTypeId: 5,
-        metaType: 'PROPERTIES',
-        metaTypeName: 'Properties'
-      }
-    ]
-    @Prop({ required: false, type: Array, default: () => [] }) metaData!: Array<Record<string, any>>
-    @Prop({ required: false, type: Array, default: () => [] }) policies!: Array<Record<string, any>>
+
+    @Prop({ required: false, type: Array, default: () => [] }) metaDatas!: Array<Record<string, any>>
+    @Prop({ required: false, type: Array, default: () => [] }) metaTypes!: Array<Record<string, any>>
 
     tabActive = 'INFO'
+    idTabActive = 0
     tabDisplayActive = 'FIXED'
-    metaValueType = 'TEXT'
-    arrMeta: Array<Record<string, any>> = []
+    data: Array<Record<string, any>> = []
 
-    // created(): void {
-    //   try {
-    //     const language = window.localStorage.getItem('bc-lang')!
-    //     this.arrMeta = filter(this.metaData, elm => elm.metaType === this.tabActive)
-    //     this.metaData.forEach(ele => {
-    //       if (ele.metaType === 'TOUR_SCHEDULE') {
-    //         this.textTour = JSON.parse(ele.metaValue)[language].replace(/\\n/g, '<br>')
-    //       } else if (ele.metaType === 'DESCRIPTION') {
-    //         this.textDescription = JSON.parse(ele.metaValue)[language].replace(/\\n/g, '<br>')
-    //       } else if (ele.metaType === 'DETAIL') {
-    //         this.textDetail = JSON.parse(ele.metaValue)[language].replace(/\\n/g, '<br>')
-    //       }
-    //     })
-    //   } catch (error) {
-    //     console.log(error)
-    //   }
-    // }
-
-    // typeName(metaTypeName: string): string {
+    // typeName(metaTypesName: string): string {
     //   const language = window.localStorage.getItem('bc-lang')!
-    //   return JSON.parse(metaTypeName)[language].replace(/\\n/g, '<br>')
+    //   return JSON.parse(metaTypesName)[language].replace(/\\n/g, '<br>')
     // }
+
+    created(): void {
+      this.idTabActive = this.metaTypes[0].metaTypeId
+      this.tabActive = this.metaTypes[0].typeTab
+    }
 
     get totalCirculating(): number {
       return this.nftItem.circulatingSupply ? (this.nftItem.totalSupply / this.nftItem.circulatingSupply) * 100 : 0
@@ -203,13 +119,13 @@
 
     get textTour(): string {
       const language = window.localStorage.getItem('bc-lang')!
-      if (this.arrMeta.length) {
-        const objDesc = JSON.parse(this.arrMeta[0].metaValue)
+      if (this.data.length) {
+        const objDesc = JSON.parse(this.data[0].metaValue)
         return objDesc[language].replace(/\\n/g, '<br>')
       }
       return ''
 
-      // const tour = filter(this.metaData, elm => elm.metaType === 'TOUR_SCHEDULE')
+      // const tour = filter(this.metaDatas, elm => elm.metaTypes === 'TOUR_SCHEDULE')
       // if (tour.length) {
       //   const objDesc = JSON.parse(tour[0].metaDescription)
       //   return objDesc[language].replace(/\\n/g, '<br>')
@@ -217,29 +133,16 @@
       // return ''
     }
 
-    handleChangeTab(tab: Record<string, any>): void {
-      const tabName = tab.metaType
-      const tabDisplayType = tab.displayType
-      this.tabActive = tab.metaType
-      this.tabDisplayActive = tab.displayType
-      if (tabDisplayType === 'FIXED') {
-        this.arrMeta = filter(this.metaData, elm => elm.metaType === tabName)
-        if (this.arrMeta.length) {
-          this.metaValueType = this.arrMeta[0].metaValueType
-        }
-      } else {
-        const metaType = filter(this.metaType, elm => elm.metaType === tabName)
-        const metaTypeName = metaType[0].metaTypeName
-        const meta = filter(this.metaData, elm => elm.metaType === tabName)
-        meta[0]['metaTypeName'] = metaTypeName
-        if (tabName === 'POLICY') {
-          this.$emit('changeTabPolicy', meta)
-        } else {
-          this.$emit('changeTab', meta)
-        }
-      }
+    getName(metaTypeName: string): string {
+      const language = localStorage.getItem('bc-lang') || ''
+      const parseJson = JSON.parse(metaTypeName)
+      return parseJson[language]
+    }
 
-      this.$forceUpdate()
+    handleChangeTab(tab: Record<string, any>): void {
+      this.tabActive = tab.typeTab
+      this.idTabActive = tab.metaTypeId
+      this.data = filter(this.metaDatas, data => data.metaTypeId === tab.metaTypeId)
     }
 
     handleOpenTab(): void {
@@ -249,7 +152,7 @@
     }
 
     handleTourDetail(): void {
-      this.$emit('changeTab', this.arrMeta)
+      this.$emit('changeTab', this.data)
     }
 
     handleDownload(url: string): void {
@@ -483,6 +386,41 @@
         font-weight: 700;
         line-height: 50px;
       }
+    }
+
+    .type-file {
+      margin-top: 20px;
+      .file {
+        margin-bottom: 24px;
+        .info {
+          margin-left: 16px;
+          p {
+            margin-bottom: 4px;
+          }
+          .circle {
+            width: 4px;
+            height: 4px;
+            margin: 0 8px;
+            border-radius: 50%;
+            background: #dbdbdb;
+          }
+        }
+      }
+    }
+
+    .type-map {
+      margin-top: 20px;
+      .map-item {
+        margin-bottom: 16px;
+        .left,
+        .right {
+          width: 50%;
+        }
+      }
+    }
+    .type-html,
+    .type-boolean {
+      margin-top: 20px;
     }
   }
 </style>

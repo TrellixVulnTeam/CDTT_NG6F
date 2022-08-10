@@ -80,7 +80,8 @@ export function convertAmountDecimal(amount: string | number, currency: string):
     ETH: 8,
     BTC: 8,
     BUSD: 2,
-    PERCENT: 2
+    PERCENT: 2,
+    HUB: 2
   }
 
   if (!amount) {
@@ -369,4 +370,17 @@ export function formatMetaHtml(text: string): string {
   const language = localStorage.getItem('bc-lang') || ''
   const parseJson = JSON.parse(text)
   return parseJson[language]
+}
+
+export function validateFormatFile(file: Record<string, any>, type: 'THUMB_NFT' | 'MEDIA_NFT' | 'METADATA_FILE'): boolean {
+  const ACCEPT_FILE = {
+    THUMB_NFT: ['jpg', 'jpeg', 'png', 'gif'],
+    MEDIA_NFT: ['jpg', 'jpeg', 'png', 'gif', 'mp4'],
+    METADATA_FILE: ['doc', 'docx', 'pdf', 'xls', 'xlsx', 'ppt', 'pptx']
+  }
+  const lastDot = file.name.lastIndexOf('.')
+  const fileType = file.name.substring(lastDot + 1).toLowerCase()
+  console.log(fileType, type)
+
+  return includes(ACCEPT_FILE[type], fileType)
 }

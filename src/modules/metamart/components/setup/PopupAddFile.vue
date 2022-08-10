@@ -9,7 +9,7 @@
           <el-input v-model="form.metaName" :placeholder="$t('label_name')" />
         </el-form-item>
         <el-form-item :label="$t('label_file-attach')" prop="fileName">
-          <div v-if="isShowUpload" class="text-disable text-xs">DOC, PDF, XLS (Max 100mb)</div>
+          <div v-if="isShowUpload" class="text-disable text-xs">DOC, PDF, XLS</div>
 
           <el-upload
             v-show="isShowUpload"
@@ -186,6 +186,12 @@
     async handleChangeFile(file: Record<string, any>): Promise<void> {
       console.log(file)
 
+      if (!this.$options.filters?.validateFormatFile(file, 'METADATA_FILE')) {
+        const message = this.$t('notify_invalid-file-type') as string
+        this.$message.error(message)
+        return
+      }
+
       file.percentage = 1
 
       const processFunction = function (progressEvent) {
@@ -207,9 +213,14 @@
       const result = await apiUpload.uploadFileCreateNft(data)
       console.log(file)
 
-      this.form.metaValue = result.success[0].url
-      this.form.metaStatisValue = result.success[0].size
-      this.form.metaIcon = this.getIconFile(this.form.metaAnnotation as string)
+      if (result.success.length) {
+        this.form.metaValue = result.success[0].url
+        this.form.metaStatisValue = result.success[0].size
+        this.form.metaIcon = this.getIconFile(this.form.metaAnnotation as string)
+      } else {
+        const message = this.$t('notify_upload-fail') as string
+        this.$message.error(message)
+      }
     }
 
     handleClearFile(): void {

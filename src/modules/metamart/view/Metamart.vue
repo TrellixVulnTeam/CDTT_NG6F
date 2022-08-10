@@ -101,7 +101,7 @@
   import PopupNftDetail from '../components/popup/PopupNftDetail.vue'
   import getRepository from '@/services'
   import { NftRepository } from '@/services/repositories/nft'
-  import { debounce, filter, trim } from 'lodash'
+  import { debounce, filter, forEach, map, trim } from 'lodash'
   import axios from 'axios'
   import PopupCreateCategory from '../components/popup/PopupCreateCategory.vue'
   import PopupTemplate from '../components/popup/PopupTemplate.vue'
@@ -233,10 +233,16 @@
     created(): void {
       this.init()
       EventBus.$on('filter', this.handleFilter)
+      EventBus.$on('reloadMetamart', async () => {
+        if (this.$route.name === 'Nft') await this.getNftItem()
+        if (this.$route.name === 'Collection') await this.getCollection()
+        if (this.$route.name === 'Category') await this.getCategoryList()
+      })
     }
 
     destroy(): void {
       EventBus.$off('filter')
+      EventBus.$off('reloadMetamart')
     }
 
     handleFilter(value: Record<string, any>) {
@@ -475,10 +481,19 @@
     async OpenNFtDetail(row: Record<string, any>): Promise<void> {
       const result = await apiNft.getDetailNft(row.itemId)
       this.detailNft = result
-      // this.setOpenPopup({
-      //   popupName: 'popup-create-nft',
-      //   isOpen: true
-      // })
+
+      const metaTypes: Array<Record<string, any>> = []
+      forEach(result.metaTypes, type => {
+        const listData = filter(result.metaDatas, data => data.metaTypeId === type.metaTypeId)
+        if (listData.length) {
+          metaTypes.push({ ...type, typeTab: listData[0].metaValueType })
+        }
+        if (type.metaType === 'INFO') {
+          metaTypes.push({ ...type, typeTab: 'INFO' })
+        }
+      })
+
+      this.detailNft.metaTypes = metaTypes
       this.setOpenPopup({
         popupName: 'popup-nft-detail',
         isOpen: true
@@ -494,8 +509,8 @@
       const language = localStorage.getItem('bc-lang') || ''
       const parseJsonShortDescription = JSON.parse(result.nftItem.shortDescription)
       const parseJsonDescription = JSON.parse(result.nftItem.description)
-      const description = parseJsonShortDescription[language]
-      const shortDescription = parseJsonDescription[language]
+      const description = parseJsonDescription[language]
+      const shortDescription = parseJsonShortDescription[language]
 
       const initInfo = { ...result.nftItem, medias: result.medias, description, shortDescription }
       const metaDatas = result.metaDatas

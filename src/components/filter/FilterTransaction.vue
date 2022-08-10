@@ -1,34 +1,47 @@
 <template>
-  <div class="be-flex align-center kyc-filter filter" :class="type === 'customer' ? 'mb-24' : ''">
-    <el-input v-model="filter.search" class="input-search" :placeholder="$t('placeholder.search')" @input="handleSearch">
-      <span slot="prefix" class="prefix-search">
-        <base-icon icon="icon-search" size="24" />
-      </span>
-    </el-input>
-    <div class="cursor text-filter" style="font-size: 16px" @click="handleOpenPopupFilter">
-      <span class="abicon"> <base-icon style="color: #5b616e; margin-right: 4px" icon="icon-filter" size="18" /> </span>
-      {{ $t('kyc.filter.filter') }}
-    </div>
-    <div v-if="type !== 'addresses'">
-      <el-dropdown class="sort" trigger="click" @command="handleSort">
-        <span class="abicon sort-title" style="font-size: 16px">
-          <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 4px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}</span
-        >
-        <el-dropdown-menu class="header-downloadapp dropdown-sort" style="width: 230px" slot="dropdown">
-          <el-dropdown-item v-for="(value, index) in sorts" :key="index" :class="sortActive === value.command ? 'active' : null" :command="value.command" :divided="value.divided">
-            <span class="be-flex">
-              <span class="be-flex-item">
-                {{ value.label }}
+  <div class="be-flex jc-space-between align-center kyc-filter filter" :class="type === 'customer' ? 'mb-24' : ''">
+    <div class="wrap-left be-flex align-center">
+      <el-input v-model="filter.search" class="input-search" :placeholder="$t('placeholder.search')" @input="handleSearch">
+        <span slot="prefix" class="prefix-search">
+          <base-icon icon="icon-search" size="24" />
+        </span>
+      </el-input>
+      <div class="cursor text-filter" style="font-size: 16px" @click="handleOpenPopupFilter">
+        <span class="abicon"> <base-icon style="color: #5b616e; margin-right: 4px" icon="icon-filter" size="18" /> </span>
+        {{ $t('kyc.filter.filter') }}
+      </div>
+      <div v-if="type !== 'addresses'">
+        <el-dropdown class="sort" trigger="click" @command="handleSort">
+          <span class="abicon sort-title" style="font-size: 16px">
+            <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 4px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}</span
+          >
+          <el-dropdown-menu class="header-downloadapp dropdown-sort" style="width: 230px" slot="dropdown">
+            <el-dropdown-item
+              v-for="(value, index) in sorts"
+              :key="index"
+              :class="sortActive === value.command ? 'active' : null"
+              :command="value.command"
+              :divided="value.divided"
+            >
+              <span class="be-flex">
+                <span class="be-flex-item">
+                  {{ value.label }}
+                </span>
+                <base-icon v-if="sortActive === value.command" icon="icon-tick-dropdown" size="16" />
               </span>
-              <base-icon v-if="sortActive === value.command" icon="icon-tick-dropdown" size="16" />
-            </span>
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </div>
     </div>
-    <el-button type="button" class="export-excel" :loading="isExporting" @click="handleExport" v-if="showBtnExportExcel">
-      <base-icon icon="icon-excel" size="22"/>
-    </el-button>
+    <div class="wrap-right be-flex align-center mr-24">
+      <el-button type="button" class="btn-show-popup mr-1" @click="handleClickButton('popup-add-transfer')" v-if="showBtnTransfer"><span>Transfer</span> </el-button>
+      <el-button type="button" class="btn-show-popup mr-1" @click="handleClickButton('popup-add-crowdsale')" v-if="showBtnCrowdsale"><span>Buy</span> </el-button>
+      <el-button type="button" class="btn-show-popup mr-1" @click="handleClickButton('popup-add-deposit')" v-if="showBtn"><span>Deposit</span> </el-button>
+      <el-button type="button" class="export-excel" :loading="isExporting" @click="handleExport" v-if="true">
+        <base-icon icon="icon-excel" size="22" />
+      </el-button>
+    </div>
   </div>
 </template>
 
@@ -102,18 +115,16 @@
     }
 
     searchText = debounce((value: string, sortActive: string, sorts: Record<any, any>[]) => {
-      var filterOrderBy
-      var itemOrderBy
+      let filterOrderBy
+      let itemOrderBy
       if (this.type == 'transaction' || this.type == 'customer-transaction') {
         itemOrderBy = sorts.find(itemCode => {
           return itemCode.command == sortActive
         })
         filterOrderBy = { orderBy: itemOrderBy?.index }
-      }  else {
+      } else {
         filterOrderBy = { orderBy: sortActive }
       }
-
-
 
       this.$emit('filter', {
         ...this.filter,
@@ -137,9 +148,9 @@
     }
     handleSort(command: string): void {
       this.sortActive = command
-      var item: any = {}
+      let item: any = {}
       if (this.type == 'transaction' || this.type == 'customer-transaction') {
-         item = this.sorts.find(itemCode => {
+        item = this.sorts.find(itemCode => {
           return itemCode.command == this.sortActive
         })
         this.$emit('filter', { orderBy: item?.index })
@@ -171,13 +182,13 @@
         clearTimeout(timeOut)
       }, 500)
     }
-    created():void {
+    created(): void {
       EventBus.$on('end-export', this.handleEndExport)
     }
-    destroyed():void {
+    destroyed(): void {
       EventBus.$off('end-export', this.handleEndExport)
     }
-    handleEndExport():void{
+    handleEndExport(): void {
       this.isExporting = false
     }
   }
@@ -244,9 +255,6 @@
     }
   }
   .export-excel {
-    position: absolute;
-    top: 24px;
-    right: 24px;
     width: 48px;
     // min-width: 48px;
     transition: 0.1s;
@@ -260,5 +268,15 @@
       width: 84px;
       transition: 0.1s;
     }
+  }
+  .btn-show-popup {
+    height: 48px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 16px;
+    background: #0151fc;
+    border: 1px solid #569feb;
+    color: #fff;
   }
 </style>

@@ -307,6 +307,7 @@
     height: 100vh;
     width: 80px;
     overflow-y: auto;
+    overflow-x: hidden;
 
     .style_router_home {
       margin: 0px 10px 10px 10px;
