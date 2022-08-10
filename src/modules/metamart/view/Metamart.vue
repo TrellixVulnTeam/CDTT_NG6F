@@ -233,10 +233,14 @@
     created(): void {
       this.init()
       EventBus.$on('filter', this.handleFilter)
+      EventBus.$on('reloadMetamart', () => {
+        this.init()
+      })
     }
 
     destroy(): void {
       EventBus.$off('filter')
+      EventBus.$off('reloadMetamart')
     }
 
     handleFilter(value: Record<string, any>) {
