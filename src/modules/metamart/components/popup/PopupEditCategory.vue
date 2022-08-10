@@ -184,7 +184,7 @@
                 }
               })
               .catch(er => {
-                this.$message.error(er.message)
+                console.log(er)
               })
           }
         } else {
