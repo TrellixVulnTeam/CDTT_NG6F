@@ -220,7 +220,14 @@
                 {{ $t('metamart.collection.popup.category') }}
                 <span class="block-title__asterisk"> *</span>
               </h2>
-              <el-select filterable remote :remote-method="remoteCategoryList" v-model="collection.categoryIds" :placeholder="$t('metamart.collection.placeholder.category')">
+              <el-select 
+                filterable 
+                remote 
+                clearable
+                :remote-method="remoteCategoryList" 
+                v-model="collection.categoryIds" 
+                :placeholder="$t('metamart.collection.placeholder.category')"
+              >
                 <el-option
                   v-for="(option, index) in categories"
                   :label="option.categoryName"
@@ -239,7 +246,14 @@
                 {{ $t('metamart.collection.popup.template') }}
                 <span class="block-title__asterisk"> *</span>
               </h2>
-              <el-select filterable remote :remote-method="remoteTemplateList" clearable v-model="collection.templateId" :placeholder="$t('metamart.collection.placeholder.template')">
+              <el-select 
+                filterable 
+                remote 
+                :remote-method="remoteTemplateList" 
+                clearable 
+                v-model="collection.templateId" 
+                :placeholder="$t('metamart.collection.placeholder.template')"
+              >
                 <div class="" v-infinite-scroll="loadMoreTemplate" infinite-scroll-delay="500">
                   <el-option v-for="option in templates" :label="option.templateName" :value="option.id" :key="option.id"></el-option>
                 </div>

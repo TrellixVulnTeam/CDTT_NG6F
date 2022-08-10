@@ -201,6 +201,7 @@
               <el-select
                 filterable
                 remote
+                clearable
                 :remote-method="remoteCategoryList"
                 v-model="collection.categoryIds" 
                 :placeholder="$t('metamart.collection.placeholder.category')"
