@@ -1414,6 +1414,10 @@
     },
     "banner": {
       "popup": {
+        "create-success": "Create banner successfully",
+        "update-success": "Update banner successfully",
+        "create-error": "Create banner unsuccessfully",
+        "update-error": "Update banner unsuccessfully",
         "add-banner": "Add banner",
         "edit-banner": "Edit banner",
         "display-name": "Display name",

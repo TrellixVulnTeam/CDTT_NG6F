@@ -259,13 +259,28 @@
         try {
           if (this.type === 'add') {
             await apiNft.createBanner(params)
+            this.$message({
+              message: '' + this.$i18n.t('metamart.banner.popup.create-success'),
+              duration: 3500,
+              type: 'success'
+            })
           } else if (this.type === 'edit') {
             await apiNft.updateBanner(this.banner.id, params)
+            this.$message({
+              message: '' + this.$i18n.t('metamart.banner.popup.update-success'),
+              duration: 3500,
+              type: 'success'
+            })
           }
           EventBus.$emit('banner-completed')
           this.handleCancel()
         } catch (error) {
           console.log(error)
+          this.$message({
+            message: '' + (this.type === 'add' ? this.$i18n.t('metamart.banner.popup.create-error') : this.$i18n.t('metamart.banner.popup.update-error')),
+            duration: 3500,
+            type: 'success'
+          })
         }
       }
     }

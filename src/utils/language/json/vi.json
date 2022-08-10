@@ -1392,6 +1392,10 @@
     },
     "banner": {
       "popup": {
+        "create-success": "Tạo banner thành công",
+        "update-success": "Cập nhật banner thành công",
+        "create-error": "Tạo banner không thành công",
+        "update-error": "Cập nhật banner không thành công",
         "add-banner": "Thêm banner",
         "edit-banner": "Sửa banner",
         "display-name": "Tên hiển thị",
