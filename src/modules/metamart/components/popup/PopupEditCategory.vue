@@ -7,7 +7,7 @@
           <el-col>
             <div class="col-style">
               <el-form-item :label="$t('metamart.collection.popup.category')" class="select" prop="categoryName">
-                <el-input clearable :placeholder="$t('metamart.collection.popup.category')  " v-model="dataInput.categoryName" ref="categoryName" style="color: #181b22"></el-input>
+                <el-input clearable :placeholder="$t('metamart.collection.popup.category')" v-model="dataInput.categoryName" ref="categoryName" style="color: #181b22"></el-input>
               </el-form-item>
               <el-form-item :label="$t('parent_category')">
                 <el-select class="select w-100" remote :remote-method="remoteCategoryList" v-model="dataInput.parentId" filterable :placeholder="$t('parent_category')">
@@ -60,6 +60,7 @@
     showPicutreInitial = true
     @Prop() listCategory!: any
     categories: Array<Record<string, any>> = this.listCategory
+    fullNameLength = false
     dataInput: any = {
       categoryName: '',
       parentId: '',
@@ -71,10 +72,10 @@
     }
     listParent = []
     rules: any = {
-      name: [
+      categoryName: [
         {
           required: true,
-          message: 'Tên nhóm không được để trống',
+          message: this.$t('member.validate.empty-category'),
           trigger: 'blur'
         }
       ]
@@ -158,35 +159,41 @@
     }
     handleApply(): void {
       let a: any = this.$refs.dataInput
+      if (trim(this.dataInput.categoryName) === '') {
+        this.fullNameLength = true
+      }
       a.validate((valid: any) => {
         if (valid) {
-          this.apiNft
-            ?.updateCategory(this.dataDetail.id, this.dataInput)
-            .then((res: any) => {
-              if (res.status === 'Error') {
-                this.$message.error(res.message)
-                this.handleClose()
-                console.log(this.dataInput)
-              } else {
-                this.$message.success('Update category successfully')
-                this.$emit('load')
-                this.handleClose()
-                EventBus.$emit('reloadDropdown')
-                this.setOpenPopup({
-                  popupName: 'popup-edit-category',
-                  isOpen: false
-                })
-              }
-            })
-            .catch(er => {
-              this.$message.error(er.message)
-            })
+          if (!this.fullNameLength) {
+            this.apiNft
+              ?.updateCategory(this.dataDetail.id, this.dataInput)
+              .then((res: any) => {
+                if (res.status === 'Error') {
+                  this.$message.error(res.message)
+                  this.handleClose()
+                  console.log(this.dataInput)
+                } else {
+                  this.$message.success('Update category successfully')
+                  this.$emit('load')
+                  this.handleClose()
+                  EventBus.$emit('reloadDropdown')
+                  this.setOpenPopup({
+                    popupName: 'popup-edit-category',
+                    isOpen: false
+                  })
+                }
+              })
+              .catch(er => {
+                console.log(er)
+              })
+          }
         } else {
           console.log('error validate data!')
           return false
         }
       })
     }
+
     reponse = []
     getData(): void {
       this.apiNft
