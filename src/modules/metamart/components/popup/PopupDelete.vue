@@ -5,13 +5,13 @@
     </div>
     <div class="content" style="padding-bottom: 24px" v-loading="isLoading">
       <span v-if="this.$route.name === 'Collection'" class="content-text">
-        {{ $t('metamart.collection.delete.confirmation-1') }} <span class="content-text__item">{{ this.collectionDelete.collectionName }}</span>
-        {{ $t('metamart.collection.delete.confirmation-2') }}
+        {{ $t('metamart.collection.delete.confirmation-1') }} <span class="content-text__item">{{this.collectionDelete.collectionName}}</span> {{ $t('metamart.collection.delete.confirmation-2') }}
       </span>
       <span v-else-if="this.$route.name === 'Nft'" class="content-text">
-        Are you sure you want to delete this <span class="content-text__item">The Myth Virtual Tour</span> item?
+        {{ $t('metamart.nft.delete.confirmation-1') }} <span class="content-text__item">{{ this.itemDelete.itemName }}</span> 
+        {{ $t('metamart.nft.delete.confirmation-2') }}
       </span>
-      <span v-else class="content-text"> Are you sure you want to delete this category ? </span>
+      <span v-else class="content-text"> {{ $t('popup_category-delete') }} </span>
       <div v-if="isHaveNft" class="notification">
         <div class="notification-title">
           <div class="notification-title__icon">
@@ -25,7 +25,7 @@
     <div class="footer" slot="footer">
       <div class="be-flex jc-flex-end">
         <el-button class="btn-default btn-close btn-h-40 mr-16" @click="handleCancel">{{ $t('button.cancel') }}</el-button>
-        <el-button class="btn-default delete-btn" :disabled="isHaveNft || isLoading" @click="handleSubmit">{{ $t('button.confirm') }}</el-button>
+        <el-button class="btn-default delete-btn" :disabled="isHaveNft || isNftInvalid || isLoading" @click="handleSubmit">{{ $t('button.confirm') }}</el-button>
       </div>
     </div>
     <popup-verify-email @submit="handleDelete"></popup-verify-email>
@@ -54,7 +54,8 @@
   export default class PopupDelete extends Mixins(PopupMixin) {
     @beAuth.State('user') user!: Record<string, any>
     @Prop() idDelete!: any
-    @Prop({ required: false, type: Object, default: {} }) collectionDelete!: Record<string, any>
+    @Prop({ required: false, type: Object, default: () => ({}) }) collectionDelete!: Record<string, any>
+    @Prop({ required: false, type: Object, default: () => ({}) }) itemDelete!: Record<string, any>
 
     isLoading = false
     value = ''
@@ -66,6 +67,21 @@
     }
 
     isHaveNft = false
+    isNftInvalid = false
+
+    async checkValidNft(): Promise<void> {
+      this.isLoading = true
+      await apiNft
+        .checkValidDeleteNft(this.itemDelete.id)
+        .then(res => {
+          this.isNftInvalid = false
+          this.isLoading = false
+        })
+        .catch(e => {
+          this.isNftInvalid = true
+          this.isLoading = false
+        })
+    }
 
     async checkValidCollection(): Promise<void> {
       this.isLoading = true
@@ -90,7 +106,7 @@
       await apiUser
         .getEmailVerification(params)
         .then((res: any) => {
-          this.$message.success('' + this.$i18n.t('metamart.banner.sent-code'))
+          this.$message.success(`${this.$t('notify.send-code')}`)
           console.log(res)
         })
         .catch(e => {
@@ -143,6 +159,27 @@
           console.log('Fail RES:', e.response)
         })
     }
+    async deleteNftItem(): Promise<void> {
+      let params = {
+        verificationCode: this.value
+      }
+      await apiNft
+        .deleteNft(this.itemDelete.id, params)
+        .then((res: any) => {
+          this.deleteType = 'delete-nft'
+          this.setOpenPopup({
+            popupName: 'popup-metamart-verify-email',
+            isOpen: false
+          })
+          this.setOpenPopup({
+            popupName: 'popup-metamart-success',
+            isOpen: true
+          })
+        })
+        .catch((e: any) => {
+          console.log('Fail RES:', e.response)
+        })
+    }
 
     created(): void {
       EventBus.$on('closePopup', this.handleCancel)
@@ -153,6 +190,8 @@
     handleOpen(): void {
       if (this.$route.name === 'Collection') {
         this.checkValidCollection()
+      } else if (this.$route.name === 'Nft') {
+        this.checkValidNft()
       }
     }
     handleClose(): void {
@@ -161,6 +200,7 @@
         isOpen: false
       })
       this.isHaveNft = false
+      this.isNftInvalid = false
       this.deleteType = ''
     }
     handleCancel(): void {
@@ -178,9 +218,23 @@
           this.getEmailVerification()
         }
       }
+      if (this.$route.name === 'Nft') {
+        if (this.isNftInvalid) {
+          return
+        } else {
+          this.setOpenPopup({
+            popupName: 'popup-metamart-verify-email',
+            isOpen: true
+          })
+          this.getEmailVerification()
+        }
+      }
       if (this.$route.name === 'Category') {
-        console.log('This is category')
         this.getEmailVerification()
+        this.setOpenPopup({
+          popupName: 'popup-metamart-verify-email',
+          isOpen: true
+        })
       }
     }
     handleDelete(value: any): void {
@@ -191,6 +245,9 @@
       } else if (this.$route.name === 'Collection') {
         this.value = value
         this.deleteCollection()
+      } else if (this.$route.name === 'Nft') {
+        this.value = value
+        this.deleteNftItem()
       }
       //if success
       // Tạm đóng cái này

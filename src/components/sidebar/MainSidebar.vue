@@ -37,7 +37,7 @@
         <p>{{ $t('leftMenu.nft') }}</p>
       </div>
     </router-link> -->
-    <el-popover trigger="click" v-if="checkPemission('NFT', ['view'])" v-model="isOpenPopupNft" placement="right" popper-class="menu-nft" style="min-width: 80px">
+    <el-popover trigger="hover" v-if="checkPemission('NFT', ['view'])" v-model="isOpenPopupNft" placement="right" popper-class="menu-nft" style="min-width: 80px">
       <div class="popper-add-menu-content">
         <!-- <ul class="module">
           <li class="module-item" @click="isOpenPopupNft = false">
@@ -83,7 +83,7 @@
             </router-link>
           </li>
         </ul>
-        <ul class="module">
+        <ul v-if="checkPemission('NFT', ['view-menu-nft'])" class="module">
           <li class="module-item" @click="isOpenPopupNft = false">
             <router-link :to="{ name: 'NftMain' }">
               <div class="sack_avatar">
@@ -94,7 +94,6 @@
             </router-link>
           </li>
         </ul>
-        <ul class="module"></ul>
       </div>
 
       <el-button slot="reference" class="is-create-color is-white is-none-border icon-btn p-0 m-0 button-add" style="height: 100%; position: relative; width: 100%">

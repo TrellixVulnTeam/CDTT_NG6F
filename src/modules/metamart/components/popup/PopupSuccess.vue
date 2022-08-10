@@ -10,6 +10,7 @@
       <div class="text-desc text-bold mt-12">
         <span v-if="this.$route.name === 'Collection'">{{ $t('metamart.success.delete-collection') }}</span>
         <span v-if="this.$route.name === 'Category'">{{ $t('metamart.success.delete-category') }}</span>
+        <span v-if="this.$route.name === 'Nft'">{{ $t('metamart.success.delete-nft') }}</span>
       </div>
       <el-button class="btn w-100 is-none-border btn-h-40 cursor mt-24" style="height: 48px" @click="handleClose" type="button">{{ $t('button.continue') }}</el-button>
     </div>
@@ -28,9 +29,15 @@
       console.log('clicked')
       if (this.type === 'delete-collection') {
         EventBus.$emit('closePopup')
+      } else if (this.type === 'delete-nft') {
+        EventBus.$emit('closePopup')
       }
       this.setOpenPopup({
         popupName: 'popup-metamart-success',
+        isOpen: false
+      })
+      this.setOpenPopup({
+        popupName: 'popup-metamart-delete',
         isOpen: false
       })
 

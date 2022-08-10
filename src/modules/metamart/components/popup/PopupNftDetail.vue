@@ -136,7 +136,7 @@
       return false
     }
     swiperOption: SwiperOptions = {
-      slidesPerView: 6,
+      slidesPerView: 4,
       spaceBetween: 12,
       loop: false,
       navigation: {
@@ -165,7 +165,7 @@
         this.numOfLine = lines
       }
     }
-  
+
     handleClickArrow(type: string): void {
       if (type === 'next') {
         //@ts-ignore
@@ -180,7 +180,7 @@
       this.ClickActive = this.mediaList[0]?.id
     }
     @Watch('nftItem', { deep: true, immediate: true }) handleWatchItemNft(item: Record<string, any>): void {
-      if (item.description) {
+      if (item?.description) {
         const language = window.localStorage.getItem('bc-lang')!
         if (item.description) {
           const objDesc = JSON.parse(this.nftItem.description)

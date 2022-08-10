@@ -120,10 +120,10 @@
       $t('button.add-new')
     }}</el-button>
     <el-button v-if="this.$route.name === 'Banner'" class="add-btn add-collection ml-auto" @click="$emit('click', 'popup-banner')">{{ $t('button.add-new') }}</el-button>
-    <el-button v-if="this.$route.name === 'Category'" class="add-btn ml-auto" @click="$emit('openCategoryPopup')">{{ $t('button.add-new') }}</el-button>
+    <el-button v-if="this.$route.name === 'Category'" class="add-btn add-collection ml-auto" @click="$emit('openCategoryPopup')">{{ $t('button.add-new') }}</el-button>
     <el-button v-if="$route.name === 'Template'" class="add-btn add-collection ml-auto" @click="$emit('openPopupTemplate')">{{ $t('button.add-new') }}</el-button>
     <div v-if="this.$route.name === 'Nft'" class="ml-auto">
-      <el-dropdown trigger="click" @command="handleCommand">
+      <!-- <el-dropdown trigger="click" @command="handleCommand">
         <el-button style="width: auto !important; margin-right: 12px">
           <span>{{ $t('button.action') }} | <i class="el-icon-arrow-down"></i></span>
         </el-button>
@@ -131,8 +131,11 @@
           <el-dropdown-item command="public-on-chain">Public On-chain</el-dropdown-item>
           <el-dropdown-item command="delete-nft">Delete</el-dropdown-item>
         </el-dropdown-menu>
-      </el-dropdown>
-      <el-dropdown trigger="click" @command="handleCommand">
+      </el-dropdown> -->
+
+      <el-button class="add-btn add-collection ml-auto" @click="handleCommand('add-nft')">{{ $t('button.add-new') }}</el-button>
+
+      <!-- <el-dropdown trigger="click" @command="handleCommand">
         <div class="be-flex align-center">
           <el-button class="add-btn" style="width: auto !important">
             <span>{{ $t('button.add-new') }} | <i class="el-icon-arrow-down"></i></span>
@@ -142,15 +145,14 @@
           <el-dropdown-item command="add-nft">{{ $t('button.add-new') }}</el-dropdown-item>
           <el-dropdown-item>{{ $t('button.import-file') }}</el-dropdown-item>
         </el-dropdown-menu>
-      </el-dropdown>
-      <el-button class="excel-btn" style="width: auto !important; padding: 5px 12px 10px">
+      </el-dropdown> -->
+      <!-- <el-button class="excel-btn" style="width: auto !important; padding: 5px 12px 10px">
         <div class="be-flex align-center">
-          <!-- <base-icon icon="icon-table" style="display: inline-flex" size="22" /> -->
           <span
             ><p style="font-size: 16px"><base-icon icon="icon-excel" size="22" /></p
           ></span>
         </div>
-      </el-button>
+      </el-button> -->
     </div>
     <popup-filter-collection
       :creators="creators"

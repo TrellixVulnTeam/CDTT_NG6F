@@ -216,8 +216,10 @@
     "times": "số lần sử dụng thiết bị",
     "results": "Bản ghi",
     "events": "hoạt động",
+    "collections": "bộ sưu tập",
     "collection": "bộ sưu tập",
-    "nft": "sản phẩm"
+    "NFTs": "sản phẩm",
+    "NFT": "sản phẩm"
   },
   "label": {
     "invalid-amount": "Số lượng không hợp lệ",
@@ -358,7 +360,10 @@
     "USER_LOCKED": "Tài khoản của bạn đã bị khóa",
     "collection-has-nft": "Không thể xóa bộ sưu tập có chứa sản phẩm đang hoạt động",
     "invalid-code": "Mã xác thực không chính xác",
-    "create-category-success": "Tạo danh mục thành công"
+    "create-category-success": "Tạo danh mục thành công",
+    "invalid-royal-fee": "Phí bản quyền phải nhỏ hơn {maxCreatorFee}%",
+    "create-category-fail": "Không thể chọn danh mục cha là cấp 3",
+    "invalid-delete-nft": "Không thể xóa NFT này"
   },
   "logout": {
     "title": "Đăng xuất",
@@ -1299,7 +1304,8 @@
         "creator": "Người tạo",
         "category": "Danh mục",
         "template": "Mẫu",
-        "nft-detail": "Chi tiết NFT"
+        "nft-detail": "Chi tiết NFT",
+        "create-category": "Thêm mới danh mục"
       },
       "subtitle": {
         "name": "Tên token không thể bị thay đổi trong tương lai"
@@ -1349,6 +1355,10 @@
         "created-date": "Ngày tạo",
         "from-date": "Từ ngày",
         "to-date": "Đến ngày"
+      },
+      "delete": {
+        "confirmation-1": "Bạn có chắc rằng bạn muốn xoá sản phẩm NFT ",
+        "confirmation-2": "này không ?"
       }
     },
     "template": {
@@ -1422,7 +1432,8 @@
     "success": {
       "title": "THÀNH CÔNG",
       "delete-collection": "Bạn đã xóa bộ sưu tập thành công",
-      "delete-success": "Bạn đã xóa danh mục thành công"
+      "delete-success": "Bạn đã xóa danh mục thành công",
+      "delete-nft": "Bạn đã xóa sản phẩm thành công"
     }
   },
   "filter_pending": "Chờ xử lý",
@@ -1497,5 +1508,9 @@
   "label_upload-desc": "Kéo và thả hoặc",
   "label_click-to-upload": "bấm để tải lên",
   "popup_add": "Thêm",
-  "popup_edit": "Sửa"
+  "popup_edit": "Sửa",
+  "edit_category": "Sửa nhóm",
+  "delete_category": "Xóa nhóm",
+  "parent_category": "Danh mục cha",
+  "popup_category-delete": "Bạn chắc chắn muốn xóa danh mục này ?"
 }
