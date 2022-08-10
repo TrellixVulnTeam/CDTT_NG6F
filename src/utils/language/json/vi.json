@@ -361,7 +361,8 @@
     "collection-has-nft": "Không thể xóa bộ sưu tập có chứa sản phẩm đang hoạt động",
     "invalid-code": "Mã xác thực không chính xác",
     "create-category-success": "Tạo danh mục thành công",
-    "invalid-royal-fee": "Phí bản quyền phải nhỏ hơn {maxCreatorFee}%"
+    "invalid-royal-fee": "Phí bản quyền phải nhỏ hơn {maxCreatorFee}%",
+    "create-category-fail": "Không thể chọn danh mục cha là cấp 3"
   },
   "logout": {
     "title": "Đăng xuất",
@@ -1302,7 +1303,8 @@
         "creator": "Người tạo",
         "category": "Danh mục",
         "template": "Mẫu",
-        "nft-detail": "Chi tiết NFT"
+        "nft-detail": "Chi tiết NFT",
+        "create-category": "Thêm mới danh mục"
       },
       "subtitle": {
         "name": "Tên token không thể bị thay đổi trong tương lai"
@@ -1498,5 +1500,9 @@
   "label_upload-desc": "Kéo và thả hoặc",
   "label_click-to-upload": "bấm để tải lên",
   "popup_add": "Thêm",
-  "popup_edit": "Sửa"
+  "popup_edit": "Sửa",
+  "edit_category": "Sửa nhóm",
+  "delete_category": "Xóa nhóm",
+  "parent_category": "Danh mục cha",
+  "popup_category-delete": "Bạn chắc chắn muốn xóa danh mục này ?"
 }

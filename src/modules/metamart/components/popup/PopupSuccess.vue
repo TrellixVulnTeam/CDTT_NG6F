@@ -33,6 +33,10 @@
         popupName: 'popup-metamart-success',
         isOpen: false
       })
+      this.setOpenPopup({
+        popupName: 'popup-metamart-delete',
+        isOpen: false
+      })
 
       if (this.$route.query) {
         this.$router.replace({ query: undefined })

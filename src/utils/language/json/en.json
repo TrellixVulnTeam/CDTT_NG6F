@@ -381,7 +381,8 @@
     "USER_LOCKED": "Account has been locked",
     "collection-has-nft": "Unable to delete collection containing active item",
     "create-category-success": "Create category successfully",
-    "invalid-royal-fee": "Royalty fee must be less than {maxCreatorFee}%"
+    "invalid-royal-fee": "Royalty fee must be less than {maxCreatorFee}%",
+    "create-category-fail": "Can't choose category as level 3"
   },
   "logout": {
     "title": "Sign out",
@@ -1324,7 +1325,8 @@
         "creator": "Creator",
         "category": "Category",
         "template": "Template",
-        "nft-detail": "Nft detail"
+        "nft-detail": "Nft detail",
+        "create-category": "Add new category"
       },
       "subtitle": {
         "name": "Token name cannot be changed in future"
@@ -1507,5 +1509,9 @@
   "label_upload-desc": "Drag and drop or",
   "label_click-to-upload": "Click to upload",
   "popup_add": "Add",
-  "popup_edit": "Edit"
+  "popup_edit": "Edit",
+  "edit_category": "Edit category",
+  "delete_category": "Delete category",
+  "parent_category": "Parent category",
+  "popup_category-delete": "Are you sure you want to delete this category ?"
 }
