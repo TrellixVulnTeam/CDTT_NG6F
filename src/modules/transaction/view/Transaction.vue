@@ -71,7 +71,7 @@
       </div>
       <popup-filter-transaction @filter="handleFilter" :currency="tabHeaderActive" :tab-active-filter="tabActive.toLowerCase()" :type="'transaction'" ref="popup-filter" />
       <transaction-detail :detail-row="detailRow" :tab-active-filter="tabActive" />
-      <popup-add-deposit @reload="init" />
+      <popup-add-deposit @reload="init" @confirm="handleConfirm" />
       <popup-add-crowdsale @confirm="handleConfirm" />
       <popup-add-transfer @confirm="handleConfirm" />
       <popup-verify :type="type2Fa" :data="formData" @reload="init" :transactionType="query.transactionType" />
@@ -466,20 +466,21 @@
     }
 
     async handleConfirm(form: Record<string, any>): Promise<void> {
+      console.log('>>> / file: Transaction.vue / line 469 / form', form)
       this.formData = form
       if (this.query.transactionType === 'CROWDSALE') {
-        const params: Record<string, any> = {
-          email: this.user.email,
-          userType: 'EMPLOYEE'
-        }
-        const apiSendcode = apiCrowdsale.sendCodeBuyCrowdsale()
-        const apiGet2FA = apiCrowdsale.get2FABuyCrowdsale(params)
-        const result = await Promise.all([apiSendcode, apiGet2FA])
-        this.type2Fa = result[1]
-        this.setOpenPopup({
-          popupName: 'popup-base-verify',
-          isOpen: true
-        })
+        // const params: Record<string, any> = {
+        //   email: this.user.email,
+        //   userType: 'EMPLOYEE'
+        // }
+        // const apiSendcode = apiCrowdsale.sendCodeBuyCrowdsale()
+        // const apiGet2FA = apiCrowdsale.get2FABuyCrowdsale(params)
+        // const result = await Promise.all([apiSendcode, apiGet2FA])
+        // this.type2Fa = result[1]
+        // this.setOpenPopup({
+        //   popupName: 'popup-base-verify',
+        //   isOpen: true
+        // })
       } else {
         apiCrowdsale.sendCodeAndGet2FATransfer().then(res => {
           this.type2Fa = res.type
