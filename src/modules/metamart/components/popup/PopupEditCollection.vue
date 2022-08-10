@@ -548,6 +548,11 @@
       this.categories = []
       this.categoriesClone = []
       this.collection = []
+      this.queryTemplateList = {
+        page: 1,
+        limit: 20,
+        search: ''
+      }
       this.setOpenPopup({
         popupName: 'popup-edit-collection',
         isOpen: false
@@ -568,6 +573,7 @@
         categoryIds: this.editData.categories[0]?.id,
         templateId: this.editData.collection.templateId
       }
+      this.getCategoryList('')
       this.imageClick = this.editData.medias[0]
     }
     handleSave(): void {
