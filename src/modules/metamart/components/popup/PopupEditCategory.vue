@@ -33,8 +33,8 @@
     <div class="footer" slot="footer">
       <div class="wrap-button">
         <div class="btn-right">
-          <el-button class="btn-default btn-400 btn-h-40 btn-close" @click="handleReset">Reset</el-button>
-          <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border" style="font-size: 14px; font-weight: 600" @click="handleApply">Apply</el-button>
+          <el-button class="btn-default btn-400 btn-h-40 btn-close" @click="handleReset"> {{ $t('button.reset') }}</el-button>
+          <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border" style="font-size: 14px; font-weight: 600" @click="handleApply">{{ $t('button.apply') }}</el-button>
         </div>
       </div>
     </div>
@@ -173,7 +173,7 @@
                   this.handleClose()
                   console.log(this.dataInput)
                 } else {
-                  this.$message.success('Update category successfully')
+                  this.$message.success(`${this.$t('notify.update-category-success')}`)
                   this.$emit('load')
                   this.handleClose()
                   EventBus.$emit('reloadDropdown')
