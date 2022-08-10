@@ -382,6 +382,7 @@
     "collection-has-nft": "Unable to delete collection containing active item",
     "create-category-success": "Create category successfully",
     "invalid-royal-fee": "Royalty fee must be less than {maxCreatorFee}%",
+    "invalid-delete-nft": "Unable to delete this NFT item",
     "create-category-fail": "Can't choose category as level 3"
   },
   "logout": {
@@ -1365,6 +1366,23 @@
         "template": "Choose template"
       }
     },
+    "nft": {
+      "filter": {
+        "title": "FILTER",
+        "collection": "Collection",
+        "creator": "Creator",
+        "category": "Category",
+        "network": "Network",
+        "status": "Status",
+        "created-date": "Created Date",
+        "from-date": "From date",
+        "to-date": "To date"
+      },
+      "delete": {
+        "confirmation-1": "Are you sure you want to delete this",
+        "confirmation-2": "item ?"
+      }
+    },
     "template": {
       "popup": {
         "add-new": {
@@ -1434,7 +1452,8 @@
     "success": {
       "title": "CONGRATULATIONS",
       "delete-collection": "You have successfully deleted the collection",
-      "delete-category": "You have successfully deleted the category"
+      "delete-category": "You have successfully deleted the category",
+      "delete-nft": "You have successfully deleted the item"
     }
   },
   "filter_pending": "Pending",

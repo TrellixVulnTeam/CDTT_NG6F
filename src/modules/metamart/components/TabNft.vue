@@ -56,7 +56,7 @@
                     <base-icon icon="icon-edit" size="24" />
                   </span>
 
-                  <span @click="handleCommand('delete-nft')">
+                  <span @click.stop="handleDelete(scope.row)">
                     <base-icon icon="icon-delete-new" size="22" />
                   </span>
                   <!-- <el-dropdown trigger="click" @command="handleCommand">
@@ -74,18 +74,21 @@
         </div>
       </div>
     </div>
+    <popup-delete :itemDelete="deleteData"/>
   </div>
 </template>
 
 <script lang="ts">
-  import { Component, Prop, Vue } from 'vue-property-decorator'
+  import { Component, Mixins, Prop, Vue } from 'vue-property-decorator'
   import BasePagination from '@/components/base/pagination/BasePagination.vue'
+  import PopupDelete from './popup/PopupDelete.vue'
   import { PaginationInterface } from '@/interface'
+  import PopupMixin from '@/mixins/popup'
 
   @Component({
-    components: { BasePagination }
+    components: { BasePagination, PopupDelete }
   })
-  export default class TabNFT extends Vue {
+  export default class TabNFT extends Mixins(PopupMixin) {
     @Prop({ required: true, type: Array }) data!: Array<Record<string, any>>
     @Prop({ required: false, type: Boolean, default: true }) showPagination!: boolean
     @Prop({ required: false, type: String, default: '' }) paginationInfo!: string
@@ -99,6 +102,7 @@
     query!: PaginationInterface
 
     isConflictClick = false
+    deleteData: Record<string, any> = {}
 
     get getPaginationInfo(): any {
       //@ts-ignore
@@ -145,6 +149,17 @@
     handleEdit(row: Record<string, any>): void {
       this.isConflictClick = true
       this.$emit('edit', row)
+    }
+    handleDelete(row: Record<string, any>): void {
+      console.log("Delete click", row);
+      this.deleteData = {
+        id: row.itemId,
+        itemName: row.itemName
+      }
+      this.setOpenPopup({
+        popupName: 'popup-metamart-delete',
+        isOpen: true
+      })
     }
     handleConflictClick(row: Record<string, any>): void {
       this.isConflictClick = true
