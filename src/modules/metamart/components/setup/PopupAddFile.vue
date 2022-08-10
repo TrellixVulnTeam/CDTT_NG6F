@@ -213,9 +213,14 @@
       const result = await apiUpload.uploadFileCreateNft(data)
       console.log(file)
 
-      this.form.metaValue = result.success[0].url
-      this.form.metaStatisValue = result.success[0].size
-      this.form.metaIcon = this.getIconFile(this.form.metaAnnotation as string)
+      if (result.success.length) {
+        this.form.metaValue = result.success[0].url
+        this.form.metaStatisValue = result.success[0].size
+        this.form.metaIcon = this.getIconFile(this.form.metaAnnotation as string)
+      } else {
+        const message = this.$t('notify_upload-fail') as string
+        this.$message.error(message)
+      }
     }
 
     handleClearFile(): void {

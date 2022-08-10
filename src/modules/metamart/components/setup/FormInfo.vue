@@ -261,7 +261,12 @@
       formData.append('userId', this.user.userId)
       const result = await apiUpload.uploadImage(formData)
       console.log(result)
-      this.form.thumb = result.success[0].url
+      if (result.success.length) {
+        this.form.thumb = result.success[0].url
+      } else {
+        const message = this.$t('notify_upload-fail') as string
+        this.$message.error(message)
+      }
     }
 
     async handleChangeListFile(rawFile: Record<string, any>): Promise<void> {
@@ -278,20 +283,12 @@
         rawFile.percentage = progress
       }
 
-      // let file = {
-      //   mediaUrl: rawFile.url,
-      //   id: rawFile.uid,
-      //   mediaType: this.getFileType(rawFile)
-      // }
-
       rawFile = {
         ...rawFile,
         mediaUrl: rawFile.url,
         id: rawFile.uid,
         mediaType: this.getFileType(rawFile)
       }
-
-      // console.log(file)
 
       this.form.medias = [...this.form.medias, rawFile]
       const data: Record<string, any> = {}
@@ -305,10 +302,12 @@
       const result = await apiUpload.uploadFileCreateNft(data)
       console.log(result)
 
-      // const file = {
-      //   ...rawFile,
-      //   mediaUrl: result.success[0].url
-      // }
+      if (result.success.length) {
+        this.form.medias[this.form.medias.length - 1].mediaUrl = result.success[0].url
+      } else {
+        const message = this.$t('notify_upload-fail') as string
+        this.$message.error(message)
+      }
 
       this.form.medias[this.form.medias.length - 1].mediaUrl = result.success[0].url
 

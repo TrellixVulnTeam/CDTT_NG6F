@@ -1526,5 +1526,6 @@
   "popup_category-delete": "Bạn chắc chắn muốn xóa danh mục này ?",
   "notify_add-nft-success": "Thêm NFT thành công",
   "notify_edit-nft-success": "Sửa NFT thành công",
-  "notify_invalid-file-type": "Tệp tin không đúng định dạng"
+  "notify_invalid-file-type": "Tệp tin không đúng định dạng",
+  "notify_upload-fail": "Tải lên không thành công"
 }

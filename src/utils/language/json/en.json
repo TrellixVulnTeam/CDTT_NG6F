@@ -1547,5 +1547,6 @@
   "popup_category-delete": "Are you sure you want to delete this category ?",
   "notify_add-nft-success": "Create NFT successfully",
   "notify_edit-nft-success": "Update NFT successfully",
-  "notify_invalid-file-type": "Incorrect file format"
+  "notify_invalid-file-type": "Incorrect file format",
+  "notify_upload-fail": "Upload failed"
 }
