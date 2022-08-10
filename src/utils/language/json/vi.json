@@ -166,7 +166,8 @@
     "email": "Email",
     "f-name": "Họ",
     "l-name": "Tên",
-    "amount-deposit": "Số lượng USDT",
+    "amount-deposit-BUSD": "Số lượng BUSD",
+    "amount-deposit-USDT": "Số lượng USDT",
     "vesting": "Số tháng",
     "amount-lynk": "Số lượng LYNK"
   },
@@ -365,7 +366,7 @@
     "create-category-fail": "Không thể chọn danh mục cha là cấp 3",
     "invalid-delete-nft": "Không thể xóa NFT này",
     "update-category-success": "Cập nhật danh mục thành công",
-    "update-category-fail":"Không thể chọn danh mục cha là chính mình hoặc là cấp 3"
+    "update-category-fail": "Không thể chọn danh mục cha là chính mình hoặc là cấp 3"
   },
   "logout": {
     "title": "Đăng xuất",
@@ -1340,7 +1341,7 @@
       },
       "placeholder": {
         "name": "Nhập tên bộ sưu tập",
-        "description": "e. g. \"Sau khi mua, bạn sẽ có thể nhận được chiếc áo phông thật\"",
+        "description": "VD: \"Sau khi mua, bạn sẽ có thể nhận được chiếc áo phông thật\"",
         "contract-address": "Chọn một địa chỉ hợp đồng",
         "creator": "Chọn người tạo",
         "category": "Chọn danh mục",
@@ -1395,6 +1396,10 @@
     },
     "banner": {
       "popup": {
+        "create-success": "Tạo banner thành công",
+        "update-success": "Cập nhật banner thành công",
+        "create-error": "Tạo banner không thành công",
+        "update-error": "Cập nhật banner không thành công",
         "add-banner": "Thêm banner",
         "edit-banner": "Sửa banner",
         "display-name": "Tên hiển thị",
@@ -1417,7 +1422,10 @@
         "delete": "Xoá",
         "delete-message-first": "Bạn có chắc chắn muốn xoá banner",
         "delete-message-second": "?",
-        "confirm": "Xác nhận"
+        "confirm": "Xác nhận",
+        "alert-name": "Tên hiển thị là bắt buộc",
+        "alert-upload": "File là bắt buộc",
+        "alert-url": "URL là bắt buộc"
       },
       "table": {
         "link": "liên kết",
@@ -1516,5 +1524,7 @@
   "delete_category": "Xóa danh mục",
   "parent_category": "Danh mục cha",
   "popup_category-delete": "Bạn chắc chắn muốn xóa danh mục này ?",
+  "notify_add-nft-success": "Thêm NFT thành công",
+  "notify_edit-nft-success": "Sửa NFT thành công",
   "popup-delete-category-error": "Danh mục này chứa dữ liệu và không thể xóa"
 }

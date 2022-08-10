@@ -174,7 +174,8 @@
     "email": "Email",
     "f-name": "First name",
     "l-name": "Last name",
-    "amount-deposit": "Amount USDT",
+    "amount-deposit-USDT": "Amount USDT",
+    "amount-deposit-BUSD": "Amount BUSD",
     "amount-available": "Available amount",
     "vesting": "Month",
     "amount-lynk": "Amount LYNK"
@@ -1417,6 +1418,10 @@
     },
     "banner": {
       "popup": {
+        "create-success": "Create banner successfully",
+        "update-success": "Update banner successfully",
+        "create-error": "Create banner unsuccessfully",
+        "update-error": "Update banner unsuccessfully",
         "add-banner": "Add banner",
         "edit-banner": "Edit banner",
         "display-name": "Display name",
@@ -1429,17 +1434,20 @@
         "position": "Position",
         "placeholder": {
           "name": "Enter display name",
-          "description": "`e. g. \"After purchasing you'll be able to get the real T-Shirt\"",
+          "description": "e. g. \"After purchasing you'll be able to get the real T-Shirt\"",
           "upload": "PNG, JPG, GIF. Upload size: 464x308 (Max 5mb).",
           "upload-inner": "Drag and drop or",
-          "upload-inner-em": "click to upload",
+          "upload-inner-em": "Click to upload",
           "link": "Enter link",
           "position": "e. g. “1”"
         },
         "delete": "Delete",
         "delete-message-first": "Are you sure you want to delete this",
         "delete-message-second": "banner?",
-        "confirm": "Confirm"
+        "confirm": "Confirm",
+        "alert-name": "Display name is required",
+        "alert-upload": "File is required",
+        "alert-url": "URL is required"
       },
       "table": {
         "link": "link",
@@ -1537,5 +1545,7 @@
   "edit_category": "Edit category",
   "delete_category": "Delete category",
   "parent_category": "Parent category",
-  "popup_category-delete": "Are you sure you want to delete this category ?"
+  "popup_category-delete": "Are you sure you want to delete this category ?",
+  "notify_add-nft-success": "Create NFT successfully",
+  "notify_edit-nft-success": "Update NFT successfully"
 }

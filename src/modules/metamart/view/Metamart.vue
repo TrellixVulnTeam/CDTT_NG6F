@@ -233,10 +233,14 @@
     created(): void {
       this.init()
       EventBus.$on('filter', this.handleFilter)
+      EventBus.$on('reloadMetamart', () => {
+        this.init()
+      })
     }
 
     destroy(): void {
       EventBus.$off('filter')
+      EventBus.$off('reloadMetamart')
     }
 
     handleFilter(value: Record<string, any>) {
@@ -483,7 +487,7 @@
           metaTypes.push({ ...type, typeTab: listData[0].metaValueType })
         }
         if (type.metaType === 'INFO') {
-          metaTypes.push(type)
+          metaTypes.push({ ...type, typeTab: 'INFO' })
         }
       })
 
