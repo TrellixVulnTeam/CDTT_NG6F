@@ -5,7 +5,7 @@
         Create NFT
       </span>
     </div>
-    <div class="content" v-loading="isLoading">
+    <div class="content">
       <main class="content-left">
         <section class="select block">
           <h2 class="block-title">

@@ -31,12 +31,12 @@
       </div>
       <div class="ml-auto detail-nft-right">
         <div class="be-scroll-custom wrap-fixed-top">
-          <div class="detail-nft-folder text-overflow-2">{{ nftItem.itemName }}</div>
+          <div class="detail-nft-folder text-overflow-2">{{ nftItem.collectionName }}</div>
           <div class="ck-text-description detail-nft-des" v-if="textDescription">
             <div id="text-description" :class="showClass ? 'text-overflow-2' : null" style="line-height: 24px" v-html="textDescription"></div>
             <div v-if="numOfLine > 2" style="margin-top: 5px" :class="!showClass ? 'text-rotate' : null" @click="showClass = !showClass">
               <div>
-                <span class="nft-body-base text-hyperlink cursor text-medium read-more">{{ showClass ? $t('market-detail.read-more') : $t('market-detail.hide-more') }}</span>
+                <span class="nft-body-base text-hyperlink cursor text-medium read-more">{{ showClass ? $t('read-more') : $t('hide-more') }}</span>
                 <base-icon v-if="coinMain === 'LYNK'" icon="icon-down" class="icon-rotate" style="padding-left: 4px" />
                 <base-icon v-else icon="icon-down-clm" class="icon-rotate" style="padding-left: 4px" />
               </div>
@@ -49,16 +49,16 @@
                 <div class="sack-create-title text-desc">
                   {{ $t('label_creator') }}
                 </div>
-                <div vi class="sack-create-icon">
+                <div class="sack-create-icon">
                   <div>
                     <!-- <bc-media v-if="nftItem && nftItem.creatorAvatar" :url="nftItem && nftItem.creatorAvatar" :radius="100" :size="12" /> -->
-                    <base-icon v-if="nftItem && nftItem.creatorAvatar" icon="icon-lynk" size="48" :radius="100" style="display: inline-flex" />
+                    <img v-if="nftItem && nftItem.creatorAvatar" :src="nftItem.creatorAvatar" />
 
                     <base-icon v-else icon="default-avatar" size="48" style="display: inline-flex" />
                   </div>
 
                   <div class="text-overflow-1 text-hyperlink" @click="handleViewCreator(nftItem.creatorId)">
-                    <span v-if="nftItem && nftItem.creatorName && nftItem.creatorName.length > 15">{{ nftItem && nftItem.creatorName | formatTransactionCode(5, 5) }}</span>
+                    <span v-if="nftItem && nftItem.creatorName && nftItem.creatorName.length > 15">{{ nftItem && nftItem.creatorName | formatTransactionCode(5) }}</span>
                     <span v-else>{{ nftItem && nftItem.creatorName }}</span>
                   </div>
                   <div v-if="nftItem && nftItem.creatorIsVerified === 'YES'" class="verified">
@@ -69,30 +69,7 @@
               </div>
             </div>
           </div>
-          <div class="isMobile">
-            <div class="sack-owner-create">
-              <div class="sack-create">
-                <div vi class="sack-create-icon">
-                  <div @click="handleViewCreator(nftItem.creatorId)">
-                    <bc-media v-if="nftItem && nftItem.creatorAvatar" :url="nftItem && nftItem.creatorAvatar" :radius="100" :size="12" />
-                    <base-icon v-else icon="default-avatar" size="48" style="display: inline-flex" />
-                  </div>
 
-                  <div v-if="nftItem && nftItem.creatorIsVerified === 'YES'" class="verified">
-                    <base-icon icon="icon-verified" size="16" class="d-iflex" />
-                  </div>
-                  <div v-if="nftItem && nftItem.creatorIsNew === 'YES'" class="new-circle"></div>
-                </div>
-                <div class="sack-create-title text-desc">
-                  {{ $t('detail-nft.header.creator') }}
-                </div>
-                <div class="text-overflow-1 text-hyperlink user-style" @click="handleViewCreator(nftItem.creatorId)">
-                  <span v-if="nftItem && nftItem.creatorName && nftItem.creatorName.length > 15">{{ nftItem && nftItem.creatorName | formatTransactionCode(5, 5) }}</span>
-                  <span v-else>{{ nftItem && nftItem.creatorName }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
           <tab-info :nftItem="nftItem" />
         </div>
       </div>
@@ -101,7 +78,7 @@
 </template>
 
 <script lang="ts">
-  import { Component, Mixins, Prop, Vue } from 'vue-property-decorator'
+  import { Component, Mixins, Prop, Vue, Watch } from 'vue-property-decorator'
   import PopupMixin from '@/mixins/popup'
   import NftDetail from './NftDetail.vue'
   import { SwiperOptions } from 'swiper'
@@ -114,83 +91,30 @@
   import 'swiper/swiper-bundle.css'
   @Component({ components: { NftDetail, Swiper, SwiperSlide, TabInfo } })
   export default class PopupNftDetail extends Mixins(PopupMixin) {
+    // @Prop({ required: false, type: Object }) nftItem!: Record<string, any>
+    @Prop({ required: true, type: Object, default: () => ({}) }) creator!: Record<string, any>
+    @Prop({ required: true, type: Array, default: () => [] }) owners!: Array<Record<string, any>>
+    @Prop({ required: true, type: Array, default: () => [] }) medias!: Array<Record<string, any>>
+    @Prop({ required: true, type: Array, default: () => [] }) policies!: Array<Record<string, any>>
+    @Prop() nftItem!: any
+    // @Prop() medias: any
+    @Prop({ required: false, type: Array, default: () => [] }) metaData!: Array<Record<string, any>>
+    @Prop({ required: false, type: Array, default: () => [] }) metaType!: Array<Record<string, any>>
+    textDescription = ''
     ClickActive = 0
     showClass = false
-    nftItem = {
-      avatar: 'http://loremflickr.com/640/480',
-      creatorAvatar: 'https://s3.ap-southeast-1.amazonaws.com/lynkey-production/blockchain/marketplace/user-profile/lynkey-avatar.png',
-      itemName: 'The Myth Virtual Tour #22',
-      creatorName: 'Lynkee',
-      contractAddress: '0x180af53a...060634a0ea',
-      itemCode: '1653032642000042',
-      network: 'ERC1155',
-      networkName: 'Ethereum',
-      project: ''
-    }
-    textDescription = 'Lörem ipsum möbelhund plav televalens bevis. Repod vamotäde hemin vese, måde. Knytkonferens disa. Ov hypora opost spår och'
     coinMain = 'Not Lynk'
     numOfLine = 0
-    mediaList = [
-      {
-        id: 1,
-        mediaType: 'IMAGE',
-        mediaUrl: 'http://loremflickr.com/640/480'
-      },
-      {
-        id: 2,
-        mediaType: 'IMAGE',
-        mediaUrl: 'https://media-cdn-v2.laodong.vn/Storage/NewsPortal/2022/7/12/1067210/A866ecd311b84577a3a4.jpg'
-      },
-      {
-        id: 3,
-        mediaType: 'IMAGE',
-        mediaUrl: 'http://loremflickr.com/640/480'
-      },
-      {
-        id: 4,
-        mediaType: 'IMAGE',
-        mediaUrl: 'http://loremflickr.com/640/480'
-      },
-      {
-        id: 5,
-        mediaType: 'IMAGE',
-        mediaUrl: 'http://loremflickr.com/640/480'
-      },
-      {
-        id: 6,
-        mediaType: 'IMAGE',
-        mediaUrl: 'http://loremflickr.com/640/480'
-      },
-      {
-        id: 7,
-        mediaType: 'IMAGE',
-        mediaUrl: 'http://loremflickr.com/640/480'
-      },
-      {
-        id: 8,
-        mediaType: 'IMAGE',
-        mediaUrl: 'http://loremflickr.com/640/480'
-      },
-      {
-        id: 9,
-        mediaType: 'IMAGE',
-        mediaUrl: 'http://loremflickr.com/640/480'
-      },
-      {
-        id: 10,
-        mediaType: 'IMAGE',
-        mediaUrl: 'http://loremflickr.com/640/480'
-      }
-    ]
-    mediaLink = {
-      mediaUrl: 'http://loremflickr.com/640/480'
-    }
 
+    get mediaList(): Array<Record<string, any>> {
+      return this.medias
+    }
+    mediaLink = {}
     get isShow(): boolean {
       return false
     }
     swiperOption: SwiperOptions = {
-      slidesPerView: 6,
+      slidesPerView: 4,
       spaceBetween: 12,
       loop: false,
       navigation: {
@@ -202,25 +126,24 @@
         clickable: true
       }
     }
-
-    handleShowMedia(item): void {
-      // const active = filter(this.mediaList, elm => elm.id === item.id)
-      // this.mediaList.forEach(elm => {
-      //   if (elm.id == item.id) {
-      //     this.ClickActive = true
-      //     this.mediaList.forEach(elm => {
-      //       if (elm) {
-      //         this.ClickActive = false
-      //       }
-      //     })
-      //   }
-      // })
+    handleShowMedia(item: Record<string, any>): void {
       if (item.id) {
         this.ClickActive = item.id
         console.log(this.ClickActive)
       }
       this.nftItem.avatar = item.mediaUrl
     }
+    checkLengthText(text: string): void {
+      let el = document.getElementById(`${text}`) as HTMLElement
+      let divHeight = el.offsetHeight
+      let lineHeight = parseInt(el.style.lineHeight)
+      let lines = divHeight / lineHeight
+      if (lines > 3) {
+        this.showClass = true
+        this.numOfLine = lines
+      }
+    }
+
     handleClickArrow(type: string): void {
       if (type === 'next') {
         //@ts-ignore
@@ -228,6 +151,22 @@
       } else {
         //@ts-ignore
         this.$refs['swiperRef']?.$swiper.slidePrev()
+      }
+    }
+    @Watch('medias', { deep: true, immediate: true }) handleWatchMedias(item: Record<string, any>): void {
+      this.mediaLink = this.mediaList[0]
+      this.ClickActive = this.mediaList[0]?.id
+    }
+    @Watch('nftItem', { deep: true, immediate: true }) handleWatchItemNft(item: Record<string, any>): void {
+      if (item?.description) {
+        const language = window.localStorage.getItem('bc-lang')!
+        if (item.description) {
+          const objDesc = JSON.parse(this.nftItem.description)
+          this.textDescription = objDesc[language]
+          this.$nextTick(() => {
+            this.checkLengthText('text-description')
+          })
+        }
       }
     }
   }
@@ -243,7 +182,7 @@
     }
   }
   ::v-deep.base-popup .el-dialog__footer {
-      display: none;
+    display: none;
   }
 
   .content {
@@ -377,7 +316,7 @@
       margin-top: 16px;
       margin-bottom: 24px;
       padding: 0px 20px;
-    
+
       .btn-change {
         color: #115bfc;
         cursor: pointer;
@@ -953,7 +892,7 @@
       .detail-nft-right {
         // max-width: calc(100% - 40px);
         margin: 16px auto 0;
-        
+
         .detail-heading {
           &-address {
             font-size: 14px;

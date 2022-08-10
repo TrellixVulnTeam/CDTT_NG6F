@@ -1,7 +1,7 @@
 <template>
   <base-popup name="popup-create-collection" class="popup-create-collection" width="1040px" :open="handleOpen" :close="handleClose">
     <div class="title-popup" slot="title">
-      <span>{{ $t('metamart.collection.popup.title') }}</span>
+      <span>{{ $t('metamart.collection.popup.create') }}</span>
     </div>
     <div class="content">
       <main class="content-left">
@@ -67,7 +67,7 @@
               <el-upload action="javascript:;" class="upload-banner" drag :on-change="handleBannerChange" :auto-upload="false" :show-file-list="false" accept=".jpg, .jpeg, .png, .gif, .webg" >
                 <div class="el-upload__text" v-if="!collection.banners[0]">{{$t('metamart.collection.upload.drop')}} <em>{{$t('metamart.collection.upload.click')}}</em></div>
                 <div class="upload-wrapper" v-if="collection.banners[0]">
-                  <img :src="imageClick.mediaUrl" :alt="bannerPreviewing" class="upload-wrapper__preview" />
+                  <img :src="imageClick.mediaUrl" class="upload-wrapper__preview" />
                   <span class="cursor icon-x upload-wrapper__icon" @click.stop="handleBannerRemove(imageClick)">
                     <base-icon icon="icon-delete-circle" size="26" />
                   </span>
@@ -92,11 +92,10 @@
           
           <el-form-item prop="collectionName">
             <section class="name block">
-              <h2 class="block-title" style="margin-bottom: 0px;">
+              <h2 class="block-title">
                 {{ $t('metamart.collection.popup.name') }}
                 <span class="block-title__asterisk"> *</span>
               </h2>
-              <span class="block__subtitle">{{$t('metamart.collection.subtitle.name')}}</span>
               <el-input v-model="collection.collectionName" :placeholder="$t('metamart.collection.placeholder.name')" ></el-input>
             </section>
           </el-form-item>
@@ -150,11 +149,11 @@
                 <span class="block-title__asterisk"> *</span>
               </h2>
               <el-select v-model="collection.currency" class="select-prefix-icon">
-                <el-option v-for="(item, index) in optionByToken" :label="`${item.name} (${item.currency})`" :value="item.currency" :key="index">
+                <el-option v-for="(item, index) in currencies" :label="`${item.currencyName} (${item.currency})`" :value="item.currency" :key="index">
                   <template>
                     <div class="be-flex wallet-item">
                       <base-icon :icon="getIcon(item.currency)" size="24" />
-                      <span class="d-ib" style="margin-left: 10px">{{ item.name }}</span>
+                      <span class="d-ib" style="margin-left: 10px">{{ item.currencyName }}</span>
                       <span class="d-ib" style="margin-left: 4px">({{ item.currency.toUpperCase() }})</span>
                     </div>
                   </template>
@@ -202,6 +201,7 @@
               <el-select
                 filterable
                 remote
+                clearable
                 :remote-method="remoteCategoryList"
                 v-model="collection.categoryIds" 
                 :placeholder="$t('metamart.collection.placeholder.category')"
@@ -326,6 +326,8 @@
     categoriesClone: Array<Record<string, any>> = []
     templates: Array<Record<string, any>> = []
     templatesClone: Array<Record<string, any>> = []
+    currencies: Array<Record<string, any>> = []
+    baseCurrency = ''
 
     rules: Record<string, any> = {
       avatar: [
@@ -400,18 +402,18 @@
       ],
     }
 
-    // fake data
-    optionByToken = [
-      {name: 'Bitcoin', currency: 'BTC'},
-      {name: 'Tether', currency: 'USDT'},
-      {name: 'Ethereum', currency: 'ETH'},
-      {name: 'LynKey', currency: 'LYNK'},
-    ]
-
-    @Watch('collection.network') handleNetworkChange(): void {
+    @Watch('collection.network') handleNetworkChange(newVal: any): void {
       //@ts-ignore
       this.$refs['collection'].fields.find((f: any) => f.prop === 'contractAddress').resetField()
       this.getContractList()
+      console.log("New Network", newVal);
+      this.networks.forEach((network: any) => {
+        if (network.networkName === newVal) {
+          this.baseCurrency = network.baseCurrency
+        }
+      })
+      console.log(">>>base Cur:",this.baseCurrency);
+      this.getCurrencyList(this.baseCurrency)
     }
     async handleAvatarChange(file: any): Promise<void> {
       // this.collection.avatar = URL.createObjectURL(file.raw)
@@ -490,6 +492,11 @@
       this.$refs['collection'].resetFields();
       this.categories = []
       this.categoriesClone = []
+      this.queryTemplateList = {
+        page: 1,
+        limit: 20,
+        search: ''
+      }
       this.setOpenPopup({
         popupName: 'popup-create-collection',
         isOpen: false
@@ -498,6 +505,7 @@
     handleReset():void {
       //@ts-ignore
       this.$refs['collection'].resetFields();
+      this.getCategoryList('')
     }
     handleSave():void {
       //@ts-ignore
@@ -508,6 +516,7 @@
             .then((res: any) => {
               this.handleClose()
               this.$message.success("Create collection successful")
+              this.$emit('reload')
             })
             .catch(e => {
               console.log(e);
@@ -534,6 +543,20 @@
             "mediaType": "IMAGE"
           })
           this.imageClick = this.collection.banners[0]
+        })
+        .catch(e => {
+          console.log(e);
+        })
+    }
+
+    async getCurrencyList(param: any): Promise<void> {
+      let params = {
+        baseCurrency: param
+      }
+      await apiNft.getListCurrency(params)
+        .then((res: any) => {
+          this.currencies = res
+          this.collection.currency = res[0].currency
         })
         .catch(e => {
           console.log(e);

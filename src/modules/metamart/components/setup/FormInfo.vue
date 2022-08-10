@@ -1,8 +1,17 @@
 <template>
   <div class="form-info">
     <el-form>
-      <el-form-item :label="$t('label_collection')" class="is-required">
-        <el-select v-model="form.collectionId" class="w-100" :placeholder="$t('label_collection')" @change="handleSelectCollection">
+      <el-form-item :label="$t('label_collection')" class="is-required hide-suffix">
+        <el-select
+          v-model="form.collectionId"
+          filterable
+          remote
+          reserve-keyword
+          :remote-method="handleFindCollection"
+          class="w-100"
+          :placeholder="$t('label_collection')"
+          @change="handleSelectCollection"
+        >
           <el-option v-for="item in listCollection" :key="item.id" :label="item.collectionName" :value="item.id" />
         </el-select>
       </el-form-item>
@@ -29,7 +38,7 @@
 
       <!-- thumbnail -->
       <el-form-item :label="$t('label_thumbnail')" class="is-required">
-        <div class="text-disable text-xs">PNG, GIF, WEBG, MP4 or MP3 (Max 100mb).</div>
+        <div class="text-disable text-xs">PNG, JPG, JPEG, GIF (Max 20mb).</div>
 
         <el-upload
           v-show="!form.thumb"
@@ -59,7 +68,7 @@
 
       <!-- list file -->
       <el-form-item :label="$t('label_upload-file')" class="is-required">
-        <div class="text-disable text-xs">PNG, GIF, WEBG, MP4 or MP3 (Max 100mb).</div>
+        <div class="text-disable text-xs">PNG, JPG, JPEG, GIF, MP4 (Max 20mb).</div>
 
         <el-upload
           v-show="!form.medias.length"
@@ -84,6 +93,7 @@
             <span class="cursor icon-x" @click="removeFile(file.id)">
               <base-icon icon="icon-delete-circle" size="20" />
             </span>
+            <el-progress v-if="file.percentage < 100" type="circle" :percentage="file.percentage" class="progress-file" status="success"></el-progress>
           </div>
           <el-upload
             class="avatar-uploader"
@@ -100,12 +110,12 @@
       </el-form-item>
 
       <el-form-item :label="$t('label_short-desc')" class="is-required">
-        <el-input type="textarea" :rows="3" :placeholder="$t('label_short-desc')" v-model="shortDescription" @input="handleInput" maxlength="200" show-word-limit> </el-input>
+        <el-input type="textarea" :rows="3" :placeholder="$t('label_short-desc')" v-model="form.shortDescription" maxlength="200" show-word-limit> </el-input>
       </el-form-item>
 
       <div class="mb-24 wrap-editor">
         <div class="text-base text-semibold label">{{ $t('label_long-desc') }}</div>
-        <jodit-editor :config="config" :buttons="buttons" v-model="description" />
+        <jodit-editor :config="config" :buttons="buttons" v-model="form.description" />
       </div>
     </el-form>
   </div>
@@ -175,29 +185,23 @@
     shortDescription = ''
     description = ''
 
-    // @Watch('form', { deep: true }) handleWatchForm(newForm: Record<string, any>): void {
-    //   this.setInitInfo(newForm)
+    // @Watch('description') watchContent(_new: string): void {
+    //   this.debounceInputHtml(_new, this)
     // }
 
-    @Watch('description') watchContent(_new: string): void {
-      this.debounceInputHtml(_new, this)
-    }
-
     async created(): Promise<void> {
-      console.log('aaa')
-      this.$root.$refs.FormInfo = this
-
-      const language = localStorage.getItem('bc-lang') || ''
-
-      if (this.typePopup === 'edit') {
-        this.config.language = language
-        const parseJsonShortDescription = JSON.parse(this.form.shortDescription)
-        const parseJsonDescription = JSON.parse(this.form.description)
-        this.shortDescription = parseJsonShortDescription[language]
-        this.description = parseJsonDescription[language]
-      } else {
-        this.shortDescription = this.form.shortDescription
-      }
+      // this.$root.$refs.FormInfo = this
+      // const language = localStorage.getItem('bc-lang') || ''
+      // if (this.typePopup === 'edit') {
+      //   this.config.language = language
+      //   const parseJsonShortDescription = JSON.parse(this.form.shortDescription)
+      //   const parseJsonDescription = JSON.parse(this.form.description)
+      //   this.shortDescription = parseJsonShortDescription[language]
+      //   this.description = parseJsonDescription[language]
+      // } else {
+      //   this.shortDescription = this.form.shortDescription
+      //   this.description = this.form.description
+      // }
     }
 
     debounceInputHtml = debounce((text: string, _this: any) => {
@@ -216,9 +220,9 @@
       }
     }, 500)
 
-    handleInput(text: string): void {
-      this.debounceInput(text, this)
-    }
+    // handleInput(text: string): void {
+    //   this.debounceInput(text, this)
+    // }
 
     debounceInput = debounce((text: string, _this: any) => {
       const language = localStorage.getItem('bc-lang') || ''
@@ -255,30 +259,48 @@
     }
 
     async handleChangeListFile(rawFile: Record<string, any>): Promise<void> {
-      let file = {
+      rawFile.percentage = 1
+
+      const processFunction = function (progressEvent) {
+        let progress = (progressEvent.loaded / progressEvent.total) * 100
+        rawFile.percentage = progress
+      }
+
+      // let file = {
+      //   mediaUrl: rawFile.url,
+      //   id: rawFile.uid,
+      //   mediaType: this.getFileType(rawFile)
+      // }
+
+      rawFile = {
+        ...rawFile,
         mediaUrl: rawFile.url,
         id: rawFile.uid,
         mediaType: this.getFileType(rawFile)
       }
-      console.log(file)
 
-      this.form.medias = [...this.form.medias, file]
+      // console.log(file)
 
+      this.form.medias = [...this.form.medias, rawFile]
+      const data: Record<string, any> = {}
       const formData = new FormData()
       formData.append('files', rawFile.raw)
       formData.append('type', 'MEDIA_NFT')
       formData.append('userId', this.user.userId)
-      const result = await apiUpload.uploadImage(formData)
+
+      data.data = formData
+      data.progress = processFunction
+      const result = await apiUpload.uploadFileCreateNft(data)
       console.log(result)
 
-      file = {
-        ...file,
-        mediaUrl: result.success[0].url
-      }
+      // const file = {
+      //   ...rawFile,
+      //   mediaUrl: result.success[0].url
+      // }
 
-      this.form.medias.pop()
+      this.form.medias[this.form.medias.length - 1].mediaUrl = result.success[0].url
 
-      this.form.medias = [...this.form.medias, file]
+      // this.form.medias = [...this.form.medias, file]
     }
 
     handleAddMoreFile(file: Record<string, any>): void {
@@ -293,6 +315,10 @@
       this.form.categoryId = null
       const collection = filter(this.listCollection, elm => elm.id === collectionId)[0]
       this.$emit('selectCollection', collection)
+    }
+
+    handleFindCollection(text: string): void {
+      this.$emit('findCollection', text)
     }
   }
 </script>
@@ -323,6 +349,7 @@
       .wrap-img {
         margin-right: 12px;
         position: relative;
+        margin-bottom: 12px;
         &:hover {
           .icon-x {
             display: inline-flex;
@@ -334,6 +361,7 @@
           height: 72px;
           object-fit: cover;
           border-radius: 8px;
+          display: block;
         }
         .icon-x {
           position: absolute;
@@ -342,6 +370,17 @@
           display: none;
           .span-icon {
             display: inline-flex;
+          }
+        }
+
+        .progress-file {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          .el-progress-circle {
+            height: 60px !important;
+            width: 60px !important;
           }
         }
       }
@@ -363,6 +402,11 @@
           font-size: 16px;
           line-height: 24px;
           font-weight: 600;
+        }
+      }
+      .hide-suffix {
+        .el-input__suffix {
+          display: none;
         }
       }
     }

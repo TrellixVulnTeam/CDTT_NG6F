@@ -17,16 +17,16 @@
       <div class="action-group">
         <div class="action flex-left-right">
           <div v-if="value.levelDepth !== 2" @click="handleAddGroup(value)">
-            <el-tooltip :enterable="false" class="item-tooltip" effect="dark" content="Add new" placement="top">
+            <el-tooltip :enterable="false" class="item-tooltip" effect="dark" :content="$t('button.add-new')" placement="top">
               <el-button class="is-create-color is-none-border icon-btn icon-middle custom-button p-0" style="background: transparent">
-                <base-icon icon="icon-add" size="18" />
+                <base-icon icon="icon-add" size="17" />
               </el-button>
             </el-tooltip>
           </div>
         </div>
         <div class="action flex-left-right">
           <div @click="handleEditGroup(value)">
-            <el-tooltip :enterable="false" class="item-tooltip" effect="dark" content="Sửa nhóm" placement="top">
+            <el-tooltip :enterable="false" class="item-tooltip" effect="dark" :content="$t('edit_category')" placement="top">
               <el-button style="margin-left: 8px; background: transparent" class="is-create-color is-none-border icon-btn icon-middle custom-button p-0">
                 <base-icon icon="icon-edit" size="24" />
               </el-button>
@@ -35,9 +35,9 @@
         </div>
         <div class="action flex-left-right">
           <div @click="handleDeleteGroup(value)">
-            <el-tooltip :enterable="false" class="item-tooltip" effect="dark" content="Xóa nhóm" placement="top">
+            <el-tooltip :enterable="false" class="item-tooltip" effect="dark" :content="$t('delete_category')" placement="top">
               <el-button style="margin-left: 8px; background: transparent" class="is-create-color is-none-border icon-btn icon-middle custom-button p-0">
-                <base-icon icon="icon-delete" size="24" />
+                <base-icon icon="icon-delete-new" size="20" />
               </el-button>
             </el-tooltip>
           </div>

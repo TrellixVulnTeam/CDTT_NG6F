@@ -1,5 +1,5 @@
 import { ITabBlockchain, ITabInfo, ITabSetting, IMetaTypes } from './../../interface/index'
-import { filter, forEach } from 'lodash'
+import { filter, forEach, map } from 'lodash'
 import { MutationTree } from 'vuex'
 import { IAuth } from '.'
 
@@ -12,6 +12,9 @@ const mutations: MutationTree<IAuth> = {
   },
   SET_LIST_COLLECTION: (state, data) => {
     state.listCollection = data
+  },
+  SET_LIST_ORIGIN_COLLECTION: (state, data) => {
+    state.listOriginCollection = data
   },
   SET_LIST_CATEGORY: (state, data) => {
     state.listCategory = data
@@ -34,6 +37,14 @@ const mutations: MutationTree<IAuth> = {
       const listData = filter(data.metaDatas, data => type.metaTypeId === data.metaTypeId)
       type.typeTab = listData.length ? listData[0].metaValueType : ''
     })
+    const language = localStorage.getItem('bc-lang') || ''
+    forEach(data.metaDatas, elm => {
+      if (elm.metaValueType === 'TEXT' || elm.metaValueType === 'HTML') {
+        const parseJson = JSON.parse(elm.metaValue)
+        elm.metaValue = parseJson[language]
+      }
+    })
+
     state.metaDatas = data.metaDatas
     state.metaTypes = filter(data.metaTypes, elm => elm.metaType !== 'INFO')
   },
@@ -50,8 +61,15 @@ const mutations: MutationTree<IAuth> = {
     state.initBlockchain = initBlockchain
     state.initSetting = initSetting
 
+    const listId = map(metaDatas, meta => meta.metaTypeId)
+    const listIdType = map(metaTypes, meta => meta.metaTypeId)
+    console.log(listId)
+    console.log(listIdType)
+
     forEach(metaTypes, type => {
       const listData = filter(metaDatas, data => type.metaTypeId === data.metaTypeId)
+      console.log('listData', listData)
+
       type.typeTab = listData.length ? listData[0].metaValueType : ''
     })
     state.metaDatas = metaDatas

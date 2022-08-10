@@ -1,5 +1,6 @@
 import request from '@/plugins/request'
 import { BaseRepository } from '@/services/base'
+import { forEach } from 'lodash'
 
 export class NftRepository extends BaseRepository {
   constructor() {
@@ -80,7 +81,22 @@ export class NftRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
-
+  async deleteCollection(id: string | number, params: Record<string, any>): Promise<Array<Record<string, any>>> {
+    try {
+      const result = await request.delete(`${this.prefix}/bo/collection/${id}/delete`, { params })
+      return result.data.data
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+  async deleteNft(id: string | number, params: Record<string, any>): Promise<Array<Record<string, any>>> {
+    try {
+      const result = await request.delete(`${this.prefix}/bo/item/${id}/delete`, { params })
+      return result.data.data
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
   async getListNetwork(): Promise<Array<Record<string, any>>> {
     try {
       const result = await request.get(`${this.prefix}/nft-asset/list?type=NFT`)
@@ -161,7 +177,19 @@ export class NftRepository extends BaseRepository {
 
   async createNft(data: Record<string, any>): Promise<any> {
     try {
+      forEach(data.metaDatas, elm => {
+        delete elm.id
+      })
+
       const result = await request.post(`${this.prefix}/bo/item/create`, data)
+      return Promise.resolve(result.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+  async updateNft(data: Record<string, any>): Promise<any> {
+    try {
+      const result = await request.put(`${this.prefix}/bo/item/update`, data)
       return Promise.resolve(result.data.data)
     } catch (error) {
       return Promise.reject(error)
@@ -171,6 +199,70 @@ export class NftRepository extends BaseRepository {
     try {
       const result = await request.get(`${this.prefix}/item/${id}/detail`)
       return Promise.resolve(result.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+  async getListBanners(params: Record<string, any>): Promise<any> {
+    try {
+      const rs = await request.get(`${this.prefix}/banners`, { params })
+      return Promise.resolve(rs.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+  async createBanner(params: Record<string, any>): Promise<any> {
+    try {
+      const rs = await request.post(`${this.prefix}/banner`, params)
+      return Promise.resolve(rs.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+  async updateBanner(bannerId: number, params: Record<string, any>): Promise<any> {
+    try {
+      const rs = await request.put(`${this.prefix}/banner/${bannerId}`, params)
+      return Promise.resolve(rs.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+  async checkValidDeleteCollection(id: number): Promise<any> {
+    try {
+      const result = await request.post(`${this.prefix}/bo/collection/${id}/delete/validate`)
+      return Promise.resolve(result.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+  async checkValidDeleteNft(id: number): Promise<any> {
+    try {
+      const result = await request.post(`${this.prefix}/bo/item/${id}/delete/validate`)
+      return Promise.resolve(result.data.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+  async getDetailCollection (id: string | number): Promise<Record<string, any>> {
+    try {
+      const result = await request.get(`${this.prefix}/bo/collection/${id}/detail`)
+      return Promise.resolve(result.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+  async getListCurrency(params: Record<string, any>): Promise<Array<Record<string, any>>> {
+    try {
+      const result = await request.get(`${this.prefix}/currencies`, { params })
+      return result.data.data
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+  async deleteBanner(bannerId: number, params: Record<string, any>): Promise<any> {
+    try {
+      const rs = await request.delete(`${this.prefix}/banner/${bannerId}`, { data: params })
+      return Promise.resolve(rs.data)
     } catch (error) {
       return Promise.reject(error)
     }

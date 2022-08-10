@@ -63,6 +63,7 @@
       </div>
     </div>
     <popup-edit-collection :editData="editData"/>
+    <popup-delete :collectionDelete="deleteData" />
   </div>
 </template>
 
@@ -71,10 +72,16 @@ import {Component, Mixins, Prop, } from 'vue-property-decorator'
 // import CardCollection from "@/modules/metamart/components/CardCollection.vue";
 // import BasePagination from "@/components/base/pagination/BasePagination.vue";
 import PopupEditCollection from './popup/PopupEditCollection.vue'
+import PopupDelete from './popup/PopupDelete.vue'
 import {PaginationInterface} from "@/interface";
 import PopupMixin from '@/mixins/popup';
+import { NftRepository } from '@/services/repositories/nft';
+import getRepository from '@/services';
+
+const apiNft: NftRepository = getRepository('nft')
+
 @Component({
-  components: { PopupEditCollection }
+  components: { PopupEditCollection, PopupDelete }
 })
 export default class TabCollection extends Mixins(PopupMixin) {
   //Props
@@ -83,10 +90,16 @@ export default class TabCollection extends Mixins(PopupMixin) {
   @Prop({ required: true, type: Array }) data!: Array<Record<string, any>>
   @Prop({required: false, type: Object, default: () => {return {}}})query!: PaginationInterface;
 
+  deleteData: Record<string, any> = {}
   editData: Record<string, any> = {}
 
   get getPaginationInfo(): any {
-    return this.$t('paging.collection')
+    //@ts-ignore
+    if (this.query.total > 1) {
+      return this.$t('paging.collections')
+    } else {
+      return this.$t('paging.collection')
+    }
   }
 
   indexMethod(index: number): number {
@@ -101,17 +114,39 @@ export default class TabCollection extends Mixins(PopupMixin) {
     this.query.page = value
     this.$emit('pageChange', value)
   }
-  handleEdit(row: any): void {
+  async handleEdit(row: any): Promise<any> {
     console.log("Edit Clicked:", row);
-    this.editData = row
+
+    await this.getDetailCollection(row.id)
+
     this.setOpenPopup({
       popupName: 'popup-edit-collection',
       isOpen: true
     })
   }
-  handleDelete(row: any): void {
+  
+  async getDetailCollection(id: any): Promise<any> {
+    await apiNft.getDetailCollection(id)
+      .then((res: any) => {
+        console.log("RES COLLECTION: ", res);
+        this.editData = res.data
+      })
+      .catch(e => {
+        console.log(e);
+      })
+  }
+
+  async handleDelete(row: any): Promise<any> {
     console.log("Delete Clicked:", row);
-    this.$emit('delete', row)
+    this.deleteData = {
+      id: row.id,
+      collectionName: row.collectionName
+    }
+    this.setOpenPopup({
+      popupName: 'popup-metamart-delete',
+      isOpen: true
+    })
+    // this.$emit('delete', row)
   }
 }
 </script>

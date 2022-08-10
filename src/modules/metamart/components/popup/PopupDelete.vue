@@ -3,30 +3,33 @@
     <div class="title-popup" slot="title">
       <span>{{ $t('button.delete') }}</span>
     </div>
-    <div class="content" style="padding-bottom: 24px">
-      <span v-if="type === 'delete-collection'" class="content-text">
-        {{ $t('metamart.collection.delete.confirmation-1') }} <span class="content-text__item">The Mike Tyson</span> {{ $t('metamart.collection.delete.confirmation-2') }}
+    <div class="content" style="padding-bottom: 24px" v-loading="isLoading">
+      <span v-if="this.$route.name === 'Collection'" class="content-text">
+        {{ $t('metamart.collection.delete.confirmation-1') }} <span class="content-text__item">{{this.collectionDelete.collectionName}}</span> {{ $t('metamart.collection.delete.confirmation-2') }}
       </span>
-      <span v-else-if="type === 'delete-nft'" class="content-text"> Are you sure you want to delete this <span class="content-text__item">The Myth Virtual Tour</span> item? </span>
-      <span v-else class="content-text"> Are you sure you want to delete this category ? </span>
-    </div>
-    <div v-if="isHaveNft" class="notification">
-      <div class="notification-title">
-        <div class="notification-title__icon">
-          <img src="../../../../icons/png/alert.png" alt="icon alert" />
+      <span v-else-if="this.$route.name === 'Nft'" class="content-text">
+        {{ $t('metamart.nft.delete.confirmation-1') }} <span class="content-text__item">{{ this.itemDelete.itemName }}</span> 
+        {{ $t('metamart.nft.delete.confirmation-2') }}
+      </span>
+      <span v-else class="content-text"> {{ $t('popup_category-delete') }} </span>
+      <div v-if="isHaveNft" class="notification">
+        <div class="notification-title">
+          <div class="notification-title__icon">
+            <img src="../../../../icons/png/alert.png" alt="icon alert" />
+          </div>
+          <p class="notification-title__text">{{ $t('metamart.collection.delete.warning-label') }}</p>
         </div>
-        <p class="notification-title__text">{{ $t('metamart.collection.delete.warning-label') }}</p>
+        <p class="notification-subtitle">{{ $t('metamart.collection.delete.warning-description') }}</p>
       </div>
-      <p class="notification-subtitle">{{ $t('metamart.collection.delete.warning-description') }}</p>
     </div>
     <div class="footer" slot="footer">
       <div class="be-flex jc-flex-end">
         <el-button class="btn-default btn-close btn-h-40 mr-16" @click="handleCancel">{{ $t('button.cancel') }}</el-button>
-        <el-button class="btn-default delete-btn" :disabled="isHaveNft" @click="handleSubmit">{{ $t('button.confirm') }}</el-button>
+        <el-button class="btn-default delete-btn" :disabled="isHaveNft || isNftInvalid || isLoading" @click="handleSubmit">{{ $t('button.confirm') }}</el-button>
       </div>
     </div>
     <popup-verify-email @submit="handleDelete"></popup-verify-email>
-    <popup-success type="delete-collection"></popup-success>
+    <popup-success :type="deleteType"></popup-success>
   </base-popup>
 </template>
 
@@ -49,21 +52,51 @@
     components: { PopupVerifyEmail, PopupSuccess }
   })
   export default class PopupDelete extends Mixins(PopupMixin) {
-    @Prop({ required: false, type: Array, default: [] }) selectedNft!: Array<Record<string, any>>
-    @Prop({ required: true, type: String, default: '' }) type!: string
-    @Prop({ required: false, type: Object, default: {} }) dataDetail!: Record<string, any>
     @beAuth.State('user') user!: Record<string, any>
     @Prop() idDelete!: any
+    @Prop({ required: false, type: Object, default: () => ({}) }) collectionDelete!: Record<string, any>
+    @Prop({ required: false, type: Object, default: () => ({}) }) itemDelete!: Record<string, any>
 
+    isLoading = false
     value = ''
-
+    deleteType = ''
     emailVerification = {
-      email: this.user.email,
+      email: this.user?.email,
       type: 'EMAIL',
       userType: 'EMPLOYEE'
     }
 
     isHaveNft = false
+    isNftInvalid = false
+
+    async checkValidNft(): Promise<void> {
+      this.isLoading = true
+      await apiNft
+        .checkValidDeleteNft(this.itemDelete.id)
+        .then(res => {
+          this.isNftInvalid = false
+          this.isLoading = false
+        })
+        .catch(e => {
+          this.isNftInvalid = true
+          this.isLoading = false
+        })
+    }
+
+    async checkValidCollection(): Promise<void> {
+      this.isLoading = true
+      await apiNft
+        .checkValidDeleteCollection(this.collectionDelete.id)
+        .then(res => {
+          this.isHaveNft = false
+          this.isLoading = false
+        })
+        .catch(e => {
+          this.isHaveNft = true
+          this.isLoading = false
+        })
+    }
+
     async getEmailVerification(): Promise<void> {
       let params = {
         email: this.user.email,
@@ -73,7 +106,7 @@
       await apiUser
         .getEmailVerification(params)
         .then((res: any) => {
-          this.$message.success('Code sent, please check your email')
+          this.$message.success(`${this.$t('notify.send-code')}`)
           console.log(res)
         })
         .catch(e => {
@@ -90,10 +123,61 @@
       await apiNft
         .deleteCategory(this.idDelete, params)
         .then((res: any) => {
-          this.$message.success('Success')
+          this.setOpenPopup({
+            popupName: 'popup-metamart-verify-email',
+            isOpen: false
+          })
+          this.setOpenPopup({
+            popupName: 'popup-metamart-success',
+            isOpen: true
+          })
+          this.$emit('load')
         })
         .catch(e => {
-          this.$message.error('Error')
+          console.log(e)
+        })
+    }
+    async deleteCollection(): Promise<void> {
+      let params = {
+        verificationCode: this.value
+      }
+      console.log('params xoa collection', params)
+      await apiNft
+        .deleteCollection(this.collectionDelete.id, params)
+        .then((res: any) => {
+          this.deleteType = 'delete-collection'
+          this.setOpenPopup({
+            popupName: 'popup-metamart-verify-email',
+            isOpen: false
+          })
+          this.setOpenPopup({
+            popupName: 'popup-metamart-success',
+            isOpen: true
+          })
+        })
+        .catch((e: any) => {
+          console.log('Fail RES:', e.response)
+        })
+    }
+    async deleteNftItem(): Promise<void> {
+      let params = {
+        verificationCode: this.value
+      }
+      await apiNft
+        .deleteNft(this.itemDelete.id, params)
+        .then((res: any) => {
+          this.deleteType = 'delete-nft'
+          this.setOpenPopup({
+            popupName: 'popup-metamart-verify-email',
+            isOpen: false
+          })
+          this.setOpenPopup({
+            popupName: 'popup-metamart-success',
+            isOpen: true
+          })
+        })
+        .catch((e: any) => {
+          console.log('Fail RES:', e.response)
         })
     }
 
@@ -103,26 +187,54 @@
     destroyed(): void {
       EventBus.$off('closePopup', this.handleCancel)
     }
-
-    handleCancel(): void {
+    handleOpen(): void {
+      if (this.$route.name === 'Collection') {
+        this.checkValidCollection()
+      } else if (this.$route.name === 'Nft') {
+        this.checkValidNft()
+      }
+    }
+    handleClose(): void {
       this.setOpenPopup({
         popupName: 'popup-metamart-delete',
         isOpen: false
       })
+      this.isHaveNft = false
+      this.isNftInvalid = false
+      this.deleteType = ''
+    }
+    handleCancel(): void {
+      this.handleClose()
     }
     handleSubmit(): void {
-      if (this.isHaveNft) {
-        return
-      } else {
+      if (this.$route.name === 'Collection') {
+        if (this.isHaveNft) {
+          return
+        } else {
+          this.setOpenPopup({
+            popupName: 'popup-metamart-verify-email',
+            isOpen: true
+          })
+          this.getEmailVerification()
+        }
+      }
+      if (this.$route.name === 'Nft') {
+        if (this.isNftInvalid) {
+          return
+        } else {
+          this.setOpenPopup({
+            popupName: 'popup-metamart-verify-email',
+            isOpen: true
+          })
+          this.getEmailVerification()
+        }
+      }
+      if (this.$route.name === 'Category') {
+        this.getEmailVerification()
         this.setOpenPopup({
           popupName: 'popup-metamart-verify-email',
           isOpen: true
         })
-        console.log(this.type)
-      }
-      if (this.$route.name === 'Category') {
-        console.log('This is category')
-        this.getEmailVerification()
       }
     }
     handleDelete(value: any): void {
@@ -130,6 +242,12 @@
         this.value = value
         this.deleteCategory()
         console.log(this.idDelete)
+      } else if (this.$route.name === 'Collection') {
+        this.value = value
+        this.deleteCollection()
+      } else if (this.$route.name === 'Nft') {
+        this.value = value
+        this.deleteNftItem()
       }
       //if success
       // Tạm đóng cái này
@@ -159,7 +277,7 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      margin-bottom: 24px;
+      margin-top: 24px;
       padding: 12px 24px;
       background-color: var(--bc-bg-error);
       border-radius: 6px;

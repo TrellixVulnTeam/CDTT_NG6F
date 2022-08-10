@@ -1,7 +1,13 @@
 <!-- eslint-disable prettier/prettier -->
 <template>
   <div class="pb-24 pt-24 be-flex align-center kyc-filter">
-    <el-input v-model="filter.value.search" class="input-search" :placeholder="$t('placeholder.search')" @input="handleChange">
+    <el-input
+      v-model="filter.value.search"
+      class="input-search"
+      :placeholder="$t('placeholder.search')"
+      @input="handleChange"
+      :style="{ marginRight: $route.name === 'Banner' ? '0px' : '30px' }"
+    >
       <span slot="prefix" class="prefix-search">
         <base-icon icon="icon-search" size="24" />
       </span>
@@ -79,21 +85,27 @@
           </el-button>
         </div>
       </el-popover> -->
-      
-      <div v-if="this.$route.name !=='Category'" slot="reference" class="cursor text-filter" style="font-size: 16px" @click="handleOpen">
+
+      <div v-if="this.$route.name !== 'Category' && $route.name !== 'Banner'" slot="reference" class="cursor text-filter" style="font-size: 16px" @click="handleOpen">
         <span>
           <base-icon style="color: #5b616e; margin-right: 10px" icon="icon-filter" size="18" />
         </span>
         {{ $t('kyc.filter.filter') }}
       </div>
     </div>
-    <div v-if="this.$route.name !=='Category'">
+    <div v-if="this.$route.name !== 'Category'">
       <el-dropdown class="sort" trigger="click" @command="handleSort">
         <span class="sort-title" style="font-size: 16px">
           <base-icon icon="icon-sort" style="color: #5b616e; margin-right: 10px" size="18" class="icon" /> {{ $t('kyc.filter.sort') }}
         </span>
         <el-dropdown-menu class="header-downloadapp dropdown-sort" slot="dropdown">
-          <el-dropdown-item v-for="(value, index) in sortMetamart" :key="index" :class="sortActive === value.command ? 'active' : null" :command="value.command" :divided="value.divided">
+          <el-dropdown-item
+            v-for="(value, index) in sortMetamart"
+            :key="index"
+            :class="sortActive === value.command ? 'active' : null"
+            :command="value.command"
+            :divided="value.divided"
+          >
             <span class="be-flex">
               <span class="be-flex-item">
                 {{ value.label }}
@@ -104,10 +116,14 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <el-button v-if="this.$route.name === 'Collection'" class="add-btn add-collection ml-auto" @click="$emit('click', 'popup-create-collection')">{{ $t('button.add-new') }}</el-button>
-    <el-button v-if="this.$route.name === 'Category'" class="add-btn ml-auto" @click="$emit('openCategoryPopup')">{{ $t('button.add-new') }}</el-button>
+    <el-button v-if="this.$route.name === 'Collection'" class="add-btn add-collection ml-auto" @click="$emit('click', 'popup-create-collection')">{{
+      $t('button.add-new')
+    }}</el-button>
+    <el-button v-if="this.$route.name === 'Banner'" class="add-btn add-collection ml-auto" @click="$emit('click', 'popup-banner')">{{ $t('button.add-new') }}</el-button>
+    <el-button v-if="this.$route.name === 'Category'" class="add-btn add-collection ml-auto" @click="$emit('openCategoryPopup')">{{ $t('button.add-new') }}</el-button>
+    <el-button v-if="$route.name === 'Template'" class="add-btn add-collection ml-auto" @click="$emit('openPopupTemplate')">{{ $t('button.add-new') }}</el-button>
     <div v-if="this.$route.name === 'Nft'" class="ml-auto">
-      <el-dropdown trigger="click" @command="handleCommand">
+      <!-- <el-dropdown trigger="click" @command="handleCommand">
         <el-button style="width: auto !important; margin-right: 12px">
           <span>{{ $t('button.action') }} | <i class="el-icon-arrow-down"></i></span>
         </el-button>
@@ -115,8 +131,11 @@
           <el-dropdown-item command="public-on-chain">Public On-chain</el-dropdown-item>
           <el-dropdown-item command="delete-nft">Delete</el-dropdown-item>
         </el-dropdown-menu>
-      </el-dropdown>
-      <el-dropdown trigger="click" @command="handleCommand">
+      </el-dropdown> -->
+
+      <el-button class="add-btn add-collection ml-auto" @click="handleCommand('add-nft')">{{ $t('button.add-new') }}</el-button>
+
+      <!-- <el-dropdown trigger="click" @command="handleCommand">
         <div class="be-flex align-center">
           <el-button class="add-btn" style="width: auto !important">
             <span>{{ $t('button.add-new') }} | <i class="el-icon-arrow-down"></i></span>
@@ -126,38 +145,36 @@
           <el-dropdown-item command="add-nft">{{ $t('button.add-new') }}</el-dropdown-item>
           <el-dropdown-item>{{ $t('button.import-file') }}</el-dropdown-item>
         </el-dropdown-menu>
-      </el-dropdown>
-      <el-button class="excel-btn" style="width: auto !important; padding: 5px 12px 10px">
+      </el-dropdown> -->
+      <!-- <el-button class="excel-btn" style="width: auto !important; padding: 5px 12px 10px">
         <div class="be-flex align-center">
-          <!-- <base-icon icon="icon-table" style="display: inline-flex" size="22" /> -->
           <span
             ><p style="font-size: 16px"><base-icon icon="icon-excel" size="22" /></p
           ></span>
         </div>
-      </el-button>
+      </el-button> -->
     </div>
-    <popup-filter-collection 
-      :creators="creators" 
-      :categories="categories" 
-      :networks="networks" 
+    <popup-filter-collection
+      :creators="creators"
+      :categories="categories"
+      :networks="networks"
       @reset-query="resetQuery"
       @load-more-creator="loadMoreCreator"
       @remote-creator="remoteCreatorList"
       @remote-category="remoteCategoryList"
     />
-    <popup-filter-nft 
-      :collections="collections" 
-      :creators="creators" 
-      :categories="categories" 
-      :networks="networks" 
+    <popup-filter-nft
+      :collections="collections"
+      :creators="creators"
+      :categories="categories"
+      :networks="networks"
       @reset-query="resetQuery"
-      @load-more-collection="loadMoreCollection" 
+      @load-more-collection="loadMoreCollection"
       @remote-collection="remoteCollectionList"
       @load-more-creator="loadMoreCreator"
       @remote-creator="remoteCreatorList"
       @remote-category="remoteCategoryList"
     />
-  
   </div>
 </template>
 
@@ -171,7 +188,7 @@
   import { NftRepository } from '@/services/repositories/nft'
   import getRepository from '@/services'
   import { debounce, filter, trim } from 'lodash'
-  
+
   const apiNft: NftRepository = getRepository('nft')
 
   @Component({
@@ -200,7 +217,7 @@
 
     get sortMetamart(): Array<any> {
       let sorts: Array<Record<string, any>> = []
-      if (this.$route.name === "Collection") {
+      if (this.$route.name === 'Collection') {
         sorts = [
           {
             command: 'CREATED_AT_DESC',
@@ -215,7 +232,7 @@
             i18n: 'nft.sort.oldest'
           }
         ]
-      } else if (this.$route.name === "Nft") {
+      } else if (this.$route.name === 'Nft') {
         sorts = [
           {
             command: 'ITEM',
@@ -252,10 +269,25 @@
             label: this.$i18n.t('nft.sort.status'),
             divided: false,
             i18n: 'nft.sort.status'
+          }
+        ]
+      } else if (this.$route.name === 'Banner') {
+        sorts = [
+          {
+            command: 'NAME',
+            label: this.$i18n.t('nft.sort.name'),
+            divided: false,
+            i18n: 'nft.sort.name'
           },
+          {
+            command: 'POSITION',
+            label: this.$i18n.t('nft.sort.position'),
+            divided: false,
+            i18n: 'nft.sort.position'
+          }
         ]
       }
-      
+
       return sorts
     }
 
@@ -283,7 +315,6 @@
     }
     handleChange(): void {
       this.$emit('searchData', this.filter.value.search)
-      console.log(this.filter.value.search)
     }
     handleReload(): void {
       this.$emit('reload')
@@ -336,7 +367,7 @@
       businessPartner: 'SYSTEM',
       search: ''
     }
-    loadMoreCreator(): void { 
+    loadMoreCreator(): void {
       this.queryCreatorList.limit += 20
       const a = debounce(this.getCreatorList, 500)
       a(this.queryCreatorList.search)
@@ -346,8 +377,9 @@
       const a = debounce(this.getCreatorList, 500)
       a(query)
     }
-    async getCreatorList(search: string):Promise<void> {
-      await apiNft.getListCreator({
+    async getCreatorList(search: string): Promise<void> {
+      await apiNft
+        .getListCreator({
           page: this.queryCreatorList.page,
           limit: this.queryCreatorList.limit,
           businessPartner: 'SYSTEM',
@@ -357,7 +389,7 @@
           this.creators = res.content
         })
         .catch(e => {
-          console.log(e);
+          console.log(e)
         })
     }
 
@@ -366,21 +398,24 @@
       const a = debounce(this.getCategoryList, 500)
       a(query)
     }
-    async getCategoryList(search: string):Promise<void> {
-      await apiNft.getCategories({
-        search: trim(search) ? trim(search) : null
-      })
+    async getCategoryList(search: string): Promise<void> {
+      await apiNft
+        .getCategories({
+          search: trim(search) ? trim(search) : null
+        })
         .then((res: any) => {
           if (trim(search)) {
             this.categories = res.content
-            this.categories.forEach(function(v){ delete v.levelDepth });
+            this.categories.forEach(function (v) {
+              delete v.levelDepth
+            })
           } else {
             this.categories = []
             this.recursiveCategoryChild(res.content)
           }
         })
         .catch(e => {
-          console.log(e);
+          console.log(e)
         })
     }
     recursiveCategoryChild(list: Array<Record<string, any>>): void {
@@ -394,8 +429,9 @@
     }
 
     //api network
-    async getNetworkList():Promise<void> {
-      await apiNft.getListNetwork()
+    async getNetworkList(): Promise<void> {
+      await apiNft
+        .getListNetwork()
         .then((res: any) => {
           this.networks = res.content
         })

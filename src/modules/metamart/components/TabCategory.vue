@@ -3,7 +3,7 @@
   <div class="w-100 bg-white wallet-table">
     <div class="wallet-table__below">
       <div class="wrapper">
-        <div class="group-name">CATEGORY</div>
+        <div class="group-name">{{ $t('nft.sort.category')}}</div>
         <!-- <div class="group-code">Mã nhóm</div>
       <div class="group-member">Số thành viên</div> -->
         <div class="group-placeholder"></div>
@@ -14,7 +14,7 @@
           <div style="margin-right: 400px">Số thành viên</div>
         </li> -->
         <li v-for="value in data" :key="value.id">
-        <unit-item
+          <unit-item
             ref="unitItem"
             @edit="editItem"
             @detail="detailItem"
@@ -30,8 +30,8 @@
       </ul>
       <!-- <base-pagination :table="table" :info="'nhóm'" @sizeChange="handleSizeChange" @currentChange="handleCurrentChange"/> -->
     </div>
-    <popup-create-category :idCategory="parentIdProp" :listCategory="listCategory" @load="loadData"/>
-    <popup-edit-category :dataDetail="dataDetail" @load="loadData" :listCategory="listCategory"/>
+    <popup-create-category :idCategory="parentIdProp" :listCategory="listCategory" @load="loadData" />
+    <popup-edit-category :dataDetail="dataDetail" @load="loadData" :listCategory="listCategory" />
     <popup-delete :idDelete="idDelete" />
   </div>
 </template>
@@ -44,7 +44,6 @@
   import getRepository from '@/services'
   import { NftRepository } from '@/services/repositories/nft'
   import PopupDelete from './popup/PopupDelete.vue'
-
   @Component({
     components: {
       UnitItem,
@@ -109,7 +108,6 @@
     }
   }
 </script>
-
 <style scoped lang="scss">
   .main {
     // min-height: 200px;
@@ -125,7 +123,6 @@
       padding-left: 45px;
       display: flex;
       align-items: center;
-
       .group-code {
         width: 112px;
       }

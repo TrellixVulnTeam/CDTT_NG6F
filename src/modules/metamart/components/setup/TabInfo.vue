@@ -1,6 +1,6 @@
 <template>
   <div class="tab-info">
-    <form-info @selectCollection="handleSelectCollection" :typePopup="typePopup" />
+    <form-info @selectCollection="handleSelectCollection" @findCollection="handleFindCollection" :typePopup="typePopup" />
     <preview-nft />
   </div>
 </template>
@@ -16,6 +16,10 @@
 
     handleSelectCollection(collection: Record<string, any>): void {
       this.$emit('selectCollection', collection)
+    }
+
+    handleFindCollection(text: string): void {
+      this.$emit('findCollection', text)
     }
   }
 </script>

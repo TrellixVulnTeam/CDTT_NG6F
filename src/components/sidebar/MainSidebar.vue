@@ -83,7 +83,7 @@
             </router-link>
           </li>
         </ul>
-        <ul class="module">
+        <ul v-if="checkPemission('NFT', ['view-menu-nft'])" class="module">
           <li class="module-item" @click="isOpenPopupNft = false">
             <router-link :to="{ name: 'NftMain' }">
               <div class="sack_avatar">

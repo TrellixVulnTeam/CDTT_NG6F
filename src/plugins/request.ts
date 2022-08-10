@@ -172,6 +172,9 @@ request.interceptors.response.use(
       if (data.status === 'Invalid verification code') {
         message = i18n.tc('notify.verify-fail')
       }
+      if (data.status == 'CATEGORY_CONTAIN_DATA') {
+        message = i18n.tc('popup-delete-category-error')
+      }
       if (data.status === 'BAD_REQUEST' && data.message === 'This investor is already listed') {
         message = i18n.tc('notify.buyer-already-listed')
       }
@@ -180,11 +183,28 @@ request.interceptors.response.use(
         message = i18n.tc('notify.incorrect-old-pass')
       }
 
-      if (!message) {
-        message = i18n.tc('notify.' + data.status)
+      if (data.status === 'DONT_DELETE' && data.message === "You can't delete this" && includes(config.url, 'bo/collection')) {
+        message = i18n.tc('notify.collection-has-nft')
       }
 
-      Message.error({ message, duration: 5000 })
+      if (data.status === 'DONT_DELETE' && data.message === "You can't delete this" && includes(config.url, 'bo/item')) {
+        message = i18n.tc('notify.invalid-delete-nft')
+      }
+
+      //create nft
+      if (data.status === 'INVALID_ROYALTIES_FEE') {
+        const maxCreatorFee = data.data.maxCreatorFee
+        message = i18n.t('notify.invalid-royal-fee', { maxCreatorFee })
+      }
+      if (data.message === 'Parent category invalid !') {
+        message = i18n.tc('notify.create-category-fail')
+      }
+      // if (!message) {
+      //   message = i18n.tc('notify.' + data.status)
+      // }
+      if (message) {
+        Message.error({ message, duration: 5000 })
+      }
     }
     if (!error.response || error.response.status >= 500) {
       // error.message = 'Không thể kết nối đến máy chủ'
