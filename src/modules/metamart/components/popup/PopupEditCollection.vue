@@ -227,6 +227,7 @@
                 :remote-method="remoteCategoryList" 
                 v-model="collection.categoryIds" 
                 :placeholder="$t('metamart.collection.placeholder.category')"
+                :disabled="isDisable"
               >
                 <el-option
                   v-for="(option, index) in categories"
@@ -253,6 +254,7 @@
                 clearable 
                 v-model="collection.templateId" 
                 :placeholder="$t('metamart.collection.placeholder.template')"
+                :disabled="isDisable"
               >
                 <div class="" v-infinite-scroll="loadMoreTemplate" infinite-scroll-delay="500">
                   <el-option v-for="option in templates" :label="option.templateName" :value="option.id" :key="option.id"></el-option>
