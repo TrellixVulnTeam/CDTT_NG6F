@@ -98,7 +98,7 @@
       }
     }
     .popup-content {
-      background-color: #f6f8fc;
+      background-color: #ffffff;
       padding-bottom: 24px;
       .title-form {
         @include text(24px, 32px, 600, #0a0b0d);

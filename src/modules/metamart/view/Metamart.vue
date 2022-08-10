@@ -61,7 +61,7 @@
     />
 
     <tab-template v-if="$route.name === 'Template'" />
-    <tab-banner v-if="$route.name === 'Banner'" @edit="openEditBanner" />
+    <tab-banner v-if="$route.name === 'Banner'" @edit="openEditBanner" :filter="filterBanner" />
     <popup-choosetype @continues="handleToPopupform($event)" />
     <popup-form @collection="handleOpenCreate($event)" />
     <popup-create />
@@ -77,6 +77,7 @@
       :medias="detailNft.medias"
       :policies="detailNft.policies"
     />
+    <popup-banner :type="bannerType" :banner="bannerEdit" />
   </div>
 </template>
 
@@ -142,6 +143,11 @@
   })
   export default class Metamart extends Mixins(PopupMixin) {
     @bcNft.Mutation('SET_DETAIL_NFT') setDetailNft!: (PopupNftDetail: Record<string, any>) => void
+    filterBanner: Record<string, any> = {
+      search: '',
+      orderBy: 'NAME',
+      orderType: 'ASC'
+    }
     bannerEdit: Record<string, any> = {}
     bannerType = 'add'
     listCategory: Array<Record<string, any>> = []
@@ -197,13 +203,21 @@
         this.getNftItem()
       }
     }, 300)
+    debounceForBanner = debounce((payload: string, _this: any): void => {
+      _this.filterBanner.search = payload
+    }, 300)
     handleSearch(data: any): void {
-      if (!data) {
+      // if (!data) {
+      //   this.debounceInit()
+      // }
+      // console.log(this.params)
+      if (this.$route.name !== 'Banner') {
+        this.searchData = trim(data)
         this.debounceInit()
+      } else {
+        const searchData = trim(data)
+        this.debounceForBanner(searchData, this)
       }
-      this.searchData = trim(data)
-      console.log(this.params)
-      this.debounceInit()
     }
     handleGetCategoryId(id: number | string): void {
       this.idDelete = id
@@ -340,6 +354,8 @@
         this.getCollection()
       } else if (this.$route.name === 'Nft') {
         this.getNftItem()
+      } else if (this.$route.name === 'Banner') {
+        this.filterBanner.orderBy = command
       }
     }
 

@@ -269,6 +269,21 @@
             i18n: 'nft.sort.status'
           }
         ]
+      } else if (this.$route.name === 'Banner') {
+        sorts = [
+          {
+            command: 'NAME',
+            label: this.$i18n.t('nft.sort.name'),
+            divided: false,
+            i18n: 'nft.sort.name'
+          },
+          {
+            command: 'POSITION',
+            label: this.$i18n.t('nft.sort.position'),
+            divided: false,
+            i18n: 'nft.sort.position'
+          }
+        ]
       }
 
       return sorts
@@ -298,7 +313,6 @@
     }
     handleChange(): void {
       this.$emit('searchData', this.filter.value.search)
-      console.log(this.filter.value.search)
     }
     handleReload(): void {
       this.$emit('reload')

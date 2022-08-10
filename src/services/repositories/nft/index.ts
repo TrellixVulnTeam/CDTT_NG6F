@@ -222,4 +222,12 @@ export class NftRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
+  async deleteBanner(bannerId: number, params: Record<string, any>): Promise<any> {
+    try {
+      const rs = await request.delete(`${this.prefix}/banner/${bannerId}`, { data: params })
+      return Promise.resolve(rs.data)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
 }

@@ -10,16 +10,21 @@
           <span class="sub"> {{ data.displayName.subtitle }}</span>
           <span class="required" v-if="data.displayName.required" style="color: #cf202f"> *</span>
         </p>
-        <el-input v-model="data.displayName.value" :placeholder="data.displayName.placeholder" class="content-row__input"></el-input>
+        <el-input
+          v-model="data.displayName.value"
+          :placeholder="data.displayName.placeholder"
+          class="content-row__input"
+          :class="{ red: data.displayName.alert === false }"
+        ></el-input>
         <p class="content-row__alert" v-if="data.displayName.alert === false">{{ alert }}</p>
       </div>
       <div class="content-row">
         <p class="content-row__title">
-          <span class="primary">{{ data.descript.title }}</span>
+          <span class="primary">{{ data.descript.title }} &nbsp;</span>
           <span class="sub">{{ data.descript.subtitle }}</span>
           <span class="required" v-if="data.descript.required" style="color: #cf202f"> *</span>
         </p>
-        <el-input v-model="data.descript.value" :placeholder="data.descript.placeholder" class="content-row__input"></el-input>
+        <el-input v-model="data.descript.value" :placeholder="data.descript.placeholder" class="content-row__input" :class="{ red: data.descript.alert === false }"></el-input>
         <p class="content-row__alert" v-if="data.descript.alert === false">{{ alert }}</p>
       </div>
       <div class="content-row">
@@ -28,9 +33,10 @@
           <span class="sub"> {{ data.upload.subtitle }}</span>
           <span class="required" v-if="data.upload.required" style="color: #cf202f"> *</span>
         </p>
-        <p class="content-row__tip">PNG, JPG, GIF. Upload size: 464x308 (Max 5mb).</p>
+        <p class="content-row__tip">{{ data.upload.placeholder }}</p>
         <el-upload
           class="content-row__upload"
+          :class="{ red: data.upload.alert === false }"
           drag
           action="https://jsonplaceholder.typicode.com/posts/"
           :show-file-list="false"
@@ -40,7 +46,9 @@
           accept=".png, .jpg, .gif"
           :on-change="handleUpload"
         >
-          <div class="el-upload__text" v-if="data.upload.value === ''">Drag and drop or <em>click to upload</em></div>
+          <div class="el-upload__text" v-if="data.upload.value === ''">
+            {{ $t('metamart.banner.popup.placeholder.upload-inner') }} <em>{{ $t('metamart.banner.popup.placeholder.upload-inner-em') }}</em>
+          </div>
           <div class="preview" v-else>
             <img :src="data.upload.value" style="width: 100%; object-fit: cover" />
             <base-icon icon="icon-delete-circle" class="preview-del" size="40" @click.native.stop="handleDeleteImage" />
@@ -54,7 +62,7 @@
           <span class="sub"> {{ data.url.subtitle }}</span>
           <span class="required" v-if="data.url.required" style="color: #cf202f"> *</span>
         </p>
-        <el-input v-model="data.url.value" :placeholder="data.url.placeholder" class="content-row__input"></el-input>
+        <el-input v-model="data.url.value" :placeholder="data.url.placeholder" class="content-row__input" :class="{ red: data.url.alert === false }"></el-input>
         <p class="content-row__alert" v-if="data.url.alert === false">{{ alert }}</p>
       </div>
       <div class="content-row">
@@ -63,7 +71,13 @@
           <span class="sub"> {{ data.position.subtitle }}</span>
           <span class="required" v-if="data.position.required" style="color: #cf202f"> *</span>
         </p>
-        <el-input v-model="data.position.value" :placeholder="data.position.placeholder" class="content-row__input"></el-input>
+        <el-input
+          v-model="data.position.value"
+          :placeholder="data.position.placeholder"
+          class="content-row__input"
+          @keypress.native="onlyNumber($event)"
+          @keyup.native="numberFormat($event)"
+        ></el-input>
       </div>
     </div>
     <div class="footer" slot="footer">
@@ -111,25 +125,25 @@
     uploadType = ''
     data = {
       displayName: {
-        title: 'Display name',
+        title: this.$i18n.t('metamart.banner.popup.display-name'),
         subtitle: '',
         value: '',
-        placeholder: 'Enter display name',
+        placeholder: this.$i18n.t('metamart.banner.popup.placeholder.name'),
         required: true,
         alert: true
       },
       descript: {
-        title: 'Description',
-        subtitle: ' (Optional)',
-        placeholder: `e. g. "After purchasing you'll be able to get the real T-Shirt"`,
+        title: this.$i18n.t('metamart.banner.popup.descript.primary'),
+        subtitle: this.$i18n.t('metamart.banner.popup.descript.sub'),
+        placeholder: this.$i18n.t('metamart.banner.popup.placeholder.description'),
         value: '',
         required: true,
         alert: true
       },
       upload: {
-        title: 'Upload file',
+        title: this.$i18n.t('metamart.banner.popup.upload'),
         subtitle: '',
-        placeholder: 'PNG, JPG, GIF. Upload size: 464x308 (Max 5mb).',
+        placeholder: this.$i18n.t('metamart.banner.popup.placeholder.upload'),
         value: '',
         required: true,
         alert: true
@@ -137,18 +151,24 @@
       url: {
         title: 'URL',
         subtitle: '',
-        placeholder: 'Enter link',
+        placeholder: this.$i18n.t('metamart.banner.popup.placeholder.link'),
         value: '',
         required: true,
         alert: true
       },
       position: {
-        title: 'Position',
+        title: this.$i18n.t('metamart.banner.popup.position'),
         subtitle: '',
-        placeholder: `e. g. “1”`,
+        placeholder: this.$i18n.t('metamart.banner.popup.placeholder.position'),
         value: '',
         required: false,
         alert: true
+      }
+    }
+    onlyNumber(event: KeyboardEvent): void {
+      let keyCode = event.keyCode ? event.keyCode : event.which
+      if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
+        event.preventDefault()
       }
     }
     handleCancel(): void {
@@ -159,6 +179,7 @@
       })
     }
     handleClose(): void {
+      this.handleReset()
       this.setOpenPopup({
         popupName: 'popup-template',
         isOpen: false
@@ -351,6 +372,11 @@
             .el-input__inner {
               height: 48px;
             }
+            &.red {
+              .el-input__inner {
+                border-color: #cf202f;
+              }
+            }
           }
           &__upload {
             .el-upload {
@@ -379,9 +405,15 @@
                 }
               }
             }
+            &.red {
+              .el-upload-dragger {
+                border-color: #cf202f;
+              }
+            }
           }
           &__tip {
             @include text(12px, 16px, 400, #89909e);
+            margin-bottom: 8px;
           }
           &__alert {
             margin-top: 4px;

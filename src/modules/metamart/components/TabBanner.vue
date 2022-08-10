@@ -3,7 +3,7 @@
     <base-table
       :data="listBanners"
       :showPagination="true"
-      :paginationInfo="paginationInfo"
+      :paginationInfo="$t('metamart.banner.table.pagination-info')"
       :table="table"
       @sizeChange="handleSizeChange"
       @currentChange="handleCurrentChange"
@@ -18,12 +18,12 @@
           <p class="banner-table__name">{{ sc.row.objectName }}</p>
         </template>
       </el-table-column>
-      <el-table-column label="link" width="350" align="left">
+      <el-table-column :label="$t('metamart.banner.table.link')" width="350" align="left">
         <template slot-scope="sc">
           <p class="banner-table__link">{{ sc.row.objectUrl !== null ? sc.row.objectUrl : '' }}</p>
         </template>
       </el-table-column>
-      <el-table-column label="position" width="165" align="right">
+      <el-table-column :label="$t('metamart.banner.table.position')" width="165" align="right">
         <template slot-scope="sc">
           <span class="banner-table__position">{{ sc.row.objectPosition }}</span>
         </template>
@@ -32,22 +32,38 @@
         <template slot-scope="sc">
           <div class="banner-table__actions">
             <base-icon icon="icon-edit" size="20" class="cursor banner-table__actions--edit" @click.native.stop="handleEdit(sc.row)" />
-            <base-icon icon="icon-delete-new" size="20" class="cursor banner-table__actions--del" @click.native.stop="handleDelete" />
+            <base-icon icon="icon-delete-new" size="20" class="cursor banner-table__actions--del" @click.native.stop="openDeleteBanner(sc.row)" />
           </div>
         </template>
       </el-table-column>
     </base-table>
+    <popup-delete-banner :banner="bannerDelete" @confirm="openVerifyEmail" />
+    <popup-verify-email @submit="handleSubmitCode" />
   </div>
 </template>
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator'
+  import { Component, Mixins, Prop, Vue, Watch } from 'vue-property-decorator'
   import { NftRepository } from '@/services/repositories/nft'
   import getRepository from '@/services'
   import EventBus from '@/utils/eventBus'
+  import PopupDeleteBanner from '@/modules/metamart/components/popup/PopupDeleteBanner.vue'
+  import PopupMixin from '@/mixins/popup'
+  import PopupVerifyEmail from '@/modules/metamart/components/popup/PopupVerifyEmail.vue'
+  import { namespace } from 'vuex-class'
+  const beAuth = namespace('beAuth')
   const apiNft: NftRepository = getRepository('nft')
-  @Component
-  export default class TabBanner extends Vue {
-    paginationInfo = 'banners'
+  @Component({
+    components: {
+      PopupDeleteBanner,
+      PopupVerifyEmail
+    }
+  })
+  export default class TabBanner extends Mixins(PopupMixin) {
+    @Prop({ required: true, type: Object }) filter!: Record<string, any>
+    @beAuth.State('user') userInfo!: Record<string, any>
+    bannerDelete: Record<string, any> = {}
+    bannerId!: number
+    verifyCode = ''
     query = {
       page: 1,
       limit: 10,
@@ -61,12 +77,23 @@
       total: 0
     }
     listBanners: Array<Record<string, any>> = []
+    @Watch('filter', { deep: true }) watchFilter(): void {
+      console.log('82', this.filter)
+      this.handleFilter()
+    }
     created(): void {
       this.getListBanners()
-      EventBus.$on('banner-completed', this.getListBanners)
+      EventBus.$on('banner-completed', this.handleReload)
     }
     indexMethod(index: number): number {
       return (this.query.page - 1) * this.query.limit + index + 1
+    }
+    handleFilter(): void {
+      this.query = {
+        ...this.query,
+        ...this.filter
+      }
+      this.getListBanners()
     }
     async getListBanners(): Promise<void> {
       try {
@@ -107,6 +134,84 @@
         popupName: 'popup-banner',
         banner: payload
       })
+    }
+    handleReload(): void {
+      this.query = {
+        page: 1,
+        limit: 10,
+        search: '',
+        orderBy: 'NAME',
+        orderType: 'ASC'
+      }
+      this.getListBanners()
+    }
+    openDeleteBanner(banner: Record<string, any>): void {
+      this.bannerDelete = banner
+      this.setOpenPopup({
+        popupName: 'popup-delete-banner',
+        isOpen: true
+      })
+    }
+    openVerifyEmail(): void {
+      this.bannerId = this.bannerDelete.id
+      this.bannerDelete = {}
+      this.setOpenPopup({
+        popupName: 'popup-metamart-verify-email',
+        isOpen: true
+      })
+    }
+    handleSubmitCode(payload: string): void {
+      console.log(payload, '136')
+      this.verifyCode = payload
+      this.setOpenPopup({
+        popupName: 'popup-metamart-verify-email',
+        isOpen: false
+      })
+      this.handleDeleteBanner()
+    }
+    async handleDeleteBanner(): Promise<void> {
+      const params = {
+        verificationCode: this.verifyCode,
+        type: 'EMAIL',
+        email: this.userInfo.email
+      }
+      try {
+        const rs = await apiNft.deleteBanner(this.bannerId, params)
+        this.$message({
+          message: '' + this.$i18n.t('metamart.banner.delete-success'),
+          duration: 3500,
+          type: 'success'
+        })
+        this.handleReload()
+        console.log(rs, '158')
+      } catch (error: any) {
+        if (error.statusCode === 400) {
+          switch (error.status) {
+            case 'INVALID_VERIFICATION':
+              this.$message({
+                message: '' + this.$i18n.t('metamart.banner.delete-invalid-code'),
+                duration: 3500,
+                type: 'error'
+              })
+              break
+            case 'EXPIRED_VERIFICATION':
+              this.$message({
+                message: '' + this.$i18n.t('metamart.banner.delete-expired-code'),
+                duration: 3500,
+                type: 'error'
+              })
+              break
+            case 'USER_LOCKED':
+              this.$message({
+                message: '' + this.$i18n.t('metamart.banner.delete-locked'),
+                duration: 3500,
+                type: 'error'
+              })
+              this.$router.push({ name: 'login' })
+          }
+        }
+        console.log(error)
+      }
     }
   }
 </script>
