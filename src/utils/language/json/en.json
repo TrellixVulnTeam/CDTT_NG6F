@@ -1431,7 +1431,7 @@
         "placeholder": {
           "name": "Enter display name",
           "description": "e. g. \"After purchasing you'll be able to get the real T-Shirt\"",
-          "upload": "PNG, JPG, GIF. Upload size: 464x308 (Max 5mb).",
+          "upload": "PNG, JPG, GIF, MP4. Upload size: 464x308 (Max 5mb).",
           "upload-inner": "Drag and drop or",
           "upload-inner-em": "Click to upload",
           "link": "Enter link",

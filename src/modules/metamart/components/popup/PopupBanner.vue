@@ -51,14 +51,20 @@
           :file-list="fileList"
           :multiple="false"
           :auto-upload="false"
-          accept=".png, .jpg, .gif"
+          accept=".png, .jpg, .gif, .mp4"
           :on-change="handleUpload"
         >
           <div class="el-upload__text" v-if="data.upload.value === ''">
             {{ $t('metamart.banner.popup.placeholder.upload-inner') }} <em>{{ $t('metamart.banner.popup.placeholder.upload-inner-em') }}</em>
           </div>
-          <div class="preview" v-else>
-            <img :src="data.upload.value" style="width: 100%; object-fit: cover; height: 100%" />
+          <div class="preview" v-if="data.upload.value !== '' && uploadType === 'IMAGE'" @click.stop>
+            <img :src="data.upload.value" />
+            <base-icon icon="icon-delete-circle" class="preview-del" size="40" @click.native.stop="handleDeleteImage" />
+          </div>
+          <div class="preview" v-if="data.upload.value !== '' && uploadType === 'VIDEO'" @click.stop>
+            <video controls>
+              <source :src="data.upload.value" :type="fileType" />
+            </video>
             <base-icon icon="icon-delete-circle" class="preview-del" size="40" @click.native.stop="handleDeleteImage" />
           </div>
         </el-upload>
@@ -119,12 +125,13 @@
       }
     })
     banner!: Record<string, any>
-    bannerCaptured: Record<string, any> = {}
+    // bannerCaptured: Record<string, any> = {}
     @bcAuth.State('user') user!: Record<string, any>
     userId = this.$store.state.beAuth.user.userId
     fileList = []
     disabled = false
     uploadType = ''
+    fileType = ''
     data = {
       displayName: {
         title: this.$i18n.t('metamart.banner.popup.display-name'),
@@ -194,6 +201,7 @@
       }
     }
     async handleUpload(file: Record<string, any>): Promise<void> {
+      this.fileType = file.raw.type
       if (file.raw.type.indexOf('image') !== -1) {
         this.uploadType = 'IMAGE'
       } else if (file.raw.type.indexOf('video') !== -1) {
@@ -212,6 +220,8 @@
     }
     handleDeleteImage(): void {
       this.data.upload.value = ''
+      this.uploadType = ''
+      this.fileType = ''
     }
     handleValidate(): void {
       const keys = Object.keys(this.data)
@@ -329,24 +339,26 @@
       }
       this.disabled = false
       this.uploadType = ''
+      this.fileType = ''
     }
     handleInitBanner(): void {
       let descript: any = this.banner.objectShortDescription
       descript = JSON.parse(descript)
       const lang = '' + window.localStorage.getItem('bc-lang')
       this.uploadType = this.banner.objectAvatarType
+      this.fileType = this.uploadType === 'VIDEO' ? 'video/mp4' : ''
       this.data.descript.value = descript[lang]
       this.data.displayName.value = this.banner.objectName
       this.data.upload.value = this.banner.objectAvatar
       this.data.url.value = this.banner.objectUrl
       this.data.position.value = this.banner.objectPosition
-      this.bannerCaptured = {
-        displayName: this.data.displayName.value,
-        description: this.data.descript.value,
-        upload: this.data.upload.value,
-        position: this.data.position.value,
-        url: this.data.url.value
-      }
+      // this.bannerCaptured = {
+      //   displayName: this.data.displayName.value,
+      //   description: this.data.descript.value,
+      //   upload: this.data.upload.value,
+      //   position: this.data.position.value,
+      //   url: this.data.url.value
+      // }
     }
     deleteInPopup(): void {
       this.setOpenPopup({
@@ -417,8 +429,8 @@
                 align-items: center;
                 position: relative;
                 .preview {
-                  width: 464px;
-                  height: 308px;
+                  width: auto;
+                  height: auto;
                   border: 1px solid #dbdbdb;
                   position: absolute;
                   border-radius: 8px;
@@ -426,6 +438,13 @@
                   justify-content: center;
                   align-content: center;
                   img {
+                    object-fit: cover;
+                    width: 464px;
+                    height: 308px;
+                    border-radius: 8px;
+                  }
+                  video {
+                    height: 308px;
                     border-radius: 8px;
                   }
                   &-del {
