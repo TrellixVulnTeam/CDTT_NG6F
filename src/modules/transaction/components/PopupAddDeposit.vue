@@ -30,7 +30,7 @@
             <el-input
               v-model="form.amount"
               @input="handleInputAmount"
-              :placeholder="$t('placeholder.amount-deposit')"
+              :placeholder="$t('placeholder.amount-deposit-USDT')"
               @keypress.native="onlyNumber($event, 'amount')"
               @keyup.native="numberFormat($event)"
               clearable
