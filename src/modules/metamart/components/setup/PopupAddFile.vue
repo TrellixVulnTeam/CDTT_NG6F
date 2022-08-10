@@ -9,7 +9,7 @@
           <el-input v-model="form.metaName" :placeholder="$t('label_name')" />
         </el-form-item>
         <el-form-item :label="$t('label_file-attach')" prop="fileName">
-          <div v-if="isShowUpload" class="text-disable text-xs">DOC, PDF, XLS (Max 100mb)</div>
+          <div v-if="isShowUpload" class="text-disable text-xs">DOC, PDF, XLS</div>
 
           <el-upload
             v-show="isShowUpload"

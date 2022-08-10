@@ -38,7 +38,7 @@
 
       <!-- thumbnail -->
       <el-form-item :label="$t('label_thumbnail')" class="is-required">
-        <div class="text-disable text-xs">PNG, JPG, JPEG, GIF (Max 20mb).</div>
+        <div class="text-disable text-xs">PNG, JPG, JPEG, GIF</div>
 
         <el-upload
           v-show="!form.thumb"
@@ -68,7 +68,7 @@
 
       <!-- list file -->
       <el-form-item :label="$t('label_upload-file')" class="is-required">
-        <div class="text-disable text-xs">PNG, JPG, JPEG, GIF, MP4 (Max 20mb).</div>
+        <div class="text-disable text-xs">PNG, JPG, JPEG, GIF, MP4</div>
 
         <el-upload
           v-show="!form.medias.length"
