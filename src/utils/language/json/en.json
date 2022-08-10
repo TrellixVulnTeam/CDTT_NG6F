@@ -378,7 +378,8 @@
     "EXPIRED_VERIFICATION": "Expired verification code",
     "USER_LOCKED": "Account has been locked",
     "collection-has-nft": "Unable to delete collection containing active item",
-    "create-category-success": "Create category successfully"
+    "create-category-success": "Create category successfully",
+    "invalid-royal-fee": "Royalty fee must be less than {maxCreatorFee}%"
   },
   "logout": {
     "title": "Sign out",

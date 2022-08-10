@@ -358,7 +358,8 @@
     "USER_LOCKED": "Tài khoản của bạn đã bị khóa",
     "collection-has-nft": "Không thể xóa bộ sưu tập có chứa sản phẩm đang hoạt động",
     "invalid-code": "Mã xác thực không chính xác",
-    "create-category-success": "Tạo danh mục thành công"
+    "create-category-success": "Tạo danh mục thành công",
+    "invalid-royal-fee": "Phí bản quyền phải nhỏ hơn {maxCreatorFee}%"
   },
   "logout": {
     "title": "Đăng xuất",
