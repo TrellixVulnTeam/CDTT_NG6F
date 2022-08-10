@@ -62,14 +62,14 @@
       }
       try {
         await apiUser.getEmailVerification(params)
-        this.$message({
-          message: 'Code sent, please check your email',
-          duration: 3500,
-          type: 'success'
-        })
         this.setOpenPopup({
           popupName: 'popup-delete-banner',
           isOpen: false
+        })
+        this.$message({
+          message: '' + this.$i18n.t('metamart.banner.sent-code'),
+          duration: 3500,
+          type: 'success'
         })
         this.$emit('confirm')
       } catch (error) {

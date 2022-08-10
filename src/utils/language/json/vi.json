@@ -1411,6 +1411,7 @@
         "position": "vị trí",
         "pagination-info": "banner"
       },
+      "sent-code": "Đã gửi mã, vui lòng kiểm tra email của bạn",
       "delete-success": "Bạn đã xóa banner thành công",
       "delete-invalid-code": "Mã xác thực không chính xác",
       "delete-expired-code": "Mã xác thực đã hết hiệu lực",

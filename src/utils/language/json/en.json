@@ -1420,6 +1420,7 @@
         "position": "Position",
         "pagination-info": "banners"
       },
+      "sent-code": "Code sent, please check your email",
       "delete-success": "You have successfully deleted the banner",
       "delete-invalid-code": "Incorrect verification code",
       "delete-expired-code": "Expired verification code",
