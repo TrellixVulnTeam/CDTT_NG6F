@@ -44,14 +44,12 @@
       console.log('close')
     }
     handleCancel(): void {
-      console.log('cancel')
       this.setOpenPopup({
         popupName: 'popup-delete-banner',
         isOpen: false
       })
     }
     handleConfirm(): void {
-      console.log('create')
       this.sendVerifyCode()
     }
     async sendVerifyCode(): Promise<void> {

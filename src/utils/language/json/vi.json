@@ -1415,7 +1415,9 @@
       "delete-success": "Bạn đã xóa banner thành công",
       "delete-invalid-code": "Mã xác thực không chính xác",
       "delete-expired-code": "Mã xác thực đã hết hiệu lực",
-      "delete-locked": "Tài khoản của bạn đã bị khóa"
+      "delete-locked": "Tài khoản của bạn đã bị khóa",
+      "save": "Lưu",
+      "btn-delete": "Xoá"
     },
     "success": {
       "title": "THÀNH CÔNG",

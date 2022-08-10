@@ -20,7 +20,7 @@
       </el-table-column>
       <el-table-column :label="$t('metamart.banner.table.link')" width="350" align="left">
         <template slot-scope="sc">
-          <p class="banner-table__link">{{ sc.row.objectUrl !== null ? sc.row.objectUrl : '' }}</p>
+          <p class="banner-table__link" :title="sc.row.objectUrl !== null ? sc.row.objectUrl : ''">{{ sc.row.objectUrl !== null ? sc.row.objectUrl : '' }}</p>
         </template>
       </el-table-column>
       <el-table-column :label="$t('metamart.banner.table.position')" width="165" align="right">
@@ -78,12 +78,12 @@
     }
     listBanners: Array<Record<string, any>> = []
     @Watch('filter', { deep: true }) watchFilter(): void {
-      console.log('82', this.filter)
       this.handleFilter()
     }
     created(): void {
       this.getListBanners()
       EventBus.$on('banner-completed', this.handleReload)
+      EventBus.$on('delete-in-popup', this.openDeleteBanner)
     }
     indexMethod(index: number): number {
       return (this.query.page - 1) * this.query.limit + index + 1
@@ -100,7 +100,6 @@
         const rs = await apiNft.getListBanners(this.query)
         this.listBanners = rs.content
         this.table.total = rs.totalElements
-        console.log('24...', rs)
       } catch (error) {
         console.log(error)
       }
@@ -166,7 +165,6 @@
       })
     }
     handleSubmitCode(payload: string): void {
-      console.log(payload, '136')
       this.verifyCode = payload
       this.setOpenPopup({
         popupName: 'popup-metamart-verify-email',
@@ -188,7 +186,6 @@
           type: 'success'
         })
         this.handleReload()
-        console.log(rs, '158')
       } catch (error: any) {
         if (error.statusCode === 400) {
           switch (error.status) {

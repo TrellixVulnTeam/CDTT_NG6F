@@ -24,7 +24,16 @@
           <span class="sub">{{ data.descript.subtitle }}</span>
           <span class="required" v-if="data.descript.required" style="color: #cf202f"> *</span>
         </p>
-        <el-input v-model="data.descript.value" :placeholder="data.descript.placeholder" class="content-row__input" :class="{ red: data.descript.alert === false }"></el-input>
+        <el-input
+          v-model="data.descript.value"
+          type="textarea"
+          :placeholder="data.descript.placeholder"
+          class="content-row__input"
+          :class="{ red: data.descript.alert === false }"
+          :autosize="{ minRows: 3, maxRows: 5 }"
+          :maxlength="200"
+          :show-word-limit="true"
+        ></el-input>
         <p class="content-row__alert" v-if="data.descript.alert === false">{{ alert }}</p>
       </div>
       <div class="content-row">
@@ -77,9 +86,10 @@
     <div class="footer" slot="footer">
       <div class="wrap-button">
         <div class="btn-right">
+          <div class="btn-delete cursor" @click="deleteInPopup" v-if="type === 'edit'">{{ $t('metamart.banner.btn-delete') }}</div>
           <el-button :class="'passive'" class="btn-default btn-400 btn-h-40 btn-close" @click="handleCancel"> {{ $t('metamart.template.popup.add-new.passive-btn') }} </el-button>
           <el-button :class="'active'" class="btn-default-bg btn-400 btn-h-40 is-none-border" style="font-size: 14px; font-weight: 600" @click="handleCreate">
-            {{ $t('metamart.template.popup.add-new.active-btn') }}
+            {{ type === 'add' ? $t('metamart.template.popup.add-new.active-btn') : $t('metamart.banner.save') }}
           </el-button>
         </div>
       </div>
@@ -186,7 +196,6 @@
       }
     }
     async handleUpload(file: Record<string, any>): Promise<void> {
-      console.log(file, '139')
       if (file.raw.type.indexOf('image') !== -1) {
         this.uploadType = 'IMAGE'
       } else if (file.raw.type.indexOf('video') !== -1) {
@@ -199,7 +208,6 @@
       try {
         const rs = await apiUpload.uploadImage(formData)
         this.data.upload.value = rs.success[0].url
-        console.log(rs)
       } catch (error) {
         console.log(error)
       }
@@ -207,10 +215,7 @@
     handleDeleteImage(): void {
       this.data.upload.value = ''
     }
-    // getObject(): void {}
     handleValidate(): void {
-      console.log('165')
-
       const keys = Object.keys(this.data)
       for (let key of keys) {
         if (this.data[key].required) {
@@ -225,7 +230,6 @@
     async handleCreate(): Promise<void> {
       this.handleValidate()
       if (!this.disabled) {
-        console.log('create')
         const params: Record<string, any> = {
           displayName: this.data.displayName.value,
           objectId: 0,
@@ -247,7 +251,6 @@
           params.objectId = +mock.replaceAll('https://test-blockchain-website.beedu.vn/metamart/collection/', '').replaceAll(/\/$/g, '')
           params.objectType = 'COLLECTION'
         } else if (path === nftPattern) {
-          console.log('209')
           const mock = this.data.url.value
           params.objectId = +mock.replaceAll('https://test-blockchain-website.beedu.vn/metamart/nft/', '').replaceAll(/\/$/g, '')
           params.objectType = 'NFT'
@@ -269,8 +272,6 @@
       }
     }
     handleReset(): void {
-      console.log('reset')
-
       this.data = {
         displayName: {
           title: 'Display name',
@@ -317,10 +318,10 @@
       this.uploadType = ''
     }
     handleInitBanner(): void {
-      console.log(this.banner, '294')
       let descript: any = this.banner.objectShortDescription
       descript = JSON.parse(descript)
       const lang = '' + window.localStorage.getItem('bc-lang')
+      this.uploadType = this.banner.objectAvatarType
       this.data.descript.value = descript[lang]
       this.data.displayName.value = this.banner.objectName
       this.data.upload.value = this.banner.objectAvatar
@@ -333,6 +334,13 @@
         position: this.data.position.value,
         url: this.data.url.value
       }
+    }
+    deleteInPopup(): void {
+      this.setOpenPopup({
+        popupName: 'popup-banner',
+        isOpen: false
+      })
+      EventBus.$emit('delete-in-popup', this.banner)
     }
   }
 </script>
@@ -370,8 +378,14 @@
               height: 48px;
             }
             &.red {
-              .el-input__inner {
+              .el-input__inner,
+              .el-textarea__inner {
                 border-color: #cf202f;
+              }
+            }
+            &.el-textarea {
+              .el-textarea__inner {
+                min-height: 89px !important;
               }
             }
           }
@@ -417,6 +431,15 @@
             @include text(12px, 16px, 400, #cf202f);
           }
         }
+      }
+    }
+    .popup-footer {
+      .btn-delete {
+        display: block;
+        float: left;
+        width: fit-content;
+        padding: 11px 28.5px;
+        border-radius: 6px;
       }
     }
   }
