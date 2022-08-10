@@ -199,6 +199,9 @@ request.interceptors.response.use(
       if (data.message === 'Parent category invalid !') {
         message = i18n.tc('notify.create-category-fail')
       }
+      if (data.message === 'Parent id can not itself') {
+        message = i18n.tc('notify.update-category-fail')
+      }
       // if (!message) {
       //   message = i18n.tc('notify.' + data.status)
       // }

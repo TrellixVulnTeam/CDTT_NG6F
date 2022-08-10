@@ -364,7 +364,8 @@
     "invalid-royal-fee": "Phí bản quyền phải nhỏ hơn {maxCreatorFee}%",
     "create-category-fail": "Không thể chọn danh mục cha là cấp 3",
     "invalid-delete-nft": "Không thể xóa NFT này",
-    "update-category-success": "Cập nhật danh mục thành công"
+    "update-category-success": "Cập nhật danh mục thành công",
+    "update-category-fail":"Không thể chọn danh mục cha là chính mình hoặc là cấp 3"
   },
   "logout": {
     "title": "Đăng xuất",
