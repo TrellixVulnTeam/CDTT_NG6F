@@ -77,7 +77,7 @@
       :medias="detailNft.medias"
       :policies="detailNft.policies"
     />
-    <popup-banner :type="bannerType" :banner="bannerEdit" />
+    <popup-banner :type="bannerType" :banner="bannerEdit" @close="bannerType = 'add'" />
   </div>
 </template>
 

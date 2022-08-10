@@ -143,6 +143,11 @@
         orderBy: 'NAME',
         orderType: 'ASC'
       }
+      this.table = {
+        ...this.table,
+        page: 1,
+        limit: 10
+      }
       this.getListBanners()
     }
     openDeleteBanner(banner: Record<string, any>): void {

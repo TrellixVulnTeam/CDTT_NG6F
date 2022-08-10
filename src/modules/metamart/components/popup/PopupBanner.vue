@@ -184,6 +184,7 @@
         popupName: 'popup-template',
         isOpen: false
       })
+      this.$emit('close')
     }
     handleOpen(): void {
       if (this.type === 'edit') {
@@ -274,6 +275,8 @@
       }
     }
     handleReset(): void {
+      console.log('reset')
+
       this.data = {
         displayName: {
           title: 'Display name',
