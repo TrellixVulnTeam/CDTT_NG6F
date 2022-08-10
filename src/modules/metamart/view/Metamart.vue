@@ -483,7 +483,7 @@
           metaTypes.push({ ...type, typeTab: listData[0].metaValueType })
         }
         if (type.metaType === 'INFO') {
-          metaTypes.push(type)
+          metaTypes.push({ ...type, typeTab: 'INFO' })
         }
       })
 

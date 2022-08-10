@@ -1,12 +1,13 @@
 <template>
-  <base-popup name="popup-nft-detail" class="popup-nft-detail" width="1040px">
+  <base-popup name="popup-nft-detail" class="popup-nft-detail" width="1040px" :open="handleOpen" :close="handleClose">
     <div class="title-popup" slot="title">
       <span>{{ $t('metamart.collection.popup.nft-detail') }}</span>
     </div>
     <div class="content">
       <div class="detail-nft-left">
-        <img :src="nftItem.avatar" class="content-media-avatar" alt="" />
-        <bc-media :isShow="isShow" :url="mediaLink.mediaUrl" :radius="16" class="content-media-avatar isPc" />
+        <img :src="mediaLink && mediaLink.mediaUrl" v-if="mediaLink.mediaType === 'IMAGE'" class="content-media-avatar" alt="" />
+        <video v-else :src="mediaLink.mediaUrl" playsinline :autoplay="true" loop muted></video>
+        <!-- <bc-media :isShow="isShow" :url="mediaLink.mediaUrl" :radius="16" class="content-media-avatar isPc" /> -->
         <div class="slide-scroll-detail isPc">
           <swiper v-if="mediaList.length" :options="swiperOption" class="row-nft" ref="swiperRef">
             <swiper-slide v-for="(item, index) in mediaList" :key="index" class="item">
@@ -31,7 +32,7 @@
       </div>
       <div class="ml-auto detail-nft-right">
         <div class="be-scroll-custom wrap-fixed-top">
-          <div class="detail-nft-folder text-overflow-2">{{ nftItem.collectionName }}</div>
+          <div class="detail-nft-folder text-overflow-2">{{ nftItem && nftItem.collectionName }}</div>
           <div class="ck-text-description detail-nft-des" v-if="textDescription">
             <div id="text-description" :class="showClass ? 'text-overflow-2' : null" style="line-height: 24px" v-html="textDescription"></div>
             <div v-if="numOfLine > 2" style="margin-top: 5px" :class="!showClass ? 'text-rotate' : null" @click="showClass = !showClass">
@@ -70,7 +71,7 @@
             </div>
           </div>
 
-          <tab-info :nftItem="nftItem" :metaDatas="metaData" :metaTypes="metaType" />
+          <tab-info v-if="isShowTabInfo" :nftItem="nftItem" :metaDatas="metaData" :metaTypes="metaType" ref="tabInfo" />
         </div>
       </div>
     </div>
@@ -105,9 +106,13 @@
     showClass = false
     coinMain = 'Not Lynk'
     numOfLine = 0
+    isShowTabInfo = false
 
     get mediaList(): Array<Record<string, any>> {
-      return this.medias
+      if (this.nftItem) {
+        return [{ id: Math.random(), mediaType: this.nftItem.mediaType, mediaUrl: this.nftItem.avatar }, ...this.medias]
+      }
+      return []
     }
     mediaLink = {}
     get isShow(): boolean {
@@ -126,12 +131,20 @@
         clickable: true
       }
     }
+
+    handleOpen(): void {
+      console.log('handleOpen')
+
+      this.isShowTabInfo = true
+    }
+
+    handleClose(): void {
+      this.isShowTabInfo = false
+    }
+
     handleShowMedia(item: Record<string, any>): void {
-      if (item.id) {
-        this.ClickActive = item.id
-        console.log(this.ClickActive)
-      }
-      this.nftItem.avatar = item.mediaUrl
+      this.ClickActive = item.id
+      this.mediaLink = { ...item }
     }
     checkLengthText(text: string): void {
       let el = document.getElementById(`${text}`) as HTMLElement
@@ -205,7 +218,7 @@
       border-radius: 8px !important;
     }
     .swiper-slide {
-      width: 87px !important;
+      width: 97px !important;
     }
     img {
       // width: 630px;
@@ -1078,6 +1091,7 @@
   }
   .slide-scroll-detail {
     position: relative;
+    margin-top: 12px;
   }
   .btn-crousel {
     top: 50%;
