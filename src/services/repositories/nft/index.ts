@@ -1,5 +1,6 @@
 import request from '@/plugins/request'
 import { BaseRepository } from '@/services/base'
+import { forEach } from 'lodash'
 
 export class NftRepository extends BaseRepository {
   constructor() {
@@ -168,6 +169,10 @@ export class NftRepository extends BaseRepository {
 
   async createNft(data: Record<string, any>): Promise<any> {
     try {
+      forEach(data.metaDatas, elm => {
+        delete elm.id
+      })
+
       const result = await request.post(`${this.prefix}/bo/item/create`, data)
       return Promise.resolve(result.data.data)
     } catch (error) {
@@ -222,7 +227,7 @@ export class NftRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
-  async getDetailCollection (id: string | number): Promise<Record<string, any>> {
+  async getDetailCollection(id: string | number): Promise<Record<string, any>> {
     try {
       const result = await request.get(`${this.prefix}/bo/collection/${id}/detail`)
       return Promise.resolve(result.data)
