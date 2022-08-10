@@ -186,7 +186,7 @@
     async handleChangeFile(file: Record<string, any>): Promise<void> {
       console.log(file)
 
-      if (!this.$options.filters?.validateFormatFile(file, 'MEDIA_NFT')) {
+      if (!this.$options.filters?.validateFormatFile(file, 'METADATA_FILE')) {
         const message = this.$t('notify_invalid-file-type') as string
         this.$message.error(message)
         return
