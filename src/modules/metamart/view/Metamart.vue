@@ -233,8 +233,10 @@
     created(): void {
       this.init()
       EventBus.$on('filter', this.handleFilter)
-      EventBus.$on('reloadMetamart', () => {
-        this.init()
+      EventBus.$on('reloadMetamart', async () => {
+        if (this.$route.name === 'Nft') await this.getNftItem()
+        if (this.$route.name === 'Collection') await this.getCollection()
+        if (this.$route.name === 'Category') await this.getCategoryList()
       })
     }
 
