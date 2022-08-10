@@ -35,7 +35,7 @@
               @keyup.native="numberFormat($event)"
               clearable
             >
-              <template slot="append">BUSD</template>
+              <template slot="append">USDT</template>
             </el-input>
           </el-form-item>
         </div>
@@ -78,7 +78,7 @@
     form = {
       email: '',
       amount: '',
-      currency: 'BUSD'
+      currency: 'USDT'
     }
     listRoundChecked: number[] = []
 

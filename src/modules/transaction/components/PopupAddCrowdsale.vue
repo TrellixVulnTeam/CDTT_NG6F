@@ -29,7 +29,7 @@
         <el-form-item :label="$t('label.amount-available')" class="be-flex-item" prop="amountAvailable">
           <el-input v-model="getAmountAvailable" :placeholder="$t('placeholder.amount-available')" disabled> </el-input>
           <div class="prefix prefix--amount">
-            <span style="color: #5b616e">BUSD</span>
+            <span style="color: #5b616e">USDT</span>
           </div>
         </el-form-item>
 
@@ -43,7 +43,7 @@
               @keyup.native="numberFormat($event)"
               clearable
             >
-              <template slot="append">BUSD</template>
+              <template slot="append">USDT</template>
             </el-input>
             <div v-if="invalidAmount" class="error">{{ $t('label.invalid-amount') }}</div>
           </el-form-item>
@@ -56,7 +56,7 @@
         <el-form-item :label="$t('label.receive')" class="be-flex-item" prop="amountAvailable">
           <el-input v-model="getTokenAmount" :placeholder="$t('placeholder.amount-available')" disabled> </el-input>
           <div class="prefix prefix--amount">
-            <span style="color: #5b616e">HUB</span>
+            <span style="color: #5b616e">LYNK</span>
           </div>
         </el-form-item>
       </el-form>
@@ -149,7 +149,7 @@
     exchangeRate: IExchangeRate = {}
     timing: any = null
     balance: Record<string, any> = {}
-    balanceHub: Record<string, any> = {}
+    balanceLynk: Record<string, any> = {}
     invalidAmount = false
 
     rules: Record<string, any> = {
@@ -171,13 +171,13 @@
 
     get getAmountAvailable(): string {
       if (this.balance.available) {
-        return this.$options.filters?.convertAmountDecimal(this.balance.available, 'BUSD')
+        return this.$options.filters?.convertAmountDecimal(this.balance.available, 'USDT')
       }
       return '0'
     }
     get getTokenAmount(): string {
       if (this.form.tokenAmount) {
-        return this.$options.filters?.convertAmountDecimal(this.form.tokenAmount, 'HUB')
+        return this.$options.filters?.convertAmountDecimal(this.form.tokenAmount, 'LYNK')
       }
       return '0'
     }
@@ -229,7 +229,7 @@
       } else {
         this.tabActive = tab
         const amount = (tab * this.balance.available) / 100
-        this.form.amount = this.$options.filters?.convertAmountDecimal(amount, 'BUSD')
+        this.form.amount = this.$options.filters?.convertAmountDecimal(amount, 'USDT')
         this.form.tokenAmount = amount * this.exchangeRate.oneSourceToTarget!
       }
     }
@@ -297,8 +297,8 @@
     async handleGetListBalance(userId): Promise<void> {
       try {
         const result = await apiCustomer.getlistBalance(userId, {})
-        this.balance = filter(result, elm => elm.asset === 'BUSD')[0]
-        this.balanceHub = filter(result, elm => elm.asset === 'HUB')[0]
+        this.balance = filter(result, elm => elm.asset === 'USDT')[0]
+        this.balanceLynk = filter(result, elm => elm.asset === 'LYNK')[0]
       } catch (error) {
         console.log(error)
       }
@@ -323,12 +323,12 @@
         if (valid && this.numClick === 1 && !this.invalidAmount && this.form.amount !== '0') {
           this.form = {
             ...this.form,
-            tokenAddress: this.balanceHub.address,
-            tokenCurrency: 'HUB',
-            tokenNetwork: this.balanceHub.network,
+            tokenAddress: this.balanceLynk.address,
+            tokenCurrency: 'LYNK',
+            tokenNetwork: this.balanceLynk.network,
             tokenUsdExchangeRate: this.exchangeRate.oneTargetToUsd,
             paidAddress: this.balance.address,
-            paidCurrency: 'BUSD',
+            paidCurrency: 'USDT',
             paidNetwork: this.balance.network,
             paidAmount: Number(this.form.amount?.replaceAll(',', '')),
             paidUsdExchangeRate: this.exchangeRate.oneSourceToUsd,
