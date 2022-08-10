@@ -94,7 +94,6 @@
             </router-link>
           </li>
         </ul>
-        <ul class="module"></ul>
       </div>
 
       <el-button slot="reference" class="is-create-color is-white is-none-border icon-btn p-0 m-0 button-add" style="height: 100%; position: relative; width: 100%">
