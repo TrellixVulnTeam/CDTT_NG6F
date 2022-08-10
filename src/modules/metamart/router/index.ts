@@ -29,7 +29,23 @@ const metamartRouters: RouteConfig[] = [
             path: 'category',
             name: 'Category',
             component: () => import('../view/Metamart.vue')
-          } 
+          },
+          {
+            path: 'banner',
+            name: 'Banner',
+            component: () => import('../view/Metamart.vue')
+          },
+          {
+            path: 'template',
+            name: 'Template',
+            component: () => import('../view/Metamart.vue')
+          },
+          {
+            path: 'template/create-template',
+            name: 'CreateTemplate',
+            component: () => import('../view/CreateTemplate.vue'),
+            props: route => ({ query: route.query.template })
+          }
         ]
       },
       {

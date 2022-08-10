@@ -5,12 +5,9 @@
     </div>
     <div class="content" style="padding-bottom: 24px" v-loading="isLoading">
       <span v-if="this.$route.name === 'Collection'" class="content-text">
-        {{ $t('metamart.collection.delete.confirmation-1') }} <span class="content-text__item">{{ this.collectionDelete.collectionName }}</span>
-        {{ $t('metamart.collection.delete.confirmation-2') }}
+        {{ $t('metamart.collection.delete.confirmation-1') }} <span class="content-text__item">{{this.collectionDelete.collectionName}}</span> {{ $t('metamart.collection.delete.confirmation-2') }}
       </span>
-      <span v-else-if="this.$route.name === 'Nft'" class="content-text">
-        Are you sure you want to delete this <span class="content-text__item">The Myth Virtual Tour</span> item?
-      </span>
+      <span v-else-if="this.$route.name === 'Nft'" class="content-text"> Are you sure you want to delete this <span class="content-text__item">The Myth Virtual Tour</span> item? </span>
       <span v-else class="content-text"> {{ $t('popup_category-delete') }} </span>
       <div v-if="isHaveNft" class="notification">
         <div class="notification-title">
@@ -90,7 +87,7 @@
       await apiUser
         .getEmailVerification(params)
         .then((res: any) => {
-          this.$message.success(`${this.$t('notify.send-code')}`)
+          this.$message.success('Code sent, please check your email')
           console.log(res)
         })
         .catch(e => {

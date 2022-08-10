@@ -14,7 +14,7 @@
             @rowClick="handleRowClick"
           >
             <el-table-column label="#" type="index" :index="indexMethod" align="center" width="50" />
-            <el-table-column type="selection" :selectable="handleSelectable" align="center" width="40" />
+            <!-- <el-table-column type="selection" :selectable="handleSelectable" align="center" width="40" /> -->
             <el-table-column :label="$t('inventory.table.item')" align="left" min-width="347">
               <template slot-scope="scope">
                 <div class="wrap-item">
@@ -55,14 +55,18 @@
                   <span @click="handleEdit(scope.row)">
                     <base-icon icon="icon-edit" size="24" />
                   </span>
-                  <el-dropdown trigger="click" @command="handleCommand">
+
+                  <span @click="handleCommand('delete-nft')">
+                    <base-icon icon="icon-delete-new" size="22" />
+                  </span>
+                  <!-- <el-dropdown trigger="click" @command="handleCommand">
                     <i class="el-icon-more" style="padding: 5px" @click="handleConflictClick"></i>
                     <el-dropdown-menu class="dropdown-sort" slot="dropdown">
                       <el-dropdown-item>Update metadata</el-dropdown-item>
                       <el-dropdown-item>{{ scope.row.isOnChain === 'NO' ? 'On-chain' : 'Off-chain' }}</el-dropdown-item>
                       <el-dropdown-item command="delete-nft">Delete</el-dropdown-item>
                     </el-dropdown-menu>
-                  </el-dropdown>
+                  </el-dropdown> -->
                 </div>
               </template>
             </el-table-column>
@@ -97,7 +101,12 @@
     isConflictClick = false
 
     get getPaginationInfo(): any {
-      return this.$t('paging.nft')
+      //@ts-ignore
+      if (this.query.total > 1) {
+        return this.$t('paging.NFTs')
+      } else {
+        return this.$t('paging.NFT')
+      }
     }
 
     indexMethod(index: number): number {

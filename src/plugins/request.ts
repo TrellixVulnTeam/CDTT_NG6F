@@ -183,8 +183,12 @@ request.interceptors.response.use(
         message = i18n.tc('notify.incorrect-old-pass')
       }
 
-      if (data.status === 'DONT_DELETE' && data.message === 'You can\'t delete this') {
+      if (data.status === 'DONT_DELETE' && data.message === "You can't delete this") {
         message = i18n.tc('notify.collection-has-nft')
+      }
+      if (data.status === 'INVALID_ROYALTIES_FEE') {
+        const maxCreatorFee = data.data.maxCreatorFee
+        message = i18n.t('notify.invalid-royal-fee', { maxCreatorFee })
       }
       if (data.message === 'Parent category invalid !') {
         message = i18n.tc('notify.create-category-fail')
