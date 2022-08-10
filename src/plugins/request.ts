@@ -183,8 +183,12 @@ request.interceptors.response.use(
         message = i18n.tc('notify.incorrect-old-pass')
       }
 
-      if (data.status === 'DONT_DELETE' && data.message === "You can't delete this") {
+      if (data.status === 'DONT_DELETE' && data.message === "You can't delete this" && includes(config.url, 'bo/collection')) {
         message = i18n.tc('notify.collection-has-nft')
+      }
+
+      if (data.status === 'DONT_DELETE' && data.message === "You can't delete this" && includes(config.url, 'bo/item')) {
+        message = i18n.tc('notify.invalid-delete-nft')
       }
 
       //create nft
