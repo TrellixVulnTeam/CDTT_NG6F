@@ -386,7 +386,8 @@
     "create-category-fail": "Can't choose category as level 3",
     "update-category-success": "Update category successfully",
     "invalid-delete-nft": "Unable to delete this NFT item",
-    "update-category-fail": "Can't choose parent category as yourself or level 3"
+    "update-category-fail": "Can't choose parent category as yourself or level 3",
+    "popup-delete-category-error": "This category contain data and can not be deleted"
   },
   "logout": {
     "title": "Sign out",
