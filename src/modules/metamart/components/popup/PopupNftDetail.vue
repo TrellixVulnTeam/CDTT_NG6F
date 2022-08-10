@@ -136,7 +136,7 @@
       return false
     }
     swiperOption: SwiperOptions = {
-      slidesPerView: 6,
+      slidesPerView: 4,
       spaceBetween: 12,
       loop: false,
       navigation: {

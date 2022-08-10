@@ -179,6 +179,14 @@
       width: 18px;
       height: 18px;
     }
+    .el-checkbox__inner::after {
+      width: 5px;
+      margin-left: 1px;
+      margin-top: 1px;
+    }
+    .el-checkbox__input.is-indeterminate .el-checkbox__inner::before {
+      margin-top: 2px;
+    }
     &__below {
       padding: 0 24px;
       .wrapper {

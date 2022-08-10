@@ -196,12 +196,15 @@ request.interceptors.response.use(
         const maxCreatorFee = data.data.maxCreatorFee
         message = i18n.t('notify.invalid-royal-fee', { maxCreatorFee })
       }
-
-      if (!message) {
-        message = i18n.tc('notify.' + data.status)
+      if (data.message === 'Parent category invalid !') {
+        message = i18n.tc('notify.create-category-fail')
       }
-
-      Message.error({ message, duration: 5000 })
+      // if (!message) {
+      //   message = i18n.tc('notify.' + data.status)
+      // }
+      if (message) {
+        Message.error({ message, duration: 5000 })
+      }
     }
     if (!error.response || error.response.status >= 500) {
       // error.message = 'Không thể kết nối đến máy chủ'
