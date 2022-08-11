@@ -559,6 +559,14 @@
       //   name: file.name,
       //   url: URL.createObjectURL(file.raw)
       // })
+      if (file.raw.type !== 'image/jpeg' && file.raw.type !== 'image/png' && file.raw.type !== 'video/mp4') {
+        this.$message.error(this.$t('metamart.collection.upload.banner-format') as string)
+        return
+      }
+      if (file.size > 1024 * 1024 * 5) {
+        this.$message.error(this.$t('metamart.collection.upload.error-size') as string)
+        return
+      }
       this.uploadBanner(file.raw)
     }
     handleBannerRemove(banner: any): void {
