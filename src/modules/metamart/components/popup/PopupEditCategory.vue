@@ -155,7 +155,10 @@
     handleReset(): void {
       // @ts-ignore
       this.$refs.dataInput.clearValidate()
-      this.dataInput = {}
+      this.dataInput.categoryName = this.dataDetail.categoryName
+      this.dataInput.parentId = this.dataDetail.parentId != 0 ? this.dataDetail.parentId : null
+      // this.dataInput.parentId = this.dataDetail.parentId
+      this.dataInput.description = this.dataDetail.description
     }
     handleApply(): void {
       let a: any = this.$refs.dataInput
