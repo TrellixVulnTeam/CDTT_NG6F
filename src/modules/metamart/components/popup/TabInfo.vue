@@ -35,7 +35,7 @@
       </div>
     </div>
 
-    <div class="content-about type-html" v-if="tabActive === 'HTML'">
+    <div class="content-about view-content-html type-html" v-if="tabActive === 'HTML'">
       <p id="text-description" class="content-header body-base text-regular" v-html="$options.filters.formatMetaHtml(data[0].metaValue)"></p>
     </div>
 

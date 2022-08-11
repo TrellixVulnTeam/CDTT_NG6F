@@ -1550,5 +1550,9 @@
   "notify_add-nft-success": "Create NFT successfully",
   "notify_edit-nft-success": "Update NFT successfully",
   "notify_invalid-file-type": "Incorrect file format",
-  "notify_upload-fail": "Upload failed"
+  "notify_upload-fail": "Upload failed",
+  "coming-soon": "Coming soon",
+  "not-for-sale": "Off market",
+  "read-more": "Read more",
+  "hide-more": "Hide more"
 }
