@@ -12,7 +12,7 @@
                 <el-input clearable :placeholder="$t('metamart.collection.popup.category')" v-model="dataInput.categoryName" ref="categoryName" style="color: #181b22"></el-input>
               </el-form-item>
               <el-form-item :label="$t('parent_category')">
-                <el-select class="select w-100" remote :remote-method="remoteCategoryList" v-model="dataInput.parentId" filterable :placeholder="$t('parent_category')">
+                <el-select class="select w-100" clearable remote :remote-method="remoteCategoryList" v-model="dataInput.parentId" filterable :placeholder="$t('parent_category')">
                   <el-option
                     v-for="(option, index) in categories"
                     :label="option.categoryName"
