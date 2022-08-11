@@ -1,5 +1,5 @@
 <template>
-  <base-popup name="popup-create-category" class="popup-filter-collection" width="600px" :close="handleClose" :open="handleOpen">
+  <base-popup name="popup-create-category" class="popup-create-category" width="600px" :close="handleClose" :open="handleOpen">
     <div class="title-popup" slot="title">
       <span>{{ $t('metamart.collection.popup.create-category') }}</span>
     </div>
@@ -35,7 +35,7 @@
       <div class="wrap-button">
         <div class="btn-right">
           <el-button class="btn-default btn-400 btn-h-40 btn-close" @click="handleReset"> {{ $t('button.reset') }} </el-button>
-          <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border" style="font-size: 14px; font-weight: 600" @click="handleApply"> {{ $t('button.apply') }} </el-button>
+          <el-button class="btn-default-bg btn-400 btn-h-40 is-none-border" style="font-size: 14px; font-weight: 600" @click="handleApply"> {{ $t('button.save') }} </el-button>
         </div>
       </div>
     </div>
@@ -209,86 +209,28 @@
     font-weight: $weight;
     color: $color;
   }
-  .popup-create-category {
-    .be-btn-danger:hover {
-      border-color: var(--be-button-hover-color);
-    }
-    .body-content {
-      margin: 0px auto;
-      margin-top: 20px;
-      width: 560px;
-      position: relative;
-    }
-    .el-input__suffix {
-      right: 0 !important;
-    }
-    textarea.el-textarea__inner {
-      // font-family: "Open Sans";
-      color: #2b2b2b;
-    }
-    .wrap-option {
-      .item-name {
-        display: block;
-        width: 285px;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
-        padding-right: 5px;
+  ::v-deep.popup-create-category {
+    .el-form {
+      &-item {
+        margin-bottom: 24px;
+        .el-textarea {
+          &__inner {
+            min-height: 143px !important;
+          }
+        }
+      }
+      &-item:nth-child(1) {
+        margin-bottom: 16px;
       }
     }
-    .child-option {
-      margin-left: 15px;
-    }
-    .bottom {
-      background-color: var(--be-status-bg-processing);
-      border-top: 1px solid var(--be-border-color);
-      padding: 11px 16px 11px 20px;
-      .bt-top {
-        justify-content: flex-end;
+    .footer {
+      .el-button {
+        width: 100px;
+        height: 40px;
       }
-    }
-    .select {
-      color: #8f8f8f !important;
-      width: 100%;
-    }
-    .el-form-item__content {
-      font-size: none;
-    }
-    .group-button-cencel {
-      padding: 11px 20px;
-      font-size: 14px;
-      color: #363636;
-      font-weight: 400;
-    }
-    .group-button-save {
-      padding: 11px 20px;
-      background-color: #f07525;
-      color: #fff;
-    }
-    .hide-option {
-      display: none;
-    }
-    .group-button-save:hover {
-      border-color: var(--be-button-hover-color);
-    }
-    .el-form-item__label {
-      font-size: 12px;
-      margin-top: -15px;
-      margin-bottom: -9px;
-      color: #8f8f8f;
-    }
-    input.el-input__inner {
-      font-size: 14px;
-      color: #181b22;
-    }
-    ::placeholder {
-      color: #8f8f8f !important;
-    }
-    .el-form-item__label:before {
-      float: right;
-    }
-    textarea.el-textarea__inner {
-      font-family: 'Open Sans';
+      .el-button:nth-child(2) {
+        margin-left: 16px;
+      }
     }
   }
 </style>
