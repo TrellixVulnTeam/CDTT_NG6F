@@ -41,7 +41,7 @@
   import PopupMixin from '@/mixins/popup'
   import { PaginationInterface } from '@/interface'
   @Component
-  export default class TabCategory extends Mixins(PopupMixin) {
+  export default class TabTemplate extends Mixins(PopupMixin) {
     @Prop({ required: false, type: String, default: '' }) paginationInfo!: string
     query: Record<string, any> = {}
     dataCollection: Array<Record<string, any>> = [
@@ -110,6 +110,9 @@
     }
     handleDelete(): void {
       console.log('delete 112')
+    }
+    handleSelectable(): void {
+      console.log('115')
     }
   }
 </script>
