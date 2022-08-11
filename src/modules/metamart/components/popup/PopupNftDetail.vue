@@ -33,7 +33,7 @@
       <div class="ml-auto detail-nft-right">
         <div class="wrap-fixed-top">
           <div class="detail-nft-folder text-overflow-2">{{ nftItem && nftItem.collectionName }}</div>
-          <div class="ck-text-description detail-nft-des" v-if="textDescription">
+          <div class="ck-text-description detail-nft-des view-content-html" v-if="textDescription">
             <div id="text-description" :class="showClass ? 'text-overflow-2' : null" style="line-height: 24px" v-html="textDescription"></div>
             <div v-if="numOfLine > 2" style="margin-top: 5px" :class="!showClass ? 'text-rotate' : null" @click="showClass = !showClass">
               <div>
@@ -144,6 +144,8 @@
     }
 
     handleClose(): void {
+      this.numOfLine = 0
+      this.showClass = false
       this.isShowTabInfo = false
     }
 
