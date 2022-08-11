@@ -79,6 +79,7 @@
       :policies="detailNft.policies"
     />
     <popup-banner :type="bannerType" :banner="bannerEdit" @close="bannerType = 'add'" />
+    <popup-template @create="handleCreateTemplate" />
   </div>
 </template>
 
@@ -146,7 +147,7 @@
     @bcNft.Mutation('SET_DETAIL_NFT') setDetailNft!: (PopupNftDetail: Record<string, any>) => void
     filterBanner: Record<string, any> = {
       search: '',
-      orderBy: 'NAME',
+      orderBy: 'POSITION',
       orderType: 'ASC'
     }
     bannerEdit: Record<string, any> = {}
@@ -168,17 +169,17 @@
         title: 'metamart-category',
         routeName: 'Category'
       },
-      /* ,
-      {
-        id: 4,
-        title: 'metamart-template',
-        routeName: 'Template'
-      } */
       {
         id: 4,
         title: 'metamart-banner',
         routeName: 'Banner'
       }
+      /* ,
+      {
+        id: 5,
+        title: 'metamart-template',
+        routeName: 'Template'
+      } */
     ]
     detailNft: Record<string, any> = {}
     collectionData: Array<Record<string, any>> = []
@@ -362,6 +363,8 @@
       } else if (this.$route.name === 'Nft') {
         this.getNftItem()
       } else if (this.$route.name === 'Banner') {
+        console.log('365')
+
         this.filterBanner.orderBy = command
       }
     }
@@ -470,6 +473,8 @@
       })
     }
     handleOpenPopupTemplate(): void {
+      console.log('472')
+
       this.setOpenPopup({
         popupName: 'popup-template',
         isOpen: true

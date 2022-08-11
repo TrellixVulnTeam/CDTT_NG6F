@@ -20,7 +20,9 @@
       </el-table-column>
       <el-table-column :label="$t('metamart.banner.table.link')" width="350" align="left">
         <template slot-scope="sc">
-          <p class="banner-table__link" :title="sc.row.objectUrl !== null ? sc.row.objectUrl : ''">{{ sc.row.objectUrl !== null ? sc.row.objectUrl : '' }}</p>
+          <a class="banner-table__link" :title="sc.row.objectUrl !== null ? sc.row.objectUrl : ''" :href="sc.row.objectUrl !== null ? sc.row.objectUrl : '#'" target="_blank">{{
+            sc.row.objectUrl !== null ? sc.row.objectUrl : ''
+          }}</a>
         </template>
       </el-table-column>
       <el-table-column :label="$t('metamart.banner.table.position')" width="165" align="right">
@@ -68,7 +70,7 @@
       page: 1,
       limit: 10,
       search: '',
-      orderBy: 'NAME',
+      orderBy: 'POSITION',
       orderType: 'ASC'
     }
     table = {
@@ -241,6 +243,7 @@
         text-overflow: ellipsis;
         height: 24px;
         white-space: nowrap;
+        text-decoration: none;
       }
       &__actions {
         &--edit,
