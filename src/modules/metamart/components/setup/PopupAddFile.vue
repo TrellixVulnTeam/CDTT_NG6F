@@ -48,9 +48,9 @@
         </div>
         <div class="btn-right">
           <el-button class="btn-default btn-close btn-h-40 mr-16" @click="handleCancel">{{ $t('button.cancel') }}</el-button>
-          <button type="button" class="btn-default-bg text-sm ml-auto add-member" @click="handleSubmit">
+          <el-button :loading="isLoading" type="button" class="btn-default-bg text-sm ml-auto add-member" @click="handleSubmit">
             <span>{{ $t('button.save') }}</span>
-          </button>
+          </el-button>
         </div>
       </div>
     </div>
@@ -104,6 +104,7 @@
       metaIcon: ''
     }
 
+    isLoading = false
     rawFile: Record<string, any> = {}
 
     isShowUpload = true
@@ -184,40 +185,45 @@
     }
 
     async handleChangeFile(file: Record<string, any>): Promise<void> {
-      console.log(file)
+      try {
+        console.log(file)
 
-      if (!this.$options.filters?.validateFormatFile(file, 'METADATA_FILE')) {
-        const message = this.$t('notify_invalid-file-type') as string
-        this.$message.error(message)
-        return
-      }
+        if (!this.$options.filters?.validateFormatFile(file, 'METADATA_FILE')) {
+          const message = this.$t('notify_invalid-file-type') as string
+          this.$message.error(message)
+          return
+        }
 
-      file.percentage = 1
+        file.percentage = 1
 
-      const processFunction = function (progressEvent) {
-        let progress = (progressEvent.loaded / progressEvent.total) * 100
-        file.percentage = progress
-      }
+        const processFunction = function (progressEvent) {
+          let progress = (progressEvent.loaded / progressEvent.total) * 100
+          file.percentage = progress
+        }
 
-      this.rawFile = file
-      this.getInfoFile(file)
+        this.rawFile = file
+        this.getInfoFile(file)
 
-      this.isShowUpload = false
-      const data: Record<string, any> = {}
-      const formData = new FormData()
-      formData.append('files', file.raw)
-      formData.append('type', 'METADATA_FILE')
-      formData.append('userId', this.user.userId)
-      data.data = formData
-      data.progress = processFunction
-      const result = await apiUpload.uploadFileCreateNft(data)
-      console.log(file)
+        this.isShowUpload = false
+        const data: Record<string, any> = {}
+        const formData = new FormData()
+        formData.append('files', file.raw)
+        formData.append('type', 'METADATA_FILE')
+        formData.append('userId', this.user.userId)
+        data.data = formData
+        data.progress = processFunction
+        const result = await apiUpload.uploadFileCreateNft(data)
+        console.log(file)
 
-      if (result.success.length) {
-        this.form.metaValue = result.success[0].url
-        this.form.metaStatisValue = result.success[0].size
-        this.form.metaIcon = this.getIconFile(this.form.metaAnnotation as string)
-      } else {
+        if (result.success.length) {
+          this.form.metaValue = result.success[0].url
+          this.form.metaStatisValue = result.success[0].size
+          this.form.metaIcon = this.getIconFile(this.form.metaAnnotation as string)
+        } else {
+          const message = this.$t('notify_upload-fail') as string
+          this.$message.error(message)
+        }
+      } catch (error) {
         const message = this.$t('notify_upload-fail') as string
         this.$message.error(message)
       }
@@ -304,6 +310,7 @@
           height: 40px;
           font-weight: 400;
           padding: 0 8px;
+          margin-left: 0;
           &:hover {
             border: 1px solid transparent;
           }

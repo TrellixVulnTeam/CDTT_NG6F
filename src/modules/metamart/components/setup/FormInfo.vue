@@ -270,47 +270,53 @@
     }
 
     async handleChangeListFile(rawFile: Record<string, any>): Promise<void> {
-      if (!this.$options.filters?.validateFormatFile(rawFile, 'MEDIA_NFT')) {
-        const message = this.$t('notify_invalid-file-type') as string
-        this.$message.error(message)
-        return
-      }
+      try {
+        if (!this.$options.filters?.validateFormatFile(rawFile, 'MEDIA_NFT')) {
+          const message = this.$t('notify_invalid-file-type') as string
+          this.$message.error(message)
+          return
+        }
 
-      rawFile.percentage = 1
+        rawFile.percentage = 1
 
-      const processFunction = function (progressEvent) {
-        let progress = (progressEvent.loaded / progressEvent.total) * 100
-        rawFile.percentage = progress
-      }
+        const processFunction = function (progressEvent) {
+          let progress = (progressEvent.loaded / progressEvent.total) * 100
+          rawFile.percentage = progress
+        }
 
-      rawFile = {
-        ...rawFile,
-        mediaUrl: rawFile.url,
-        id: rawFile.uid,
-        mediaType: this.getFileType(rawFile)
-      }
+        rawFile = {
+          ...rawFile,
+          mediaUrl: rawFile.url,
+          id: rawFile.uid,
+          mediaType: this.getFileType(rawFile)
+        }
 
-      this.form.medias = [...this.form.medias, rawFile]
-      const data: Record<string, any> = {}
-      const formData = new FormData()
-      formData.append('files', rawFile.raw)
-      formData.append('type', 'MEDIA_NFT')
-      formData.append('userId', this.user.userId)
+        this.form.medias = [...this.form.medias, rawFile]
+        const data: Record<string, any> = {}
+        const formData = new FormData()
+        formData.append('files', rawFile.raw)
+        formData.append('type', 'MEDIA_NFT')
+        formData.append('userId', this.user.userId)
 
-      data.data = formData
-      data.progress = processFunction
-      const result = await apiUpload.uploadFileCreateNft(data)
-      console.log(result)
+        data.data = formData
+        data.progress = processFunction
+        const result = await apiUpload.uploadFileCreateNft(data)
+        console.log(result)
 
-      if (result.success.length) {
-        this.form.medias[this.form.medias.length - 1].mediaUrl = result.success[0].url
-      } else {
-        this.form.medias = this.form.medias.slice(0, this.form.medias.length - 1)
+        if (result.success.length) {
+          const indexFile = findIndex(this.form.medias, elm => elm.id === rawFile.uid)
+          this.form.medias[indexFile].mediaUrl = result.success[0].url
+          // this.form.medias[this.form.medias.length - 1].mediaUrl = result.success[0].url
+        } else {
+          this.form.medias = filter(this.form.medias, elm => elm.id !== rawFile.uid)
+          const message = this.$t('notify_upload-fail') as string
+          this.$message.error(message)
+        }
+      } catch (error) {
+        this.form.medias = filter(this.form.medias, elm => elm.id !== rawFile.uid)
         const message = this.$t('notify_upload-fail') as string
         this.$message.error(message)
       }
-
-      // this.form.medias = [...this.form.medias, file]
     }
 
     handleAddMoreFile(file: Record<string, any>): void {
