@@ -90,6 +90,9 @@
   Vue.use(getAwesomeSwiper(SwiperClass))
   const { Swiper, SwiperSlide } = getAwesomeSwiper(SwiperClass)
   import 'swiper/swiper-bundle.css'
+
+  import { namespace } from 'vuex-class'
+  const beBase = namespace('beBase')
   @Component({ components: { NftDetail, Swiper, SwiperSlide, TabInfo } })
   export default class PopupNftDetail extends Mixins(PopupMixin) {
     // @Prop({ required: false, type: Object }) nftItem!: Record<string, any>
@@ -101,10 +104,12 @@
     // @Prop() medias: any
     @Prop({ required: false, type: Array, default: () => [] }) metaData!: Array<Record<string, any>>
     @Prop({ required: false, type: Array, default: () => [] }) metaType!: Array<Record<string, any>>
+
+    @beBase.State('coinMain') coinMain!: string
     textDescription = ''
     ClickActive = 0
     showClass = false
-    coinMain = 'Not Lynk'
+
     numOfLine = 0
     isShowTabInfo = false
 

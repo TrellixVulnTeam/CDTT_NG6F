@@ -518,7 +518,7 @@
         network: result.nftItem.network,
         networkName: result.nftItem.networkName,
         creatorName: result.nftItem.creatorName,
-        creatorUsername: '',
+        creatorUsername: result.nftItem.creatorUsername,
         creatorId: result.nftItem.creatorId
       }
       const initSetting = {
