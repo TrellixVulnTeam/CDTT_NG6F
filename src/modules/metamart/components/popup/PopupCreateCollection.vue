@@ -64,10 +64,26 @@
               </h2>
               <span class="block__subtitle">PNG, GIF, WEBG, MP4 or MP3. {{$t('metamart.collection.upload.size')}}: 1200X260 ({{$t('metamart.collection.upload.max')}} 5mb).</span>
               <el-input v-model="collection.banners[0]" style="display:none"></el-input>
-              <el-upload action="javascript:;" class="upload-banner" drag :on-change="handleBannerChange" :auto-upload="false" :show-file-list="false" accept=".jpg, .jpeg, .png, .gif, .webg" >
+              <el-upload 
+                action="javascript:;" 
+                class="upload-banner" 
+                drag 
+                :on-change="handleBannerChange" 
+                :auto-upload="false" 
+                :show-file-list="false" 
+                accept=".jpg, .jpeg, .png, .gif, .webg, .mp4" 
+              >
                 <div class="el-upload__text" v-if="!collection.banners[0]">{{$t('metamart.collection.upload.drop')}} <em>{{$t('metamart.collection.upload.click')}}</em></div>
-                <div class="upload-wrapper" v-if="collection.banners[0]">
+                <div class="upload-wrapper" v-if="collection.banners[0] && imageClick.type === 'image'">
                   <img :src="imageClick.mediaUrl" class="upload-wrapper__preview" />
+                  <span class="cursor icon-x upload-wrapper__icon" @click.stop="handleBannerRemove(imageClick)">
+                    <base-icon icon="icon-delete-circle" size="26" />
+                  </span>
+                </div>
+                <div class="upload-wrapper" v-if="collection.banners[0] && imageClick.type === 'video/mp4'">
+                  <video controls>
+                    <source :src="imageClick.mediaUrl" :type="imageClick.type" />
+                  </video>
                   <span class="cursor icon-x upload-wrapper__icon" @click.stop="handleBannerRemove(imageClick)">
                     <base-icon icon="icon-delete-circle" size="26" />
                   </span>
@@ -76,8 +92,13 @@
               <div v-if="collection.banners[0]" class="banner-list">
                 <div v-for="(item, index) of collection.banners" :key="index" class="flex jc-space-center" style="width: 84px">
                   <div :class="{ active: (item.uid === activeBannerUid), 'banner-list__image': true }">
-                    <div class="banner-list__image-spacing" >
+                    <div v-if="item.type === 'image'" class="banner-list__image-spacing">
                       <img :src="item.mediaUrl" :alt="item.name" @click="handleImageClick(item)"/>
+                    </div>
+                    <div v-if="item.type === 'video/mp4'" class="banner-list__image-spacing" >
+                      <video @click="handleImageClick(item)">
+                        <source :src="item.mediaUrl" :type="item.type" />
+                      </video>
                     </div>
                   </div>
                 </div>
@@ -118,7 +139,7 @@
                 <span class="block-title__asterisk"> *</span>
               </h2>
               <el-select v-model="collection.network" placeholder="Ethereum (ERC-1155)">
-                <el-option v-for="(option, index) in networks" :label="option.networkName" :value="option.networkName" :key="index"></el-option>
+                <el-option v-for="(option, index) in networks" :label="option.networkName" :value="option.id" :key="index"></el-option>
               </el-select>
             </section>
           </el-form-item>
@@ -290,7 +311,7 @@
   import { NftRepository } from '@/services/repositories/nft'
   import UploadRepository from '@/services/repositories/upload'
   import getRepository from '@/services'
-  import { debounce, filter, trim } from 'lodash'
+  import { debounce, filter, includes, trim } from 'lodash'
   import { namespace } from 'vuex-class'
 
   const bcAuth = namespace('beAuth')
@@ -406,9 +427,8 @@
       //@ts-ignore
       this.$refs['collection'].fields.find((f: any) => f.prop === 'contractAddress').resetField()
       this.getContractList()
-      console.log("New Network", newVal);
       this.networks.forEach((network: any) => {
-        if (network.networkName === newVal) {
+        if (network.id === newVal) {
           this.baseCurrency = network.baseCurrency
         }
       })
@@ -416,8 +436,14 @@
       this.getCurrencyList(this.baseCurrency)
     }
     async handleAvatarChange(file: any): Promise<void> {
-      // this.collection.avatar = URL.createObjectURL(file.raw)
-      // this.avatarPreviewing = file.name
+      if (file.raw.type !== 'image/jpeg' && file.raw.type !== 'image/png') {
+        this.$message.error(this.$t('metamart.collection.upload.avatar-format') as string)
+        return
+      }
+      if (file.size > 1024 * 1024 * 5) {
+        this.$message.error(this.$t('metamart.collection.upload.error-size') as string)
+        return
+      }
       const formData = new FormData()
       formData.append('files', file.raw)
       formData.append('type', 'AVATAR_COLLECTION')
@@ -432,6 +458,14 @@
         })
     }
     async handleThumbnailChange(file: any): Promise<void> {
+      if (file.raw.type !== 'image/jpeg' && file.raw.type !== 'image/png') {
+        this.$message.error(this.$t('metamart.collection.upload.thumbnail-format') as string)
+        return
+      }
+      if (file.size > 1024 * 1024 * 5) {
+        this.$message.error(this.$t('metamart.collection.upload.error-size') as string)
+        return
+      }
       const formData = new FormData()
       formData.append('files', file.raw)
       formData.append('type', 'THUMB_COLLECTION')
@@ -453,6 +487,14 @@
       // this.imageClick = this.collection.banners[0]
       // console.log('fileUrl', URL.createObjectURL(file.raw));
       // console.log('banner', this.collection.banners);
+      if (file.raw.type !== 'image/jpeg' && file.raw.type !== 'image/png' && file.raw.type !== 'video/mp4') {
+        this.$message.error(this.$t('metamart.collection.upload.banner-format') as string)
+        return
+      }
+      if (file.size > 1024 * 1024 * 5) {
+        this.$message.error(this.$t('metamart.collection.upload.error-size') as string)
+        return
+      }
       this.uploadBanner(file.raw)
     }
     handleClearUpload(): void {
@@ -511,7 +553,12 @@
       //@ts-ignore
       this.$refs['collection']?.validate((valid: any) => {
         if (valid) {
-          this.collection.network = this.collection.network.match(/\(([^)]+)\)/)[1]
+          // this.collection.network = this.collection.network.match(/\(([^)]+)\)/)[1]
+          this.networks.forEach((item: any) => {
+            if (item.id === this.collection.network) {
+              this.collection.network = item.network
+            }
+          })
           apiNft.createCollection(this.collection)
             .then((res: any) => {
               this.handleClose()
@@ -523,9 +570,6 @@
             })
         }
       })
-      // let temp = JSON.stringify(this.collection)
-      // this.collection.categoryIds = JSON.stringify(this.collection.categoryIds)
-      // console.log('>>>JSON:', this.collection);
     }
 
     //call API
@@ -540,9 +584,14 @@
           this.collection.banners.unshift({
             name: res.success[0].name,
             mediaUrl: res.success[0].url,
-            "mediaType": "IMAGE"
+            mediaType: includes(res.success[0].url, 'video') ? "VIDEO" : "IMAGE"
           })
           this.imageClick = this.collection.banners[0]
+          if (includes(res.success[0].url, 'video')) {
+            this.imageClick.type = 'video/mp4'
+          } else {
+            this.imageClick.type = 'image'
+          }
         })
         .catch(e => {
           console.log(e);
@@ -567,7 +616,7 @@
       await apiNft.getListNetwork()
         .then((res: any) => {
           this.networks = res.content
-          this.collection.network = res.content[0].networkName
+          this.collection.network = res.content[0].id
         })
         .catch(e => {
           console.log(e)
@@ -575,9 +624,15 @@
     }
 
     async getContractList():Promise<void> {
+      let networkCode = ''
+      this.networks.forEach((item: any) => {
+        if (item.id === this.collection.network) {
+          networkCode = item.networkName
+        }
+      })
       let param = {
         type: 'NFT',
-        network: this.collection.network
+        network: networkCode
       }
       console.log(param);
       await apiNft.getListContractAddress(param)
@@ -790,6 +845,12 @@
               height: 100px;
               position: relative;
               z-index: 100;
+              video {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 8px;
+              }
             }
           }
         }
@@ -813,6 +874,12 @@
               background-color: white;
               border-radius: 8px;
               img {
+                width: calc(100% - 4px);
+                height: calc(100% - 4px);
+                object-fit: cover;
+                border-radius: 8px;
+              }
+              video {
                 width: calc(100% - 4px);
                 height: calc(100% - 4px);
                 object-fit: cover;

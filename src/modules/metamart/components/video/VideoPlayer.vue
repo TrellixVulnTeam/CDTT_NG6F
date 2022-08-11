@@ -40,7 +40,7 @@
     watchDog(e: Event): void {
       const mainVideo: any = e.target
       const { currentTime, duration } = mainVideo
-      this.isPaused = currentTime === duration
+      this.isPaused = currentTime === duration ? true : this.isPaused
     }
     handleMuted(): void {
       this.mainVideo.muted = !this.mainVideo.muted
@@ -49,6 +49,7 @@
     handlePlay(): void {
       this.isPaused ? this.mainVideo.play() : this.mainVideo.pause()
       this.isPaused = this.mainVideo.paused
+      console.log("PLay video", this.isPaused);
     }
   }
 </script>
