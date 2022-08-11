@@ -17,9 +17,9 @@
             <el-option :label="$t('label_text')" value="text" />
           </el-select>
         </el-form-item> -->
-        <el-form-item :label="$t('label_long-desc')" prop="metaDescription">
+        <!-- <el-form-item :label="$t('label_long-desc')" prop="metaDescription">
           <el-input v-model="form.metaDescription" :placeholder="$t('label_long-desc')" />
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item :label="$t('label_value')" prop="metaValue">
           <el-input v-model="form.metaValue" :placeholder="$t('label_value')" />
         </el-form-item>
@@ -85,13 +85,6 @@
           trigger: 'change'
         }
       ],
-      metaDescription: [
-        {
-          required: true,
-          message: this.$t('validate_must-enter-desc'),
-          trigger: 'blur'
-        }
-      ],
       metaValue: [
         {
           required: true,
@@ -134,8 +127,10 @@
       this.$refs['popup-add-map']?.validate(valid => {
         if (valid) {
           if (this.typePopup === 'add') {
+            this.form.metaDescription = this.form.metaAnnotation
             this.$emit('confirm', this.form)
           } else {
+            this.form.metaDescription = this.form.metaAnnotation
             this.$emit('edit', this.form)
           }
 

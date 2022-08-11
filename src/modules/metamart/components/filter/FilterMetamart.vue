@@ -491,6 +491,7 @@
       margin-right: 12px;
     }
     .add-collection {
+      width: 122px;
       height: 48px;
       margin-right: 24px;
       border-radius: 6px;

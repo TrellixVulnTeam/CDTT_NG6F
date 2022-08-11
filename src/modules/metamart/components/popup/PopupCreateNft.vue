@@ -252,7 +252,7 @@
 
     async handleSubmit(): Promise<void> {
       try {
-        const form = {
+        const form: Record<string, any> = {
           ...this.initInfo,
           ...this.initBlockchain,
           ...this.initSetting,
@@ -270,6 +270,7 @@
             await apiNft.createNft(form)
             message = this.$t('notify_add-nft-success') as string
           } else {
+            form.avatarType = form.mediaType
             await apiNft.updateNft({ ...form, itemId: this.initInfo.id })
             message = this.$t('notify_edit-nft-success') as string
           }

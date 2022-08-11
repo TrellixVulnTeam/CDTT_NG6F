@@ -7,7 +7,7 @@
         class="drown-menu"
         @click="handleOpenClick(value)"
       >
-        <base-icon icon="arrow-down" class="style__icon-arrow-down" style="margin-right: -5px" />
+        <base-icon icon="arrow-down" size="8.33" class="style__icon-arrow-down" style="margin-right: -5px" />
       </div>
       <div v-else style="display: block; width: 21px; height: 1px" />
       <!-- <div v-if="value.treePath == null" class="name flex-item" style="margin-left: 24px">{{ value.categoryName }}</div> -->
@@ -214,7 +214,7 @@
     display: flex;
   }
   .custom-button {
-    color: #363636;
+    color: #5b616e;
     margin: 0px -11px;
   }
   .channel-router-padding {
@@ -229,7 +229,11 @@
     margin-bottom: 1px;
     border-bottom: 1px solid #dbdbdb;
     &:hover {
-      background-color: #fafafa;
+      background-color: #dbdbdb;
+    }
+    .row-click {
+      padding-top: 12px;
+      padding-bottom: 12px;
     }
     .name {
       overflow: hidden;
@@ -238,7 +242,7 @@
       -webkit-line-clamp: 1;
       -webkit-box-orient: vertical;
       word-wrap: break-word;
-      margin-left: 24px;
+      margin-left: 30px;
     }
     &:hover {
       background-color: #fafafa !important;
@@ -270,6 +274,7 @@
       &:hover {
         color: #e13635 !important;
       }
+      margin-top: 4px;
     }
     .drown-menu-tranfroms-select {
       transform: rotate(0);
@@ -280,14 +285,13 @@
 
     .drown-menu-tranfroms-unselect {
       transform: rotate(-90deg);
-
       animation-name: unselect;
       animation-duration: 0.5s;
     }
 
     .action-group {
       display: inline-flex;
-      padding: 0 32px;
+      padding: 0 10px;
       .action {
         visibility: hidden;
       }
