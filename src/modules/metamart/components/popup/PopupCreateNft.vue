@@ -6,7 +6,7 @@
     <div class="content">
       <div class="content__sidebar">
         <div
-          v-for="item in arrTab"
+          v-for="item in listTabSidebar"
           :key="item.value"
           class="text-base text-disable mb-24 cursor menu-item"
           :class="tabActive === item.value ? 'tab-active' : null"
@@ -73,6 +73,7 @@
     @bcNft.State('initInfo') initInfo!: Record<string, any>
     @bcNft.State('initBlockchain') initBlockchain!: Record<string, any>
     @bcNft.State('metaDatas') metaDatas!: Array<Record<string, any>>
+    @bcNft.State('metaTypes') metaTypes!: Array<Record<string, any>>
     @bcNft.State('initSetting') initSetting!: Record<string, any>
     @bcNft.State('listOriginCollection') listOriginCollection!: Array<Record<string, any>>
 
@@ -84,15 +85,15 @@
       {
         title: this.$t('label_blockchain'),
         value: 'BLOCKCHAIN'
-      },
-      {
-        title: this.$t('label_metadata'),
-        value: 'META'
-      },
-      {
-        title: this.$t('label_setting'),
-        value: 'SETTING'
       }
+      // {
+      //   title: this.$t('label_metadata'),
+      //   value: 'META'
+      // },
+      // {
+      //   title: this.$t('label_setting'),
+      //   value: 'SETTING'
+      // }
     ]
 
     tabActive = 'INFO'
@@ -118,6 +119,30 @@
     @Watch('initBlockchain', { deep: true, immediate: true }) handleWatchBlockchain(): void {
       if (this.isInvalidBlockchain) {
         this.checkIsValidBlockchain()
+      }
+    }
+
+    get listTabSidebar(): Array<Record<string, any>> {
+      if (this.metaTypes.length) {
+        return [
+          ...this.arrTab,
+          {
+            title: this.$t('label_metadata'),
+            value: 'META'
+          },
+          {
+            title: this.$t('label_setting'),
+            value: 'SETTING'
+          }
+        ]
+      } else {
+        return [
+          ...this.arrTab,
+          {
+            title: this.$t('label_setting'),
+            value: 'SETTING'
+          }
+        ]
       }
     }
 
