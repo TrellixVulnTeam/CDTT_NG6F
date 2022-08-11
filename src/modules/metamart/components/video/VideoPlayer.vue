@@ -94,6 +94,9 @@
         .svg-icon {
           color: #ececec;
         }
+        input[type='range'] {
+          height: 4px !important;
+        }
       }
     }
   }
