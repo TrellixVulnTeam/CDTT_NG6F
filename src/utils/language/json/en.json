@@ -1341,7 +1341,11 @@
         "max": "Max",
         "drop": "Drag and drop or",
         "click": "Click to upload",
-        "preview": "Upload file to preview your brand new Collection"
+        "preview": "Upload file to preview your brand new Collection",
+        "avatar-format": "Avatar picture must be JPG or PNG format",
+        "thumbnail-format": "Thumbnail picture must be JPG or PNG format",
+        "banner-format": "Banner must be JPG, PNG or MP4 format",
+        "error-size": "File can not be greater than 5MB!"
       },
       "delete": {
         "confirmation-1": "Are you sure you want to delete this",
