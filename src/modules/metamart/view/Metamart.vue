@@ -33,6 +33,7 @@
       @selectCommand="handleSelectCommand"
       @rowClick="handleRowClick"
       @edit="OpenPopupEditNft"
+      @reload="init"
     />
     <tab-collection
       v-if="$route.name === 'Collection'"
@@ -233,16 +234,10 @@
     created(): void {
       this.init()
       EventBus.$on('filter', this.handleFilter)
-      EventBus.$on('reloadMetamart', async () => {
-        if (this.$route.name === 'Nft') await this.getNftItem()
-        if (this.$route.name === 'Collection') await this.getCollection()
-        if (this.$route.name === 'Category') await this.getCategoryList()
-      })
     }
 
     destroy(): void {
       EventBus.$off('filter')
-      EventBus.$off('reloadMetamart')
     }
 
     handleFilter(value: Record<string, any>) {
