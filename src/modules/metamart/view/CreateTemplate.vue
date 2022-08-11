@@ -38,6 +38,7 @@
   import TemplateInfo from '../components/template/TemplateInfo.vue'
   import TemplateDesc from '../components/template/TemplateDesc.vue'
   import TemplatePolicies from '../components/template/TemplatePolicies.vue'
+  import TemplateDetail from '../components/template/TemplateDetail.vue'
   import PopupAdvancedSettings from '../components/popup/PopupAdvancedSettings.vue'
   import { trim } from '@amcharts/amcharts4/.internal/core/utils/Utils'
   @Component({
@@ -46,6 +47,7 @@
       TemplateInfo,
       TemplateDesc,
       TemplatePolicies,
+      TemplateDetail,
       PopupAdvancedSettings
     }
   })
@@ -72,6 +74,8 @@
           return 'TemplateInfo'
         case 2:
           return 'TemplateDesc'
+        case 3:
+          return 'TemplateDetail'
         case 4:
           return 'TemplatePolicies'
         default:
@@ -97,6 +101,12 @@
           order: len,
           id: 2,
           title: 'Description'
+        })
+      } else if (type === 3) {
+        this.listTabs.push({
+          order: len,
+          id: 3,
+          title: 'Detail'
         })
       } else if (type === 4) {
         this.listTabs.push({
