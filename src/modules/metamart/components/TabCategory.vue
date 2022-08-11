@@ -152,8 +152,11 @@
           font-weight: 600;
           color: var(--bc-table-text-color);
           padding-bottom: 12px;
-          padding-left: 44px;
+          padding-left: 20px;
+          padding-top: 12px;
           border-bottom: 1px solid #dbdbdb;
+          text-transform: uppercase;
+          margin-left: 24px;
         }
       }
     }
