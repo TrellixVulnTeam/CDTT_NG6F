@@ -582,9 +582,6 @@
       if (this.cloneEditData.collection.numOfItems > 0) {
         this.isDisable = true
       }
-      this.baseCurrency = this.cloneEditData.collection.currency
-
-
       this.collection = {
         collectionId: this.cloneEditData.collection.id,
         avatar: this.cloneEditData.collection.avatar,
@@ -601,6 +598,11 @@
       this.networks.forEach((item: any) => {
         if (item.networkName === this.editData.collection.networkName) {
           this.collection.network = item.id
+        }
+      })
+      this.networks.forEach((network: any) => {
+        if (network.id === this.collection.network) {
+          this.baseCurrency = network.baseCurrency
         }
       })
       this.imageClick = this.collection.banners[0]
