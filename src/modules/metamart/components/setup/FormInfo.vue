@@ -305,11 +305,10 @@
       if (result.success.length) {
         this.form.medias[this.form.medias.length - 1].mediaUrl = result.success[0].url
       } else {
+        this.form.medias = this.form.medias.slice(0, this.form.medias.length - 1)
         const message = this.$t('notify_upload-fail') as string
         this.$message.error(message)
       }
-
-      this.form.medias[this.form.medias.length - 1].mediaUrl = result.success[0].url
 
       // this.form.medias = [...this.form.medias, file]
     }
