@@ -120,18 +120,13 @@
       this.dataInput.parentId = this.idCategory ? this.idCategory : null
     }
     handleClose(): void {
-      // @ts-ignore
-      this.$refs.dataInput.clearValidate()
-
-      this.idCategory = null
-      ;(this.dataInput.parentId = null), (this.idCategory = null)
+      //@ts-ignore
+      this.$refs['dataInput'].resetFields();
+      this.categories = this.listCategory
       this.setOpenPopup({
         popupName: 'popup-create-category',
         isOpen: false
       })
-      ;(this.dataInput.name = null), (this.dataInput.parentId = null)
-      this.dataInput.description = null
-      this.dataInput.code = null
     }
     handleReset(): void {
       // @ts-ignore
