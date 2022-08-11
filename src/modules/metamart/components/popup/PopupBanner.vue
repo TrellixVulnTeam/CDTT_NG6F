@@ -199,26 +199,36 @@
       }
     }
     async handleUpload(file: Record<string, any>): Promise<void> {
-      this.fileType = file.raw.type
-      if (file.raw.type.indexOf('image') !== -1) {
-        this.uploadType = 'IMAGE'
-      } else if (file.raw.type.indexOf('video') !== -1) {
-        this.uploadType = 'VIDEO'
-      }
-      const formData = new FormData()
-      formData.append('files', file.raw)
-      formData.append('type', 'BANNER_UNIQUE')
-      formData.append('userId', this.userId)
-      try {
-        const rs = await apiUpload.uploadImage(formData)
-        this.data.upload.value = rs.success[0].url
-      } catch (error) {
+      const patternFilType = /(\.png|\.jpg|\.gif|\.mp4)$/
+      console.log(file, '202')
+      if (!patternFilType.test(file.name)) {
         this.$message({
-          message: '' + this.$i18n.t('metamart.banner.popup.upload-failed'),
+          message: '' + this.$i18n.t('metamart.banner.popup.incorrect-file'),
           duration: 3500,
           type: 'error'
         })
-        console.log(error)
+      } else {
+        this.fileType = file.raw.type
+        if (file.raw.type.indexOf('image') !== -1) {
+          this.uploadType = 'IMAGE'
+        } else if (file.raw.type.indexOf('video') !== -1) {
+          this.uploadType = 'VIDEO'
+        }
+        const formData = new FormData()
+        formData.append('files', file.raw)
+        formData.append('type', 'BANNER_UNIQUE')
+        formData.append('userId', this.userId)
+        try {
+          const rs = await apiUpload.uploadImage(formData)
+          this.data.upload.value = rs.success[0].url
+        } catch (error) {
+          this.$message({
+            message: '' + this.$i18n.t('metamart.banner.popup.upload-failed'),
+            duration: 3500,
+            type: 'error'
+          })
+          console.log(error)
+        }
       }
     }
     handleDeleteImage(): void {

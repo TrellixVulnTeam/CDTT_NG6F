@@ -1,6 +1,6 @@
 <template>
   <div class="player" :style="{ height: height + 'px' }">
-    <video class="main-video" :height="height + 'px'" ref="main-video">
+    <video class="main-video" :height="height + 'px'" ref="main-video" @timeupdate="watchDog">
       <source :src="src" :type="type" />
     </video>
     <div class="controls">
@@ -36,6 +36,11 @@
       this.isPaused = this.mainVideo.paused
       this.isMuted = this.mainVideo.muted
       this.volume = this.mainVideo.volume
+    }
+    watchDog(e: Event): void {
+      const mainVideo: any = e.target
+      const { currentTime, duration } = mainVideo
+      this.isPaused = currentTime === duration
     }
     handleMuted(): void {
       this.mainVideo.muted = !this.mainVideo.muted

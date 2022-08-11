@@ -1448,7 +1448,8 @@
         "alert-name": "Display name is required",
         "alert-upload": "File is required",
         "alert-url": "URL is required",
-        "upload-failed": "Upload failed, please try again"
+        "upload-failed": "Upload failed, please try again",
+        "incorrect-file": "Incorrect file format"
       },
       "table": {
         "link": "link",
