@@ -239,6 +239,7 @@
       }
       &__link {
         @include text(16px, 24px, 400, #2e89ff);
+        display: block;
         overflow: hidden;
         text-overflow: ellipsis;
         height: 24px;

@@ -70,7 +70,7 @@
               <span class="block__subtitle"
                 >PNG, GIF, WEBG, MP4 or MP3. {{ $t('metamart.collection.upload.size') }}: 1200X260 ({{ $t('metamart.collection.upload.max') }} 5mb).</span
               >
-              <el-input v-model="collection.banners[0]" style="display: none"></el-input>
+              <!-- <el-input v-model="collection.banners[0]" style="display: none"></el-input> -->
               <el-upload
                 action="javascript:;"
                 class="upload-banner"
@@ -78,13 +78,22 @@
                 :on-change="handleBannerChange"
                 :auto-upload="false"
                 :show-file-list="false"
-                accept=".jpg, .jpeg, .png, .gif, .webg"
+                accept=".jpg, .jpeg, .png, .gif, .webg, .mp4"
               >
                 <div class="el-upload__text" v-if="!collection.banners[0]">
                   {{ $t('metamart.collection.upload.drop') }} <em>{{ $t('metamart.collection.upload.click') }}</em>
                 </div>
-                <div class="upload-wrapper" v-if="collection.banners[0]">
+                <div class="upload-wrapper" v-if="collection.banners[0] && imageClick.mediaType === 'IMAGE'">
                   <img :src="imageClick.mediaUrl" class="upload-wrapper__preview" />
+                  <span class="cursor icon-x upload-wrapper__icon" @click.stop="handleBannerRemove(imageClick)">
+                    <base-icon icon="icon-delete-circle" size="26" />
+                  </span>
+                </div>
+                <div class="upload-wrapper" v-if="collection.banners[0] && imageClick.mediaType === 'VIDEO'">
+                  <!-- <video-player :src="imageClick.mediaUrl" @click.native.stop style="height: 100%"/> -->
+                  <video class="main-video" controls>
+                    <source :src="imageClick.mediaUrl" type="video/mp4" />
+                  </video>
                   <span class="cursor icon-x upload-wrapper__icon" @click.stop="handleBannerRemove(imageClick)">
                     <base-icon icon="icon-delete-circle" size="26" />
                   </span>
@@ -93,8 +102,13 @@
               <div v-if="collection.banners[0]" class="banner-list">
                 <div v-for="(item, index) of collection.banners" :key="index" class="flex jc-space-center" style="width: 84px">
                   <div :class="{ active: item.uid === activeBannerUid, 'banner-list__image': true }">
-                    <div class="banner-list__image-spacing">
+                    <div v-if="item.mediaType === 'IMAGE'" class="banner-list__image-spacing">
                       <img :src="item.mediaUrl" :alt="item.name" @click="handleImageClick(item)" />
+                    </div>
+                    <div v-if="item.mediaType === 'VIDEO'" class="banner-list__image-spacing" >
+                      <video @click="handleImageClick(item)" class="main-video">
+                        <source :src="item.mediaUrl" type="video/mp4" />
+                      </video>
                     </div>
                   </div>
                 </div>
@@ -147,7 +161,7 @@
                 <span class="block-title__asterisk"> *</span>
               </h2>
               <el-select v-model="collection.network" placeholder="Ethereum (ERC-1155)" :disabled="isDisable" @change="handleNetworkChange">
-                <el-option v-for="(option, index) in networks" :label="option.networkName" :value="option.networkName" :key="index"></el-option>
+                <el-option v-for="(option, index) in networks" :label="option.networkName" :value="option.id" :key="index"></el-option>
               </el-select>
             </section>
           </el-form-item>
@@ -315,18 +329,23 @@
   import { NftRepository } from '@/services/repositories/nft'
   import UploadRepository from '@/services/repositories/upload'
   import getRepository from '@/services'
-  import { debounce, filter, trim } from 'lodash'
+  import { cloneDeep, debounce, filter, includes, trim } from 'lodash'
   import { namespace } from 'vuex-class'
-
+  import VideoPlayer from '@/modules/metamart/components/video/VideoPlayer.vue'
   const bcAuth = namespace('beAuth')
   const apiNft: NftRepository = getRepository('nft')
   const apiUpload: UploadRepository = getRepository('upload')
 
-  @Component({ components: { NftDetail } })
+  @Component({ components: { NftDetail, VideoPlayer } })
   export default class PopupEditCollection extends Mixins(PopupMixin) {
     @bcAuth.State('user') user!: Record<string, any>
     @Prop() editData!: any
 
+    created() {
+      this.getNetworkList()
+    }
+
+    cloneEditData: Record<string, any> = {}
     isDisable = false
     userId = this.$store.state.beAuth.user.userId
     imageClick: any = {}
@@ -453,7 +472,7 @@
       this.collection.currency = ''
       this.getContractList()
       this.networks.forEach((network: any) => {
-        if (network.networkName === value) {
+        if (network.id === value) {
           this.baseCurrency = network.baseCurrency
         }
       })
@@ -468,8 +487,14 @@
     }
 
     async handleAvatarChange(file: any): Promise<void> {
-      // this.collection.avatar = URL.createObjectURL(file.raw)
-      // this.avatarPreviewing = file.name
+      if (file.raw.type !== 'image/jpeg' && file.raw.type !== 'image/png') {
+        this.$message.error(this.$t('metamart.collection.upload.avatar-format') as string)
+        return
+      }
+      if (file.size > 1024 * 1024 * 5) {
+        this.$message.error(this.$t('metamart.collection.upload.error-size') as string)
+        return
+      }
       const formData = new FormData()
       formData.append('files', file.raw)
       formData.append('type', 'AVATAR_COLLECTION')
@@ -485,6 +510,14 @@
         })
     }
     async handleThumbnailChange(file: any): Promise<void> {
+      if (file.raw.type !== 'image/jpeg' && file.raw.type !== 'image/png') {
+        this.$message.error(this.$t('metamart.collection.upload.thumbnail-format') as string)
+        return
+      }
+      if (file.size > 1024 * 1024 * 5) {
+        this.$message.error(this.$t('metamart.collection.upload.error-size') as string)
+        return
+      }
       const formData = new FormData()
       formData.append('files', file.raw)
       formData.append('type', 'THUMB_COLLECTION')
@@ -507,6 +540,14 @@
       // this.imageClick = this.collection.banners[0]
       // console.log('fileUrl', URL.createObjectURL(file.raw));
       // console.log('banner', this.collection.banners);
+      if (file.raw.type !== 'image/jpeg' && file.raw.type !== 'image/png' && file.raw.type !== 'video/mp4') {
+        this.$message.error(this.$t('metamart.collection.upload.banner-format') as string)
+        return
+      }
+      if (file.size > 1024 * 1024 * 5) {
+        this.$message.error(this.$t('metamart.collection.upload.error-size') as string)
+        return
+      }
       this.uploadBanner(file.raw)
     }
     handleClearUpload(): void {
@@ -535,28 +576,35 @@
       return currency ? `icon-${currency.toLocaleLowerCase()}` : 'icon-lynk'
     }
     handleOpen(): void {
+      this.cloneEditData = cloneDeep(this.editData)
       console.log("Edit Data:", this.editData);
-      if (this.editData.collection.numOfItems > 0) {
+      let cloneCollection = {...this.editData}
+      if (this.cloneEditData.collection.numOfItems > 0) {
         this.isDisable = true
       }
-      this.baseCurrency = this.editData.collection.currency
+      this.baseCurrency = this.cloneEditData.collection.currency
+
 
       this.collection = {
-        collectionId: this.editData.collection.id,
-        avatar: this.editData.collection.avatar,
-        thumb: this.editData.collection.featured,
-        banners: this.editData.medias,
-        collectionName: this.editData.collection.collectionName,
-        description: this.getDescriptionByLang(this.editData.collection.description),
-        network: this.editData.collection.networkName,
-        contractAddress: this.editData.collection.contractAddress,
-        currency: this.editData.collection.currency,
-        creatorId: this.editData.collection.creatorId,
-        categoryIds: this.editData.categories[0]?.id,
-        templateId: this.editData.collection.templateId
+        collectionId: this.cloneEditData.collection.id,
+        avatar: this.cloneEditData.collection.avatar,
+        thumb: this.cloneEditData.collection.featured,
+        banners: this.cloneEditData.medias,
+        collectionName: this.cloneEditData.collection.collectionName,
+        description: this.getDescriptionByLang(this.cloneEditData.collection.description),
+        contractAddress: this.cloneEditData.collection.contractAddress,
+        currency: this.cloneEditData.collection.currency,
+        creatorId: this.cloneEditData.collection.creatorId,
+        categoryIds: this.cloneEditData.categories[0]?.id,
+        templateId: this.cloneEditData.collection.templateId
       }
-      this.imageClick = this.editData.medias[0]
-      this.getDescriptionByLang(this.editData.collection.description)
+      this.networks.forEach((item: any) => {
+        if (item.networkName === this.editData.collection.networkName) {
+          this.collection.network = item.id
+        }
+      })
+      this.imageClick = this.collection.banners[0]
+      this.getDescriptionByLang(this.cloneEditData.collection.description)
       this.getNetworkList()
       this.getContractList()
       this.getCreatorList('')
@@ -581,30 +629,40 @@
       })
     }
     handleReset(): void {
-      this.baseCurrency = this.editData.collection.currency
+      this.baseCurrency = this.cloneEditData.collection.currency
       this.collection = {
-        collectionId: this.editData.collection.id,
-        avatar: this.editData.collection.avatar,
-        thumb: this.editData.collection.featured,
-        banners: this.editData.medias,
-        collectionName: this.editData.collection.collectionName,
-        description: this.getDescriptionByLang(this.editData.collection.description),
-        network: this.editData.collection.networkName,
-        contractAddress: this.editData.collection.contractAddress,
-        currency: this.editData.collection.currency,
-        creatorId: this.editData.collection.creatorId,
-        categoryIds: this.editData.categories[0]?.id,
-        templateId: this.editData.collection.templateId
+        collectionId: this.cloneEditData.collection.id,
+        avatar: this.cloneEditData.collection.avatar,
+        thumb: this.cloneEditData.collection.featured,
+        banners: this.cloneEditData.medias,
+        collectionName: this.cloneEditData.collection.collectionName,
+        description: this.getDescriptionByLang(this.cloneEditData.collection.description),
+        network: this.cloneEditData.collection.networkName,
+        contractAddress: this.cloneEditData.collection.contractAddress,
+        currency: this.cloneEditData.collection.currency,
+        creatorId: this.cloneEditData.collection.creatorId,
+        categoryIds: this.cloneEditData.categories[0]?.id,
+        templateId: this.cloneEditData.collection.templateId
       }
+      this.networks.forEach((item: any) => {
+        if (item.networkName === this.editData.collection.networkName) {
+          this.collection.network = item.id
+        }
+      })
+      this.imageClick = this.collection.banners[0]
       this.getCategoryList('')
       this.getCurrencyList(this.baseCurrency)
-      this.imageClick = this.editData.medias[0]
     }
     handleSave(): void {
       //@ts-ignore
       this.$refs['collection']?.validate((valid: any) => {
         if (valid) {
-          this.collection.network = this.collection.network.match(/\(([^)]+)\)/)[1]
+          // this.collection.network = this.collection.network.match(/\(([^)]+)\)/)[1]
+          this.networks.forEach((item: any) => {
+            if (item.id === this.collection.network) {
+              this.collection.network = item.network
+            }
+          })
           apiNft
             .editCollection(this.collection)
             .then((res: any) => {
@@ -635,9 +693,14 @@
           this.collection.banners.unshift({
             name: res.success[0].name,
             mediaUrl: res.success[0].url,
-            mediaType: 'IMAGE'
+            mediaType: includes(res.success[0].url, 'video') ? "VIDEO" : "IMAGE"
           })
           this.imageClick = this.collection.banners[0]
+          if (includes(res.success[0].url, 'video')) {
+            this.imageClick.mediaType = 'VIDEO'
+          } else {
+            this.imageClick.mediaType = 'IMAGE'
+          }
         })
         .catch(e => {
           console.log(e)
@@ -671,9 +734,15 @@
     }
 
     async getContractList(): Promise<void> {
+      let networkCode = ''
+      this.networks.forEach((item: any) => {
+        if (item.id === this.collection.network) {
+          networkCode = item.networkName
+        }
+      })
       let param = {
         type: 'NFT',
-        network: this.collection.network
+        network: networkCode
       }
       console.log(param)
       await apiNft
@@ -873,6 +942,12 @@
               height: 100px;
               position: relative;
               z-index: 100;
+              .main-video {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 8px;
+              }
             }
           }
         }
@@ -896,6 +971,12 @@
               background-color: white;
               border-radius: 8px;
               img {
+                width: calc(100% - 4px);
+                height: calc(100% - 4px);
+                object-fit: cover;
+                border-radius: 8px;
+              }
+              .main-video {
                 width: calc(100% - 4px);
                 height: calc(100% - 4px);
                 object-fit: cover;

@@ -1319,7 +1319,11 @@
         "max": "Tối đa",
         "drop": "Kéo và thả hoặc",
         "click": "nhấn để tải lên",
-        "preview": "Tải tệp lên để xem trước bộ sưu tập hoàn toàn mới của bạn"
+        "preview": "Tải tệp lên để xem trước bộ sưu tập hoàn toàn mới của bạn",
+        "avatar-format": "Ảnh đại diện phải có định dạng JPG hoặc PNG",
+        "thumbnail-format": "Hình thu nhỏ phải có định dạng JPG hoặc PNG",
+        "banner-format": "Ảnh bìa phải có định dạng JPG, PNG hoặc MP4",
+        "error-size": "Dung lượng tệp không được lớn hơn 5MB"
       },
       "delete": {
         "confirmation-1": "Bạn có chắc rằng bạn muốn xoá bộ sưu tập ",
