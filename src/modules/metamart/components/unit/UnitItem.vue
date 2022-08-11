@@ -7,7 +7,7 @@
         class="drown-menu"
         @click="handleOpenClick(value)"
       >
-        <base-icon icon="arrow-down" size="8.33" class="style__icon-arrow-down" style="margin-right: -5px" />
+        <base-icon icon="arrow-down" size="8.33" class="style__icon-arrow-down" style="margin-right: -5.33px" />
       </div>
       <div v-else style="display: block; width: 21px; height: 1px" />
       <!-- <div v-if="value.treePath == null" class="name flex-item" style="margin-left: 24px">{{ value.categoryName }}</div> -->
@@ -242,7 +242,7 @@
       -webkit-line-clamp: 1;
       -webkit-box-orient: vertical;
       word-wrap: break-word;
-      margin-left: 30px;
+      margin-left: 24px;
     }
     &:hover {
       background-color: #fafafa !important;
@@ -268,7 +268,7 @@
     }
 
     .drown-menu {
-      padding: 5px;
+      padding: 9px;
       z-index: 1000;
       display: block;
       &:hover {
