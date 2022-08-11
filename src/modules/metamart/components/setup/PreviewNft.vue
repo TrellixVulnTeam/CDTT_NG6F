@@ -16,7 +16,7 @@
           </div>
           <div class="nft-header6 text-semibold text-overflow-1">{{ initInfo.itemName }}</div>
           <div class="be-flex align-center price">
-            <div class="icon"><base-icon icon="icon-bnb" alt="" class="d-block" size="16" /></div>
+            <div class="icon"><base-icon :icon="getBaseCurrency" alt="" class="d-block" size="16" /></div>
             <span class="nft-body-small">
               <span class="text-body-small text-desc"> {{ $t('coming-soon') }}</span>
             </span>
@@ -45,6 +45,7 @@
 
   import isEmpty from 'lodash/isEmpty'
   import filter from 'lodash/filter'
+  import { includes } from 'lodash'
 
   const bcNft = namespace('bcNft')
   @Component
@@ -56,6 +57,15 @@
       if (this.initInfo?.collectionId && this.listOriginCollection.length) {
         const collection = filter(this.listOriginCollection, elm => elm.id === this.initInfo.collectionId)[0]
         return collection.collectionName
+      }
+
+      return ''
+    }
+    get getBaseCurrency(): string {
+      if (this.initInfo?.collectionId && this.listOriginCollection.length) {
+        const baseETH = ['LYNK', 'USDC', 'USDT', 'ETH', 'CLM']
+        const collection = filter(this.listOriginCollection, elm => elm.id === this.initInfo.collectionId)[0]
+        return includes(baseETH, collection.currency) ? 'icon-eth' : 'icon-bnb'
       }
 
       return ''
