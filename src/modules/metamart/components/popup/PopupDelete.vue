@@ -175,6 +175,7 @@
             popupName: 'popup-metamart-success',
             isOpen: true
           })
+          this.$parent.$emit('reload')
         })
         .catch((e: any) => {
           console.log('Fail RES:', e.response)

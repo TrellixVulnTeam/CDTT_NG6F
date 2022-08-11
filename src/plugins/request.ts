@@ -173,7 +173,7 @@ request.interceptors.response.use(
         message = i18n.tc('notify.verify-fail')
       }
       if (data.status == 'CATEGORY_CONTAIN_DATA') {
-        message = i18n.tc('popup-delete-category-error')
+        message = i18n.tc('notify.popup-delete-category-error')
       }
       if (data.status === 'BAD_REQUEST' && data.message === 'This investor is already listed') {
         message = i18n.tc('notify.buyer-already-listed')

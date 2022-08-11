@@ -27,16 +27,16 @@
           </el-upload>
           <div v-if="!isShowUpload" class="be-flex align-center jc-space-between show-file">
             <div class="be-flex align-center left">
-              <img :src="getIconFile(form.metaAnnotation)" />
+              <img :src="form.metaIcon" />
               <div class="info">
                 <p class="text-semibold text-base text-overflow-1">{{ form.fileName }}</p>
                 <p class="text-body-small text-desc">{{ form.metaStatisValue | bytesToSize }}</p>
               </div>
             </div>
-            <div v-if="rawFile.percentage === 100" class="cursor" @click="handleClearFile">
+            <div class="cursor" @click="handleClearFile">
               <base-icon icon="icon-delete-circle-bg" size="24" />
             </div>
-            <el-progress v-else type="circle" :percentage="rawFile.percentage" class="progress-file" status="success"></el-progress>
+            <!-- <el-progress v-else type="circle" :percentage="rawFile.percentage" class="progress-file" status="success"></el-progress> -->
           </div>
         </el-form-item>
       </el-form>
@@ -72,6 +72,7 @@
 
   import { IMetaTypes } from '../../interface'
   import filter from 'lodash/filter'
+  import { isEmpty } from 'lodash'
   const bcNft = namespace('bcNft')
 
   interface IForm {
@@ -137,7 +138,6 @@
     }
 
     getIconFile(metaAnnotation: string): string {
-      if (this.isShowUpload) return ''
       const objType = {
         doc: 'https://lynkey-production.s3.ap-southeast-1.amazonaws.com/blockchain/icon/icon-doc.png',
         docx: 'https://lynkey-production.s3.ap-southeast-1.amazonaws.com/blockchain/icon/icon-doc.png',
@@ -158,6 +158,7 @@
       this.form.fileName = file.name.substring(0, lastDot)
       this.form.metaAnnotation = file.name.substring(lastDot + 1).toLowerCase()
       this.form.metaStatisValue = file.size
+      this.form.metaIcon = this.getIconFile(this.form.metaAnnotation as string)
     }
 
     handleClose(): void {
@@ -194,35 +195,17 @@
           return
         }
 
-        file.percentage = 1
+        // file.percentage = 1
 
-        const processFunction = function (progressEvent) {
-          let progress = (progressEvent.loaded / progressEvent.total) * 100
-          file.percentage = progress
-        }
+        // const processFunction = function (progressEvent) {
+        //   let progress = (progressEvent.loaded / progressEvent.total) * 100
+        //   file.percentage = progress
+        // }
 
         this.rawFile = file
         this.getInfoFile(file)
 
         this.isShowUpload = false
-        const data: Record<string, any> = {}
-        const formData = new FormData()
-        formData.append('files', file.raw)
-        formData.append('type', 'METADATA_FILE')
-        formData.append('userId', this.user.userId)
-        data.data = formData
-        data.progress = processFunction
-        const result = await apiUpload.uploadFileCreateNft(data)
-        console.log(file)
-
-        if (result.success.length) {
-          this.form.metaValue = result.success[0].url
-          this.form.metaStatisValue = result.success[0].size
-          this.form.metaIcon = this.getIconFile(this.form.metaAnnotation as string)
-        } else {
-          const message = this.$t('notify_upload-fail') as string
-          this.$message.error(message)
-        }
       } catch (error) {
         const message = this.$t('notify_upload-fail') as string
         this.$message.error(message)
@@ -243,21 +226,44 @@
 
     handleSubmit(): void {
       //@ts-ignore
-      this.$refs['popup-add-file']?.validate(valid => {
+      this.$refs['popup-add-file']?.validate(async valid => {
         if (valid) {
-          if (this.typePopup === 'add') {
-            this.$emit('confirm', this.form)
-            this.isShowUpload = true
-          } else {
-            this.$emit('edit', this.form)
-            this.isShowUpload = false
-          }
+          if (!isEmpty(this.rawFile)) {
+            this.isLoading = true
+            const data: Record<string, any> = {}
+            const formData = new FormData()
+            formData.append('files', this.rawFile.raw)
+            formData.append('type', 'METADATA_FILE')
+            formData.append('userId', this.user.userId)
+            data.data = formData
+            const result = await apiUpload.uploadFileCreateNft(data)
 
-          this.handleCancel()
+            if (result.success.length) {
+              this.form.metaValue = result.success[0].url
+              if (this.typePopup === 'add') {
+                this.$emit('confirm', this.form)
+              } else {
+                this.$emit('edit', this.form)
+              }
+              this.handleCancel()
+            } else {
+              const message = this.$t('notify_upload-fail') as string
+              this.$message.error(message)
+            }
+          } else {
+            if (this.typePopup === 'add') {
+              this.$emit('confirm', this.form)
+            } else {
+              this.$emit('edit', this.form)
+            }
+            this.handleCancel()
+          }
         }
       })
     }
     handleCancel(): void {
+      this.rawFile = {}
+      this.isLoading = false
       this.setOpenPopup({
         popupName: 'popup-add-file',
         isOpen: false
