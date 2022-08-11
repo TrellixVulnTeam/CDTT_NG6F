@@ -5,8 +5,8 @@
     </div>
     <div class="content">
       <div class="detail-nft-left">
-        <img :src="mediaLink && mediaLink.mediaUrl" v-if="mediaLink.mediaType === 'IMAGE'" class="content-media-avatar" alt="" />
-        <video v-else :src="mediaLink.mediaUrl" playsinline :autoplay="true" loop muted></video>
+        <img :src="mediaLink && mediaLink.mediaUrl" v-if="mediaLink && mediaLink.mediaType === 'IMAGE'" class="content-media-avatar" alt="" />
+        <video v-else :src="mediaLink && mediaLink.mediaUrl" playsinline :autoplay="true" loop muted></video>
         <!-- <bc-media :isShow="isShow" :url="mediaLink.mediaUrl" :radius="16" class="content-media-avatar isPc" /> -->
         <div class="slide-scroll-detail isPc">
           <swiper v-if="mediaList.length" :options="swiperOption" class="row-nft" ref="swiperRef">

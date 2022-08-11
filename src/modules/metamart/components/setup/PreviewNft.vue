@@ -16,19 +16,19 @@
           </div>
           <div class="nft-header6 text-semibold text-overflow-1">{{ initInfo.itemName }}</div>
           <div class="be-flex align-center price">
-            <div class="icon"><base-icon icon="icon-lynk" alt="" class="d-block" size="16" /></div>
+            <div class="icon"><base-icon icon="icon-bnb" alt="" class="d-block" size="16" /></div>
             <span class="nft-body-small">
-              <span class="text-body-small"> 24,405.00</span>
+              <span class="text-body-small text-desc"> {{ $t('coming-soon') }}</span>
             </span>
           </div>
         </div>
         <div class="line"></div>
         <div class="be-flex align-center jc-space-between footer">
-          <div class="text-hyperlink nft-header6 text-semibold cursor text-action">Buy now</div>
+          <div class="text-body-small cursor text-action text-desc">{{ $t('not-for-sale') }}</div>
 
           <div class="be-flex align-center">
             <span class="cursor" style="height: 28px"><base-icon icon="icon-heart-white" size="28" class="d-iflex" /></span>
-            <span class="nft-body-small text-desc">123</span>
+            <span class="nft-body-small text-desc">0</span>
           </div>
         </div>
       </div>
