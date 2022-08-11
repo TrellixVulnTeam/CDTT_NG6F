@@ -62,9 +62,7 @@
             <base-icon icon="icon-delete-circle" class="preview-del" size="40" @click.native.stop="handleDeleteImage" />
           </div>
           <div class="preview" v-if="data.upload.value !== '' && uploadType === 'VIDEO'" @click.stop>
-            <video controls>
-              <source :src="data.upload.value" :type="fileType" />
-            </video>
+            <video-player :src="data.upload.value" :type="fileType" @click.native.stop />
             <base-icon icon="icon-delete-circle" class="preview-del" size="40" @click.native.stop="handleDeleteImage" />
           </div>
         </el-upload>
@@ -110,11 +108,11 @@
   import { namespace } from 'vuex-class'
   import { NftRepository } from '@/services/repositories/nft'
   import EventBus from '@/utils/eventBus'
-
+  import VideoPlayer from '../video/VideoPlayer.vue'
   const apiUpload: UploadRepository = getRepository('upload')
   const apiNft: NftRepository = getRepository('nft')
   const bcAuth = namespace('bcAuth')
-  @Component
+  @Component({ components: { VideoPlayer } })
   export default class PopupBanner extends Mixins(PopupMixin) {
     @Prop({ required: true, type: String }) type!: string
     @Prop({
@@ -215,6 +213,11 @@
         const rs = await apiUpload.uploadImage(formData)
         this.data.upload.value = rs.success[0].url
       } catch (error) {
+        this.$message({
+          message: '' + this.$i18n.t('metamart.banner.popup.upload-failed'),
+          duration: 3500,
+          type: 'error'
+        })
         console.log(error)
       }
     }
@@ -451,6 +454,7 @@
                     position: absolute;
                     top: -28px;
                     right: -20px;
+                    z-index: 10;
                   }
                 }
               }
