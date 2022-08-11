@@ -3,7 +3,7 @@
     <el-form class="form-setting">
       <div class="content-left">
         <el-form-item :label="$t('label_service-fee')">
-          <el-input v-model="form.serviceFee" :placeholder="$t('label_service-fee')" @keypress.native="onlyNumber($event)">
+          <el-input v-model="form.serviceFee" :placeholder="$t('label_service-fee')" @keypress.native="onlyNumber($event, true)">
             <div class="suffix" slot="suffix">%</div>
           </el-input>
         </el-form-item>
@@ -29,7 +29,7 @@
 
       <div class="content-right">
         <el-form-item :label="$t('label_royal-fee')">
-          <el-input v-model="form.creatorFee" :placeholder="$t('label_royal-fee')" @keypress.native="onlyNumber($event)">
+          <el-input v-model="form.creatorFee" :placeholder="$t('label_royal-fee')" @keypress.native="onlyNumber($event, true)">
             <div class="suffix" slot="suffix">%</div>
           </el-input>
         </el-form-item>
