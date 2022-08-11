@@ -1425,7 +1425,8 @@
         "confirm": "Xác nhận",
         "alert-name": "Tên hiển thị là bắt buộc",
         "alert-upload": "File là bắt buộc",
-        "alert-url": "URL là bắt buộc"
+        "alert-url": "URL là bắt buộc",
+        "upload-failed": "Tải lên có lỗi, hãy thử lại"
       },
       "table": {
         "link": "liên kết",
