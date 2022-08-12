@@ -181,6 +181,13 @@ export class NftRepository extends BaseRepository {
         delete elm.id
       })
 
+      if (data.isHot === 'NO') {
+        data.hotPosition = ''
+      }
+      if (data.isTop === 'NO') {
+        data.topPosition = ''
+      }
+
       const result = await request.post(`${this.prefix}/bo/item/create`, data)
       return Promise.resolve(result.data.data)
     } catch (error) {
@@ -194,6 +201,14 @@ export class NftRepository extends BaseRepository {
           delete elm.id
         }
       })
+
+      if (data.isHot === 'NO') {
+        data.hotPosition = ''
+      }
+      if (data.isTop === 'NO') {
+        data.topPosition = ''
+      }
+
       const result = await request.put(`${this.prefix}/bo/item/update`, data)
       return Promise.resolve(result.data.data)
     } catch (error) {
