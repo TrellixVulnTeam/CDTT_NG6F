@@ -13,7 +13,7 @@
             <p class="nft-body-small text-desc" style="margin-top: 4px">{{ $t('label_top-nft-desc') }}</p>
           </div>
           <div class="right">
-            <el-switch v-model="form.statusTop" active-color="#129961"> </el-switch>
+            <el-switch v-model="form.isTop" active-color="#129961"> </el-switch>
           </div>
         </div>
         <div class="be-flex align-center jc-space-between switch-item">
@@ -22,7 +22,7 @@
             <p class="nft-body-small text-desc" style="margin-top: 4px">{{ $t('label_hot-nft-desc') }}</p>
           </div>
           <div class="right">
-            <el-switch v-model="form.statusHot" active-color="#129961"> </el-switch>
+            <el-switch v-model="form.isHot" active-color="#129961"> </el-switch>
           </div>
         </div>
       </div>
@@ -34,10 +34,10 @@
           </el-input>
         </el-form-item>
         <el-form-item :label="$t('label_position-top-nft')">
-          <el-input v-model="form.topPosition" :disabled="!form.statusTop" :placeholder="$t('label_position-top-nft')" @keypress.native="onlyNumber($event)" />
+          <el-input v-model="form.topPosition" :disabled="!form.isTop" :placeholder="$t('label_position-top-nft')" @keypress.native="onlyNumber($event)" />
         </el-form-item>
         <el-form-item :label="$t('label_position-hot-nft')">
-          <el-input v-model="form.hotPosition" :disabled="!form.statusHot" :placeholder="$t('label_position-hot-nft')" @keypress.native="onlyNumber($event)" />
+          <el-input v-model="form.hotPosition" :disabled="!form.isHot" :placeholder="$t('label_position-hot-nft')" @keypress.native="onlyNumber($event)" />
         </el-form-item>
       </div>
     </el-form>

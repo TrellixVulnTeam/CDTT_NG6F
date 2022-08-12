@@ -531,8 +531,8 @@
         creatorFee: result.nftItem.creatorFee,
         hotPosition: result.nftItem.hotPosition,
         topPosition: result.nftItem.topPosition,
-        statusTop: result.nftItem.hotPosition ? true : false,
-        statusHot: result.nftItem.topPosition ? true : false
+        isTop: result.nftItem.isTop === 'YES' ? true : false,
+        isHot: result.nftItem.isHot === 'YES' ? true : false
       }
 
       this.setDetailNft({ initInfo, initBlockchain, initSetting, metaTypes, metaDatas })
