@@ -28,8 +28,8 @@ export interface ITabSetting {
   creatorFee: string | number
   hotPosition: string | number
   topPosition: string | number
-  isHot: boolean
-  isTop: boolean
+  isHot: 'YES' | 'NO'
+  isTop: 'YES' | 'NO'
 }
 
 type TabType = 'TEXT' | 'HTML' | 'FILE' | 'MAP' | 'BOOLEAN'

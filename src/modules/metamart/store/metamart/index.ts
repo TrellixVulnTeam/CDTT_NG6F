@@ -49,8 +49,8 @@ const state: IAuth = {
     creatorFee: '',
     hotPosition: '',
     topPosition: '',
-    isTop: false,
-    isHot: false
+    isTop: 'NO',
+    isHot: 'NO'
   },
   listCollection: [],
   listOriginCollection: [],
