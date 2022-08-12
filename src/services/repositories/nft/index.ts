@@ -189,6 +189,11 @@ export class NftRepository extends BaseRepository {
   }
   async updateNft(data: Record<string, any>): Promise<any> {
     try {
+      forEach(data.metaDatas, elm => {
+        if (elm.isAdd) {
+          delete elm.id
+        }
+      })
       const result = await request.put(`${this.prefix}/bo/item/update`, data)
       return Promise.resolve(result.data.data)
     } catch (error) {
@@ -243,7 +248,7 @@ export class NftRepository extends BaseRepository {
       return Promise.reject(error)
     }
   }
-  async getDetailCollection (id: string | number): Promise<Record<string, any>> {
+  async getDetailCollection(id: string | number): Promise<Record<string, any>> {
     try {
       const result = await request.get(`${this.prefix}/bo/collection/${id}/detail`)
       return Promise.resolve(result.data)

@@ -136,7 +136,7 @@
 
     handleConfirm(form: Record<string, any>): void {
       const id = +uniqueId()
-      this.metaDatas.push({ ...form, id })
+      this.metaDatas.push({ ...form, id, isAdd: true })
       this.data = filter(this.metaDatas, elm => elm.metaTypeId === this.idTabActive)
       this.$emit('update')
     }

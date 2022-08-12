@@ -123,8 +123,8 @@
 
     handleConfirm(form: IMetaDataFile): void {
       const id = +uniqueId()
-      this.metaDatas.push({ ...form, metaStaticValue: form.metaStatisValue, id })
-      this.data.push({ ...form, metaStaticValue: form.metaStatisValue, id })
+      this.metaDatas.push({ ...form, metaStaticValue: form.metaStatisValue, id, isAdd: true })
+      this.data.push({ ...form, metaStaticValue: form.metaStatisValue, id, isAdd: true })
       this.$emit('update')
     }
   }

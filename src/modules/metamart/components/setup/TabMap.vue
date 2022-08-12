@@ -120,8 +120,8 @@
 
     handleConfirm(form: IMetaMap): void {
       const id = +uniqueId()
-      this.metaDatas.push({ ...form, id })
-      this.data.push({ ...form, id })
+      this.metaDatas.push({ ...form, id, isAdd: true })
+      this.data.push({ ...form, id, isAdd: true })
       this.$emit('update')
     }
   }
