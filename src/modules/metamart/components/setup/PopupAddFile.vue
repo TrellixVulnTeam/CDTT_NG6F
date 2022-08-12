@@ -249,6 +249,7 @@
             } else {
               const message = this.$t('notify_upload-fail') as string
               this.$message.error(message)
+              this.isLoading = false
             }
           } else {
             if (this.typePopup === 'add') {
