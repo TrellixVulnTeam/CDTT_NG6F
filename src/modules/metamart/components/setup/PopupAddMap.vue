@@ -17,11 +17,11 @@
             <el-option :label="$t('label_text')" value="text" />
           </el-select>
         </el-form-item> -->
-        <!-- <el-form-item :label="$t('label_long-desc')" prop="metaDescription">
-          <el-input v-model="form.metaDescription" :placeholder="$t('label_long-desc')" />
-        </el-form-item> -->
-        <el-form-item :label="$t('label_value')" prop="metaValue">
-          <el-input v-model="form.metaValue" :placeholder="$t('label_value')" />
+        <el-form-item :label="$t('label_value')" prop="metaStaticValue">
+          <el-input v-model="form.metaStaticValue" :placeholder="$t('label_value')" />
+        </el-form-item>
+        <el-form-item :label="$t('label_long-desc')" prop="metaValue">
+          <el-input v-model="form.metaValue" :placeholder="$t('label_long-desc')" />
         </el-form-item>
       </el-form>
     </div>
@@ -66,6 +66,7 @@
       metaAnnotation: '',
       metaValueType: 'MAP',
       metaDescription: '',
+      metaStaticValue: '',
       metaValue: '',
       metaTypeId: 0
     }
@@ -78,17 +79,17 @@
           trigger: 'blur'
         }
       ],
-      type: [
+      metaStaticValue: [
         {
           required: true,
-          message: this.$t('validate_must-enter-type'),
-          trigger: 'change'
+          message: this.$t('validate_must-enter-value'),
+          trigger: 'blur'
         }
       ],
       metaValue: [
         {
           required: true,
-          message: this.$t('validate_must-enter-value'),
+          message: this.$t('validate_must-enter-desc'),
           trigger: 'blur'
         }
       ]
