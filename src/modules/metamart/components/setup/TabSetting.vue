@@ -3,7 +3,7 @@
     <el-form class="form-setting">
       <div class="content-left">
         <el-form-item :label="$t('label_service-fee')">
-          <el-input v-model="form.serviceFee" :placeholder="$t('label_service-fee')" @keypress.native="onlyNumber($event, true)">
+          <el-input v-model="form.serviceFee" :placeholder="$t('label_service-fee')" @keypress.native="onlyNumberService($event, 'serviceFee')">
             <div class="suffix" slot="suffix">%</div>
           </el-input>
         </el-form-item>
@@ -29,7 +29,7 @@
 
       <div class="content-right">
         <el-form-item :label="$t('label_royal-fee')">
-          <el-input v-model="form.creatorFee" :placeholder="$t('label_royal-fee')" @keypress.native="onlyNumber($event, true)">
+          <el-input v-model="form.creatorFee" :placeholder="$t('label_royal-fee')" @keypress.native="onlyNumberService($event, 'creatorFee')">
             <div class="suffix" slot="suffix">%</div>
           </el-input>
         </el-form-item>
@@ -47,6 +47,7 @@
 <script lang="ts">
   import { Component, Prop, Mixins } from 'vue-property-decorator'
   import FormatInputMixin from '@/mixins/formatInput'
+  import includes from 'lodash/includes'
 
   import { ITabSetting } from '../../interface'
 
@@ -58,6 +59,18 @@
   export default class TabSetting extends Mixins(FormatInputMixin) {
     @Prop({ required: false, type: String, default: 'add' }) typePopup!: 'add' | 'edit'
     @bcNft.State('initSetting') form!: ITabSetting
+
+    onlyNumberService(event: KeyboardEvent, type: string): void {
+      let keyCode = event.keyCode ? event.keyCode : event.which
+      //if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
+      // 46 is dot
+      if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
+        event.preventDefault()
+      }
+      if (keyCode === 46 && includes(this.form[type], '.')) {
+        event.preventDefault()
+      }
+    }
   }
 </script>
 
