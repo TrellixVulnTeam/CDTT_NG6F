@@ -114,8 +114,8 @@ const mutations: MutationTree<IAuth> = {
       creatorFee: '',
       hotPosition: '',
       topPosition: '',
-      statusTop: false,
-      statusHot: false
+      isTop: false,
+      isHot: false
     }
   }
 }
