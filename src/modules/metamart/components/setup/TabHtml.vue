@@ -141,26 +141,10 @@
     width: 667px;
     .jodit-container {
       padding: 0 10px;
-      border-radius: 8px;
-      height: 100% !important;
+      min-height: 180px !important;
       .jodit-toolbar__box {
         background: transparent;
-        height: 62px;
-        display: flex;
-        align-items: center;
       }
-      .jodit-toolbar-button__icon {
-        .jodit-icon {
-          width: 18px;
-          height: 18px;
-        }
-      }
-      // .jodit-wysiwyg {
-      //   min-height: 120px !important;
-      // }
-    }
-    .jodit_sticky > .jodit-toolbar__box {
-      position: initial;
     }
   }
 </style>
