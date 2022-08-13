@@ -115,7 +115,7 @@
 
       <div class="mb-24 wrap-editor">
         <div class="text-base text-semibold label">{{ $t('label_long-desc') }}</div>
-        <jodit-editor :config="config" :buttons="buttons" v-model="form.description" />
+        <jodit-editor :config="config" v-model="form.description" />
       </div>
     </el-form>
   </div>
@@ -131,15 +131,18 @@
 
   import { JoditEditor } from 'jodit-vue'
   import 'jodit/build/jodit.min.css'
+  import Cookies from 'js-cookie'
 
   import getRepository from '@/services'
   import { ITabInfo } from '../../interface'
   import UploadRepository from '@/services/repositories/upload'
   import { includes } from 'lodash'
   const apiUpload: UploadRepository = getRepository('upload')
-
+  import { API_URL } from '@/configs'
   const bcNft = namespace('bcNft')
   const bcAuth = namespace('beAuth')
+
+  const USERID = Cookies.get('user_id')
 
   @Component({ components: { JoditEditor } })
   export default class FormInfo extends Vue {
@@ -152,8 +155,6 @@
 
     @bcAuth.State('user') user!: Record<string, any>
 
-    buttons = ['bold', 'italic', 'underline', 'ul', 'ol']
-
     config = {
       spellcheck: false,
       showCharsCounter: false,
@@ -162,6 +163,7 @@
       showXPathInStatusbar: false,
       language: 'en',
       minHeight: 180,
+      removeButtons: ['about', 'print', 'selectall', 'video', 'file', 'preview', 'copyformat'],
       i18n: {
         vi: {
           'Type something': 'Nhập mô tả',
@@ -178,6 +180,44 @@
         },
         en: {
           'Type something': 'Type something...'
+        }
+      },
+      uploader: {
+        url: `${API_URL}/file/api/v1/user/upload`,
+        prepareData: function (formdata) {
+          formdata.append('type', 'DESCRIPTION_NFT');
+          formdata.append('userId', USERID)
+        },
+        format: 'json',
+        headers: {
+          Authorization: `Bearer ${this.$store.state.beAuth.access_token}`
+        },
+        isSuccess: function (resp: Record<string, any>): any {
+          return !resp.error
+        },
+        getMessage: function (resp: Record<string, any>): string {
+          return resp.msg
+        },
+        filesVariableName: function (e: any): string {
+          return 'files'
+        },
+        process: function (resp: Record<string, any>): Record<string, any> {
+          return {
+            files: resp.data || []
+          }
+        },
+        defaultHandlerSuccess: function (data: Record<string, any>): void {
+          const field = 'files'
+
+          if (data[field] && data[field]['success'].length) {
+            for (let i = 0; i < data[field]['success'].length; i += 1) {
+              //@ts-ignore
+              this.s.insertImage(data[field]['success'][i].url)
+            }
+          }
+        },
+        error: function (e: any): void {
+          console.error(e)
         }
       }
     }

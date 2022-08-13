@@ -1,6 +1,6 @@
 <template>
   <div class="tab-html">
-    <jodit-editor :config="config" :buttons="buttons" v-model="content" />
+    <jodit-editor :config="config" v-model="content" />
   </div>
 </template>
 
@@ -14,8 +14,10 @@
   import findIndex from 'lodash/findIndex'
 
   import { namespace } from 'vuex-class'
+  import {API_URL} from "@/configs";
   const bcNft = namespace('bcNft')
-
+  const USERID = Cookies.get('user_id')
+  import Cookies from 'js-cookie'
   @Component({ components: { JoditEditor } })
   export default class TabHtml extends Vue {
     @Prop({ required: false, type: Number, default: 0 }) idTabActive!: number
@@ -23,19 +25,19 @@
     @bcNft.State('metaDatas') metaDatas!: Array<Record<string, any>>
 
     content = '<p><br></p>'
-    buttons = ['bold', 'italic', 'underline', 'ul', 'ol', 'link']
 
     config = {
       spellcheck: false,
       showCharsCounter: false,
       showWordsCounter: false,
-      autofocus: true,
+      autofocus: false,
       showXPathInStatusbar: false,
-      language: 'vi',
+      language: 'en',
       minHeight: 300,
+      removeButtons: ['about', 'print', 'selectall', 'video', 'file', 'preview', 'copyformat'],
       i18n: {
         vi: {
-          'Type something': 'Nhập mô tả...',
+          'Type something': 'Nhập mô tả',
           'Search for': 'Nhập tìm kiếm',
           'Open in new tab': 'Mở tab mới',
           'No follow': 'Theo dõi liên kết',
@@ -46,6 +48,47 @@
           'or click': 'hoặc chọn từ máy tính',
           'Alternative text': 'Văn bản thay thế'
           // URL: 'Liên kết'
+        },
+        en: {
+          'Type something': 'Type something...'
+        }
+      },
+      uploader: {
+        url: `${API_URL}/file/api/v1/user/upload`,
+        prepareData: function (formdata) {
+          formdata.append('type', 'METADATA_NFT');
+          formdata.append('userId', USERID)
+        },
+        format: 'json',
+        headers: {
+          Authorization: `Bearer ${this.$store.state.beAuth.access_token}`
+        },
+        isSuccess: function (resp: Record<string, any>): any {
+          return !resp.error
+        },
+        getMessage: function (resp: Record<string, any>): string {
+          return resp.msg
+        },
+        filesVariableName: function (e: any): string {
+          return 'files'
+        },
+        process: function (resp: Record<string, any>): Record<string, any> {
+          return {
+            files: resp.data || []
+          }
+        },
+        defaultHandlerSuccess: function (data: Record<string, any>): void {
+          const field = 'files'
+
+          if (data[field] && data[field]['success'].length) {
+            for (let i = 0; i < data[field]['success'].length; i += 1) {
+              //@ts-ignore
+              this.s.insertImage(data[field]['success'][i].url)
+            }
+          }
+        },
+        error: function (e: any): void {
+          console.error(e)
         }
       }
     }
@@ -92,6 +135,9 @@
 
 <style scoped lang="scss">
   ::v-deep.tab-html {
+    .jodit-toolbar-editor-collection.jodit-toolbar-editor-collection_mode_horizontal.jodit-toolbar-editor-collection_size_middle {
+      flex: 1;
+    }
     width: 667px;
     .jodit-container {
       padding: 0 10px;

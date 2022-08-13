@@ -15,6 +15,7 @@ const actions: ActionTree<IAuth, unknown> = {
       commit('SET_USER_INFO', result)
       request.defaults.headers.common['Authorization'] = `Bearer ${result.accessToken}`
       Cookies.set('access_token', result.accessToken, { expires: 1 })
+      Cookies.set('user_id', result.id, { expires: 1 })
       // Cookies.set('refresh_token', result.refreshToken)
       // authRes.createLogLogin({ sourceType: 'WEB' })
       return Promise.resolve()
@@ -52,6 +53,7 @@ const actions: ActionTree<IAuth, unknown> = {
       commit('LOG_OUT')
       Cookies.remove('access_token')
       Cookies.remove('refresh_token')
+      Cookies.remove('user_id')
       request.defaults.headers.common['Authorization'] = ''
 
       return Promise.resolve()

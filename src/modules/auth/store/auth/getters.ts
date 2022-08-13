@@ -10,7 +10,11 @@ const getters: GetterTree<IAuth, any> = {
     return filter(state.role.roles, elm => {
       return includes(elm.roles, 'view')
     })
+  },
+  getUserID: state => {
+    return state.user.userId
   }
+
 }
 
 export default getters

@@ -2,6 +2,8 @@ import JSEncrypt from 'jsencrypt'
 import { includes } from 'lodash'
 import i18n from '@/utils/language'
 
+export const API_URL: string = process.env.VUE_APP_BASE_API
+
 export function formatNumber(value: number): string {
   if (!value) return '0'
   // const val = (value / 1).toFixed(0).replace('.', ',')
