@@ -143,7 +143,6 @@
   const bcAuth = namespace('beAuth')
 
   const USERID = Cookies.get('user_id')
-
   @Component({ components: { JoditEditor } })
   export default class FormInfo extends Vue {
     @Prop({ required: false, type: String, default: 'add' }) typePopup!: 'add' | 'edit'
@@ -481,8 +480,10 @@
         }
       }
       .jodit-container {
-        padding: 0 10px;
         min-height: 180px !important;
+        .jodit-toolbar-editor-collection.jodit-toolbar-editor-collection_mode_horizontal.jodit-toolbar-editor-collection_size_middle {
+          background-color: #dadada;
+        }
         .jodit-toolbar__box {
           background: transparent;
         }

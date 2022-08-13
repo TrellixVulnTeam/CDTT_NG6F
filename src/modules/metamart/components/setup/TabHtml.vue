@@ -140,7 +140,9 @@
     }
     width: 667px;
     .jodit-container {
-      padding: 0 10px;
+      .jodit-toolbar-editor-collection.jodit-toolbar-editor-collection_mode_horizontal.jodit-toolbar-editor-collection_size_middle {
+        background-color: #dadada;
+      }
       min-height: 180px !important;
       .jodit-toolbar__box {
         background: transparent;
