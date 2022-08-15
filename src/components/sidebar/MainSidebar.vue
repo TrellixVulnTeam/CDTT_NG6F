@@ -109,14 +109,6 @@
       </div>
     </router-link>
 
-    <router-link :to="{ name: 'Request', params: { token: this.coinMain } }" v-if="checkPemission('request', ['view'])" class="router_center">
-      <div class="sack_avatar">
-        <base-icon :icon="coinMain === 'LYNK' ? 'menu-request-active' : 'menu-request-clm'" class="menu-active" size="32" />
-        <base-icon icon="menu-request" class="menu" size="32" />
-        <p>{{ $t('leftMenu.request') }}</p>
-      </div>
-    </router-link>
-
     <router-link :to="{ name: 'Transaction', params: { token: this.coinMain } }" v-if="checkPemission('transaction', ['view'])" class="router_center">
       <div class="sack_avatar">
         <base-icon :icon="coinMain === 'LYNK' ? 'menu-swap-active' : 'menu-swap-active-clm'" class="menu-active" size="32" />
@@ -157,6 +149,17 @@
                 <base-icon :icon="coinMain === 'LYNK' ? 'fee-active' : 'fee-active-clm'" class="menu-active" size="32" />
                 <base-icon icon="fee" class="menu" size="32" />
                 <p class="color-add-menu" style="font-size: 11px">{{ $t('leftMenu.fee') }}</p>
+              </div>
+            </router-link>
+          </li>
+        </ul>
+        <ul class="module" v-if="checkPemission('request', ['view'])">
+          <li class="module-item" @click="isOpenPopup = false">
+            <router-link :to="{ name: 'Request', params: { token: this.coinMain } }" class="router_center">
+              <div class="sack_avatar">
+                <base-icon :icon="coinMain === 'LYNK' ? 'menu-request-active' : 'menu-request-clm'" class="menu-active" size="32" />
+                <base-icon icon="menu-request" class="menu" size="32" />
+                <p class="color-add-menu" style="font-size: 11px">{{ $t('leftMenu.request') }}</p>
               </div>
             </router-link>
           </li>
